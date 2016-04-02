@@ -6,3 +6,6 @@ task 'build', 'Build lib from src', ->
 
 		exec "coffee --compile --bare --output lib/ src/", (err, stdout, stderr) ->
 			throw new Error(err) if err
+
+			exec "echo 'module.exports = require(\'./lib/grind\');' > index.js", (err, stdout, stderr) ->
+				throw new Error(err) if err
