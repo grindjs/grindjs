@@ -15,6 +15,6 @@
     "coffee-script": "1.x"
   },
   "scripts": {
-    "prepublish": "cake build"
+    "install": "cake build"
   }
 }
