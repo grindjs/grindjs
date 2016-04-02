@@ -1,0 +1,20 @@
+{
+  "name": "grind",
+  "version": "0.1.0",
+  "description": "Thin framework around ExpressJS",
+  "author": "Shaun Harrison (@shnhrrsn)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:shnhrrsn/grind.git"
+  },
+  "dependencies": {
+    "express": "4.13.x"
+  },
+  "devDependencies": {
+    "coffee-script": "1.x"
+  },
+  "scripts": {
+    "prepublish": "cake build"
+  }
+}
