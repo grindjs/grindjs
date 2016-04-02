@@ -2,7 +2,7 @@ class exports.Router
 	_scopedAction: null
 	_scopedPrefix: ''
 
-	constructor: (@express) ->
+	constructor: (@app) ->
 
 	group: (action, callback) ->
 		@_scopedAction = Object.assign {}, action
@@ -20,7 +20,7 @@ class exports.Router
 
 	get: (path, action) ->
 		action = @_makeAction action
-		return @express.get @_scopedPrefix + path, action
+		return @app.get @_scopedPrefix + path, action
 
 	_makeAction: (action) ->
 		if typeof action is 'function'
