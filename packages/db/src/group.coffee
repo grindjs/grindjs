@@ -1,5 +1,6 @@
 module.exports = (knex, callback) ->
 	count = 0
+	total = 0
 	after = null
 
 	next = ->
@@ -9,6 +10,7 @@ module.exports = (knex, callback) ->
 	callback
 		_inject: (obj) ->
 			count++
+			total++
 
 			t = obj.then
 			obj.then = (callback) ->
@@ -51,4 +53,8 @@ module.exports = (knex, callback) ->
 		# Called after all queries have executed
 		after: (callback) ->
 			after = callback
+
+			# Protect against queries having already all executed
+			callback() if total > 0 and count is 0
+
 			return
