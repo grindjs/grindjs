@@ -1,0 +1,14 @@
+{
+
+	"default": "maria",
+
+	"connections": {
+
+		"maria": {
+			"user": "prod-user",
+			"password": "don’t store here, see .env.example.json"
+		}
+
+	}
+
+}

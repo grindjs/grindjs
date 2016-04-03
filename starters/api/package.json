@@ -1,0 +1,11 @@
+{
+  "name": "grind-api-example",
+  "private": true,
+  "dependencies": {
+    "cluster": "^0.7.7",
+    "express": "^4.13.4",
+    "grind": "github:shnhrrsn/grind",
+    "grind-db": "github:shnhrrsn/grind-db",
+    "sqlite3": "^3.1.3"
+  }
+}
