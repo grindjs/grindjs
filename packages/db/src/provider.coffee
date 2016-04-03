@@ -20,7 +20,7 @@ module.exports = (app) ->
 	config.pool = pool if pool?
 	config.connection = connection
 
-	db = require('knex')(config)
+	db = require('./knex')(config)
 
 	app.set 'db', db
 
