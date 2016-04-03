@@ -54,3 +54,12 @@ From there, you can access the connection via `app.get('db')`.
 ```
 
 You should place this in `config/database.json` in your Grind project.
+
+## Knexfile
+
+`grind-db` exposes it’s config so you can use it within your knexfile:
+
+```coffee-script
+app = require('./app/boot')
+module.exports = require('grind-db').config(app)
+```
