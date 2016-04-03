@@ -1,0 +1,16 @@
+#!/usr/bin/env coffee --nodejs --harmony
+
+{exec} = require 'child_process'
+
+exec '/usr/bin/env which knex', (err, stdout, stderr) ->
+	bin = (stdout or '').trim()
+
+	if bin.length is 0
+		console.error 'Could not find knex bin.'
+		return
+
+	switch process.argv[3]
+		when 'init', 'migrate:make', 'seed:make'
+			process.argv.push '-x', 'coffee'
+
+	require bin
