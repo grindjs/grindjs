@@ -1,0 +1,18 @@
+{
+  "name": "grind-db",
+  "version": "0.1.0",
+  "description": "Thin wrapper around Knex for integration with Grind",
+  "author": "Shaun Harrison (@shnhrrsn)",
+  "license": "MIT",
+  "main": "db.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com/shnhrrsn/grind-db.git"
+  },
+  "devDependencies": {
+    "coffee-script": "1.x"
+  },
+  "dependencies": {
+    "knex": "0.10.x"
+  }
+}
