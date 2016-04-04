@@ -1,5 +1,6 @@
 {
   "name": "grind-api-example",
+  "version": "0.1.0",
   "private": true,
   "dependencies": {
     "cluster": "^0.7.7",
