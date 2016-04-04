@@ -30,7 +30,7 @@ You can document your routes for swagger by passing in a third param when regist
 ```coffee-script
 app.routes.get '/states', 'index',
 	swagger:
-		description: 'Gets a list of talent'
+		description: 'Gets a list of states'
 		parameters: [
 			{
 				name: 'limit'
