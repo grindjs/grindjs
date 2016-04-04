@@ -1,5 +1,6 @@
 {
   "name": "grind-api-example",
+  "version": "0.1.0",
   "dependencies": {
     "accepts": {
       "version": "1.2.13",
@@ -179,12 +180,12 @@
     "grind-db": {
       "version": "0.1.0",
       "from": "shnhrrsn/grind-db",
-      "resolved": "git://github.com/shnhrrsn/grind-db.git#b7d8c89d962f228407d54fa7a65bfbde24ccf9a9"
+      "resolved": "git://github.com/shnhrrsn/grind-db.git#edfc9403f40b8aa2a9985ed4f8f8e9e82ef420a6"
     },
     "grind-swagger": {
       "version": "0.1.0",
       "from": "shnhrrsn/grind-swagger",
-      "resolved": "git://github.com/shnhrrsn/grind-swagger.git#3e2d28f5c226dfe73bbea441bdd4c40c01894260"
+      "resolved": "git://github.com/shnhrrsn/grind-swagger.git#2cc032e546d4fdf3660f2aeb54d3261d26d34c06"
     },
     "has-ansi": {
       "version": "2.0.0",
