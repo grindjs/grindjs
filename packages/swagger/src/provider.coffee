@@ -40,7 +40,7 @@ module.exports = (app) ->
 		swagger =
 			swagger: '2.0'
 			info:
-				version: info.version
+				version: info.version or '0.0.1'
 				title: info.name
 			basePath: '/'
 			host: req.get 'Host'
