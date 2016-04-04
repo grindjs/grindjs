@@ -18,20 +18,33 @@ class exports.Router
 		@_scopedAction = null
 		@_scopedPrefix = ''
 
-	all: (path, action) ->
+	all: (all, action) ->
+		console.log 'Don’t use `all` routes. Offender: %s', path
 		return @app.all @_scopedPrefix + path, @_makeAction(action)
 
-	get: (path, action) ->
-		return @app.get @_scopedPrefix + path, @_makeAction(action)
+	get: (path, action, extra) ->
+		return @_add 'get', path, action, extra
 
-	post: (path, action) ->
-		return @app.post @_scopedPrefix + path, @_makeAction(action)
+	post: (path, action, extra) ->
+		return @_add 'post', path, action, extra
 
-	put: (path, action) ->
-		return @app.put @_scopedPrefix + path, @_makeAction(action)
+	put: (path, action, extra) ->
+		return @_add 'put', path, action, extra
 
-	delete: (path, action) ->
-		return @app.delete @_scopedPrefix + path, @_makeAction(action)
+	delete: (path, action, extra) ->
+		return @_add 'delete', path, action, extra
+
+	_add: (method, path, action, extra) ->
+		action = @_makeAction action
+
+		# WARNING: Prone to failure if ExpressJS changes this logic
+
+		@app.lazyrouter()
+		route = @app._router.route @_scopedPrefix + path
+		route = route[method].apply route, [ action ]
+		route.extra = extra or {}
+
+		return route
 
 	_makeAction: (action) ->
 		if typeof action is 'function'
