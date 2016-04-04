@@ -136,6 +136,11 @@
       "from": "finalhandler@0.4.1",
       "resolved": "https://registry.npmjs.org/finalhandler/-/finalhandler-0.4.1.tgz"
     },
+    "find-root": {
+      "version": "1.0.0",
+      "from": "find-root@>=1.0.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/find-root/-/find-root-1.0.0.tgz"
+    },
     "findup-sync": {
       "version": "0.2.1",
       "from": "findup-sync@>=0.2.0 <0.3.0",
@@ -169,12 +174,17 @@
     "grind": {
       "version": "0.1.0",
       "from": "shnhrrsn/grind",
-      "resolved": "git://github.com/shnhrrsn/grind.git#385eb80e933cefbbfff868318f493dddcc2a368c"
+      "resolved": "git://github.com/shnhrrsn/grind.git#7bd87366bc1702b78d5ac048ec2fd4fdd2e304f6"
     },
     "grind-db": {
       "version": "0.1.0",
       "from": "shnhrrsn/grind-db",
       "resolved": "git://github.com/shnhrrsn/grind-db.git#b7d8c89d962f228407d54fa7a65bfbde24ccf9a9"
+    },
+    "grind-swagger": {
+      "version": "0.1.0",
+      "from": "shnhrrsn/grind-swagger",
+      "resolved": "git://github.com/shnhrrsn/grind-swagger.git#3e2d28f5c226dfe73bbea441bdd4c40c01894260"
     },
     "has-ansi": {
       "version": "2.0.0",

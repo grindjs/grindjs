@@ -6,6 +6,7 @@
     "express": "^4.13.4",
     "grind": "github:shnhrrsn/grind",
     "grind-db": "github:shnhrrsn/grind-db",
+    "grind-swagger": "github:shnhrrsn/grind-swagger",
     "sqlite3": "^3.1.3"
   }
 }
