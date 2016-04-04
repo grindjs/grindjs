@@ -4,6 +4,7 @@
   "description": "Thin framework around ExpressJS",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
+  "main": "lib/grind.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:shnhrrsn/grind.git"
