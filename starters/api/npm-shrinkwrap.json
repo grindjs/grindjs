@@ -174,7 +174,7 @@
     "grind": {
       "version": "0.1.0",
       "from": "shnhrrsn/grind",
-      "resolved": "git://github.com/shnhrrsn/grind.git#7bd87366bc1702b78d5ac048ec2fd4fdd2e304f6"
+      "resolved": "git://github.com/shnhrrsn/grind.git#daa8cebafc2867c1c7b7af9e513957ffc5ebde8e"
     },
     "grind-db": {
       "version": "0.1.0",
