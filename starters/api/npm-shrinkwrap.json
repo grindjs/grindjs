@@ -47,6 +47,11 @@
       "from": "cluster@>=0.7.7 <0.8.0",
       "resolved": "https://registry.npmjs.org/cluster/-/cluster-0.7.7.tgz"
     },
+    "coffee-script": {
+      "version": "1.10.0",
+      "from": "coffee-script@>=1.10.0 <1.11.0",
+      "resolved": "https://registry.npmjs.org/coffee-script/-/coffee-script-1.10.0.tgz"
+    },
     "commander": {
       "version": "2.9.0",
       "from": "commander@>=2.2.0 <3.0.0",
@@ -175,17 +180,17 @@
     "grind": {
       "version": "0.1.0",
       "from": "shnhrrsn/grind",
-      "resolved": "git://github.com/shnhrrsn/grind.git#daa8cebafc2867c1c7b7af9e513957ffc5ebde8e"
+      "resolved": "git://github.com/shnhrrsn/grind.git#11326ce1555d0da252b6b74d43a845c4a3e1ded8"
     },
     "grind-db": {
       "version": "0.1.0",
       "from": "shnhrrsn/grind-db",
-      "resolved": "git://github.com/shnhrrsn/grind-db.git#edfc9403f40b8aa2a9985ed4f8f8e9e82ef420a6"
+      "resolved": "git://github.com/shnhrrsn/grind-db.git#da84573b52a1fe7a7d233222281f28c4a2d6139c"
     },
     "grind-swagger": {
       "version": "0.1.0",
       "from": "shnhrrsn/grind-swagger",
-      "resolved": "git://github.com/shnhrrsn/grind-swagger.git#2cc032e546d4fdf3660f2aeb54d3261d26d34c06"
+      "resolved": "git://github.com/shnhrrsn/grind-swagger.git#d623df1d3e6dd07b5ff8436c37a1dc78594302fc"
     },
     "has-ansi": {
       "version": "2.0.0",

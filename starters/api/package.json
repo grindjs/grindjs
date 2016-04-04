@@ -3,11 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "coffee-script": "1.10.x",
     "cluster": "^0.7.7",
     "express": "^4.13.4",
     "grind": "github:shnhrrsn/grind",
     "grind-db": "github:shnhrrsn/grind-db",
     "grind-swagger": "github:shnhrrsn/grind-swagger",
     "sqlite3": "^3.1.3"
+  },
+  "scripts": {
+    "build": "mkdir -p app-build && coffee --compile --bare --output app-build/ app/",
+    "serve": "coffee app/serve.coffee --nodejs",
+    "cluster": "coffee app/cluster.coffee --nodejs",
+    "serve-build": "node app-build/serve.js",
+    "cluster-build": "coffee app-build/cluster.js",
+    "db": "./node_modules/grind-db/bin/grind-db"
   }
 }
