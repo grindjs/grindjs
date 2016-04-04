@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-git clone git@github.com:shnhrrsn/grind-api-example.git
+git clone https://github.com/shnhrrsn/grind-api-example.git
 cd grind-api-example
 npm install
 ./db migrate:latest
