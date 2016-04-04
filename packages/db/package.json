@@ -9,13 +9,11 @@
     "type": "git",
     "url": "git@github.com/shnhrrsn/grind-db.git"
   },
-  "devDependencies": {
-    "coffee-script": "1.x"
-  },
   "dependencies": {
+    "coffee-script": "1.10.x",
     "knex": "0.10.x"
   },
   "scripts": {
-    "install": "cake build"
+    "install": "./build"
   }
 }
