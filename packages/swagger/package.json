@@ -1,0 +1,21 @@
+{
+  "name": "grind-swagger",
+  "version": "0.1.0",
+  "description": "Swagger provider for Grind",
+  "author": "Shaun Harrison (@shnhrrsn)",
+  "license": "MIT",
+  "main": "lib/swagger.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com/shnhrrsn/grind-swagger.git"
+  },
+  "devDependencies": {
+    "coffee-script": "1.x"
+  },
+  "dependencies": {
+    "find-root": "^1.0.0"
+  },
+  "scripts": {
+    "install": "cake build"
+  }
+}
