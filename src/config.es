@@ -1,91 +1,122 @@
-fs = require 'fs'
-path = require 'path'
-merge = require './merge'
+import fs from 'fs'
+import path from 'path'
+import {merge} from './merge'
 
-class exports.Config
-	_repository: null
+export class Config {
+	_repository = null
 
-	constructor: (app = nil) ->
-		@_repository = { }
-		@populate(app) if app
+	constructor(app = nil) {
+		this._repository = { }
 
-	get: (keyPath, fallback = null) ->
-		keys = keyPath.split '.'
+		if(app) {
+			this.populate(app)
+		}
+	}
 
-		value = @_repository[keys.shift()]
-		return fallback if not value
+	get(keyPath, fallback = null) {
+		var keys = keyPath.split('.')
+		var value = this._repository[keys.shift()]
 
-		for key in keys
-			value = value?[key]
+		if(!value) {
+			return fallback
+		}
 
-		return value or fallback
+		for(const key of keys) {
+			if(value) value = value[key]
+		}
 
-	has: (keyPath) ->
-		return @get keyPath isnt null
+		return value || fallback
+	}
 
-	set: (keyPath, value) ->
-		object = @_repository
-		keys = keyPath.split '.'
-		last = keys.pop()
+	has(keyPath) {
+		return this.get(keyPath !== null)
+	}
 
-		if keys.length > 0
-			for key in keys
-				object = object?[keys.shift()]
+	set(keyPath, value) {
+		const keys = keyPath.split('.')
+		const last = keys.pop()
+		var object = this._repository
 
-		object[last] = value if object
+		if(keys.length > 0) {
+			for(const key of keys) {
+				if(object) object = object[keys]
+			}
+		}
+
+		if(object) {
+			object[last] = value
+		}
+
 		return
+	}
 
-	populate: (app) ->
-		dir = path.join process.cwd(), 'config'
+	populate(app) {
+		var dir = path.join(process.cwd(), 'config')
 
-		exists = (path) ->
-			try
-				fs.accessSync path, fs.F_OK
+		var exists = function(path) {
+			try {
+				fs.accessSync(path, fs.F_OK)
 				return true
-			catch e
+			} catch(e) {
 				return false
+			}
+		}
 
 
-		if not exists(dir)
-			console.error 'Unable to populate config, path does not exist', dir
+		if(!exists(dir)) {
+			console.error('Unable to populate config, path does not exist', dir)
 			return
+		}
 
-		files = { }
+		var files = { }
 
-		@_populateConfigFiles files, dir
+		this._populateConfigFiles(files, dir)
 
-		for env in app.env().split '.'
-			dir = path.join dir, env
+		for(const env of app.env().split('.')) {
+			dir = path.join(dir, env)
 
-			if exists dir
-				@_populateConfigFiles files, dir
-			else
+			if(exists(dir)) {
+				this._populateConfigFiles(files, dir)
+			} else {
 				break
+			}
+		}
 
-		for group of files
-			continue if group is '.env'
+		for(var group in files) {
+			if(group === '.env') { continue }
 
-			@_repository[group] = { } if not @_repository[group]
+			for(const file of files[group]) {
+				this._repository[group] = merge(this._repository[group] || { }, require(file))
+			}
+		}
 
-			for file in files[group]
-				@_repository[group] = merge @_repository[group], require(file)
+		if(files['.env']) {
+			for(file of files['.env']) {
+				const config = require(file)
 
-		if files['.env']
-			for file in files['.env']
-				config = require file
+				for(var group in config) {
+					this._repository[group] = merge(this._repository[group] || { }, config[group])
+				}
+			}
+		}
 
-				for group of config
-					@_repository[group] = merge (@_repository[group] or { }), config[group]
-
-
-		return
-
-	_populateConfigFiles: (files, dir) ->
-		for file in fs.readdirSync dir
-			continue if path.extname(file) isnt '.json'
-
-			name = path.basename file, '.json'
-			files[name] = [ ] if not files[name]
-			files[name].push path.join(dir, path.basename(file))
 
 		return
+	}
+
+	_populateConfigFiles(files, dir) {
+		for(const file of fs.readdirSync(dir)) {
+			if(path.extname(file) !== '.json') continue
+
+			const name = path.basename(file, '.json')
+
+			if(!files[name]) {
+				files[name] = [ ]
+			}
+
+			files[name].push(path.join(dir, path.basename(file)))
+		}
+
+		return
+	}
+}

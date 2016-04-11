@@ -1,61 +1,78 @@
-class exports.Router
-	_scopedAction: null
-	_scopedPrefix: ''
+export class Router {
+	_scopedAction = null
+	_scopedPrefix = ''
+	app = null
 
-	constructor: (@app) ->
+	constructor(app) {
+		this.app = app
+	}
 
-	group: (action, callback) ->
-		@_scopedAction = Object.assign { }, action
+	group(action, callback) {
+		this._scopedAction = Object.assign({ }, action)
 
-		if @_scopedAction.prefix
-			@_scopedPrefix = @_scopedAction.prefix
-			delete @_scopedAction.prefix
-		else
-			@_scopedPrefix = ''
+		if(this._scopedAction.prefix) {
+			this._scopedPrefix = this._scopedAction.prefix
+			delete this._scopedAction.prefix
+		} else {
+			this._scopedPrefix = ''
+		}
 
 		callback()
 
-		@_scopedAction = null
-		@_scopedPrefix = ''
+		this._scopedAction = null
+		this._scopedPrefix = ''
+	}
 
-	all: (all, action) ->
-		console.log 'Don’t use `all` routes. Offender: %s', path
-		return @app.all @_scopedPrefix + path, @_makeAction(action)
+	all(all, action) {
+		console.log('Don’t use `all` routes. Offender: %s', path)
+		return this.app.all(this._scopedPrefix + path, this._makeAction(action))
+	}
 
-	get: (path, action, extra) ->
-		return @_add 'get', path, action, extra
+	get(path, action, extra) {
+		return this._add('get', path, action, extra)
+	}
 
-	post: (path, action, extra) ->
-		return @_add 'post', path, action, extra
+	post(path, action, extra) {
+		return this._add('post', path, action, extra)
+	}
 
-	put: (path, action, extra) ->
-		return @_add 'put', path, action, extra
+	put(path, action, extra) {
+		return this._add('put', path, action, extra)
+	}
 
-	delete: (path, action, extra) ->
-		return @_add 'delete', path, action, extra
+	delete(path, action, extra) {
+		return this._add('delete', path, action, extra)
+	}
 
-	_add: (method, path, action, extra) ->
-		action = @_makeAction action
+	_add(method, path, action, extra) {
+		action = this._makeAction(action)
 
-		# WARNING: Prone to failure if ExpressJS changes this logic
+		// WARNING: Prone to failure if ExpressJS changes this logic
+		this.app.lazyrouter()
 
-		@app.lazyrouter()
-		route = @app._router.route @_scopedPrefix + path
-		route = route[method].apply route, [ action ]
-		route.extra = extra or {}
+		var route = this.app._router.route(this._scopedPrefix + path)
+		route = route[method].apply(route, [ action ])
+		route.extra = extra || {}
 
 		return route
+	}
 
-	_makeAction: (action) ->
-		if typeof action is 'function'
+	_makeAction(action) {
+		if(typeof action === 'function') {
 			return action
-		else
-			if typeof action is 'string'
-				action =
-					method: action
+		}
 
-			action = Object.assign { }, @_scopedAction, action
-			method = action.controller[action.method]
-			controller = action.controller
-			return ->
-				method.apply controller, arguments
+		if(typeof action === 'string') {
+			action = { method: action }
+		}
+
+		action = Object.assign({ }, this._scopedAction, action)
+		const method = action.controller[action.method]
+		const controller = action.controller
+
+		return function() {
+			return method.apply(controller, arguments)
+		}
+	}
+
+}

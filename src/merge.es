@@ -1,20 +1,26 @@
-merge = (a, b) ->
-	typeA = if Array.isArray a then 'array' else typeof a
-	typeB = if Array.isArray b then 'array' else typeof b
+export function merge(a, b) {
+	var typeA = Array.isArray(a) ? 'array' : typeof a
+	var typeB = Array.isArray(b) ? 'array' : typeof b
 
-	return b if typeA isnt typeB or typeA is 'undefined'
-	return a if typeB is 'undefined'
+	if(typeA !== typeB || typeA === 'undefined') {
+		return b
+	}
 
-	if typeA is 'object'
-		merged = Object.assign { }, a
+	if(typeB === 'undefined') {
+		return a
+	}
 
-		for k of b
-			merged[k] = merge a[k], b[k]
+	if(typeA === 'object') {
+		var merged = Object.assign({ }, a)
+
+		for(var k in b) {
+			merged[k] = merge(a[k], b[k])
+		}
 
 		return merged
-	else if typeA is 'array'
-		return a.concat b
-	else
+	} else if(typeA === 'array') {
+		return a.concat(b)
+	} else {
 		return b
-
-module.exports = merge
+	}
+}
