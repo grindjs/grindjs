@@ -15,7 +15,7 @@ npm install grind-swagger --save
 To use `grind-swagger` you’ll need to add it to your `Grind` providers:
 
 ```js
-import Grind from 'grind'
+import Grind from 'grind-framework'
 
 const app = new Grind()
 app.providers.push(require('grind-swagger').provider)
