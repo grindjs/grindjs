@@ -1,5 +1,5 @@
 {
-  "name": "grind",
+  "name": "grind-framework",
   "version": "0.1.0",
   "description": "Thin framework around ExpressJS",
   "author": "Shaun Harrison (@shnhrrsn)",
@@ -7,7 +7,7 @@
   "main": "lib/grind.js",
   "repository": {
     "type": "git",
-    "url": "git@github.com:shnhrrsn/grind.git"
+    "url": "https://github.com/shnhrrsn/grind-framework.git"
   },
   "dependencies": {
     "babel-cli": ">=6.7 <=7.0",
