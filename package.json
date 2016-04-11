@@ -10,15 +10,17 @@
     "url": "https://github.com/shnhrrsn/grind-framework.git"
   },
   "dependencies": {
+    "express": "4.13.x"
+  },
+  "devDependencies": {
     "babel-cli": ">=6.7 <=7.0",
     "babel-preset-es2016-node5": "1.x",
-    "babel-preset-stage-1": "6.5.x",
-    "express": "4.13.x"
+    "babel-preset-stage-1": "6.5.x"
   },
   "engines": {
     "node": ">=5.10 <6.0"
   },
   "scripts": {
-    "install": "./build"
+    "publish": "./build"
   }
 }
