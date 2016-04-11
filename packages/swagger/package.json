@@ -1,6 +1,6 @@
 {
   "name": "grind-swagger",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Swagger provider for Grind",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
@@ -10,10 +10,12 @@
     "url": "git@github.com/shnhrrsn/grind-swagger.git"
   },
   "dependencies": {
+    "find-root": "1.x"
+  },
+  "devDependencies": {
     "babel-cli": ">=6.7 <=7.0",
     "babel-preset-es2016-node5": "1.x",
-    "babel-preset-stage-1": "6.5.x",
-    "find-root": "1.x"
+    "babel-preset-stage-1": "6.5.x"
   },
   "engines": {
     "node": ">=5.10 <6.0"

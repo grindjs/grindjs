@@ -7,7 +7,7 @@
 Add `grind-swagger` to your project:
 
 ```bash
-npm install shnhrrsn/grind-swagger --save
+npm install grind-swagger --save
 ```
 
 ## Usage
