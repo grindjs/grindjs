@@ -37,16 +37,17 @@ class exports.Config
 
 	populate: (app) ->
 		dir = path.join process.cwd(), 'config'
+
 		exists = (path) ->
 			try
-				fs.accessSync dir, fs.F_OK
+				fs.accessSync path, fs.F_OK
 				return true
 			catch e
 				return false
 
 
 		if not exists(dir)
-			console.error e, 'Unable to populate config, path does not exist', dir
+			console.error 'Unable to populate config, path does not exist', dir
 			return
 
 		files = { }
