@@ -14,11 +14,11 @@ npm install shnhrrsn/grind-swagger --save
 
 To use `grind-swagger` you’ll need to add it to your `Grind` providers:
 
-```coffee-script
-Grind = require 'grind'
+```js
+import Grind from 'grind'
 
-app = new Grind
-app.providers.push require('grind-swagger').provider
+const app = new Grind()
+app.providers.push(require('grind-swagger').provider)
 ```
 
 ## Documenting routes
@@ -27,23 +27,25 @@ app.providers.push require('grind-swagger').provider
 
 You can document your routes for swagger by passing in a third param when registering:
 
-```coffee-script
-app.routes.get '/states', 'index',
-	swagger:
-		description: 'Gets a list of states'
+```js
+app.routes.get('/states', 'index', {
+	swagger: {
+		description: 'Gets a list of states',
 		parameters: [
 			{
-				name: 'limit'
-				in: 'query'
-				required: false
-				description: 'Limit the number of records'
+				name: 'limit',
+				in: 'query',
+				required: false,
+				description: 'Limit the number of records',
 				type: 'integer'
 			}, {
-				name: 'offset'
-				in: 'query'
-				required: false
-				description: 'Skip records before querying'
+				name: 'offset',
+				in: 'query',
+				required: false,
+				description: 'Skip records before querying',
 				type: 'integer'
 			}
 		]
+	}
+})
 ```

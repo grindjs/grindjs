@@ -1,53 +1,62 @@
-module.exports = (app) ->
+import path from 'path'
+import findRoot from 'find-root'
 
-	app.use (req, res, next) ->
-		res.setHeader 'Access-Control-Allow-Origin', '*'
-		return next()
+export function provider(app) {
 
-	app.get '/swagger.json', (req, res) ->
-		stack = app._router?.stack
+	app.use((req, res, next) => {
+		res.setHeader('Access-Control-Allow-Origin', '*')
+		next()
+	})
 
-		unless stack?.length > 0
-			console.error 'You haven’t registered any routes yet.'
-			process.exit 1
+	app.get('/swagger.json', (req, res) => {
+		const router = app._router
+		const stack = router ? router.stack : null
 
-		path = require 'path'
-		root = require('find-root')(path.dirname(require.main.filename))
-		info = require root + '/package.json'
+		if(router == null || router.length <= 0) {
+			console.error('You haven’t registered any routes yet.')
+			process.exit(1)
+		}
 
-		paths = { }
+		const root = findRoot(path.dirname(require.main.filename))
+		const info = require(root + '/package.json')
 
-		for route in stack
-			route = route.route
-			continue if not route
+		var paths = { }
 
-			swagger = route.extra?.swagger
-			path = route.path
-			method = route.methods
+		for(const r of stack) {
+			const route = r.route
+			if(!route) { continue }
 
-			if method and Object.keys(method)?.length > 0
+			const swagger = route.extra != null ? route.extra.swagger : null
+			var routePath = route.path
+			var method = route.methods
+
+			if(typeof method === 'object') {
 				method = Object.keys(method)[0]
-			else
+			} else {
 				method = null
+			}
 
-			continue if not swagger or not path or not method
+			if(!swagger || !routePath || !method) { continue }
 
-			path = path.replace /:([a-z0-0_\-\.]+)/, '{$1}'
-			obj = paths[path] or { }
+			routePath = routePath.replace(/:([a-z0-0_\-\.]+)/, '{$1}')
+			var obj = paths[routePath] || { }
 			obj[method] = swagger
-			paths[path] = obj
+			paths[routePath] = obj
+		}
 
-		swagger =
-			swagger: '2.0'
-			info:
-				version: info.version or '0.0.1'
+		res.setHeader('Access-Control-Allow-Origin', '*')
+		res.send({
+			swagger: '2.0',
+			info: {
+				version: info.version || '0.0.1',
 				title: info.name
-			basePath: '/'
-			host: req.get 'Host'
-			schemes: [ 'http' ]
-			consumes: [ 'application/json' ]
-			produces: [ 'application/json' ]
+			},
+			basePath: '/',
+			host: req.get('Host'),
+			schemes: [ 'http' ],
+			consumes: [ 'application/json' ],
+			produces: [ 'application/json' ],
 			paths: paths
-
-		res.setHeader 'Access-Control-Allow-Origin', '*'
-		res.send swagger
+		})
+	})
+}

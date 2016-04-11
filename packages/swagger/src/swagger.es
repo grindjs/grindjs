@@ -1,2 +1,3 @@
-module.exports =
-	provider: require './provider'
+import {provider} from './provider'
+
+export {provider}
