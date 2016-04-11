@@ -1,30 +1,36 @@
-require './globals'
-Grind = require 'express'
+import {Router} from './router'
+import {Config} from './config'
+import Grind from 'express'
 
-module.exports = ->
-	grind = Grind()
+module.exports = function() {
+	var grind = Grind()
 
-	grind.env = ->
-		return process.env.NODE_ENV or 'local'
+	grind.env = function() {
+		return process.env.NODE_ENV || 'local'
+	}
 
-	grind.routes = make './router', grind
-	grind.config = make './config', grind
+	grind.routes = new Router(grind)
+	grind.config = new Config(grind)
 	grind.booted = false
 	grind.providers = [ ]
 
-	grind.boot = ->
-		return if @booted
+	grind.boot = function() {
+		if(this.booted) { return }
 
-		for provider in @providers
-			provider this
+		for(const provider of this.providers) {
+			provider(this)
+		}
 
-		@booted = true
+		this.booted = true
 		return
+	}
 
-	listen = grind.listen
+	var listen = grind.listen
 
-	grind.listen = ->
-		@boot()
-		return listen.apply grind, arguments
+	grind.listen = function() {
+		this.boot()
+		return listen.apply(grind, arguments)
+	}
 
 	return grind
+}

@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
 
-export PATH="`npm bin`:$PATH"
-
 mkdir -p lib
-coffee --compile --bare --map --output lib/ src/
+babel -s inline -d lib/ src/
