@@ -10,10 +10,12 @@
     "url": "https://github.com/shnhrrsn/grind-db.git"
   },
   "dependencies": {
+    "knex": "0.10.x"
+  },
+  "devDependencies": {
     "babel-cli": ">=6.7 <=7.0",
     "babel-preset-es2016-node5": "1.x",
-    "babel-preset-stage-1": "6.5.x",
-    "knex": "0.10.x"
+    "babel-preset-stage-1": "6.5.x"
   },
   "scripts": {
     "install": "./build"

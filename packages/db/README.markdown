@@ -7,11 +7,10 @@
 Add `grind-db` to your project:
 
 ```bash
-npm install shnhrrsn/grind-db --save
+npm install grind-db --save
 ```
 
 Next you should the database driver(s) you need.  Knex [supports](http://knexjs.org/#Installation-node) a variety of different drivers:
-
 
 ```bash
 npm install mariasql --save
