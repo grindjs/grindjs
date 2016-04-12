@@ -1,6 +1,6 @@
 {
   "name": "grind-db",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Thin wrapper around Knex for integration with Grind",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
@@ -18,6 +18,6 @@
     "babel-preset-stage-1": "6.5.x"
   },
   "scripts": {
-    "publish": "./build"
+    "prepublish": "./build"
   }
 }
