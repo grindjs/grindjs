@@ -19,11 +19,11 @@
     "node": "5.*"
   },
   "scripts": {
-    "build": "mkdir -p app-build && babel -s inline -d app-build/ app/",
-    "serve": "babel-node app/serve.es",
-    "cluster": "babel-node app/cluster.es --nodejs",
-    "watch": "nodemon app/serve.es",
-    "serve-build": "node app-build/serve.js",
-    "cluster-build": "node app-build/cluster.js"
+    "build": "./.build",
+    "serve": "babel-node server/serve.es",
+    "cluster": "babel-node server/cluster.es --nodejs",
+    "watch": "nodemon server/serve.es",
+    "serve-build": "node build/server/serve.js",
+    "cluster-build": "node build/server/cluster.js"
   }
 }

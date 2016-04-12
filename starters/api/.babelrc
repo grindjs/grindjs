@@ -4,6 +4,7 @@
 		[
 			"babel-plugin-module-alias", [
 				{ "src": "./app", "expose": "app" },
+				{ "src": "./server", "expose": "server" }
 			]
 		]
 	]
