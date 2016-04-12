@@ -1,28 +1,41 @@
-class exports.StatesRepository
+export class StatesRepository {
+	db = null
 
-	constructor: (@db) ->
+	constructor(db) {
+		this.db = db
+	}
 
-	all: (limit, offset, term, callback) ->
-		if typeof term is 'function'
+	all(limit, offset, term, callback) {
+		if(typeof term === 'function') {
 			callback = term
 			term = null
+		}
 
-		query = @db('states').orderBy('abbreviation', 'asc').limit(limit).offset(offset)
-		query.where('name', 'like', '%' + term + '%').orWhere('abbreviation', 'like', '%' + term + '%') if term?
-		query.after (err, rows) ->
-			callback rows
-			return
+		var query = this.db('states').orderBy('abbreviation', 'asc').limit(limit).offset(offset)
 
-		return
+		if(term) {
+			 query.where('name', 'like', '%' + term + '%').orWhere('abbreviation', 'like', '%' + term + '%')
+		}
 
-	find: (abbreviation, callback) ->
-		@db('states').where('abbreviation', abbreviation).limit(1).after (err, rows) ->
-			if rows?.length > 0
-				callback rows?[0]
-			else
-				callback null
-
-			return
+		query.after((err, rows) => {
+			if(rows != null && rows.length > 0) {
+				callback(rows)
+			} else {
+				callback(rows)
+			}
+		})
 
 		return
+	}
 
+	find(abbreviation, callback) {
+		this.db('states').where('abbreviation', abbreviation).limit(1).after((err, rows) => {
+			if(rows && rows.length > 0) {
+				callback(rows[0])
+			} else {
+				callback(null)
+			}
+		})
+	}
+
+}

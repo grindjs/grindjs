@@ -1,20 +1,21 @@
-cluster = require('cluster')
+let cluster = require('cluster')
 
-if cluster.isMaster
-	cpuCount = require('os').cpus().length
+if(cluster.isMaster) {
+	const cpuCount = require('os').cpus().length
 
-	for _ in [0..cpuCount]
+    for(var i = 0; i < cpuCount; i += 1) {
 		cluster.fork()
+	}
 
-	cluster.on 'exit', (worker) ->
-		console.log 'Worker %d died, replacing', worker.id
+	cluster.on('exit', (worker) => {
+		console.log('Worker %d died, replacing', worker.id)
 		cluster.fork()
-		return
+	})
+} else {
+	const app = require('app/boot')
+	const port = app.config.get('app.port', 3000)
 
-else
-	app = require './boot'
-	port = app.config.get 'app.port', 3000
-
-	app.listen port, ->
-		console.log 'Worker %d listening on %d', cluster.worker.id, port
-	return
+	app.listen(port, () => {
+		console.log('Worker %d listening on %d', cluster.worker.id, port)
+	})
+}

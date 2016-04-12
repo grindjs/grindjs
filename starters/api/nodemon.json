@@ -1,0 +1,5 @@
+{
+	"watch": [ "app/", "config/" ],
+	"ext": "es json",
+	"execMap": { "es": "babel-node" }
+}

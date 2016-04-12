@@ -1,6 +1,4 @@
-exports.seed = (knex, Promise) ->
-	table = knex('states')
-
+export function seed(knex, Promise) {
 	return Promise.join(
 		knex('states').del(),
 
@@ -56,3 +54,4 @@ exports.seed = (knex, Promise) ->
 		knex('states').insert({ abbreviation: 'WY', name: 'Wyoming' }),
 		knex('states').insert({ abbreviation: 'DC', name: 'Washington DC' })
 	)
+}

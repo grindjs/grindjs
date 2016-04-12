@@ -1,44 +1,54 @@
-class exports.StatesController extends resolve('./base')
+import {BaseController} from 'app/controllers/base'
+import {StatesRepository} from 'app/repositories/states'
 
-	constructor: (@app) ->
-		super @app
-		@repo = make '../repositories/states', @db
+export class StatesController extends BaseController {
+	repo = null
 
-	index: (req, res) ->
-		[ limit, offset ] = @pagination req
+	constructor(app) {
+		super(app)
 
-		@repo.all limit, offset, (rows) ->
-			res.send rows
+		this.repo = new StatesRepository(this.db)
+	}
+
+	index(req, res) {
+		const { limit, offset } = this.pagination(req)
+
+		this.repo.all(limit, offset, (rows) => {
+			if(rows != null) {
+				res.send(rows)
+			} else {
+				this.sendError(res, 404, 'No states found')
+			}
+		})
+	}
+
+	show(req, res) {
+		const { limit, offset } = this.pagination(req)
+
+		this.repo.find(req.params.abbr.toUpperCase(), (row) => {
+			if(row) {
+				res.send(row)
+			} else {
+				this.sendError(res, 404, 'State not found')
+			}
+		})
+	}
+
+	search(req, res) {
+		if(!req.query.term || req.query.term.length == 0) {
+			this.sendError(res, 400, '`term` is required')
 			return
+		}
 
-		return
+		const { limit, offset } = this.pagination(req)
 
-	show: (req, res) ->
-		[ limit, offset ] = @pagination req
+		this.repo.all(limit, offset, req.query.term, (rows) => {
+			if(rows != null) {
+				res.send(rows)
+			} else {
+				this.sendError(res, 404, 'No states found, try a different term')
+			}
+		})
+	}
 
-		@repo.find req.params.abbr.toUpperCase(), (row) =>
-			if row
-				res.send row
-			else
-				@sendError res, 404, 'State not found'
-
-			return
-
-		return
-
-	search: (req, res) ->
-		if not req.query.term or req.query.term.length is 0
-			@sendError res, 400, '`term` is required'
-			return
-
-		[ limit, offset ] = @pagination req
-
-		@repo.all limit, offset, req.query.term, (rows) =>
-			if rows?.length > 0
-				res.send rows
-			else
-				@sendError res, 404, 'No states found, try a different term'
-
-			return
-
-		return
+}

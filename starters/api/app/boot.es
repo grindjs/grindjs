@@ -1,8 +1,13 @@
-Grind = require 'grind'
-app = new Grind
+import Grind from 'grind-framework'
 
-app.providers.push require('grind-db').provider
-app.providers.push require('grind-swagger').provider
-app.providers.push require('./providers/routes')
+import {provider as DatabaseProvider} from 'grind-db'
+import {provider as SwaggerProvider} from 'grind-swagger'
+import {provider as RoutesProvider} from 'app/providers/routes'
+
+const app = new Grind()
+
+app.providers.push(DatabaseProvider)
+app.providers.push(SwaggerProvider)
+app.providers.push(RoutesProvider)
 
 module.exports = app

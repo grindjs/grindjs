@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 cd "`dirname '$0'`"
-`npm root`/grind-db/bin/grind-db $@
+babel-node `npm root`/grind-db/bin/cli.js $@
