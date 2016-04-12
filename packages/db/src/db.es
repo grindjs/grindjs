@@ -1,3 +1,5 @@
-module.exports =
-	provider: require './provider'
-	config: require './config'
+import {provider} from './provider'
+import {config} from './config'
+
+export {provider}
+export {config}

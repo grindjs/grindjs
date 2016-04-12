@@ -1,6 +1,6 @@
 # grind-db
 
-`grind-db` is a thin wrapper around [knex.js](http://knexjs.org/) simple integration with [Grind](https://github.com/shnhrrsn/grind).
+`grind-db` is a thin wrapper around [knex.js](http://knexjs.org/) simple integration with [Grind](https://github.com/shnhrrsn/grind-framework).
 
 ## Installation
 
@@ -24,11 +24,11 @@ npm install pg --save
 
 To use `grind-db` you’ll need to add it to your `Grind` providers:
 
-```coffee-script
-Grind = require 'grind'
+```js
+import Grind from 'grind-framework'
 
-app = new Grind
-app.providers.push require('grind-db').provider
+const app = new Grind()
+app.providers.push(require('grind-db').provider)
 ```
 
 From there, you can access the connection via `app.get('db')`.
@@ -59,7 +59,7 @@ You should place this in `config/database.json` in your Grind project.
 
 `grind-db` exposes it’s config so you can use it within your knexfile:
 
-```coffee-script
-app = require('./app/boot')
+```js
+var app = require('./app/boot')
 module.exports = require('grind-db').config(app)
 ```

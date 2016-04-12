@@ -1,60 +1,73 @@
-module.exports = (knex, callback) ->
-	count = 0
-	total = 0
-	after = null
+export function group(knex, callback) {
+	var count = 0
+	var total = 0
+	var after = null
 
-	next = ->
-		after() if --count is 0
+	var next = function() {
+		if(--count === 0) { after() }
 		return
+	}
 
-	callback
-		_inject: (obj) ->
+	return callback({
+		_inject(obj) {
 			count++
 			total++
 
-			t = obj.then
-			obj.then = (callback) ->
-				if callback
-					wrapped = ->
-						callback.apply null, arguments
+			var t = obj.then
+			obj.then = function(callback) {
+				if(callback) {
+					var wrapped = function() {
+						callback.apply(null, arguments)
 						next()
 						return
+					}
 
-					return t.apply @, [ wrapped ]
-				else
-					return t.apply @, arguments
+					return t.apply(this, [ wrapped ])
+				} else {
+					return t.apply(this, arguments)
+				}
+			}
 
 
-			a = obj.asCallback
-			obj.asCallback = (callback) ->
-				wrapped = ->
-					callback.apply null, arguments
+			var a = obj.asCallback
+			obj.asCallback = function(callback) {
+				var wrapped = function() {
+					callback.apply(null, arguments)
 					next()
 					return
+				}
 
-				return a.apply @, [ wrapped ]
-			obj.after = obj.asCallback
+				return a.apply(this, [ wrapped ])
+			}
+			return obj.after = obj.asCallback
+		},
 
-		raw: (query) ->
-			raw = knex.raw(query)
-			@_inject raw
+		raw(query) {
+			var raw = knex.raw(query)
+			this._inject(raw)
 			return raw
+		},
 
-		query: (tableName) ->
-			builder = knex(tableName)
-			@_inject builder
+		query(tableName) {
+			var builder = knex(tableName)
+			this._inject(builder)
 			return builder
+		},
 
-		builder: ->
-			builder = knex.queryBuilder()
-			@_inject builder
+		builder() {
+			var builder = knex.queryBuilder()
+			this._inject(builder)
 			return builder
+		},
 
-		# Called after all queries have executed
-		after: (callback) ->
+		// Called after all queries have executed
+		after(callback) {
 			after = callback
 
-			# Protect against queries having already all executed
-			callback() if total > 0 and count is 0
-
-			return
+			// Protect against queries having already all executed
+			if(total > 0 && count === 0) {
+				callback()
+			}
+		}
+	})
+}

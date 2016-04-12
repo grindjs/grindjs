@@ -1,23 +1,26 @@
-module.exports = (app) ->
-	connection = app.config.get 'database.default'
-	return if not connection
+export function config(app) {
+	var connection = app.config.get('database.default')
+	if(!connection) return
 
-	connection = app.config.get 'database.connections.' + connection
-	return if not connection
+	connection = app.config.get('database.connections.' + connection)
+	if(!connection) return
 
-	driver = connection.driver or null
+	var driver = connection.driver || null
 	delete connection.driver
 
-	dialect = connection.dialect or null
+	var dialect = connection.dialect || null
 	delete connection.dialect
 
-	pool = connection.pool or null
+	var pool = connection.pool || null
 	delete connection.pool
 
-	config = { }
-	config.client = driver if driver?
-	config.dialect = dialect if dialect?
-	config.pool = pool if pool?
+	var config = { }
+
+	if(driver) config.client = driver
+	if(dialect) config.dialect = dialect
+	if(pool) config.pool = pool
+
 	config.connection = connection
 
 	return config
+}

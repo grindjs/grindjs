@@ -1,7 +1,6 @@
-module.exports = (app) ->
-	config = require('./config')(app)
-	db = require('./knex')(config)
+import {config} from './config'
+import {knex} from './knex'
 
-	app.set 'db', db
-
-	return
+export function provider(app) {
+	app.set('db', knex(config(app)))
+}
