@@ -1,6 +1,6 @@
 # grind-db
 
-`grind-db` is a thin wrapper around [knex.js](http://knexjs.org/) simple integration with [Grind](https://github.com/shnhrrsn/grind-framework).
+`grind-db` is a thin wrapper around [knex.js](http://knexjs.org/) for simple integration with [Grind](https://github.com/shnhrrsn/grind-framework).
 
 ## Installation
 
