@@ -1,11 +1,16 @@
-export function group(knex, callback) {
+export function group(knex, callback, parent) {
 	var count = 0
 	var total = 0
 	var after = null
 
 	var next = function() {
-		if(--count === 0) { after() }
-		return
+		if(--count === 0) {
+			after()
+
+			if(parent != null){
+				parent()
+			}
+		}
 	}
 
 	return callback({
@@ -19,7 +24,6 @@ export function group(knex, callback) {
 					var wrapped = function() {
 						callback.apply(null, arguments)
 						next()
-						return
 					}
 
 					return t.apply(this, [ wrapped ])
@@ -34,7 +38,6 @@ export function group(knex, callback) {
 				var wrapped = function() {
 					callback.apply(null, arguments)
 					next()
-					return
 				}
 
 				return a.apply(this, [ wrapped ])
@@ -60,13 +63,20 @@ export function group(knex, callback) {
 			return builder
 		},
 
+		group(callback) {
+			count++
+			total++
+			return group(knex, callback, next)
+		},
+
 		// Called after all queries have executed
 		after(callback) {
 			after = callback
 
 			// Protect against queries having already all executed
 			if(total > 0 && count === 0) {
-				callback()
+				count++
+				next()
 			}
 		}
 	})
