@@ -20,7 +20,11 @@ export function config(app) {
 	if(dialect) config.dialect = dialect
 	if(pool) config.pool = pool
 
-	config.connection = connection
+	if(config.client === 'pg' || config.client === 'postgres' || config.client === 'postgresql') {
+		config = Object.assign({ }, config, connection)
+	} else {
+		config.connection = connection
+	}
 
 	return config
 }
