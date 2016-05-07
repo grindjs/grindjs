@@ -20,9 +20,9 @@
   },
   "scripts": {
     "build": "./.build",
-    "serve": "babel-node server/serve.es",
-    "cluster": "babel-node server/cluster.es --nodejs",
-    "watch": "nodemon server/serve.es",
+    "serve": "babel-node server/serve.js",
+    "cluster": "babel-node server/cluster.js",
+    "watch": "nodemon server/serve.js",
     "serve-build": "node build/server/serve.js",
     "cluster-build": "node build/server/cluster.js"
   }

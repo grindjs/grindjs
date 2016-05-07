@@ -1,5 +1,5 @@
 {
 	"watch": [ "app/", "config/" ],
-	"ext": "es json",
-	"execMap": { "es": "babel-node" }
+	"ext": "js json",
+	"execMap": { "js": "babel-node" }
 }
