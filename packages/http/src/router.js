@@ -2,6 +2,7 @@ export class Router {
 	_scopedAction = null
 	_scopedPrefix = ''
 	app = null
+	bindings = { }
 
 	constructor(app) {
 		this.app = app
@@ -75,4 +76,20 @@ export class Router {
 		}
 	}
 
+	bind(name, resolver, extra) {
+		this.bindings[name] = {resolver}
+
+		if(extra) {
+			this.bindings[name].extra = extra
+		}
+
+		this.app.param(name, (req, res, next, value) => {
+			resolver(value, (newValue) => {
+				req.params[name] = newValue
+				next()
+			}, (err) => {
+				next(err)
+			}, req, res)
+		})
+	}
 }
