@@ -1,6 +1,6 @@
-import {StatesController} from 'app/controllers/states'
+import {StatesController} from 'App/Controllers/StatesController'
 
-export function provider(app) {
+export function RoutesProvider(app) {
 
 	app.routes.get('/', (req, res) => {
 		res.redirect(301, '/states')

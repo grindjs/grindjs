@@ -3,8 +3,8 @@
 	"plugins": [
 		[
 			"babel-plugin-module-alias", [
-				{ "src": "./app", "expose": "app" },
-				{ "src": "./server", "expose": "server" }
+				{ "src": "./app", "expose": "App" },
+				{ "src": "./server", "expose": "Server" }
 			]
 		]
 	]
