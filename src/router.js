@@ -41,6 +41,10 @@ export class Router {
 		return this._add('put', path, action, extra)
 	}
 
+	patch(path, action, extra) {
+		return this._add('patch', path, action, extra)
+	}
+
 	delete(path, action, extra) {
 		return this._add('delete', path, action, extra)
 	}
