@@ -1,6 +1,6 @@
 {
   "name": "grind-framework",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Thin framework around ExpressJS",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
