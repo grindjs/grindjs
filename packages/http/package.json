@@ -10,7 +10,8 @@
     "url": "https://github.com/shnhrrsn/grind-framework.git"
   },
   "dependencies": {
-    "express": "4.13.x"
+    "express": "4.13.x",
+    "http-errors": "^1.4.0"
   },
   "devDependencies": {
     "babel-cli": ">=6.7 <=7.0",

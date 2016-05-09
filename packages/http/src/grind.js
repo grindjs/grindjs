@@ -1,5 +1,6 @@
 import {Router} from './router'
 import {Config} from './config'
+import {Errors} from './errors'
 import Grind from 'express'
 
 module.exports = function() {
