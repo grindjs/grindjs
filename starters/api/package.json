@@ -4,9 +4,9 @@
   "private": true,
   "dependencies": {
     "cluster": "^0.7.7",
-    "grind-db": "0.1.x",
-    "grind-framework": "0.1.x",
-    "grind-swagger": "0.1.x",
+    "grind-db": ">=0.1.5 <0.2.0",
+    "grind-framework": ">=0.1.2 <0.2.0",
+    "grind-swagger": ">=0.1.3 <0.2.0",
     "sqlite3": "^3.1.3"
   },
   "devDependencies": {

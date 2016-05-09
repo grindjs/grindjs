@@ -3,12 +3,32 @@ import 'App/Controllers/StatesController'
 export function RoutesProvider(app) {
 
 	app.routes.get('/', (req, res) => {
-		res.redirect(301, '/states')
+		res.redirect(301, '/swagger.json')
 	})
 
-	app.routes.group({ prefix: '/states', controller: new StatesController(app) }, () => {
+	const states = new StatesController(app)
 
-		app.routes.get( '/', 'index', {
+	app.routes.bind('state', (value, resolve, reject) => {
+		states.repo.find(value.toUpperCase(), (row) => {
+			if(row) {
+				resolve(row)
+			} else {
+				reject(new Error('State not found'))
+			}
+		})
+	}, {
+		swagger: {
+			name: 'state',
+			in: 'path',
+			required: true,
+			description: 'State abbreviation',
+			type: 'string'
+		}
+	})
+
+	app.routes.group({ prefix: '/states', controller: states }, () => {
+
+		app.routes.get('/', 'index', {
 			swagger: {
 				description: 'Returns a list of states in the US.',
 				parameters: [
@@ -29,7 +49,7 @@ export function RoutesProvider(app) {
 			}
 		})
 
-		app.routes.get( '/search', 'search', {
+		app.routes.get('/search', 'search', {
 			swagger: {
 				description: 'Searches for states in the US.',
 				parameters: [{
@@ -42,17 +62,9 @@ export function RoutesProvider(app) {
 			}
 		})
 
-
-		app.routes.get( '/:abbr', 'show', {
+		app.routes.get('/:state', 'show', {
 			swagger: {
-				description: 'Lookup a state by it’s abbreviation.',
-				parameters: [{
-					name: 'abbr',
-					in: 'path',
-					required: true,
-					description: 'State abbreviation',
-					type: 'string'
-				}]
+				description: 'Lookup a state by it’s abbreviation.'
 			}
 		})
 

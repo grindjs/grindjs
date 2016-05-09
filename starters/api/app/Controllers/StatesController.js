@@ -23,15 +23,7 @@ export class StatesController extends BaseController {
 	}
 
 	show(req, res) {
-		const { limit, offset } = this.pagination(req)
-
-		this.repo.find(req.params.abbr.toUpperCase(), (row) => {
-			if(row) {
-				res.send(row)
-			} else {
-				this.sendError(res, 404, 'State not found')
-			}
-		})
+		res.send(req.params.state)
 	}
 
 	search(req, res) {
