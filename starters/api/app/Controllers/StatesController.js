@@ -17,7 +17,7 @@ export class StatesController extends BaseController {
 			if(rows != null) {
 				res.send(rows)
 			} else {
-				this.sendError(res, 404, 'No states found')
+				this.sendError(404, 'No states found')
 			}
 		})
 	}
@@ -28,7 +28,7 @@ export class StatesController extends BaseController {
 
 	search(req, res) {
 		if(!req.query.term || req.query.term.length == 0) {
-			this.sendError(res, 400, '`term` is required')
+			this.sendError(400, '`term` is required')
 			return
 		}
 
@@ -38,7 +38,7 @@ export class StatesController extends BaseController {
 			if(rows != null) {
 				res.send(rows)
 			} else {
-				this.sendError(res, 404, 'No states found, try a different term')
+				this.sendError(404, 'No states found, try a different term')
 			}
 		})
 	}

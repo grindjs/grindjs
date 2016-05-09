@@ -1,3 +1,5 @@
+import HttpError from 'http-errors'
+
 export class BaseController {
 	app = null
 	db = null
@@ -14,12 +16,8 @@ export class BaseController {
 		return { limit, offset }
 	}
 
-	sendError(res, code, message) {
-		res.status(code)
-		res.send({
-			error: message,
-			code: code
-		})
+	sendError(code, message) {
+		throw new HttpError[code](message)
 	}
 
 }

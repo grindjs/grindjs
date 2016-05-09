@@ -5,6 +5,7 @@ import {provider as SwaggerProvider} from 'grind-swagger'
 
 import 'App/Providers/RoutesProvider'
 import 'App/Providers/ErrorsProvider'
+import 'App/Providers/ErrorHandlerProvider'
 
 const app = new Grind()
 
@@ -12,5 +13,9 @@ app.providers.push(DatabaseProvider)
 app.providers.push(SwaggerProvider)
 app.providers.push(ErrorsProvider)
 app.providers.push(RoutesProvider)
+
+// ExpressJS requires error middleware be
+// registered last.
+app.providers.push(ErrorHandlerProvider)
 
 module.exports = app

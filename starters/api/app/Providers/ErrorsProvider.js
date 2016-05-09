@@ -1,9 +1,8 @@
 import HttpError from 'http-errors'
 
 export function ErrorsProvider(app) {
+
 	global.HttpError = HttpError.HttpError
-	global.ClientError = HttpError.ClientError
-	global.ServerError = HttpError.ServerError
 
 	global.BadRequestError = HttpError.BadRequest
 	global.UnauthorizedError = HttpError.Unauthorized
