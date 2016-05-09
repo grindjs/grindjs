@@ -13,7 +13,7 @@ export function RoutesProvider(app) {
 			if(row) {
 				resolve(row)
 			} else {
-				reject(new Error('State not found'))
+				reject(new NotFoundError('State not found'))
 			}
 		})
 	}, {
