@@ -1,4 +1,4 @@
-import {StatesController} from 'App/Controllers/StatesController'
+import 'App/Controllers/StatesController'
 
 export function RoutesProvider(app) {
 

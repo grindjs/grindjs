@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.7.5",
+    "babel-plugin-import-auto-name": "^0.1.0",
     "babel-plugin-module-alias": "^1.2.0",
     "babel-preset-es2016-node5": "^1.1.2",
     "babel-preset-stage-1": "^6.5.0"

@@ -1,5 +1,5 @@
-import {BaseController} from 'App/Controllers/BaseController'
-import {StatesRepository} from 'App/Repositories/StatesRepository'
+import 'App/Controllers/BaseController'
+import 'App/Repositories/StatesRepository'
 
 export class StatesController extends BaseController {
 	repo = null

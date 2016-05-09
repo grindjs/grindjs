@@ -2,7 +2,7 @@ import Grind from 'grind-framework'
 
 import {provider as DatabaseProvider} from 'grind-db'
 import {provider as SwaggerProvider} from 'grind-swagger'
-import {RoutesProvider} from 'App/Providers/RoutesProvider'
+import 'App/Providers/RoutesProvider'
 
 const app = new Grind()
 
