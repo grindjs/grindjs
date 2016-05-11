@@ -1,8 +1,10 @@
 export class Router {
 	_scopedAction = null
 	_scopedPrefix = ''
+
 	app = null
 	bindings = { }
+	patterns = { }
 
 	constructor(app) {
 		this.app = app
@@ -73,7 +75,17 @@ export class Router {
 			}
 		}
 
-		var route = this.app._router.route(this._scopedPrefix + path)
+		const compiledPath = (this._scopedPrefix + path).replace(/:([a-z0-0_\-\.]+)/g, (param, name) => {
+			const pattern = this.patterns[name]
+
+			if(typeof pattern === 'undefined') {
+				return param
+			} else {
+				return param + '(' + pattern + ')'
+			}
+		})
+
+		var route = this.app._router.route(compiledPath)
 		route = route[method].apply(route, handlers)
 		route.extra = extra || {}
 
@@ -120,4 +132,9 @@ export class Router {
 			}, req, res)
 		})
 	}
+
+	pattern(name, pattern) {
+		this.patterns[name] = pattern
+	}
+
 }
