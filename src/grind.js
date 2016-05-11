@@ -1,9 +1,13 @@
 import {Router} from './router'
 import {Config} from './config'
 import {Errors} from './errors'
+import {RouteExtension} from './route'
+
 import Grind from 'express'
 
 module.exports = function() {
+	RouteExtension()
+
 	var grind = Grind()
 
 	grind.env = function() {
