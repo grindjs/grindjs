@@ -82,7 +82,7 @@ export class Config {
 			}
 		}
 
-		for(var group in files) {
+		for(const group in files) {
 			if(group === '.env') { continue }
 
 			for(const file of files[group]) {
@@ -91,7 +91,7 @@ export class Config {
 		}
 
 		if(files['.env']) {
-			for(file of files['.env']) {
+			for(const file of files['.env']) {
 				const config = require(file)
 
 				for(var group in config) {
