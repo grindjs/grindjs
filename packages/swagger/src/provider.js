@@ -38,7 +38,7 @@ export function provider(app) {
 
 			if(!swagger || !routePath || !method) { continue }
 
-			routePath = routePath.replace(/:([a-z0-0_\-\.]+)/, (_, name) => {
+			routePath = routePath.replace(/:([a-z0-0_\-\.]+)(?:\(([^\)]+)\))?/g, (_, name, pattern) => {
 				if(app.routes.bindings[name] && app.routes.bindings[name].extra && app.routes.bindings[name].extra.swagger) {
 					swagger.parameters = swagger.parameters || []
 					var found = false
@@ -52,6 +52,15 @@ export function provider(app) {
 
 					if(!found) {
 						swagger.parameters.push(app.routes.bindings[name].extra.swagger)
+					}
+				}
+
+				if(typeof pattern === 'string' && Array.isArray(swagger.parameters)) {
+					for(const parameter of swagger.parameters) {
+						if(parameter.name === name) {
+							parameter.pattern = pattern
+							break
+						}
 					}
 				}
 
