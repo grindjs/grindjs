@@ -50,13 +50,31 @@ export class Router {
 	}
 
 	_add(method, path, action, extra) {
-		action = this._makeAction(action)
+		const handler = this._makeAction(action)
 
 		// WARNING: Prone to failure if ExpressJS changes this logic
 		this.app.lazyrouter()
 
+		var handlers = [ handler ]
+
+		if(typeof action.use !== 'undefined') {
+			if(Array.isArray(action.use)) {
+				action.use = {
+					before: action.use
+				}
+			}
+
+			if(typeof action.use === 'object') {
+				if(Array.isArray(action.use.before)) {
+					handlers.unshift.apply(handlers, action.use.before)
+				} else if(Array.isArray(action.use.before)) {
+					handlers.push.apply(handlers, action.use.after)
+				}
+			}
+		}
+
 		var route = this.app._router.route(this._scopedPrefix + path)
-		route = route[method].apply(route, [ action ])
+		route = route[method].apply(route, handlers)
 		route.extra = extra || {}
 
 		return route
