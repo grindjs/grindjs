@@ -14,8 +14,11 @@ export function provider(app) {
 		const stack = router ? router.stack : null
 
 		if(router.isNil || router.length <= 0) {
-			console.error('You haven’t registered any routes yet.')
-			process.exit(1)
+			res.status(400).send({
+				error: 'No defined routes'
+			})
+
+			return
 		}
 
 		const rootPath = findRoot(path.dirname(require.main.filename))
