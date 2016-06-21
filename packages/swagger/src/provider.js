@@ -1,5 +1,6 @@
 import path from 'path'
 import findRoot from 'find-root'
+import {compileRoute} from './compile-route'
 
 export function provider(app) {
 
@@ -12,13 +13,13 @@ export function provider(app) {
 		const router = app._router
 		const stack = router ? router.stack : null
 
-		if(router == null || router.length <= 0) {
+		if(router.isNil || router.length <= 0) {
 			console.error('You haven’t registered any routes yet.')
 			process.exit(1)
 		}
 
-		const root = findRoot(path.dirname(require.main.filename))
-		const info = require(root + '/package.json')
+		const rootPath = findRoot(path.dirname(require.main.filename))
+		const info = require(path.join(rootPath, 'package.json'))
 
 		var paths = { }
 
@@ -26,106 +27,13 @@ export function provider(app) {
 			const route = r.route
 			if(!route) { continue }
 
-			const swagger = route.extra != null ? route.extra.swagger : null
-			var routePath = route.path
-			var method = route.methods
+			const result = compileRoute(route, app)
 
-			if(typeof method === 'object') {
-				method = Object.keys(method)[0]
-			} else {
-				method = null
+			if(result.isNil) {
+				continue
 			}
 
-			if(!swagger || !routePath || !method) { continue }
-
-			method = method.toLowerCase()
-			swagger.parameters = swagger.parameters || []
-
-			for(const i in swagger.parameters) {
-				if(typeof swagger.parameters[i] !== 'string') continue
-
-				swagger.parameters[i] = {
-					description: swagger.parameters[i]
-				}
-			}
-
-			if(typeof swagger.parameters === 'object' && !Array.isArray(swagger.parameters)) {
-				const parameters = [ ]
-
-				for(const entry of Object.entries(swagger.parameters)) {
-					const parameter = entry[1]
-
-					if(parameter.name.isNil) {
-						parameter.name = entry[0]
-					}
-
-					parameters.push(parameter)
-				}
-
-				swagger.parameters = parameters
-			}
-
-			routePath = routePath.replace(/:([a-z0-0_\-\.]+)(?:\(([^\)]+)\))?(\?)?/g, (_, name, pattern, optional) => {
-				var parameter = null
-
-				for(const p of swagger.parameters) {
-					if(p.name === name) {
-						parameter = p
-						break
-					}
-				}
-
-				if(parameter === null) {
-					const binding = app.routes.bindings[name]
-
-					if(!binding.isNil && !binding.extra.isNil && !binding.extra.swagger.isNil) {
-						parameter = Object.assign({ }, app.routes.bindings[name].extra.swagger)
-						swagger.parameters.push(parameter)
-					}
-				}
-
-				if(parameter !== null) {
-					if(typeof pattern === 'string') {
-						parameter.pattern = pattern
-					}
-
-					if(parameter.required.isNil) {
-						parameter.required = optional !== '?'
-					}
-
-					if(parameter.in.isNil) {
-						parameter.in = 'url'
-					}
-				}
-
-				return '{' + name + '}'
-			})
-
-			for(const parameter of swagger.parameters) {
-				if(parameter.in === 'url') {
-					continue
-				}
-
-				if(parameter.required.isNil) {
-					parameter.required = method !== 'get'
-				}
-
-				if(parameter.in.isNil) {
-					parameter.in = method === 'get' ? 'query' : 'body'
-				}
-
-				if(parameter.type.isNil) {
-					if(parameter.name.endsWith('_id') || parameter.name === 'id') {
-						parameter.type = 'integer'
-					} else {
-						parameter.type = 'string'
-					}
-				}
-			}
-
-			if(swagger.parameters.length === 0) {
-				delete swagger.parameters
-			}
+			const { routePath, method, swagger } = result
 
 			var obj = paths[routePath] || { }
 			obj[method] = swagger
