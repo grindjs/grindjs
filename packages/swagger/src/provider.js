@@ -38,6 +38,7 @@ export function provider(app) {
 
 			if(!swagger || !routePath || !method) { continue }
 
+			method = method.toLowerCase()
 			swagger.parameters = swagger.parameters || []
 
 			if(typeof swagger.parameters === 'object' && !Array.isArray(swagger.parameters)) {
@@ -83,6 +84,10 @@ export function provider(app) {
 					if(parameter.required.isNil) {
 						parameter.required = optional !== '?'
 					}
+
+					if(parameter.in.isNil) {
+						parameter.in = 'url'
+					}
 				}
 
 				return '{' + name + '}'
@@ -94,7 +99,11 @@ export function provider(app) {
 				}
 
 				if(parameter.required.isNil) {
-					parameter.required = method !== 'GET'
+					parameter.required = method !== 'get'
+				}
+
+				if(parameter.in.isNil) {
+					parameter.in = method === 'get' ? 'query' : 'body'
 				}
 			}
 
