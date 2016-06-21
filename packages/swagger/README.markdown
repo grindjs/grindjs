@@ -49,3 +49,41 @@ app.routes.get('/states', 'index', {
 	}
 })
 ```
+
+## Inferred route documentation
+
+The previous example uses the Swagger spec directly, however `grind-swagger` can infer quite a bit for you for you:
+
+```js
+app.routes.get('/:state/cities/:letter?', 'index', {
+	swagger: {
+		description: 'Gets a list of cities in a state',
+		parameters: {
+			state: 'State abbreviation',
+			letter: 'Letter to filter cities by'
+			limit: {
+				description: 'Limit the number of records',
+				type: 'integer'
+			},
+			offset: {
+				description: 'Skip records before querying',
+				type: 'integer'
+			}
+		}
+	}
+})
+```
+
+Based on this, the following can be inferred:
+
+* `state` is a required string parameter that appears in the URL
+* `letter` is an optional string parameter that may appear in the URL
+* `limit` and `offset` are optional query string parameters
+
+How this works:
+
+* `letter` is inferred as optional due to the route param’s trailing `?`.  `state` is a non-optional parameter, making it required.
+* If no type is provided, all parameters default to a `string` type unless they end with `_id`, which defaults to `integer`
+* `limit` and `offset` are inferred as _optional_ query parameters because they don’t appear in the route path and this is a `GET` request.
+* For non-`GET` requests, parameters that don’t appear in the route path are inferred as _required_ `body` parameters.
+* All rules that are explicitly defined will take precedence over any inferred rules.
