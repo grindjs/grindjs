@@ -87,3 +87,70 @@ How this works:
 * `limit` and `offset` are inferred as _optional_ query parameters because they don’t appear in the route path and this is a `GET` request.
 * For non-`GET` requests, parameters that don’t appear in the route path are inferred as _required_ `body` parameters.
 * All rules that are explicitly defined will take precedence over any inferred rules.
+
+## Shared parameters
+
+No one wants to clutter their code with a bunch of repetitive documentation.  To avoid this, you can define shared parameters (and groups of parameters) to use within your routes:
+
+```js
+import Swagger from 'grind-swagger'
+
+// Register a single parameter
+Swagger.parameter('state', {
+	name: 'state',
+	in: 'url',
+	required: true,
+	description: 'State abbreviation',
+	type: 'string'
+})
+
+// Register a group of parameters
+Swagger.parameters('pagination', [
+	{
+		name: 'limit',
+		in: 'query',
+		required: false,
+		description: 'Limit the number of records',
+		type: 'integer'
+	}, {
+		name: 'offset',
+		in: 'query',
+		required: false,
+		description: 'Skip records before querying',
+		type: 'integer'
+	}
+])
+
+// Now you can reuse these quickly:
+app.routes.get('/:state/cities/:letter?', 'index', {
+	swagger: {
+		description: 'Gets a list of cities in a state',
+		use: [ 'state', 'pagination' ]
+	}
+})
+```
+
+Shared parameters can also take advantage of inference, allowing for far more concise and readable code:
+
+```js
+import Swagger from 'grind-swagger'
+
+Swagger.parameter('state', 'State abbreviation')
+Swagger.parameters('pagination', {
+	limit: {
+		description: 'Limit the number of records',
+		type: 'integer'
+	},
+	offset: {
+		description: 'Skip records before querying',
+		type: 'integer'
+	}
+])
+
+app.routes.get('/:state/cities/:letter?', 'index', {
+	swagger: {
+		description: 'Gets a list of cities in a state',
+		use: [ 'state', 'pagination' ]
+	}
+})
+```
