@@ -105,6 +105,14 @@ export function provider(app) {
 				if(parameter.in.isNil) {
 					parameter.in = method === 'get' ? 'query' : 'body'
 				}
+
+				if(parameter.type.isNil) {
+					if(parameter.name.endsWith('_id') || parameter.name === 'id') {
+						parameter.type = 'integer'
+					} else {
+						parameter.type = 'string'
+					}
+				}
 			}
 
 			if(swagger.parameters.length === 0) {
