@@ -13,7 +13,7 @@ export function expandParameters(parameters) {
 
 	if(typeof parameters === 'object' && !Array.isArray(parameters)) {
 		parameters = Object.entries(parameters).map(entry => {
-			const parameter = entry[1]
+			const parameter = Object.assign({ }, entry[1])
 
 			if(parameter.name.isNil) {
 				parameter.name = entry[0]
@@ -21,6 +21,8 @@ export function expandParameters(parameters) {
 
 			return parameter
 		})
+	} else {
+		parameters = parameters.map(parameter => Object.assign({ }, parameter))
 	}
 
 	return parameters
