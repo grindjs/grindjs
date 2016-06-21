@@ -41,6 +41,14 @@ export function provider(app) {
 			method = method.toLowerCase()
 			swagger.parameters = swagger.parameters || []
 
+			for(const i in swagger.parameters) {
+				if(typeof swagger.parameters[i] !== 'string') continue
+
+				swagger.parameters[i] = {
+					description: swagger.parameters[i]
+				}
+			}
+
 			if(typeof swagger.parameters === 'object' && !Array.isArray(swagger.parameters)) {
 				const parameters = [ ]
 
