@@ -56,33 +56,47 @@ export function provider(app) {
 				swagger.parameters = parameters
 			}
 
-			routePath = routePath.replace(/:([a-z0-0_\-\.]+)(?:\(([^\)]+)\))?/g, (_, name, pattern) => {
-				if(app.routes.bindings[name] && app.routes.bindings[name].extra && app.routes.bindings[name].extra.swagger) {
-					var found = false
+			routePath = routePath.replace(/:([a-z0-0_\-\.]+)(?:\(([^\)]+)\))?(\?)?/g, (_, name, pattern, optional) => {
+				var parameter = null
 
-					for(const parameter of swagger.parameters) {
-						if(parameter.name === name) {
-							found = true
-							break
-						}
-					}
-
-					if(!found) {
-						swagger.parameters.push(app.routes.bindings[name].extra.swagger)
+				for(const p of swagger.parameters) {
+					if(p.name === name) {
+						parameter = p
+						break
 					}
 				}
 
-				if(typeof pattern === 'string' && Array.isArray(swagger.parameters)) {
-					for(const parameter of swagger.parameters) {
-						if(parameter.name === name) {
-							parameter.pattern = pattern
-							break
-						}
+				if(parameter === null) {
+					const binding = app.routes.bindings[name]
+
+					if(!binding.isNil && !binding.extra.isNil && !binding.extra.swagger.isNil) {
+						parameter = Object.assign({ }, app.routes.bindings[name].extra.swagger)
+						swagger.parameters.push(parameter)
+					}
+				}
+
+				if(parameter !== null) {
+					if(typeof pattern === 'string') {
+						parameter.pattern = pattern
+					}
+
+					if(parameter.required.isNil) {
+						parameter.required = optional !== '?'
 					}
 				}
 
 				return '{' + name + '}'
 			})
+
+			for(const parameter of swagger.parameters) {
+				if(parameter.in === 'url') {
+					continue
+				}
+
+				if(parameter.required.isNil) {
+					parameter.required = method !== 'GET'
+				}
+			}
 
 			if(swagger.parameters.length === 0) {
 				delete swagger.parameters
