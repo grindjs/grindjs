@@ -4,11 +4,6 @@ import {compileRoute} from './compile-route'
 
 export function provider(app) {
 
-	app.use((req, res, next) => {
-		res.setHeader('Access-Control-Allow-Origin', '*')
-		next()
-	})
-
 	app.get('/swagger.json', (req, res) => {
 		const router = app._router
 		const stack = router ? router.stack : null
