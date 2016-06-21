@@ -1,12 +1,7 @@
-function processPathParameter(app, parameters, name, pattern, optional) {
-	var parameter = null
+import {findParameter} from '../find-parameter'
 
-	for(const p of parameters) {
-		if(p.name === name) {
-			parameter = p
-			break
-		}
-	}
+function processPathParameter(app, parameters, name, pattern, optional) {
+	var parameter = findParameter(parameters, name)
 
 	if(parameter === null) {
 		const binding = app.routes.bindings[name]
