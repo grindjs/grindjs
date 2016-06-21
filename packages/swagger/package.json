@@ -21,6 +21,9 @@
     "eslint": "^2.13.1",
     "eslint-config-grind": "^1.0.0"
   },
+  "peerDependencies": {
+    "grind-framework": "^0.1"
+  },
   "engines": {
     "node": ">=5.10 <6.0"
   },
