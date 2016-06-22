@@ -4,7 +4,7 @@
   "description": "",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
-  "main": "index.js",
+  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/grindjs/cli.git"
