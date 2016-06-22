@@ -48,7 +48,22 @@ export class Command {
 			}
 		}
 
+		var hadOptional = false
 		for(const argument of this.arguments) {
+			const isOptional = argument.endsWith('?')
+
+			if(!hadOptional && isOptional) {
+				hadOptional = true
+			} else if(hadOptional && !isOptional) {
+				this.error(
+					'Invalid arguments for %s: %s',
+					this.name,
+					'An optional argument can not be followed by a non-optional argument'
+				)
+
+				process.exit(1)
+			}
+
 			usage.push('<' + argument + '>')
 		}
 
@@ -61,17 +76,33 @@ export class Command {
 	_execute(...args) {
 		const cli = args.pop()
 
-		if(args.length < this.arguments.length) {
+		var requiredArguments = [ ]
+
+		for(const argument of this.arguments) {
+			if(argument.endsWith('?')) {
+				break
+			}
+
+			requiredArguments.push(argument)
+		}
+
+		if(args.length < requiredArguments.length) {
 			this.error(
 				'Not enough arguments, missing: %s',
-				this.arguments.slice(args.length).join(', ')
+				requiredArguments.slice(args.length).join(', ')
 			)
 
 			process.exit(1)
 		}
 
 		for(const i in args) {
-			this.compiledValues.arguments[this.arguments[i]] = args[i]
+			var name = this.arguments[i]
+
+			if(name.endsWith('?')) {
+				name = name.substring(0, name.length - 1)
+			}
+
+			this.compiledValues.arguments[name] = args[i]
 		}
 
 		for(const option of Object.keys(this.options)) {
