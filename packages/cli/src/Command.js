@@ -120,4 +120,24 @@ export class Command {
 		})
 	}
 
+	info(...message) {
+		return this.cli.output.info(...message)
+	}
+
+	comment(...message) {
+		return this.cli.output.comment(...message)
+	}
+
+	warn(...message) {
+		return this.cli.output.warn(...message)
+	}
+
+	error(...message) {
+		return this.cli.output.error(...message)
+	}
+
+	success(...message) {
+		return this.cli.output.success(...message)
+	}
+
 }

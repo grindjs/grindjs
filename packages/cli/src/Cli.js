@@ -1,13 +1,17 @@
+import {Output} from './Output'
+
 import program from 'commander'
 import findRoot from 'find-root'
 import path from 'path'
 
 export class Cli {
-	commands = [ ]
 	app = null
+	commands = [ ]
+	output = null
 
 	constructor(app) {
 		this.app = app
+		this.output = new Output
 	}
 
 	run(args = process.argv) {
