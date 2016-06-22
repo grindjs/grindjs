@@ -88,6 +88,43 @@ How this works:
 * For non-`GET` requests, parameters that don’t appear in the route path are inferred as _required_ `body` parameters.
 * All rules that are explicitly defined will take precedence over any inferred rules.
 
+### Teaching
+
+You can help inference by ‘teaching’ it.  This is useful for common keywords that have the same type, but will differ in their descriptions.
+
+```js
+import Swagger from 'grind-swagger'
+
+Swagger.learn('featured', { type: 'boolean') })
+Swagger.learn('limit', { type: 'integer') })
+Swagger.learn('offset', { type: 'integer') })
+
+app.routes.get('/states', 'index', {
+	swagger: {
+		description: 'Gets a list of states',
+		parameters: {
+			featured: 'Filter states by whether or not they’re featured',
+			limit: 'Limit the number of states returned',
+			offset: 'Number of states to skip before querying'
+		}
+	}
+})
+
+app.routes.get('/:state/cities', 'index', {
+	swagger: {
+		description: 'Gets a list of cities in a state',
+		parameters: {
+			state: 'State abbreviation',
+			featured: 'Filter cities by whether or not they’re featured',
+			limit: 'Limit the number of cities returned',
+			offset: 'Number of cities to skip before querying'
+		}
+	}
+})
+```
+
+Without teaching `featured`, `limit` and `offset` would have had their type inferred as `string`.  By teaching, their type is correctly inferred as `boolean`, `integer` and `integer` respectively.
+
 ## Shared parameters
 
 No one wants to clutter their code with a bunch of repetitive documentation.  To avoid this, you can define shared parameters (and groups of parameters) to use within your routes:
@@ -153,4 +190,56 @@ app.routes.get('/:state/cities/:letter?', 'index', {
 		use: [ 'state', 'pagination' ]
 	}
 })
+```
+
+### Shared parameters vs Teaching
+
+`Swagger.parameter` and `Swagger.learn` have a bit in common in that they can share common documentation between multiple routes, however they differ in how they should be used:
+
+* Shared parameters should be used when you’re looking to include documentation for a parameter that is shared between different routes ‘as-is’.
+* Teaching should be used when you’re just trying to improve inferring and you’re still planning to describe your parameters.
+
+Here’s an example of shared parameters working together with teaching:
+
+```js
+import Swagger from 'grind-swagger'
+
+// Documentation of what ”featured” is will change
+// from route to route, so we just teach the type
+Swagger.learn('featured', { type: 'boolean' })
+
+// Documentation for pagination is shared, so we
+// define the group of params and reuse as-is.
+Swagger.parameters('pagination', {
+	limit: {
+		description: 'Limit the number of records',
+		type: 'integer'
+	},
+	offset: {
+		description: 'Skip records before querying',
+		type: 'integer'
+	}
+])
+
+app.routes.get('/states', 'index', {
+	swagger: {
+		description: 'Gets a list of states',
+		use: [ 'pagination' ],
+		parameters: {
+			featured: 'Filter states by featured'
+		}
+	}
+})
+
+app.routes.get('/:state/cities', 'index', {
+	swagger: {
+		description: 'Gets a list of cities in a state',
+		use: [ 'pagination' ],
+		parameters: {
+			state: 'Abbreviation of a state'
+			featured: 'Filter cities by featured'
+		}
+	}
+})
+
 ```

@@ -4,10 +4,11 @@ import {findParameter} from './find-parameter'
 export class Swagger {
 	static shared = {
 		parameters: { },
-		groups: { }
+		groups: { },
+		learned: { }
 	}
 
-	static parameter(name, docs) {
+	static expandSingleParameter(name, docs) {
 		if(typeof docs === 'string') {
 			docs = { [name]: docs }
 		}
@@ -18,11 +19,35 @@ export class Swagger {
 			docs.name = name
 		}
 
-		Swagger.shared.parameters[name] = docs
+		return docs
+	}
+
+	static parameter(name, docs) {
+		Swagger.shared.parameters[name] = Swagger.expandSingleParameter(name, docs)
 	}
 
 	static parameters(name, docs) {
 		Swagger.shared.groups[name] = expandParameters(docs)
+	}
+
+	static learn(name, docs) {
+		Swagger.shared.learned[name] = Swagger.expandSingleParameter(name, docs)
+	}
+
+	static infer(name, docs) {
+		const learned = Swagger.shared.learned[name]
+
+		if(!learned.isNil) {
+			Object.assign(docs, Object.assign({ }, learned, docs))
+		}
+
+		if(docs.type.isNil) {
+			if(docs.name.endsWith('_id') || docs.name === 'id') {
+				docs.type = 'integer'
+			} else {
+				docs.type = 'string'
+			}
+		}
 	}
 
 	static applyParameters(names, docs) {
