@@ -83,7 +83,10 @@ Based on this, the following can be inferred:
 How this works:
 
 * `letter` is inferred as optional due to the route param’s trailing `?`.  `state` is a non-optional parameter, making it required.
-* If no type is provided, all parameters default to a `string` type unless they end with `_id`, which defaults to `integer`
+* If no type is provided, the following rules are used (in order):
+	1. If the name starts with `has_` or `is_`, the type is inferred as `boolean`
+	2. If the name is `id` or ends with `_id`, the type is inferred as `integer`
+	3. All other parameters types are inferred as `string`
 * `limit` and `offset` are inferred as _optional_ query parameters because they don’t appear in the route path and this is a `GET` request.
 * For non-`GET` requests, parameters that don’t appear in the route path are inferred as _required_ `body` parameters.
 * All rules that are explicitly defined will take precedence over any inferred rules.

@@ -42,7 +42,9 @@ export class Swagger {
 		}
 
 		if(docs.type.isNil) {
-			if(docs.name.endsWith('_id') || docs.name === 'id') {
+			if(docs.name.startsWith('has_') || docs.name.startsWith('is_')) {
+				docs.type = 'boolean'
+			} else if(docs.name.endsWith('_id') || docs.name === 'id') {
 				docs.type = 'integer'
 			} else {
 				docs.type = 'string'
