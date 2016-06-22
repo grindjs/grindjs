@@ -4,6 +4,9 @@
 		"es6": true,
 		"node": true
 	},
+	"plugins": [
+		"import-auto-name"
+	],
 	"extends": "grind",
 	"parserOptions": {
 		"sourceType": "module"

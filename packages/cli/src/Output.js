@@ -1,4 +1,4 @@
-import {ChalkOutputter} from './ChalkOutputter'
+import './ChalkOutputter'
 
 export class Output {
 

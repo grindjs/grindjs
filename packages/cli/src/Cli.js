@@ -1,8 +1,8 @@
-import {Output} from './Output'
+import './Output'
 
+import path from 'path'
 import program from 'commander'
 import findRoot from 'find-root'
-import path from 'path'
 
 export class Cli {
 	app = null

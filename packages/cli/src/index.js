@@ -1,5 +1,6 @@
-import {Command} from './Command'
-import {Cli} from './Cli'
+import './Command'
+import './Cli'
+
 import {Provider as provider} from './Provider'
 
 export { provider, Cli, Command }

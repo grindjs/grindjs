@@ -1,4 +1,4 @@
-import {Cli} from './Cli'
+import './Cli'
 
 export function Provider(app) {
 	app.set('cli', new Cli(app))
