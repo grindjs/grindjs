@@ -106,7 +106,7 @@ export class Router {
 		const controller = action.controller
 
 		return (...args) => {
-			const result = method.apply(controller, ...args)
+			const result = method.apply(controller, args)
 
 			if(result && typeof result === 'object' && typeof result.catch === 'function') {
 				return result.catch(args[2])
