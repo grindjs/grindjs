@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import {merge} from './merge'
+import {merge} from './Utils/merge'
 
 export class Config {
 	_repository = null

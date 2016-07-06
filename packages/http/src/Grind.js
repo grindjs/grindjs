@@ -1,7 +1,7 @@
-import {Router} from './router'
-import {Config} from './config'
-import {Errors} from './errors'
-import {RouteExtension} from './route'
+import {Router} from './Router'
+import {Config} from './Config'
+import {Errors} from './Errors'
+import {RouteExtension} from './RouteExtension'
 
 import Grind from 'express'
 
