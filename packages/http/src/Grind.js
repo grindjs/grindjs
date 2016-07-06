@@ -5,14 +5,17 @@ import {RouteExtension} from './RouteExtension'
 
 import Grind from 'express'
 
-module.exports = function() {
+module.exports = function(parameters = { }) {
 	RouteExtension()
+
+	const routerClass = parameters.routerClass || Router
+	const configClass = parameters.configClass || Config
 
 	var grind = Grind()
 
 	grind.env = () => process.env.NODE_ENV || 'local'
-	grind.routes = new Router(grind)
-	grind.config = new Config(grind)
+	grind.routes = new routerClass(grind)
+	grind.config = new configClass(grind)
 	grind.booted = false
 	grind.providers = [ ]
 
@@ -35,3 +38,7 @@ module.exports = function() {
 
 	return grind
 }
+
+module.exports.Config = Config
+module.exports.Router = Router
+module.exports.Errors = Errors
