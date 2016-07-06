@@ -11,7 +11,7 @@ module.exports = function(parameters = { }) {
 	const routerClass = parameters.routerClass || Router
 	const configClass = parameters.configClass || Config
 
-	var grind = Grind()
+	const grind = Grind()
 
 	grind.env = () => process.env.NODE_ENV || 'local'
 	grind.routes = new routerClass(grind)
@@ -29,7 +29,7 @@ module.exports = function(parameters = { }) {
 		this.booted = true
 	}
 
-	var listen = grind.listen
+	const listen = grind.listen
 
 	grind.listen = function(...args) {
 		this.boot()

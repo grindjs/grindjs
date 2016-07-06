@@ -1,6 +1,6 @@
 import {Route} from 'express'
 
-var hasExtended = false
+let hasExtended = false
 
 export function RouteExtension() {
 	if(hasExtended) {
