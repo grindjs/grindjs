@@ -5,7 +5,7 @@ import {merge} from './Utils/merge'
 export class Config {
 	_repository = null
 
-	constructor(app = nil) {
+	constructor(app = null) {
 		this._repository = { }
 
 		if(app) {
@@ -22,7 +22,11 @@ export class Config {
 		}
 
 		for(const key of keys) {
-			if(value) value = value[key]
+			if(!value) {
+				continue
+			}
+
+			value = value[key]
 		}
 
 		return value || fallback
@@ -39,29 +43,30 @@ export class Config {
 
 		if(keys.length > 0) {
 			for(const key of keys) {
-				if(object) object = object[keys]
+				if(!object) {
+					continue
+				}
+
+				object = object[key]
 			}
 		}
 
 		if(object) {
 			object[last] = value
 		}
-
-		return
 	}
 
 	populate(app) {
 		var dir = path.join(process.cwd(), 'config')
 
-		var exists = function(path) {
+		var exists = (path) => {
 			try {
-				fs.accessSync(path, fs.F_OK)
+				fs.accessSync(path, fs.F_OK) // eslint-disable-line no-sync
 				return true
 			} catch(e) {
 				return false
 			}
 		}
-
 
 		if(!exists(dir)) {
 			console.error('Unable to populate config, path does not exist', dir)
@@ -99,14 +104,13 @@ export class Config {
 				}
 			}
 		}
-
-
-		return
 	}
 
 	_populateConfigFiles(files, dir) {
-		for(const file of fs.readdirSync(dir)) {
-			if(path.extname(file) !== '.json') continue
+		for(const file of fs.readdirSync(dir)) { // eslint-disable-line no-sync
+			if(path.extname(file) !== '.json') {
+				continue
+			}
 
 			const name = path.basename(file, '.json')
 
@@ -116,7 +120,5 @@ export class Config {
 
 			files[name].push(path.join(dir, path.basename(file)))
 		}
-
-		return
 	}
 }

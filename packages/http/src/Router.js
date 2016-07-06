@@ -26,7 +26,7 @@ export class Router {
 		this._scopedPrefix = ''
 	}
 
-	all(all, action) {
+	all(path, action) {
 		console.log('Don’t use `all` routes. Offender: %s', path)
 		return this.app.all(this._scopedPrefix + path, this._makeAction(action))
 	}
@@ -57,7 +57,7 @@ export class Router {
 		// WARNING: Prone to failure if ExpressJS changes this logic
 		this.app.lazyrouter()
 
-		var handlers = [ handler ]
+		const handlers = [ handler ]
 
 		if(typeof action.use !== 'undefined') {
 			if(Array.isArray(action.use)) {
@@ -68,9 +68,9 @@ export class Router {
 
 			if(typeof action.use === 'object') {
 				if(Array.isArray(action.use.before)) {
-					handlers.unshift.apply(handlers, action.use.before)
+					handlers.unshift(...action.use.before)
 				} else if(Array.isArray(action.use.before)) {
-					handlers.push.apply(handlers, action.use.after)
+					handlers.push(...action.use.after)
 				}
 			}
 		}
@@ -85,8 +85,8 @@ export class Router {
 			}
 		})
 
-		var route = this.app._router.route(compiledPath)
-		route = route[method].apply(route, handlers)
+		let route = this.app._router.route(compiledPath)
+		route = route[method](...handlers)
 		route.extra = extra || {}
 
 		return route
@@ -105,11 +105,11 @@ export class Router {
 		const method = action.controller[action.method]
 		const controller = action.controller
 
-		return function(req, res, next) {
-			const result = method.apply(controller, arguments)
+		return (...args) => {
+			const result = method.apply(controller, ...args)
 
 			if(result && typeof result === 'object' && typeof result.catch === 'function') {
-				return result.catch(next)
+				return result.catch(args[2])
 			} else {
 				return result
 			}
@@ -117,17 +117,17 @@ export class Router {
 	}
 
 	bind(name, resolver, extra) {
-		this.bindings[name] = {resolver}
+		this.bindings[name] = { resolver }
 
 		if(extra) {
 			this.bindings[name].extra = extra
 		}
 
 		this.app.param(name, (req, res, next, value) => {
-			resolver(value, (newValue) => {
+			resolver(value, newValue => {
 				req.params[name] = newValue
 				next()
-			}, (err) => {
+			}, err => {
 				next(err)
 			}, req, res)
 		})
