@@ -28,6 +28,7 @@
     "node": ">=5.10 <6.0"
   },
   "scripts": {
-    "prepublish": "./build"
+    "prepublish": "./build",
+    "lint": "eslint src"
   }
 }
