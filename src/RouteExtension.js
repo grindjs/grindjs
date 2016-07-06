@@ -16,7 +16,7 @@ export function RouteExtension() {
 		}
 
 		if(typeof handle !== 'function') {
-			throw new TypeError('Route.use() requires callback functions but got a ' + (typeof handle));
+			throw new TypeError('Route.use() requires callback functions but got a ' + (typeof handle))
 		}
 
 		if(!method) {

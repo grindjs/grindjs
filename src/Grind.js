@@ -10,10 +10,7 @@ module.exports = function() {
 
 	var grind = Grind()
 
-	grind.env = function() {
-		return process.env.NODE_ENV || 'local'
-	}
-
+	grind.env = () => process.env.NODE_ENV || 'local'
 	grind.routes = new Router(grind)
 	grind.config = new Config(grind)
 	grind.booted = false
@@ -27,14 +24,13 @@ module.exports = function() {
 		}
 
 		this.booted = true
-		return
 	}
 
 	var listen = grind.listen
 
-	grind.listen = function() {
+	grind.listen = function(...args) {
 		this.boot()
-		return listen.apply(grind, arguments)
+		return listen.apply(grind, args)
 	}
 
 	return grind
