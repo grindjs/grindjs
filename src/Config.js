@@ -14,8 +14,8 @@ export class Config {
 	}
 
 	get(keyPath, fallback = null) {
-		var keys = keyPath.split('.')
-		var value = this._repository[keys.shift()]
+		const keys = keyPath.split('.')
+		let value = this._repository[keys.shift()]
 
 		if(!value) {
 			return fallback
@@ -39,7 +39,7 @@ export class Config {
 	set(keyPath, value) {
 		const keys = keyPath.split('.')
 		const last = keys.pop()
-		var object = this._repository
+		let object = this._repository
 
 		if(keys.length > 0) {
 			for(const key of keys) {
@@ -57,9 +57,9 @@ export class Config {
 	}
 
 	populate(app) {
-		var dir = path.join(process.cwd(), 'config')
+		let dir = path.join(process.cwd(), 'config')
 
-		var exists = (path) => {
+		const exists = (path) => {
 			try {
 				fs.accessSync(path, fs.F_OK) // eslint-disable-line no-sync
 				return true
@@ -73,7 +73,7 @@ export class Config {
 			return
 		}
 
-		var files = { }
+		const files = { }
 
 		this._populateConfigFiles(files, dir)
 
@@ -99,7 +99,7 @@ export class Config {
 			for(const file of files['.env']) {
 				const config = require(file)
 
-				for(var group in config) {
+				for(const group in config) {
 					this._repository[group] = merge(this._repository[group] || { }, config[group])
 				}
 			}

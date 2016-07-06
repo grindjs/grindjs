@@ -1,6 +1,6 @@
 export function merge(a, b) {
-	var typeA = Array.isArray(a) ? 'array' : typeof a
-	var typeB = Array.isArray(b) ? 'array' : typeof b
+	const typeA = Array.isArray(a) ? 'array' : typeof a
+	const typeB = Array.isArray(b) ? 'array' : typeof b
 
 	if(typeA !== typeB || typeA === 'undefined') {
 		return b
@@ -11,9 +11,9 @@ export function merge(a, b) {
 	}
 
 	if(typeA === 'object') {
-		var merged = Object.assign({ }, a)
+		const merged = Object.assign({ }, a)
 
-		for(var k in b) {
+		for(const k in b) {
 			merged[k] = merge(a[k], b[k])
 		}
 
