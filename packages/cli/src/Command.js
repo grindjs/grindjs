@@ -21,8 +21,18 @@ export class Command {
 		return this.compiledValues.arguments[name] || fallback
 	}
 
+	containsArgument(name) {
+		const value = this.compiledValues.arguments[name]
+		return !value.isNil
+	}
+
 	option(name, fallback = null) {
 		return this.compiledValues.options[name] || fallback
+	}
+
+	containsOption(name) {
+		const value = this.compiledValues.options[name]
+		return !value.isNil
 	}
 
 	ready() {
@@ -106,7 +116,7 @@ export class Command {
 		}
 
 		for(const option of Object.keys(this.options)) {
-			this.compiledValues.options[option] = cli[option] || false
+			this.compiledValues.options[option] = cli[option]
 		}
 
 		process.title = 'node ' + this.name
