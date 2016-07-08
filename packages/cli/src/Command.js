@@ -52,9 +52,33 @@ export class Command {
 
 		if(options.length > 0) {
 			usage.push('[options]')
+			const shorthands = { h: true }
 
 			for(const option of options) {
-				command.option('--' + option[0], option[1])
+				let shorthandCharCode = option[0].charCodeAt(0)
+				let shorthand = String.fromCharCode(shorthandCharCode)
+
+				while(shorthands[shorthand] === true) {
+					if(++shorthandCharCode > 122) {
+						shorthandCharCode = 65
+					}
+
+					shorthand = String.fromCharCode(shorthandCharCode)
+				}
+
+				shorthands[shorthand] = true
+
+				let flags = `-${shorthand}, --${option[0]}`
+
+				if(typeof option[1] === 'string' || option.type.isNil) {
+					flags += ' [string]'
+				}
+
+				if(typeof option[1] !== 'string') {
+					option[1] = option[1].description || ''
+				}
+
+				command.option(flags, option[1])
 			}
 		}
 
