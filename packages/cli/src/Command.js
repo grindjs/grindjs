@@ -17,12 +17,12 @@ export class Command {
 		this.cli = cli
 	}
 
-	argument(name) {
-		return this.compiledValues.arguments[name]
+	argument(name, fallback = null) {
+		return this.compiledValues.arguments[name] || fallback
 	}
 
-	option(name) {
-		return this.compiledValues.options[name]
+	option(name, fallback = null) {
+		return this.compiledValues.options[name] || fallback
 	}
 
 	ready() {
