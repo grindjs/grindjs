@@ -1,6 +1,6 @@
 import {Config} from './Config'
-import {Knex} from './Knex'
+import knex from 'knex'
 
 export function Provider(app) {
-	app.set('db', Knex(Config(app)))
+	app.set('db', knex(Config(app)))
 }
