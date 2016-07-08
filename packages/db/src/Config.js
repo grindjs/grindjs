@@ -1,4 +1,4 @@
-export function config(app) {
+export function Config(app) {
 	var connection = app.config.get('database.default')
 	if(!connection) return
 

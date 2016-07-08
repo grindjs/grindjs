@@ -1,6 +1,6 @@
 import {group} from './group'
 
-export function knex() {
+export function Knex() {
 	var knex = require('knex')
 	knex = knex.apply(module, arguments)
 

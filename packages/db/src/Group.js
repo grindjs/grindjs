@@ -1,4 +1,4 @@
-export function group(knex, callback, parent) {
+export function Group(knex, callback, parent) {
 	var count = 0
 	var total = 0
 	var after = null

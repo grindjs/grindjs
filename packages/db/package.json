@@ -4,10 +4,10 @@
   "description": "Thin wrapper around Knex for integration with Grind",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
-  "main": "lib/db.js",
+  "main": "lib/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/shnhrrsn/grind-db.git"
+    "url": "https://github.com/grind/db.git"
   },
   "dependencies": {
     "knex": "0.10.x"
