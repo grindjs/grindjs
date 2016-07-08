@@ -8,7 +8,7 @@ export function ErrorHandlerProvider(app) {
 			return next(err)
 		}
 
-		var json = { }
+		const json = { }
 
 		if(err instanceof HttpError) {
 			json.code = err.status || 500

@@ -11,7 +11,7 @@ export class StatesRepository {
 			term = null
 		}
 
-		var query = this.db('states').orderBy('abbreviation', 'asc').limit(limit).offset(offset)
+		const query = this.db('states').orderBy('abbreviation', 'asc').limit(limit).offset(offset)
 
 		if(!term.isNil) {
 			query.where('name', 'like', '%' + term + '%').orWhere('abbreviation', 'like', '%' + term + '%')
