@@ -103,6 +103,10 @@ export class Command {
 			)
 
 			process.exit(1)
+		} else if(args.length > this.arguments.length) {
+			this.error('Too many arguments.', args)
+
+			process.exit(1)
 		}
 
 		for(const i in args) {
