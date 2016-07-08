@@ -25,6 +25,8 @@ export class Cli {
 			cli.version(info.version)
 		}
 
+		this.commands.sort((a, b) => (a.name || '').localeCompare(b.name || ''))
+
 		for(const command of this.commands) {
 			command.build(cli)
 		}
