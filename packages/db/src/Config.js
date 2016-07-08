@@ -1,28 +1,45 @@
 export function Config(app) {
-	var connection = app.config.get('database.default')
-	if(connection.isNil) return
+	let connection = app.config.get('database.default')
+
+	if(connection.isNil) {
+		return
+	}
 
 	connection = app.config.get('database.connections.' + connection)
-	if(connection.isNil) return
 
-	var driver = connection.driver || null
+	if(connection.isNil) {
+		return
+	}
+
+	const driver = connection.driver || null
 	delete connection.driver
 
-	var dialect = connection.dialect || null
+	const dialect = connection.dialect || null
 	delete connection.dialect
 
-	var pool = connection.pool || null
+	const pool = connection.pool || null
 	delete connection.pool
 
-	var useNullAsDefault = connection.useNullAsDefault || null
+	const useNullAsDefault = connection.useNullAsDefault || null
 	delete connection.useNullAsDefault
 
-	var config = { }
+	let config = { }
 
-	if(!driver.isNil) config.client = driver
-	if(!dialect.isNil) config.dialect = dialect
-	if(!pool.isNil) config.pool = pool
-	if(!useNullAsDefault.isNil) config.useNullAsDefault = useNullAsDefault
+	if(!driver.isNil) {
+		config.client = driver
+	}
+
+	if(!dialect.isNil) {
+		config.dialect = dialect
+	}
+
+	if(!pool.isNil) {
+		config.pool = pool
+	}
+
+	if(!useNullAsDefault.isNil) {
+		config.useNullAsDefault = useNullAsDefault
+	}
 
 	if(config.client === 'pg' || config.client === 'postgres' || config.client === 'postgresql') {
 		config = Object.assign({ }, config, connection)
