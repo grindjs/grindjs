@@ -14,11 +14,15 @@ export function Config(app) {
 	var pool = connection.pool || null
 	delete connection.pool
 
+	var useNullAsDefault = connection.useNullAsDefault || null
+	delete connection.useNullAsDefault
+
 	var config = { }
 
 	if(driver) config.client = driver
 	if(dialect) config.dialect = dialect
 	if(pool) config.pool = pool
+	if(useNullAsDefault !== null) config.useNullAsDefault = useNullAsDefault
 
 	if(config.client === 'pg' || config.client === 'postgres' || config.client === 'postgresql') {
 		config = Object.assign({ }, config, connection)
