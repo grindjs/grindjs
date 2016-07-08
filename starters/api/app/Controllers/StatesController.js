@@ -28,7 +28,7 @@ export class StatesController extends BaseController {
 	}
 
 	search(req, res) {
-		if(req.query.term.isNil || req.query.term.length == 0) {
+		if(req.query.term.isNil || req.query.term.length === 0) {
 			this.sendError(400, '`term` is required')
 			return
 		}

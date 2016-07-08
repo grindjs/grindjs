@@ -13,8 +13,8 @@ export class StatesRepository {
 
 		var query = this.db('states').orderBy('abbreviation', 'asc').limit(limit).offset(offset)
 
-		if(term) {
-			 query.where('name', 'like', '%' + term + '%').orWhere('abbreviation', 'like', '%' + term + '%')
+		if(!term.isNil) {
+			query.where('name', 'like', '%' + term + '%').orWhere('abbreviation', 'like', '%' + term + '%')
 		}
 
 		query.after((err, rows) => {

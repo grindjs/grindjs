@@ -52,13 +52,15 @@ export function RoutesProvider(app) {
 		app.routes.get('/search', 'search', {
 			swagger: {
 				description: 'Searches for states in the US.',
-				parameters: [{
-					name: 'term',
-					in: 'query',
-					required: true,
-					description: 'Search term',
-					type: 'string'
-				}]
+				parameters: [
+					{
+						name: 'term',
+						in: 'query',
+						required: true,
+						description: 'Search term',
+						type: 'string'
+					}
+				]
 			}
 		})
 
