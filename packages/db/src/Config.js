@@ -1,9 +1,9 @@
 export function Config(app) {
 	var connection = app.config.get('database.default')
-	if(!connection) return
+	if(connection.isNil) return
 
 	connection = app.config.get('database.connections.' + connection)
-	if(!connection) return
+	if(connection.isNil) return
 
 	var driver = connection.driver || null
 	delete connection.driver
@@ -19,10 +19,10 @@ export function Config(app) {
 
 	var config = { }
 
-	if(driver) config.client = driver
-	if(dialect) config.dialect = dialect
-	if(pool) config.pool = pool
-	if(useNullAsDefault !== null) config.useNullAsDefault = useNullAsDefault
+	if(!driver.isNil) config.client = driver
+	if(!dialect.isNil) config.dialect = dialect
+	if(!pool.isNil) config.pool = pool
+	if(!useNullAsDefault.isNil) config.useNullAsDefault = useNullAsDefault
 
 	if(config.client === 'pg' || config.client === 'postgres' || config.client === 'postgresql') {
 		config = Object.assign({ }, config, connection)
