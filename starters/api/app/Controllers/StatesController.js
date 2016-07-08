@@ -14,11 +14,12 @@ export class StatesController extends BaseController {
 		const { limit, offset } = this.pagination(req)
 
 		this.repo.all(limit, offset, (rows) => {
-			if(rows != null) {
-				res.send(rows)
-			} else {
+			if(rows.isNil) {
 				this.sendError(404, 'No states found')
+				return
 			}
+
+			res.send(rows)
 		})
 	}
 
@@ -27,7 +28,7 @@ export class StatesController extends BaseController {
 	}
 
 	search(req, res) {
-		if(!req.query.term || req.query.term.length == 0) {
+		if(req.query.term.isNil || req.query.term.length == 0) {
 			this.sendError(400, '`term` is required')
 			return
 		}
@@ -35,11 +36,12 @@ export class StatesController extends BaseController {
 		const { limit, offset } = this.pagination(req)
 
 		this.repo.all(limit, offset, req.query.term, (rows) => {
-			if(rows != null) {
-				res.send(rows)
-			} else {
+			if(rows.isNil) {
 				this.sendError(404, 'No states found, try a different term')
+				return
 			}
+
+			res.send(rows)
 		})
 	}
 

@@ -18,7 +18,7 @@ export class StatesRepository {
 		}
 
 		query.after((err, rows) => {
-			if(rows != null && rows.length > 0) {
+			if(!rows.isNil && rows.length > 0) {
 				callback(rows)
 			} else {
 				callback(rows)
