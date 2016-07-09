@@ -20,6 +20,7 @@ module.exports = function(parameters = { }) {
 	grind.config = new configClass(grind)
 	grind.booted = false
 	grind.providers = [ ]
+	grind.debug = grind.config.get('app.debug', grind.env() === 'local')
 
 	grind.boot = function() {
 		if(this.booted) { return }
