@@ -12,5 +12,8 @@
 	"extends": "grind",
 	"parserOptions": {
 		"sourceType": "module"
+	},
+	"globals": {
+		"ValidationError": false
 	}
 }
