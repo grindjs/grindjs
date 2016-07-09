@@ -4,4 +4,4 @@ node_js:
   - "6"
 sudo: false
 install: "npm install"
-script: "npm run lint"
+script: "bin/lint"

@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-mkdir -p build build/app build/server
-babel -s inline -d build/app/ app/
-babel -s inline -d build/server/ server/

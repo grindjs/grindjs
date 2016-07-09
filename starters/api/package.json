@@ -24,10 +24,7 @@
   },
   "engines": {
     "node": "5.*"
-  },
   "scripts": {
-    "build": "./.build",
-    "lint": "eslint app config server",
     "serve": "babel-node server/serve.js",
     "cluster": "babel-node server/cluster.js",
     "watch": "nodemon server/serve.js",
