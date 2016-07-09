@@ -22,7 +22,7 @@ export class Router {
 			this._scopedPrefix = ''
 		}
 
-		callback()
+		callback(this, action.controller)
 
 		this._scopedAction = null
 		this._scopedPrefix = ''
