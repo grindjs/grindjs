@@ -1,5 +1,5 @@
 import './Cli'
 
-export function Provider(app) {
+export function CliProvider(app) {
 	app.set('cli', new Cli(app))
 }
