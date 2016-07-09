@@ -1,4 +1,4 @@
-import {provider} from './provider'
+import {provider as SwaggerProvider } from './provider'
 import {Swagger} from './swagger'
 
-export { provider, Swagger }
+export { SwaggerProvider, Swagger }
