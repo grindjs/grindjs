@@ -2,6 +2,12 @@ import {expandParameters} from './expand-parameters'
 import {findParameter} from './find-parameter'
 
 export class Swagger {
+	static typeMappings = {
+		integer: [ 'limit', 'offset', 'page' ],
+		boolean: [ ],
+		string: [ ]
+	}
+
 	static shared = {
 		parameters: { },
 		groups: { },
@@ -47,7 +53,18 @@ export class Swagger {
 			} else if(docs.name.endsWith('_id') || docs.name === 'id') {
 				docs.type = 'integer'
 			} else {
-				docs.type = 'string'
+				for(const type of Object.keys(this.typeMappings)) {
+					if(this.typeMappings[type].indexOf(docs.name) === -1) {
+						continue
+					}
+
+					docs.type = type
+					break
+				}
+
+				if(docs.type.isNil) {
+					docs.type = 'string'
+				}
 			}
 		}
 	}
