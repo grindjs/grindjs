@@ -1,8 +1,6 @@
-import './ChalkOutputter'
-
 export class Output {
 
-	outputter = new ChalkOutputter
+	outputter = Log
 
 	info(...message) {
 		return this.outputter.info(...message)
