@@ -15,7 +15,8 @@
 
 		"sqlite3": {
 			"driver": "sqlite3",
-			"filename": "./database.sqlite"
+			"filename": "./database/database.sqlite",
+			"useNullAsDefault": true
 		}
 
 	}

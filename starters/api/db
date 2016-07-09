@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-cd "`dirname '$0'`"
-NODE_ROOT=`npm root`
-export PATH=$NODE_ROOT/.bin:$PATH
-
-babel-node $NODE_ROOT/grind-db/bin/cli.js $@
