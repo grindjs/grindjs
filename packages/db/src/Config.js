@@ -47,5 +47,13 @@ export function Config(app) {
 		config.connection = connection
 	}
 
+	config.seeds = {
+		directory: './database/seeds'
+	}
+
+	config.migrations = {
+		directory: './database/migrations'
+	}
+
 	return config
 }
