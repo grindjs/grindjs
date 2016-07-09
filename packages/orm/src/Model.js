@@ -1,5 +1,6 @@
 import { Model as ObjectionModel } from 'objection'
 
+import './RelationSynchronizer'
 import './inflect'
 
 export class Model extends ObjectionModel {
@@ -107,6 +108,18 @@ export class Model extends ObjectionModel {
 				to: `${modelClass.tableName}.${modelClass.primaryKey}`
 			}
 		}
+	}
+
+	$sync(relation, ids) {
+		return (new RelationSynchronizer(this, relation)).sync(ids)
+	}
+
+	$relate(relation, ids) {
+		return (new RelationSynchronizer(this, relation)).relate(ids)
+	}
+
+	$unrelate(relation, ids) {
+		return (new RelationSynchronizer(this, relation)).unrelate(ids)
 	}
 
 	$beforeSave(inserting) {
