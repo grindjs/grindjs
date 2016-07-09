@@ -1,4 +1,4 @@
-import {Config} from './Config'
+import './Config'
 import knex from 'knex'
 
 export function Provider(app) {
