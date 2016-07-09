@@ -6,8 +6,8 @@ function processPathParameter(app, parameters, name, pattern, optional) {
 	if(parameter === null) {
 		const binding = app.routes.bindings[name]
 
-		if(!binding.isNil && !binding.extra.isNil && !binding.extra.swagger.isNil) {
-			parameter = Object.assign({ }, app.routes.bindings[name].extra.swagger)
+		if(!binding.isNil && !binding.context.isNil && !binding.context.swagger.isNil) {
+			parameter = Object.assign({ }, app.routes.bindings[name].context.swagger)
 			parameters.push(parameter)
 		}
 	}

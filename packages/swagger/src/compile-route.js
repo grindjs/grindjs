@@ -4,7 +4,7 @@ import {expandParameters} from './expand-parameters'
 import {Swagger} from './swagger'
 
 export function compileRoute(route, app) {
-	var docs = !route.extra.isNil ? route.extra.swagger : null
+	var docs = !route.context.isNil ? route.context.swagger : null
 	var routePath = route.path
 	var method = route.methods
 
