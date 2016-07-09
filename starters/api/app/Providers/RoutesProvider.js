@@ -1,75 +1,53 @@
 import 'App/Controllers/StatesController'
 
+import {Swagger} from 'grind-swagger'
+
 export function RoutesProvider(app) {
 
 	app.routes.get('/', (req, res) => {
 		res.redirect(301, '/swagger.json')
 	})
 
-	const states = new StatesController(app)
+	//
+	// Shared parameters
+	//
 
-	app.routes.bind('state', (value, resolve, reject) => {
-		states.repo.find(value.toUpperCase(), (row) => {
-			if(row) {
-				resolve(row)
-			} else {
-				reject(new NotFoundError('State not found'))
-			}
-		})
-	}, {
-		swagger: {
-			name: 'state',
-			in: 'path',
-			required: true,
-			description: 'State abbreviation',
-			type: 'string'
-		}
+	Swagger.parameters('pagination', {
+		limit: 'Limit the number of records',
+		offset: 'Number of records to skip before querying'
 	})
 
-	app.routes.group({ prefix: '/states', controller: states }, () => {
+	Swagger.parameter('requiredTerm', {
+		name: 'term',
+		description: 'Search term',
+		required: true
+	})
 
-		app.routes.get('/', 'index', {
+	//
+	// States Controller
+	//
+
+	const states = new StatesController(app)
+	states.model.routeBind('state')
+
+	app.routes.group({ prefix: 'states', controller: states }, routes => {
+		routes.get('/', 'index', {
 			swagger: {
 				description: 'Returns a list of states in the US.',
-				parameters: [
-					{
-						name: 'limit',
-						in: 'query',
-						required: false,
-						description: 'Maximum number of states to return',
-						type: 'integer'
-					}, {
-						name: 'offset',
-						in: 'query',
-						required: false,
-						description: 'Number of records to skip',
-						type: 'integer'
-					}
-				]
+				use: 'pagination'
 			}
 		})
 
-		app.routes.get('/search', 'search', {
+		routes.get('search', 'search', {
 			swagger: {
 				description: 'Searches for states in the US.',
-				parameters: [
-					{
-						name: 'term',
-						in: 'query',
-						required: true,
-						description: 'Search term',
-						type: 'string'
-					}
-				]
+				use: [ 'pagination', 'requiredTerm' ]
 			}
 		})
 
-		app.routes.get('/:state', 'show', {
-			swagger: {
-				description: 'Lookup a state by it’s abbreviation.'
-			}
+		routes.get(':state', 'show', {
+			swagger: 'Lookup a state by it’s abbreviation.'
 		})
-
 	})
 
 }

@@ -1,22 +1,14 @@
 import 'App/Controllers/BaseController'
-import 'App/Repositories/StatesRepository'
+
+import 'App/Models/StateModel'
 
 export class StatesController extends BaseController {
-	repo = null
-
-	constructor(app) {
-		super(app)
-
-		this.repo = new StatesRepository(this.db)
-	}
+	model = StateModel
 
 	index(req, res) {
-		const { limit, offset } = this.pagination(req)
-
-		this.repo.all(limit, offset, (rows) => {
+		return this.model.query().subset(this.pagination(req)).then(rows => {
 			if(rows.isNil) {
-				this.sendError(404, 'No states found')
-				return
+				throw new NotFoundError('No states found')
 			}
 
 			res.send(rows)
@@ -29,16 +21,12 @@ export class StatesController extends BaseController {
 
 	search(req, res) {
 		if(req.query.term.isNil || req.query.term.length === 0) {
-			this.sendError(400, '`term` is required')
-			return
+			throw new BadRequestError('`term` is required')
 		}
 
-		const { limit, offset } = this.pagination(req)
-
-		this.repo.all(limit, offset, req.query.term, (rows) => {
+		return this.model.find(req.query.term).subset(this.pagination(req)).then(rows => {
 			if(rows.isNil) {
-				this.sendError(404, 'No states found, try a different term')
-				return
+				throw new NotFoundError('No states found, try a different term')
 			}
 
 			res.send(rows)
