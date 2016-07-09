@@ -5,9 +5,9 @@ let hasExtended = false
 export function RouteExtension() {
 	if(hasExtended) {
 		return
-	} else {
-		hasExtended = true
 	}
+
+	hasExtended = true
 
 	Route.prototype.use = function(method, handle, prepend = true) {
 		if(typeof method === 'function') {
