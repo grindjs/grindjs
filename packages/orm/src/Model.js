@@ -3,6 +3,8 @@ import { Model as ObjectionModel } from 'objection'
 import './RelationSynchronizer'
 import './inflect'
 
+const as = require('as-type')
+
 export class Model extends ObjectionModel {
 
 	static primaryKey = 'id'
@@ -120,6 +122,61 @@ export class Model extends ObjectionModel {
 
 	$unrelate(relation, ids) {
 		return (new RelationSynchronizer(this, relation)).unrelate(ids)
+	}
+
+	$parseDatabaseJson(json) {
+		json = super.$parseDatabaseJson(json)
+		const schema = this.constructor.jsonSchema
+
+		if(schema.isNil || schema.properties.isNil) {
+			return json
+		}
+
+		for(const field of Object.keys(schema.properties)) {
+			if(typeof json[field] === 'undefined') {
+				continue
+			}
+
+			const property = schema.properties[field]
+
+			// Boolean values can be converted to JSON as "0"/"1", convert back to boolean
+			if(property.type === 'boolean') {
+				json[field] = as.boolean(json[field])
+			}
+
+			// Number values can be converted to JSON as strings, convert back to numbers
+			if(property.type === 'number' || property.type === 'float' || property.type === 'double') {
+				json[field] = as.float(json[field])
+			} else if(property.type === 'integer') {
+				json[field] = as.integer(json[field])
+			}
+		}
+
+		return json
+	}
+
+	$beforeValidate(jsonSchema, json, opt) {
+		const properties = jsonSchema.properties || { }
+
+		for(const field of Object.keys(properties)) {
+			const value = json[field]
+
+			if(value.isNil) {
+				continue
+			}
+
+			const fieldType = properties[field].type
+
+			if(fieldType === 'boolean') {
+				json[field] = as.boolean(json[field])
+			} else if(fieldType === 'integer') {
+				json[field] = as.integer(json[field])
+			} else if(fieldType === 'number' || fieldType === 'float' || fieldType === 'double') {
+				json[field] = as.float(json[field])
+			}
+		}
+
+		return super.$beforeValidate(jsonSchema, json, opt)
 	}
 
 	$beforeSave(inserting) {
