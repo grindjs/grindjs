@@ -16,7 +16,7 @@ export class StatesController extends BaseController {
 	}
 
 	show(req, res) {
-		return req.params.state.$loadRelated('[country]').then(state => {
+		return req.params.state.$loadRelated('[country,companies]').then(state => {
 			res.send(state)
 		})
 	}

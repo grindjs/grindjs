@@ -1,6 +1,7 @@
 import {Model} from 'grind-orm'
 
 import 'App/Models/CountryModel'
+import 'App/Models/CompanyModel'
 
 export class StateModel extends Model {
 	static tableName = 'states'
@@ -35,7 +36,8 @@ export class StateModel extends Model {
 
 	static buildRelations() {
 		return {
-			country: this.belongsTo(CountryModel)
+			country: this.belongsTo(CountryModel),
+			companies: this.belongsToMany(CompanyModel)
 		}
 	}
 

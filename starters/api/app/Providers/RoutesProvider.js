@@ -1,3 +1,4 @@
+import 'App/Controllers/CompaniesController'
 import 'App/Controllers/CountriesController'
 import 'App/Controllers/StatesController'
 
@@ -22,6 +23,19 @@ export function RoutesProvider(app) {
 		name: 'term',
 		description: 'Search term',
 		required: true
+	})
+
+	//
+	// Companies Controller
+	//
+
+	app.routes.group({ prefix: 'companies', controller: new CompaniesController(app) }, routes => {
+		routes.get('/', 'index', {
+			swagger: {
+				description: 'Returns a list of companies.',
+				use: 'pagination'
+			}
+		})
 	})
 
 	//
