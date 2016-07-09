@@ -1,6 +1,7 @@
 import { Model as ObjectionModel } from 'objection'
 
 import './RelationSynchronizer'
+import './RelationValidator'
 import './inflect'
 
 const as = require('as-type')
@@ -189,7 +190,7 @@ export class Model extends ObjectionModel {
 			}
 
 			resolve()
-		})
+		}).then(() => RelationValidator(this))
 	}
 
 	$beforeInsert() {
