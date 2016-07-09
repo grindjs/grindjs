@@ -20,6 +20,25 @@ export class Model extends ObjectionModel {
 		return this.query().where('id', id).first()
 	}
 
+	static findByRouteParameter(value) {
+		return this.findById(value)
+	}
+
+	static routeBind(name, description) {
+		description = description || `${name} Value`
+
+		this.app().routes.bind(name, (value, resolve, reject) => {
+			this.findByRouteParameter(value).then(row => {
+				if(row.isNil) {
+					reject(new NotFoundError(`${name} Not found`))
+					return
+				}
+
+				resolve(row)
+			})
+		}, { swagger: { name, description } })
+	}
+
 	$beforeSave(inserting) {
 		return new Promise(resolve => {
 			const now = (new Date).toISOString()
