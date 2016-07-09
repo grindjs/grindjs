@@ -3,6 +3,9 @@ export function up(knex) {
 		table.increments('id').primary()
 		table.string('name', 64)
 		table.string('abbreviation', 2).index()
+
+		table.integer('country_id').unsigned().notNullable()
+			.references('id').inTable('countries').onDelete('cascade')
 	})
 }
 

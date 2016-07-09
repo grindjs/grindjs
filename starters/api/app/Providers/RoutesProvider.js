@@ -1,3 +1,4 @@
+import 'App/Controllers/CountriesController'
 import 'App/Controllers/StatesController'
 
 import {Swagger} from 'grind-swagger'
@@ -21,6 +22,33 @@ export function RoutesProvider(app) {
 		name: 'term',
 		description: 'Search term',
 		required: true
+	})
+
+	//
+	// Countries Controller
+	//
+
+	const countries = new CountriesController(app)
+	countries.model.routeBind('country')
+
+	app.routes.group({ prefix: 'countries', controller: countries }, routes => {
+		routes.get('/', 'index', {
+			swagger: {
+				description: 'Returns a list of countries.',
+				use: 'pagination'
+			}
+		})
+
+		routes.get('search', 'search', {
+			swagger: {
+				description: 'Searches for countries.',
+				use: [ 'pagination', 'requiredTerm' ]
+			}
+		})
+
+		routes.get(':country', 'show', {
+			swagger: 'Lookup a country by it’s abbreviation.'
+		})
 	})
 
 	//
