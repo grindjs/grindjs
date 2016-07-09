@@ -1,6 +1,7 @@
 import './Router'
 import './Config'
 import './Errors'
+import './ErrorHandler'
 import './Log'
 import './HttpServer'
 import './RouteExtension'
@@ -12,12 +13,14 @@ module.exports = function(parameters = { }) {
 
 	const routerClass = parameters.routerClass || Router
 	const configClass = parameters.configClass || Config
+	const errorHandlerClass = parameters.errorHandlerClass || ErrorHandler
 
 	const grind = Grind()
 
 	grind.env = () => process.env.NODE_ENV || 'local'
 	grind.routes = new routerClass(grind)
 	grind.config = new configClass(grind)
+	grind.errorHandler = new errorHandlerClass(grind)
 	grind.booted = false
 	grind.providers = [ ]
 	grind.debug = grind.config.get('app.debug', grind.env() === 'local')
@@ -36,6 +39,11 @@ module.exports = function(parameters = { }) {
 
 	grind.listen = function(...args) {
 		this.boot()
+
+		this.use((err, req, res, next) => {
+			this.errorHandler.handle(err, req, res, next)
+		})
+
 		return listen.apply(grind, args)
 	}
 
@@ -45,6 +53,7 @@ module.exports = function(parameters = { }) {
 module.exports.Config = Config
 module.exports.Router = Router
 module.exports.Errors = Errors
+module.exports.ErrorHandler = ErrorHandler
 module.exports.HttpServer = HttpServer
 
 global.Log = Log
