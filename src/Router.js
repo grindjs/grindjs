@@ -1,3 +1,5 @@
+import $path from 'path'
+
 export class Router {
 	_scopedAction = null
 	_scopedPrefix = ''
@@ -14,7 +16,7 @@ export class Router {
 		this._scopedAction = Object.assign({ }, action)
 
 		if(this._scopedAction.prefix) {
-			this._scopedPrefix = this._scopedAction.prefix
+			this._scopedPrefix = this._normalizePathComponent(this._scopedAction.prefix)
 			delete this._scopedAction.prefix
 		} else {
 			this._scopedPrefix = ''
@@ -75,7 +77,8 @@ export class Router {
 			}
 		}
 
-		const compiledPath = (this._scopedPrefix + path).replace(/:([a-z0-0_\-\.]+)/g, (param, name) => {
+		path = this._normalizePathComponent(path)
+		const compiledPath = $path.join('/', this._scopedPrefix, path).replace(/:([a-z0-0_\-\.]+)/g, (param, name) => {
 			const pattern = this.patterns[name]
 
 			if(typeof pattern === 'undefined') {
@@ -114,6 +117,10 @@ export class Router {
 				return result
 			}
 		}
+	}
+
+	_normalizePathComponent(component) {
+		return $path.normalize(component.trim()).replace(/^\//, '')
 	}
 
 	bind(name, resolver, context) {
