@@ -2,6 +2,7 @@ import {Router} from './Router'
 import {Config} from './Config'
 import {Errors} from './Errors'
 import {Log} from './Log'
+import {HttpServer} from './HttpServer'
 import {RouteExtension} from './RouteExtension'
 
 import Grind from 'express'
@@ -43,5 +44,6 @@ module.exports = function(parameters = { }) {
 module.exports.Config = Config
 module.exports.Router = Router
 module.exports.Errors = Errors
+module.exports.HttpServer = HttpServer
 
 global.Log = Log
