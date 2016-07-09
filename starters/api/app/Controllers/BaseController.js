@@ -1,5 +1,3 @@
-import HttpError from 'http-errors'
-
 export class BaseController {
 	app = null
 	db = null
@@ -10,14 +8,20 @@ export class BaseController {
 	}
 
 	pagination(req, limit = 100) {
-		const offset = Math.max(parseInt(req.query.offset || 0), 0)
-		limit = Math.min(Math.max(parseInt(req.query.limit || limit), 1), limit)
+		const offset = Math.max(Number.parseInt(req.query.offset || 0), 0)
+		limit = Math.min(Math.max(Number.parseInt(req.query.limit || limit), 1), limit)
 
 		return { limit, offset }
 	}
 
-	sendError(code, message) {
-		throw new HttpError[code](message)
+	abort(code, message, next) {
+		const error = HttpError.make(code, message)
+
+		if(next.isNil) {
+			throw error
+		}
+
+		next(error)
 	}
 
 }
