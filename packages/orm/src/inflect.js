@@ -1,6 +1,6 @@
 import i from 'i'
 
-export const inflect = i()
+export const inflect = Object.assign({ }, i())
 
 const foreignKey = inflect.foreign_key
 delete inflect.foreign_key
