@@ -39,6 +39,19 @@ export class Model extends ObjectionModel {
 		}, { swagger: { name, description } })
 	}
 
+	static buildRelations() {
+		return { }
+	}
+
+	static getRelations() {
+		if(this.relationMappings.isNil) {
+			this.relationMappings = this.buildRelations()
+		}
+
+		return super.getRelations()
+	}
+
+
 	$beforeSave(inserting) {
 		return new Promise(resolve => {
 			const now = (new Date).toISOString()
