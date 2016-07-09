@@ -11,4 +11,12 @@ export class QueryBuilder extends ObjectionQueryBuilder {
 		return this.limit(limit).offset(offset)
 	}
 
+	execute() {
+		if(this.isFindQuery() && this._eagerExpression === null) {
+			this.eager(this._modelClass.eager, this._modelClass.eagerFilters)
+		}
+
+		return super.execute()
+	}
+
 }

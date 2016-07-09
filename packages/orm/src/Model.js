@@ -9,6 +9,9 @@ const as = require('as-type')
 export class Model extends ObjectionModel {
 
 	static primaryKey = 'id'
+	static eager = null
+	static eagerFilters = [ ]
+
 	static $$app = null
 
 	static app(app) {
