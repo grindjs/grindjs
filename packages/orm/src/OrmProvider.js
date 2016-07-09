@@ -10,5 +10,15 @@ export function OrmProvider(app) {
 	Model.QueryBuilder = QueryBuilder
 	Model.RelatedQueryBuilder = QueryBuilder
 
+	app.errorHandler.shouldntReport.push(ValidationError)
+	app.errorHandler.register(ValidationError, err => {
+		const violators = Object.keys(err.data || { })
+		return {
+			code: err.statusCode || 400,
+			error: violators.length === 1 ? err.data[violators] : 'Validation error',
+			violations: err.data
+		}
+	})
+
 	global.ValidationError = ValidationError
 }
