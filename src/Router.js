@@ -31,27 +31,27 @@ export class Router {
 		return this.app.all(this._scopedPrefix + path, this._makeAction(action))
 	}
 
-	get(path, action, extra) {
-		return this._add('get', path, action, extra)
+	get(path, action, context) {
+		return this._add('get', path, action, context)
 	}
 
-	post(path, action, extra) {
-		return this._add('post', path, action, extra)
+	post(path, action, context) {
+		return this._add('post', path, action, context)
 	}
 
-	put(path, action, extra) {
-		return this._add('put', path, action, extra)
+	put(path, action, context) {
+		return this._add('put', path, action, context)
 	}
 
-	patch(path, action, extra) {
-		return this._add('patch', path, action, extra)
+	patch(path, action, context) {
+		return this._add('patch', path, action, context)
 	}
 
-	delete(path, action, extra) {
-		return this._add('delete', path, action, extra)
+	delete(path, action, context) {
+		return this._add('delete', path, action, context)
 	}
 
-	_add(method, path, action, extra) {
+	_add(method, path, action, context) {
 		const handler = this._makeAction(action)
 
 		// WARNING: Prone to failure if ExpressJS changes this logic
@@ -87,7 +87,7 @@ export class Router {
 
 		let route = this.app._router.route(compiledPath)
 		route = route[method](...handlers)
-		route.extra = extra || {}
+		route.context = context || {}
 
 		return route
 	}
@@ -116,11 +116,11 @@ export class Router {
 		}
 	}
 
-	bind(name, resolver, extra) {
+	bind(name, resolver, context) {
 		this.bindings[name] = { resolver }
 
-		if(extra) {
-			this.bindings[name].extra = extra
+		if(!context.isNil) {
+			this.bindings[name].context = context
 		}
 
 		this.app.param(name, (req, res, next, value) => {
