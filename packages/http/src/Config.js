@@ -89,7 +89,9 @@ export class Config {
 		}
 
 		for(const group in files) {
-			if(group === '.env') { continue }
+			if(group === '.env') {
+				continue
+			}
 
 			for(const file of files[group]) {
 				this._repository[group] = merge(this._repository[group] || { }, require(file))

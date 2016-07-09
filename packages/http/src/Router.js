@@ -81,7 +81,7 @@ export class Router {
 		const compiledPath = $path.join('/', this._scopedPrefix, path).replace(/:([a-z0-0_\-\.]+)/g, (param, name) => {
 			const pattern = this.patterns[name]
 
-			if(typeof pattern === 'undefined') {
+			if(pattern.isNil) {
 				return param
 			} else {
 				return param + '(' + pattern + ')'
@@ -111,7 +111,7 @@ export class Router {
 		return (...args) => {
 			const result = method.apply(controller, args)
 
-			if(result && typeof result === 'object' && typeof result.catch === 'function') {
+			if(typeof result === 'object' && typeof result.catch === 'function') {
 				return result.catch(args[2])
 			} else {
 				return result
