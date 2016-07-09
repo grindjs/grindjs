@@ -16,6 +16,10 @@ export class Model extends ObjectionModel {
 		return this.constructor.app()
 	}
 
+	static findById(id) {
+		return this.query().where('id', id).first()
+	}
+
 	$beforeSave(inserting) {
 		return new Promise(resolve => {
 			const now = (new Date).toISOString()
