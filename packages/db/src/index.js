@@ -1,5 +1,5 @@
-import {Provider as provider} from './Provider'
-import {Config as config} from './Config'
+import {Provider as DatabaseProvider} from './Provider'
+import './Config'
 
-export {provider}
-export {config}
+export {DatabaseProvider}
+export {Config}
