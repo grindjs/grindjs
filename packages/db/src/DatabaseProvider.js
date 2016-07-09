@@ -10,7 +10,7 @@ import {MakeCommand as SeedMakeCommand} from './Commands/Seed/MakeCommand'
 
 import knex from 'knex'
 
-export function Provider(app) {
+export function DatabaseProvider(app) {
 	app.set('db', knex(Config(app)))
 
 	const cli = app.get('cli')

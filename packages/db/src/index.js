@@ -1,4 +1,4 @@
-import {Provider as DatabaseProvider} from './Provider'
+import './DatabaseProvider'
 import './Config'
 
 export {DatabaseProvider}
