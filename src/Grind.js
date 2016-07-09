@@ -40,8 +40,14 @@ module.exports = function(parameters = { }) {
 	grind.listen = function(...args) {
 		this.boot()
 
+		// Register error handler
 		this.use((err, req, res, next) => {
 			this.errorHandler.handle(err, req, res, next)
+		})
+
+		// Register 404 handler
+		this.use((req, res, next) => {
+			this.errorHandler.handle(new NotFoundError, req, res, next)
 		})
 
 		return listen.apply(grind, args)
