@@ -33,7 +33,8 @@ export class Config {
 	}
 
 	has(keyPath) {
-		return this.get(keyPath !== null)
+		const value = this.get(keyPath)
+		return !value.isNil
 	}
 
 	set(keyPath, value) {
