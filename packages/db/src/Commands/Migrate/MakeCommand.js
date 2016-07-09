@@ -41,7 +41,7 @@ export class MakeCommand extends BaseCommand {
 			variables: { tableName },
 			stub: path.join(__dirname, 'stubs', `${stub}.stub`)
 		}).then(name => {
-			this.success(`Created Migration: ${name}`)
+			this.success(`Created Migration: ${path.relative(process.cwd(), name)}`)
 		})
 	}
 

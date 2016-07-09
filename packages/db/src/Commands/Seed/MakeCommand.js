@@ -33,7 +33,7 @@ export class MakeCommand extends BaseCommand {
 				variables: { tableName: tableName || 'table_name' },
 				stub: path.join(__dirname, 'stubs', 'seed.stub')
 			}).then(name => {
-				this.success(`Created seed file: ${name}`)
+				this.success(`Created seed file: ${path.relative(process.cwd(), name)}`)
 			})
 		})
 	}
