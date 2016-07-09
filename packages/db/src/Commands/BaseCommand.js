@@ -1,4 +1,4 @@
-import {Command} from '../../../cli/src'
+import {Command} from 'grind-cli'
 
 export class BaseCommand extends Command {
 	db = null
