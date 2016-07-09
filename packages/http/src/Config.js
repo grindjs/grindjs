@@ -8,7 +8,7 @@ export class Config {
 	constructor(app = null) {
 		this._repository = { }
 
-		if(app) {
+		if(!app.isNil) {
 			this.populate(app)
 		}
 	}
@@ -17,12 +17,12 @@ export class Config {
 		const keys = keyPath.split('.')
 		let value = this._repository[keys.shift()]
 
-		if(!value) {
+		if(value.isNil) {
 			return fallback
 		}
 
 		for(const key of keys) {
-			if(!value) {
+			if(value.isNil) {
 				continue
 			}
 
@@ -43,7 +43,7 @@ export class Config {
 
 		if(keys.length > 0) {
 			for(const key of keys) {
-				if(!object) {
+				if(object.isNil) {
 					continue
 				}
 
@@ -59,7 +59,7 @@ export class Config {
 	populate(app) {
 		let dir = path.join(process.cwd(), 'config')
 
-		const exists = (path) => {
+		const exists = path => {
 			try {
 				fs.accessSync(path, fs.F_OK) // eslint-disable-line no-sync
 				return true
