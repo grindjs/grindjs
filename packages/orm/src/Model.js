@@ -16,4 +16,25 @@ export class Model extends ObjectionModel {
 		return this.constructor.app()
 	}
 
+	$beforeSave(inserting) {
+		return new Promise(resolve => {
+			const now = (new Date).toISOString()
+			this.updated_at = now
+
+			if(inserting) {
+				this.created_at = now
+			}
+
+			resolve()
+		})
+	}
+
+	$beforeInsert() {
+		return this.$beforeSave(true)
+	}
+
+	$beforeUpdate() {
+		return this.$beforeSave(false)
+	}
+
 }
