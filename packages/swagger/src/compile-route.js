@@ -4,7 +4,7 @@ import {expandParameters} from './expand-parameters'
 import {Swagger} from './swagger'
 
 export function compileRoute(route, app) {
-	const docs = !route.extra.isNil ? route.extra.swagger : null
+	var docs = !route.extra.isNil ? route.extra.swagger : null
 	var routePath = route.path
 	var method = route.methods
 
@@ -19,6 +19,10 @@ export function compileRoute(route, app) {
 	}
 
 	method = method.toLowerCase()
+
+	if(typeof docs === 'string') {
+		docs = { description: docs }
+	}
 
 	// Expand base parameters
 	docs.parameters = expandParameters(docs.parameters)
