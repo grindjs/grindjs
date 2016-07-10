@@ -24,7 +24,4 @@ strip_babel build/bin/serve
 strip_babel build/bin/cli
 chmod +x build/bin/* build/bin/.init
 
-echo "Copying config"
-cp -R config build/config
-
 echo "Done"
