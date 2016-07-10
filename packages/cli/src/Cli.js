@@ -1,4 +1,5 @@
 import './Output'
+import './MakeCommandCommand'
 
 import program from 'commander'
 
@@ -10,6 +11,7 @@ export class Cli {
 	constructor(app) {
 		this.app = app
 		this.output = new Output
+		this.register(MakeCommandCommand)
 	}
 
 	run(args = process.argv) {
