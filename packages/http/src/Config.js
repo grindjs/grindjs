@@ -58,7 +58,7 @@ export class Config {
 	}
 
 	populate(app) {
-		let dir = path.join(process.cwd(), 'config')
+		let dir = app.paths.config()
 
 		const exists = path => {
 			try {
