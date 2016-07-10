@@ -1,5 +1,3 @@
-import path from 'path'
-import findRoot from 'find-root'
 import {compileRoute} from './compile-route'
 
 export function provider(app) {
@@ -16,8 +14,7 @@ export function provider(app) {
 			return
 		}
 
-		const rootPath = findRoot(path.dirname(require.main.filename))
-		const info = require(path.join(rootPath, 'package.json'))
+		const info = require(app.paths.package)
 
 		var paths = { }
 
