@@ -1,8 +1,6 @@
 import './Output'
 
-import path from 'path'
 import program from 'commander'
-import findRoot from 'find-root'
 
 export class Cli {
 	app = null
@@ -17,8 +15,7 @@ export class Cli {
 	run(args = process.argv) {
 		this.app.boot()
 
-		const rootPath = findRoot(path.dirname(require.main.filename))
-		const info = require(path.join(rootPath, 'package.json'))
+		const info = require(this.app.paths.package)
 		const cli = program
 
 		if(!info.version.isNil) {
