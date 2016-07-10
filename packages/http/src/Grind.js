@@ -5,6 +5,7 @@ import './ErrorHandler'
 import './Log'
 import './HttpServer'
 import './RouteExtension'
+import './Paths'
 
 import Grind from 'express'
 
@@ -18,6 +19,7 @@ module.exports = function(parameters = { }) {
 	const grind = Grind()
 
 	grind.env = () => process.env.NODE_ENV || 'local'
+	grind.paths = new Paths(module.parent.filename)
 	grind.routes = new routerClass(grind)
 	grind.config = new configClass(grind)
 	grind.errorHandler = new errorHandlerClass(grind)
