@@ -8,15 +8,15 @@ export class MakeCommandCommand extends Command {
 	description = 'Create a command class'
 	arguments = [ 'className?' ]
 	options = {
-		command: 'Name of the command to be invoked via the cli'
+		commandName: 'Name of the command to be invoked via the cli'
 	}
 
 	run() {
 		let className = this.argument('className')
 		let commandName = null
 
-		if(this.containsOption('command')) {
-			commandName = this.option('command')
+		if(this.containsOption('commandName')) {
+			commandName = this.option('commandName')
 
 			if(className.isNil) {
 				const upper = (_, letter) => letter.toUpperCase()
@@ -25,8 +25,12 @@ export class MakeCommandCommand extends Command {
 			}
 		}
 
+		if(commandName.isNil || commandName.length === 0) {
+			commandName = 'command:name'
+		}
+
 		if(className.isNil) {
-			this.error('A file name must be provided if `--command` isn’t used.')
+			this.error('A class name must be provided if `--command` isn’t used.')
 			process.exit(1)
 		}
 
