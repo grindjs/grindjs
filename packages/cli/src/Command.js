@@ -1,3 +1,5 @@
+import './AbortError'
+
 export class Command {
 	app = null
 	cli = null
@@ -153,7 +155,12 @@ export class Command {
 		.then(() => this.run())
 		.then(() => process.exit(0))
 		.catch(err => {
-			this.error(err.message, err.stack)
+			if(err instanceof AbortError) {
+				this.error(err.message)
+			} else {
+				this.error(err.message, err.stack)
+			}
+
 			process.exit(1)
 		})
 	}
