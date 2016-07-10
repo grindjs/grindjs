@@ -1,0 +1,24 @@
+import {Model} from 'grind-orm'
+
+export class {{=it.className}} extends Model {
+	static tableName = '{{=it.tableName}}'
+
+	static jsonSchema = {
+		type: 'object',
+		required: [ 'name' ],
+
+		properties: {
+			id: { type: 'integer' },
+			name: { type: 'string', maxLength: 255 },
+			created_at: { type: 'datetime', format: 'date-time' },
+			updated_at: { type: 'datetime', format: 'date-time' }
+		}
+	}
+
+	static buildRelations() {
+		return {
+			// children: this.hasMany(ChildModel)
+		}
+	}
+
+}
