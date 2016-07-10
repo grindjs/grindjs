@@ -1,11 +1,11 @@
 export function up(knex) {
-	return knex.schema.table('<%= d.tableName %>', table => {
+	return knex.schema.table('{{=it.tableName}}', table => {
 		// table.string('column')
 	})
 }
 
 export function down(knex) {
-	return knex.schema.table('<%= d.tableName %>', table => {
+	return knex.schema.table('{{=it.tableName}}', table => {
 		// table.dropColumn('column')
 	})
 }

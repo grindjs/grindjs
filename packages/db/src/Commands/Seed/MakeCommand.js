@@ -28,14 +28,14 @@ export class MakeCommand extends BaseCommand {
 
 		const seed = this.db.seed
 
-		return this.nextSeedOrdinal(seed).then(ordinal => {
-			return seed.make(`${ordinal}-${name}`, {
-				variables: { tableName: tableName || 'table_name' },
-				stub: path.join(__dirname, 'stubs', 'seed.stub')
-			}).then(name => {
-				this.success(`Created seed file: ${path.relative(process.cwd(), name)}`)
-			})
-		})
+		return this.nextSeedOrdinal(seed).then(ordinal =>
+			this.generateStub(
+				path.join(__dirname, 'stubs', 'seed.stub'),
+				path.join(seed._absoluteConfigDir(), `${ordinal}-${name}.js`), {
+					tableName: tableName || 'table_name'
+				}
+			)
+		)
 	}
 
 	nextSeedOrdinal(seed) {

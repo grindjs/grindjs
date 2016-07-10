@@ -1,10 +1,10 @@
 export function up(knex) {
-	return knex.schema.createTable('<%= d.tableName %>', table => {
+	return knex.schema.createTable('{{=it.tableName}}', table => {
 		table.increments('id').unsigned().primary()
 		table.timestamps()
 	})
 }
 
 export function down(knex) {
-	return knex.schema.dropTable('<%= d.tableName %>')
+	return knex.schema.dropTable('{{=it.tableName}}')
 }

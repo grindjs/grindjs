@@ -2,6 +2,10 @@ import '../BaseCommand'
 
 import path from 'path'
 
+function prefix() {
+	return (new Date).toISOString().split(/\./)[0].replace(/[^0-9]/g, '')
+}
+
 export class MakeCommand extends BaseCommand {
 	name = 'make:migration'
 	description = 'Create a migration file'
@@ -37,12 +41,12 @@ export class MakeCommand extends BaseCommand {
 			process.exit(1)
 		}
 
-		return this.db.migrate.make(name, {
-			variables: { tableName },
-			stub: path.join(__dirname, 'stubs', `${stub}.stub`)
-		}).then(name => {
-			this.success(`Created Migration: ${path.relative(process.cwd(), name)}`)
-		})
+		return this.generateStub(
+			path.join(__dirname, 'stubs', `${stub}.stub`),
+			path.join(this.db.migrate._absoluteConfigDir(), `${prefix()}-${name}.js`), {
+				tableName
+			}
+		)
 	}
 
 }

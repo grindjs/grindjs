@@ -1,5 +1,5 @@
 export function seed(knex) {
-	const table = '<%= d.tableName %>'
+	const table = '{{=it.tableName}}'
 	const now = knex.fn.now()
 
 	return Promise.all([
