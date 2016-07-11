@@ -1,16 +1,20 @@
 {
   "name": "grind-db",
-  "version": "0.1.5",
-  "description": "Thin wrapper around Knex for integration with Grind",
+  "version": "0.3.0",
+  "description": "Database provider for Grind, powered by Knex",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
   "main": "lib/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/grind/db.git"
+    "url": "https://github.com/grindjs/db.git"
   },
   "dependencies": {
     "knex": "0.10.x"
+  },
+  "peerDependencies": {
+    "grind": "^0.3",
+    "grind-cli": "^0.3"
   },
   "devDependencies": {
     "babel-cli": ">=6.7 <=7.0",
