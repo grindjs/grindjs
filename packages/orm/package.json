@@ -4,7 +4,7 @@
   "description": "ORM provider for Grind, powered by Objection.js",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/grindjs/orm.git"
