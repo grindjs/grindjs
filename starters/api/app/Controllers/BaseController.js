@@ -1,9 +1,11 @@
-export class BaseController {
-	app = null
+import {Controller} from 'grind-framework'
+
+export class BaseController extends Controller {
 	db = null
 
 	constructor(app) {
-		this.app = app
+		super(app)
+
 		this.db = app.get('db')
 	}
 
@@ -12,16 +14,6 @@ export class BaseController {
 		limit = Math.min(Math.max(Number.parseInt(req.query.limit || limit), 1), limit)
 
 		return { limit, offset }
-	}
-
-	abort(code, message, next) {
-		const error = HttpError.make(code, message)
-
-		if(next.isNil) {
-			throw error
-		}
-
-		next(error)
 	}
 
 }
