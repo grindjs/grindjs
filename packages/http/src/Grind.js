@@ -1,11 +1,12 @@
-import './Router'
 import './Config'
-import './Errors'
+import './Controller'
 import './ErrorHandler'
-import './Log'
+import './Errors'
 import './HttpServer'
-import './RouteExtension'
+import './Log'
 import './Paths'
+import './RouteExtension'
+import './Router'
 
 import Grind from 'express'
 
@@ -59,9 +60,10 @@ module.exports = function(parameters = { }) {
 }
 
 module.exports.Config = Config
-module.exports.Router = Router
-module.exports.Errors = Errors
+module.exports.Controller = Controller
 module.exports.ErrorHandler = ErrorHandler
+module.exports.Errors = Errors
 module.exports.HttpServer = HttpServer
+module.exports.Router = Router
 
 global.Log = Log
