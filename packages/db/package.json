@@ -13,7 +13,7 @@
     "knex": "0.10.x"
   },
   "peerDependencies": {
-    "grind": "^0.3",
+    "grind-framework": "^0.3",
     "grind-cli": "^0.3"
   },
   "devDependencies": {
