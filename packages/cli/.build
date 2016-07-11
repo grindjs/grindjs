@@ -5,5 +5,5 @@ cd "`dirname "$BASH_SOURCE"`"
 NODE_ROOT=`npm root`
 export PATH=$NODE_ROOT/.bin:$PATH
 
-mkdir -p lib
+rm -fr lib && mkdir -p lib
 babel -s inline -d lib/ src/
