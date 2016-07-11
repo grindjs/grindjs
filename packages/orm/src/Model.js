@@ -7,7 +7,7 @@ import './inflect'
 const as = require('as-type')
 
 export class Model extends ObjectionModel {
-
+	static descriptiveName = null
 	static primaryKey = 'id'
 	static eager = null
 	static eagerFilters = [ ]
@@ -40,7 +40,7 @@ export class Model extends ObjectionModel {
 		this.app().routes.bind(name, (value, resolve, reject) => {
 			this.findByRouteParameter(value).then(row => {
 				if(row.isNil) {
-					reject(new NotFoundError(`${name} Not found`))
+					reject(new NotFoundError(`${this.describe()} Not found`))
 					return
 				}
 
@@ -202,6 +202,14 @@ export class Model extends ObjectionModel {
 
 	$beforeUpdate() {
 		return this.$beforeSave(false)
+	}
+
+	static describe() {
+		if(!this.descriptiveName.isNil) {
+			return this.descriptiveName
+		}
+
+		return inflect.singular(this.tableName)
 	}
 
 }

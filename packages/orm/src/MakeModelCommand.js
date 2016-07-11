@@ -13,6 +13,7 @@ export class MakeModelCommand extends Command {
 	run() {
 		let className = this.argument('className')
 		let tableName = null
+		let descriptiveName = null
 
 		if(this.containsOption('table')) {
 			tableName = this.option('table')
@@ -24,6 +25,9 @@ export class MakeModelCommand extends Command {
 
 		if(tableName.isNil || tableName.length === 0) {
 			tableName = 'table_name'
+			descriptiveName = 'model'
+		} else {
+			descriptiveName = inflect.singularize(tableName)
 		}
 
 		if(className.isNil) {
@@ -34,7 +38,8 @@ export class MakeModelCommand extends Command {
 		const filePath = this.app.paths.app('Models', `${className}.js`)
 		return StubCompiler(path.join(__dirname, 'stubs', 'Model.stub'), filePath, {
 			className,
-			tableName
+			tableName,
+			descriptiveName
 		}).then(() => {
 			this.success(`Created ${path.relative(process.cwd(), filePath)}`)
 		})

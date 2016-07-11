@@ -2,6 +2,7 @@ import {Model} from 'grind-orm'
 
 export class {{=it.className}} extends Model {
 	static tableName = '{{=it.tableName}}'
+	static descriptiveName = '{{=it.descriptiveName}}'
 
 	static jsonSchema = {
 		type: 'object',
