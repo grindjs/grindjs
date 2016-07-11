@@ -25,9 +25,10 @@ To use `grind-db` you’ll need to add it to your `Grind` providers:
 
 ```js
 import Grind from 'grind-framework'
+import {DatabaseProvider} from 'grind-db'
 
 const app = new Grind()
-app.providers.push(require('grind-db').provider)
+app.providers.push(DatabaseProvider)
 ```
 
 From there, you can access the connection via `app.get('db')`.
@@ -54,11 +55,6 @@ From there, you can access the connection via `app.get('db')`.
 
 You should place this in `config/database.json` in your Grind project.
 
-## Knexfile
+## CLI
 
-`grind-db` exposes it’s config so you can use it within your knexfile:
-
-```js
-var app = require('./app/boot')
-module.exports = require('grind-db').config(app)
-```
+`grind-db` uses `grind-cli` for it’s CLI commands.  Run `bin/cli` in your project for a list of commands.
