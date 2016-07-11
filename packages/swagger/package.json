@@ -1,6 +1,6 @@
 {
   "name": "grind-swagger",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Swagger provider for Grind",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
@@ -16,10 +16,10 @@
     "babel-preset-es2016-node5": "1.x",
     "babel-preset-stage-1": "6.5.x",
     "eslint": "^2.13.1",
-    "eslint-config-grind": "^1.0.0"
+    "eslint-config-grind": "^1.0.1"
   },
   "peerDependencies": {
-    "grind-framework": "^0.1"
+    "grind-framework": "^0.3"
   },
   "engines": {
     "node": ">=5.10 <6.0"
