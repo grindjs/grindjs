@@ -1,7 +1,7 @@
 {
   "name": "grind-framework",
-  "version": "0.1.8",
-  "description": "Thin framework around ExpressJS",
+  "version": "0.3.0",
+  "description": "An opinionated Node web framework built on Express",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
   "main": "lib/Grind.js",
@@ -23,7 +23,7 @@
     "babel-preset-stage-1": "6.5.x",
     "eslint": "^2.13.1",
     "eslint-config-grind": "^1.0.1",
-    "eslint-plugin-grind": "^1.0.0",
+    "eslint-plugin-grind": "^1.1.0",
     "eslint-plugin-import-auto-name": "^1.0.1"
   },
   "engines": {
