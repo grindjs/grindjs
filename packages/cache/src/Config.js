@@ -1,0 +1,51 @@
+function expandDriverAlias(alias) {
+	if(alias.isNil) {
+		return null
+	}
+
+	switch(alias.toLowerCase()) {
+		case 'memcache', 'memcached':
+			return 'cache-manager-memcached-store'
+		case 'redis':
+			return 'cache-manager-redis'
+		case 'mongo', 'mongodb':
+			return 'cache-manager-mongodb'
+		case 'mongoose':
+			return 'cache-manager-mongoose'
+		case 'fs', 'file', 'files', 'filesystem':
+			return 'cache-manager-fs'
+		case 'fs-binary':
+			return 'cache-manager-fs-binary'
+		case 'mem', 'memory', 'in-memory', 'lru':
+			return null
+		default:
+			return alias
+	}
+}
+
+export function Config(app) {
+	let store = app.config.get('cache.default')
+
+	if(store.isNil) {
+		return
+	}
+
+	store = app.config.get('cache.stores.' + store)
+
+	if(store.isNil) {
+		return
+	}
+
+	const driver = expandDriverAlias(store.driver || null)
+	delete store.driver
+
+	const config = Object.assign({ }, store)
+
+	if(!driver.isNil) {
+		config.store = require(driver)
+	} else {
+		config.store = 'memory'
+	}
+
+	return config
+}

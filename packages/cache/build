@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+rm -fr lib && mkdir -p lib
+babel -s inline -d lib/ src/ --copy-files
