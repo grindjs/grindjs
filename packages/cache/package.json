@@ -10,9 +10,7 @@
     "url": "https://github.com/grindjs/grind-cache.git"
   },
   "dependencies": {
-    "babel-plugin-import-auto-name": "^0.1.0",
-    "cache-manager": "^2.1.2",
-    "eslint-plugin-import-auto-name": "^1.0.1"
+    "cache-manager": "^2.x"
   },
   "peerDependencies": {
     "grind-framework": "^0.3"
@@ -20,11 +18,13 @@
   "devDependencies": {
     "babel-cli": ">=6.7 <=7.0",
     "babel-eslint": "^6.0.5",
+    "babel-plugin-import-auto-name": "^0.1.0",
     "babel-plugin-transform-isnil": "0.0.3",
     "babel-preset-es2016-node5": "1.x",
     "babel-preset-stage-1": "6.5.x",
     "eslint": "^2.13.1",
-    "eslint-config-grind": "^1.0.1"
+    "eslint-config-grind": "^1.0.1",
+    "eslint-plugin-import-auto-name": "^1.0.1"
   },
   "engines": {
     "node": ">=5.10 <6.0"
