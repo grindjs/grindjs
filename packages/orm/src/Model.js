@@ -8,7 +8,6 @@ const as = require('as-type')
 
 export class Model extends ObjectionModel {
 	static descriptiveName = null
-	static primaryKey = 'id'
 	static eager = null
 	static eagerFilters = [ ]
 
@@ -27,7 +26,7 @@ export class Model extends ObjectionModel {
 	}
 
 	static findById(id) {
-		return this.query().where('id', id).first()
+		return this.query().findById(id)
 	}
 
 	static findByRouteParameter(value) {
@@ -71,7 +70,7 @@ export class Model extends ObjectionModel {
 
 	static _hasOneOrMany(relation, modelClass, foreignKey = null, localKey = null) {
 		foreignKey = foreignKey || inflect.foreignKey(this.name)
-		localKey = localKey || this.primaryKey
+		localKey = localKey || this.idColumn
 
 		return {
 			relation: relation,
@@ -85,7 +84,7 @@ export class Model extends ObjectionModel {
 
 	static belongsTo(modelClass, foreignKey = null, otherKey = null) {
 		foreignKey = foreignKey || inflect.foreignKey(modelClass.name)
-		otherKey = otherKey || modelClass.primaryKey
+		otherKey = otherKey || modelClass.idColumn
 
 		return {
 			relation: this.BelongsToOneRelation,
@@ -106,12 +105,12 @@ export class Model extends ObjectionModel {
 			relation: this.ManyToManyRelation,
 			modelClass: modelClass,
 			join: {
-				from: `${this.tableName}.${this.primaryKey}`,
+				from: `${this.tableName}.${this.idColumn}`,
 				through: {
 					from: `${tableName}.${otherKey}`,
 					to: `${tableName}.${foreignKey}`
 				},
-				to: `${modelClass.tableName}.${modelClass.primaryKey}`
+				to: `${modelClass.tableName}.${modelClass.idColumn}`
 			}
 		}
 	}
