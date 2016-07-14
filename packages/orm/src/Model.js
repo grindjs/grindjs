@@ -70,28 +70,38 @@ export class Model extends ObjectionModel {
 
 	static _hasOneOrMany(relation, modelClass, foreignKey = null, localKey = null) {
 		foreignKey = foreignKey || inflect.foreignKey(this.name)
-		localKey = localKey || this.idColumn
+
+		if(localKey.isNil) {
+			localKey = this.getFullIdColumn()
+		} else {
+			localKey = `${this.tableName}.${localKey}`
+		}
 
 		return {
 			relation: relation,
 			modelClass: modelClass,
 			join: {
 				from: `${modelClass.tableName}.${foreignKey}`,
-				to: `${this.tableName}.${localKey}`
+				to: localKey
 			}
 		}
 	}
 
 	static belongsTo(modelClass, foreignKey = null, otherKey = null) {
 		foreignKey = foreignKey || inflect.foreignKey(modelClass.name)
-		otherKey = otherKey || modelClass.idColumn
+
+		if(otherKey.isNil) {
+			otherKey = modelClass.getFullIdColumn()
+		} else {
+			otherKey = `${modelClass.tableName}.${otherKey}`
+		}
 
 		return {
 			relation: this.BelongsToOneRelation,
 			modelClass: modelClass,
 			join: {
 				from: `${this.tableName}.${foreignKey}`,
-				to: `${modelClass.tableName}.${otherKey}`
+				to: otherKey
 			}
 		}
 	}
@@ -105,12 +115,12 @@ export class Model extends ObjectionModel {
 			relation: this.ManyToManyRelation,
 			modelClass: modelClass,
 			join: {
-				from: `${this.tableName}.${this.idColumn}`,
+				from: this.getFullIdColumn(),
 				through: {
 					from: `${tableName}.${otherKey}`,
 					to: `${tableName}.${foreignKey}`
 				},
-				to: `${modelClass.tableName}.${modelClass.idColumn}`
+				to: modelClass.getFullIdColumn()
 			}
 		}
 	}
