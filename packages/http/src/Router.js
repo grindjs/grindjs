@@ -1,31 +1,48 @@
 import $path from 'path'
 
 export class Router {
-	_scopedAction = null
-	_scopedPrefix = ''
-
 	app = null
 	bindings = { }
 	patterns = { }
+
+	_scopedActionStack = [ { } ]
+	_scopedPrefixStack = [ '/' ]
+
+	get _scopedAction() {
+		return this._scopedActionStack[this._scopedActionStack.length - 1]
+	}
+
+	get _scopedPrefix() {
+		return this._scopedPrefixStack[this._scopedPrefixStack.length - 1]
+	}
 
 	constructor(app) {
 		this.app = app
 	}
 
 	group(action, callback) {
-		this._scopedAction = Object.assign({ }, action)
+		const parentAction = this._scopedAction
+		const parentPrefix = this._scopedPrefix
 
-		if(this._scopedAction.prefix) {
-			this._scopedPrefix = this._normalizePathComponent(this._scopedAction.prefix)
-			delete this._scopedAction.prefix
+		const scopedAction = Object.assign({ }, parentAction, action)
+		let scopedPrefix = scopedAction.prefix
+		delete scopedAction.prefix
+		this._scopedActionStack.push(scopedAction)
+
+		if(!scopedPrefix.isNil && scopedPrefix.length > 0) {
+			if(!parentPrefix.isNil && parentPrefix.length > 0) {
+				scopedPrefix = $path.join(parentPrefix, scopedPrefix)
+			}
+
+			this._scopedPrefixStack.push(this._normalizePathComponent(scopedPrefix))
 		} else {
-			this._scopedPrefix = ''
+			this._scopedPrefixStack.push(parentPrefix)
 		}
 
 		callback(this, action.controller)
 
-		this._scopedAction = null
-		this._scopedPrefix = ''
+		this._scopedActionStack.pop()
+		this._scopedPrefixStack.pop()
 	}
 
 	all(path, action) {
