@@ -1,6 +1,7 @@
 import { QueryBuilder as ObjectionQueryBuilder } from 'objection'
 
 export class QueryBuilder extends ObjectionQueryBuilder {
+	_cyclicalEagerProtection = [ ]
 
 	subset(limit, offset = 0) {
 		if(typeof limit === 'object') {
@@ -11,24 +12,49 @@ export class QueryBuilder extends ObjectionQueryBuilder {
 		return this.limit(limit).offset(offset)
 	}
 
+	clone() {
+		const builder = super.clone()
+		builder._cyclicalEagerProtection = [ ].concat(this._cyclicalEagerProtection)
+		return builder
+	}
+
+	childQueryOf(query) {
+		super.childQueryOf(query)
+
+		if(!query.isNil && !query._cyclicalEagerProtection.isNil) {
+			this._cyclicalEagerProtection = [ ].concat(query._cyclicalEagerProtection)
+		}
+
+		return this
+	}
+
 	// Objection 0.5.x
 	execute() {
-		this._addEager()
-		return super.execute()
+		return this.__execute('execute')
 	}
 
 	// Objection 0.4.x
 	_execute() {
-		this._addEager()
-		return super._execute()
+		return this.__execute('_execute')
 	}
 
-	_addEager() {
-		if(!this.isFindQuery() || this._eagerExpression !== null) {
-			return
+	__execute(name) {
+		if(this.isFindQuery()) {
+			if(this._cyclicalEagerProtection.indexOf(this._modelClass) >= 0) {
+				return Promise.resolve([ ])
+			}
+
+			if(this._eagerExpression === null) {
+				this.eager(this._modelClass.eager, this._modelClass.eagerFilters)
+			}
 		}
 
-		this.eager(this._modelClass.eager, this._modelClass.eagerFilters)
+		this._cyclicalEagerProtection.push(this._modelClass)
+
+		return super[name]().then(result => {
+			this._cyclicalEagerProtection.pop()
+			return result
+		})
 	}
 
 }
