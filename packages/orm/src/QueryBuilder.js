@@ -45,7 +45,8 @@ export class QueryBuilder extends ObjectionQueryBuilder {
 			}
 
 			if(this._eagerExpression === null) {
-				this.eager(this._modelClass.eager, this._modelClass.eagerFilters)
+				const filters = this._modelClass.eager.isNil ? null : this._modelClass.eagerFilters
+				this.eager(this._modelClass.eager, filters)
 			}
 		}
 

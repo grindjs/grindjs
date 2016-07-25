@@ -9,7 +9,7 @@ const as = require('as-type')
 export class Model extends ObjectionModel {
 	static descriptiveName = null
 	static eager = null
-	static eagerFilters = [ ]
+	static eagerFilters = null
 
 	static $$app = null
 
