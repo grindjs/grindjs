@@ -1,4 +1,5 @@
 import fs from 'fs'
+import cluster from 'cluster'
 
 const RELOAD_EXIT_CODE = 99
 
@@ -12,22 +13,22 @@ export class HttpServer {
 	}
 
 	start() {
-		let cluster = false
+		let clustered = false
 
 		for(const arg of process.argv) {
 			if(arg === '--cluster') {
-				cluster = true
-			} else if(arg.startsWith('--pid=')) {
+				clustered = true
+			} else if(arg.startsWith('--pid=') && cluster.isMaster) {
 				this.pidFile = arg.substr(6)
 			}
 		}
 
 		if(!this.pidFile.isNil) {
-			// eslint-disable-next-line no-sync
-			fs.writeFileSync(this.pidFile, process.pid)
+			// eslint-disable-next-line no-sync,no-empty
+			try { fs.writeFileSync(this.pidFile, process.pid) } catch(err) { }
 		}
 
-		if(cluster !== true) {
+		if(clustered !== true) {
 			this.serve()
 		} else {
 			this.cluster()
@@ -51,8 +52,8 @@ export class HttpServer {
 		const teardown = (exitCode) => {
 			const exit = () => {
 				if(!this.pidFile.isNil) {
-					// eslint-disable-next-line no-sync
-					fs.unlinkSync(this.pidFile)
+					// eslint-disable-next-line no-sync,no-empty
+					try { fs.unlinkSync(this.pidFile) } catch(err) { }
 				}
 
 				process.exit(exitCode)
@@ -79,8 +80,6 @@ export class HttpServer {
 	}
 
 	cluster() {
-		const cluster = require('cluster')
-
 		if(!cluster.isMaster) {
 			return this.serve(cluster.worker)
 		}
