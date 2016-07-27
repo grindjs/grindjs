@@ -178,7 +178,11 @@ export class Model extends ObjectionModel {
 				continue
 			}
 
-			const fieldType = properties[field].type
+			let fieldType = properties[field].type
+
+			if(Array.isArray(fieldType) && fieldType.length > 1) {
+				fieldType = fieldType[0]
+			}
 
 			if(fieldType === 'boolean') {
 				json[field] = as.boolean(json[field])
