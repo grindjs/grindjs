@@ -1,15 +1,33 @@
+import fs from 'fs'
+
 const RELOAD_EXIT_CODE = 99
 
 export class HttpServer {
 
 	bootstrapper = null
+	pidFile = null
 
 	constructor(bootstrapper) {
 		this.bootstrapper = bootstrapper
 	}
 
 	start() {
-		if(process.argv.indexOf('--cluster') === -1) {
+		let cluster = false
+
+		for(const arg of process.argv) {
+			if(arg === '--cluster') {
+				cluster = true
+			} else if(arg.startsWith('--pid=')) {
+				this.pidFile = arg.substr(6)
+			}
+		}
+
+		if(!this.pidFile.isNil) {
+			// eslint-disable-next-line no-sync
+			fs.writeFileSync(this.pidFile, process.pid)
+		}
+
+		if(cluster !== true) {
 			this.serve()
 		} else {
 			this.cluster()
@@ -31,7 +49,14 @@ export class HttpServer {
 		})
 
 		const teardown = (exitCode) => {
-			const exit = () => process.exit(exitCode)
+			const exit = () => {
+				if(!this.pidFile.isNil) {
+					// eslint-disable-next-line no-sync
+					fs.unlinkSync(this.pidFile)
+				}
+
+				process.exit(exitCode)
+			}
 
 			// Attempt a safe teardown
 			server.close(exit)
