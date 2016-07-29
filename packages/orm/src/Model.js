@@ -179,8 +179,10 @@ export class Model extends ObjectionModel {
 			}
 
 			let fieldType = properties[field].type
+			let allowsNull = false
 
 			if(Array.isArray(fieldType) && fieldType.length > 1) {
+				allowsNull = fieldType.indexOf('null') >= 0
 				fieldType = fieldType[0]
 			}
 
@@ -190,6 +192,8 @@ export class Model extends ObjectionModel {
 				json[field] = as.integer(json[field])
 			} else if(fieldType === 'number' || fieldType === 'float' || fieldType === 'double') {
 				json[field] = as.float(json[field])
+			} else if(fieldType === 'string' && typeof value === 'string' && value.length === 0 && allowsNull) {
+				json[field] = null
 			}
 		}
 
