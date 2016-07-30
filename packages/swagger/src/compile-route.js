@@ -46,5 +46,13 @@ export function compileRoute(route, app) {
 		delete docs.use
 	}
 
+	if(docs.responses.isNil) {
+		docs.responses = {
+			default: {
+				description: docs.description || ''
+			}
+		}
+	}
+
 	return { routePath, method, swagger: docs }
 }
