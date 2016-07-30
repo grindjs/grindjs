@@ -1,8 +1,14 @@
 import { QueryBuilder as ObjectionQueryBuilder } from 'objection'
 
 export class QueryBuilder extends ObjectionQueryBuilder {
+	static registeredFilters = { }
+
 	_cyclicalEagerProtection = [ ]
 	_allowEager = true
+
+	static registerFilter(name, filter) {
+		this.registeredFilters[name] = filter
+	}
 
 	subset(limit, offset = 0) {
 		if(typeof limit === 'object') {
@@ -20,12 +26,16 @@ export class QueryBuilder extends ObjectionQueryBuilder {
 		return this
 	}
 
-	eager(...args) {
+	eager(exp, filters) {
 		if(!this._allowEager) {
 			return this
 		}
 
-		return super.eager(...args)
+		if(!exp.isNil) {
+			filters = Object.assign({ }, this.constructor.registeredFilters, filters || { })
+		}
+
+		return super.eager(exp, filters)
 	}
 
 	clone() {
