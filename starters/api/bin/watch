@@ -2,4 +2,4 @@
 
 source ${0%/*}/.init
 
-nodemon boot/Http.js
+exec nodemon boot/Http.js

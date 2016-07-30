@@ -2,4 +2,4 @@
 
 source ${0%/*}/.init
 
-babel-node boot/Http.js $@
+exec babel-node boot/Http.js $@

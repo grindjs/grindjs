@@ -6,4 +6,4 @@ popd > /dev/null
 
 source ${0%/*}/.init
 
-IN_CLI=true CLI_BIN="$CLI_BIN" babel-node boot/Cli.js "$@"
+IN_CLI=true CLI_BIN="$CLI_BIN" exec babel-node boot/Cli.js "$@"
