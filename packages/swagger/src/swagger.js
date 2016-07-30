@@ -2,6 +2,14 @@ import {expandParameters} from './expand-parameters'
 import {findParameter} from './find-parameter'
 
 export class Swagger {
+	static appName = null
+	static appVersion = null
+	static host = null
+	static schemes = null
+	static basePath = '/'
+	static consumes = [ ]
+	static produces = [ 'application/json' ]
+
 	static typeMappings = {
 		integer: [ 'limit', 'offset', 'page' ],
 		boolean: [ ],

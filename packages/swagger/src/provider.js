@@ -1,4 +1,5 @@
 import {compileRoute} from './compile-route'
+import {Swagger} from './swagger'
 
 export function provider(app) {
 
@@ -39,14 +40,14 @@ export function provider(app) {
 		res.send({
 			swagger: '2.0',
 			info: {
-				version: info.version || '0.0.1',
-				title: info.name
+				version: Swagger.appVersion || info.version || '0.0.1',
+				title: Swagger.appName || info.name
 			},
-			basePath: '/',
-			host: req.get('Host'),
-			schemes: [ 'http' ],
-			consumes: [ 'application/json' ],
-			produces: [ 'application/json' ],
+			basePath: Swagger.basePath,
+			host: Swagger.host || req.get('Host'),
+			schemes: Swagger.schemes || [ 'http' ],
+			consumes: Swagger.consumes,
+			produces: Swagger.produces,
 			paths: paths
 		})
 	})
