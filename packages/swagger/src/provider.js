@@ -45,7 +45,7 @@ export function provider(app) {
 			},
 			basePath: Swagger.basePath,
 			host: Swagger.host || req.get('Host'),
-			schemes: Swagger.schemes || [ 'http' ],
+			schemes: Swagger.schemes || [ req.protocol ],
 			consumes: Swagger.consumes,
 			produces: Swagger.produces,
 			paths: paths
