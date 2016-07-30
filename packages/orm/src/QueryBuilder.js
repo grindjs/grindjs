@@ -2,6 +2,7 @@ import { QueryBuilder as ObjectionQueryBuilder } from 'objection'
 
 export class QueryBuilder extends ObjectionQueryBuilder {
 	_cyclicalEagerProtection = [ ]
+	_allowEager = true
 
 	subset(limit, offset = 0) {
 		if(typeof limit === 'object') {
@@ -12,9 +13,25 @@ export class QueryBuilder extends ObjectionQueryBuilder {
 		return this.limit(limit).offset(offset)
 	}
 
+	withoutEager() {
+		this._allowEager = false
+		this._eagerExpression = null
+		this._eagerFilterExpressions = [ ]
+		return this
+	}
+
+	eager(...args) {
+		if(!this._allowEager) {
+			return this
+		}
+
+		return super.eager(...args)
+	}
+
 	clone() {
 		const builder = super.clone()
 		builder._cyclicalEagerProtection = [ ].concat(this._cyclicalEagerProtection)
+		builder._allowEager = this._allowEager
 		return builder
 	}
 
@@ -39,7 +56,7 @@ export class QueryBuilder extends ObjectionQueryBuilder {
 	}
 
 	__execute(name) {
-		if(this.isFindQuery()) {
+		if(this._allowEager && this.isFindQuery()) {
 			if(this._cyclicalEagerProtection.indexOf(this._modelClass) >= 0) {
 				return Promise.resolve([ ])
 			}
