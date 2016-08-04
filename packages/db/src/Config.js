@@ -44,11 +44,11 @@ export function Config(connection, app) {
 	}
 
 	config.seeds = {
-		directory: './database/seeds'
+		directory: app.paths.base('database', 'seeds')
 	}
 
 	config.migrations = {
-		directory: './database/migrations'
+		directory: app.paths.base('database', 'migrations')
 	}
 
 	return config
