@@ -1,4 +1,4 @@
-import './Config'
+import './Database'
 
 import './Commands/Migrate/CurrentVersionCommand'
 import './Commands/Migrate/LatestCommand'
@@ -8,10 +8,8 @@ import './Commands/Migrate/MakeCommand'
 import {RunCommand as SeedRunCommand} from './Commands/Seed/RunCommand'
 import {MakeCommand as SeedMakeCommand} from './Commands/Seed/MakeCommand'
 
-import knex from 'knex'
-
 export function DatabaseProvider(app) {
-	app.set('db', knex(Config(app)))
+	app.set('db', Database(app.config.get('database.default'), app))
 
 	const cli = app.get('cli')
 

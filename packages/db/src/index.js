@@ -1,5 +1,5 @@
-import './DatabaseProvider'
 import './Config'
+import './Database'
+import './DatabaseProvider'
 
-export {DatabaseProvider}
-export {Config}
+export { Config, Database, DatabaseProvider }

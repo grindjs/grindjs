@@ -1,11 +1,7 @@
-export function Config(app) {
-	let connection = app.config.get('database.default')
-
-	if(connection.isNil) {
-		return
+export function Config(connection, app) {
+	if(typeof connection === 'string') {
+		connection = app.config.get('database.connections.' + connection)
 	}
-
-	connection = app.config.get('database.connections.' + connection)
 
 	if(connection.isNil) {
 		return
