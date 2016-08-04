@@ -38,6 +38,26 @@ export function Config(connection, app) {
 	}
 
 	if(config.client === 'pg' || config.client === 'postgres' || config.client === 'postgresql') {
+		if(connection.connection.isNil) {
+			connection.connection = 'postgres://'
+
+			if(!connection.user.isNil) {
+				connection.connection += connection.user
+
+				if(!connection.password.isNil) {
+					connection.connection += connection.password
+				}
+
+				connection.connection += '@'
+			}
+
+			connection.connection += connection.host || 'localhost'
+
+			if(!connection.db.isNil) {
+				connection.connection += '/' + connection.db
+			}
+		}
+
 		config = Object.assign({ }, config, connection)
 	} else {
 		config.connection = connection
