@@ -23,6 +23,7 @@ module.exports = function(parameters = { }) {
 	grind.paths = new Paths(module.parent.filename)
 	grind.routes = new routerClass(grind)
 	grind.config = new configClass(grind)
+	grind.port = process.env.NODE_PORT || grind.config.get('app.port', 3000)
 	grind.errorHandler = new errorHandlerClass(grind)
 	grind.booted = false
 	grind.providers = [ ]

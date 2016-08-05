@@ -37,7 +37,7 @@ export class HttpServer {
 
 	serve(worker = null) {
 		const app = this.bootstrapper()
-		const port = process.env.NODE_PORT || app.config.get('app.port', 3000)
+		const port = app.port
 
 		const server = app.listen(port, () => {
 			if(!worker.isNil) {
