@@ -25,7 +25,7 @@ app.providers.push(HtmlProvider)
 `grind-html` is meant to be used with [`grind-view`](https://github.com/grindjs/view):
 
 ```twig
-{{ html.linkRoute('route.name', 'Some Title, { param: 'a' }) }}
+{{ html.linkRoute('route.name', 'Some Title', { param: 'a' }) }}
 {{ html.style('css/main.scss')) }}
 ```
 
