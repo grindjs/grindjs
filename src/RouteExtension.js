@@ -49,4 +49,8 @@ export function RouteExtension() {
 		return this.use(method, handle, false)
 	}
 
+	Route.prototype.as = function(name) {
+		this.grindRouter.nameRoute(name, this)
+	}
+
 }

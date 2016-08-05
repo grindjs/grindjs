@@ -4,6 +4,7 @@ export class Router {
 	app = null
 	bindings = { }
 	patterns = { }
+	namedRoutes = { }
 
 	_scopedActionStack = [ { } ]
 	_scopedPrefixStack = [ '/' ]
@@ -108,6 +109,7 @@ export class Router {
 		let route = this.app._router.route(compiledPath)
 		route = route[method](...handlers)
 		route.context = context || {}
+		route.grindRouter = this
 
 		return route
 	}
@@ -159,6 +161,11 @@ export class Router {
 
 	pattern(name, pattern) {
 		this.patterns[name] = pattern
+	}
+
+	nameRoute(name, route) {
+		route.routeName = name
+		this.namedRoutes[name] = route
 	}
 
 }
