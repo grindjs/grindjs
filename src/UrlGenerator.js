@@ -21,7 +21,7 @@ export class UrlGenerator {
 		delete this.defaultUrl.path
 	}
 
-	route(name, parameters, req) {
+	route(name, parameters, req, secure = null) {
 		const route = this.app.routes.namedRoutes[name]
 
 		if(route.isNil) {
@@ -71,10 +71,10 @@ export class UrlGenerator {
 			url = Object.assign({ }, this.defaultUrl, url)
 		}
 
-		return this.make(url, parameters)
+		return this.make(url, parameters, secure)
 	}
 
-	make(url, parameters, req) {
+	make(url, parameters, req, secure = null) {
 		if(typeof url === 'string') {
 			if(url.indexOf('://') >= 0) {
 				return url
@@ -96,6 +96,12 @@ export class UrlGenerator {
 			url.host = req.get('Host')
 		} else {
 			url = Object.assign({ }, this.defaultUrl, url)
+		}
+
+		if(secure === true) {
+			url.protocol = 'https'
+		} else if(secure === false) {
+			url.protocol = 'http'
 		}
 
 		return $url.format(url)
