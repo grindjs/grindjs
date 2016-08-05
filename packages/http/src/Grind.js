@@ -7,6 +7,7 @@ import './Log'
 import './Paths'
 import './RouteExtension'
 import './Router'
+import './UrlGenerator'
 
 import Grind from 'express'
 
@@ -16,6 +17,7 @@ module.exports = function(parameters = { }) {
 	const routerClass = parameters.routerClass || Router
 	const configClass = parameters.configClass || Config
 	const errorHandlerClass = parameters.errorHandlerClass || ErrorHandler
+	const urlGeneratorClass = parameters.urlGeneratorClass || UrlGenerator
 
 	const grind = Grind()
 
@@ -25,6 +27,7 @@ module.exports = function(parameters = { }) {
 	grind.config = new configClass(grind)
 	grind.port = process.env.NODE_PORT || grind.config.get('app.port', 3000)
 	grind.errorHandler = new errorHandlerClass(grind)
+	grind.url = new urlGeneratorClass(grind)
 	grind.booted = false
 	grind.providers = [ ]
 	grind.debug = grind.config.get('app.debug', grind.env() === 'local')
