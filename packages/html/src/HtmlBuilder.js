@@ -5,7 +5,7 @@ const EOL = `\n`
 let HtmlString = null
 
 try {
-	HtmlString = require('../../view').HtmlString
+	HtmlString = require('grind-view').HtmlString
 } catch(e) { /* Do nothing */ }
 
 export class HtmlBuilder {
