@@ -1,0 +1,30 @@
+{
+
+	/**
+		Minification is turned on by default when app.debug is false
+		and turned off by default when it’s set to true.  To override
+		this, explicity set the value below to true or false
+	 */
+	"auto_minify": null,
+
+	/**
+		When compiling, these dirs will be copied over as is
+		without any processing
+	*/
+	"raw_dirs": [
+		"img", "fonts", "font", "css"
+	],
+
+	/**
+		Config options for each compiler
+	*/
+	"compilers": {
+
+		"scss": {
+			"includePaths": [ ],
+			"precision": 14
+		},
+
+	}
+
+}
