@@ -12,7 +12,8 @@
   "dependencies": {
     "chalk": "^1.1.3",
     "express": "4.13.x",
-    "find-root": "^1.0.0"
+    "find-root": "^1.0.0",
+    "json5": "^0.4.0"
   },
   "devDependencies": {
     "babel-cli": ">=6.7 <=7.0",

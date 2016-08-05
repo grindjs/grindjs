@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import JSON5 from 'json5'
 import {merge} from './Utils/merge'
 
 export class Config {
@@ -62,7 +63,8 @@ export class Config {
 
 		const exists = path => {
 			try {
-				fs.accessSync(path, fs.F_OK) // eslint-disable-line no-sync
+				// eslint-disable-next-line no-sync
+				fs.accessSync(path, fs.F_OK)
 				return true
 			} catch(e) {
 				return false
@@ -94,13 +96,16 @@ export class Config {
 			}
 
 			for(const file of files[group]) {
-				this._repository[group] = merge(this._repository[group] || { }, require(file))
+				// eslint-disable-next-line no-sync
+				const config = JSON5.parse(fs.readFileSync(file))
+				this._repository[group] = merge(this._repository[group] || { }, config)
 			}
 		}
 
 		if(files['.env']) {
 			for(const file of files['.env']) {
-				const config = require(file)
+				// eslint-disable-next-line no-sync
+				const config = JSON5.parse(fs.readFileSync(file))
 
 				for(const group in config) {
 					this._repository[group] = merge(this._repository[group] || { }, config[group])
