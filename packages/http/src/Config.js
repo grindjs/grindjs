@@ -58,6 +58,13 @@ export class Config {
 		}
 	}
 
+	loadDefault(group, file) {
+		// eslint-disable-next-line no-sync
+		const config = JSON5.parse(fs.readFileSync(file))
+		const existing = this._repository[group] || { }
+		this._repository[group] = merge(merge({ }, config), existing)
+	}
+
 	populate(app) {
 		let dir = app.paths.config()
 
