@@ -1,4 +1,5 @@
 import './ViewFactory'
 import './ViewProvider'
+import './HtmlString'
 
-export { ViewFactory, ViewProvider }
+export { ViewFactory, ViewProvider, HtmlString }
