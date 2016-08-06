@@ -23,7 +23,7 @@ export class ViewFactory {
 			lstripBlocks: app.config.get('view.lstrip_blocks', false),
 			throwOnUndefined: app.config.get('view.throw_on_undefined', false)
 		})
-		this.nunjucks.express(app)
+		this.nunjucks.express(app.express)
 
 		Filters(this)
 		Functions(this)
