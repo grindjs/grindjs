@@ -31,7 +31,7 @@ const app = new Grind()
 app.providers.push(DatabaseProvider)
 ```
 
-From there, you can access the connection via `app.get('db')`.
+From there, you can access the connection via `app.db`.
 
 ## Config
 
