@@ -9,6 +9,7 @@ export class SvgCompiler extends Compiler {
 	wantsHashSuffixOnPublish = false
 	supportedExtensions = [ 'svg' ]
 	options = { }
+	priority = 100
 
 	constructor(app, autoMinify) {
 		super(app, autoMinify)
