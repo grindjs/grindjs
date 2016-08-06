@@ -54,8 +54,9 @@ export function AssetsProvider(app) {
 	config = expandMacros(config, macros)
 	app.config.set('assets', config)
 
-	const factory = new AssetFactory(app)
-	factory.registerCompiler(new ScssCompiler(app))
+	const autoMinify = !config.auto_minify ? config.auto_minify : !app.debug
+	const factory = new AssetFactory(app, autoMinify)
+	factory.registerCompiler(ScssCompiler)
 
 	app.routes.group({ prefix: 'assets', controller: new Controller(app, factory) }, routes => {
 		routes.get('img/:a?/:b?/:c?/:d?/:e?', 'img')

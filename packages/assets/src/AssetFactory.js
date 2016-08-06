@@ -4,12 +4,13 @@ import './Compilers/Compiler'
 export class AssetFactory {
 	app = null
 	published = null
-	autoMinifyDefault = false
+	autoMinifyDefault = null
 	_compilers = [ ]
 
-	constructor(app) {
+	constructor(app, autoMinifyDefault = false) {
 		this.app = app
 		this.published = app.config.get('assets-published')
+		this.autoMinifyDefault = autoMinifyDefault
 	}
 
 	make(path) {
@@ -17,6 +18,10 @@ export class AssetFactory {
 	}
 
 	registerCompiler(compiler) {
+		if(typeof compiler === 'function') {
+			compiler = new compiler(this.app, this.autoMinifyDefault)
+		}
+
 		if(!(compiler instanceof Compiler)) {
 			throw new Error('Compilers must extend Compiler')
 		}
