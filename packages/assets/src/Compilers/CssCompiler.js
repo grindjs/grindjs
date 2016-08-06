@@ -23,7 +23,7 @@ export class CssCompiler extends Compiler {
 			}
 
 			if(CleanCSS.isNil) {
-				Log.error('clean-css missing, unable to minify. please run `npm install clean-css --save`')
+				Log.error('clean-css missing, unable to minify. please run `npm install --save-dev clean-css`')
 				return css
 			}
 

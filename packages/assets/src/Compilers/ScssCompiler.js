@@ -20,7 +20,7 @@ export class ScssCompiler extends Compiler {
 
 	compile(path, context) {
 		if(sass.isNil) {
-			return Promise.reject(new Error('node-sass missing, please run `npm install node-sass --save`'))
+			return Promise.reject(new Error('node-sass missing, please run `npm install --save-dev node-sass`'))
 		}
 
 		return new Promise((resolve, reject) => {

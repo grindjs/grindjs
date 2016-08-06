@@ -42,12 +42,12 @@ echo "font/" >> public/.gitignore
 
 Refer to the table below determine which dependencies you’ll need:
 
-| Compiler      | Install Command                |
-| ------------- | ------------------------------ |
-| SCSS          | `npm install --save node-sass` |
-| Javascript    | `npm install --save uglify-js` |
-| CSS           | `npm install --save clean-css` |
-| SVG           | `npm install --save svgo`      |
+| Compiler      | Install Command                                              |
+| ------------- | ------------------------------------------------------------ |
+| SCSS          | `npm install --save-dev node-sass`                           |
+| Javascript    | `npm install --save-dev uglify-js`                           |
+| CSS           | `npm install --save-dev clean-css`                           |
+| SVG           | `npm install --save-dev svgo`                                |
 
 Don’t worry if you forget to setup a dependency, `grind-assets` will let you know what to install if you try to use a compiler that doesn’t have it’s dependencies installed.
 

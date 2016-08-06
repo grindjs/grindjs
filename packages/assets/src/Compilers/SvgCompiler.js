@@ -24,7 +24,7 @@ export class SvgCompiler extends Compiler {
 			}
 
 			if(SVGO.isNil) {
-				Log.error('svgo missing, unable to minify. please run `npm install svgo --save`')
+				Log.error('svgo missing, unable to minify. please run `npm install --save-dev svgo`')
 				return svg
 			}
 

@@ -22,7 +22,7 @@ export class JavascriptCompiler extends Compiler {
 		}
 
 		if(UglifyJS.isNil) {
-			Log.error('uglify-js missing, unable to minify. please run `npm install uglify-js --save`')
+                       Log.error('uglify-js missing, unable to minify. please run `npm install --save-dev uglify-js`')
 			return FS.readFile(pathname)
 		}
 
