@@ -46,7 +46,7 @@ export class PublishCommand extends BaseCommand {
 
 			try {
 				this.comment('Compiling', path.relative(this.app.paths.base(), asset.path))
-				content = 'testing' // await asset.compile()
+				content = await asset.compile()
 			} catch(err) {
 				this.error(err.message || 'Unknown error')
 
