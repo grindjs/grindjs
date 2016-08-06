@@ -9,10 +9,45 @@ try {
 } catch(e) { /* Do nothing */ }
 
 export class HtmlBuilder {
+
+	/**
+	 * The app instance.
+	 */
 	app = null
 
+	/**
+	 * The req instance, if in a request lifecycle
+	 */
+	req = null
+
+	/**
+	 * The res instance, if in a request lifecycle
+	 */
+	res = null
+
+	/**
+	 * Create a new html builder instance.
+	 *
+	 * @param  object app
+	 */
 	constructor(app) {
 		this.app = app
+	}
+
+	/**
+	 * Clone the instance to be used within a
+	 * request cycle.
+	 *
+	 * @param object req
+	 * @param object res
+	 *
+	 * @return object
+	 */
+	clone(req, res) {
+		const cloned = new this.constructor(this.app)
+		cloned.req = req
+		cloned.res = res
+		return cloned
 	}
 
 	/**

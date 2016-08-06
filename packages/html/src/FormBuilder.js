@@ -9,6 +9,16 @@ export class FormBuilder {
 	app = null
 
 	/**
+	 * The req instance, if in a request lifecycle
+	 */
+	req = null
+
+	/**
+	 * The res instance, if in a request lifecycle
+	 */
+	res = null
+
+	/**
 	 * The HtmlBuilder instance.
 	 */
 	html = null
@@ -66,6 +76,23 @@ export class FormBuilder {
 		this.app = app
 		this.html = html
 		this.csrfToken = csrfToken
+	}
+
+	/**
+	 * Clone the instance to be used within a
+	 * request cycle.
+	 *
+	 * @param object req
+	 * @param object res
+	 * @param object cloned html instance or null
+	 *
+	 * @return object
+	 */
+	clone(req, res, html) {
+		const cloned = new this.constructor(this.app, html || this.html, this.csrfToken)
+		cloned.req = req
+		cloned.res = res
+		return cloned
 	}
 
 	/**

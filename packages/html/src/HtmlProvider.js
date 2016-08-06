@@ -12,7 +12,10 @@ export function HtmlProvider(app, htmlBuilderClass, formBuilderClass) {
 	app.set('form', form)
 
 	if(!app.view.isNil) {
-		app.view.share('html', html)
-		app.view.share('form', form)
+		app.use((req, res, next) => {
+			res.locals.html = html.clone(req, res)
+			res.locals.form = form.clone(req, res, res.locals.html)
+			next()
+		})
 	}
 }
