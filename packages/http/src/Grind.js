@@ -8,6 +8,7 @@ import './Paths'
 import './RouteExtension'
 import './Router'
 import './UrlGenerator'
+import './ProviderCollection'
 
 import Grind from 'express'
 
@@ -29,11 +30,13 @@ module.exports = function(parameters = { }) {
 	grind.errorHandler = new errorHandlerClass(grind)
 	grind.url = new urlGeneratorClass(grind)
 	grind.booted = false
-	grind.providers = [ ]
+	grind.providers = new ProviderCollection
 	grind.debug = grind.config.get('app.debug', grind.env() === 'local')
 
 	grind.boot = function() {
 		if(this.booted) { return }
+
+		this.providers.sort((a, b) => a.priority > b.priority ? -1 : 1)
 
 		for(const provider of this.providers) {
 			provider(this)
