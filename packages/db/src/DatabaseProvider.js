@@ -27,3 +27,5 @@ export function DatabaseProvider(app) {
 		SeedMakeCommand
 	])
 }
+
+DatabaseProvider.priority = 50000
