@@ -6,7 +6,7 @@ export class BaseController extends Controller {
 	constructor(app) {
 		super(app)
 
-		this.db = app.get('db')
+		this.db = app.db
 	}
 
 	pagination(req, limit = 100) {
