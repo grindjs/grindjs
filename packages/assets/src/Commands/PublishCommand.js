@@ -17,7 +17,7 @@ export class PublishCommand extends BaseCommand {
 
 	ready() {
 		return super.ready().then(result => {
-			this.factory = this.app.get('assets')
+			this.factory = this.app.assets
 			return result
 		})
 	}

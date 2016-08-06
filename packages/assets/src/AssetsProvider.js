@@ -66,7 +66,7 @@ export function AssetsProvider(app) {
 
 	const autoMinify = !config.auto_minify ? config.auto_minify : !app.debug
 	const factory = new AssetFactory(app, autoMinify)
-	app.set('assets', factory)
+	app.assets = factory
 
 	factory.registerCompiler(BabelCompiler)
 	factory.registerCompiler(CssCompiler)
