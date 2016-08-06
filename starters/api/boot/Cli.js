@@ -2,7 +2,7 @@ import {CliProvider} from 'grind-cli'
 import 'App/Providers/CommandsProvider'
 
 const app = require('App/Bootstrap')
-app.providers.unshift(CliProvider, CommandsProvider)
+app.providers.push(CliProvider, CommandsProvider)
 
 app.boot()
-app.get('cli').run()
+app.cli.run()
