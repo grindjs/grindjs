@@ -27,6 +27,7 @@ export class AssetFactory {
 		}
 
 		this._compilers.push(compiler)
+		this._compilers.sort((a, b) => a.priority > b.priority ? -1 : 1)
 	}
 
 	getCompilerFromPath(path) {

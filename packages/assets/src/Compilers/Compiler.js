@@ -5,6 +5,7 @@ export class Compiler {
 	app = null
 	autoMinify = null
 	supportedExtensions = [ ]
+	priority = 0
 
 	constructor(app, autoMinify) {
 		this.app = app

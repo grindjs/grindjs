@@ -9,6 +9,7 @@ try {
 export class ScssCompiler extends Compiler {
 	supportedExtensions = [ 'scss', 'sass' ]
 	options = { }
+	priority = 1000
 
 	constructor(app, autoMinify) {
 		super(app, autoMinify)
