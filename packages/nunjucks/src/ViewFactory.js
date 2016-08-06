@@ -41,4 +41,8 @@ export class ViewFactory {
 		this.nunjucks.addGlobal(name, callback)
 	}
 
+	addExtension(name, extension) {
+		this.nunjucks.addExtension(name, extension)
+	}
+
 }
