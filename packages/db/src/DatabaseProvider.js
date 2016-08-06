@@ -9,7 +9,7 @@ import {RunCommand as SeedRunCommand} from './Commands/Seed/RunCommand'
 import {MakeCommand as SeedMakeCommand} from './Commands/Seed/MakeCommand'
 
 export function DatabaseProvider(app) {
-	app.set('db', Database(app.config.get('database.default'), app))
+	app.db = Database(app.config.get('database.default'), app)
 
 	if(app.cli.isNil) {
 		return

@@ -6,7 +6,7 @@ export class BaseCommand extends Command {
 
 	ready() {
 		return super.ready().then(() => {
-			this.db = this.app.get('db')
+			this.db = this.app.db
 		})
 	}
 
