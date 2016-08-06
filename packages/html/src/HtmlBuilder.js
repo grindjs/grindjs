@@ -24,7 +24,7 @@ export class HtmlBuilder {
 	 * @return string
 	 */
 	entities(value, force) {
-		if(value instanceof HtmlString) {
+		if(!HtmlString.isNil && value instanceof HtmlString) {
 			if(force !== true) {
 				return value
 			}
