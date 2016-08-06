@@ -19,3 +19,5 @@ export function HtmlProvider(app, htmlBuilderClass, formBuilderClass) {
 		})
 	}
 }
+
+HtmlProvider.priority = 20000
