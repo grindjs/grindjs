@@ -27,6 +27,10 @@
 			"roundingPrecision": 14
 		},
 
+		"svg": {
+			"plugins": [ { "removeTitle": true } ]
+		},
+
 		/**
 			When compiling, extensions in these dirs will be copied
 			over as is without any processing

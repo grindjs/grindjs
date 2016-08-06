@@ -5,6 +5,7 @@ import './Compilers/CssCompiler'
 import './Compilers/JavascriptCompiler'
 import './Compilers/RawCompiler'
 import './Compilers/ScssCompiler'
+import './Compilers/SvgCompiler'
 
 import path from 'path'
 
@@ -64,6 +65,7 @@ export function AssetsProvider(app) {
 	factory.registerCompiler(JavascriptCompiler)
 	factory.registerCompiler(RawCompiler)
 	factory.registerCompiler(ScssCompiler)
+	factory.registerCompiler(SvgCompiler)
 
 	app.routes.group({ prefix: 'assets', controller: new Controller(app, factory) }, routes => {
 		routes.get(':type/:a?/:b?/:c?/:d?/:e?', 'compile')
