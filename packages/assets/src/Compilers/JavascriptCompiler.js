@@ -21,16 +21,27 @@ export class JavascriptCompiler extends Compiler {
 			return FS.readFile(pathname)
 		}
 
+		return this.minify(pathname)
+	}
+
+	minify(value, isPath = true) {
 		if(UglifyJS.isNil) {
-                       Log.error('uglify-js missing, unable to minify. please run `npm install --save-dev uglify-js`')
-			return FS.readFile(pathname)
+			Log.error('uglify-js missing, unable to minify. please run `npm install --save-dev uglify-js`')
+
+			if(isPath) {
+				return FS.readFile(value)
+			}
+
+			return Promise.resolve(value)
 		}
 
 		return new Promise((resolve, reject) => {
 			let result = null
 
 			try {
-				result = UglifyJS.minify(pathname, this.options)
+				result = UglifyJS.minify(value, Object.assign({ }, this.options, {
+					fromString: !isPath
+				}))
 			} catch(err) {
 				err.file = err.filename
 				err.column = err.col

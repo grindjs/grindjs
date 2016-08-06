@@ -44,6 +44,7 @@ Refer to the table below determine which dependencies you’ll need:
 
 | Compiler      | Install Command                                              |
 | ------------- | ------------------------------------------------------------ |
+| Babel         | `npm install --save-dev babelify browserify`                 |
 | SCSS          | `npm install --save-dev node-sass`                           |
 | Javascript    | `npm install --save-dev uglify-js`                           |
 | CSS           | `npm install --save-dev clean-css`                           |

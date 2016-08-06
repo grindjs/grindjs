@@ -3,6 +3,7 @@ import './AssetFactory'
 import './Commands/PublishCommand'
 import './Commands/UnpublishCommand'
 
+import './Compilers/BabelCompiler'
 import './Compilers/CssCompiler'
 import './Compilers/JavascriptCompiler'
 import './Compilers/RawCompiler'
@@ -67,6 +68,7 @@ export function AssetsProvider(app) {
 	const factory = new AssetFactory(app, autoMinify)
 	app.set('assets', factory)
 
+	factory.registerCompiler(BabelCompiler)
 	factory.registerCompiler(CssCompiler)
 	factory.registerCompiler(JavascriptCompiler)
 	factory.registerCompiler(RawCompiler)
