@@ -11,13 +11,11 @@ import {MakeCommand as SeedMakeCommand} from './Commands/Seed/MakeCommand'
 export function DatabaseProvider(app) {
 	app.set('db', Database(app.config.get('database.default'), app))
 
-	const cli = app.get('cli')
-
-	if(cli.isNil) {
+	if(app.cli.isNil) {
 		return
 	}
 
-	cli.register([
+	app.cli.register([
 		CurrentVersionCommand,
 		LatestCommand,
 		RollbackCommand,
