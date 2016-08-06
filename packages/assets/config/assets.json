@@ -17,6 +17,12 @@
 			"precision": 14
 		},
 
+		"js": {
+			"compress": {
+				"drop_console": true
+			}
+		},
+
 		/**
 			When compiling, extensions in these dirs will be copied
 			over as is without any processing

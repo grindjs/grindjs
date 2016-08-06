@@ -1,6 +1,7 @@
 import './AssetFactory'
 import './Http/Controller'
 
+import './Compilers/JavascriptCompiler'
 import './Compilers/RawCompiler'
 import './Compilers/ScssCompiler'
 
@@ -58,6 +59,7 @@ export function AssetsProvider(app) {
 	const autoMinify = !config.auto_minify ? config.auto_minify : !app.debug
 	const factory = new AssetFactory(app, autoMinify)
 
+	factory.registerCompiler(JavascriptCompiler)
 	factory.registerCompiler(RawCompiler)
 	factory.registerCompiler(ScssCompiler)
 
