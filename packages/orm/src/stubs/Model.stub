@@ -11,8 +11,8 @@ export class {{=it.className}} extends Model {
 		properties: {
 			id: { type: 'integer' },
 			name: { type: 'string', maxLength: 255 },
-			created_at: { type: 'datetime', format: 'date-time' },
-			updated_at: { type: 'datetime', format: 'date-time' }
+			created_at: { type: 'string', format: 'date-time' },
+			updated_at: { type: 'string', format: 'date-time' }
 		}
 	}
 
