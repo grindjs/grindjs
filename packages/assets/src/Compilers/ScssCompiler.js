@@ -1,10 +1,7 @@
 import './Compiler'
+import '../Support/Require'
 
-let sass = null
-
-try {
-	sass = require('node-sass')
-} catch(e) { /* Delay error */ }
+const sass = Require.optionally('node-sass')
 
 export class ScssCompiler extends Compiler {
 	supportedExtensions = [ 'scss', 'sass' ]
