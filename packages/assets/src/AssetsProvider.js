@@ -12,6 +12,9 @@ import './Compilers/SvgCompiler'
 
 import './Controllers/CompileController'
 
+import './View/AssetContainer'
+import './View/AssetExtension'
+
 import path from 'path'
 import express from 'express'
 
@@ -49,7 +52,7 @@ function expandMacros(config, macros) {
 	return config
 }
 
-export function AssetsProvider(app) {
+export function AssetsProvider(app, parameters = { }) {
 	app.config.loadDefault('assets', path.join(__dirname, '../config/assets.json'))
 	let config = Object.assign({ }, app.config.get('assets'))
 
@@ -96,7 +99,17 @@ export function AssetsProvider(app) {
 
 	if(!app.view.isNil) {
 		app.view.addFunction('assetPath', path => factory.publishedPath(path))
+
+		if(!app.html.isNil) {
+			app.view.addExtension('AssetExtension', new AssetExtension)
+			const assetContainerClass = parameters.assetContainerClass || AssetContainer
+
+			app.use((req, res, next) => {
+				res.locals._assetContainer = new assetContainerClass(req, res, factory, res.locals.html)
+				next()
+			})
+		}
 	}
 }
 
-AssetsProvider.priority = 20000
+AssetsProvider.priority = 10000
