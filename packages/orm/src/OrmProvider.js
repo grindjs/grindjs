@@ -23,13 +23,11 @@ export function OrmProvider(app) {
 
 	global.ValidationError = ValidationError
 
-	const cli = app.get('cli')
-
-	if(cli.isNil) {
+	if(app.cli.isNil) {
 		return
 	}
 
-	cli.register(MakeModelCommand)
+	app.cli.register(MakeModelCommand)
 }
 
 OrmProvider.priority = 40000
