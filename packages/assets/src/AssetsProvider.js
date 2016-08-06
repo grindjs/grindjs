@@ -89,11 +89,9 @@ export function AssetsProvider(app) {
 		app.use(`/${dir}`, express.static(app.paths.public(dir)))
 	}
 
-	const cli = app.get('cli')
-
-	if(!cli.isNil) {
-		cli.register(PublishCommand)
-		cli.register(UnpublishCommand)
+	if(!app.cli.isNil) {
+		app.cli.register(PublishCommand)
+		app.cli.register(UnpublishCommand)
 	}
 
 	if(!app.view.isNil) {
