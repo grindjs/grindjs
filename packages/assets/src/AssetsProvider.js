@@ -100,3 +100,5 @@ export function AssetsProvider(app) {
 		app.view.addFunction('assetPath', path => factory.publishedPath(path))
 	}
 }
+
+AssetsProvider.priority = 20000

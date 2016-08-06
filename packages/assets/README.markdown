@@ -22,8 +22,6 @@ const app = new Grind()
 app.providers.push(AssetsProvider)
 ```
 
-___NOTE:___ If you’re also using `grind-html` and `grind-view`, make sure `AssetsProvider` is added _after_ `ViewProvider` and `HtmlProvider`.
-
 ##### *(Optional)* Update your `.gitignore` files to ignore published assets
 
 All of your assets should live in `/resources/assets`, so it’s a good idea to update your `.gitignore` to make sure published assets don’t accidentally make their way into git.
