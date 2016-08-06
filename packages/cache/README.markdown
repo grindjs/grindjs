@@ -33,7 +33,7 @@ const app = new Grind()
 app.providers.push(CacheProvider)
 ```
 
-From there, you can access the store via `app.get('cache')`.
+From there, you can access the store via `app.cache`.
 
 ## Config
 
