@@ -3,8 +3,8 @@ import {Swagger} from './swagger'
 
 export function provider(app) {
 
-	app.get('/swagger.json', (req, res) => {
-		const router = app._router
+	app.routes.get('/swagger.json', (req, res) => {
+		const router = app.express._router
 		const stack = router ? router.stack : null
 
 		if(router.isNil || router.length <= 0) {
