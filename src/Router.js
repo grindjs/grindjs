@@ -48,7 +48,7 @@ export class Router {
 
 	all(path, action) {
 		console.log('Don’t use `all` routes. Offender: %s', path)
-		return this.app.all(this._scopedPrefix + path, this._makeAction(action))
+		return this.app.express.all(this._scopedPrefix + path, this._makeAction(action))
 	}
 
 	get(path, action, context) {
@@ -75,7 +75,7 @@ export class Router {
 		const handler = this._makeAction(action)
 
 		// WARNING: Prone to failure if ExpressJS changes this logic
-		this.app.lazyrouter()
+		this.app.express.lazyrouter()
 
 		const handlers = [ handler ]
 
@@ -106,7 +106,7 @@ export class Router {
 			}
 		})
 
-		let route = this.app._router.route(compiledPath)
+		let route = this.app.express._router.route(compiledPath)
 		route = route[method](...handlers)
 		route.context = context || {}
 		route.grindRouter = this
@@ -149,7 +149,7 @@ export class Router {
 			this.bindings[name].context = context
 		}
 
-		this.app.param(name, (req, res, next, value) => {
+		this.app.express.param(name, (req, res, next, value) => {
 			resolver(value, newValue => {
 				req.params[name] = newValue
 				next()
