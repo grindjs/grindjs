@@ -1,4 +1,5 @@
-import fs from 'fs'
+import '../Support/FS'
+
 import path from 'path'
 
 export class Compiler {
@@ -23,23 +24,21 @@ export class Compiler {
 	}
 
 	lastModified(pathname, newest = 0) {
-		return new Promise((resolve, reject) => {
-			fs.stat(pathname, (err, stats) => {
-				if(!err.isNil) {
-					if(err.code === 'ENOENT') {
-						return resolve(newest)
-					}
+		return FS.stat(pathname).then(stats => {
+			const timestamp = (new Date(stats.mtime)).getTime() / 1000.0
+			newest = Math.max(newest, timestamp)
 
-					return reject(err)
-				}
+			return this.enumerateImports(pathname,
+				pathname => this.lastModified(pathname, newest).then(timestamp => {
+					newest = Math.max(newest, timestamp)
+				})
+			).then(() => newest)
+		}).catch(err => {
+			if(err.code === 'ENOENT') {
+				return newest
+			}
 
-				const timestamp = (new Date(stats.mtime)).getTime() / 1000.0
-				newest = Math.max(newest, timestamp)
-
-				this.enumerateImports(
-					pathname, pathname => this.lastModified(pathname, newest)
-				).then(() => resolve(newest))
-			})
+			throw err
 		})
 	}
 
