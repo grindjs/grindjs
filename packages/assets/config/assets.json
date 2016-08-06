@@ -23,14 +23,17 @@
 			}
 		},
 
+		"css": {
+			"roundingPrecision": 14
+		},
+
 		/**
 			When compiling, extensions in these dirs will be copied
 			over as is without any processing
 		*/
 		"raw": {
-			"directories": [ "img", "fonts", "font", "css" ],
+			"directories": [ "img", "fonts", "font" ],
 			"extensions": {
-				"css": "text/css",
 				"eot": "application/vnd.ms-fontobject",
 				"gif": "image/gif",
 				"ico": "image/x-icon",
