@@ -49,8 +49,10 @@ export class Compiler {
 		return Promise.resolve()
 	}
 
-	get mime() { throw new Error('Abstract method, subclasses must implement.') }
-	get type() { throw new Error('Abstract method, subclasses must implement.') }
-	get extension() { throw new Error('Abstract method, subclasses must implement.') }
+	/* eslint-disable no-unused-vars */
+	mime(asset) { throw new Error('Abstract method, subclasses must implement.') }
+	type(asset) { throw new Error('Abstract method, subclasses must implement.') }
+	extension(asset) { throw new Error('Abstract method, subclasses must implement.') }
+	/* eslint-enable no-unused-vars */
 
 }

@@ -16,15 +16,15 @@ export class Asset {
 	}
 
 	get mime() {
-		return this.compiler.mime
+		return this.compiler.mime(this)
 	}
 
 	get type() {
-		return this.compiler.type
+		return this.compiler.type(this)
 	}
 
 	get extension() {
-		return this.compiler.extension
+		return this.compiler.extension(this)
 	}
 
 }

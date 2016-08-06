@@ -31,20 +31,20 @@ export class ScssCompiler extends Compiler {
 					return reject(err)
 				}
 
-				resolve(result.css.toString())
+				resolve(result.css)
 			})
 		})
 	}
 
-	get mime() {
+	mime() {
 		return 'text/css'
 	}
 
-	get type() {
+	type() {
 		return 'css'
 	}
 
-	get extension() {
+	extension() {
 		return 'css'
 	}
 
