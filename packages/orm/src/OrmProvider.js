@@ -31,3 +31,5 @@ export function OrmProvider(app) {
 
 	cli.register(MakeModelCommand)
 }
+
+OrmProvider.priority = 40000
