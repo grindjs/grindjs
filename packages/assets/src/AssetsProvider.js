@@ -1,6 +1,7 @@
 import './AssetFactory'
 import './Http/Controller'
 
+import './Compilers/RawCompiler'
 import './Compilers/ScssCompiler'
 
 import path from 'path'
@@ -56,12 +57,11 @@ export function AssetsProvider(app) {
 
 	const autoMinify = !config.auto_minify ? config.auto_minify : !app.debug
 	const factory = new AssetFactory(app, autoMinify)
+
+	factory.registerCompiler(RawCompiler)
 	factory.registerCompiler(ScssCompiler)
 
 	app.routes.group({ prefix: 'assets', controller: new Controller(app, factory) }, routes => {
-		routes.get('img/:a?/:b?/:c?/:d?/:e?', 'img')
-		routes.get('font/:a?/:b?/:c?/:d?/:e?', 'font')
-		routes.get('css/:a?/:b?/:c?/:d?/:e?', 'css')
 		routes.get(':type/:a?/:b?/:c?/:d?/:e?', 'compile')
 	})
 

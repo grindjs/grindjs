@@ -8,14 +8,6 @@
 	"auto_minify": null,
 
 	/**
-		When compiling, these dirs will be copied over as is
-		without any processing
-	*/
-	"raw_dirs": [
-		"img", "fonts", "font", "css"
-	],
-
-	/**
 		Config options for each compiler
 	*/
 	"compilers": {
@@ -24,6 +16,27 @@
 			"includePaths": [ ],
 			"precision": 14
 		},
+
+		/**
+			When compiling, extensions in these dirs will be copied
+			over as is without any processing
+		*/
+		"raw": {
+			"directories": [ "img", "fonts", "font", "css" ],
+			"extensions": {
+				"css": "text/css",
+				"eot": "application/vnd.ms-fontobject",
+				"gif": "image/gif",
+				"ico": "image/x-icon",
+				"jpeg": "image/jpeg",
+				"jpg": "image/jpeg",
+				"otf": "font/opentype",
+				"png": "image/png",
+				"svg": "image/svg+xml",
+				"ttf": "application/x-font-ttf",
+				"woff": "application/x-font-woff"
+			}
+		}
 
 	}
 
