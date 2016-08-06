@@ -6,7 +6,7 @@ import dateFormat from 'dateformat'
 
 const HTTP_DATE_FORMAT = 'ddd, dd mmm yyyy HH:MM:ss Z'
 
-export class Controller {
+export class CompileController {
 	app = null
 	factory = null
 	local = null

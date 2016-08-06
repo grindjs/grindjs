@@ -1,5 +1,7 @@
 import './AssetFactory'
-import './Http/Controller'
+
+import './Commands/PublishCommand'
+import './Commands/UnpublishCommand'
 
 import './Compilers/CssCompiler'
 import './Compilers/JavascriptCompiler'
@@ -7,8 +9,7 @@ import './Compilers/RawCompiler'
 import './Compilers/ScssCompiler'
 import './Compilers/SvgCompiler'
 
-import './Commands/PublishCommand'
-import './Commands/UnpublishCommand'
+import './Controllers/CompileController'
 
 import path from 'path'
 import express from 'express'
@@ -72,7 +73,7 @@ export function AssetsProvider(app) {
 	factory.registerCompiler(ScssCompiler)
 	factory.registerCompiler(SvgCompiler)
 
-	app.routes.group({ prefix: 'assets', controller: new Controller(app, factory) }, routes => {
+	app.routes.group({ prefix: 'assets', controller: new CompileController(app, factory) }, routes => {
 		routes.get(':type/:a?/:b?/:c?/:d?/:e?', 'compile')
 	})
 
