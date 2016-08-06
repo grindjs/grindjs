@@ -8,8 +8,8 @@ export function HtmlProvider(app, htmlBuilderClass, formBuilderClass) {
 	const html = new htmlBuilderClass(app)
 	const form = new formBuilderClass(app, html)
 
-	app.set('html', html)
-	app.set('form', form)
+	app.html = html
+	app.form = form
 
 	if(!app.view.isNil) {
 		app.use((req, res, next) => {

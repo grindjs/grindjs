@@ -29,4 +29,4 @@ app.providers.push(HtmlProvider)
 {{ html.style('css/main.scss')) }}
 ```
 
-The `HtmlBuilder` and `FormBuilder` instances are also available via `app.get('html')` and `app.get('form')` respectively.
+The `HtmlBuilder` and `FormBuilder` instances are also available via `app.html` and `app.form` respectively.
