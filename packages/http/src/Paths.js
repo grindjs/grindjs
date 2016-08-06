@@ -7,12 +7,14 @@ export class Paths {
 	_config = null
 	_database = null
 	_package = null
+	_public = null
 
 	constructor(bootstrapper) {
 		this._base = findRoot(bootstrapper)
 		this._app = path.join(this._base, 'app')
 		this._config = path.join(this._base, 'config')
 		this._database = path.join(this._base, 'database')
+		this._public = path.join(this._base, 'public')
 		this._package = path.join(this._base, 'package.json')
 	}
 
@@ -30,6 +32,10 @@ export class Paths {
 
 	database(...args) {
 		return this._join(this._database, ...args)
+	}
+
+	public(...args) {
+		return this._join(this._public, ...args)
 	}
 
 	get package() {
