@@ -30,6 +30,8 @@
     "lint": "eslint src"
   },
   "dependencies": {
-    "dateformat": "^1.0.12"
+    "dateformat": "^1.0.12",
+    "mkdirp": "^0.5.1",
+    "recursive-readdir": "^2.0.0"
   }
 }

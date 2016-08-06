@@ -7,7 +7,11 @@ import './Compilers/RawCompiler'
 import './Compilers/ScssCompiler'
 import './Compilers/SvgCompiler'
 
+import './Commands/PublishCommand'
+import './Commands/UnpublishCommand'
+
 import path from 'path'
+import express from 'express'
 
 function expandMacros(config, macros) {
 	const isArray = Array.isArray(config)
@@ -60,6 +64,7 @@ export function AssetsProvider(app) {
 
 	const autoMinify = !config.auto_minify ? config.auto_minify : !app.debug
 	const factory = new AssetFactory(app, autoMinify)
+	app.set('assets', factory)
 
 	factory.registerCompiler(CssCompiler)
 	factory.registerCompiler(JavascriptCompiler)
@@ -71,4 +76,24 @@ export function AssetsProvider(app) {
 		routes.get(':type/:a?/:b?/:c?/:d?/:e?', 'compile')
 	})
 
+	const dirs = new Set()
+	const published = app.config.get('assets-published', { })
+	for(const src of Object.keys(published)) {
+		dirs.add(published[src].replace(/^\//, '').split(/\//)[0])
+	}
+
+	for(const dir of dirs) {
+		app.use(`/${dir}`, express.static(app.paths.public(dir)))
+	}
+
+	const cli = app.get('cli')
+
+	if(!cli.isNil) {
+		cli.register(PublishCommand)
+		cli.register(UnpublishCommand)
+	}
+
+	if(!app.view.isNil) {
+		app.view.addFunction('assetPath', path => factory.publishedPath(path))
+	}
 }

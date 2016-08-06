@@ -4,6 +4,7 @@ import '../Support/FS'
 import path from 'path'
 
 export class RawCompiler extends Compiler {
+	wantsHashSuffixOnPublish = false
 	directories = [ ]
 	extensions = null
 	assets = null

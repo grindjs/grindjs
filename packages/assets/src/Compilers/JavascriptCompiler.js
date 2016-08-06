@@ -6,6 +6,7 @@ import '../Support/Require'
 const UglifyJS = Require.optionally('uglify-js')
 
 export class JavascriptCompiler extends Compiler {
+	wantsHashSuffixOnPublish = false
 	supportedExtensions = [ 'js' ]
 	options = { }
 

@@ -5,8 +5,9 @@ import path from 'path'
 export class Compiler {
 	app = null
 	autoMinify = null
-	supportedExtensions = [ ]
 	priority = 0
+	supportedExtensions = [ ]
+	wantsHashSuffixOnPublish = true
 
 	constructor(app, autoMinify) {
 		this.app = app

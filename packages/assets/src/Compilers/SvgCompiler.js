@@ -6,6 +6,7 @@ import '../Support/Require'
 const SVGO = Require.optionally('svgo')
 
 export class SvgCompiler extends Compiler {
+	wantsHashSuffixOnPublish = false
 	supportedExtensions = [ 'svg' ]
 	options = { }
 

@@ -6,6 +6,7 @@ import '../Support/Require'
 const CleanCSS = Require.optionally('clean-css')
 
 export class CssCompiler extends Compiler {
+	wantsHashSuffixOnPublish = false
 	supportedExtensions = [ 'css' ]
 	options = { }
 

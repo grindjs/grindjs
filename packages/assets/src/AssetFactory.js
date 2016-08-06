@@ -1,6 +1,8 @@
 import './Asset'
 import './Compilers/Compiler'
 
+import path from 'path'
+
 export class AssetFactory {
 	app = null
 	published = null
@@ -9,7 +11,7 @@ export class AssetFactory {
 
 	constructor(app, autoMinifyDefault = false) {
 		this.app = app
-		this.published = app.config.get('assets-published')
+		this.published = app.config.get('assets-published', { })
 		this.autoMinifyDefault = autoMinifyDefault
 	}
 
@@ -49,26 +51,22 @@ export class AssetFactory {
 		}
 	}
 
-	publishedPath(path) {
-		if(this.published.isNil) {
-			return path
+	publishedPath(pathname) {
+		if(pathname.indexOf('assets/') !== 0) {
+			pathname = path.join('assets', pathname)
 		}
 
-		if(path.indexOf('assets/') !== 0) {
-			path = `assets/${path}`
-		}
-
-		const publishedPath = this.published[path]
+		const publishedPath = this.published[pathname]
 
 		if(!publishedPath.isNil) {
-			path = publishedPath
+			pathname = publishedPath
 		}
 
-		if(path.indexOf('://') === -1) {
-			return app.url.make(path)
+		if(pathname.indexOf('://') === -1) {
+			return this.app.url.make(pathname)
 		}
 
-		return path
+		return pathname
 	}
 
 }
