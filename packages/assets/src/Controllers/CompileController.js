@@ -17,6 +17,10 @@ export class CompileController {
 		this.factory = factory
 		this.local = app.env() === 'local'
 		this.resources = app.paths.base('resources')
+
+		if(app.cache.isNil) {
+			Log.error('WARNING: grind-cache not detected, assets will be recompiled every time they’re loaded.')
+		}
 	}
 
 	async compile(req, res) {
@@ -46,8 +50,33 @@ export class CompileController {
 		const expires = new Date((lastModified + 31536000) * 1000.0)
 		const lastModifiedDate = new Date(lastModified * 1000.0)
 
-		res.header('X-Cached', 'false')
-		return asset.compile().then(content => {
+		const compile = () => {
+			res.header('X-Cached', 'false')
+			return asset.compile().then(result => {
+				if(!(result instanceof Buffer)) {
+					return new Buffer(result)
+				}
+
+				return result
+			})
+		}
+
+		let promise = null
+
+		if(this.app.cache.isNil || req.query['ignore-cache'] === 'true') {
+			promise = compile()
+		} else {
+			const key = req.path.replace(/[^a-z0-9]+/, '-') + '-' + expires.getTime()
+			promise = this.app.cache.wrap(key, compile, { ttl: 86400 }).then(data => {
+				if(!(data instanceof Buffer) && !data.data.isNil) {
+					return Buffer.from(data)
+				}
+
+				return data
+			})
+		}
+
+		return promise.then(content => {
 			res.header('Cache-Control', 'public, max-age=31536000')
 			res.header('Expires', dateFormat(expires, HTTP_DATE_FORMAT))
 			res.header('Last-Modified', dateFormat(lastModifiedDate, HTTP_DATE_FORMAT))
