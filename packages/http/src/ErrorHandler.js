@@ -80,6 +80,20 @@ export class ErrorHandler {
 	}
 
 	render(req, res, err, info) {
+		this.renderJson(req, res, err, info)
+	}
+
+	renderView(req, res, err, info, view) {
+		if(this.app.view.isNil) {
+			Log.error('Unable to render view, `grind-view` is not loaded.')
+			return this.renderJson(req, res, err, info)
+		}
+
+		res.status(info.code)
+		res.render(view, { err, info })
+	}
+
+	renderJson(req, res, err, info) {
 		res.status(info.code)
 		res.send(info)
 	}
