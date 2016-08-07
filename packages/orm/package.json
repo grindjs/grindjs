@@ -1,6 +1,6 @@
 {
   "name": "grind-orm",
-  "version": "0.3.8",
+  "version": "0.4.0",
   "description": "ORM provider for Grind, powered by Objection.js",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
@@ -21,8 +21,8 @@
     "objection": ">=0.4.0 <= 0.6.0"
   },
   "peerDependencies": {
-    "grind-framework": "^0.3",
-    "grind-db": "^0.3"
+    "grind-framework": "^0.4",
+    "grind-db": "^0.4"
   },
   "devDependencies": {
     "babel-cli": ">=6.7 <=7.0",
