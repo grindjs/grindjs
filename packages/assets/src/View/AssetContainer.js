@@ -99,12 +99,11 @@ export class AssetContainer {
 	}
 
 	style(asset) {
-		this._styles.push(this.factory.publishedPath(asset))
+		this._styles.push(this.makeUrl(asset))
 	}
 
 	script(asset) {
-		this._scripts.push(this.factory.publishedPath(asset))
-		return null
+		this._scripts.push(this.makeUrl(asset))
 	}
 
 	render(type) {
@@ -120,6 +119,14 @@ export class AssetContainer {
 		}
 
 		Log.error('Unsupported render type', type)
+	}
+
+	makeUrl(asset) {
+		if(asset.indexOf('://') > 0) {
+			return asset
+		}
+
+		return this.factory.publishedPath(asset)
 	}
 
 }
