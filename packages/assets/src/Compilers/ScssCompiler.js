@@ -16,16 +16,27 @@ export class ScssCompiler extends Compiler {
 		super(app, autoMinify)
 
 		this.options = app.config.get('assets.compilers.scss', { })
+
+		if(
+			app.env() === 'local'
+			&& this.options.sourceMap.isNil
+			&& this.options.sourceMapEmbed.isNil
+			&& this.options.sourceMapContents.isNil
+		) {
+			this.options.sourceMap = true
+			this.options.sourceMapEmbed = true
+			this.options.sourceMapContents = true
+		}
 	}
 
-	compile(path, context) {
+	compile(pathname, context) {
 		if(sass.isNil) {
 			return Promise.reject(new Error('node-sass missing, please run `npm install --save-dev node-sass`'))
 		}
 
 		return new Promise((resolve, reject) => {
 			sass.render(Object.assign({ }, this.options, {
-				file: path,
+				file: pathname,
 				outputStyle: context || (this.autoMinify ? 'compressed' : 'nested')
 			}), (err, result) => {
 				if(!err.isNil) {
