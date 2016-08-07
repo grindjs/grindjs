@@ -45,11 +45,12 @@ export function Config(store, app) {
 
 	const config = Object.assign({ }, store)
 
-	if(!driver.isNil) {
-		config.store = require(driver)
-	} else {
-		config.store = 'memory'
+	if(!config.path.isNil) {
+		config.path = app.paths.base(config.path)
 	}
 
-	return config
+	return {
+		store: driver.isNil ? 'memory' : require(driver),
+		options: config
+	}
 }
