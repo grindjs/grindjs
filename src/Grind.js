@@ -80,7 +80,7 @@ export default class Grind {
 			this.errorHandler.handle(new NotFoundError, req, res, next)
 		})
 
-		this.express.listen(...args)
+		return this.express.listen(...args)
 	}
 
 	// Proxies to express
