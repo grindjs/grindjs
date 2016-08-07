@@ -1,9 +1,7 @@
-import './Config'
-
-import cacheManager from 'cache-manager'
+import './Cache'
 
 export function CacheProvider(app) {
-	app.cache = cacheManager.caching(Config(app))
+	app.cache = Cache(app.config.get('cache.default'), app)
 }
 
 CacheProvider.priority = 50000

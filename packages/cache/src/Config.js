@@ -23,17 +23,13 @@ function expandDriverAlias(alias) {
 	}
 }
 
-export function Config(app) {
-	let store = app.config.get('cache.default')
-
-	if(store.isNil) {
-		return
+export function Config(store, app) {
+	if(typeof store === 'string') {
+		store = app.config.get(`cache.stores.${store}`)
 	}
 
-	store = app.config.get('cache.stores.' + store)
-
 	if(store.isNil) {
-		return
+		return null
 	}
 
 	const driver = expandDriverAlias(store.driver || null)
