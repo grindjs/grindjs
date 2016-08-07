@@ -24,7 +24,7 @@
     "babel-cli": ">=6.7 <=7.0",
     "babel-eslint": "^6.0.5",
     "babel-plugin-import-auto-name": "^0.1.0",
-    "babel-plugin-transform-isnil": "0.0.3",
+    "babel-plugin-transform-isnil": "0.0.5",
     "babel-preset-es2016-node5": "1.x",
     "babel-preset-stage-1": "6.5.x",
     "eslint": "^2.13.1",
@@ -35,7 +35,7 @@
     "grind-framework": "^0.3"
   },
   "engines": {
-    "node": ">=5.10 <6.0"
+    "node": ">=5.10 <7.0"
   },
   "scripts": {
     "prepublish": "./.build",
