@@ -1,0 +1,22 @@
+{
+  "name": "grind-frontend",
+  "version": "0.4.0",
+  "description": "Proxy package to provide frontend Grind dependencies",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grindjs/frontend.git"
+  },
+  "keywords": [
+    "grindjs",
+    "grind-framework"
+  ],
+  "author": "Shaun Harrison (@shnhrrsn)",
+  "license": "MIT",
+  "dependencies": {
+    "grind-assets": "^0.4.0",
+    "grind-core": "^0.4.0",
+    "grind-html": "^0.4.0",
+    "grind-view": "^0.4.0"
+  }
+}
