@@ -2,17 +2,20 @@ import './Globals/Filters'
 import './Globals/Functions'
 
 import Nunjucks from 'nunjucks'
+import fs from 'fs'
+import path from 'path'
 
 export class ViewFactory {
 	app = null
 	nunjucks = null
+	viewPath = null
 
 	constructor(app) {
 		this.app = app
 
-		const viewPath = app.paths.base(app.config.get('view.path', 'resources/views'))
+		this.viewPath = app.paths.base(app.config.get('view.path', 'resources/views'))
 
-		const loader = new Nunjucks.FileSystemLoader(viewPath, {
+		const loader = new Nunjucks.FileSystemLoader(this.viewPath, {
 			watch: app.config.get('view.watch', app.env() === 'local'),
 			noCache: app.config.get('view.disable_cache', false)
 		})
@@ -27,6 +30,22 @@ export class ViewFactory {
 
 		Filters(this)
 		Functions(this)
+	}
+
+	exists(view) {
+		return new Promise((resolve, reject) => {
+			fs.stat(path.join(this.viewPath, view), (err, stats) => {
+				if(!err.isNil) {
+					if(err.code === 'ENOENT') {
+						return resolve(false)
+					}
+
+					return reject(err)
+				}
+
+				resolve(stats.isFile())
+			})
+		})
 	}
 
 	share(name, value) {
