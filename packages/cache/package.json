@@ -1,6 +1,6 @@
 {
   "name": "grind-cache",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Cache provider for Grind, powered by node-cache-manager",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
@@ -20,7 +20,7 @@
     "cache-manager": "^2.x"
   },
   "peerDependencies": {
-    "grind-framework": "^0.3"
+    "grind-framework": "^0.4"
   },
   "devDependencies": {
     "babel-cli": ">=6.7 <=7.0",
