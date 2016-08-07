@@ -4,19 +4,27 @@ function expandDriverAlias(alias) {
 	}
 
 	switch(alias.toLowerCase()) {
-		case 'memcache', 'memcached':
+		case 'memcache':
+		case 'memcached':
 			return 'cache-manager-memcached-store'
 		case 'redis':
 			return 'cache-manager-redis'
-		case 'mongo', 'mongodb':
+		case 'mongo':
+		case 'mongodb':
 			return 'cache-manager-mongodb'
 		case 'mongoose':
 			return 'cache-manager-mongoose'
-		case 'fs', 'file', 'files', 'filesystem':
+		case 'fs':
+		case 'file':
+		case 'files':
+		case 'filesystem':
 			return 'cache-manager-fs'
 		case 'fs-binary':
 			return 'cache-manager-fs-binary'
-		case 'mem', 'memory', 'in-memory', 'lru':
+		case 'mem':
+		case 'memory':
+		case 'in-memory':
+		case 'lru':
 			return null
 		default:
 			return alias
