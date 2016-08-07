@@ -29,6 +29,7 @@ export default class Grind {
 		RouteExtension()
 
 		this.express = Express()
+		this.express.disable('etag')
 
 		const routerClass = parameters.routerClass || Router
 		const configClass = parameters.configClass || Config
