@@ -40,11 +40,12 @@ export default class Grind {
 		this.routes = new routerClass(this)
 		this.config = new configClass(this)
 		this.errorHandler = new errorHandlerClass(this)
-		this.url = new urlGeneratorClass(this)
 		this.providers = new ProviderCollection
 
 		this.debug = this.config.get('app.debug', this.env() === 'local')
 		this.port = process.env.NODE_PORT || this.config.get('app.port', 3000)
+
+		this.url = new urlGeneratorClass(this)
 	}
 
 	env() {
