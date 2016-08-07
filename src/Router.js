@@ -22,6 +22,10 @@ export class Router {
 	}
 
 	group(action, callback) {
+		if(!action.controller.isNil && typeof action.controller === 'function') {
+			action.controller = new action.controller(this.app)
+		}
+
 		const parentAction = this._scopedAction
 		const parentPrefix = this._scopedPrefix
 
