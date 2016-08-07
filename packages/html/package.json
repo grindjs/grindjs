@@ -9,6 +9,11 @@
     "type": "git",
     "url": "https://github.com/grindjs/grind-html.git"
   },
+  "keywords": [
+    "grindjs",
+    "grind-framework",
+    "html"
+  ],
   "dependencies": {
     "as-type": "^1.0",
     "dateformat": "^1.0",
@@ -19,7 +24,7 @@
     "babel-cli": ">=6.7 <=7.0",
     "babel-eslint": "^6.1.1",
     "babel-plugin-import-auto-name": "^0.1.0",
-    "babel-plugin-transform-isnil": "0.0.3",
+    "babel-plugin-transform-isnil": "0.0.5",
     "babel-preset-es2016-node5": "1.x",
     "babel-preset-stage-1": "6.5.x",
     "eslint": "^2.13.1",
