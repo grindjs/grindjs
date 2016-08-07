@@ -1,0 +1,5 @@
+{
+	"watch": [ "app/", "config/", "grind/" ],
+	"ext": "js json",
+	"execMap": { "js": "babel-node" }
+}

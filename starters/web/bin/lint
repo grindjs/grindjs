@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+source ${0%/*}/.init
+
+eslint app config server

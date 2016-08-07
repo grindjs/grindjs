@@ -1,0 +1,44 @@
+$header-padding-top: 100px;
+
+.header {
+	position: fixed;
+	top: 0;
+	left: 0;
+
+	display: block;
+	width: 100%;
+	padding-top: $header-padding-top;
+
+	background: $header-background-color;
+}
+
+	.header-container {
+		height: $header-height - $header-padding-top;
+		line-height: $header-height - $header-padding-top;
+	}
+
+	.header-logo, .header-link {
+		text-decoration: none;
+	}
+
+	.header-logo {
+		font-size: 48px;
+		font-weight: $font-weight-ultra-light;
+	}
+
+	.header-links {
+		float: right;
+	}
+
+		.header-link {
+			display: block;
+			float: left;
+
+			font-size: 20px;
+			font-weight: $font-weight-light;
+			color: $body-text-color;
+
+			+ .header-link {
+				margin-left: 20px;
+			}
+		}

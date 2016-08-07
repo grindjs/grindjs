@@ -1,0 +1,19 @@
+{% extends 'layout/app.njk' %}
+
+{% babel 'welcome' %}
+
+{% scss 'welcome' %}
+{% scss 'code' %}
+{% style 'https://raw.githubusercontent.com/tonsky/FiraCode/master/distr/fira_code.css' %}
+
+{% block content %}
+	<div class="welcome">
+		<div class="welcome-body">
+			<h1 class="welcome-header">Welcome to Grind</h1>
+			<p class="welcome-lead">Grind is an opinionated Node web framework that brings together popular packages in an easy to use framework to provide a solid foundation for you to build your apps on, without reinventing the wheel.</p>
+		</div>
+		<div class="welcome-code">
+			{% include 'welcome/code.njk' %}
+		</div>
+	</div>
+{% endblock %}

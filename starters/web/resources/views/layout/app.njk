@@ -1,0 +1,29 @@
+{% extends 'layout/master.njk' %}
+
+{% scss 'app' %}
+{% babel 'app' %}
+
+{% block contentBefore %}
+	<header class="header">
+		<div class="container header-container">
+			{% if not name %}
+				{% set name = 'Grind' %}
+			{% endif %}
+
+			{{ html.linkRoute('welcome.show', name, null, { class: 'header-logo' }) }}
+
+			<nav class="header-links">
+				<a href="http://github.com/grindjs" class="header-link">GitHub</a>
+				<a href="http://twitter.com/grindjs" class="header-link">Twitter</a>
+			</nav>
+		</div>
+	</header>
+{% endblock %}
+
+{% block contentAfter %}
+	<footer class="footer">
+		<div class="container footer-container">
+			<span class="footer-text">Grind was created by <a href="http://github.com/shnhrrsn">Shaun Harrison</a> and is made available under the MIT license.</span>
+		</div>
+	</footer>
+{% endblock %}

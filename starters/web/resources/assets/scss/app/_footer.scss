@@ -1,0 +1,17 @@
+.footer {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+
+	display: block;
+	width: 100%;
+
+	background: $footer-background-color;
+}
+
+	.footer-container {
+		height: $footer-height;
+
+		line-height: $footer-height;
+		text-align: center;
+	}

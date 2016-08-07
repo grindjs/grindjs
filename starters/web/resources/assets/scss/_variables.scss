@@ -1,0 +1,29 @@
+$body-font-size: 16px;
+$body-line-height: 1.428571429;
+$body-text-color: #4f5157;
+$body-background-color: #fff;
+
+$accent-color: #9077d3;
+$link-color: $accent-color;
+$link-color-hover: darken($link-color, 5%);
+$link-color-active: darken($link-color, 10%);
+
+$font-weight-ultra-light: 100;
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-medium: 600;
+$font-weight-bold: 600;
+
+$font-family-sans-serif: 'Source Sans Pro', sans-serif;
+
+$transition-duration: 0.2s;
+$transition-timing-function: ease-in-out;
+$transition-timing: $transition-duration $transition-timing-function;
+
+$header-height: 160px;
+$header-z-index: 10000;
+$header-background-color: rgba($body-background-color, 0.8);
+
+$footer-height: 80px;
+$footer-z-index: $header-z-index - 1;
+$footer-background-color: rgba($body-background-color, 0.8);

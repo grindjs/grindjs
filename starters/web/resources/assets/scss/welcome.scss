@@ -1,0 +1,28 @@
+@import 'common';
+
+.welcome {
+	margin-top: 100px;
+	font-size: 0;
+}
+
+	.welcome-header {
+		margin: 0 0 10px;
+	}
+
+	.welcome-lead {
+		margin: 0;
+	}
+
+	.welcome-body {
+		display: inline-block;
+		width: 50%;
+		padding-right: 30px;
+		vertical-align: middle;
+	}
+
+	.welcome-code {
+		display: inline-block;
+		width: 50%;
+		font-size: 18px;
+		vertical-align: middle;
+	}

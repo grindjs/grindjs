@@ -1,0 +1,22 @@
+{
+
+	"default": "fs",
+
+	"stores": {
+
+		"fs": {
+			"driver": "fs",
+			"max": 1000000000,
+			"ttl": 86400,
+			"path": "storage/cache"
+		},
+
+		"memory": {
+			"driver": "memory",
+			"max": 10000,
+			"ttl": 86400
+		}
+
+	}
+
+}
