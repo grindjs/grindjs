@@ -1,8 +1,8 @@
 export class AssetExtension {
 	tags = [
 		'asset',
-		'css', 'sass', 'scss', 'styl', 'stylus', 'less',
-		'js', 'babel', 'coffee'
+		'style', 'css', 'sass', 'scss', 'styl', 'stylus', 'less',
+		'script', 'js', 'babel', 'coffee'
 	]
 
 	parse(parser, nodes) {
@@ -31,6 +31,10 @@ export class AssetExtension {
 		}
 	}
 
+	style(context, value) {
+		return this.asset(context, 'style', value)
+	}
+
 	css(context, value) {
 		return this.asset(context, 'css', value)
 	}
@@ -53,6 +57,10 @@ export class AssetExtension {
 
 	less(context, value) {
 		return this.asset(context, 'less', value)
+	}
+
+	script(context, value) {
+		return this.asset(context, 'script', value)
 	}
 
 	js(context, value) {
