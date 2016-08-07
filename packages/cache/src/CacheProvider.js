@@ -5,3 +5,5 @@ import cacheManager from 'cache-manager'
 export function CacheProvider(app) {
 	app.cache = cacheManager.caching(Config(app))
 }
+
+CacheProvider.priority = 50000
