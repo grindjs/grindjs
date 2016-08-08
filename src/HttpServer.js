@@ -1,8 +1,6 @@
 import fs from 'fs'
 import cluster from 'cluster'
 
-const RELOAD_EXIT_CODE = 99
-
 export class HttpServer {
 
 	bootstrapper = null
@@ -68,15 +66,6 @@ export class HttpServer {
 
 		process.on('SIGTERM', () => teardown(0))
 		process.on('SIGINT', () => teardown(0))
-
-		process.on('SIGUSR1', () => {
-			if(worker.isNil) {
-				Log.error('Only a clustered server can be reloaded via SIGUSR1')
-				return
-			}
-
-			teardown(RELOAD_EXIT_CODE)
-		})
 	}
 
 	cluster() {
@@ -96,33 +85,9 @@ export class HttpServer {
 				return
 			}
 
-			if(Number.parseInt(code) !== RELOAD_EXIT_CODE) {
-				console.log('Worker %d died with code %s, signal %s, replacing', deadWorker.id, code, signal)
-			} else {
-				console.log('Reloading %s', deadWorker.id)
-			}
-
+			console.log('Reloading %s', deadWorker.id)
 			cluster.fork()
 		})
-
-		process.on('SIGUSR1', () => {
-			Log.comment('Reloading workers')
-			this.reloadWorkers(Object.assign({ }, cluster.workers))
-		})
-	}
-
-	reloadWorkers(remainingWorkers) {
-		const ids = Object.keys(remainingWorkers)
-		if(ids.length === 0) {
-			Log.comment('Finished reloading workers')
-			return
-		}
-
-		const worker = remainingWorkers[ids[0]]
-		delete remainingWorkers[ids[0]]
-
-		worker.on('exit', () => this.reloadWorkers(remainingWorkers))
-		worker.process.kill('SIGUSR1')
 	}
 
 }
