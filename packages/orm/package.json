@@ -1,6 +1,6 @@
 {
   "name": "grind-orm",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "ORM provider for Grind, powered by Objection.js",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
