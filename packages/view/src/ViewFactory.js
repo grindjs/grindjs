@@ -1,7 +1,7 @@
 import './Globals/Filters'
 import './Globals/Functions'
 
-import './ViewLoader'
+import './ViewEnvironment'
 
 import Nunjucks from 'nunjucks'
 import fs from 'fs'
@@ -17,12 +17,12 @@ export class ViewFactory {
 
 		this.viewPath = app.paths.base(app.config.get('view.path', 'resources/views'))
 
-		const loader = new ViewLoader(this.viewPath, {
+		const loader = new Nunjucks.FileSystemLoader(this.viewPath, {
 			watch: app.config.get('view.watch', app.env() === 'local'),
 			noCache: app.config.get('view.disable_cache', false)
 		})
 
-		this.nunjucks = new Nunjucks.Environment(loader, {
+		this.nunjucks = new ViewEnvironment(loader, {
 			autoescape: app.config.get('view.autoescape', true),
 			trimBlocks: app.config.get('view.trim_blocks', false),
 			lstripBlocks: app.config.get('view.lstrip_blocks', false),
