@@ -1,5 +1,6 @@
 import fs from 'fs'
 import cluster from 'cluster'
+import chalk from 'chalk'
 
 export class HttpServer {
 
@@ -40,10 +41,10 @@ export class HttpServer {
 		const server = app.listen(port, () => {
 			if(!worker.isNil) {
 				process.title = process.cwd() + ` [server:${port}]`
-				Log.comment('Worker %d listening on %d', worker.id, port)
+				console.log(chalk.yellow('Worker %d listening on %d'), worker.id, port)
 			} else {
 				process.title = process.cwd() + ` [cluster] [worker:${port}]`
-				Log.comment('Listening on port %d', port)
+				console.log(chalk.yellow('Listening on port %d'), port)
 			}
 		})
 
