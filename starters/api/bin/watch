@@ -2,4 +2,4 @@
 
 source ${0%/*}/.init
 
-exec nodemon boot/Http.js
+exec babel-node boot/Http.js --watch=app,config $@
