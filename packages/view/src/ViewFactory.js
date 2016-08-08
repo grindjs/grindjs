@@ -29,6 +29,7 @@ export class ViewFactory {
 			throwOnUndefined: app.config.get('view.throw_on_undefined', false)
 		})
 		this.nunjucks.express(app.express)
+		app.express.set('view engine', 'njk')
 
 		Filters(this)
 		Functions(this)
