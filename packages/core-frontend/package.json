@@ -1,5 +1,5 @@
 {
-  "name": "grind-frontend",
+  "name": "grind-core-frontend",
   "version": "0.4.0",
   "description": "Proxy package to provide frontend Grind dependencies",
   "main": "index.js",
