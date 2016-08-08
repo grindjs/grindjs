@@ -1,6 +1,8 @@
 import './Globals/Filters'
 import './Globals/Functions'
 
+import './ViewLoader'
+
 import Nunjucks from 'nunjucks'
 import fs from 'fs'
 import path from 'path'
@@ -15,7 +17,7 @@ export class ViewFactory {
 
 		this.viewPath = app.paths.base(app.config.get('view.path', 'resources/views'))
 
-		const loader = new Nunjucks.FileSystemLoader(this.viewPath, {
+		const loader = new ViewLoader(this.viewPath, {
 			watch: app.config.get('view.watch', app.env() === 'local'),
 			noCache: app.config.get('view.disable_cache', false)
 		})
