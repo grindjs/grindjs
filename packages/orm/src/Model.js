@@ -146,7 +146,7 @@ export class Model extends ObjectionModel {
 		}
 
 		for(const field of Object.keys(schema.properties)) {
-			if(typeof json[field] === 'undefined') {
+			if(json[field].isNil) {
 				continue
 			}
 
