@@ -53,7 +53,7 @@ export default class Grind {
 		return process.env.NODE_ENV || 'local'
 	}
 
-	boot() {
+	async boot() {
 		if(this.booted) {
 			return
 		}
@@ -61,14 +61,14 @@ export default class Grind {
 		this.providers.sort((a, b) => a.priority > b.priority ? -1 : 1)
 
 		for(const provider of this.providers) {
-			provider(this)
+			await provider(this)
 		}
 
 		this.booted = true
 	}
 
-	listen(...args) {
-		this.boot()
+	async listen(...args) {
+		await this.boot()
 
 		// Register error handler
 		this.use((err, req, res, next) => {

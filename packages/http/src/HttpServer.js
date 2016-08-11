@@ -13,7 +13,7 @@ export class HttpServer {
 		this.bootstrapper = bootstrapper
 	}
 
-	start() {
+	async start() {
 		let clustered = false
 		let watchDirs = null
 
@@ -46,19 +46,19 @@ export class HttpServer {
 		}
 
 		if(!watchDirs.isNil) {
-			this.watch(watchDirs)
+			await this.watch(watchDirs)
 		} else if(clustered !== true) {
-			this.serve()
+			await this.serve()
 		} else {
-			this.cluster()
+			await this.cluster()
 		}
 	}
 
-	serve(worker = null) {
+	async serve(worker = null) {
 		const app = this.bootstrapper()
 		const port = app.port
 
-		const server = app.listen(port, () => {
+		const server = await app.listen(port, () => {
 			if(!worker.isNil) {
 				process.title = process.cwd() + ` [server:${port}]`
 				console.log(chalk.yellow('Worker %d listening on %d'), worker.id, port)
@@ -87,6 +87,8 @@ export class HttpServer {
 
 		process.on('SIGTERM', () => teardown(0))
 		process.on('SIGINT', () => teardown(0))
+
+		return server
 	}
 
 	cluster() {
@@ -111,7 +113,7 @@ export class HttpServer {
 		})
 	}
 
-	watch(...dirs) {
+	async watch(...dirs) {
 		if(dirs.length === 1 && Array.isArray(dirs[0])) {
 			dirs = dirs[0]
 		}
@@ -121,7 +123,7 @@ export class HttpServer {
 		let server = null
 
 		watcher.on('ready', () => {
-			watcher.on('all', () => {
+			watcher.on('all', async () => {
 				files:
 				for(const file of Object.keys(require.cache)) {
 					dirs:
@@ -140,20 +142,20 @@ export class HttpServer {
 					const oldServer = server
 					server = null
 
-					oldServer.destroy(() => {
-						server = this._watchServe()
+					oldServer.destroy(async () => {
+						server = await this._watchServe()
 					})
 				} else {
-					server = this._watchServe()
+					server = await this._watchServe()
 				}
 			})
 		})
 
 		console.log(chalk.yellow('Watching %s'), dirs.map(dir => path.relative(process.cwd(), dir)))
-		server = this._watchServe()
+		server = await this._watchServe()
 	}
 
-	_watchServe() {
+	async _watchServe() {
 		let server = null
 
 		try {
@@ -161,7 +163,7 @@ export class HttpServer {
 			const port = app.port
 			this.lastPort = port
 
-			server = app.listen(port, () => {
+			server = await app.listen(port, () => {
 				console.log(chalk.yellow('Listening on port %d'), port)
 			})
 		} catch(err) {
@@ -183,7 +185,7 @@ export class HttpServer {
 					}
 				})
 
-				server = app.listen(this.lastPort)
+				server = await app.listen(this.lastPort)
 			}
 		}
 
