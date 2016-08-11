@@ -150,6 +150,11 @@ export class Model extends ObjectionModel {
 				continue
 			}
 
+			if(Number.isNaN(json[field])) {
+				json[field] = null
+				continue
+			}
+
 			const property = schema.properties[field]
 
 			// Boolean values can be converted to JSON as "0"/"1", convert back to boolean
