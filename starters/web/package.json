@@ -6,7 +6,7 @@
     "bourbon": "^4.2.7",
     "cache-manager": "^2.1.2",
     "cache-manager-fs": "^1.0.5",
-    "grind-core-frontend": "^0.4.1",
+    "grind-core-frontend": "^0.4.2",
     "grind-db": "^0.4.0",
     "grind-orm": "^0.4.0",
     "normalize.css": "^4.2.0",
