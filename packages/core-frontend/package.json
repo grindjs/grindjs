@@ -1,6 +1,6 @@
 {
   "name": "grind-core-frontend",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Proxy package to provide frontend Grind dependencies",
   "main": "index.js",
   "repository": {
@@ -15,7 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "grind-assets": "^0.4.0",
-    "grind-core": "^0.4.1",
+    "grind-core": "^0.4.2",
     "grind-html": "^0.4.0",
     "grind-view": "^0.4.0"
   }
