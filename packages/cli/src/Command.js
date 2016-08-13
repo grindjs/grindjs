@@ -50,7 +50,7 @@ export class Command {
 		command.description(this.description)
 
 		const usage = [ ]
-		const options = Object.entries(this.options)
+		const options = Object.keys(this.options).map(key => [ key, this.options[key] ])
 
 		if(options.length > 0) {
 			usage.push('[options]')
