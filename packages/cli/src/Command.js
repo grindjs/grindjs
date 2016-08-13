@@ -150,7 +150,11 @@ export class Command {
 		}
 
 		for(const option of Object.keys(this.options)) {
-			this.compiledValues.options[option] = cli[option]
+			const name = option.split('-').reduce((str, word) => {
+				return `${str}${word[0].toUpperCase()}${word.slice(1)}`
+			})
+
+			this.compiledValues.options[option] = cli[name]
 		}
 
 		process.title = 'node ' + this.name
