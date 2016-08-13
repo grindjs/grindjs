@@ -29,6 +29,7 @@
     "babel-preset-stage-1": "6.5.x",
     "eslint": "^2.13.1",
     "eslint-config-grind": "^1.0.1",
+    "eslint-plugin-grind": "^1.1.0",
     "eslint-plugin-import-auto-name": "^1.0.1"
   },
   "peerDependencies": {
