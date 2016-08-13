@@ -14,8 +14,8 @@ export class Cli {
 		this.register(MakeCommandCommand)
 	}
 
-	run(args = process.argv) {
-		this.app.boot()
+	async run(args = process.argv) {
+		await this.app.boot()
 
 		const info = require(this.app.paths.package)
 		const cli = program
