@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+pushd ${0%/*} > /dev/null
+CLI_BIN="`pwd`/${0##*/}"
+popd > /dev/null
+
+source ${0%/*}/.init
+
+IN_CLI=true CLI_BIN="$CLI_BIN" exec babel-node boot/Cli.js "$@"

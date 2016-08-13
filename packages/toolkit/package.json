@@ -1,0 +1,47 @@
+{
+  "name": "grind-installer",
+  "description": "CLI Installer for Grind",
+  "version": "0.4.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grindjs/installer.git"
+  },
+  "keywords": [
+    "grindjs",
+    "grind-framework"
+  ],
+  "preferGlobal": true,
+  "bin": {
+    "grind": "./command.js"
+  },
+  "dependencies": {
+    "as-type": "^1.0.0",
+    "child-process-promise": "^2.1.0",
+    "fs-promise": "^0.5.0",
+    "grind-core": "^0.4.2",
+    "request": "^2.74.0",
+    "request-promise-native": "^1.0.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.7.5",
+    "babel-eslint": "^6.1.1",
+    "babel-plugin-import-auto-name": "^0.1.0",
+    "babel-plugin-module-alias": "^1.2.0",
+    "babel-plugin-transform-isnil": "0.0.5",
+    "babel-preset-es2016-node5": "^1.1.2",
+    "babel-preset-stage-1": "^6.5.0",
+    "eslint": "^2.13.1",
+    "eslint-config-grind": "^1.0.1",
+    "eslint-plugin-grind": "^1.1.0",
+    "eslint-plugin-import-auto-name": "^1.0.1"
+  },
+  "engines": {
+    "node": ">=5.10 <7.0"
+  },
+  "scripts": {
+    "prepublish": "./build",
+    "cli": "./command.js",
+    "lint": "eslint src"
+  }
+}

@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+source ${0%/*}/.init
+
+strip_babel() {
+	cp "$1" "$1-tmp"
+	cat "$1-tmp" | sed 's/babel-node/node \-\-es_staging/g' > "$1"
+	rm "$1-tmp"
+}
+
+echo "Cleaning up old build"
+rm -fr build
+
+echo "Building"
+mkdir build build/app build/boot
+babel -s inline -d build/app/ app/
+babel -s inline -d build/boot/ boot/
+
+echo "Setting up bins"
+cp -R bin build/bin
+rm build/bin/build build/bin/lint
+
+strip_babel build/bin/cli
+chmod +x build/bin/* build/bin/.init
+
+echo "Done"
