@@ -26,8 +26,13 @@ export class Cli {
 
 		this.commands.sort((a, b) => (a.name || '').localeCompare(b.name || ''))
 
-		for(const command of this.commands) {
-			command.build(cli)
+		try {
+			for(const command of this.commands) {
+				command.build(cli)
+			}
+		} catch(e) {
+			this.output.error('Error booting cli', e)
+			process.exit(1)
 		}
 
 		if(args.length === 2) {
