@@ -49,7 +49,7 @@ export class Command {
 		const command = cli.command(this.name)
 		command.description(this.description)
 
-		var usage = [ ]
+		const usage = [ ]
 		const options = Object.entries(this.options)
 
 		if(options.length > 0) {
@@ -84,7 +84,7 @@ export class Command {
 			}
 		}
 
-		var hadOptional = false
+		let hadOptional = false
 		for(const argument of this.arguments) {
 			const isOptional = argument.endsWith('?')
 
@@ -112,7 +112,7 @@ export class Command {
 	_execute(...args) {
 		const cli = args.pop()
 
-		var requiredArguments = [ ]
+		const requiredArguments = [ ]
 
 		for(const argument of this.arguments) {
 			if(argument.endsWith('?')) {
@@ -136,7 +136,7 @@ export class Command {
 		}
 
 		for(const i in args) {
-			var name = this.arguments[i]
+			let name = this.arguments[i]
 
 			if(name.endsWith('?')) {
 				name = name.substring(0, name.length - 1)
