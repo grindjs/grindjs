@@ -1,5 +1,9 @@
 import './AbortError'
 
+import cast from 'as-type'
+import chalk from 'chalk'
+import readline from 'readline'
+
 export class Command {
 	app = null
 	cli = null
@@ -183,6 +187,34 @@ export class Command {
 
 	success(...message) {
 		return this.cli.output.success(...message)
+	}
+
+	ask(question) {
+		const prompt = chalk.magenta(question)
+
+		return new Promise(resolve => {
+			const iface = readline.createInterface({
+				input: process.stdin,
+				output: process.stdout
+			})
+
+			iface.question(`${prompt} `, answer => {
+				iface.close()
+				resolve((answer || '').trim())
+			})
+		})
+	}
+
+	confirm(question, defaultAnswer = true) {
+		let prompt = `${question} ${chalk.dim(`[${defaultAnswer ? 'yes' : 'no'}]`)}`
+
+		return this.ask(prompt, 'boolean', defaultAnswer ? 'yes' : 'no').then(answer => {
+			if(answer.length === 0) {
+				answer = defaultAnswer
+			}
+
+			return cast.boolean(answer)
+		})
 	}
 
 }
