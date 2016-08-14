@@ -1,6 +1,6 @@
 {
 
 	"debug": false,
-	"port": 80
+	"url": "http://grind.rocks/"
 
 }
