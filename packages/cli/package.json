@@ -1,6 +1,6 @@
 {
   "name": "grind-cli",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "CLI provider for Grind powered by Commander",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
