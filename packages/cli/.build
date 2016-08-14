@@ -6,4 +6,4 @@ NODE_ROOT=`npm root`
 export PATH=$NODE_ROOT/.bin:$PATH
 
 rm -fr lib && mkdir -p lib
-babel -s inline -d lib/ src/
+babel -s inline -d lib/ src/ --copy-files
