@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{% block title %}Grind{% endblock %}</title>
+
+		{{ html.style('https://fonts.googleapis.com/css?family=Source+Sans+Pro') }}
+		{% asset 'render', 'styles' %}
+		{% block styles %}{% endblock %}
+	</head>
+	<body>
+		{% block contentBefore %}{% endblock %}
+
+		<div class="container">
+			<div class="content">
+				{% block content %}{% endblock %}
+			</div>
+		</div>
+
+		{% block contentAfter %}{% endblock %}
+
+		{% asset 'render', 'scripts' %}
+		{% block scripts %}{% endblock %}
+	</body>
+</html>

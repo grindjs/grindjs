@@ -1,0 +1,39 @@
+{
+  "name": "grind-site",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "bourbon": "^4.2.7",
+    "cache-manager": "^2.1.2",
+    "cache-manager-fs": "^1.0.5",
+    "grind-core-frontend": "^0.4.2",
+    "grind-db": "^0.4.0",
+    "grind-orm": "^0.4.0",
+    "normalize.css": "^4.2.0",
+    "sqlite3": "^3.1.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.7.5",
+    "babel-eslint": "^6.1.1",
+    "babel-plugin-import-auto-name": "^0.1.0",
+    "babel-plugin-module-alias": "^1.2.0",
+    "babel-plugin-transform-isnil": "0.0.5",
+    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-es2016-node5": "^1.1.2",
+    "babel-preset-stage-1": "^6.5.0",
+    "babelify": "^7.3.0",
+    "browserify": "^13.1.0",
+    "clean-css": "^3.4.19",
+    "eslint": "^2.13.1",
+    "eslint-config-grind": "^1.0.1",
+    "eslint-plugin-grind": "^1.1.0",
+    "eslint-plugin-import-auto-name": "^1.0.1",
+    "node-sass": "^3.8.0",
+    "svgo": "^0.6.6",
+    "uglify-js": "^2.7.0",
+    "youch": "^1.0.1"
+  },
+  "engines": {
+    "node": ">=5.10 <7.0"
+  }
+}
