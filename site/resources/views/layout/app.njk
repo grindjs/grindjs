@@ -5,15 +5,11 @@
 {% block contentBefore %}
 	<header class="header">
 		<div class="container header-container">
-			{% if not name %}
-				{% set name = 'Grind' %}
-			{% endif %}
-
-			{{ html.linkRoute('welcome.show', name, null, { class: 'header-logo' }) }}
+			{{ html.linkRoute('welcome.show', 'Grind', null, { class: 'header-logo' }) }}
 
 			<nav class="header-links">
 				<a href="http://github.com/grindjs" class="header-link">GitHub</a>
-				<a href="http://twitter.com/grindjs" class="header-link">Twitter</a>
+				<a href="http://grind.readme.io" class="header-link">Docs</a>
 			</nav>
 		</div>
 	</header>
