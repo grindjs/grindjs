@@ -26,3 +26,39 @@
 		font-size: 18px;
 		vertical-align: middle;
 	}
+
+	.welcome-buttons {
+		margin-top: 100px;
+		text-align: center;
+	}
+
+	.welcome-button {
+		$button-height: 60px;
+
+		display: inline-block;
+		height: $button-height;
+		padding: 0 24px;
+
+		font-size: 20px;
+		font-weight: 300;
+		line-height: $button-height;
+		color: #fff;
+		text-decoration: none;
+
+		background: $accent-color;
+		border-radius: 10px;
+		transition: background $transition-timing;
+
+		+ .welcome-button {
+			margin-left: 20px;
+		}
+
+		&:hover {
+			color: #fff;
+			background: darken($accent-color, 5%);
+		}
+
+		&:active {
+			background: darken($accent-color, 10%);
+		}
+	}
