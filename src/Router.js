@@ -1,4 +1,4 @@
-import $path from 'path'
+import path from 'path'
 
 export class Router {
 	app = null
@@ -36,7 +36,7 @@ export class Router {
 
 		if(!scopedPrefix.isNil && scopedPrefix.length > 0) {
 			if(!parentPrefix.isNil && parentPrefix.length > 0) {
-				scopedPrefix = $path.join(parentPrefix, scopedPrefix)
+				scopedPrefix = path.join(parentPrefix, scopedPrefix)
 			}
 
 			this._scopedPrefixStack.push(this._normalizePathComponent(scopedPrefix))
@@ -50,32 +50,32 @@ export class Router {
 		this._scopedPrefixStack.pop()
 	}
 
-	all(path, action) {
-		console.log('Don’t use `all` routes. Offender: %s', path)
-		return this.app.express.all(this._scopedPrefix + path, this._makeAction(action))
+	all(pathname, action) {
+		console.log('Don’t use `all` routes. Offender: %s', pathname)
+		return this.app.express.all(this._scopedPrefix + pathname, this._makeAction(action))
 	}
 
-	get(path, action, context) {
-		return this._add('get', path, action, context)
+	get(pathname, action, context) {
+		return this._add('get', pathname, action, context)
 	}
 
-	post(path, action, context) {
-		return this._add('post', path, action, context)
+	post(pathname, action, context) {
+		return this._add('post', pathname, action, context)
 	}
 
-	put(path, action, context) {
-		return this._add('put', path, action, context)
+	put(pathname, action, context) {
+		return this._add('put', pathname, action, context)
 	}
 
-	patch(path, action, context) {
-		return this._add('patch', path, action, context)
+	patch(pathname, action, context) {
+		return this._add('patch', pathname, action, context)
 	}
 
-	delete(path, action, context) {
-		return this._add('delete', path, action, context)
+	delete(pathname, action, context) {
+		return this._add('delete', pathname, action, context)
 	}
 
-	_add(method, path, action, context) {
+	_add(method, pathname, action, context) {
 		const handler = this._makeAction(action)
 
 		// WARNING: Prone to failure if ExpressJS changes this logic
@@ -99,8 +99,8 @@ export class Router {
 			}
 		}
 
-		path = this._normalizePathComponent(path)
-		const compiledPath = $path.join('/', this._scopedPrefix, path).replace(/:([a-z0-0_\-\.]+)/g, (param, name) => {
+		pathname = this._normalizePathComponent(pathname)
+		const compiledPath = path.join('/', this._scopedPrefix, pathname).replace(/:([a-z0-0_\-\.]+)/g, (param, name) => {
 			const pattern = this.patterns[name]
 
 			if(pattern.isNil) {
@@ -143,7 +143,7 @@ export class Router {
 	}
 
 	_normalizePathComponent(component) {
-		return $path.normalize(component.trim()).replace(/^\//, '')
+		return path.normalize(component.trim()).replace(/^\//, '')
 	}
 
 	bind(name, resolver, context) {
