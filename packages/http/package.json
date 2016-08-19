@@ -9,6 +9,12 @@
     "type": "git",
     "url": "https://github.com/grindjs/framework.git"
   },
+  "keywords": [
+    "express",
+    "grindjs",
+    "grind-framework",
+    "web-framework"
+  ],
   "dependencies": {
     "chalk": "^1.1.3",
     "chokidar": "^1.6.0",
