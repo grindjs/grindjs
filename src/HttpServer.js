@@ -166,6 +166,8 @@ export class HttpServer {
 			server = await app.listen(port, () => {
 				console.log(chalk.yellow('Listening on port %d'), port)
 			})
+
+			server.on('close', () => app.shutdown())
 		} catch(err) {
 			const codeFrame = err.codeFrame
 			delete err.codeFrame

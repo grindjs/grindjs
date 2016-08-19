@@ -83,6 +83,22 @@ export default class Grind {
 		return this.express.listen(...args)
 	}
 
+	async shutdown() {
+		if(!this.booted) {
+			return
+		}
+
+		for(const provider of this.providers) {
+			if(typeof provider.shutdown !== 'function') {
+				continue
+			}
+
+			await provider.shutdown(this)
+		}
+
+		this.booted = false
+	}
+
 	lazy(name, callback) {
 		Object.defineProperty(this, name, {
 			configurable: true,
