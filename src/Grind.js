@@ -83,6 +83,22 @@ export default class Grind {
 		return this.express.listen(...args)
 	}
 
+	lazy(name, callback) {
+		Object.defineProperty(this, name, {
+			configurable: true,
+			get: () => {
+				const value = callback(this)
+
+				Object.defineProperty(this, name, {
+					value: value,
+					writeable: false
+				})
+
+				return value
+			}
+		})
+	}
+
 	// Proxies to express
 	use(...args) { return this.express.use(...args) }
 	enable(...args) { return this.express.enable(...args) }
