@@ -45,6 +45,24 @@ export class Watcher {
 			})
 		})
 
+		const teardown = () => {
+			if(this.server.isNil) {
+				process.exit(0)
+				return
+			}
+
+			const exit = () => process.exit(0)
+
+			// Attempt a safe teardown
+			this.server.destroy(exit)
+
+			// After 1s, kill
+			setTimeout(exit, 1000)
+		}
+
+		process.on('SIGTERM', teardown)
+		process.on('SIGINT', teardown)
+
 		console.log(chalk.yellow('Watching %s'), this.dirs.map(dir => path.relative(process.cwd(), dir)))
 		await this.restart()
 	}
