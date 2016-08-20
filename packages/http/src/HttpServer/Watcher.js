@@ -6,6 +6,7 @@ export class Watcher {
 	httpServer = null
 	lastPort = null
 	dirs = null
+	server = null
 
 	constructor(httpServer, dirs) {
 		this.httpServer = httpServer
@@ -18,41 +19,39 @@ export class Watcher {
 	}
 
 	async watch() {
-		const chokidar = require('chokidar')
-		const watcher = chokidar.watch(this.dirs)
-		let server = null
+		const watcher = require('chokidar').watch(this.dirs)
 
-		watcher.on('ready', () => {
-			watcher.on('all', async () => {
-				files:
-				for(const file of Object.keys(require.cache)) {
-					dirs:
-					for(const dir of this.dirs) {
-						if(file.indexOf(dir) !== 0) {
-							continue dirs
-						}
-
-						delete require.cache[file]
-						continue files
+		watcher.on('all', async () => {
+			files:
+			for(const file of Object.keys(require.cache)) {
+				dirs:
+				for(const dir of this.dirs) {
+					if(file.indexOf(dir) !== 0) {
+						continue dirs
 					}
-				}
 
-				if(!server.isNil) {
-					console.log(chalk.yellow('Restarting'))
-					const oldServer = server
-					server = null
-
-					oldServer.destroy(async () => {
-						server = await this.serve()
-					})
-				} else {
-					server = await this.serve()
+					delete require.cache[file]
+					continue files
 				}
-			})
+			}
+
+			await this.restart()
 		})
 
 		console.log(chalk.yellow('Watching %s'), this.dirs.map(dir => path.relative(process.cwd(), dir)))
-		server = await this.serve()
+		await this.restart()
+	}
+
+	async restart() {
+		if(!this.server.isNil) {
+			console.log(chalk.yellow('Restarting'))
+			const oldServer = this.server
+			this.server = null
+
+			await oldServer.destroy()
+		}
+
+		this.server = await this.serve()
 	}
 
 	async serve() {
