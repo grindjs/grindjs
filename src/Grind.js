@@ -38,8 +38,8 @@ export default class Grind {
 		const pathsClass = parameters.pathsClass || Paths
 
 		this.paths = new pathsClass(module.parent.filename)
-		this.routes = new routerClass(this)
 		this.config = new configClass(this)
+		this.routes = new routerClass(this)
 		this.errorHandler = new errorHandlerClass(this)
 		this.providers = new ProviderCollection
 
