@@ -22,25 +22,27 @@ export class Watcher {
 	async watch() {
 		const watcher = require('chokidar').watch(this.dirs)
 
-		watcher.on('all', async () => {
-			if(this.restarting) {
-				return
-			}
-
-			files:
-			for(const file of Object.keys(require.cache)) {
-				dirs:
-				for(const dir of this.dirs) {
-					if(file.indexOf(dir) !== 0) {
-						continue dirs
-					}
-
-					delete require.cache[file]
-					continue files
+		watcher.on('ready', () => {
+			watcher.on('all', async () => {
+				if(this.restarting) {
+					return
 				}
-			}
 
-			await this.restart()
+				files:
+				for(const file of Object.keys(require.cache)) {
+					dirs:
+					for(const dir of this.dirs) {
+						if(file.indexOf(dir) !== 0) {
+							continue dirs
+						}
+
+						delete require.cache[file]
+						continue files
+					}
+				}
+
+				await this.restart()
+			})
 		})
 
 		console.log(chalk.yellow('Watching %s'), this.dirs.map(dir => path.relative(process.cwd(), dir)))
