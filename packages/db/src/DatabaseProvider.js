@@ -26,4 +26,5 @@ export function DatabaseProvider(app) {
 	])
 }
 
+DatabaseProvider.shutdown = app => app.db.destroy()
 DatabaseProvider.priority = 50000
