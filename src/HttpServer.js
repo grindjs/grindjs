@@ -61,15 +61,15 @@ export class HttpServer {
 
 		const server = await app.listen(port, () => {
 			if(!worker.isNil) {
-				process.title = process.cwd() + ` [server:${port}]`
+				process.title = `${process.cwd()} [server:${port}]`
 				console.log(chalk.yellow('Worker %d listening on %d'), worker.id, port)
 			} else {
-				process.title = process.cwd() + ` [cluster] [worker:${port}]`
+				process.title = `${process.cwd()} [cluster] [worker:${port}]`
 				console.log(chalk.yellow('Listening on port %d'), port)
 			}
 		})
 
-		const teardown = (exitCode) => {
+		const teardown = exitCode => {
 			const exit = () => {
 				if(!this.pidFile.isNil) {
 					// eslint-disable-next-line no-sync,no-empty
@@ -97,7 +97,7 @@ export class HttpServer {
 			return this.serve(cluster.worker)
 		}
 
-		process.title = process.cwd() + ' [cluster] [master]'
+		process.title = `${process.cwd()} [cluster] [master]`
 
 		const cpuCount = require('os').cpus().length
 		for(let i = 0; i < cpuCount; i += 1) {

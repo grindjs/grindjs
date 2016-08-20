@@ -129,7 +129,7 @@ export class Router {
 			if(pattern.isNil) {
 				return param
 			} else {
-				return param + '(' + pattern + ')'
+				return `${param}(${pattern})`
 			}
 		})
 
