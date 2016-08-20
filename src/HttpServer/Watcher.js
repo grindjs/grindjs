@@ -7,6 +7,7 @@ export class Watcher {
 	lastPort = null
 	dirs = null
 	server = null
+	restarting = false
 
 	constructor(httpServer, dirs) {
 		this.httpServer = httpServer
@@ -22,6 +23,10 @@ export class Watcher {
 		const watcher = require('chokidar').watch(this.dirs)
 
 		watcher.on('all', async () => {
+			if(this.restarting) {
+				return
+			}
+
 			files:
 			for(const file of Object.keys(require.cache)) {
 				dirs:
@@ -43,6 +48,8 @@ export class Watcher {
 	}
 
 	async restart() {
+		this.restarting = true
+
 		if(!this.server.isNil) {
 			console.log(chalk.yellow('Restarting'))
 			const oldServer = this.server
@@ -52,6 +59,7 @@ export class Watcher {
 		}
 
 		this.server = await this.serve()
+		this.restarting = false
 	}
 
 	async serve() {
