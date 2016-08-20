@@ -16,7 +16,7 @@ export function RouteExtension() {
 		}
 
 		if(typeof handle !== 'function') {
-			throw new TypeError('Route.use() requires callback functions but got a ' + (typeof handle))
+			throw new TypeError(`Route.use() requires callback functions but got a ${typeof handle}`)
 		}
 
 		if(!method) {
@@ -24,7 +24,7 @@ export function RouteExtension() {
 		}
 
 		if(typeof this.methods[method] === 'undefined' || this.stack.length === 0) {
-			throw new Error('Route.use() requires method to be already registered, ' + method + ' is not yet registered.')
+			throw new Error(`Route.use() requires method to be already registered, ${method} is not yet registered.`)
 		}
 
 		const LayerClass = this.stack[0].constructor
