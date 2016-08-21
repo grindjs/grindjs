@@ -6,6 +6,7 @@ export class Router {
 	bindings = { }
 	patterns = { }
 	namedRoutes = { }
+	middleware = { }
 	bodyParserMiddleware = [ ]
 
 	_scopedActionStack = [ { } ]
@@ -22,26 +23,16 @@ export class Router {
 	constructor(app) {
 		this.app = app
 
-		let parsers = app.config.get('app.body_parsers', [ 'json', 'form' ])
+		const parsers = app.config.get('app.body_parsers', [ 'json', 'form' ])
 
 		if(!Array.isArray(parsers)) {
-			parsers = parsers.isNil ? [ ] : [ parsers ]
+			this.bodyParserMiddleware = parsers.isNil ? [ ] : [ parsers ]
+		} else {
+			this.bodyParserMiddleware = parsers
 		}
 
-		parsers = parsers.map(name => name.toString().trim().toLowerCase())
-
-		for(const name of new Set(parsers)) {
-			switch(name) {
-				case 'json':
-					this.bodyParserMiddleware.push(bodyParser.json())
-					break
-				case 'form':
-					this.bodyParserMiddleware.push(bodyParser.urlencoded({ extended: true }))
-					break
-				default:
-					Log.comment('Unsupported body parsers', name)
-			}
-		}
+		this.middleware.json = bodyParser.json()
+		this.middleware.form = bodyParser.urlencoded({ extended: true })
 	}
 
 	group(action, callback) {
@@ -76,6 +67,12 @@ export class Router {
 	all(pathname, action) {
 		console.log('Don’t use `all` routes. Offender: %s', pathname)
 		return this.app.express.all(this._scopedPrefix + pathname, this._makeAction(action))
+	}
+
+	use(...middlewares) {
+		for(const middleware of middlewares) {
+			this.app.express.use(this.resolveMiddleware(middleware))
+		}
 	}
 
 	get(pathname, action, context) {
@@ -124,6 +121,10 @@ export class Router {
 
 		if(method.toLowerCase() !== 'get' && this.bodyParserMiddleware.length > 0) {
 			handlers.unshift(...this.bodyParserMiddleware)
+		}
+
+		for(const i in handlers) {
+			handlers[i] = this.resolveMiddleware(handlers[i])
 		}
 
 		let route = this.app.express._router.route(compiledPath)
@@ -186,6 +187,22 @@ export class Router {
 	nameRoute(name, route) {
 		route.routeName = name
 		this.namedRoutes[name] = route
+	}
+
+	registerMiddleware(name, middleware) {
+		this.middleware[name] = middleware
+	}
+
+	resolveMiddleware(middleware) {
+		if(typeof middleware === 'function') {
+			return middleware
+		}
+
+		if(this.middleware[middleware].isNil) {
+			throw new Error(`Unknown middleware alias: ${middleware}`)
+		}
+
+		return this.middleware[middleware]
 	}
 
 	addMiddleware(handlers, middleware) {
