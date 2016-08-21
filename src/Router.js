@@ -85,6 +85,17 @@ export class Router {
 		}
 	}
 
+	static(pathname, filePath) {
+		pathname = this._normalizePathComponent(pathname)
+		pathname = path.join('/', this._scopedPrefix, pathname)
+
+		if(filePath.substring(0, 1) !== '/') {
+			filePath = this.app.paths.public(filePath)
+		}
+
+		this.use(pathname, express.static(filePath))
+	}
+
 	get(pathname, action, context) {
 		return this._add('get', pathname, action, context)
 	}
