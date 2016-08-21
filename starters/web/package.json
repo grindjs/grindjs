@@ -28,9 +28,9 @@
     "eslint-config-grind": "^1.1.0",
     "eslint-plugin-import-auto-name": "^1.0.1",
     "node-sass": "^3.8.0",
+    "ouch": "^1.0.0",
     "svgo": "^0.6.6",
-    "uglify-js": "^2.7.0",
-    "youch": "^1.0.1"
+    "uglify-js": "^2.7.0"
   },
   "engines": {
     "node": ">=5.10 <7.0"

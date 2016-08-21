@@ -1,12 +1,12 @@
 import {ErrorHandler as BaseErrorHandler} from 'grind-framework'
-import Ouch from 'youch'
+import Ouch from 'ouch'
 
 export class ErrorHandler extends BaseErrorHandler {
 
 	render(req, res, err, info) {
 		if(this.app.debug) {
 			((new Ouch).pushHandler(
-				new Ouch.handlers.PrettyPageHandler('orange', null, 'sublime')
+				new Ouch.handlers.PrettyPageHandler('blue', null, 'sublime')
 			)).handleException(err, req, res)
 		} else {
 			try {
