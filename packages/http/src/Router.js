@@ -106,20 +106,8 @@ export class Router {
 
 		const handlers = [ handler ]
 
-		if(typeof action.use !== 'undefined') {
-			if(Array.isArray(action.use)) {
-				action.use = {
-					before: action.use
-				}
-			}
-
-			if(typeof action.use === 'object') {
-				if(Array.isArray(action.use.before)) {
-					handlers.unshift(...action.use.before)
-				} else if(Array.isArray(action.use.before)) {
-					handlers.push(...action.use.after)
-				}
-			}
+		if(typeof action === 'object') {
+			this.addMiddleware(handlers, action.use)
 		}
 
 		pathname = this._normalizePathComponent(pathname)
@@ -197,6 +185,26 @@ export class Router {
 	nameRoute(name, route) {
 		route.routeName = name
 		this.namedRoutes[name] = route
+	}
+
+	addMiddleware(handlers, middleware) {
+		if(middleware.isNil) {
+			return
+		}
+
+		if(typeof middleware === 'string') {
+			middleware = { before: [ middleware ] }
+		}
+
+		if(Array.isArray(middleware)) {
+			middleware = { before: middleware }
+		}
+
+		if(Array.isArray(middleware.before)) {
+			handlers.unshift(...middleware.before)
+		} else if(Array.isArray(middleware.before)) {
+			handlers.push(...middleware.after)
+		}
 	}
 
 }
