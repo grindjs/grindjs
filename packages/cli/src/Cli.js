@@ -1,5 +1,6 @@
 import './Output'
 import './MakeCommandCommand'
+import './TinkerCommand'
 
 import program from 'commander'
 
@@ -12,6 +13,7 @@ export class Cli {
 		this.app = app
 		this.output = new Output
 		this.register(MakeCommandCommand)
+		this.register(TinkerCommand)
 	}
 
 	async run(args = process.argv) {
