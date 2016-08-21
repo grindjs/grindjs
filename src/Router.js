@@ -1,5 +1,6 @@
 import bodyParser from 'body-parser'
 import path from 'path'
+import express from 'express'
 
 export class Router {
 	app = null
@@ -69,9 +70,18 @@ export class Router {
 		return this.app.express.all(this._scopedPrefix + pathname, this._makeAction(action))
 	}
 
-	use(...middlewares) {
+	use(path, ...middlewares) {
+		if(typeof path === 'function' || !this.middleware[path].isNil) {
+			middlewares.unshift(path)
+			path = null
+		}
+
 		for(const middleware of middlewares) {
-			this.app.express.use(this.resolveMiddleware(middleware))
+			if(path.isNil) {
+				this.app.express.use(this.resolveMiddleware(middleware))
+			} else {
+				this.app.express.use(path, this.resolveMiddleware(middleware))
+			}
 		}
 	}
 
