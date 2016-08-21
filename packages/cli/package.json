@@ -1,6 +1,6 @@
 {
   "name": "grind-cli",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "CLI provider for Grind powered by Commander",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
@@ -34,7 +34,7 @@
     "eslint-plugin-import-auto-name": "^1.0.1"
   },
   "peerDependencies": {
-    "grind-framework": "^0.4.2"
+    "grind-framework": "^0.5.0"
   },
   "engines": {
     "node": ">=5.10 <7.0"
