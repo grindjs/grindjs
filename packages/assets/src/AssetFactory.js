@@ -51,7 +51,7 @@ export class AssetFactory {
 		}
 	}
 
-	publishedPath(pathname) {
+	publishedPath(pathname, req, secure = null) {
 		if(pathname.indexOf('assets/') !== 0) {
 			pathname = path.join('assets', pathname)
 		}
@@ -62,11 +62,11 @@ export class AssetFactory {
 			pathname = publishedPath
 		}
 
-		if(pathname.indexOf('://') === -1) {
-			return this.app.url.make(pathname)
+		if(pathname.indexOf('://') !== -1) {
+			return pathname
 		}
 
-		return pathname
+		return this.app.url.make(pathname, null, req, secure)
 	}
 
 }

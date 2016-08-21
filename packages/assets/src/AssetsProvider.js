@@ -98,17 +98,22 @@ export function AssetsProvider(app, parameters = { }) {
 	}
 
 	if(!app.view.isNil) {
-		app.view.addFunction('assetPath', path => factory.publishedPath(path))
-
 		if(!app.html.isNil) {
-			app.view.addExtension('AssetExtension', new AssetExtension)
-			const assetContainerClass = parameters.assetContainerClass || AssetContainer
-
-			app.use((req, res, next) => {
-				res.locals._assetContainer = new assetContainerClass(req, res, factory, res.locals.html)
-				next()
-			})
+			const assetExtensionClass = parameters.assetExtensionClass || AssetExtension
+			app.view.addExtension('AssetExtension', new assetExtensionClass)
 		}
+
+		const assetContainerClass = parameters.assetContainerClass || AssetContainer
+
+		app.use((req, res, next) => {
+			res.locals.assetPath = (path, secure) => factory.publishedPath(path, req, secure)
+
+			if(!res.locals.html.isNil) {
+				res.locals._assetContainer = new assetContainerClass(req, res, factory, res.locals.html)
+			}
+
+			next()
+		})
 	}
 }
 

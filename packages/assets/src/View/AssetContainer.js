@@ -126,7 +126,7 @@ export class AssetContainer {
 			return asset
 		}
 
-		return this.factory.publishedPath(asset)
+		return this.factory.publishedPath(asset, this.req)
 	}
 
 }
