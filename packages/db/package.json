@@ -1,6 +1,6 @@
 {
   "name": "grind-db",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Database provider for Grind, powered by Knex",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
@@ -19,8 +19,8 @@
     "knex": "0.10.x"
   },
   "peerDependencies": {
-    "grind-framework": "^0.4",
-    "grind-cli": "^0.4"
+    "grind-framework": "^0.5.0",
+    "grind-cli": "^0.5.0"
   },
   "devDependencies": {
     "babel-cli": ">=6.7 <=7.0",
