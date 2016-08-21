@@ -16,7 +16,6 @@ import './View/AssetContainer'
 import './View/AssetExtension'
 
 import path from 'path'
-import express from 'express'
 
 function expandMacros(config, macros) {
 	const isArray = Array.isArray(config)
@@ -89,7 +88,7 @@ export function AssetsProvider(app, parameters = { }) {
 	}
 
 	for(const dir of dirs) {
-		app.use(`/${dir}`, express.static(app.paths.public(dir)))
+		app.routes.static(dir, dir)
 	}
 
 	if(!app.cli.isNil) {
@@ -105,7 +104,7 @@ export function AssetsProvider(app, parameters = { }) {
 
 		const assetContainerClass = parameters.assetContainerClass || AssetContainer
 
-		app.use((req, res, next) => {
+		app.routes.use((req, res, next) => {
 			res.locals.assetPath = (path, secure) => factory.publishedPath(path, req, secure)
 
 			if(!res.locals.html.isNil) {
