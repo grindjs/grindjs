@@ -71,12 +71,12 @@ export default class Grind {
 		await this.boot()
 
 		// Register error handler
-		this.use((err, req, res, next) => {
+		this.routes.use((err, req, res, next) => {
 			this.errorHandler.handle(err, req, res, next)
 		})
 
 		// Register 404 handler
-		this.use((req, res, next) => {
+		this.routes.use((req, res, next) => {
 			this.errorHandler.handle(new NotFoundError, req, res, next)
 		})
 
@@ -116,7 +116,18 @@ export default class Grind {
 	}
 
 	// Proxies to express
-	use(...args) { return this.express.use(...args) }
+	use(...args) {
+		try {
+			throw new Error('app.use is deprecated as of 0.5 and will be removed in 0.6')
+		} catch(err) {
+			const stack = err.stack.split(/\n/).slice(2)
+			stack.unshift('')
+			Log.error(err.message, stack.join(`\n`))
+		}
+
+		return this.routes.use(...args)
+	}
+
 	enable(...args) { return this.express.enable(...args) }
 	disable(...args) { return this.express.disable(...args) }
 
