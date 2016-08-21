@@ -91,7 +91,7 @@ export class HtmlBuilder {
 	 * @return HtmlString
 	 */
 	script(url, attributes = { }, secure = null) {
-		attributes.src = this.app.url.make(url, secure)
+		attributes.src = this.app.url.make(url, null, this.req, secure)
 
 		return this.toHtmlString(`<script${this.attributes(attributes)}></script>${EOL}`)
 	}
@@ -113,7 +113,7 @@ export class HtmlBuilder {
 		}
 
 		attributes = Object.assign({ }, defaults, attributes)
-		attributes.href = this.app.url.make(url, secure)
+		attributes.href = this.app.url.make(url, null, this.req, secure)
 
 		return this.toHtmlString(`<link${this.attributes(attributes)}>${EOL}`)
 	}
@@ -131,7 +131,7 @@ export class HtmlBuilder {
 	image(url, alt = null, attributes = { }, secure = null) {
 		attributes.alt = alt
 
-		return this.toHtmlString(`<img src="${this.app.url.make(url, secure)}"${this.attributes(attributes)}>`)
+		return this.toHtmlString(`<img src="${this.app.url.make(url, null, this.req, secure)}"${this.attributes(attributes)}>`)
 	}
 
 	/**
@@ -150,7 +150,7 @@ export class HtmlBuilder {
 		}
 
 		attributes = Object.assign({ }, defaults, attributes)
-		attributes.href = this.app.url.make(url, secure)
+		attributes.href = this.app.url.make(url, null, this.req, secure)
 
 		return this.toHtmlString(`<link${this.attributes(attributes)}>${EOL}`)
 	}
@@ -167,7 +167,7 @@ export class HtmlBuilder {
 	 * @return HtmlString
 	 */
 	link(url, title = null, attributes = { }, secure = null, escape = true) {
-		url = this.app.url.make(url, { }, secure)
+		url = this.app.url.make(url, null, this.req, secure)
 
 		if(title.isNil || title === false) {
 			title = url
@@ -201,11 +201,12 @@ export class HtmlBuilder {
 	 * @param string title
 	 * @param array  parameters
 	 * @param array  attributes
+	 * @param bool   secure
 	 *
 	 * @return HtmlString
 	 */
-	linkRoute(name, title = null, parameters = { }, attributes = { }) {
-		return this.link(this.app.url.route(name, parameters), title, attributes)
+	linkRoute(name, title = null, parameters = { }, attributes = { }, secure = null) {
+		return this.link(this.app.url.route(name, parameters, this.req, secure), title, attributes)
 	}
 
 	/**

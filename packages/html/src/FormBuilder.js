@@ -509,7 +509,7 @@ export class FormBuilder {
 		// We will simply loop through the options and build an HTML value for each of
 		// them until we have an array of HTML declarations. Then we will join them
 		// all together into one single HTML element that can be put on the form.
-		html = [ ]
+		const html = [ ]
 
 		if(!options.placeholder.isNil) {
 			html.push(this._placeholderOption(options.placeholder, selected))
@@ -613,7 +613,7 @@ export class FormBuilder {
 	 * @return HtmlString
 	 */
 	_optionGroup(list, label, selected) {
-		html = [ ]
+		const html = [ ]
 
 		for(const value of list) {
 			html.push(this._option(list[value], value, selected))
@@ -832,11 +832,12 @@ export class FormBuilder {
 	 * @param  string url
 	 * @param  string name
 	 * @param  array  attributes
+	 * @param  bool   secure
 	 *
 	 * @return HtmlString
 	 */
-	image(url, name = null, attributes = [ ]) {
-		attributes.src = this.app.url.make(url)
+	image(url, name = null, attributes = [ ], secure = null) {
+		attributes.src = this.app.url.make(url, null, this.req, secure)
 
 		return this.input('image', name, null, attributes)
 	}
@@ -914,37 +915,41 @@ export class FormBuilder {
 			return this._getRouteAction(options.route)
 		}
 
-		return this.app.url.current()
+		if(this.req.isNil) {
+			return null
+		}
+
+		return this.app.url.make(this.req.path, this.req.query, this.req)
 	}
 
 	/**
 	 * Get the action for a "url" option.
 	 *
-	 * @param  array|string options
+	 * @param  object|string options
 	 *
 	 * @return string
 	 */
 	_getUrlAction(options) {
-		if(Array.isArray(options)) {
-			return this.app.url.make(options[0], options.slice(1))
+		if(typeof options !== 'string') {
+			return this.app.url.make(options[0], options.slice(1), this.req)
 		}
 
-		return this.app.url.make(options)
+		return this.app.url.make(options, null, this.req)
 	}
 
 	/**
 	 * Get the action for a "route" option.
 	 *
-	 * @param  array|string options
+	 * @param  object|string options
 	 *
 	 * @return string
 	 */
 	_getRouteAction(options) {
-		if(Array.isArray(options)) {
-			return this.app.url.route(options[0], options.slice(1))
+		if(typeof options !== 'string') {
+			return this.app.url.route(options[0], options.slice(1), this.req)
 		}
 
-		return this.app.url.route(options)
+		return this.app.url.route(options, null, this.req)
 	}
 
 	/**
