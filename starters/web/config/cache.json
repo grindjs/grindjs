@@ -1,6 +1,6 @@
 {
 
-	"default": "fs",
+	"default": "memory",
 
 	"stores": {
 
