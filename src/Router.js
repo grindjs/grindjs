@@ -105,6 +105,7 @@ export class Router {
 		this.app.express.lazyrouter()
 
 		const handlers = [ handler ]
+		this.addMiddleware(handlers, this._scopedAction.use)
 
 		if(typeof action === 'object') {
 			this.addMiddleware(handlers, action.use)
