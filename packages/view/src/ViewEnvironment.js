@@ -7,7 +7,7 @@ export class ViewEnvironment extends Nunjucks.Environment {
 			filename = filename.substring(0, filename.length - 4)
 		}
 
-		return super.resolveTemplate(loader, parentName, filename.replace(/\./, '/') + '.njk')
+		return super.resolveTemplate(loader, parentName, filename.replace(/\./g, '/') + '.njk')
 	}
 
 }
