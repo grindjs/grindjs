@@ -56,7 +56,7 @@ export class ViewFactory {
 	}
 
 	addFilter(name, callback) {
-		this.nunjucks.addFilter(callback)
+		this.nunjucks.addFilter(name, callback)
 	}
 
 	addFunction(name, callback) {
