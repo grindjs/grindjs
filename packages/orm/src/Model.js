@@ -183,12 +183,17 @@ export class Model extends ObjectionModel {
 				continue
 			}
 
-			let fieldType = properties[field].type
+			const property = properties[field]
+			let fieldType = property.type
 			let allowsNull = false
+
+			if(!property.anyOf.isNil) {
+				fieldType = property.anyOf.map(type => type.type)
+			}
 
 			if(Array.isArray(fieldType) && fieldType.length > 1) {
 				allowsNull = fieldType.indexOf('null') >= 0
-				fieldType = fieldType[0]
+				fieldType = fieldType.filter(type => type !== 'null')[0]
 			}
 
 			if(fieldType === 'boolean') {
