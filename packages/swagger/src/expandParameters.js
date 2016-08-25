@@ -12,11 +12,11 @@ export function expandParameters(parameters) {
 	}
 
 	if(typeof parameters === 'object' && !Array.isArray(parameters)) {
-		parameters = Object.entries(parameters).map(entry => {
-			const parameter = Object.assign({ }, entry[1])
+		parameters = Object.keys(parameters).map(key => {
+			const parameter = Object.assign({ }, parameters[key])
 
 			if(parameter.name.isNil) {
-				parameter.name = entry[0]
+				parameter.name = key
 			}
 
 			return parameter
