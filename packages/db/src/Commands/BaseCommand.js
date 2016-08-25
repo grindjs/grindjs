@@ -1,4 +1,4 @@
-import {Command, StubCompiler} from 'grind-cli'
+import { Command, StubCompiler } from 'grind-cli'
 import path from 'path'
 
 export class BaseCommand extends Command {

@@ -1,6 +1,6 @@
 export function Config(connection, app) {
 	if(typeof connection === 'string') {
-		connection = app.config.get('database.connections.' + connection)
+		connection = app.config.get(`database.connections.${connection}`)
 	}
 
 	if(connection.isNil) {
@@ -54,7 +54,7 @@ export function Config(connection, app) {
 			connection.connection += connection.host || 'localhost'
 
 			if(!connection.db.isNil) {
-				connection.connection += '/' + connection.db
+				connection.connection += `/${connection.db}`
 			}
 		}
 
