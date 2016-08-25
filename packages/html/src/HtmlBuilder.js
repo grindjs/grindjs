@@ -115,7 +115,7 @@ export class HtmlBuilder {
 		attributes = Object.assign({ }, defaults, attributes)
 		attributes.href = this.app.url.make(url, null, this.req, secure)
 
-		return this.toHtmlString(`<link${this.attributes(attributes)}>${EOL}`)
+		return this.toHtmlString(`<link${this.attributes(attributes)} />${EOL}`)
 	}
 
 	/**
@@ -131,7 +131,7 @@ export class HtmlBuilder {
 	image(url, alt = null, attributes = { }, secure = null) {
 		attributes.alt = alt
 
-		return this.toHtmlString(`<img src="${this.app.url.make(url, null, this.req, secure)}"${this.attributes(attributes)}>`)
+		return this.toHtmlString(`<img src="${this.app.url.make(url, null, this.req, secure)}"${this.attributes(attributes)} />`)
 	}
 
 	/**
@@ -152,7 +152,7 @@ export class HtmlBuilder {
 		attributes = Object.assign({ }, defaults, attributes)
 		attributes.href = this.app.url.make(url, null, this.req, secure)
 
-		return this.toHtmlString(`<link${this.attributes(attributes)}>${EOL}`)
+		return this.toHtmlString(`<link${this.attributes(attributes)} />${EOL}`)
 	}
 
 	/**
@@ -434,7 +434,7 @@ export class HtmlBuilder {
 		const defaults = { name, content }
 		attributes = Object.assign({ }, defaults, attributes)
 
-		return this.toHtmlString(`<meta${this.attributes(attributes)}>${EOL}`)
+		return this.toHtmlString(`<meta${this.attributes(attributes)} />${EOL}`)
 	}
 
 	/**
