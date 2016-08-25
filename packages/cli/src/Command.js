@@ -104,7 +104,7 @@ export class Command {
 				process.exit(1)
 			}
 
-			usage.push('<' + argument + '>')
+			usage.push(`<${argument}>`)
 		}
 
 		command.usage(usage)
@@ -157,7 +157,7 @@ export class Command {
 			this.compiledValues.options[option] = cli[name]
 		}
 
-		process.title = 'node ' + this.name
+		process.title = `node ${this.name}`
 
 		this.ready()
 		.then(() => this.run())
@@ -210,7 +210,7 @@ export class Command {
 	}
 
 	confirm(question, defaultAnswer = true) {
-		let prompt = `${question} ${chalk.dim(`[${defaultAnswer ? 'yes' : 'no'}]`)}`
+		const prompt = `${question} ${chalk.dim(`[${defaultAnswer ? 'yes' : 'no'}]`)}`
 
 		return this.ask(prompt, 'boolean', defaultAnswer ? 'yes' : 'no').then(answer => {
 			if(answer.length === 0) {

@@ -1,4 +1,4 @@
-import {Command} from 'grind-cli'
+import { Command } from 'grind-cli'
 
 export class {{=it.className}} extends Command {
 	// Name of the command
