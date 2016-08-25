@@ -1053,7 +1053,7 @@ export class FormBuilder {
 	 *
 	 * @return mixed
 	 */
-	old(/*name*/) {
+	old(/* name */) {
 		// TODO: No session support in Grind yet
 		return null
 	}

@@ -10,5 +10,8 @@
 	"extends": "grind",
 	"parserOptions": {
 		"sourceType": "module"
+	},
+	"rules": {
+		"max-lines": [ "off" ]
 	}
 }

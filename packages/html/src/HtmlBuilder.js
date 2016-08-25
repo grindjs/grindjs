@@ -1,4 +1,4 @@
-import {Html5Entities} from 'html-entities'
+import { Html5Entities } from 'html-entities'
 
 const EOL = `\n`
 
@@ -129,9 +129,10 @@ export class HtmlBuilder {
 	 * @return HtmlString
 	 */
 	image(url, alt = null, attributes = { }, secure = null) {
+		url = this.app.url.make(url, null, this.req, secure)
 		attributes.alt = alt
 
-		return this.toHtmlString(`<img src="${this.app.url.make(url, null, this.req, secure)}"${this.attributes(attributes)} />`)
+		return this.toHtmlString(`<img src="${url}"${this.attributes(attributes)} />`)
 	}
 
 	/**
@@ -448,7 +449,8 @@ export class HtmlBuilder {
 	 */
 	tag(tag, content, attributes = { }) {
 		content = Array.isArray(content) ? content.join(EOL) : content
-		return this.toHtmlString(`<${tag}${this.attributes(attributes)}>${EOL}${this.toHtmlString(content)}${EOL}</${tag}>${EOL}`)
+		const html = this.toHtmlString(content)
+		return this.toHtmlString(`<${tag}${this.attributes(attributes)}>${EOL}${html}${EOL}</${tag}>${EOL}`)
 	}
 
 	/**
