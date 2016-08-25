@@ -130,7 +130,8 @@ export class Router {
 		}
 
 		pathname = this._normalizePathComponent(pathname)
-		const compiledPath = path.join('/', this._scopedPrefix, pathname).replace(/:([a-z0-0_\-\.]+)/g, (param, name) => {
+		const fullPath = path.join('/', this._scopedPrefix, pathname)
+		const compiledPath = fullPath.replace(/:([a-z0-0_\-\.]+)/g, (param, name) => {
 			const pattern = this.patterns[name]
 
 			if(pattern.isNil) {
