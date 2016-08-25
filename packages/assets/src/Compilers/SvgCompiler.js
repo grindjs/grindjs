@@ -30,7 +30,7 @@ export class SvgCompiler extends Compiler {
 
 			return new Promise(async (resolve, reject) => {
 				try {
-					(new SVGO(this.options)).optimize(svg, (result) => {
+					(new SVGO(this.options)).optimize(svg, result => {
 						if(result.isNil) {
 							return reject({
 								file: pathname,
