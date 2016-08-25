@@ -1,4 +1,4 @@
-import {Route} from 'express'
+import { Route } from 'express'
 
 let hasExtended = false
 

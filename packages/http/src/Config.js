@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import JSON5 from 'json5'
-import {merge} from './Utils/merge'
+import { merge } from './Utils/merge'
 
 export class Config {
 	_repository = null
