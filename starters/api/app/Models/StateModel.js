@@ -1,4 +1,4 @@
-import {Model} from 'grind-orm'
+import { Model } from 'grind-orm'
 
 import 'App/Models/CountryModel'
 import 'App/Models/CompanyModel'

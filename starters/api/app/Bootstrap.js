@@ -1,8 +1,8 @@
 import Grind from 'grind-framework'
 
-import {DatabaseProvider} from 'grind-db'
-import {OrmProvider} from 'grind-orm'
-import {SwaggerProvider} from 'grind-swagger'
+import { DatabaseProvider } from 'grind-db'
+import { OrmProvider } from 'grind-orm'
+import { SwaggerProvider } from 'grind-swagger'
 
 import 'App/Providers/RoutesProvider'
 

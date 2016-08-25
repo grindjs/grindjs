@@ -1,4 +1,4 @@
-import {Controller} from 'grind-framework'
+import { Controller } from 'grind-framework'
 
 export class BaseController extends Controller {
 	db = null

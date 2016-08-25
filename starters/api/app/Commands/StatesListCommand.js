@@ -1,4 +1,4 @@
-import {Command} from 'grind-cli'
+import { Command } from 'grind-cli'
 
 import 'App/Models/StateModel'
 
