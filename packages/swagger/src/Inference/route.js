@@ -1,4 +1,4 @@
-import {findParameter} from '../find-parameter'
+import '../findParameter'
 
 function processPathParameter(app, parameters, name, pattern, optional) {
 	var parameter = findParameter(parameters, name)

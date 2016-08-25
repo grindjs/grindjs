@@ -1,5 +1,5 @@
-import {expandParameters} from './expand-parameters'
-import {findParameter} from './find-parameter'
+import './expandParameters'
+import './findParameter'
 
 export class Swagger {
 	static appName = null

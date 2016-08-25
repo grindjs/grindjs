@@ -1,4 +1,4 @@
-import {Swagger} from '../swagger'
+import '../Swagger'
 
 export function parameter(parameter, method) {
 	if(parameter.required.isNil) {

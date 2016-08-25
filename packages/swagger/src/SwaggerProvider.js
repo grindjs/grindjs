@@ -1,7 +1,7 @@
-import {compileRoute} from './compile-route'
-import {Swagger} from './swagger'
+import './Swagger'
+import './compileRoute'
 
-export function provider(app) {
+export function SwaggerProvider(app) {
 
 	app.routes.get('/swagger.json', (req, res) => {
 		const router = app.express._router
