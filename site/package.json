@@ -1,12 +1,10 @@
 {
   "name": "grind-site",
-  "version": "0.0.1",
   "private": true,
   "dependencies": {
     "bourbon": "^4.2.7",
     "cache-manager": "^2.1.2",
-    "cache-manager-fs": "^1.0.5",
-    "grind-core-frontend": "^0.4.2",
+    "grind-core-frontend": "^0.5.1",
     "normalize.css": "^4.2.0"
   },
   "devDependencies": {
@@ -25,9 +23,9 @@
     "eslint-plugin-grind": "^1.1.0",
     "eslint-plugin-import-auto-name": "^1.0.1",
     "node-sass": "^3.8.0",
+    "ouch": "^1.0.0",
     "svgo": "^0.6.6",
-    "uglify-js": "^2.7.0",
-    "youch": "^1.0.1"
+    "uglify-js": "^2.7.0"
   },
   "engines": {
     "node": ">=5.10 <7.0"
