@@ -1,4 +1,4 @@
-import {ErrorHandler as BaseErrorHandler} from 'grind-framework'
+import { ErrorHandler as BaseErrorHandler } from 'grind-framework'
 import Ouch from 'ouch'
 
 export class ErrorHandler extends BaseErrorHandler {

@@ -1,9 +1,9 @@
 import Grind from 'grind-framework'
 
-import {AssetsProvider} from 'grind-assets'
-import {CacheProvider} from 'grind-cache'
-import {HtmlProvider} from 'grind-html'
-import {ViewProvider} from 'grind-view'
+import { AssetsProvider } from 'grind-assets'
+import { CacheProvider } from 'grind-cache'
+import { HtmlProvider } from 'grind-html'
+import { ViewProvider } from 'grind-view'
 
 import 'App/Providers/RoutesProvider'
 import 'App/Errors/ErrorHandler'
