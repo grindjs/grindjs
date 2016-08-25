@@ -85,7 +85,7 @@ export class Swagger {
 		}
 
 		for(const name of names) {
-			var sharedParameters = null
+			let sharedParameters = null
 
 			// typeof undefined pending https://github.com/MaxMEllon/babel-plugin-transform-isNil/issues/3
 

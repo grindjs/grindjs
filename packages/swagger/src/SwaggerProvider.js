@@ -17,7 +17,7 @@ export function SwaggerProvider(app) {
 
 		const info = require(app.paths.package)
 
-		var paths = { }
+		const paths = { }
 
 		for(const r of stack) {
 			const route = r.route
@@ -31,7 +31,7 @@ export function SwaggerProvider(app) {
 
 			const { routePath, method, swagger } = result
 
-			var obj = paths[routePath] || { }
+			const obj = paths[routePath] || { }
 			obj[method] = swagger
 			paths[routePath] = obj
 		}

@@ -5,9 +5,9 @@ import { route as inferRoute } from './inference/route'
 import { parameter as inferParameter } from './inference/parameter'
 
 export function compileRoute(route, app) {
-	var docs = !route.context.isNil ? route.context.swagger : null
-	var routePath = route.path
-	var method = route.methods
+	let docs = !route.context.isNil ? route.context.swagger : null
+	let routePath = route.path
+	let method = route.methods
 
 	if(typeof method === 'object') {
 		method = Object.keys(method)[0]

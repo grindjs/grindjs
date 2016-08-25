@@ -1,7 +1,7 @@
 import '../findParameter'
 
 function processPathParameter(app, parameters, name, pattern, optional) {
-	var parameter = findParameter(parameters, name)
+	let parameter = findParameter(parameters, name)
 
 	if(parameter === null) {
 		const binding = app.routes.bindings[name]
@@ -26,7 +26,7 @@ function processPathParameter(app, parameters, name, pattern, optional) {
 		}
 	}
 
-	return '{' + name + '}'
+	return `{${name}}`
 }
 
 export function route(path, app, parameters) {
