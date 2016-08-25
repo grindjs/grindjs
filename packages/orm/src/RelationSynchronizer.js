@@ -68,7 +68,7 @@ export class RelationSynchronizer {
 
 	_unrelateIds(ids) {
 		return this.model.$relatedQuery(this.relation.name).unrelate()
-			.whereIn(this.relatedClass.tableName  + '.' + this.relatedColumn, ids)
+			.whereIn(`${this.relatedClass.tableName}.${this.relatedColumn}`, ids)
 	}
 
 	_parseIds(ids) {
@@ -86,7 +86,7 @@ export class RelationSynchronizer {
 			if(Number.isInteger(id) && id > 0) {
 				return id
 			} else {
-				throw new BadRequestError('Invalid id: ' + value)
+				throw new BadRequestError(`Invalid id: ${value}`)
 			}
 		})
 	}

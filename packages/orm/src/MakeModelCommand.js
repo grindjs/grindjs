@@ -1,4 +1,4 @@
-import {Command, StubCompiler} from 'grind-cli'
+import { Command, StubCompiler } from 'grind-cli'
 import './inflect'
 import path from 'path'
 
@@ -19,7 +19,7 @@ export class MakeModelCommand extends Command {
 			tableName = this.option('table')
 
 			if(className.isNil) {
-				className = inflect.classify(tableName) + 'Model'
+				className = `${inflect.classify(tableName)}Model`
 			}
 		}
 

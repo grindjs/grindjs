@@ -1,4 +1,4 @@
-import {Model} from 'grind-orm'
+import { Model } from 'grind-orm'
 
 export class {{=it.className}} extends Model {
 	static tableName = '{{=it.tableName}}'
