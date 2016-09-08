@@ -21,6 +21,8 @@ export class HttpServer {
 		for(const arg of process.argv) {
 			if(arg === '--cluster') {
 				clustered = true
+			} else if(arg.startsWith('--cluster=')) {
+				clustered = Number.parseInt(arg.substr(10))
 			} else if(arg.startsWith('--watch=')) {
 				watchDirs = [ ]
 
@@ -48,10 +50,10 @@ export class HttpServer {
 
 		if(!watchDirs.isNil) {
 			await this.watch(watchDirs)
-		} else if(clustered !== true) {
+		} else if(clustered === false) {
 			await this.serve()
 		} else {
-			await this.cluster()
+			await this.cluster(clustered)
 		}
 	}
 
@@ -92,15 +94,22 @@ export class HttpServer {
 		return server
 	}
 
-	cluster() {
+	cluster(workers = null) {
 		if(!cluster.isMaster) {
 			return this.serve(cluster.worker)
 		}
 
+		if(!process.env.NODE_CLUSTER.isNil) {
+			workers = Number.parseInt(process.env.NODE_CLUSTER)
+		}
+
+		if(workers.isNil || Number.isNaN(workers) || workers <= 0) {
+			workers = require('os').cpus().length
+		}
+
 		process.title = `${process.cwd()} [cluster] [master]`
 
-		const cpuCount = require('os').cpus().length
-		for(let i = 0; i < cpuCount; i += 1) {
+		for(let i = 0; i < workers; i += 1) {
 			cluster.fork()
 		}
 
