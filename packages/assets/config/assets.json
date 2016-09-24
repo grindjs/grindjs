@@ -47,7 +47,8 @@
 				"png": "image/png",
 				"svg": "image/svg+xml",
 				"ttf": "application/x-font-ttf",
-				"woff": "application/x-font-woff"
+				"woff": "application/x-font-woff",
+				"woff2": "application/font-woff2"
 			}
 		}
 
