@@ -1,5 +1,7 @@
 import './JavascriptCompiler'
+
 import '../Support/Require'
+import '../Support/FS'
 
 import path from 'path'
 
@@ -59,6 +61,56 @@ export class BabelCompiler extends JavascriptCompiler {
 			return this.minify(contents.toString(), false)
 		})
 
+	}
+
+	async enumerateImports(pathname, callback) {
+		const exists = await FS.exists(pathname)
+
+		if(!exists) {
+			return
+		}
+
+		const contents = await FS.readFile(pathname)
+		const importPaths = [ ]
+
+		contents.toString().replace(/import\s*\{[^\}]+\}\s*from\s*((["'`]).+?(\2))/igm, (_, importPath) => {
+			importPaths.push(importPath)
+		})
+
+		contents.toString().replace(/import\s*((["'`]).+?(\2))/ig, (_, importPath) => {
+			importPaths.push(importPath)
+		})
+
+		contents.toString().replace(/require\s*\(([^\)]+)\)/ig, (_, importPath) => {
+			importPaths.push(importPath)
+		})
+
+		for(let importPath of importPaths) {
+			const dirname = path.dirname(pathname)
+			importPath = path.join(dirname, importPath.replace(/["'`]/g, '').trim())
+
+			const ext = path.extname(importPath).substring(1)
+			const files = [ ]
+
+			if(ext.indexOf(this.supportedExtensions) === -1) {
+				for(const ext of this.supportedExtensions) {
+					files.push(`${importPath}.${ext}`)
+				}
+			} else {
+				files.push(importPath)
+			}
+
+			for(const file of files) {
+				const exists = await FS.exists(file)
+
+				if(!exists) {
+					continue
+				}
+
+				await callback(file)
+				break
+			}
+		}
 	}
 
 }
