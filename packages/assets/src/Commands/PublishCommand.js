@@ -3,6 +3,7 @@ import '../Support/FS'
 
 import crypto from 'crypto'
 import path from 'path'
+import Ignore from 'ignore'
 
 export class PublishCommand extends BaseCommand {
 	name = 'assets:publish'
@@ -81,11 +82,31 @@ export class PublishCommand extends BaseCommand {
 		}
 	}
 
-	findAssets(pathname) {
-		return FS.recursiveReaddir(pathname).then(files => files.filter(file => {
-			const first = path.basename(file).substring(0, 1)
+	async findAssets(pathname) {
+		const files = await FS.recursiveReaddir(pathname)
+		const ignoreFiles = files.filter(file => path.basename(file) === '.assetsignore')
+		const ignoreRules = Ignore().add([ '**/_*', '**/.*' ])
 
-			if(first === '_' || first === '.') {
+		for(const ignoreFile of ignoreFiles) {
+			const content = await FS.readFile(ignoreFile).then(content => content.toString())
+			const dirname = path.relative(pathname, path.dirname(ignoreFile))
+
+			const rules = content.split(/[\n\r]+/).filter(line => {
+				line = line.trim()
+				return line.length > 0 && line.substring(0, 1) !== '#'
+			}).map(line => {
+				if(line.substring(0, 1) === '!') {
+					return `!${path.join(dirname, line.substring(1))}`
+				}
+
+				return path.join(dirname, line)
+			})
+
+			ignoreRules.add(rules)
+		}
+
+		return files.filter(file => {
+			if(ignoreRules.filter([ path.relative(pathname, file) ]).length !== 1) {
 				return false
 			}
 
@@ -95,7 +116,7 @@ export class PublishCommand extends BaseCommand {
 			}
 
 			return true
-		}).map(file => this.factory.make(file)))
+		}).map(file => this.factory.make(file))
 	}
 
 	loadOldAssets() {
