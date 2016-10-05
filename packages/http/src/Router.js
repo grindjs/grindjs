@@ -85,7 +85,7 @@ export class Router {
 		}
 	}
 
-	static(pathname, filePath) {
+	static(pathname, filePath, options) {
 		pathname = this._normalizePathComponent(pathname)
 		pathname = path.join('/', this._scopedPrefix, pathname)
 
@@ -93,7 +93,7 @@ export class Router {
 			filePath = this.app.paths.public(filePath)
 		}
 
-		this.use(pathname, express.static(filePath))
+		this.use(pathname, express.static(filePath, options))
 	}
 
 	get(pathname, action, context) {
