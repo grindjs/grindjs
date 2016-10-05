@@ -1,22 +1,22 @@
-import './Compiler'
+import './PostProcessor'
 
 import '../Support/FS'
 import '../Support/Require'
 
 const CleanCSS = Require.optionally('clean-css')
 
-export class CssCompiler extends Compiler {
-	wantsHashSuffixOnPublish = false
+export class CssPostProcessor extends PostProcessor {
 	supportedExtensions = [ 'css' ]
+	priority = 100
 	options = { }
 
 	constructor(app, autoMinify) {
 		super(app, autoMinify)
 
-		this.options = app.config.get('assets.compilers.css', { })
+		this.options = app.config.get('assets.post_processors.css', { })
 	}
 
-	compile(pathname) {
+	process(pathname) {
 		return FS.readFile(pathname).then(css => {
 			if(!this.autoMinify || pathname.indexOf('.min.') >= 0) {
 				return css
@@ -46,15 +46,7 @@ export class CssCompiler extends Compiler {
 		})
 	}
 
-	mime() {
-		return 'text/css'
-	}
-
 	type() {
-		return 'css'
-	}
-
-	extension() {
 		return 'css'
 	}
 

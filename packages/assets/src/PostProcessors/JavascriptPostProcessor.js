@@ -1,22 +1,21 @@
-import './Compiler'
+import './PostProcessor'
 
 import '../Support/FS'
 import '../Support/Require'
 
 const UglifyJS = Require.optionally('uglify-js')
 
-export class JavascriptCompiler extends Compiler {
-	wantsHashSuffixOnPublish = false
+export class JavascriptPostProcessor extends PostProcessor {
 	supportedExtensions = [ 'js' ]
 	options = { }
 
 	constructor(app, autoMinify) {
 		super(app, autoMinify)
 
-		this.options = app.config.get('assets.compilers.js', { })
+		this.options = app.config.get('assets.post_processors.js', { })
 	}
 
-	compile(pathname) {
+	process(pathname) {
 		if(!this.autoMinify || pathname.indexOf('.min.') >= 0) {
 			return FS.readFile(pathname)
 		}
@@ -52,15 +51,7 @@ export class JavascriptCompiler extends Compiler {
 		})
 	}
 
-	mime() {
-		return 'application/javascript'
-	}
-
 	type() {
-		return 'js'
-	}
-
-	extension() {
 		return 'js'
 	}
 
