@@ -1,4 +1,4 @@
-import $url from 'url'
+import URL from 'url'
 
 export class UrlGenerator {
 	app = null
@@ -17,7 +17,7 @@ export class UrlGenerator {
 			defaultUrl = `http://localhost:${this.app.port}`
 		}
 
-		this.defaultUrl = $url.parse(app.config.get('app.url', defaultUrl))
+		this.defaultUrl = URL.parse(app.config.get('app.url', defaultUrl))
 
 		if(!this.defaultUrl.path.isNil && this.defaultUrl.path !== '' && this.defaultUrl.path !== '/') {
 			throw new Error('`app.url` can not contain a path.')
@@ -85,20 +85,36 @@ export class UrlGenerator {
 			}
 		}
 
-		if(!req.isNil) {
-			url.protocol = req.protocol
-			url.host = req.get('Host')
-		} else {
-			url = Object.assign({ }, this.defaultUrl, url)
-		}
+		url.protocol = this.getProtocol(req, secure)
+		url.host = this.getHost(req)
 
+		return URL.format(url)
+	}
+
+	getProtocol(req = null, secure = null) {
 		if(secure === true) {
-			url.protocol = 'https'
+			return 'https:'
 		} else if(secure === false) {
-			url.protocol = 'http'
+			return 'http:'
 		}
 
-		return $url.format(url)
+		if(req.isNil) {
+			return this.defaultUrl.protocol || 'http:'
+		}
+
+		if(req.secure) {
+			return 'https:'
+		}
+
+		return 'http:'
+	}
+
+	getHost(req = null) {
+		if(req.isNil) {
+			return this.defaultUrl.host || 'localhost'
+		}
+
+		return req.get('Host')
 	}
 
 }
