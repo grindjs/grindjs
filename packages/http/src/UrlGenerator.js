@@ -18,7 +18,10 @@ export class UrlGenerator {
 		}
 
 		this.defaultUrl = $url.parse(app.config.get('app.url', defaultUrl))
-		delete this.defaultUrl.path
+
+		if(!this.defaultUrl.path.isNil && this.defaultUrl.path !== '' && this.defaultUrl.path !== '/') {
+			throw new Error('`app.url` can not contain a path.')
+		}
 	}
 
 	route(name, parameters, req, secure = null) {
