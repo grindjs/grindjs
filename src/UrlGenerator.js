@@ -58,23 +58,14 @@ export class UrlGenerator {
 			return parameters[index++]
 		})
 
-		let url = {
-			pathname: path,
-			query: { }
-		}
-
 		if(!isObject) {
 			parameters = null
 		}
 
-		if(!req.isNil) {
-			url.protocol = req.protocol
-			url.host = req.get('Host')
-		} else {
-			url = Object.assign({ }, this.defaultUrl, url)
-		}
-
-		return this.make(url, parameters, secure)
+		return this.make({
+			pathname: path,
+			query: { }
+		}, parameters, req, secure)
 	}
 
 	make(url, parameters, req, secure = null) {
