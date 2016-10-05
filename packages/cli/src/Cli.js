@@ -46,7 +46,12 @@ export class Cli {
 			process.exit(1)
 		})
 
-		cli.parse(args)
+		try {
+			cli.parse(args)
+		} catch(err) {
+			this.output.error('Error parsing', err)
+			process.exit(1)
+		}
 	}
 
 	find(name) {
