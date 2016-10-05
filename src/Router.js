@@ -247,4 +247,8 @@ export class Router {
 		}
 	}
 
+	trustProxy(...args) {
+		this.app.express.set('trust proxy', ...args)
+	}
+
 }
