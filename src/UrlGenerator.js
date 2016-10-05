@@ -55,7 +55,7 @@ export class UrlGenerator {
 				return ''
 			}
 
-			return parameters[index++]
+			return parameters[index++] || ''
 		})
 
 		if(!isObject) {
