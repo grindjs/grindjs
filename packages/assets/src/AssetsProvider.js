@@ -88,7 +88,10 @@ export function AssetsProvider(app, parameters = { }) {
 	}
 
 	for(const dir of dirs) {
-		app.routes.static(dir, dir)
+		app.routes.static(dir, dir, {
+			lastModified: true,
+			maxAge: 864000000
+		})
 	}
 
 	if(!app.cli.isNil) {
