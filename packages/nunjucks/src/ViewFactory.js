@@ -67,4 +67,16 @@ export class ViewFactory {
 		this.nunjucks.addExtension(name, extension)
 	}
 
+	render(name, context) {
+		return new Promise((resolve, reject) => {
+			this.nunjucks.render(name, context, (err, result) => {
+				if(!err.isNil) {
+					return reject(err)
+				}
+
+				return resolve(result)
+			})
+		})
+	}
+
 }
