@@ -1,4 +1,5 @@
 import URL from 'url'
+import Path from 'path'
 
 export class UrlGenerator {
 	app = null
@@ -85,6 +86,7 @@ export class UrlGenerator {
 			}
 		}
 
+		url.pathname = Path.normalize(url.pathname || '').replace(/\/+$/, '')
 		url.protocol = this.getProtocol(req, secure)
 		url.host = this.getHost(req)
 
