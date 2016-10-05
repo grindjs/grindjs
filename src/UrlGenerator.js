@@ -3,29 +3,57 @@ import Path from 'path'
 
 export class UrlGenerator {
 	app = null
+	req = null
 	defaultUrl = null
 
-	constructor(app) {
+	constructor(app, defaultUrl = null) {
 		this.app = app
 
-		let defaultUrl = null
+		if(defaultUrl.isNil) {
+			let defaultUrl = null
 
-		if(this.app.port === 443) {
-			defaultUrl = 'https://localhost'
-		} else if(this.app.port === 80) {
-			defaultUrl = 'http://localhost'
+			if(this.app.port === 443) {
+				defaultUrl = 'https://localhost'
+			} else if(this.app.port === 80) {
+				defaultUrl = 'http://localhost'
+			} else {
+				defaultUrl = `http://localhost:${this.app.port}`
+			}
+
+			this.defaultUrl = URL.parse(app.config.get('app.url', defaultUrl))
+
+			if(!this.defaultUrl.path.isNil && this.defaultUrl.path !== '' && this.defaultUrl.path !== '/') {
+				throw new Error('`app.url` can not contain a path.')
+			}
 		} else {
-			defaultUrl = `http://localhost:${this.app.port}`
-		}
-
-		this.defaultUrl = URL.parse(app.config.get('app.url', defaultUrl))
-
-		if(!this.defaultUrl.path.isNil && this.defaultUrl.path !== '' && this.defaultUrl.path !== '/') {
-			throw new Error('`app.url` can not contain a path.')
+			this.defaultUrl = defaultUrl
 		}
 	}
 
-	route(name, parameters, req, secure = null) {
+	/**
+	 * Clone the instance to be used within a
+	 * request cycle.
+	 *
+	 * @param object req
+	 *
+	 * @return object
+	 */
+	clone(req) {
+		const cloned = new this.constructor(this.app, this.defaultUrl)
+		cloned.req = req
+		return cloned
+	}
+
+	/**
+	 * Generate a URL for a route name and it’s parameters
+	 *
+	 * @param  {string} name Name of the route to generate
+	 * @param  {Object|Array|string} parameters Parameter values for the route.
+	 * @param  {Object|null} req Origin request to generate URL from, uses correct host/protocol
+	 * @param  {boolean|null} secure Whether or not to force https, null uses default behavior
+	 * @return {string}
+	 */
+	route(name, parameters, req, secure) {
 		const route = this.app.routes.namedRoutes[name]
 
 		if(route.isNil) {
@@ -69,7 +97,25 @@ export class UrlGenerator {
 		}, parameters, req, secure)
 	}
 
+	/**
+	 * Generate a URL
+	 *
+	 * @param  {string} url URL/Path to generate
+	 * @param  {Object|Array|string} parameters Query string parameters
+	 * @param  {Object|null} req Origin request to generate URL from, uses correct host/protocol
+	 * @param  {boolean|null} secure Whether or not to force https, null uses default behavior
+	 * @return {string}
+	 */
 	make(url, parameters, req, secure = null) {
+		if(req === true || req === false) {
+			secure = req
+			req = null
+		}
+
+		if(req.isNil) {
+			req = this.req
+		}
+
 		if(typeof url === 'string') {
 			if(url.indexOf('://') >= 0) {
 				return url
