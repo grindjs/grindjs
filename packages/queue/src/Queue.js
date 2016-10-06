@@ -49,6 +49,24 @@ export class Queue {
 		return new QueryBuilder(this)
 	}
 
+	fetchJob(id) {
+		return new Promise((resolve, reject) => {
+			Kue.Job.get(id, (err, job) => {
+				if(!err.isNil) {
+					return reject(err)
+				}
+
+				const jobClass = this.jobs[job.type]
+
+				if(jobClass.isNil) {
+					return reject(new Error(`Unable to fetch job of unknown type: ${job.type}`))
+				}
+
+				resolve(new jobClass(job.data, job))
+			})
+		})
+	}
+
 	dispatch(job) {
 		return job.$save(this)
 	}
