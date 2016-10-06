@@ -1,5 +1,6 @@
 import './Queue'
 
+import './Commands/MakeJobCommand'
 import './Commands/QueueWorkCommand'
 
 export function QueueProvider(app) {
@@ -10,6 +11,7 @@ export function QueueProvider(app) {
 	}
 
 	app.cli.register([
+		MakeJobCommand,
 		QueueWorkCommand
 	])
 }
