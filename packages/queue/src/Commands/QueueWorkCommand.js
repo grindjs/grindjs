@@ -4,7 +4,7 @@ export class QueueWorkCommand extends Command {
 	name = 'queue:work'
 	description = 'Process jobs in the queue'
 	arguments = [ ]
-	options = { }
+	options = { job: 'Restrict the name of job(s) to process' }
 
 	ready() {
 		const shutdown = () => {
@@ -29,7 +29,13 @@ export class QueueWorkCommand extends Command {
 			Log.error('Error', err)
 		})
 
-		return new Promise(() => this.app.queue.process())
+		let jobNames = null
+
+		if(this.containsOption('job')) {
+			jobNames = this.option('job').split(/,/)
+		}
+
+		return this.app.queue.process(jobNames)
 	}
 
 }

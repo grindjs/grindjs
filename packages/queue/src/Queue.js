@@ -71,14 +71,20 @@ export class Queue {
 		return job.$save(this)
 	}
 
-	process() {
-		return Promise.all(Object.keys(this.jobs).map(
+	process(jobNames) {
+		let jobs = Object.keys(this.jobs)
+
+		if(!jobNames.isNil && jobs.length > 0) {
+			jobs = jobs.filter(name => jobNames.indexOf(name) >= 0)
+		}
+
+		return Promise.all(jobs.map(
 			key => this._process(this.jobs[key])
 		))
 	}
 
 	_process(jobClass) {
-		return new Promise(resolve => {
+		return new Promise(() => {
 			this.kue.process(jobClass.jobName, jobClass.concurrency, async (kueJob, ctx, done) => {
 				let result = null
 
@@ -95,8 +101,6 @@ export class Queue {
 
 				result.then(() => done()).catch(err => done(err))
 			})
-
-			resolve()
 		})
 	}
 
