@@ -5,6 +5,7 @@ export class Job {
 	static priority = 'normal'
 	static removeOnComplete = true
 	static attempts = 1
+	static concurrency = 1
 
 	$kueJob = null
 	$queue = null

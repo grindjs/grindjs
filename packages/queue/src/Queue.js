@@ -79,7 +79,7 @@ export class Queue {
 
 	_process(jobClass) {
 		return new Promise(resolve => {
-			this.kue.process(jobClass.jobName, async (kueJob, ctx, done) => {
+			this.kue.process(jobClass.jobName, jobClass.concurrency, async (kueJob, ctx, done) => {
 				let result = null
 
 				try {
