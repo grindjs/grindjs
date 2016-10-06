@@ -16,6 +16,7 @@ export class Job {
 			job.attempts(this.constructor.attempts)
 			job.priority(this.constructor.priority)
 			job.removeOnComplete(this.constructor.removeOnComplete)
+			job.events(false)
 			return job
 		})()
 	}
@@ -61,11 +62,6 @@ export class Job {
 
 	$log(...args) {
 		this.$kueJob.log(...args)
-		return this
-	}
-
-	$on(...args) {
-		this.$kueJob.on(...args)
 		return this
 	}
 
