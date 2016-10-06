@@ -5,6 +5,7 @@ export class Job {
 	static priority = 'normal'
 	static removeOnComplete = true
 	static attempts = 1
+	static backoff = null
 	static concurrency = 1
 
 	$kueJob = null
@@ -17,6 +18,7 @@ export class Job {
 			job.attempts(this.constructor.attempts)
 			job.priority(this.constructor.priority)
 			job.removeOnComplete(this.constructor.removeOnComplete)
+			job.backoff(this.constructor.backoff)
 			job.events(false)
 			return job
 		})()
