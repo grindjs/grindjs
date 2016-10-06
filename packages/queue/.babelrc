@@ -1,0 +1,7 @@
+{
+	"presets": [ "es2016-node5", "stage-1" ],
+	"plugins": [
+		"babel-plugin-import-auto-name",
+		"babel-plugin-transform-isnil"
+	]
+}

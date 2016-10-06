@@ -1,0 +1,43 @@
+{
+  "name": "grind-queue",
+  "version": "0.5.0",
+  "description": "Queue provider for Grind, powered by Kue",
+  "author": "Shaun Harrison (@shnhrrsn)",
+  "license": "MIT",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grindjs/queue.git"
+  },
+  "keywords": [
+    "grindjs",
+    "grind-framework",
+    "kue",
+    "queue"
+  ],
+  "dependencies": {
+    "kue": "^0.11.1"
+  },
+  "peerDependencies": {
+    "grind-framework": "^0.5.0",
+    "grind-cli": "^0.5.0"
+  },
+  "devDependencies": {
+    "babel-cli": ">=6.7 <=7.0",
+    "babel-eslint": "^6.1.1",
+    "babel-plugin-import-auto-name": "^0.1.0",
+    "babel-plugin-transform-isnil": "0.0.5",
+    "babel-preset-es2016-node5": "1.x",
+    "babel-preset-stage-1": "6.5.x",
+    "eslint": "^3.3.1",
+    "eslint-config-grind": "^2.0.0",
+    "eslint-plugin-import-auto-name": "^1.0.3"
+  },
+  "engines": {
+    "node": ">=5.10 <7.0"
+  },
+  "scripts": {
+    "prepublish": "./.build",
+    "lint": "eslint src"
+  }
+}

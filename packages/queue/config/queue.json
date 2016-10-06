@@ -1,0 +1,14 @@
+{
+
+	"default": "redis",
+
+	"connections": {
+
+		"redis": {
+			"prefix": "q",
+			"redis": { }
+		}
+
+	}
+
+}
