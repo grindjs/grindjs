@@ -25,6 +25,10 @@ export class QueueWorkCommand extends Command {
 
 	run() {
 		this.app.queue.kue.watchStuckJobs()
+		this.app.queue.kue.on('error', err => {
+			Log.error('Error', err)
+		})
+
 		return new Promise(() => this.app.queue.process())
 	}
 
