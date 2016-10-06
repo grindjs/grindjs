@@ -1,4 +1,5 @@
 import './Job'
+import './QueryBuilder'
 
 import Kue from 'kue'
 
@@ -42,6 +43,10 @@ export class Queue {
 		if(job.isNil || !(job.prototype instanceof Job)) {
 			throw new Error('Invalid Job')
 		}
+	}
+
+	query() {
+		return new QueryBuilder(this)
 	}
 
 	dispatch(job) {
