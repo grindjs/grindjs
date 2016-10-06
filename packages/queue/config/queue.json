@@ -5,8 +5,12 @@
 	"connections": {
 
 		"redis": {
-			"prefix": "q",
-			"redis": { }
+			"prefix": "q", // Default prefix for the Queue
+			"redis": {
+				"host": "127.0.0.1",
+				"port": 6379,
+				"auth": null
+			}
 		}
 
 	}
