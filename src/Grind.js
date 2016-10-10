@@ -10,6 +10,7 @@ import './Router'
 import './UrlGenerator'
 
 import './Extensions/RouteExtension'
+import './Extensions/ResponseExtension'
 
 import Express from 'express'
 
@@ -28,9 +29,11 @@ export default class Grind {
 
 	constructor(parameters = { }) {
 		RouteExtension()
+		ResponseExtension()
 
 		this.express = Express()
 		this.express.disable('etag')
+		this.express._grind = this
 
 		const routerClass = parameters.routerClass || Router
 		const configClass = parameters.configClass || Config
