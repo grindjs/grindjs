@@ -6,9 +6,10 @@ import './HttpServer'
 import './Log'
 import './Paths'
 import './ProviderCollection'
-import './RouteExtension'
 import './Router'
 import './UrlGenerator'
+
+import './Extensions/RouteExtension'
 
 import Express from 'express'
 
