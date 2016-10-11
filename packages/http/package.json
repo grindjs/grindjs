@@ -1,6 +1,6 @@
 {
   "name": "grind-framework",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "An opinionated Node web framework built on Express",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
