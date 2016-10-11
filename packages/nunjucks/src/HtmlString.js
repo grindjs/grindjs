@@ -1,12 +1,11 @@
-export class HtmlString {
-	html = null
+import { runtime as NunjucksRuntime } from 'nunjucks'
+
+export class HtmlString extends NunjucksRuntime.SafeString {
 
 	constructor(html) {
-		this.html = html
-	}
+		super(html)
 
-	toString() {
-		return this.html
+		Log.error('WARNING: HtmlString is deprecated and will be removed in 0.6, use Nunjuck’s SafeString instead.')
 	}
 
 }
