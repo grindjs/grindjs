@@ -1,4 +1,5 @@
 import { Html5Entities } from 'html-entities'
+import { runtime as NunjucksRuntime } from 'nunjucks'
 
 const EOL = `\n`
 
@@ -59,7 +60,7 @@ export class HtmlBuilder {
 	 * @return string
 	 */
 	entities(value, force) {
-		if(!HtmlString.isNil && value instanceof HtmlString) {
+		if(this._isHtmlString(value)) {
 			if(force !== true) {
 				return value
 			}
@@ -88,7 +89,7 @@ export class HtmlBuilder {
 	 * @param array  attributes
 	 * @param bool   secure
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	script(url, attributes = { }, secure = null) {
 		attributes.src = this.app.url.make(url, null, this.req, secure)
@@ -103,7 +104,7 @@ export class HtmlBuilder {
 	 * @param array  attributes
 	 * @param bool   secure
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	style(url, attributes =  { }, secure = null) {
 		const defaults = {
@@ -126,7 +127,7 @@ export class HtmlBuilder {
 	 * @param array  attributes
 	 * @param bool   secure
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	image(url, alt = null, attributes = { }, secure = null) {
 		url = this.app.url.make(url, null, this.req, secure)
@@ -142,7 +143,7 @@ export class HtmlBuilder {
 	 * @param array  attributes
 	 * @param bool   secure
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	favicon(url, attributes = { }, secure = null) {
 		const defaults = {
@@ -165,7 +166,7 @@ export class HtmlBuilder {
 	 * @param bool   secure
 	 * @param bool   escape
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	link(url, title = null, attributes = { }, secure = null, escape = true) {
 		url = this.app.url.make(url, null, this.req, secure)
@@ -188,7 +189,7 @@ export class HtmlBuilder {
 	 * @param string title
 	 * @param array  attributes
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	secureLink(url, title = null, attributes = { }) {
 		return this.link(url, title, attributes, true)
@@ -204,7 +205,7 @@ export class HtmlBuilder {
 	 * @param array  attributes
 	 * @param bool   secure
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	linkRoute(name, title = null, parameters = { }, attributes = { }, secure = null) {
 		return this.link(this.app.url.route(name, parameters, this.req, secure), title, attributes)
@@ -218,7 +219,7 @@ export class HtmlBuilder {
 	 * @param array  attributes
 	 * @param bool   escape
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	mailto(email, title = null, attributes = { }, escape = true) {
 		email = this.email(email)
@@ -262,7 +263,7 @@ export class HtmlBuilder {
 	 * @param array list
 	 * @param array attributes
 	 *
-	 * @return HtmlString|string
+	 * @return SafeString|string
 	 */
 	ol(list, attributes = { }) {
 		return this._listing('ol', list, attributes)
@@ -274,7 +275,7 @@ export class HtmlBuilder {
 	 * @param array list
 	 * @param array attributes
 	 *
-	 * @return HtmlString|string
+	 * @return SafeString|string
 	 */
 	ul(list, attributes = { }) {
 		return this._listing('ul', list, attributes)
@@ -286,7 +287,7 @@ export class HtmlBuilder {
 	 * @param array list
 	 * @param array attributes
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	dl(list, attributes = { }) {
 		attributes = this.attributes(attributes)
@@ -319,7 +320,7 @@ export class HtmlBuilder {
 	 * @param array  list
 	 * @param array  attributes
 	 *
-	 * @return HtmlString|string
+	 * @return SafeString|string
 	 */
 	_listing(type, list, attributes = { }) {
 		let html = ''
@@ -429,7 +430,7 @@ export class HtmlBuilder {
 	 * @param string content
 	 * @param array  attributes
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	meta(name, content, attributes = { }) {
 		const defaults = { name, content }
@@ -445,7 +446,7 @@ export class HtmlBuilder {
 	 * @param mixed content
 	 * @param array  attributes
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	tag(tag, content, attributes = { }) {
 		content = Array.isArray(content) ? content.join(EOL) : content
@@ -458,14 +459,18 @@ export class HtmlBuilder {
 	 *
 	 * @param html
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	toHtmlString(html) {
-		if(HtmlString.isNil) {
-			return html
+		return new NunjucksRuntime.SafeString(html)
+	}
+
+	_isHtmlString(html) {
+		if(html instanceof NunjucksRuntime.SafeString) {
+			return true
 		}
 
-		return new HtmlString(html)
+		return !HtmlString.isNil && html instanceof HtmlString
 	}
 
 }

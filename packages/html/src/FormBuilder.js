@@ -100,7 +100,7 @@ export class FormBuilder {
 	 *
 	 * @param  object options
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	open(options = { }) {
 		const method = options.method || 'post'
@@ -148,7 +148,7 @@ export class FormBuilder {
 	 * @param  mixed model
 	 * @param  objection options
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	model(model, options = { }) {
 		this.model = model
@@ -203,7 +203,7 @@ export class FormBuilder {
 	 * @param  object options
 	 * @param  bool   escape_html
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	label(name, value = null, options = { }, escapeHtml = true) {
 		this.labels.push(name)
@@ -243,7 +243,7 @@ export class FormBuilder {
 	 * @param  string value
 	 * @param  object options
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	input(type, name, value = null, options = { }) {
 		if(options.name.isNil) {
@@ -274,7 +274,7 @@ export class FormBuilder {
 	 * @param  string value
 	 * @param  object options
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	text(name, value = null, options = { }) {
 		return this.input('text', name, value, options)
@@ -286,7 +286,7 @@ export class FormBuilder {
 	 * @param  string name
 	 * @param  object options
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	password(name, options = { }) {
 		return this.input('password', name, '', options)
@@ -299,7 +299,7 @@ export class FormBuilder {
 	 * @param  string value
 	 * @param  object options
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	hidden(name, value = null, options = { }) {
 		return this.input('hidden', name, value, options)
@@ -312,7 +312,7 @@ export class FormBuilder {
 	 * @param  string value
 	 * @param  object options
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	email(name, value = null, options = { }) {
 		return this.input('email', name, value, options)
@@ -325,7 +325,7 @@ export class FormBuilder {
 	 * @param  string value
 	 * @param  object options
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	tel(name, value = null, options = { }) {
 		return this.input('tel', name, value, options)
@@ -338,7 +338,7 @@ export class FormBuilder {
 	 * @param  string value
 	 * @param  object options
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	number(name, value = null, options = { }) {
 		return this.input('number', name, value, options)
@@ -351,7 +351,7 @@ export class FormBuilder {
 	 * @param  string value
 	 * @param  object options
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	date(name, value = null, options = { }) {
 		if(value instanceof Date) {
@@ -368,7 +368,7 @@ export class FormBuilder {
 	 * @param  string value
 	 * @param  object options
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	datetime(name, value = null, options = { }) {
 		if(value instanceof Date) {
@@ -385,7 +385,7 @@ export class FormBuilder {
 	 * @param  string value
 	 * @param  object options
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	time(name, value = null, options = { }) {
 		return this.input('time', name, value, options)
@@ -398,7 +398,7 @@ export class FormBuilder {
 	 * @param  string value
 	 * @param  object options
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	url(name, value = null, options = { }) {
 		return this.input('url', name, value, options)
@@ -410,7 +410,7 @@ export class FormBuilder {
 	 * @param  string name
 	 * @param  object options
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	file(name, options = { }) {
 		return this.input('file', name, null, options)
@@ -423,7 +423,7 @@ export class FormBuilder {
 	 * @param  string value
 	 * @param  object options
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	textarea(name, value = null, options = { }) {
 		if(options.name.isNil) {
@@ -492,7 +492,7 @@ export class FormBuilder {
 	 * @param  string selected
 	 * @param  object options
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	select(name, list = [ ], selected = null, options = { }) {
 		// When building a select box the "value" attribute is really the selected one
@@ -539,7 +539,7 @@ export class FormBuilder {
 	 * @param  string selected
 	 * @param  object options
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	selectRange(name, begin, end, selected = null, options = { }) {
 		const range = { }
@@ -574,7 +574,7 @@ export class FormBuilder {
 	 * @param  object options
 	 * @param  string format
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	selectMonth(name, selected = null, options = { }, format = 'mmmm') {
 		const months = { }
@@ -593,7 +593,7 @@ export class FormBuilder {
 	 * @param  string value
 	 * @param  string selected
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	getSelectOption(display, value, selected) {
 		if(Array.isArray(display) || typeof display === 'object') {
@@ -610,7 +610,7 @@ export class FormBuilder {
 	 * @param  string label
 	 * @param  string selected
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	_optionGroup(list, label, selected) {
 		const html = [ ]
@@ -629,7 +629,7 @@ export class FormBuilder {
 	 * @param  string value
 	 * @param  string selected
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	_option(display, value, selected) {
 		selected = this._getSelectedValue(value, selected)
@@ -645,7 +645,7 @@ export class FormBuilder {
 	 * @param display
 	 * @param selected
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	_placeholderOption(display, selected) {
 		selected = this._getSelectedValue(null, selected)
@@ -679,7 +679,7 @@ export class FormBuilder {
 	 * @param  bool   checked
 	 * @param  object options
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	checkbox(name, value = 1, checked = null, options = { }) {
 		return this._checkable('checkbox', name, value, checked, options)
@@ -693,7 +693,7 @@ export class FormBuilder {
 	 * @param  bool   checked
 	 * @param  object options
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	radio(name, value = null, checked = null, options = { }) {
 		if(value.isNil) {
@@ -712,7 +712,7 @@ export class FormBuilder {
 	 * @param  bool   checked
 	 * @param  object options
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	_checkable(type, name, value, checked, options) {
 		checked = this._getCheckedState(type, name, value, checked)
@@ -820,7 +820,7 @@ export class FormBuilder {
 	 * @param  string value
 	 * @param  array  attributes
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	reset(value, attributes = [ ]) {
 		return this.input('reset', null, value, attributes)
@@ -834,7 +834,7 @@ export class FormBuilder {
 	 * @param  array  attributes
 	 * @param  bool   secure
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	image(url, name = null, attributes = [ ], secure = null) {
 		attributes.src = this.app.url.make(url, null, this.req, secure)
@@ -849,7 +849,7 @@ export class FormBuilder {
 	 * @param  string value
 	 * @param  object options
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	color(name, value = null, options = { }) {
 		return this.input('color', name, value, options)
@@ -861,7 +861,7 @@ export class FormBuilder {
 	 * @param  string value
 	 * @param  object options
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	submit(value = null, options = { }) {
 		return this.input('submit', null, value, options)
@@ -873,7 +873,7 @@ export class FormBuilder {
 	 * @param  string value
 	 * @param  object options
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	button(value = null, options = { }) {
 		if(options.type.isNil) {
@@ -1088,7 +1088,7 @@ export class FormBuilder {
 	 *
 	 * @param html
 	 *
-	 * @return HtmlString
+	 * @return SafeString
 	 */
 	toHtmlString(html) {
 		return this.html.toHtmlString(html)
