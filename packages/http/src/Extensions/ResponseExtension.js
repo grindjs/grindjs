@@ -9,12 +9,12 @@ export function ResponseExtension() {
 
 	hasExtended = true
 
-	Response.route = function(...args) {
+	Response.route = function(name, parameters, secure) {
 		if(this.app._grind.isNil) {
 			throw new Error('Unsupported response object')
 		}
 
-		return this.redirect(this.app._grind.url.route(...args))
+		return this.redirect(this.app._grind.url.route(name, parameters, this.req, secure))
 	}
 
 }
