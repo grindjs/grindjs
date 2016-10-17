@@ -16,10 +16,10 @@ export class Scheduler {
 	start(job) {
 		return new Promise((resolve, reject) => {
 			if(!this.schedule) {
-				reject('No schedule has been defined.')
+				return reject('No schedule has been defined.')
 			}
 
-			const interval = this.provider.setInterval(() => {
+			this.provider.setInterval(() => {
 				if(this._running && !this.allowOverlapping) {
 					return false
 				}
@@ -82,35 +82,35 @@ export class Scheduler {
 	}
 
 	timezone(tz) {
-		return new Promise(async (resolve, reject) => {
+		return new Promise(async (resolve) => {
 			await this.provider.date.timezone(tz)
 			return resolve(this)
 		})
 	}
 
 	UTC() {
-		return new Promise(async (resolve, reject) => {
+		return new Promise(async (resolve) => {
 			await this.provider.date.UTC()
 			return resolve(this)
 		})
 	}
 
 	localtime() {
-		return new Promise(async (resolve, reject) => {
+		return new Promise(async (resolve) => {
 			await this.provider.date.localtime()
 			return resolve(this)
 		})
 	}
 
 	withOverlapping() {
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			this.allowOverlapping = true
 			return resolve(this)
 		})
 	}
 
 	withoutOverlapping() {
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			this.allowOverlapping = false
 			return resolve(this)
 		})

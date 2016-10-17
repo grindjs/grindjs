@@ -4,6 +4,7 @@ import './Scheduler'
 import cast from 'as-type'
 import chalk from 'chalk'
 import readline from 'readline'
+import ChildProcess from 'child_process'
 
 export class Command {
 	app = null
@@ -181,30 +182,28 @@ export class Command {
 	}
 
 	registerSchedule() {
-		return new Promise((resolve, reject) => {
-			this.schedule().then((scheduler) => {
-				this.success(this.name + ' has been scheduled to run next at: ' + scheduler.nextOccurence())
-				scheduler.start(() => {
-					this.execAsChildProcess().then((output) => {
-						this.info(output)
-					}).catch((err) => {
-						this.error(err)
-					})
+		return this.schedule().then((scheduler) => {
+			this.success(this.name + ' has been scheduled to run next at: ' + scheduler.nextOccurence())
+			scheduler.start(() => {
+				this.execAsChildProcess().then((output) => {
+					this.info(output)
+				}).catch((err) => {
+					this.error(err)
 				})
 			})
 		})
 	}
 
 	execAsChildProcess() {
-		const exec = require('child_process').exec
+		const exec = ChildProcess.exec
 
 		const options = {
 			env: process.env
 		}
 
-		return new Promise(async (resolve, reject) => {
-			await exec(process.env.CLI_BIN + ' ' + this.name, options, (err, stdout, stderr) => {
-				if (err instanceof Error) {
+		return new Promise((resolve, reject) => {
+			exec(process.env.CLI_BIN + ' ' + this.name, options, (err, stdout, stderr) => {
+				if(err instanceof Error) {
 					reject(err)
 				}
 
