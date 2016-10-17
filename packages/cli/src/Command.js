@@ -1,4 +1,5 @@
 import './AbortError'
+import './Scheduler'
 
 import cast from 'as-type'
 import chalk from 'chalk'
@@ -12,6 +13,7 @@ export class Command {
 	description = null
 	arguments = [ ]
 	options = { }
+	scheduler = null
 
 	compiledValues = {
 		arguments: { },
@@ -21,6 +23,7 @@ export class Command {
 	constructor(app, cli) {
 		this.app = app
 		this.cli = cli
+		this.scheduler = new Scheduler(this)
 	}
 
 	argument(name, fallback = null) {
@@ -170,6 +173,43 @@ export class Command {
 			}
 
 			process.exit(1)
+		})
+	}
+
+	schedule() {
+		return Promise.reject('Command does not implement schedule(): ' + this.name)
+	}
+
+	registerSchedule() {
+		return new Promise((resolve, reject) => {
+			this.schedule().then((scheduler) => {
+				this.success(this.name + ' has been scheduled to run next at: ' + scheduler.nextOccurence())
+				scheduler.start(() => {
+					this.execAsChildProcess().then((output) => {
+						this.info(output)
+					}).catch((err) => {
+						this.error(err)
+					})
+				})
+			})
+		})
+	}
+
+	execAsChildProcess() {
+		const exec = require('child_process').exec
+
+		const options = {
+			env: process.env
+		}
+
+		return new Promise(async (resolve, reject) => {
+			await exec(process.env.CLI_BIN + ' ' + this.name, options, (err, stdout, stderr) => {
+				if (err instanceof Error) {
+					reject(err)
+				}
+
+				resolve(stdout)
+			})
 		})
 	}
 
