@@ -10,7 +10,7 @@ export class ScheduleCommand extends Command {
 
 		const scheduled = []
 
-		for(var command of this.cli.commands) {
+		for(let command of this.cli.commands) {
 			if(typeof(command.schedule) === 'function') {
 				scheduled.push(command.registerSchedule())
 			}
