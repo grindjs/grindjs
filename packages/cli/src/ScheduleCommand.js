@@ -1,6 +1,6 @@
 import './Command'
 
-export class ScheduleCommand extends Command {
+export class ScheduleRunCommand extends Command {
 
 	name = 'schedule:run'
 	description = 'Starts the schedule daemon and executes commands as scheduled.'
