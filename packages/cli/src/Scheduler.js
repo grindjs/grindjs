@@ -26,6 +26,14 @@ export class Scheduler {
 	}
 
 	command(cmd, args) {
+		cmdArray = []
+
+		if(cmd.indexOf(' ') > 0) {
+			cmdArray = cmd.trim().split(' ')
+			cmd = cmdArray.shift()
+			args = [ ].concat(cmdArray, args)
+		}
+
 		return this.addJob('command', {
 			command: cmd,
 			args: args
