@@ -196,7 +196,9 @@ export class Command {
 		}
 
 		if(!args) {
-			args = []
+			args = [ ]
+		} else {
+			args = [ ].concat(...args)
 		}
 
 		args.unshift(this.name)
