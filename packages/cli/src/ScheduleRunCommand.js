@@ -10,7 +10,7 @@ export class ScheduleRunCommand extends Command {
 
 		const scheduled = this.cli.commands.map(command => command.registerSchedule())
 
-		return Promise.all(scheduled)
+		return new Promise(() => {})
 	}
 
 }

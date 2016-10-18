@@ -178,33 +178,33 @@ export class Command {
 	}
 
 	schedule() {
-		return Promise.reject('Command does not implement schedule(): ' + this.name)
+		return []
 	}
 
 	registerSchedule() {
-		return this.schedule().then((scheduler) => {
-			this.success(this.name + ' has been scheduled to run next at: ' + scheduler.nextOccurence())
-			scheduler.start(() => {
-				this.execAsChildProcess().then((output) => {
-					this.info(output)
-				}).catch((err) => {
-					this.error(err)
-				})
-			})
+		this.schedule().map(schedule => {
+			this.success(this.name + ' has been scheduled to run next at: ' + schedule.nextOccurence())
+			schedule.start()
 		})
 	}
 
-	execAsChildProcess() {
-		const exec = ChildProcess.exec
+	execAsChildProcess(args) {
+		const execFile = ChildProcess.execFile
 
 		const options = {
 			env: process.env
 		}
 
+		if(!args) {
+			args = []
+		}
+
+		args.unshift(this.name)
+
 		return new Promise((resolve, reject) => {
-			exec(process.env.CLI_BIN + ' ' + this.name, options, (err, stdout, stderr) => {
+			execFile(process.env.CLI_BIN, args, options, (err, stdout, stderr) => {
 				if(err instanceof Error) {
-					reject(err)
+					return reject(err)
 				}
 
 				resolve(stdout)
