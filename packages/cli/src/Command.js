@@ -182,7 +182,17 @@ export class Command {
 	}
 
 	registerSchedule() {
-		this.schedule().map(schedule => {
+		const schedules = this.schedule()
+
+		if(!schedules) {
+			schedules = [ ]
+		}
+
+		if(schedules instanceof SchedulerJob) {
+			schedules = [ schedules ]
+		}
+
+		schedules.map(schedule => {
 			this.success(this.name + ' has been scheduled to run next at: ' + schedule.nextOccurence())
 			schedule.start()
 		})
