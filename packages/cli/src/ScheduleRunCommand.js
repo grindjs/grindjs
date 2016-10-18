@@ -8,13 +8,7 @@ export class ScheduleRunCommand extends Command {
 	run() {
 		this.info('Schedule daemon starting...')
 
-		//const scheduled = this.cli.commands.map(command => command.registerSchedule())
-		const scheduled = []
-		for(const command of this.cli.commands) {
-			if(typeof command.schedule === 'function') {
-				scheduled.push(command.registerSchedule())
-			}
-		}
+		const scheduled = this.cli.commands.map(command => command.registerSchedule())
 
 		return new Promise(() => {})
 	}
