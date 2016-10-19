@@ -1,5 +1,4 @@
 import './AbortError'
-import './Scheduler'
 
 import cast from 'as-type'
 import chalk from 'chalk'
@@ -14,7 +13,6 @@ export class Command {
 	description = null
 	arguments = [ ]
 	options = { }
-	scheduler = null
 
 	compiledValues = {
 		arguments: { },
@@ -24,7 +22,6 @@ export class Command {
 	constructor(app, cli) {
 		this.app = app
 		this.cli = cli
-		this.scheduler = new Scheduler(this)
 	}
 
 	argument(name, fallback = null) {
@@ -174,27 +171,6 @@ export class Command {
 			}
 
 			process.exit(1)
-		})
-	}
-
-	schedule() {
-		return []
-	}
-
-	registerSchedule() {
-		const schedules = this.schedule()
-
-		if(!schedules) {
-			schedules = [ ]
-		}
-
-		if(schedules instanceof SchedulerJob) {
-			schedules = [ schedules ]
-		}
-
-		schedules.map(schedule => {
-			this.success(this.name + ' has been scheduled to run next at: ' + schedule.nextOccurence())
-			schedule.start()
 		})
 	}
 

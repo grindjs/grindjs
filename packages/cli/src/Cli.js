@@ -1,6 +1,7 @@
 import './Output'
 import './MakeCommandCommand'
 import './TinkerCommand'
+import './Scheduler'
 import './ScheduleRunCommand'
 
 import program from 'commander'
@@ -9,10 +10,12 @@ export class Cli {
 	app = null
 	commands = [ ]
 	output = null
+	scheduler = null
 
 	constructor(app) {
 		this.app = app
 		this.output = new Output
+		this.scheduler = new Scheduler(this)
 		this.register(MakeCommandCommand)
 		this.register(TinkerCommand)
 		this.register(ScheduleRunCommand)
@@ -80,6 +83,10 @@ export class Cli {
 				this.commands.push(command)
 			}
 		}
+	}
+
+	schedule(value, args) {
+		return this.scheduler.create(value, args)
 	}
 
 }

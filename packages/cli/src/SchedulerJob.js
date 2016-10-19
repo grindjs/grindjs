@@ -4,7 +4,7 @@ export class SchedulerJob {
 
 	provider = null
 	scheduler = null
-	cli = false
+	cli = null
 
 	type = null
 	options = null
@@ -12,9 +12,9 @@ export class SchedulerJob {
 	isRunning = false
 	allowOverlapping = false
 
-	constructor(scheduler, type, options) {
+	constructor(cli, type, options) {
 		this.provider = later
-		this.cli = scheduler.cli
+		this.cli = cli
 		this.type = type
 		this.options = options
 	}
@@ -27,24 +27,33 @@ export class SchedulerJob {
 
 			this.isRunning = true
 
-			if(this.type === 'command') {
+			if(this.type === 'className') {
+				const command = new this.options.className
+				this.executeCommand(command, this.options.args)
+			}
+
+			if(this.type === 'name') {
 				for(const command of this.cli.commands) {
-					if(command.name === this.options.command) {
-						command.execAsChildProcess(this.options.args).then((output) => {
-							this.cli.output.info(output)
-						}).catch((err) => {
-							this.cli.output.error(err)
-						})
+					if(command.name === this.options.name) {
+						this.executeCommand(command, this.options.args)
 					}
 				}
 			}
 
 			if(this.type === 'closure') {
-				this.options.closure()
+				this.options.closure(this.options.args)
 			}
 
 			this.isRunning = false
 		}, this.schedule)
+	}
+
+	executeCommand(command, args) {
+		command.execAsChildProcess(args).then((output) => {
+			this.cli.output.info(output)
+		}).catch((err) => {
+			this.cli.output.error(err)
+		})
 	}
 
 	cron(str) {
@@ -109,14 +118,17 @@ export class SchedulerJob {
 
 	timezone(tz) {
 		this.provider.date.timezone(tz)
+		return this
 	}
 
 	UTC() {
 		this.provider.date.UTC()
+		return this
 	}
 
 	localtime() {
 		this.provider.date.localtime()
+		return this
 	}
 
 	withOverlapping() {
