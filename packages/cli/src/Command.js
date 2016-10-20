@@ -174,14 +174,14 @@ export class Command {
 		})
 	}
 
-	execAsChildProcess(args) {
+	execAsChildProcess(args = null) {
 		const execFile = ChildProcess.execFile
 
 		const options = {
 			env: process.env
 		}
 
-		if(!args) {
+		if(args.isNil) {
 			args = [ ]
 		} else {
 			args = [ ].concat(...args)
@@ -191,7 +191,7 @@ export class Command {
 
 		return new Promise((resolve, reject) => {
 			execFile(process.env.CLI_BIN, args, options, (err, stdout, stderr) => {
-				if(err instanceof Error) {
+				if(!err.isNil) {
 					return reject(err)
 				}
 

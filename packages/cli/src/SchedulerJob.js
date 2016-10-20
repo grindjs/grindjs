@@ -126,7 +126,7 @@ export class SchedulerJob {
 		return this
 	}
 
-	localtime() {
+	localTime() {
 		this.provider.date.localtime()
 		return this
 	}

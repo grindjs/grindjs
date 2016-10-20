@@ -1,3 +1,4 @@
+import './Command'
 import './SchedulerJob'
 
 import later from 'later'
@@ -15,18 +16,18 @@ export class Scheduler {
 
 	start() {
 		return new Promise((resolve, reject) => {
-			this.jobs.map((job) => {
+			for(const job of this.jobs) {
 				if(!job.schedule) {
 					return reject('Job is missing a schedule.')
 				}
 
 				job.start()
-			})
+			}
 		})
 	}
 
 	create(value, args) {
-		if(typeof value === 'function' && value.name.endsWith('Command')) {
+		if(value.prototype instanceof Command) {
 			return this.className(value, args)
 		}
 
@@ -52,7 +53,7 @@ export class Scheduler {
 		let cmd = [ ]
 
 		if(name.indexOf(' ') > 0) {
-			cmd = name.trim().split(' ')
+			cmd = name.trim().split(/\s+/)
 			name = cmd.shift()
 			args = [ ].concat(cmd, args)
 		}

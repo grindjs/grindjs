@@ -6,11 +6,11 @@ export class ScheduleRunCommand extends Command {
 	description = 'Starts the schedule daemon and executes commands as scheduled.'
 
 	run() {
-		this.info('Schedule daemon starting...')
-
-		this.cli.scheduler.start()
-
-		return new Promise(() => {})
+		this.info('Schedule daemon started')
+		
+		return this.cli.scheduler.start().catch((err) => {
+			this.error(err)
+		})
 	}
 
 }
