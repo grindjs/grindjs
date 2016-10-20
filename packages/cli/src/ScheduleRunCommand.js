@@ -7,7 +7,7 @@ export class ScheduleRunCommand extends Command {
 
 	run() {
 		this.info('Schedule daemon started')
-		
+
 		return this.cli.scheduler.start().catch((err) => {
 			this.error(err)
 		})
