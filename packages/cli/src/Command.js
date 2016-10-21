@@ -190,7 +190,7 @@ export class Command {
 		args.unshift(this.name)
 
 		return new Promise((resolve, reject) => {
-			execFile(process.env.CLI_BIN, args, options, (err, stdout, stderr) => {
+			execFile(process.env.CLI_BIN, args, options, (err, stdout) => {
 				if(!err.isNil) {
 					return reject(err)
 				}

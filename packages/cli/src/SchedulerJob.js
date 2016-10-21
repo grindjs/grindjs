@@ -49,9 +49,9 @@ export class SchedulerJob {
 	}
 
 	executeCommand(command, args) {
-		command.execAsChildProcess(args).then((output) => {
+		command.execAsChildProcess(args).then(output => {
 			this.cli.output.info(output)
-		}).catch((err) => {
+		}).catch(err => {
 			this.cli.output.error(err)
 		})
 	}

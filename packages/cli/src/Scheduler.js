@@ -39,7 +39,9 @@ export class Scheduler {
 			return this.call(value, args)
 		}
 
-		throw new Error('Invalid command definition used to create schedule job. Must use: class name, cmd line string or closure.')
+		throw new Error(
+			'Invalid command definition used to create schedule job. Must use: class name, cmd line string or closure.'
+		)
 	}
 
 	className(className, args) {

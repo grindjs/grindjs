@@ -16,6 +16,7 @@ export class Cli {
 		this.app = app
 		this.output = new Output
 		this.scheduler = new Scheduler(this)
+
 		this.register(MakeCommandCommand)
 		this.register(TinkerCommand)
 		this.register(ScheduleRunCommand)
