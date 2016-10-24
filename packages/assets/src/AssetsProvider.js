@@ -66,7 +66,7 @@ export function AssetsProvider(app, parameters = { }) {
 	config = expandMacros(config, macros)
 	app.config.set('assets', config)
 
-	const autoMinify = !config.auto_minify ? config.auto_minify : !app.debug
+	const autoMinify = typeof config.auto_minify === 'boolean' ? config.auto_minify : !app.debug
 	const factory = new AssetFactory(app, autoMinify)
 	app.assets = factory
 
