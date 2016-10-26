@@ -86,7 +86,11 @@ export class Cli {
 		}
 	}
 
-	schedule(value, args) {
+	schedule(value, ...args) {
+		if(args.length > 0 && Array.isArray(args[0])) {
+			args = args[0]
+		}
+
 		return this.scheduler.create(value, args)
 	}
 
