@@ -50,15 +50,32 @@ export class CompileController {
 		const expires = new Date((lastModified + 31536000) * 1000.0)
 		const lastModifiedDate = new Date(lastModified * 1000.0)
 
-		const compile = () => {
+		const compile = async () => {
 			res.header('X-Cached', 'false')
-			return asset.compile().then(result => {
+
+			let result = await asset.compile().then(result => {
 				if(!(result instanceof Buffer)) {
 					return new Buffer(result)
 				}
 
 				return result
 			})
+
+			const postProcessors = this.factory.getPostProcessorsFromPath(pathname).filter(
+				processor => processor.shouldOptimize
+			)
+
+			if(postProcessors.length > 0) {
+				for(const postProcessor of postProcessors) {
+					result = await postProcessor.process(asset.path, null, result)
+
+					if(!(result instanceof Buffer)) {
+						result = Buffer(result)
+					}
+				}
+			}
+
+			return new Buffer(result)
 		}
 
 		let promise = null
