@@ -15,6 +15,10 @@ export class CssAutoprefixerPostProcessor extends PostProcessor {
 
 		this.options = app.config.get('assets.post_processors.css.autoprefix', { })
 		this.shouldOptimize = this.options.enabled || true
+
+		if(this.options.sourceMap.isNil) {
+			this.options.sourceMap = true
+		}
 	}
 
 	process(sourcePath, targetPath, contents) {
