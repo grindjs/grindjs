@@ -7,6 +7,7 @@ import './Compilers/BabelCompiler'
 import './Compilers/RawCompiler'
 import './Compilers/ScssCompiler'
 
+import './PostProcessors/CssAutoprefixerPostProcessor'
 import './PostProcessors/CssMinifyPostProcessor'
 import './PostProcessors/JavascriptMinifyPostProcessor'
 import './PostProcessors/SvgOptimizePostProcessor'
@@ -75,6 +76,7 @@ export function AssetsProvider(app, parameters = { }) {
 	factory.registerCompiler(RawCompiler)
 	factory.registerCompiler(ScssCompiler)
 
+	factory.registerPostProcessor(CssAutoprefixerPostProcessor)
 	factory.registerPostProcessor(CssMinifyPostProcessor)
 	factory.registerPostProcessor(JavascriptMinifyPostProcessor)
 	factory.registerPostProcessor(SvgOptimizePostProcessor)

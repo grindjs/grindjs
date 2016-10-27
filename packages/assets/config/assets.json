@@ -63,6 +63,10 @@
 		"css": {
 			"minify": {
 				"roundingPrecision": 14
+			},
+
+			"autoprefix": {
+				"enabled": true
 			}
 		},
 
