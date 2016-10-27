@@ -12,6 +12,7 @@ export class BabelCompiler extends Compiler {
 	wantsHashSuffixOnPublish = true
 	supportedExtensions = [ 'js', 'jsx', 'es', 'es6', 'es7', 'esx' ]
 	browserifyOptions = [ ]
+	priority = 1000
 
 	constructor(app) {
 		super(app)

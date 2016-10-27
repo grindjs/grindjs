@@ -1,6 +1,5 @@
 import './PostProcessor'
 
-import '../Support/FS'
 import '../Support/Require'
 
 const CleanCSS = Require.optionally('clean-css')
