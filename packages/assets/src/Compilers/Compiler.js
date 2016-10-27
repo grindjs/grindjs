@@ -4,14 +4,12 @@ import path from 'path'
 
 export class Compiler {
 	app = null
-	autoMinify = null
 	priority = 0
 	supportedExtensions = [ ]
 	wantsHashSuffixOnPublish = true
 
-	constructor(app, autoMinify) {
+	constructor(app) {
 		this.app = app
-		this.autoMinify = autoMinify
 	}
 
 	// eslint-disable-next-line no-unused-vars

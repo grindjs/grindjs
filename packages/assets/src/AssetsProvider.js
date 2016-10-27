@@ -4,11 +4,12 @@ import './Commands/PublishCommand'
 import './Commands/UnpublishCommand'
 
 import './Compilers/BabelCompiler'
-import './Compilers/CssCompiler'
-import './Compilers/JavascriptCompiler'
 import './Compilers/RawCompiler'
 import './Compilers/ScssCompiler'
-import './Compilers/SvgCompiler'
+
+import './PostProcessors/CssMinifyPostProcessor'
+import './PostProcessors/JavascriptMinifyPostProcessor'
+import './PostProcessors/SvgOptimizePostProcessor'
 
 import './Controllers/CompileController'
 
@@ -66,22 +67,23 @@ export function AssetsProvider(app, parameters = { }) {
 	config = expandMacros(config, macros)
 	app.config.set('assets', config)
 
-	const autoMinify = typeof config.auto_minify === 'boolean' ? config.auto_minify : !app.debug
-	const factory = new AssetFactory(app, autoMinify)
+	const shouldOptimize = typeof config.should_optimize === 'boolean' ? config.should_optimize : !app.debug
+	const factory = new AssetFactory(app, shouldOptimize)
 	app.assets = factory
 
 	factory.registerCompiler(BabelCompiler)
-	factory.registerCompiler(CssCompiler)
-	factory.registerCompiler(JavascriptCompiler)
 	factory.registerCompiler(RawCompiler)
 	factory.registerCompiler(ScssCompiler)
-	factory.registerCompiler(SvgCompiler)
+
+	factory.registerPostProcessor(CssMinifyPostProcessor)
+	factory.registerPostProcessor(JavascriptMinifyPostProcessor)
+	factory.registerPostProcessor(SvgOptimizePostProcessor)
 
 	app.routes.group({ prefix: 'assets', controller: new CompileController(app, factory) }, routes => {
 		routes.get(':type/:a?/:b?/:c?/:d?/:e?', 'compile')
 	})
 
-	const dirs = new Set()
+	const dirs = new Set
 	const published = app.config.get('assets-published', { })
 	for(const src of Object.keys(published)) {
 		dirs.add(published[src].replace(/^\//, '').split(/\//)[0])

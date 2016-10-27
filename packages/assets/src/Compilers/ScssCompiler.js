@@ -18,8 +18,7 @@ export class ScssCompiler extends Compiler {
 		this.options = app.config.get('assets.compilers.scss', { })
 
 		if(
-			app.env() === 'local'
-			&& this.options.sourceMap.isNil
+			this.options.sourceMap.isNil
 			&& this.options.sourceMapEmbed.isNil
 			&& this.options.sourceMapContents.isNil
 		) {
@@ -37,7 +36,7 @@ export class ScssCompiler extends Compiler {
 		return new Promise((resolve, reject) => {
 			sass.render(Object.assign({ }, this.options, {
 				file: pathname,
-				outputStyle: context || (this.autoMinify ? 'compressed' : 'nested')
+				outputStyle: context || 'nested'
 			}), (err, result) => {
 				if(!err.isNil) {
 					return reject(err)

@@ -1,11 +1,14 @@
 {
 
 	/**
-		Minification is turned on by default when app.debug is false
+		Optimizations are turned on by default when app.debug is false
 		and turned off by default when it’s set to true.  To override
-		this, explicity set the value below to true or false
+		this, explicity set the value below to true or false.
+
+		Optimizations will vary for each content type, but examples
+		include minifying css and optimizing SVGs
 	 */
-	"auto_minify": null,
+	"should_optimize": null,
 
 	/**
 		Config options for each compiler
@@ -15,20 +18,6 @@
 		"scss": {
 			"includePaths": [ ],
 			"precision": 14
-		},
-
-		"js": {
-			"compress": {
-				"drop_console": true
-			}
-		},
-
-		"css": {
-			"roundingPrecision": 14
-		},
-
-		"svg": {
-			"plugins": [ { "removeTitle": true } ]
 		},
 
 		/**
@@ -49,6 +38,34 @@
 				"ttf": "application/x-font-ttf",
 				"woff": "application/x-font-woff",
 				"woff2": "application/font-woff2"
+			}
+		}
+
+	},
+
+	/**
+		Config options for each post processor
+	*/
+
+	"post_processors": {
+
+		"js": {
+			"minify": {
+				"compress": {
+					"drop_console": true
+				}
+			}
+		},
+
+		"css": {
+			"minify": {
+				"roundingPrecision": 14
+			}
+		},
+
+		"svg": {
+			"optimize": {
+				"plugins": [ { "removeTitle": true } ]
 			}
 		}
 

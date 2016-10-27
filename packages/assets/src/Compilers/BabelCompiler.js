@@ -1,4 +1,4 @@
-import './JavascriptCompiler'
+import './Compiler'
 
 import '../Support/Require'
 import '../Support/FS'
@@ -8,18 +8,18 @@ import path from 'path'
 const Browserify = Require.optionally('browserify')
 const Babelify = Require.optionally('babelify')
 
-export class BabelCompiler extends JavascriptCompiler {
+export class BabelCompiler extends Compiler {
 	wantsHashSuffixOnPublish = true
 	supportedExtensions = [ 'js', 'jsx', 'es', 'es6', 'es7', 'esx' ]
 	browserifyOptions = [ ]
 
-	constructor(app, autoMinify) {
-		super(app, autoMinify)
+	constructor(app) {
+		super(app)
 
 		this.browserifyOptions = app.config.get('assets.compilers.babel.browserify', { })
 
 		if(this.browserifyOptions.debug.isNil) {
-			this.browserifyOptions.debug = !autoMinify
+			this.browserifyOptions.debug = true
 		}
 	}
 
@@ -44,6 +44,7 @@ export class BabelCompiler extends JavascriptCompiler {
 			const browserify = Browserify(Object.assign({ }, this.browserifyOptions, {
 				basedir: path.dirname(pathname)
 			}))
+
 			browserify.transform('babelify')
 			browserify.add(pathname)
 			browserify.bundle((err, contents) => {
@@ -53,14 +54,7 @@ export class BabelCompiler extends JavascriptCompiler {
 
 				resolve(contents)
 			})
-		}).then(contents => {
-			if(!this.autoMinify) {
-				return contents
-			}
-
-			return this.minify(contents.toString(), false)
 		})
-
 	}
 
 	async enumerateImports(pathname, callback) {
@@ -111,6 +105,18 @@ export class BabelCompiler extends JavascriptCompiler {
 				break
 			}
 		}
+	}
+
+	mime() {
+		return 'application/javascript'
+	}
+
+	type() {
+		return 'js'
+	}
+
+	extension() {
+		return 'js'
 	}
 
 }

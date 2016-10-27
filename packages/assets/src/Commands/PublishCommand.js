@@ -125,6 +125,13 @@ export class PublishCommand extends BaseCommand {
 
 	async storeAsset(asset, file, contents) {
 		await FS.mkdirp(path.dirname(file))
+
+		if(!(contents instanceof Buffer)) {
+			contents = Buffer(contents)
+		}
+
+		contents = await this.postProcess(asset, file, contents)
+
 		await FS.writeFile(file, contents)
 		const lastModified = await asset.lastModified()
 
@@ -139,6 +146,25 @@ export class PublishCommand extends BaseCommand {
 		if(this.oldAssets[src] === dest) {
 			delete this.oldAssets[src]
 		}
+	}
+
+	async postProcess(asset, file, contents) {
+		const postProcessors = this.factory.getPostProcessorsFromPath(file)
+
+		if(postProcessors.length === 0) {
+			return contents
+		}
+
+		for(const postProcessor of postProcessors) {
+			this.comment(`Applying ${postProcessor.constructor.name}`, path.relative(this.app.paths.base(), asset.path))
+			contents = await postProcessor.process(asset.path, file, contents)
+
+			if(!(contents instanceof Buffer)) {
+				contents = Buffer(contents)
+			}
+		}
+
+		return contents
 	}
 
 	async removeAssets(assets) {

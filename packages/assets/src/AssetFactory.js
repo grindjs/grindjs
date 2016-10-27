@@ -1,18 +1,21 @@
 import './Asset'
 import './Compilers/Compiler'
+import './PostProcessors/PostProcessor'
 
 import path from 'path'
 
 export class AssetFactory {
 	app = null
 	published = null
-	autoMinifyDefault = null
-	_compilers = [ ]
+	shouldOptimizeDefault = null
 
-	constructor(app, autoMinifyDefault = false) {
+	_compilers = [ ]
+	_postProcessors = [ ]
+
+	constructor(app, shouldOptimizeDefault = false) {
 		this.app = app
 		this.published = app.config.get('assets-published', { })
-		this.autoMinifyDefault = autoMinifyDefault
+		this.shouldOptimizeDefault = shouldOptimizeDefault
 	}
 
 	make(path) {
@@ -21,7 +24,7 @@ export class AssetFactory {
 
 	registerCompiler(compiler) {
 		if(typeof compiler === 'function') {
-			compiler = new compiler(this.app, this.autoMinifyDefault)
+			compiler = new compiler(this.app)
 		}
 
 		if(!(compiler instanceof Compiler)) {
@@ -32,6 +35,19 @@ export class AssetFactory {
 		this._compilers.sort((a, b) => a.priority > b.priority ? -1 : 1)
 	}
 
+	registerPostProcessor(postProcessor) {
+		if(typeof postProcessor === 'function') {
+			postProcessor = new postProcessor(this.app, this.shouldOptimizeDefault)
+		}
+
+		if(!(postProcessor instanceof PostProcessor)) {
+			throw new Error('PostProcessors must extend PostProcessor')
+		}
+
+		this._postProcessors.push(postProcessor)
+		this._postProcessors.sort((a, b) => a.priority > b.priority ? -1 : 1)
+	}
+
 	getCompilerFromPath(path) {
 		for(const compiler of this._compilers) {
 			if(compiler.supports(path)) {
@@ -40,6 +56,10 @@ export class AssetFactory {
 		}
 
 		throw new BadRequestError(`Unsupported asset path: ${path}`)
+	}
+
+	getPostProcessorsFromPath(path) {
+		return this._postProcessors.filter(postProcessor => postProcessor.supports(path))
 	}
 
 	isPathSupported(path) {
