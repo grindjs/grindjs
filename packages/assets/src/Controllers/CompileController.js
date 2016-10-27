@@ -61,7 +61,7 @@ export class CompileController {
 				return result
 			})
 
-			const postProcessors = this.factory.getPostProcessorsFromPath(pathname).filter(
+			const postProcessors = this.factory.getPostProcessorsFromPath(`out.${asset.extension}`).filter(
 				processor => processor.shouldOptimize
 			)
 
