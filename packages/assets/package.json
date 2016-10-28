@@ -1,6 +1,6 @@
 {
   "name": "grind-assets",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Asset management + compilation for Grind",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
