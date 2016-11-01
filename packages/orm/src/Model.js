@@ -196,14 +196,17 @@ export class Model extends ObjectionModel {
 				fieldType = fieldType.filter(type => type !== 'null')[0]
 			}
 
+			if(allowsNull && typeof value === 'string' && value.length === 0) {
+				json[field] = null
+				continue
+			}
+
 			if(fieldType === 'boolean') {
 				json[field] = as.boolean(json[field])
 			} else if(fieldType === 'integer') {
 				json[field] = as.integer(json[field])
 			} else if(fieldType === 'number' || fieldType === 'float' || fieldType === 'double') {
 				json[field] = as.float(json[field])
-			} else if(fieldType === 'string' && typeof value === 'string' && value.length === 0 && allowsNull) {
-				json[field] = null
 			}
 		}
 
