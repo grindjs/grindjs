@@ -212,7 +212,7 @@ export class Model extends ObjectionModel {
 
 	$beforeSave(inserting) {
 		return new Promise(resolve => {
-			const now = (new Date).toISOString()
+			const now = new Date
 			this.updated_at = now
 
 			if(inserting) {
