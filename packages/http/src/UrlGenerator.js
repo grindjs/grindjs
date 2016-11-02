@@ -117,7 +117,7 @@ export class UrlGenerator {
 		}
 
 		if(typeof url === 'string') {
-			if(url.indexOf('://') >= 0) {
+			if(url.indexOf('://') > 0 || url.indexOf('//') === 0) {
 				return url
 			}
 
