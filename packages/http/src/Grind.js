@@ -144,5 +144,6 @@ module.exports.Errors = Errors
 module.exports.HttpServer = HttpServer
 module.exports.Paths = Paths
 module.exports.Router = Router
+module.exports.UrlGenerator = UrlGenerator
 
 global.Log = Log
