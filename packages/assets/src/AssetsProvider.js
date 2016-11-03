@@ -69,7 +69,8 @@ export function AssetsProvider(app, parameters = { }) {
 	app.config.set('assets', config)
 
 	const shouldOptimize = typeof config.should_optimize === 'boolean' ? config.should_optimize : !app.debug
-	const factory = new AssetFactory(app, shouldOptimize)
+	const sourceMaps = config.source_maps === 'auto' ? 'auto' : false
+	const factory = new AssetFactory(app, shouldOptimize, sourceMaps)
 	app.assets = factory
 
 	factory.registerCompiler(BabelCompiler)

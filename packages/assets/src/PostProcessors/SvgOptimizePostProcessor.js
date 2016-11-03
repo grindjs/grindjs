@@ -1,6 +1,5 @@
 import './PostProcessor'
 
-import '../Support/FS'
 import '../Support/Require'
 
 const SVGO = Require.optionally('svgo')
@@ -9,8 +8,8 @@ export class SvgOptimizePostProcessor extends PostProcessor {
 	supportedExtensions = [ 'svg' ]
 	options = { }
 
-	constructor(app, shouldOptimize) {
-		super(app, shouldOptimize)
+	constructor(app, shouldOptimize, sourceMaps) {
+		super(app, shouldOptimize, sourceMaps)
 
 		this.options = app.config.get('assets.post_processors.svg.optimize', { })
 

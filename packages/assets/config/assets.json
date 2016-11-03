@@ -11,6 +11,16 @@
 	"should_optimize": null,
 
 	/**
+		Whether or not source maps should be generated.
+		Current supported options are "auto" or false.
+
+		If false, no source maps are generated.
+		If "auto", source maps will be inlined during development
+		and saved to file.ext.map on assets:publish
+	*/
+	"source_maps": "auto",
+
+	/**
 		Config options for each compiler
 	*/
 	"compilers": {

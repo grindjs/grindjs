@@ -14,13 +14,13 @@ export class BabelCompiler extends Compiler {
 	browserifyOptions = [ ]
 	priority = 1000
 
-	constructor(app) {
-		super(app)
+	constructor(app, sourceMaps) {
+		super(app, sourceMaps)
 
 		this.browserifyOptions = app.config.get('assets.compilers.babel.browserify', { })
 
 		if(this.browserifyOptions.debug.isNil) {
-			this.browserifyOptions.debug = true
+			this.browserifyOptions.debug = this.sourceMaps === 'auto'
 		}
 	}
 
@@ -68,7 +68,7 @@ export class BabelCompiler extends Compiler {
 		const contents = await FS.readFile(pathname)
 		const importPaths = [ ]
 
-		contents.toString().replace(/import\s*\{[^\}]+\}\s*from\s*((["'`]).+?(\2))/igm, (_, importPath) => {
+		contents.toString().replace(/import\s*\{[^}]+\}\s*from\s*((["'`]).+?(\2))/igm, (_, importPath) => {
 			importPaths.push(importPath)
 		})
 
@@ -76,7 +76,7 @@ export class BabelCompiler extends Compiler {
 			importPaths.push(importPath)
 		})
 
-		contents.toString().replace(/require\s*\(([^\)]+)\)/ig, (_, importPath) => {
+		contents.toString().replace(/require\s*\(([^)]+)\)/ig, (_, importPath) => {
 			importPaths.push(importPath)
 		})
 

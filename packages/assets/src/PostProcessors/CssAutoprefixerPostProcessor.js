@@ -10,13 +10,13 @@ export class CssAutoprefixerPostProcessor extends PostProcessor {
 	supportedExtensions = [ 'css' ]
 	options = { }
 
-	constructor(app, shouldOptimize) {
-		super(app, shouldOptimize)
+	constructor(app, shouldOptimize, sourceMaps) {
+		super(app, shouldOptimize, sourceMaps)
 
 		this.options = app.config.get('assets.post_processors.css.autoprefix', { })
 		this.shouldOptimize = this.options.enabled || true
 
-		if(this.options.sourceMap.isNil) {
+		if(this.options.sourceMap.isNil && this.sourceMaps === 'auto') {
 			this.options.sourceMap = true
 		}
 	}

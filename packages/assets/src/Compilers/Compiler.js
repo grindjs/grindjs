@@ -7,9 +7,11 @@ export class Compiler {
 	priority = 0
 	supportedExtensions = [ ]
 	wantsHashSuffixOnPublish = true
+	sourceMaps = 'auto'
 
-	constructor(app) {
+	constructor(app, sourceMaps) {
 		this.app = app
+		this.sourceMaps = sourceMaps
 	}
 
 	// eslint-disable-next-line no-unused-vars

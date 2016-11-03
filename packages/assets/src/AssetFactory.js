@@ -8,14 +8,16 @@ export class AssetFactory {
 	app = null
 	published = null
 	shouldOptimizeDefault = null
+	sourceMapsDefault = false
 
 	_compilers = [ ]
 	_postProcessors = [ ]
 
-	constructor(app, shouldOptimizeDefault = false) {
+	constructor(app, shouldOptimizeDefault = false, sourceMapsDefault = 'auto') {
 		this.app = app
 		this.published = app.config.get('assets-published', { })
 		this.shouldOptimizeDefault = shouldOptimizeDefault
+		this.sourceMapsDefault = sourceMapsDefault
 	}
 
 	make(path) {
@@ -24,7 +26,7 @@ export class AssetFactory {
 
 	registerCompiler(compiler) {
 		if(typeof compiler === 'function') {
-			compiler = new compiler(this.app)
+			compiler = new compiler(this.app, this.sourceMapsDefault)
 		}
 
 		if(!(compiler instanceof Compiler)) {
@@ -37,7 +39,7 @@ export class AssetFactory {
 
 	registerPostProcessor(postProcessor) {
 		if(typeof postProcessor === 'function') {
-			postProcessor = new postProcessor(this.app, this.shouldOptimizeDefault)
+			postProcessor = new postProcessor(this.app, this.shouldOptimizeDefault, this.sourceMapsDefault)
 		}
 
 		if(!(postProcessor instanceof PostProcessor)) {

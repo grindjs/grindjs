@@ -12,19 +12,15 @@ export class ScssCompiler extends Compiler {
 	options = { }
 	priority = 1000
 
-	constructor(app, autoMinify) {
-		super(app, autoMinify)
+	constructor(app, sourceMaps) {
+		super(app, sourceMaps)
 
 		this.options = app.config.get('assets.compilers.scss', { })
 
-		if(
-			this.options.sourceMap.isNil
-			&& this.options.sourceMapEmbed.isNil
-			&& this.options.sourceMapContents.isNil
-		) {
-			this.options.sourceMap = true
-			this.options.sourceMapEmbed = true
-			this.options.sourceMapContents = true
+		if(this.options.sourceMap.isNil && this.options.sourceMapEmbed.isNil && this.options.sourceMapContents.isNil) {
+			this.options.sourceMap = this.sourceMaps === 'auto'
+			this.options.sourceMapEmbed = this.sourceMaps === 'auto'
+			this.options.sourceMapContents = this.sourceMaps === 'auto'
 		}
 	}
 

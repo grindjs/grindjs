@@ -9,8 +9,8 @@ export class RawCompiler extends Compiler {
 	extensions = null
 	assets = null
 
-	constructor(app, autoMinify) {
-		super(app, autoMinify)
+	constructor(app, sourceMaps) {
+		super(app, sourceMaps)
 
 		this.assets = app.paths.base('resources/assets')
 		this.extensions = app.config.get('assets.compilers.raw.extensions')
