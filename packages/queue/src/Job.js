@@ -43,6 +43,10 @@ export class Job {
 		return this
 	}
 
+	$isDelayedFor(ms) {
+		return (this.$kueJob.promote_at - Date.now()) > ms
+	}
+
 	$attempts(...args) {
 		this.$kueJob.attempts(...args)
 		return this
