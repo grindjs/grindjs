@@ -11,25 +11,45 @@ export class ViewFactory {
 	app = null
 	nunjucks = null
 	viewPath = null
+	compiledViewPath = null
 
 	constructor(app) {
 		this.app = app
 
 		this.viewPath = app.paths.base(app.config.get('view.path', 'resources/views'))
+		this.compiledViewPath = app.paths.base('storage/views/compiled.js')
+	}
 
-		const loader = new Nunjucks.FileSystemLoader(this.viewPath, {
-			watch: app.config.get('view.watch', app.env() === 'local'),
-			noCache: app.config.get('view.disable_cache', false)
-		})
+	async bootstrap() {
+		const loaders = [ ]
 
-		this.nunjucks = new ViewEnvironment(loader, {
-			autoescape: app.config.get('view.autoescape', true),
-			trimBlocks: app.config.get('view.trim_blocks', false),
-			lstripBlocks: app.config.get('view.lstrip_blocks', false),
-			throwOnUndefined: app.config.get('view.throw_on_undefined', false)
+		if(await FS.exists(this.compiledViewPath)) {
+			try {
+				const templates = require(this.compiledViewPath)
+
+				if(!templates.isNil && !templates.templates.isNil) {
+					loaders.push(new Nunjucks.PrecompiledLoader(templates.templates))
+				}
+			} catch(err) {
+				Log.error('Unable to load compiled views', err)
+			}
+		}
+
+		loaders.push(new Nunjucks.FileSystemLoader(this.viewPath, {
+			dev: this.app.debug,
+			watch: this.app.config.get('view.watch', this.app.debug),
+			noCache: this.app.config.get('view.disable_cache', false)
+		}))
+
+		this.nunjucks = new ViewEnvironment(loaders, {
+			dev: this.app.debug,
+			autoescape: this.app.config.get('view.autoescape', true),
+			trimBlocks: this.app.config.get('view.trim_blocks', false),
+			lstripBlocks: this.app.config.get('view.lstrip_blocks', false),
+			throwOnUndefined: this.app.config.get('view.throw_on_undefined', false)
 		})
-		this.nunjucks.express(app.express)
-		app.express.set('view engine', 'njk')
+		this.nunjucks.express(this.app.express)
+		this.app.express.set('view engine', 'njk')
 
 		Filters(this)
 		Functions(this)
