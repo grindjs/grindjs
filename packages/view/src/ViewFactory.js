@@ -2,10 +2,10 @@ import './Globals/Filters'
 import './Globals/Functions'
 
 import './ViewEnvironment'
+import './FS'
 
 import Nunjucks from 'nunjucks'
-import fs from 'fs'
-import path from 'path'
+import Path from 'path'
 
 export class ViewFactory {
 	app = null
@@ -36,18 +36,14 @@ export class ViewFactory {
 	}
 
 	exists(view) {
-		return new Promise((resolve, reject) => {
-			fs.stat(path.join(this.viewPath, view), (err, stats) => {
-				if(!err.isNil) {
-					if(err.code === 'ENOENT') {
-						return resolve(false)
-					}
+		return FS.stat(Path.join(this.viewPath, view))
+		.then(stats => stats.isFile())
+		.catch(err => {
+			if(err.code === 'ENOENT') {
+				return false
+			}
 
-					return reject(err)
-				}
-
-				resolve(stats.isFile())
-			})
+			throw err
 		})
 	}
 
