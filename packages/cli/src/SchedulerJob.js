@@ -26,9 +26,10 @@ export class SchedulerJob {
 			}
 
 			this.isRunning = true
+			let promise = null
 
 			if(this.type === 'closure') {
-				this.options.closure(this.options.args)
+				promise = Promise.resolve(this.options.closure(this.options.args))
 			} else {
 				let command = null
 
@@ -40,15 +41,17 @@ export class SchedulerJob {
 					return false
 				}
 
-				this.executeCommand(command, this.options.args)
+				promise = this.executeCommand(command, this.options.args)
 			}
 
-			this.isRunning = false
+			promise.then(() => {
+				this.isRunning = false
+			})
 		}, this.schedule)
 	}
 
 	executeCommand(command, args) {
-		command.execAsChildProcess(args).then(output => {
+		return command.execAsChildProcess(args).then(output => {
 			this.cli.output.info(output)
 		}).catch(err => {
 			this.cli.output.error(err)
