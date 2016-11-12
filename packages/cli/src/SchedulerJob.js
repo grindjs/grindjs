@@ -27,21 +27,20 @@ export class SchedulerJob {
 
 			this.isRunning = true
 
-			if(this.type === 'className') {
-				const command = new this.options.className
-				this.executeCommand(command, this.options.args)
-			}
-
-			if(this.type === 'name') {
-				for(const command of this.cli.commands) {
-					if(command.name === this.options.name) {
-						this.executeCommand(command, this.options.args)
-					}
-				}
-			}
-
 			if(this.type === 'closure') {
 				this.options.closure(this.options.args)
+			} else {
+				let command = null
+
+				if(this.type === 'className') {
+					command = new this.options.className
+				} else if(this.type === 'name') {
+					command = this.cli.commands.find(command => command.name === this.options.name)
+				} else {
+					return false
+				}
+
+				this.executeCommand(command, this.options.args)
 			}
 
 			this.isRunning = false
