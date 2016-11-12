@@ -51,10 +51,18 @@ export class SchedulerJob {
 	}
 
 	executeCommand(command, args) {
-		return command.execAsChildProcess(args).then(output => {
-			this.cli.output.info(output)
-		}).catch(err => {
-			this.cli.output.error(err)
+		return command.spawn(args).then(code => {
+			if(code !== 0) {
+				let description = command.name
+
+				if(Array.isArray(args) && args.length > 0) {
+					description += ` [${args.join(', ')}]`
+				}
+
+				this.cli.output.error('%s failed with code: %d', description, code)
+			}
+
+			return code
 		})
 	}
 
