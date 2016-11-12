@@ -174,11 +174,10 @@ export class Command {
 		})
 	}
 
-	execAsChildProcess(args = null) {
-		const execFile = ChildProcess.execFile
-
-		const options = {
-			env: process.env
+	execAsChildProcess(args = null, options = null) {
+		options = {
+			env: process.env,
+			...(options || { })
 		}
 
 		if(args.isNil) {
@@ -190,7 +189,7 @@ export class Command {
 		args.unshift(this.name)
 
 		return new Promise((resolve, reject) => {
-			execFile(process.env.CLI_BIN, args, options, (err, stdout) => {
+			ChildProcess.execFile(process.env.CLI_BIN, args, options, (err, stdout) => {
 				if(!err.isNil) {
 					return reject(err)
 				}
@@ -200,10 +199,11 @@ export class Command {
 		})
 	}
 
-	spawn(args = null) {
-		const options = {
+	spawn(args = null, options = null) {
+		options = {
 			env: process.env,
-			stdio: 'inherit'
+			stdio: 'inherit',
+			...(options || { })
 		}
 
 		if(args.isNil) {
