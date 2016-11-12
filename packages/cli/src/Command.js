@@ -200,6 +200,29 @@ export class Command {
 		})
 	}
 
+	spawn(args = null) {
+		const options = {
+			env: process.env,
+			stdio: 'inherit'
+		}
+
+		if(args.isNil) {
+			args = [ ]
+		} else {
+			args = [ ].concat(...args)
+		}
+
+		args.unshift(this.name)
+
+		return new Promise(resolve => {
+			const childProcess = ChildProcess.spawn(process.env.CLI_BIN, args, options)
+
+			childProcess.on('close', code => {
+				resolve(Number.parseInt(code))
+			})
+		})
+	}
+
 	info(...message) {
 		return this.cli.output.info(...message)
 	}
