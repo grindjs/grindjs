@@ -97,7 +97,11 @@ export default class Grind {
 				continue
 			}
 
-			await provider.shutdown(this)
+			try {
+				await provider.shutdown(this)
+			} catch(e) {
+				Log.error(`Error while shutting ${provider.name} down`, e)
+			}
 		}
 
 		this.booted = false
