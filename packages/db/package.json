@@ -1,6 +1,6 @@
 {
   "name": "grind-db",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Database provider for Grind, powered by Knex",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
