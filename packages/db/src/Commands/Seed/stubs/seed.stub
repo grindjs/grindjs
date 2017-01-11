@@ -1,26 +1,24 @@
-export function seed(knex) {
+export function seed(db) {
 	const table = '{{=it.tableName}}'
-	const now = knex.fn.now()
+	const now = db.fn.now()
 
 	return Promise.all([
 		// Deletes ALL existing entries
-		knex(table).del(),
+		db(table).del(),
 
 		// Inserts seed entries
-		knex(table).insert([
+		db(table).insert([
 			{
 				id: 1,
 				name: 'One',
 				created_at: now,
 				updated_at: now
-			},
-			{
+			}, {
 				id: 2,
 				name: 'Two',
 				created_at: now,
 				updated_at: now
-			},
-			{
+			}, {
 				id: 3,
 				name: 'Three',
 				created_at: now,
