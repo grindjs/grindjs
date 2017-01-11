@@ -1,4 +1,4 @@
-export function Config(connection, app) {
+export function ConfigBuilder(connection, app) {
 	if(typeof connection === 'string') {
 		connection = app.config.get(`database.connections.${connection}`)
 	}

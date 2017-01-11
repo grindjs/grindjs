@@ -1,4 +1,4 @@
-import './Database'
+import './DatabaseBuilder'
 
 import './Commands/Migrate/CurrentVersionCommand'
 import './Commands/Migrate/LatestCommand'
@@ -9,7 +9,7 @@ import { RunCommand as SeedRunCommand } from './Commands/Seed/RunCommand'
 import { MakeCommand as SeedMakeCommand } from './Commands/Seed/MakeCommand'
 
 export function DatabaseProvider(app) {
-	app.db = Database(app.config.get('database.default'), app)
+	app.db = DatabaseBuilder(app.config.get('database.default'), app)
 
 	if(app.cli.isNil) {
 		return
