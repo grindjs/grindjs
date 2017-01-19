@@ -1,6 +1,6 @@
 # Creating a Project
 ## Using Grind Installer
-Once you have the Grind Installer [installed](doc:getting-started#installing-grinds-installer), it's easy to setup a new project.  Just run the following command:
+Once you have the Grind Installer [installed](doc:installation#installing-grinds-installer), it's easy to setup a new project.  Just run the following command:
 ```shell
 grind new project-name
 ```
