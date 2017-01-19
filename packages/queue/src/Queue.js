@@ -108,4 +108,8 @@ export class Queue {
 		return done(error)
 	}
 
+	destroy() {
+		// TODO
+	}
+
 }
