@@ -1,0 +1,13 @@
+grind.rocks
+root /apps/grind.rocks/public
+
+rewrite / /proxy
+
+rewrite {
+	to {path} /proxy/{uri}
+}
+
+proxy /proxy localhost:3900 {
+	without /proxy
+	transparent
+}
