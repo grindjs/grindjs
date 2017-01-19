@@ -36,10 +36,10 @@ We’ll tackle each of these in more detail below, but here’s a quick overview
 The bin directory contains several binaries to assist you while building and running Grind:
 
 * `build` — Transpile your app through Babel for use in Production
-* `cli` — Your gateway into the [Grind CLI](doc:cli), providing everything from code generators to running migrations.
+* `cli` — Your gateway into the [Grind CLI](cli), providing everything from code generators to running migrations.
 * `lint` — Triggers `eslint` on your codebase, it’s important to keep things tidy!
 * `serve` — Starts up the HTTP server
-* `watch` — Starts the HTTP server and monitors for changes, for more information see [Running Grind](doc:running-grind#development).
+* `watch` — Starts the HTTP server and monitors for changes, for more information see [Running Grind](running-grind#development).
 
 The boot directory provides two entry points into Grind:
 * `Cli.js` — Called by `bin/cli` and actually starts up the CLI
@@ -58,14 +58,14 @@ The app directory is the core of your application, this is where the vast majori
 Run `bin/cli --help` for a list of available generators (identified by the `make:` namespace).
 
 ## Config Directory
-See the [Configuration guide](doc:configuration) for a full overview of how files in the `config` directory are stored and processed.
+See the [Configuration guide](configuration) for a full overview of how files in the `config` directory are stored and processed.
 
 ## Resources Directory
 The resources directory is where all of your frontend code should go, from templates (views) to images, stylesheets and client side JavaScript.  This directory is not included in API projects by default.
 
-The `assets` directory is powered by the [Assets provider](doc:assets).  This is where all of your images, stylesheets and client side scripts will be stored.  Be sure to read up on [Assets](doc:assets) for a full breakdown on how this works.
+The `assets` directory is powered by the [Assets provider](assets).  This is where all of your images, stylesheets and client side scripts will be stored.  Be sure to read up on [Assets](assets) for a full breakdown on how this works.
 
-The `views` directories is where you should store your [nunjucks](http://mozilla.github.io/nunjucks/) templates. The [View provider](doc:templates) will look for all of your views here.
+The `views` directories is where you should store your [nunjucks](http://mozilla.github.io/nunjucks/) templates. The [View provider](templates) will look for all of your views here.
 
 ## Public Directory
 By default, Grind will do nothing with the `public` directory.  When assets are published, AssetsProvider will register static servers for the `css`, `img`, `fonts` and `js` directories.

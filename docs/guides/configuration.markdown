@@ -7,7 +7,7 @@ Grind provides JSON-based config using cascading directories based on your curre
 ## Base Usage
 Grind will look for the `config` directory at the root level of your project.
 
-Your [directory structure](doc:directory-structure) should look like this:
+Your [directory structure](directory-structure) should look like this:
 
 ```
 ┌─ app

@@ -197,7 +197,7 @@ export function JobsProvider(app) {
 }
 ```
 
-If you haven’t already created the `JobsProvider` be sure to register it in Bootstrap, for more information on this see the [Providers guide](doc:providers#registering-providers).
+If you haven’t already created the `JobsProvider` be sure to register it in Bootstrap, for more information on this see the [Providers guide](providers#registering-providers).
 
 ## Dispatching Jobs
 To dispatch a job, you’ll create a job instance and call `app.queue.dispatch(job)`:

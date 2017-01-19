@@ -180,13 +180,13 @@ error(...message) // Outputs as white text with a red background
 success(...message) // Output as green text
 ```
 
-These methods simply call the same method on `app.cli.output`, which itself redirects to the global `Log` class.  For more information logging and providing your own logger, see the [Logging documentation](doc:logging).
+These methods simply call the same method on `app.cli.output`, which itself redirects to the global `Log` class.  For more information logging and providing your own logger, see the [Logging documentation](logging).
 
 ## Default Commands
 Grind’s providers ship with a bunch of default commands to help make development easier.
 
 ### Assets
-Assets includes the `assets:publish` and `assets:unpublish` commands to help precompile your assets during deployment.  See the [Assets documentation](doc:assets#deployments) for more information.
+Assets includes the `assets:publish` and `assets:unpublish` commands to help precompile your assets during deployment.  See the [Assets documentation](assets#deployments) for more information.
 
 ### CLI
 As noted above, the CLI includes a built in `make:command` command to generate commands for you.
@@ -201,7 +201,7 @@ The database provider includes a number of commands for migrating and seeding th
 * `migrate:rollback` — Reverts the last set of migrations performed
 * `db:seed` — Runs all seed files to populate your database
 
-See the [Migrations & Seeds documentation](doc:migrations-seeds) for more information.
+See the [Migrations & Seeds documentation](migrations-seeds) for more information.
 
 ### ORM
-ORM has a single `make:model` command that generates model classes for you. See the [ORM documentation](doc:orm) for more information.
+ORM has a single `make:model` command that generates model classes for you. See the [ORM documentation](orm) for more information.

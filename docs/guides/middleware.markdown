@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 ```
 
 ## Per-Route Middleware
-You can also add middleware to a specific route.  Check out the [Routing docs](doc:routing#section-action) for full information on how to do this.
+You can also add middleware to a specific route.  Check out the [Routing docs](routing#section-action) for full information on how to do this.
 ```js
 app.routes.post('create', …).use(formBodyParser)
 ```

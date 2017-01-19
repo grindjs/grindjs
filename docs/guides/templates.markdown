@@ -58,4 +58,4 @@ The `markHtml` function is equivilent to Nunjuck’s [`safe` filter](http://mozi
 ```
 
 ## Other Additions
-Be sure to check out the documentation for the [Assets](doc:assets) and [HTML Builders](doc:html-builders) providers, as they both provide additional features for views.
+Be sure to check out the documentation for the [Assets](assets) and [HTML Builders](html-builders) providers, as they both provide additional features for views.

@@ -46,7 +46,7 @@ export class CollectionLogger {
 }
 ```
 
-To activate this logger, you should create a Logger [provider](doc:providers):
+To activate this logger, you should create a Logger [provider](providers):
 ```js
 import 'App/Support/CollectionLogger'
 

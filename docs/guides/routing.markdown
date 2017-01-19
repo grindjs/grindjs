@@ -1,5 +1,5 @@
 # Routing
-The standard way to register routes in Grind is via a Routes [provider](doc:providers).  The routes provider is located at `app/Providers/RoutesProvider.js`.
+The standard way to register routes in Grind is via a Routes [provider](providers).  The routes provider is located at `app/Providers/RoutesProvider.js`.
 
 Under the hood, Grind’s router is based on [Express’s router](http://expressjs.com/en/starter/basic-routing.html), however it provides a different interace with some additional functionality.  Don’t fear though — this doesn’t come at a performance cost.  All Grind route’s immediately turn into Express routes at boot time, think of it as syntactic sugar.
 
@@ -53,7 +53,7 @@ app.routes.get('home', {
 
 #### context
 
-The third and final parameter, `context`, is an optional context object that is set on the route itself (accessible via `route.context`).  By default this does nothing, but it provides a way to send additional context to other Grind providers.  For instance, Grind’s [Swagger provider](doc:swagger)  leverages the `context` param to build out rich documentation around your routes.
+The third and final parameter, `context`, is an optional context object that is set on the route itself (accessible via `route.context`).  By default this does nothing, but it provides a way to send additional context to other Grind providers.  For instance, Grind’s [Swagger provider](swagger)  leverages the `context` param to build out rich documentation around your routes.
 
 ### Alternate Middleware Registration
 Above, we register middleware through the route action, but we can also do it after the routes created:
