@@ -92,16 +92,20 @@ export class Queue {
 					const job = new jobClass(kueJob.data, kueJob)
 					result = job.$handle(this.app, this)
 				} catch(err) {
-					return done(err)
+					return done(this.handleError(err, done))
 				}
 
 				if(result.isNil || typeof result.then !== 'function') {
 					return done()
 				}
 
-				result.then(() => done()).catch(err => done(err))
+				result.then(() => done()).catch(err => this.handleError(err, done))
 			})
 		})
+	}
+
+	handleError(error, done) {
+		return done(error)
 	}
 
 }
