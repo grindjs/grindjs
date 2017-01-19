@@ -2,6 +2,7 @@
   "name": "grind-site",
   "private": true,
   "dependencies": {
+    "autoprefixer": "^6.6.1",
     "bourbon": "^4.2.7",
     "cache-manager": "^2.1.2",
     "grind-core-frontend": "^0.5.1",
