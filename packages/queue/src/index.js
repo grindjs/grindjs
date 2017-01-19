@@ -1,6 +1,17 @@
 import './Job'
-import './QueryBuilder'
+
 import './Queue'
+import './QueryBuilder'
 import './QueueProvider'
 
-export { Job, QueryBuilder, Queue, QueueProvider }
+import './Commands/MakeJobCommand'
+import './Commands/QueueWorkCommand'
+
+export {
+	Job,
+	Queue,
+	QueryBuilder,
+	QueueProvider,
+	QueueWorkCommand,
+	MakeJobCommand
+}

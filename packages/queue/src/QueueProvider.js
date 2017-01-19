@@ -3,16 +3,17 @@ import './Queue'
 import './Commands/MakeJobCommand'
 import './Commands/QueueWorkCommand'
 
-export function QueueProvider(app) {
-	app.queue = new Queue(app)
+export function QueueProvider(app, classes = { }) {
+	const queueClass = classes.queueClass || Queue
+	app.queue = new queueClass(app)
 
 	if(app.cli.isNil) {
 		return
 	}
 
 	app.cli.register([
-		MakeJobCommand,
-		QueueWorkCommand
+		classes.makeJobCommandClass || MakeJobCommand,
+		classes.queueWorkCommandClass || QueueWorkCommand
 	])
 }
 
