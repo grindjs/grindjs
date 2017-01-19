@@ -1,71 +1,46 @@
----
-title: "Core Extensions"
-excerpt: ""
----
+# Core Extensions
 Most extensions to Grind should be done via [Providers](doc:providers), however there are several core classes that are created immediately upon instantiating Grind that need to be treated differently.
 
 For these classes, you can pass in an object when creating an instance of `Grind` in `app/Boostrap.js`:
-[block:code]
-{
-  "codes": [
-    {
-      "code": "import 'App/Errors/ErrorHandler'\n\nconst app = new Grind({\n\terrorHandlerClass: ErrorHandler\n})",
-      "language": "javascript"
-    }
-  ]
-}
-[/block]
+```js
+import 'App/Errors/ErrorHandler'
+
+const app = new Grind({
+	errorHandlerClass: ErrorHandler
+})
+```
+
 Grind will now use the provided `ErrorHandler` class instead of the default one it ships with.
 
-Here's a list of available overrides:
-[block:parameters]
-{
-  "data": {
-    "h-0": "Class Name",
-    "h-1": "Constructor Key",
-    "h-2": "Reference",
-    "0-0": "Router",
-    "0-1": "routerClass",
-    "1-0": "ErrorHandler",
-    "1-1": "errorHandlerClass",
-    "2-0": "Config",
-    "2-1": "configClass",
-    "3-0": "UrlGenerator",
-    "3-1": "urlGeneratorClass",
-    "4-0": "Paths",
-    "4-1": "pathsClass",
-    "h-3": "Reference",
-    "1-3": "",
-    "0-3": "",
-    "2-3": "",
-    "3-3": "",
-    "4-3": "",
-    "1-2": "[github.com/grindjs/framework/blob/master/src/ErrorHandler.js](https://github.com/grindjs/framework/blob/master/src/ErrorHandler.js)",
-    "0-2": "[github.com/grindjs/framework/blob/master/src/Router.js](https://github.com/grindjs/framework/blob/master/src/Router.js)",
-    "2-2": "[github.com/grindjs/framework/blob/master/src/Config.js](https://github.com/grindjs/framework/blob/master/src/Config.js)",
-    "3-2": "[github.com/grindjs/framework/blob/master/src/UrlGenerator.js](https://github.com/grindjs/framework/blob/master/src/UrlGenerator.js)",
-    "4-2": "[github.com/grindjs/framework/blob/master/src/Paths.js](https://github.com/grindjs/framework/blob/master/src/Paths.js)"
-  },
-  "cols": 3,
-  "rows": 5
-}
-[/block]
+Here’s a list of available overrides:
+
+| Class Name | Constructor Key | Reference |
+| ---------- | --------------- | --------- |
+| Router | routerClass | [github.com/grindjs/framework/blob/master/src/Router.js](https://github.com/grindjs/framework/blob/master/src/Router.js) |
+| ErrorHandler | errorHandlerClass | [github.com/grindjs/framework/blob/master/src/ErrorHandler.js](https://github.com/grindjs/framework/blob/master/src/ErrorHandler.js) |
+| Config | configClass | [github.com/grindjs/framework/blob/master/src/Config.js](https://github.com/grindjs/framework/blob/master/src/Config.js) |
+| UrlGenerator | urlGeneratorClass | [github.com/grindjs/framework/blob/master/src/UrlGenerator.js](https://github.com/grindjs/framework/blob/master/src/UrlGenerator.js) |
+| Paths | pathsClass | [github.com/grindjs/framework/blob/master/src/Paths.js](https://github.com/grindjs/framework/blob/master/src/Paths.js) |
+
 `grind-framework` exports all of the above classes for you to subclass and extend.
-[block:api-header]
-{
-  "type": "basic",
-  "title": "Example"
-}
-[/block]
+
+## Example
 Here’s an example overriding the ErrorHandler class to report errors to a collector API:
-[block:code]
-{
-  "codes": [
-    {
-      "code": "import {ErrorHandler as BaseErrorHandler} from 'grind-framework'\nimport 'request' from 'request-promise-native'\n\nexport class ErrorHandler extends BaseErrorHandler {\n\n\treport(req, res, err, info) {\n\t\treturn request('http://host/report', {\n\t\t\tform: {\n\t\t\t\tinfo: info,\n\t\t\t\tstack: err.stack\n\t\t\t}\n\t\t})\n\t}\n\n}",
-      "language": "javascript",
-      "name": "ErrorHandler.js"
-    }
-  ]
+
+```js
+import { ErrorHandler as BaseErrorHandler } from 'grind-framework'
+import 'request' from 'request-promise-native'
+
+export class ErrorHandler extends BaseErrorHandler {
+
+	report(req, res, err, info) {
+		return request('https://host/report', {
+			form: {
+				info: info,
+				stack: err.stack
+			}
+		})
+	}
+
 }
-[/block]
+```
