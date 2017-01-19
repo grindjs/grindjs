@@ -7,6 +7,7 @@ In production environments, be sure to run the `assets:publish` command so all a
 Assets comes with built in support for a bunch of asset types, but to maintain flexibility and minimize node_modules bloat, it doesn’t explicitly require any compiler depenencies.  Instead you can pick and choose which you want to use, and install them directly.
 
 Refer to the table below determine which dependencies you’ll need:
+
 | Compiler | Install Command | Description |
 | -------- | --------------- | ----------- |
 | Babel | `npm install --save-dev babelify browserify` | Provides support for using ES6/7 features in the browser |
@@ -15,7 +16,9 @@ Refer to the table below determine which dependencies you’ll need:
 | CSS | `npm install --save-dev clean-css` | Provides CSS minification |
 | SVG | `npm install --save-dev svgo` | Provides SVG optimization |
 
-> Don’t worry if you forget to setup a dependency, Assets will let you know what to install if you try to use a compiler that doesn’t have it’s dependencies installed.### Directories & Babel
+> Don’t worry if you forget to setup a dependency, Assets will let you know what to install if you try to use a compiler that doesn’t have it’s dependencies installed.
+
+### Directories & Babel
 
 Most compilers match solely on file extension and don’t care where the file is located as long as it’s in `/resources/assets`.  As an example, as long as the file is called `main.scss`, the SCSS compiler will compile regardless of whether it’s located at `/resources/assets/scss/main.scss` or `/resources/assets/something-entirely-different/main.scss`.
 

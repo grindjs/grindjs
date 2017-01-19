@@ -20,7 +20,7 @@ import fs from 'fs-promise'
 
 export function ViewExtensionProvider(app) {
   return fs.readFile(app.paths.base('countries.json'), content => {
-	  app.view.share('countries', JSON.parse(content)
+	  app.view.share('countries', JSON.parse(content))
   })
 }
 ```
@@ -46,6 +46,7 @@ By default, providers are loaded in the order in which they were registered, unl
 Provider priority is how we avoid loading one provider that depends on another after the provider it depends on is loaded, even if it’s registered before it.
 
 Here’s a list of the priorities for Grind’s standard providers:
+
 | Grind Provider | Priority |
 | -------------- | -------- |
 | CliProvider | 100000 |
