@@ -15,8 +15,8 @@ export class DocsController extends Controller {
 
 
 		return Promise.all([
-			Markdown.renderFile(this.app.paths.base('docs/guides/documentation.markdown')),
-			Markdown.renderFile(`${path}.markdown`)
+			Markdown.renderFile(this.app, this.app.paths.base('docs/guides/documentation.markdown')),
+			Markdown.renderFile(this.app, `${path}.markdown`)
 		]).then(data => res.render('docs.show', {
 			documentation: data[0],
 			content: data[1]

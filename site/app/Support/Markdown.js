@@ -1,6 +1,6 @@
 import MarkdownIt from 'markdown-it'
 
-import fs from 'fs'
+import fs from 'fs-promise'
 import expandTabs from 'markdown-it-expand-tabs'
 import githubTaskList from 'markdown-it-task-lists'
 import Highlights from 'highlights'
@@ -22,14 +22,10 @@ const Markdown = new MarkdownIt({
 Markdown.use(expandTabs)
 Markdown.use(githubTaskList)
 
-Markdown.renderFile = path => new Promise((resolve, reject) => {
-	fs.readFile(path, (err, content) => {
-		if(!err.isNil) {
-			return reject(err)
-		}
-
-		return resolve(content.toString())
+Markdown.renderFile = (app, path) => fs.stat(path).then(stats => {
+	return app.cache.wrap(`${path}-${stats.mtime.getTime()}`, () => {
+		return fs.readFile(path).then(content => Markdown.render(content.toString()))
 	})
-}).then(content => Markdown.render(content))
+})
 
 export { Markdown }
