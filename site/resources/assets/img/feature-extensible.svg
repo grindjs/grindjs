@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+	<defs>
+		<linearGradient x1="100%" y1="100%" x2="0%" y2="0%" id="a">
+			<stop stop-color="#498CFF" offset="0%" />
+			<stop stop-color="#2DBCFF" offset="100%" />
+		</linearGradient>
+	</defs>
+	<g fill="none" fill-rule="evenodd">
+		<rect fill="url(#a)" width="40" height="40" rx="4" />
+		<path d="M15 15.995v14.01c0 .55.445.995.995.995h14.01c.55 0 .995-.445.995-.995v-14.01c0-.55-.445-.995-.995-.995h-14.01c-.55 0-.995.445-.995.995z" id="Rectangle-11-Copy" fill="url(#a)" />
+		<path d="M7 9.995C7 8.34 8.34 7 9.995 7h14.01C25.66 7 27 8.34 27 9.995v14.01C27 25.66 25.66 27 24.005 27H9.995C8.34 27 7 25.66 7 24.005V9.995z" fill="#1F60C0" />
+		<path d="M13 15.995C13 14.34 14.34 13 15.995 13h14.01C31.66 13 33 14.34 33 15.995v14.01C33 31.66 31.66 33 30.005 33h-14.01C14.34 33 13 31.66 13 30.005v-14.01z" fill="#FFF" />
+	</g>
+</svg>

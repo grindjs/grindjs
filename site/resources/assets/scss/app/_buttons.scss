@@ -1,0 +1,22 @@
+.btn {
+	display: inline-block;
+	height: 36px;
+	padding: 0 15px;
+
+	font-size: 15px;
+	font-weight: $font-weight-medium;
+	line-height: 40px;
+	color: #fff;
+
+	background-image: linear-gradient(-180deg, #4c82ff 0%, #3b70ed 100%);
+	border-radius: 6px;
+	box-shadow: 0 1px 2px 0 rgba(#000, 0.15);
+
+	&:hover, &:active {
+		color: #fff;
+	}
+}
+
+	.btn-info {
+		background-image: linear-gradient(-180deg, #5c5c68 0%, #494851 100%);
+	}

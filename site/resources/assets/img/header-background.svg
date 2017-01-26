@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="360" height="240" viewBox="0 0 360 240">
+	<defs>
+		<linearGradient x1="10.833%" y1="6.25%" x2="84.166%" y2="103.33%" id="a">
+			<stop stop-color="#fff" offset="0%" />
+			<stop stop-color="#fff" stop-opacity=".087" offset="39.106%" />
+			<stop stop-color="#fff" stop-opacity="0" offset="100%" />
+		</linearGradient>
+		<mask id="b" fill="#fff">
+			<path fill="url(#a)" d="M0 0h360v240H0z" />
+		</mask>
+	</defs>
+
+	<g opacity="0.3" mask="url(#b)" fill="#4d7bff" fill-rule="evenodd">
+		<path d="M0 0h30v30H0z" />
+		<path opacity=".7" d="M30 0h30v30H30z" />
+		<path opacity=".2" d="M60 0h30v30H60z" />
+		<path opacity=".5" d="M60 30h30v30H60z" />
+		<path opacity=".8" d="M30 30h30v30H30z" />
+		<path opacity=".1" d="M0 30h30v30H0z" />
+		<path d="M90 0h30v30H90z" />
+		<path opacity=".7" d="M120 0h30v30h-30z" />
+		<path opacity=".2" d="M150 0h30v30h-30z" />
+		<path opacity=".5" d="M150 30h30v30h-30z" />
+		<path opacity=".8" d="M120 30h30v30h-30z" />
+		<path opacity=".1" d="M90 30h30v30H90z" />
+		<path d="M0 60h30v30H0z" />
+		<path opacity=".7" d="M30 60h30v30H30z" />
+		<path opacity=".2" d="M60 60h30v30H60z" />
+		<path opacity=".5" d="M60 90h30v30H60z" />
+		<path opacity=".8" d="M30 90h30v30H30z" />
+		<path opacity=".1" d="M0 90h30v30H0z" />
+		<path d="M90 60h30v30H90z" />
+		<path opacity=".7" d="M120 60h30v30h-30z" />
+		<path opacity=".2" d="M150 60h30v30h-30z" />
+		<path opacity=".5" d="M150 90h30v30h-30z" />
+		<path opacity=".8" d="M120 90h30v30h-30z" />
+		<path opacity=".1" d="M90 90h30v30H90z" />
+		<path d="M180 0h30v30h-30z" />
+		<path opacity=".7" d="M210 0h30v30h-30z" />
+		<path opacity=".2" d="M240 0h30v30h-30z" />
+		<path opacity=".5" d="M240 30h30v30h-30z" />
+		<path opacity=".8" d="M210 30h30v30h-30z" />
+		<path opacity=".1" d="M180 30h30v30h-30z" />
+		<path d="M270 0h30v30h-30z" />
+		<path opacity=".7" d="M300 0h30v30h-30z" />
+		<path opacity=".2" d="M330 0h30v30h-30z" />
+		<path opacity=".5" d="M330 30h30v30h-30z" />
+		<path opacity=".8" d="M300 30h30v30h-30z" />
+		<path opacity=".1" d="M270 30h30v30h-30z" />
+		<path d="M180 60h30v30h-30z" />
+		<path opacity=".7" d="M210 60h30v30h-30z" />
+		<path opacity=".2" d="M240 60h30v30h-30z" />
+		<path opacity=".5" d="M240 90h30v30h-30z" />
+		<path opacity=".8" d="M210 90h30v30h-30z" />
+		<path opacity=".1" d="M180 90h30v30h-30z" />
+		<path d="M270 60h30v30h-30z" />
+		<path opacity=".7" d="M300 60h30v30h-30z" />
+		<path opacity=".2" d="M330 60h30v30h-30z" />
+		<path opacity=".5" d="M330 90h30v30h-30z" />
+		<path opacity=".8" d="M300 90h30v30h-30z" />
+		<path opacity=".1" d="M270 90h30v30h-30z" />
+		<path d="M180 120h-30v30h30z" />
+		<path opacity=".7" d="M150 120h-30v30h30z" />
+		<path opacity=".2" d="M120 120H90v30h30z" />
+		<path opacity=".5" d="M120 150H90v30h30z" />
+		<path opacity=".8" d="M150 150h-30v30h30z" />
+		<path opacity=".1" d="M180 150h-30v30h30z" />
+		<path d="M90 120H60v30h30z" />
+		<path opacity=".7" d="M60 120H30v30h30z" />
+		<path opacity=".2" d="M30 120H0v30h30z" />
+		<path opacity=".5" d="M30 150H0v30h30z" />
+		<path opacity=".8" d="M60 150H30v30h30z" />
+		<path opacity=".1" d="M90 150H60v30h30z" />
+		<path d="M180 180h-30v30h30z" />
+		<path opacity=".7" d="M150 180h-30v30h30z" />
+		<path opacity=".2" d="M120 180H90v30h30z" />
+		<path opacity=".5" d="M120 210H90v30h30z" />
+		<path opacity=".8" d="M150 210h-30v30h30z" />
+		<path opacity=".1" d="M180 210h-30v30h30z" />
+		<path d="M90 180H60v30h30z" />
+		<path opacity=".7" d="M60 180H30v30h30z" />
+		<path opacity=".2" d="M30 180H0v30h30z" />
+		<path opacity=".5" d="M30 210H0v30h30z" />
+		<path opacity=".8" d="M60 210H30v30h30z" />
+		<path opacity=".1" d="M90 210H60v30h30z" />
+		<path d="M360 120h-30v30h30z" />
+		<path opacity=".7" d="M330 120h-30v30h30z" />
+		<path opacity=".2" d="M300 120h-30v30h30z" />
+		<path opacity=".5" d="M300 150h-30v30h30z" />
+		<path opacity=".8" d="M330 150h-30v30h30z" />
+		<path opacity=".1" d="M360 150h-30v30h30z" />
+		<path d="M270 120h-30v30h30z" />
+		<path opacity=".7" d="M240 120h-30v30h30z" />
+		<path opacity=".2" d="M210 120h-30v30h30z" />
+		<path opacity=".5" d="M210 150h-30v30h30z" />
+		<path opacity=".8" d="M240 150h-30v30h30z" />
+		<path opacity=".1" d="M270 150h-30v30h30z" />
+		<path d="M360 180h-30v30h30z" />
+		<path opacity=".7" d="M330 180h-30v30h30z" />
+		<path opacity=".2" d="M300 180h-30v30h30z" />
+		<path opacity=".5" d="M300 210h-30v30h30z" />
+		<path opacity=".8" d="M330 210h-30v30h30z" />
+		<path opacity=".1" d="M360 210h-30v30h30z" />
+		<path d="M270 180h-30v30h30z" />
+		<path opacity=".7" d="M240 180h-30v30h30z" />
+		<path opacity=".2" d="M210 180h-30v30h30z" />
+		<path opacity=".5" d="M210 210h-30v30h30z" />
+		<path opacity=".8" d="M240 210h-30v30h30z" />
+		<path opacity=".1" d="M270 210h-30v30h30z" />
+	</g>
+</svg>

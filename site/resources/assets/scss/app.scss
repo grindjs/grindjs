@@ -1,5 +1,4 @@
 @import 'common';
-@import 'normalize';
 
 * { box-sizing: border-box; }
 
@@ -8,7 +7,7 @@ html, body {
 }
 
 body {
-	padding: $header-height 0 $footer-height;
+	padding: 0;
 
 	font-family: $font-family-sans-serif;
 	font-size: $body-font-size;
@@ -24,11 +23,23 @@ a {
 	&:active { color: $link-color-hover; }
 }
 
-.container {
-	width: 900px;
-	margin: 0 auto;
+.brand-logo  {
+	display: inline-block;
+	width: 39px;
+	height: 52px;
+
+	font-size: 1px;
+	color: transparent;
+
+	background: transparent url(../img/logo.svg) no-repeat center center;
+	filter: drop-shadow(0 1px 10px rgba(#000, 0.1));
+}
+
+.alternate-container {
+	background: #12234c;
 }
 
 @import 'app/typography';
+@import 'app/buttons';
 @import 'app/header';
 @import 'app/footer';

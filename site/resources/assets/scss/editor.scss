@@ -1,0 +1,167 @@
+.editor {
+	padding: 20px;
+
+	font-size: 15px;
+	line-height: 28px;
+	color: #555;
+
+	background: #fff;
+	border: 1px solid #e6e7e9;
+	border-radius: 4px;
+
+	::selection {
+		background-color: #e1e6f5;
+	}
+
+	.comment {
+		color: #a5acbb;
+	}
+
+	.string {
+		color: #00d8ff;
+	}
+
+	.source {
+		.string {
+			.source, .meta.embedded.line {
+				color: #5a5a5a;
+			}
+
+			.punctuation.section.embedded {
+				color: #920b2d;
+
+				.source {
+					color: #920b2d;
+				}
+			}
+		}
+
+		&.shell {
+			color: #513cf5;
+		}
+	}
+
+	.constant {
+		&.numeric {
+			color: #00d8ff;
+		}
+
+		&.language, &.character, &.other {
+			color: #606aa1;
+		}
+
+		&.symbol {
+			color: #990073;
+		}
+
+		&.numeric.line-number.find-in-files {
+			.match {
+				color: rgba(143, 190, 0, 0.63);
+			}
+		}
+	}
+
+	.variable {
+		color: #5d99ff;
+
+		&.parameter {
+			color: #5d99ff;
+		}
+	}
+
+	.keyword {
+		color: #5520ff;
+
+		&.unit {
+			color: #445588;
+		}
+
+		&.special-method {
+			color: #0086b3;
+		}
+	}
+
+	.storage {
+		color: #5520ff;
+	}
+
+	.entity {
+		&.name.class, &.other.inherited-class {
+			color: #5d99ff;
+		}
+
+		&.name {
+			&.function {
+				color: #5d99ff;
+			}
+
+			&.tag {
+				color: #008080;
+			}
+		}
+
+		&.other.attribute-name {
+			color: #458;
+		}
+
+		&.name.filename.find-in-files {
+			color: #e6db74;
+		}
+	}
+
+	.support {
+		&.constant, &.function, &.type {
+			color: #458;
+		}
+
+		&.class {
+			color: #008080;
+		}
+
+	}
+
+	.invalid {
+		color: #f8f8f0;
+		background-color: #00a8c6;
+
+		&.deprecated {
+			color: #f8f8f0;
+			background-color: #8fbe00;
+		}
+	}
+
+	.meta {
+		&.structure.dictionary {
+			&.json > .string.quoted.double.json {
+				color: #5d99ff;
+
+				.punctuation.string {
+					color: #5d99ff;
+				}
+			}
+
+			&.value.json > .string.quoted.double.json {
+				color: #00d8ff;
+			}
+		}
+
+		&.diff {
+			color: #75715e;
+
+			&.header {
+				color: #75715e;
+			}
+		}
+	}
+
+	.css {
+		&.support.property-name {
+			color: #333;
+		}
+
+		&.constant {
+			color: #099;
+		}
+	}
+
+}

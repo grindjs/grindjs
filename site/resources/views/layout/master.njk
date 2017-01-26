@@ -3,7 +3,9 @@
 	<head>
 		<title>{% block title %}Grind | Web Framework for Node.js{% endblock %}</title>
 
-		{{ html.style('https://fonts.googleapis.com/css?family=Source+Sans+Pro') }}
+		{{ html.style('https://s3.amazonaws.com/assets.grind.rocks/docs/css/BentonSans.css') }}
+		{{ html.style('https://s3.amazonaws.com/assets.grind.rocks/docs/css/fira_code.css') }}
+
 		{% asset 'render', 'styles' %}
 		{% block styles %}{% endblock %}
 	</head>

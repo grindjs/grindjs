@@ -5,8 +5,12 @@
     "autoprefixer": "^6.6.1",
     "bourbon": "^4.2.7",
     "cache-manager": "^2.1.2",
+    "github-slugger": "^1.1.1",
     "grind-core-frontend": "^0.5.1",
-    "normalize.css": "^4.2.0"
+    "highlights": "^1.4.1",
+    "markdown-it": "^8.2.2",
+    "markdown-it-expand-tabs": "^1.0.11",
+    "markdown-it-task-lists": "^1.4.1"
   },
   "devDependencies": {
     "babel-cli": "^6.7.5",
@@ -17,6 +21,7 @@
     "babel-preset-es2016-node5": "^1.1.2",
     "babel-preset-stage-1": "^6.5.0",
     "babelify": "^7.3.0",
+    "bootstrap-sass": "^3.3.7",
     "browserify": "^13.1.0",
     "clean-css": "^3.4.19",
     "eslint": "^3.3.1",

@@ -1,24 +1,43 @@
 {% extends 'layout/master.njk' %}
 
 {% scss 'app' %}
+{% scss 'grid' %}
 
 {% block contentBefore %}
 	<header class="header">
+		{% filter spaceless %}
 		<div class="container header-container">
-			{{ html.linkRoute('welcome.show', 'Grind', null, { class: 'header-logo' }) }}
+			<div class="header-background"></div>
+			<div class="header-background header-background-mirror"></div>
+
+			{{ html.linkRoute('welcome.show', 'Grind', null, { class: 'brand-logo header-logo' }) }}
 
 			<nav class="header-links">
+				{{ html.linkRoute('docs.show', 'Documentation', null, { class: 'header-link' }) }}
 				<a href="https://github.com/grindjs" class="header-link">GitHub</a>
-				<a href="https://grind.readme.io/docs" class="header-link">Docs</a>
+				<a href="https://twitter.com/grindjs" class="header-link" target="_blank">Twitter</a>
 			</nav>
+
+			{{ html.linkRoute('docs.show', 'Get Started', [ 'guides', 'installation' ], { class: 'header-cta btn' }) }}
 		</div>
+		{% endfilter %}
 	</header>
 {% endblock %}
 
 {% block contentAfter %}
 	<footer class="footer">
 		<div class="container footer-container">
-			<span class="footer-text">Grind was created by <a href="https://github.com/shnhrrsn">Shaun Harrison</a> and is made available under the MIT license.</span>
+			{{ html.linkRoute('welcome.show', 'Grind', null, { class: 'brand-logo footer-logo' }) }}
+
+			<span class="footer-content">
+				<nav class="footer-links">
+					{{ html.linkRoute('docs.show', 'Documentation', null, { class: 'footer-link' }) }}
+					<a href="https://github.com/grindjs" class="footer-link">GitHub</a>
+					<a href="https://twitter.com/grindjs" class="footer-link" target="_blank">Twitter</a>
+				</nav>
+
+				<span class="footer-text">Grind was created by <a href="https://github.com/shnhrrsn" target="_blank">Shaun Harrison</a> and is made available under the MIT license.</span>
+			</span>
 		</div>
 	</footer>
 {% endblock %}

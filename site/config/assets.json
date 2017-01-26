@@ -4,6 +4,7 @@
 
 		"scss": {
 			"includePaths": [
+				"{{ node_modules }}/bootstrap-sass/assets/stylesheets",
 				"{{ node_modules }}/bourbon/app/assets/stylesheets",
 				"{{ node_modules }}/normalize.css",
 			]

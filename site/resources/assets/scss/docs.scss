@@ -1,0 +1,67 @@
+@import 'common';
+
+$docs-border-color: #e6e7e9;
+
+.footer {
+	background: #fff;
+	box-shadow: 0 -2px 0 0 #e6e7e9;
+}
+
+
+.docs {
+	display: flex;
+	padding-top: 30px;
+}
+
+	.docs-navigation {
+		width: 160px;
+		border-right: 2px solid $docs-border-color;
+	}
+
+	.docs-content {
+		width: 620px;
+		padding: 0 60px 100px;
+
+		h2 {
+			padding: 60px 60px 0;
+			margin: 60px -60px 18px;
+
+			border-top: 2px solid $docs-border-color;
+		}
+
+		img {
+			max-width: 100%;
+		}
+
+		p, pre, ul, ol {
+			& + p, & + pre, & + ul, & + ol {
+				margin-top: 20px;
+			}
+		}
+
+		ol, ul {
+			list-style-position: inside;
+
+			li {
+				display: list-item;
+				list-style: inherit;
+			}
+		}
+
+		ul {
+			list-style: none;
+
+			li:before {
+				position: relative;
+				top: 4px;
+				margin-right: 5px;
+
+				font-size: 23px;
+				font-weight: $font-weight-bold;
+				line-height: inherit;
+				color: #555;
+				content: '•';
+			}
+		}
+
+	}

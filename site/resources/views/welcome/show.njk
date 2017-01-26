@@ -1,0 +1,74 @@
+{% extends 'layout/app.njk' %}
+
+{% scss 'welcome' %}
+
+{% block content %}
+	<div class="welcome">
+		<div class="welcome-body">
+			<h1 class="welcome-header">Say Hello to Grind</h1>
+			<p class="welcome-lead">Grind is an opinionated Node web framework that brings together popular packages in an easy to use framework to provide a solid foundation for you to build your apps on, without reinventing the wheel.</p>
+
+			<div class="welcome-buttons">
+				<a href="{{ url.route('docs.show') }}" class="btn btn-info welcome-button">View Documentation →</a>
+				<a href="https://github.com/grindjs" class="btn welcome-button">Explore the Code →</a>
+			</div>
+		</div>
+		<div class="welcome-code">
+			{% filter spaceless %}
+				<div class="welcome-code-faux-toolbar">
+					<span class="welcome-code-faux-toolbar-button"></span>
+					<span class="welcome-code-faux-toolbar-button"></span>
+					<span class="welcome-code-faux-toolbar-button"></span>
+				</div>
+			{% endfilter %}
+
+			{% include 'welcome/code.njk' %}
+		</div>
+	</div>
+{% endblock %}
+
+{% block contentAfter %}
+
+	<div class="alternate-container">
+		<div class="container container-wide welcome-features">
+			<div class="row welcome-features-row">
+				<div class="col-xs-4">
+					<span class="welcome-feature-icon">{{ html.image(assetPath('img/feature-extensible.svg')) }}</span>
+					<h2 class="welcome-feature-header">Extensible</h2>
+					<p class="welcome-feature-description">Grind’s provider system means all components are replacable.  Want to replace the default DBA? Go for it!</p>
+				</div>
+				<div class="col-xs-4">
+					<span class="welcome-feature-icon">{{ html.image(assetPath('img/feature-performance.svg')) }}</span>
+					<h2 class="welcome-feature-header">Performance over Everything</h2>
+					<p class="welcome-feature-description">Grind’s built on Express and all routing is compiled to Express routes at runtime so there's no additional latency vs Express.</p>
+				</div>
+				<div class="col-xs-4">
+					<span class="welcome-feature-icon">{{ html.image(assetPath('img/feature-structure.svg')) }}</span>
+					<h2 class="welcome-feature-header">Developer Friendly</h2>
+					<p class="welcome-feature-description">Grind provides a well structured starting point for your apps and numerous developer tools such as in-browser syntax errors and to help you get your job done.</p>
+				</div>
+			</div>
+			<div class="row welcome-features-row">
+				<div class="col-xs-4">
+					<span class="welcome-feature-icon">{{ html.image(assetPath('img/feature-assets.svg')) }}</span>
+					<h2 class="welcome-feature-header">Integrated Asset Management</h2>
+					<p class="welcome-feature-description">Grind Assets are ready to go, no messing around with Webpack or Gulp.  Start writing SCSS or ES6 immediately.</p>
+				</div>
+				<div class="col-xs-4">
+					<span class="welcome-feature-icon">{{ html.image(assetPath('img/feature-docs.svg')) }}</span>
+					<h2 class="welcome-feature-header">Self Documenting</h2>
+					<p class="welcome-feature-description">All of Grind's routes can exposed as Swagger endpoints, giving you beautiful up-to-date API documentation for free.</p>
+				</div>
+				<div class="col-xs-4">
+					<span class="welcome-feature-icon">{{ html.image(assetPath('img/feature-babel.svg')) }}</span>
+					<h2 class="welcome-feature-header">Forward Thinking</h2>
+					<p class="welcome-feature-description">Grind makes heavy use of the Babel transpiler to build for the future, rather than being tied down by what Node can do today.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{{ super() }}
+
+{% endblock %}
+
