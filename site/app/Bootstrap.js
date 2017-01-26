@@ -1,3 +1,5 @@
+require('babel-polyfill')
+
 import Grind from 'grind-framework'
 
 import { AssetsProvider } from 'grind-assets'
