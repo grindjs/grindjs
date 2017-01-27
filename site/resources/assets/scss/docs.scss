@@ -25,11 +25,25 @@ $docs-border-color: #e6e7e9;
 		}
 
 		li {
-			line-height: 1em;
+			line-height: 13px;
 
 			+ li {
 				margin-top: 10px;
 			}
+		}
+	}
+
+	.docs-navigation-active {
+		&:before {
+			display: inline-block;
+			width: 5px;
+			height: 13px;
+			margin-right: 8px;
+
+			vertical-align: top;
+
+			background: transparent url(../img/navigation-active-indicator.svg) no-repeat center 2px;
+			content: '';
 		}
 	}
 
@@ -76,7 +90,7 @@ $docs-border-color: #e6e7e9;
 					margin-right: 15px;
 					margin-left: -20px;
 
-					vertical-align: middle;
+					vertical-align: baseline;
 
 					background: transparent url(../img/ul-icon.svg) no-repeat center center;
 					content: '';
