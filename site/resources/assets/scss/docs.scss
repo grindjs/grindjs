@@ -20,11 +20,11 @@ $docs-border-color: #e6e7e9;
 
 	.docs-content {
 		width: 620px;
-		padding: 0 60px 100px;
+		padding: 0 0 100px 60px;
 
 		h2 {
-			padding: 60px 60px 0;
-			margin: 60px -60px 18px;
+			padding: 60px 0 0 60px;
+			margin: 60px 0 18px -60px;
 
 			border-top: 2px solid $docs-border-color;
 		}
