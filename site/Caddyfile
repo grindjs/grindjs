@@ -1,6 +1,10 @@
 grind.rocks
 root /apps/grind.rocks/public
 
+header /css Cache-Control "max-age=31536000;"
+header /img Cache-Control "max-age=31536000;"
+header /js Cache-Control "max-age=31536000;"
+
 rewrite / /proxy
 
 rewrite {
