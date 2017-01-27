@@ -4,6 +4,7 @@ import fs from 'fs-promise'
 import expandTabs from 'markdown-it-expand-tabs'
 import githubTaskList from 'markdown-it-task-lists'
 import anchor from 'markdown-it-anchor'
+import tableOfContents from 'markdown-it-table-of-contents'
 
 import 'App/Support/Highlighter'
 
@@ -18,6 +19,9 @@ Markdown.use(expandTabs)
 Markdown.use(githubTaskList)
 Markdown.use(anchor, {
 	permalink: true
+})
+Markdown.use(tableOfContents, {
+	includeLevel: [ 2, 3 ]
 })
 
 Markdown.render = function(content) {

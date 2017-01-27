@@ -2571,7 +2571,7 @@ load-json-file@^1.0.0:
     pinkie-promise "^2.0.0"
     strip-bom "^2.0.0"
 
-lodash.assign@^4.0.0, lodash.assign@^4.0.3, lodash.assign@^4.0.6, lodash.assign@^4.2.0:
+lodash.assign@^4.0.0, lodash.assign@^4.0.3, lodash.assign@^4.0.6, lodash.assign@^4.2.0, lodash.assign@~4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/lodash.assign/-/lodash.assign-4.2.0.tgz#0d99f3ccd7a6d261d19bdaeb9245005d285808e7"
 
@@ -2663,6 +2663,13 @@ markdown-it-expand-tabs:
   resolved "https://registry.yarnpkg.com/markdown-it-expand-tabs/-/markdown-it-expand-tabs-1.0.11.tgz#7804ab5aab8b1368191b43469d87e2ede4af086a"
   dependencies:
     lodash.repeat "^4.0.0"
+
+markdown-it-table-of-contents:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/markdown-it-table-of-contents/-/markdown-it-table-of-contents-0.3.1.tgz#1c4de87c41efa43b1d6f21d4ee1aa4e8ac09d7b3"
+  dependencies:
+    lodash.assign "~4.2.0"
+    string "~3.3.3"
 
 markdown-it-task-lists:
   version "1.4.1"
@@ -3718,7 +3725,7 @@ string-width@^2.0.0:
     is-fullwidth-code-point "^2.0.0"
     strip-ansi "^3.0.0"
 
-string@^3.0.1:
+string@^3.0.1, string@~3.3.3:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/string/-/string-3.3.3.tgz#5ea211cd92d228e184294990a6cc97b366a77cb0"
 
