@@ -16,6 +16,12 @@ $docs-border-color: #e6e7e9;
 	.docs-navigation {
 		width: 160px;
 		border-right: 2px solid $docs-border-color;
+
+		h5 {
+			font-size: 10px;
+			color: #949bad;
+			text-transform: uppercase;
+		}
 	}
 
 	.docs-content {
