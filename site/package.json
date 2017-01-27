@@ -2,6 +2,7 @@
   "name": "grind-site",
   "private": true,
   "dependencies": {
+    "atom-jinja2": "https://github.com/danielchatfield/atom-jinja2",
     "autoprefixer": "^6.6.1",
     "bourbon": "^4.2.7",
     "cache-manager": "^2.1.2",

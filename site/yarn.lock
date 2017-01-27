@@ -208,6 +208,10 @@ asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
 
+"atom-jinja2@https://github.com/danielchatfield/atom-jinja2":
+  version "0.6.0"
+  resolved "https://github.com/danielchatfield/atom-jinja2#7f989f22bcaf9de24722b7dd63691a2d9a8d8619"
+
 autoprefixer:
   version "6.6.1"
   resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-6.6.1.tgz#11a4077abb4b313253ec2f6e1adb91ad84253519"
@@ -2162,11 +2166,6 @@ https-browserify@~0.0.0:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-0.0.1.tgz#3f91365cabe60b77ed0ebba24b454e3e09d95a82"
 
-"https://github.com/wiredmax/language-json5":
-  name language-json5
-  version "1.1.0"
-  resolved "https://github.com/wiredmax/language-json5#5c75ca3cfa1fc454bd1a24fc6e4a8a79995b1535"
-
 iconv-lite@0.4.15:
   version "0.4.15"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.15.tgz#fe265a218ac6a57cfe854927e9d04c19825eddeb"
@@ -2534,6 +2533,10 @@ labeled-stream-splicer@^2.0.0:
     inherits "^2.0.1"
     isarray "~0.0.1"
     stream-splicer "^2.0.0"
+
+"language-json5@https://github.com/wiredmax/language-json5":
+  version "1.1.0"
+  resolved "https://github.com/wiredmax/language-json5#5c75ca3cfa1fc454bd1a24fc6e4a8a79995b1535"
 
 later@1.2.x:
   version "1.2.0"
