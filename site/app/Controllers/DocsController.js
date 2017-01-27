@@ -11,10 +11,13 @@ export class DocsController extends Controller {
 			return res.route('docs.show', [ 'guides', 'installation' ])
 		}
 
-		path = this.app.paths.base('docs', path)
+		path = this.app.paths.base('resources/docs', path)
 
 		return Promise.all([
-			Markdown.renderFile(this.app, this.app.paths.base('docs/guides/documentation.markdown')).then(content => {
+			Markdown.renderFile(
+				this.app,
+				this.app.paths.base('resources/docs/guides/documentation.markdown')
+			).then(content => {
 				const components = path.split(/\//)
 				const active = components[components.length - 1]
 
