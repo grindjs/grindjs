@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="5px" height="8px" viewBox="0 0 5 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>ul-icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Grind-Docs" transform="translate(-430.000000, -1436.000000)" fill-rule="nonzero" fill="#513CF5">
+            <g id="Group-7" transform="translate(425.000000, 1269.000000)">
+                <path d="M5.29289322,173.292893 C4.90236893,173.683418 4.90236893,174.316582 5.29289322,174.707107 C5.68341751,175.097631 6.31658249,175.097631 6.70710678,174.707107 L9.70710678,171.707107 C10.0976311,171.316582 10.0976311,170.683418 9.70710678,170.292893 L6.70710678,167.292893 C6.31658249,166.902369 5.68341751,166.902369 5.29289322,167.292893 C4.90236893,167.683418 4.90236893,168.316582 5.29289322,168.707107 L7.58578644,171 L5.29289322,173.292893 Z" id="ul-icon"></path>
+            </g>
+        </g>
+    </g>
+</svg>
