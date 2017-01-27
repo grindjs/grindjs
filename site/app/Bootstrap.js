@@ -9,6 +9,7 @@ import { ViewProvider } from 'grind-view'
 
 import 'App/Providers/HttpsProvider'
 import 'App/Providers/RoutesProvider'
+import 'App/Providers/ViewExtensionProvider'
 
 import 'App/Errors/ErrorHandler'
 
@@ -25,5 +26,6 @@ app.providers.push(ViewProvider)
 // App providers
 app.providers.push(HttpsProvider)
 app.providers.push(RoutesProvider)
+app.providers.push(ViewExtensionProvider)
 
 module.exports = app
