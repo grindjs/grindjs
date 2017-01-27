@@ -20,3 +20,16 @@
 	.btn-info {
 		background-image: linear-gradient(-180deg, #5c5c68 0%, #494851 100%);
 	}
+
+	.btn-icon {
+		display: inline-block;
+		vertical-align: baseline;
+		background: transparent none no-repeat center center;
+	}
+
+		.btn-icon-chevron-right {
+			width: 6px;
+			height: 10px;
+			margin-left: 10px;
+			background-image: url(../img/button-chevron-right.svg);
+		}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="6px" height="10px" viewBox="0 0 6 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>button-chevron-right</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Grind" transform="translate(-584.000000, -449.000000)" fill-rule="nonzero" fill="#FFFFFF">
+            <g id="Group-8" transform="translate(410.000000, 435.000000)">
+                <g id="Button-Copy-2">
+                    <path d="M177.585786,19 L174.292893,22.2928932 C173.902369,22.6834175 173.902369,23.3165825 174.292893,23.7071068 C174.683418,24.0976311 175.316582,24.0976311 175.707107,23.7071068 L179.707107,19.7071068 C180.097631,19.3165825 180.097631,18.6834175 179.707107,18.2928932 L175.707107,14.2928932 C175.316582,13.9023689 174.683418,13.9023689 174.292893,14.2928932 C173.902369,14.6834175 173.902369,15.3165825 174.292893,15.7071068 L177.585786,19 Z" id="button-chevron-right"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
