@@ -22,7 +22,13 @@
 				</div>
 			{% endfilter %}
 
-			{% include 'welcome/code.njk' %}
+{% filter highlight('js') %}export function RoutesProvider(app) {
+   app.routes.get('/', (req, res) => {
+      res.render('welcome.show', {
+         name: 'Grind'
+      })
+   }).as('welcome.show')
+}{% endfilter %}
 		</div>
 	</div>
 {% endblock %}
