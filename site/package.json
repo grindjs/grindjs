@@ -9,6 +9,7 @@
     "github-slugger": "^1.1.1",
     "grind-core-frontend": "^0.5.1",
     "highlights": "^1.4.1",
+    "language-json5": "https://github.com/wiredmax/language-json5",
     "markdown-it": "^8.2.2",
     "markdown-it-expand-tabs": "^1.0.11",
     "markdown-it-task-lists": "^1.4.1"

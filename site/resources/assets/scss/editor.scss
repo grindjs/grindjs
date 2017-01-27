@@ -132,7 +132,7 @@
 
 	.meta {
 		&.structure.dictionary {
-			&.json > .string.quoted.double.json {
+			&.json5 > .string.quoted.json5 {
 				color: #5d99ff;
 
 				.punctuation.string {
@@ -140,7 +140,7 @@
 				}
 			}
 
-			&.value.json > .string.quoted.double.json {
+			&.value.json5 > .string.quoted.json5 {
 				color: #00d8ff;
 			}
 		}

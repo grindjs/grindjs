@@ -3,20 +3,14 @@ import MarkdownIt from 'markdown-it'
 import fs from 'fs-promise'
 import expandTabs from 'markdown-it-expand-tabs'
 import githubTaskList from 'markdown-it-task-lists'
-import Highlights from 'highlights'
 
-const highlighter = new Highlights()
+import 'App/Support/Highlighter'
 
 const Markdown = new MarkdownIt({
 	html: true,
 	linkify: true,
 	typographer: true,
-	highlight: (code, lang) => {
-		return highlighter.highlightSync({
-			fileContents: code,
-			scopeName: `source.${lang}`
-		})
-	}
+	highlight: (code, lang) => Highlighter(code, lang)
 })
 
 Markdown.use(expandTabs)
