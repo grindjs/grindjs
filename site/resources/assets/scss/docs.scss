@@ -18,9 +18,18 @@ $docs-border-color: #e6e7e9;
 		border-right: 2px solid $docs-border-color;
 
 		h5 {
+			margin-bottom: 18px;
 			font-size: 10px;
 			color: #949bad;
 			text-transform: uppercase;
+		}
+
+		li {
+			line-height: 1em;
+
+			+ li {
+				margin-top: 10px;
+			}
 		}
 	}
 
