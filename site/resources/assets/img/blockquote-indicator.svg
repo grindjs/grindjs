@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="9px" height="9px" viewBox="0 0 9 9" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>blockquote-indicator</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Grind-Docs" transform="translate(-454.000000, -442.000000)" fill-rule="nonzero" fill="#FFFFFF">
+            <g id="CAllout" transform="translate(430.000000, 422.000000)">
+                <path d="M31,25.5857864 L25.7071068,20.2928932 C25.3165825,19.9023689 24.6834175,19.9023689 24.2928932,20.2928932 C23.9023689,20.6834175 23.9023689,21.3165825 24.2928932,21.7071068 L29.5857864,27 L26,27 C25.4477153,27 25,27.4477153 25,28 C25,28.5522847 25.4477153,29 26,29 L32,29 C32.5522847,29 33,28.5522847 33,28 L33,22 C33,21.4477153 32.5522847,21 32,21 C31.4477153,21 31,21.4477153 31,22 L31,25.5857864 Z" id="blockquote-indicator"></path>
+            </g>
+        </g>
+    </g>
+</svg>

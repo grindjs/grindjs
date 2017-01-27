@@ -22,10 +22,20 @@ const Markdown = new MarkdownIt({
 Markdown.use(expandTabs)
 Markdown.use(githubTaskList)
 
-Markdown.renderFile = (app, path) => fs.stat(path).then(stats => {
-	return app.cache.wrap(`${path}-${stats.mtime.getTime()}`, () => {
-		return fs.readFile(path).then(content => Markdown.render(content.toString()))
-	})
-})
+Markdown.render = function(content) {
+	let result = MarkdownIt.prototype.render.call(this, content)
+	result = result.replace(/<blockquote>\s*<p>\s*\{([a-z]+)\}\s*/g, '<blockquote class="blockquote-$1"><p>')
+	return result
+}
+
+Markdown.renderFile = (app, path) => {
+	const render = () => fs.readFile(path).then(content => Markdown.render(content.toString()))
+
+	if(app.debug) {
+		return render()
+	}
+
+	return fs.stat(path).then(stats => app.cache.wrap(`${path}-${stats.mtime.getTime()}`, render))
+}
 
 export { Markdown }

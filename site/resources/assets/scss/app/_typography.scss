@@ -51,6 +51,71 @@ h5 {
 	text-transform: uppercase;
 }
 
+blockquote {
+	position: relative;
+	padding: 14px 12px 11px 20px;
+
+	margin: 20px 0 20px 4px;
+
+	background: #fff;
+	border-radius: 0 6px 6px 0;
+	box-shadow: 0 1px 3px 0 rgba(#000, 0.19);
+
+	> p > strong:first-child {
+		display: block;
+		margin-bottom: 3px;
+
+		font-size: 10px;
+		font-weight: $font-weight-medium;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+	}
+
+	&:before {
+		position: absolute;
+		top: 0;
+		left: -4px;
+
+		display: block;
+		width: 4px;
+		height: 100%;
+
+		background: #e6e7e9;
+		content: '';
+	}
+}
+
+	.blockquote-tip, .blockquote-note {
+		padding-left: 45px;
+
+		color: #fff;
+		background: url(../img/blockquote-indicator.svg) no-repeat 20px 20px;
+	}
+
+	.blockquote-tip {
+		background-color: #4d7bff;
+
+		&:before {
+			background-color: #2752ce;
+		}
+
+		a {
+			color: rgba(#fff, 0.5);
+		}
+	}
+
+	.blockquote-note {
+		background-color: #ea7945;
+
+		&:before {
+			background-color: #b7420c;
+		}
+
+		a {
+			color: rgba(#000, 0.5);
+		}
+	}
+
 pre, code {
 	margin: 0;
 	font-family: 'Fira Code', monospace;
@@ -67,6 +132,17 @@ p, li {
 		background: #fafafa;
 		border: 1px solid #e6e7e9;
 		border-radius: 4px;
+
+		blockquote & {
+			margin: 0 4px;
+
+			color: #14145a;
+
+			background: #fff;
+			border: 0;
+			border-radius: 3px;
+			box-shadow: 0 1px 2px 0 rgba(#000, 0.2);
+		}
 	}
 }
 
