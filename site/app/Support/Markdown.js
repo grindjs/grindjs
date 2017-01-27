@@ -33,6 +33,14 @@ Markdown.render = function(content) {
 		'<$1 id="$2"><a href="$4" class="header-anchor" aria-hidden="true">$3</a></$1>'
 	)
 
+	result = result.replace(/<a href="([^"]+)"/g, ($0, $1) => {
+		if($1.indexOf('://') === -1) {
+			return $0
+		}
+
+		return `<a href="${$1}" target="_blank"`
+	})
+
 	return result
 }
 
