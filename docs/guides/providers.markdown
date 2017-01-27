@@ -5,6 +5,8 @@ Providers are registered in your app’s bootstrap file and are loaded during `a
 
 Providers are loaded sequentially in the order they were registered (unless they have an explicit priority set, more below).
 
+[[toc]]
+
 ## Building Your Own Providers
 Building a provider couldn’t be easier, you just need a function that accepts a single `app` parameter:
 ```js
@@ -25,7 +27,7 @@ export function ViewExtensionProvider(app) {
 }
 ```
 
-> Providers are loaded sequentially, regardless of wether or not they return a promise.  Be mindful of this when doing so, as the entire boot process will wait for your provider’s promise to finish resolving before moving on to the next provider and finishing the boot up.
+> {note} Providers are loaded sequentially, regardless of wether or not they return a promise.  Be mindful of this when doing so, as the entire boot process will wait for your provider’s promise to finish resolving before moving on to the next provider and finishing the boot up.
 
 ## Registering Providers
 Providers should be registered in `app/Bootstrap.js` via `app.providers.push`.  Here’s how we’d register our new `ViewExtensionProvider`:
@@ -47,16 +49,16 @@ Provider priority is how we avoid loading one provider that depends on another a
 
 Here’s a list of the priorities for Grind’s standard providers:
 
-| Grind Provider | Priority |
-| -------------- | -------- |
-| CliProvider | 100000 |
-| QueueProvider | 60000 |
-| CacheProvider | 50000 |
-| DatabaseProvider | 50000 |
-| OrmProvider | 40000 |
-| ViewProvider | 30000 |
-| HtmlProvider | 20000 |
-| AssetsProvider | 10000 |
+Grind Provider | Priority
+-------------- | --------
+CliProvider | 100000
+QueueProvider | 60000
+CacheProvider | 50000
+DatabaseProvider | 50000
+OrmProvider | 40000
+ViewProvider | 30000
+HtmlProvider | 20000
+AssetsProvider | 10000
 
 In the previous `ViewExtensionProvider` example, since we haven’t explicitly set a priority, we can be assured that `ViewProvider` is loaded before it and `app.view` will already be resolved.
 
@@ -70,6 +72,8 @@ ViewExtensionProvider.priority = 100
 ```
 
 This sets the `ViewExtensionProvider` priority to 100, ensuring it’ll be loaded _after_ all of Grind’s standard providers, but _before_ any additional providers (such as RoutesProvider) your app provides.
+
+---
 
 ### Implicit Priority
 If you don’t explicitly set a priority value, Grind will assign a negative priority value based on the order in which it’s registered.  So the first provider without a priority will be assigned -1, the second -2, third -3, etc.

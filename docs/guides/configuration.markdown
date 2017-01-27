@@ -1,8 +1,10 @@
 # Configuration
 Grind provides JSON-based config using cascading directories based on your current environment.
 
-> *JSON5 Ready*
+> {tip} **JSON5 Ready**
 > Grind uses [JSON5](http://json5.org) to parse it’s config files, so go ahead and use single quotes, multiline strings, comments, and everything else JSON5 offers.
+
+[[toc]]
 
 ## Base Usage
 Grind will look for the `config` directory at the root level of your project.

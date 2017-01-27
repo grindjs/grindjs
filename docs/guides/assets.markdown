@@ -1,7 +1,7 @@
 # Assets
 Assets provides a simple way to work with assets within Grind.  It’s designed to get out of your way and allow you to work without worrying about running a watch command and waiting for files to compile.  Once setup, all you need to do is store your assets in `/resources/assets` and the package will automatically detect changes and compile (and cache) on page load.
 
-In production environments, be sure to run the `assets:publish` command so all assets are precompiled and moved to the public directory, allowing your web server to more effeciently serve them.
+[[toc]]
 
 ## Installing dependencies
 Assets comes with built in support for a bunch of asset types, but to maintain flexibility and minimize node_modules bloat, it doesn’t explicitly require any compiler depenencies.  Instead you can pick and choose which you want to use, and install them directly.
@@ -16,17 +16,22 @@ Refer to the table below determine which dependencies you’ll need:
 | CSS | `npm install --save-dev clean-css` | Provides CSS minification |
 | SVG | `npm install --save-dev svgo` | Provides SVG optimization |
 
-> Don’t worry if you forget to setup a dependency, Assets will let you know what to install if you try to use a compiler that doesn’t have it’s dependencies installed.
+> {tip} Don’t worry if you forget to setup a dependency, Assets will let you know what to install if you try to use a compiler that doesn’t have it’s dependencies installed.
+
+---
 
 ### Directories & Babel
 
-Most compilers match solely on file extension and don’t care where the file is located as long as it’s in `/resources/assets`.  As an example, as long as the file is called `main.scss`, the SCSS compiler will compile regardless of whether it’s located at `/resources/assets/scss/main.scss` or `/resources/assets/something-entirely-different/main.scss`.
+Most compilers match solely on file extension and don’t care where the file is located as long as it’s in `/resources/assets`.
 
-The exception to this rule is Babel.  Since we want to minify plain old JS files, the Babel compiler has an additional rule to ensure it doesn’t conflict with the JS minifier.  All Babel files must be stored in a directory with “babel” in the path.  For example both: `/resources/assets/babel/main.js` and `/resources/assets/tooltip/babel/main.js` will be compiled by Babel, however, `/resources/assets/tooltip/main.js` would not be.
+Example: as long as the file is called `main.scss`, the SCSS compiler will compile regardless of whether it’s located at `/resources/assets/scss/main.scss` or `/resources/assets/something-entirely-different/main.scss`.
+
+The exception to this rule is Babel.  Since we want to minify vanilla JS files, the Babel compiler has an additional rule to ensure it doesn’t conflict with the JS minifier.  All Babel files must be stored in a directory with “babel” in the path.  For example both: `/resources/assets/babel/main.js` and `/resources/assets/tooltip/babel/main.js` will be compiled by Babel, however, `/resources/assets/tooltip/main.js` would not be.
 
 ## Simple Usage
 Assets provides an `assetPath()` function that will look for your files in `/resources/assets`, so the file referenced in the snippet below should be in `/resources/assets/scss/site.scss`.
-```twig
+
+```njk
 <link type="text/css" rel="stylesheet" href="{{ assetPath('scss/site.scss') }}" />
 ```
 
@@ -35,7 +40,7 @@ Assets also ships with a full asset container system to drop into views in a muc
 
 To use these tags, you must first configure your master layout to include them:
 
-```twig
+```njk
 <!DOCTYPE html>
 <html>
 	<head>
@@ -76,7 +81,7 @@ The following tags are also supported, but compilers are not yet built for them:
 
 ### Usage
 Now that you know how the tags work, here’s an example of them in use:
-```twig
+```njk
 {% extends 'layout/master.njk' %}
 
 {% babel 'welcome' %}
@@ -123,7 +128,8 @@ export class PngCompiler extends Compiler {
 
 	// The higher the value the more likely
 	// it is to be treated as a match, should
-	// two compilers want match for the same asset
+	// two compilers want to match for the
+	// same asset
 	priority = 100
 
 	compile(pathname, context) {

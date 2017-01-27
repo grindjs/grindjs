@@ -3,6 +3,8 @@ Middleware is a convenient way to validate requests, modify responses, and other
 
 For full information on how Middleware works in Grind, see the comprehensive documentation on the [Express site](https://expressjs.com/en/guide/using-middleware.html).
 
+[[toc]]
+
 ## Global Middleware
 Global middleware is registered via `app.use()`:
 ```js

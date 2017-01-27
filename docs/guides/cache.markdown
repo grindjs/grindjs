@@ -3,6 +3,8 @@ Grind’s [Cache provider](https://github.com/grindjs/cache) integrates Grind wi
 
 You can access cache via `app.cache`.
 
+[[toc]]
+
 ## Usage
 ### Reading from the Cache
 To retrieve a value from the cache, call `cache.get(key)`.  It will return a promise that will resolve with the value, or null if it doesn’t exist.
@@ -26,7 +28,7 @@ app.cache.set(`user-{id}`, user, { ttl: 86400 }).then(() => {
 })
 ```
 
-The third `{ttl}` parameter is optional, if you don’t pass it, it uses the default value as defined in your config.
+The third `{ ttl }` parameter is optional, if you don’t pass it, it uses the default value as defined in your config.
 
 ### Read or Retreive and Write
 Cache also has a convenient `cache.wrap(key, retreiver)` function that will first try to read the key from the cache, and if it’s missing, call the retreiver and store it.
@@ -37,7 +39,7 @@ app.cache.wrap(`user-{id}`, () => User.findById(id), { ttl: 86400 }).then(user =
 })
 ```
 
-The third `{ttl}` parameter is optional, if you don’t pass it, it uses the default value as defined in your config.
+The third `{ ttl }` parameter is optional, if you don’t pass it, it uses the default value as defined in your config.
 
 ### Removing from the Cache
 To remove a cached value from the store, call `cache.del(key)`.  It will return a promise that resolves once it’s been removed.
@@ -67,33 +69,26 @@ Your cache config should live in `/config/cache.json`.
 Here’s an example of a config file showing support for memory, fs and redis:
 ```json
 {
-
 	"default": "memory",
-
 	"stores": {
-
 		"memory": {
 			"driver": "memory",
 			"max": 10000,
 			"ttl": 86400
 		},
-
 		"fs": {
 			"driver": "fs",
 			"max": 1000000000,
 			"path": "storage/cache",
 			"ttl": 86400
 		},
-
 		"redis": {
 			"driver": "redis",
 			"host": "localhost",
 			"port": 6379,
 			"ttl": 86400
 		}
-
 	}
-
 }
 ```
 

@@ -1,4 +1,9 @@
 # Core Extensions
+
+[[toc]]
+
+## Core Classes
+
 Most extensions to Grind should be done via [Providers](providers), however there are several core classes that are created immediately upon instantiating Grind that need to be treated differently.
 
 For these classes, you can pass in an object when creating an instance of `Grind` in `app/Boostrap.js`:

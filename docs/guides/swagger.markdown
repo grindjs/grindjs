@@ -1,11 +1,13 @@
 # Swagger
-> This is applicable only to API projects, which include Swagger by default.  Web projects may add Swagger if they wanted, but it’s of minimal value.
+> {tip} This is applicable only to API projects, which include Swagger by default.  Web projects may add Swagger if they wanted, but it’s of minimal value.
 
 If you’re building an API, proper documentation is just as important as performance.  Unfortunately, maintaining docs is time consuming and they frequently become outdated.
 
 In order to encourage full documentation of endpoints in APIs built with Grind, Grind has a [Swagger provider](https://github.com/grindjs/swagger) that provides first class [Swagger](http://swagger.io) integration into Grind routes via a `/swagger.json` endpoint.
 
 By building Swagger docs directly into routes, it reduces time and effort involved in creating and maintaining API documentation.
+
+[[toc]]
 
 ## Documenting Routes
 Grind will only expose routes that are explicitly documented for Swagger.

@@ -3,7 +3,7 @@ Grind’s ORM is powered by [Objection.js](http://vincit.github.io/objection.js)
 
 This document only focuses on additional functionality Grind ORM provides on top of Objection.js, for full documentation on how Objection.js works, head over to [vincit.github.io/objection.js](http://vincit.github.io/objection.js).
 
-Like Grind, Objection.js is also built on [Knex](http://knexjs.org) and Grind takes care of connecting Objection.js to Grind’s database object for you.
+[[toc]]
 
 ## Building Models
 ### Model Generator
@@ -17,6 +17,7 @@ You can invoke `make:model` with a few different arguments:
 
 ### Model Class
 Once you’ve triggered `make:model`, a model is generated for you that looks like this:
+
 ```js
 import { Model } from 'grind-orm'
 
@@ -45,16 +46,24 @@ export class UserModel extends Model {
 }
 ```
 
+---
+
 #### tableName
 This is the name of the table this model represents and tells the query builder which table to query on.
+
+---
 
 #### descriptiveName
 This is used by the `describe` function throughout the framework to describe what this model represents, most prevalently in error messages.  If `descriptiveName` is not provided, the Model class will generate one based on the `tableName`.
 
+---
+
 #### jsonSchema
 This is used by Objection.js to validate data going into your database.  It’s not required but highly recommended to ensure your data looks like it’s supposed to.
 
-> The `jsonSchema` properties are not tied directly to the database schema.  They’re solely intended for validation and will not be used to generate migrations.  You are still responsible for building out the backing database schema the model represents.
+> {note} The `jsonSchema` properties are not tied directly to the database schema.  They’re solely intended for validation and will not be used to generate migrations.  You are still responsible for building out the backing database schema the model represents.
+
+---
 
 #### buildRelations
 This function is called by Grind’s Model to populate the [`relationMappings` property](http://vincit.github.io/objection.js/#relationmappings) in Objection.js.  Using `buildRelations` has numerous benefits over `relationMappings`, which you can find below.
@@ -68,59 +77,74 @@ Grind has a `buildRelations` function where you return an object of relations th
 Grind’s Model offers several functions to help build relations:
 
 #### hasOne
+`hasOne` establishes a one to one relationship where the target model has a property that references a property of the local model.
+
 ```js
 hasOne(modelClass, foreignKey = null, localKey = null)
 ```
 
-`hasOne` establishes a one to one relationship where the target model has a property that references a property of the local model.
-
+###### Parameters
 * `modelClass` — Target model you’re establishing a relationship with
 * `foreignKey` — The property on the target model that references the local model.  If not provided, Model will generate a foreign key based on the local model’s name, `UserModel` becomes `user_id`.
 * `localKey` — The property that `foreignKey` references on the local model.  If no value is provided, it uses the local model’s `idColumn` property, which defaults to `id`.
 
 If `UserModel` calls `this.hasOne(AvatarModel)` it establishes that `AvatarModel` has a ` user_id` property that references `id` on `UserModel`.
 
+---
+
 #### hasMany
+`hasMany` establishes a one to many relationship where the target model has a property that references a property of the local model.
+
 ```js
 hasMany(modelClass, foreignKey = null, localKey = null)
 ```
 
-`hasMany` establishes a one to many relationship where the target model has a property that references a property of the local model.
-
+###### Parameters
 * `modelClass` — Target model you’re establishing a relationship with
 * `foreignKey` — The property on the target model that references the local model.  If not provided, Model will generate a foreign key based on the local model’s name, `UserModel` becomes `user_id`.
 * `localKey` — The property that `foreignKey` references on the local model.  If no value is provided, it uses the local model’s `idColumn` property, which defaults to `id`.
 
 If `UserModel` calls `this.hasMany(PostModel)` it establishes that `PostModel` has a ` user_id` property that references `id` on `UserModel`.
 
+---
+
 #### belongsTo
+
+`belongsTo` is the inverse of `hasOne`/`hasMany` and establishes a one to one relationship where the local model has a property that references a property of the target model.
+
 ```js
 belongsTo(modelClass, foreignKey = null, otherKey = null)
 ```
 
-`belongsTo` is the inverse of `hasOne`/`hasMany` and establishes a one to one relationship where the local model has a property that references a property of the target model.
-
+###### Parameters
 * `modelClass` — Target model you’re establishing a relationship with
 * `foreignKey` — The property on the target model that references the local model.  If not provided, the Model will generate a foreign key based on the local model’s name, `UserModel` becomes `user_id`.
 * `otherKey` — The property that `foreignKey` references on the target class.  If no value is provided, it uses the target models `idColumn` property, which defaults to `id`.
 
 If `PostModel` calls `this.belongsTo(UserModel)` it establishes that `PostModel` has a ` user_id` property that references `id` on `UserModel`.
 
+---
+
 #### belongsToMany
+
+`belongsToMany` establishes a many to many relationship using a join table.
+
 ```js
 belongsToMany(modelClass, tableName = null, foreignKey = null, otherKey = null)
 ```
 
-`belongsToMany` establishes a many to many relationship using a join table.
-
+###### Parameters
 * `modelClass` — Target model you’re establishing a relationship with
 * `tableName` — Name of the join table to connect the two models.  If not provided, the Model will generate a table name based on the names of the tables on each end, sorted ascendingly and joined with an underscore. If you’re establishing a relationship between `UserModel` and `BlogModel` the default join table name will be `blogs_users`.
 * `foreignKey` — The column on the join table that references the target model.  If not provided, the Model will generate a foreign key based on the target model’s name, `BlogModel` becomes `blog_id`.
 * `otherKey` — The column on the join table that references the local model.  If not provided, the Model will generate a foreign key based on the local model’s name, `UserModel` becomes `user_id`.
 
+###### Usage
+
 If `UserModel` calls `this.belongsToMany(BlogModel)` it established that `UserModel` is connected to `BlogModel` through a joint able called `blogs_users` with `blogs_users.user_id` referencing `UserModel.idColumn` and `blogs_users.blog_id` referencing `BlogModel.idColumn`.
 
 If wanted to establish a `followers` relationship, you could define it as:
+
 ```js
 this.belongsToMany(UserModel, 'followers', 'to_user_id', 'from_user_id')
 ```

@@ -1,7 +1,6 @@
 # CLI
-Grind’s [CLI provider](https://github.com/grindjs/cli) is built on [Commander](https://www.npmjs.com/package/commander), however Grind’s implementation differs greatly.
 
-Grind provides it’s own `Command` base class and registration mechanism that shares very little in common with Commander.  Internally, Grind Commands are built on and compile into Commander, however the underlying API is not exposed.
+[[toc]]
 
 ## Usage
 ### Running the CLI

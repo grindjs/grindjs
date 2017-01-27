@@ -1,4 +1,7 @@
 # Logging
+
+[[toc]]
+
 Grind provides a global `Log` class that should be used instead of `console.log`.  The Log class has 5 different logging methods/levels available:
 ```js
 class Log {

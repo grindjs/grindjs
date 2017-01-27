@@ -1,6 +1,8 @@
 # Queues
 Grind’s [Queue provider](https://github.com/grindjs/queue) is built on [Kue](https://github.com/Automattic/kue) internally, however Grind provides a much different interace so it feels right at home within the Grind ecosystem.
 
+[[toc]]
+
 ## Setting Up the Queue
 ### Integrating with Grind
 To setup your Grind app to use Queue, simple install via NPM and register in bootstrap:
@@ -21,11 +23,8 @@ app.providers.push(QueueProvider)
 To configure your queue, create `config/queue.json`:
 ```json
 {
-
 	"default": "redis",
-
 	"connections": {
-
 		"redis": {
 			"prefix": "q", // Default prefix for the Queue
 			"redis": {
@@ -34,9 +33,7 @@ To configure your queue, create `config/queue.json`:
 				"auth": null
 			}
 		}
-
 	}
-
 }
 ```
 
@@ -66,21 +63,25 @@ export class EmailJob extends Job {
 }
 ```
 
+----
+
 #### jobName
 This is the name of job, it’s used within the queue to determine the type of job during querying and dispatching so the job goes to the correct class.
+
+---
 
 #### $handle(app, queue)
 The `$handle` method is what will be called when your job is invoked by the processor.  For our `EmailJob` job, this is where we’d actually send the email.
 
 `$handle` is invoked with two different parameters:
 
+###### Parameters
 * `app`: The Grind app instance
 * `queue`: The queue instance this job was dispatched on
 
+---
+
 #### id
-```js
-get id()
-```
 
 For jobs that have already been created, you can call `job.id` to get the id of the job.
 
@@ -88,11 +89,15 @@ For jobs that have already been created, you can call `job.id` to get the id of 
 There are a number of additional methods in the Job class to let you fine tune your job:
 
 #### $priority
+
+`$priority` allows you to set the priority of the job.
+
 ```js
 $priority(level)
 ```
 
-`$priority` allows you to set the priority of the job.  It accepts a single `level` parameter that can either be an integer or a priority name.
+###### Parameters
+* `level` — An integer or priority name to set the job to.
 
 Priority names map as follows:
 * `low => 10`
@@ -101,28 +106,41 @@ Priority names map as follows:
 * `high => -10`
 * `critical => -15`
 
+---
+
 #### $delay
+
+`$delay` provides a way to delay a job before it’s processed.  By default there will not be any delays, so if the queue is empty immediately upon dispatching a job, it will be available for processing.
+
 ```js
 $delay(milliseconds)
 ```
 
-`$delay` provides a way to delay a job before it’s processed.  By default there will not be any delays, so if the queue is empty immediately upon dispatching a job, it will be available for processing.
+###### Parameters
 * `milliseconds` — Number of milliseconds to delay the job
 
+---
+
 #### $attempts
+
+`$attempts` controls how many times a failed job will be retried before permanently failing.
+
 ```js
 $attempts(attempts)
 ```
 
-`$attempts` controls how many times a failed job will be retried before permanently failing.
+###### Parameters
 * `attempts` — number of times a job should be retried before failing
 
+---
+
 #### $backoff
+
+`$backoff` works with `$attempts` and allows control over how long of a gap there should be between retrying a job.
+
 ```js
 $backoff(value)
 ```
-
-`$backoff` works with `$attempts` and allows control over how long of a gap there should be between retrying a job.
 
 The value for `$backoff` supports a few different configurations:
 ```js
@@ -146,35 +164,50 @@ job.$attempts(3).$backoff((attempts, delay)  => {
 })
 ```
 
-Note that when you pass in a function it will be eval’d and not called directly — do not attempt to use any variables/application context outside of the function.
+> {note} When you pass in a function it will be eval’d in another process and not called directly — do not attempt to use any variables/application context outside of the function.
+
+---
 
 #### $ttl
+
+Using `$ttl` you can set how a long job remains in the queue before it expires.
+
 ```js
 $ttl(milliseconds)
 ```
 
-Using `$ttl` you can set how a long job remains in the queue before it expires.
+###### Parameters
+
 * `milliseconds` — Number of milliseconds a job can remain in the queue before being expired.
 
+---
+
 #### $save
+`$save` is used to update an existing job before it’s been processed.
+
 ```js
 $save(queue)
 ```
 
-`$save` is used to update an existing job before it’s been processed.
+###### Parameters
+
 * `queue` — The queue argument is only necessary for new jobs. For jobs that have already been dispatched, no value is needed.
+
+###### Return Value
 
 `$save` will return a promise that will resolve/fail once the job has been updated or placed in the queue
 
+---
+
 #### $toJson
-```js
-$toJson()
-```
 
 `$tojson()` is an override point to convert the current job class to JSON before it’s stored in the queue. If your job overrides this, be sure to call super first.
 
+---
+
 ### Job Defaults
 Many of the above methods have a corresponding static property you can set on the job class to provide a default value:
+
 ```js
 export class EmailJob extends Job {
 	static jobName = 'email-job'
@@ -248,14 +281,19 @@ This will fetch job 687 from the queue, update the body and save it.
 ## Using the Query Builder
 To retrieve multiple jobs at once, use the query builder via `queue.query()`.  The query builder class has the following methods:
 
-> **NOTE:** All methods in the query builder are chainable.
+> {tip} All methods in the query builder are chainable.
+
+---
 
 #### state
+
+Restrict jobs by their current state.
+
 ```js
 state(state)
 ```
 
-Restrict jobs by their current state.
+###### Parameters
 * `state` — The state for the Jobs you want to restrict to
 
 Valid states are:
@@ -264,45 +302,66 @@ Valid states are:
 * `failed`
 * `complete`
 
+---
+
 #### for
+
+Using `for` you can restrict which types of jobs you want to query for by passing in a Job class.
+
 ```js
 for(jobClass)
 ```
 
-Using `for` you can restrict which types of jobs you want to query for by passing in a Job class.
+###### Parameters
 * `jobClass` — The class for the Jobs you want to restrict to
 
-> **NOTE:** At this time, you can’t use `for()` without also using `state()`.
+> {note} **Heads Up!** At this time, you can’t use `for()` without also using `state()`.
+
+---
 
 #### limit
+Limit the number of jobs returned
+
 ```js
 limit(limit)
 ```
 
-Limit the number of jobs returned
+###### Parameters
 * `limit` — Number of jobs to return
 
+---
+
 #### offset
+Skip a certain number of jobs before returning
+
 ```js
 offset(offset)
 ```
 
+###### Parameters
 * `offset` — Number of jobs to skip
 
+---
+
 #### orderBy
+Change how the returned jobs are ordered.
+
 ```js
 orderBy(orderBy)
 ```
 
-* `orderBy` — Direction to sort jobs, acceptable values are`asc` or `desc`
+###### Parameters
+* `orderBy` — Direction to sort jobs, acceptable values are `asc` or `desc`
 
+---
 
 #### first
+
+Calling `first()` at the end of a query will return a promise that will resolve to the first job in a query.
+
 ```js
 first()
 ```
-
-Calling `first()` at the end of a query will return a promise that will resolve to the first job in a query.
 
 
 ## Query Builder Examples

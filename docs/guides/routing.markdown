@@ -3,6 +3,8 @@ The standard way to register routes in Grind is via a Routes [provider](provider
 
 Under the hood, Grind’s router is based on [Express’s router](http://expressjs.com/en/starter/basic-routing.html), however it provides a different interace with some additional functionality.  Don’t fear though — this doesn’t come at a performance cost.  All Grind route’s immediately turn into Express routes at boot time, think of it as syntactic sugar.
 
+[[toc]]
+
 ## Basic Interface
 Grind’s router is accessible via `app.routes`.
 
@@ -15,7 +17,7 @@ app.routes.patch(path, action, context)
 app.routes.delete(path, action, context)
 ```
 
-> If you’re coming from Express, note that Grind’s routing methods are available via `app.routes`, not directly through `app`.
+> {tip} If you’re coming from Express, note that Grind’s routing methods are available via `app.routes`, not directly through `app`.
 
 ## Parameter Overview
 #### path
@@ -49,11 +51,13 @@ app.routes.get('home', {
 })
 ```
 
-> Calling `use` with an array of middleware is the same as doing `use: { before: [ …middleware… ] }`.
+> {tip} Calling `use` with an array of middleware is the same as doing `use: { before: [ …middleware… ] }`.
 
 #### context
 
 The third and final parameter, `context`, is an optional context object that is set on the route itself (accessible via `route.context`).  By default this does nothing, but it provides a way to send additional context to other Grind providers.  For instance, Grind’s [Swagger provider](swagger)  leverages the `context` param to build out rich documentation around your routes.
+
+---
 
 ### Alternate Middleware Registration
 Above, we register middleware through the route action, but we can also do it after the routes created:
@@ -65,7 +69,7 @@ app.routes.get('home', …).useAfter(responseInspector)
 
 These methods are chainable.
 
-> `use` and `useBefore` are aliases.
+> {tip} `use` and `useBefore` are aliases.
 
 ## Route Parameters
 Route parameters provide a way for you to build dynamic routes without needing to define every possible route ahead of time, for instance:
@@ -104,7 +108,7 @@ app.routes.get('users/:id/profile', (req, res) => {
 
 Now this user profile route will only be resolved when `:id` is a number, if any non-numeric data is passed, it won’t be captured by this route, and if no other route supports it, it will result in a 404.
 
-> Currently Grind requires you define a pattern _before_ you use it in a route.  In the future this should allow for patterns to be defined at any point, or even only on the route itself.  Pull requests welcome!
+> {note} Currently Grind requires you define a pattern _before_ you use it in a route.  In the future this should allow for patterns to be defined at any point, or even only on the route itself.  Pull requests welcome!
 
 ### Parameter Bindings
 You can also bind parameters to a function to transform the value, before your action is called.  In the `/users/:id` route above, your action would need to go out, find the user and handle a scenario where the user isn’t found.  This isn’t ideal as you end up with cluttered, repetitive code.
@@ -200,4 +204,4 @@ app.routes.group({ prefix: 'users', controller: users }, routes => {
 })
 ```
 
-> Grind uses a single controller instance for _all_ requests to that controller.  If you’re coming from a language/framework that uses a new controller instance for each request, it’s important to remember how this impacts your code.  You can no longer assume that state set on a controller will only apply to the current request context.
+> {note} Grind uses a single controller instance for _all_ requests to that controller.  If you’re coming from a framework that uses a new controller instance for each request, it’s important to remember how this impacts your code.  You can’t assume that state set on a controller will only apply to the current request context.

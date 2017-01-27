@@ -3,6 +3,8 @@ The most important part of any application is a clear and concise directory stru
 
 Grind application’s are based on an MVC directory structure with a few additions (because we all use more than just models, views and controllers).
 
+[[toc]]
+
 ## Basic Directory Structure
 We’ll tackle each of these in more detail below, but here’s a quick overview of what your application’s directory structure will look like:
 
@@ -53,7 +55,8 @@ The app directory is the core of your application, this is where the vast majori
 * `Errors` — For web projects, you’ll find the `ErrorHandler` here that triggers [Ouch](https://www.npmjs.com/package/ouch) in development.  This is also where you should store error classes.
 * `Models` — Contains all of your Models.
 * `Providers` — Contains all of your providers, including `RoutesProvider` which is where you should register all of your routes.
-> The cli provides generators for many of these directories and file types.  For example `bin/cli make:model` will generate a model and store it in `app/Models`.
+
+> {tip} The cli provides generators for many of these directories and file types.  For example `bin/cli make:model` will generate a model and store it in `app/Models`.
 
 Run `bin/cli --help` for a list of available generators (identified by the `make:` namespace).
 
@@ -72,12 +75,10 @@ By default, Grind will do nothing with the `public` directory.  When assets are 
 
 The expectation is that in production you’re running Grind behind a web server like nginx, which will handle serving out of `public` without ever hitting Grind.
 
-If you’d like to Grind to serve out of public itself, you can setup [static middleware](https://expressjs.com/en/starter/static-files.html) in your `RoutesProvider.js` file to do so:
+If you’d like to Grind to serve out of public itself, you can setup static middleware in your `RoutesProvider.js` file to do so:
 ```js
-import Express from 'express'
-
 export function RoutesProvider(app) {
-	app.use(Express.static(app.paths.public()))
+	app.routes.static('css', 'css')
 	// The rest of your routes…
 }
 ```
