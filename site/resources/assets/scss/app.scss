@@ -1,6 +1,10 @@
 @import 'common';
 
-* { box-sizing: border-box; }
+* {
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	box-sizing: border-box;
+}
 
 html, body {
 	background: $body-background-color;
