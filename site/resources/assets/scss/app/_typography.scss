@@ -21,6 +21,12 @@ li + li {
 	}
 }
 
+.header-anchor {
+	&, &:hover, &:active {
+		color: inherit;
+	}
+}
+
 h1 {
 	@extend %header;
 
