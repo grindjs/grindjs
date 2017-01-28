@@ -41,12 +41,22 @@ export function RouteExtension() {
 		return this
 	}
 
-	Route.prototype.useBefore = function(method, handle) {
+	Route.prototype.before = function(method, handle) {
 		return this.use(method, handle, true)
 	}
 
-	Route.prototype.useAfter = function(method, handle) {
+	Route.prototype.after = function(method, handle) {
 		return this.use(method, handle, false)
+	}
+
+	Route.prototype.useBefore = function(method, handle) {
+		Log.error('WARNING: `useBefore` has been deprecated in favor of `before` and will be removed in 0.7.')
+		return this.before(method, handle)
+	}
+
+	Route.prototype.useAfter = function(method, handle) {
+		Log.error('WARNING: `useAfter` has been deprecated in favor of `after` and will be removed in 0.7.')
+		return this.after(method, handle)
 	}
 
 	Route.prototype.as = function(name) {
