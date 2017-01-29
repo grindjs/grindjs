@@ -809,8 +809,11 @@ export class FormBuilder {
 			return false
 		}
 
-		const modelValue = this._getModelValueAttribute(name)
+		if(this.model.isNil) {
+			return true
+		}
 
+		const modelValue = this._getModelValueAttribute(name)
 		return modelValue.isNil === true
 	}
 
