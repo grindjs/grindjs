@@ -70,7 +70,7 @@ export class CompileController {
 					result = await postProcessor.process(asset.path, null, result)
 
 					if(!(result instanceof Buffer)) {
-						result = Buffer(result)
+						result = new Buffer(result)
 					}
 				}
 			}
