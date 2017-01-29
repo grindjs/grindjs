@@ -1,8 +1,8 @@
 import './PostProcessor'
 
-import '../Support/Require'
+import optional from 'optional'
 
-const SVGO = Require.optionally('svgo')
+const SVGO = optional('svgo')
 
 export class SvgOptimizePostProcessor extends PostProcessor {
 	supportedExtensions = [ 'svg' ]

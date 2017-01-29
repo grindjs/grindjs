@@ -1,11 +1,10 @@
 import './Compiler'
 
-import '../Support/Require'
-
 import { FS } from 'grind-support'
 import path from 'path'
+import optional from 'optional'
 
-const sass = Require.optionally('node-sass')
+const sass = optional('node-sass')
 
 export class ScssCompiler extends Compiler {
 	supportedExtensions = [ 'scss', 'sass' ]

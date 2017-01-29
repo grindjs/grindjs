@@ -1,9 +1,9 @@
 import './PostProcessor'
-import '../Support/Require'
 
 import { FS } from 'grind-support'
+import optional from 'optional'
 
-const UglifyJS = Require.optionally('uglify-js')
+const UglifyJS = optional('uglify-js')
 const INLINE_SOURCE_MAP_REGEX = /\/\/[@#]\s+sourceMappingURL=data:application\/json(?:;charset[:=][^;]+)?;base64,(.*)\n/
 
 export class JavascriptMinifyPostProcessor extends PostProcessor {

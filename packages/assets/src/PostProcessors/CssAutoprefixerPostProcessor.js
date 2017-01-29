@@ -1,9 +1,9 @@
 import './PostProcessor'
 
-import '../Support/Require'
+import optional from 'optional'
 
-const PostCSS = Require.optionally('postcss')
-const Autoprefixer = Require.optionally('autoprefixer')
+const PostCSS = optional('postcss')
+const Autoprefixer = optional('autoprefixer')
 
 export class CssAutoprefixerPostProcessor extends PostProcessor {
 	priority = 100

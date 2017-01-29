@@ -1,9 +1,9 @@
 import './PostProcessor'
-import '../Support/Require'
 
 import { FS } from 'grind-support'
+import optional from 'optional'
 
-const CleanCSS = Require.optionally('clean-css')
+const CleanCSS = optional('clean-css')
 
 export class CssMinifyPostProcessor extends PostProcessor {
 	supportedExtensions = [ 'css' ]

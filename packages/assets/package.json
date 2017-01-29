@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "dateformat": "^1.0.12",
-    "ignore": "^3.1.5"
+    "ignore": "^3.1.5",
+    "optional": "^0.1.3"
   }
 }

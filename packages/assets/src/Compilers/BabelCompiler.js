@@ -1,12 +1,11 @@
 import './Compiler'
 
-import '../Support/Require'
-
 import { FS } from 'grind-support'
 import path from 'path'
+import optional from 'optional'
 
-const Browserify = Require.optionally('browserify')
-const Babelify = Require.optionally('babelify')
+const Browserify = optional('browserify')
+const Babelify = optional('babelify')
 
 export class BabelCompiler extends Compiler {
 	wantsHashSuffixOnPublish = true
