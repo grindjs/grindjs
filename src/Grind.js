@@ -75,12 +75,12 @@ export default class Grind {
 		await this.boot()
 
 		// Register error handler
-		this.routes.use((err, req, res, next) => {
+		this.express.use((err, req, res, next) => {
 			this.errorHandler.handle(err, req, res, next)
 		})
 
 		// Register 404 handler
-		this.routes.use((req, res, next) => {
+		this.express.use((req, res, next) => {
 			this.errorHandler.handle(new NotFoundError, req, res, next)
 		})
 
