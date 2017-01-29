@@ -121,14 +121,18 @@ export class UrlGenerator {
 				return url
 			}
 
-			url = { pathname: url }
+			if(url.indexOf('#') >= 0 || url.indexOf('?') >= 0) {
+				url = URL.parse(url)
+			} else {
+				url = { pathname: url }
+			}
 		}
 
 		if(!parameters.isNil) {
 			if(url.query.isNil) {
 				url.query = parameters
 			} else {
-				url.query = Object.assign({ }, url.query, parameters)
+				url.query = { ...url.query, ...parameters }
 			}
 		}
 
