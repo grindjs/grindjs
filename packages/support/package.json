@@ -14,7 +14,8 @@
     "grind-framework"
   ],
   "dependencies": {
-    "fs-promise": "^1.0.0"
+    "fs-promise": "^1.0.0",
+    "recursive-readdir": "^2.1.0"
   },
   "devDependencies": {
     "babel-cli": ">=6.7 <=7.0",
