@@ -24,7 +24,9 @@ export class Router {
 	constructor(app) {
 		this.app = app
 
-		const parsers = app.config.get('app.body_parsers', [ 'json', 'form' ])
+		const bodyParsersConfig = app.config.get('routing.body_parsers') || { }
+		const parsers = bodyParsersConfig.default || [ 'json', 'form' ]
+		const options = bodyParsersConfig.options || { }
 
 		if(!Array.isArray(parsers)) {
 			this.bodyParserMiddleware = parsers.isNil ? [ ] : [ parsers ]
@@ -32,8 +34,8 @@ export class Router {
 			this.bodyParserMiddleware = parsers
 		}
 
-		this.middleware.json = bodyParser.json()
-		this.middleware.form = bodyParser.urlencoded({ extended: true })
+		this.middleware.json = bodyParser.json(options.json || { })
+		this.middleware.form = bodyParser.urlencoded(options.form || { extended: true })
 	}
 
 	group(action, callback) {
