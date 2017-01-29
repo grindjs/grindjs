@@ -169,7 +169,9 @@ export class HtmlBuilder {
 	 * @return SafeString
 	 */
 	link(url, title = null, attributes = { }, secure = null, escape = true) {
-		url = this.app.url.make(url, null, this.req, secure)
+		if(url.substring(0, 1) !== '#') {
+			url = this.app.url.make(url, null, this.req, secure)
+		}
 
 		if(title.isNil || title === false) {
 			title = url
