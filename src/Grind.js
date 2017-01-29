@@ -123,19 +123,6 @@ export default class Grind {
 		})
 	}
 
-	// Proxies to express
-	use(...args) {
-		try {
-			throw new Error('app.use is deprecated as of 0.5 and will be removed in 0.6')
-		} catch(err) {
-			const stack = err.stack.split(/\n/).slice(2)
-			stack.unshift('')
-			Log.error(err.message, stack.join(`\n`))
-		}
-
-		return this.routes.use(...args)
-	}
-
 	enable(...args) { return this.express.enable(...args) }
 	disable(...args) { return this.express.disable(...args) }
 
