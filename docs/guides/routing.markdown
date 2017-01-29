@@ -37,39 +37,26 @@ app.routes.get('home', {
 	// This can be a function, or the name of a method when nested inside of a controller group
 	method: 'methodName',
 
-	// Simple middleware — called before the action method is called
-	use: [ formBodyParser, jsonBodyParser ],
+	// Called before the action method is called
+	before: [ formBodyParser, jsonBodyParser ],
 
-	// Advanced middleware
-	use: {
-		// Called before the action method is called
-		before: [ formBodyParser, jsonBodyParser ],
-
-		// Called after the action method is called
-		after: [ responseInspector ]
-	}
+	// Called after the action method is called
+	after: [ responseInspector ]
 })
 ```
 
-> {tip} Calling `use` with an array of middleware is the same as doing `use: { before: [ …middleware… ] }`.
+Above, we register middleware through the route action, however we can also add middleware to the route after it’s been created:
+
+```js
+app.routes.post('create', …).before(formBodyParser).before(jsonBodyParser)
+app.routes.get('home', …).after(responseInspector)
+```
+
+For more information of middleware, check out the full [Middleware guide](middleware).
 
 #### context
 
 The third and final parameter, `context`, is an optional context object that is set on the route itself (accessible via `route.context`).  By default this does nothing, but it provides a way to send additional context to other Grind providers.  For instance, Grind’s [Swagger provider](swagger)  leverages the `context` param to build out rich documentation around your routes.
-
----
-
-### Alternate Middleware Registration
-Above, we register middleware through the route action, but we can also do it after the routes created:
-```js
-app.routes.post('create', …).use(formBodyParser).use(jsonBodyParser)
-app.routes.post('create', …).useBefore(formBodyParser)
-app.routes.get('home', …).useAfter(responseInspector)
-```
-
-These methods are chainable.
-
-> {tip} `use` and `useBefore` are aliases.
 
 ## Route Parameters
 Route parameters provide a way for you to build dynamic routes without needing to define every possible route ahead of time, for instance:
