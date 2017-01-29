@@ -1,7 +1,7 @@
 import { Html5Entities } from 'html-entities'
 import { runtime as NunjucksRuntime } from 'nunjucks'
 
-const EOL = `\n`
+const EOL = '\n'
 
 let HtmlString = null
 
