@@ -1,6 +1,5 @@
 import { Command } from 'grind-cli'
-
-import './FS'
+import { FS } from 'grind-support'
 
 export class ViewClearCommand extends Command {
 	name = 'view:clear'

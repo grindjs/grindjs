@@ -15,7 +15,6 @@
     "nunjucks"
   ],
   "dependencies": {
-    "mkdirp": "^0.5.1",
     "nunjucks": "^2.0"
   },
   "devDependencies": {
@@ -30,7 +29,8 @@
     "eslint-plugin-import-auto-name": "^1.0.3"
   },
   "peerDependencies": {
-    "grind-framework": "^0.5.3"
+    "grind-framework": "^0.5.3",
+    "grind-support": "^0.6.0"
   },
   "engines": {
     "node": ">=5.10 <7.0"

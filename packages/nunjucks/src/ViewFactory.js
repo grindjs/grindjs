@@ -2,8 +2,8 @@ import './Globals/Filters'
 import './Globals/Functions'
 
 import './ViewEnvironment'
-import './FS'
 
+import { FS } from 'grind-support'
 import Nunjucks from 'nunjucks'
 import Path from 'path'
 
