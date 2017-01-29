@@ -137,34 +137,44 @@ export class Router {
 	}
 
 	get(pathname, action, context) {
-		return this._add('get', pathname, action, context)
+		return this.addRoute('get', pathname, action, context)
 	}
 
 	post(pathname, action, context) {
-		return this._add('post', pathname, action, context)
+		return this.addRoute('post', pathname, action, context)
 	}
 
 	put(pathname, action, context) {
-		return this._add('put', pathname, action, context)
+		return this.addRoute('put', pathname, action, context)
 	}
 
 	patch(pathname, action, context) {
-		return this._add('patch', pathname, action, context)
+		return this.addRoute('patch', pathname, action, context)
 	}
 
 	delete(pathname, action, context) {
-		return this._add('delete', pathname, action, context)
+		return this.addRoute('delete', pathname, action, context)
 	}
 
 	options(pathname, action, context) {
-		return this._add('options', pathname, action, context)
+		return this.addRoute('options', pathname, action, context)
 	}
 
 	head(pathname, action, context) {
-		return this._add('head', pathname, action, context)
+		return this.addRoute('head', pathname, action, context)
 	}
 
-	_add(method, pathname, action, context) {
+	match(methods, pathname, action, context) {
+		return this.addRoute(methods, pathname, action, context)
+	}
+
+	addRoute(methods, pathname, action, context) {
+		if(typeof methods === 'string') {
+			methods = [ methods ]
+		}
+
+		methods = methods.map(method => method.toLowerCase().trim())
+
 		const handler = this._makeAction(action)
 		const before = [ ...this._scopedAction.before ]
 		const after = [ ...this._scopedAction.after ]
@@ -198,20 +208,27 @@ export class Router {
 			}
 		})
 
-		if(method.toLowerCase() !== 'get' && this.bodyParserMiddleware.length > 0) {
-			before.unshift(...this.bodyParserMiddleware)
-		}
-
-		const handlers = this.resolveHandlers([
-			...before,
-			handler,
-			...after
-		])
-
-		let route = this.router.route(compiledPath)
-		route = route[method](...handlers)
+		const route = this.router.route(compiledPath)
 		route.context = context || { }
 		route.grindRouter = this
+
+		for(const method of methods) {
+			const handlers = [ handler ]
+
+			if(method !== 'get' && method !== 'head') {
+				handlers.unshift(...this.bodyParserMiddleware)
+			}
+
+			route[method](...this.resolveHandlers(handlers))
+		}
+
+		if(before.length > 0) {
+			route.before(...this.resolveHandlers(before))
+		}
+
+		if(after.length > 0) {
+			route.after(...this.resolveHandlers(after))
+		}
 
 		return route
 	}
