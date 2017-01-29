@@ -45,7 +45,7 @@ Refer to the table below determine which dependencies you’ll need:
 | Babel         | `npm install --save-dev babelify browserify`                 |
 | SCSS          | `npm install --save-dev node-sass`                           |
 | Javascript    | `npm install --save-dev uglify-js`                           |
-| CSS           | `npm install --save-dev clean-css`                           |
+| CSS           | `npm install --save-dev clean-css autoprefixer`              |
 | SVG           | `npm install --save-dev svgo`                                |
 
 Don’t worry if you forget to setup a dependency, `grind-assets` will let you know what to install if you try to use a compiler that doesn’t have it’s dependencies installed.
