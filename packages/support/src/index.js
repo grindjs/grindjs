@@ -1,4 +1,5 @@
 import './FS'
+import './Obj'
 import './merge'
 
-export { FS, merge }
+export { FS, Obj, merge }
