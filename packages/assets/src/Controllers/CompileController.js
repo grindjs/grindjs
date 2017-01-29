@@ -125,7 +125,7 @@ export class CompileController {
 				}
 			}
 
-			body += `\n\t`
+			body += '\n\t'
 		}
 
 		body += err.message
