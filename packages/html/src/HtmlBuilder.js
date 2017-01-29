@@ -3,12 +3,6 @@ import { runtime as NunjucksRuntime } from 'nunjucks'
 
 const EOL = '\n'
 
-let HtmlString = null
-
-try {
-	HtmlString = require('grind-view').HtmlString
-} catch(e) { /* Do nothing */ }
-
 export class HtmlBuilder {
 
 	/**
@@ -468,11 +462,7 @@ export class HtmlBuilder {
 	}
 
 	_isHtmlString(html) {
-		if(html instanceof NunjucksRuntime.SafeString) {
-			return true
-		}
-
-		return !HtmlString.isNil && html instanceof HtmlString
+		return html instanceof NunjucksRuntime.SafeString
 	}
 
 }
