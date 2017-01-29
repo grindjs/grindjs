@@ -7,7 +7,6 @@ const Database = DatabaseBuilder
 
 export {
 	ConfigBuilder,
-	ConfigBuilder,
 	DatabaseBuilder,
 	DatabaseProvider,
 
