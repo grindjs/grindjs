@@ -1,4 +1,4 @@
-import { Command, StubCompiler } from 'grind-cli'
+import { AbortError, Command, InputArgument, InputOption, StubCompiler } from 'grind-cli'
 
 import Inflect from 'i'
 import Path from 'path'
@@ -6,47 +6,54 @@ import Path from 'path'
 export class MakeJobCommand extends Command {
 	name = 'make:job'
 	description = 'Create a job class'
-	arguments = [ 'className?' ]
+	arguments = [ 'name?' ]
 	options = {
-		jobName: 'Name of the type of job to create'
+		type: 'Name of the type of job to create'
 	}
 
+	arguments = [
+		new InputArgument('name', InputArgument.VALUE_OPTIONAL, 'The name of the job.')
+	]
+
+	options = [
+		new InputOption('type', InputOption.VALUE_OPTIONAL, 'Name of the type of job to create')
+	]
+
 	run() {
-		let className = this.argument('className', '').trim()
-		let jobName = this.option('jobName', '').trim()
+		let name = this.argument('name', '').trim()
+		let type = this.option('type', '').trim()
 		const inflect = Inflect()
 
-		if(this.containsOption('table')) {
-			jobName = this.option('table')
+		if(this.containsOption('type')) {
+			type = this.option('type')
 
-			if(className.isNil) {
-				className = `${inflect.classify(jobName)}Job`
+			if(name.isNil) {
+				name = `${inflect.classify(type)}Job`
 			}
 		}
 
-		if(className.length === 0 && jobName.length === 0) {
-			this.error('A class name must be provided if `--name` isn’t used.')
-			process.exit(1)
+		if(name.length === 0 && type.length === 0) {
+			throw new AbortError('A job name must be provided if `--type` isn’t used.')
 		}
 
-		if(jobName.length === 0) {
-			jobName = inflect.underscore(className).replace(/_/g, '-')
-		} else if(className.length === 0) {
-			className = inflect.classify(jobName.replace(/\-/g, '_'))
+		if(type.length === 0) {
+			type = inflect.underscore(name).replace(/_/g, '-')
+		} else if(name.length === 0) {
+			name = inflect.classify(type.replace(/-/g, '_'))
 		}
 
-		if(!jobName.endsWith('-job')) {
-			jobName += '-job'
+		if(!type.endsWith('-job')) {
+			type += '-job'
 		}
 
-		if(!className.endsWith('Job')) {
-			className += 'Job'
+		if(!name.endsWith('Job')) {
+			name += 'Job'
 		}
 
-		const filePath = this.app.paths.app('Jobs', `${className}.js`)
+		const filePath = this.app.paths.app('Jobs', `${name}.js`)
 		return StubCompiler(Path.join(__dirname, 'stubs', 'Job.stub'), filePath, {
-			className,
-			jobName
+			name,
+			type
 		}).then(() => {
 			this.success(`Created ${Path.relative(process.cwd(), filePath)}`)
 		})
