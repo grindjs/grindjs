@@ -1,10 +1,13 @@
-import './Output'
-import './MakeCommandCommand'
-import './TinkerCommand'
-import './Scheduler'
-import './ScheduleRunCommand'
+import './Commands/HelpCommand'
+import './Commands/ListCommand'
+import './Commands/MakeCommandCommand'
+import './Commands/ScheduleRunCommand'
+import './Commands/TinkerCommand'
 
-import program from 'commander'
+import './Errors/CommandNotFoundError'
+import './Input/Input'
+import './Output/Output'
+import './Scheduler'
 
 export class Cli {
 	app = null
@@ -14,7 +17,7 @@ export class Cli {
 
 	constructor(app) {
 		this.app = app
-		this.output = new Output
+		this.output = new Output(this)
 		this.scheduler = new Scheduler(this)
 
 		this.register(MakeCommandCommand)
@@ -22,42 +25,46 @@ export class Cli {
 		this.register(ScheduleRunCommand)
 	}
 
-	async run(args = process.argv) {
-		await this.app.boot()
-
-		const info = require(this.app.paths.package)
-		const cli = program
-
-		if(!info.version.isNil) {
-			cli.version(info.version)
-		}
-
-		this.commands.sort((a, b) => (a.name || '').localeCompare(b.name || ''))
-
-		try {
-			for(const command of this.commands) {
-				command.build(cli)
-			}
-		} catch(e) {
-			this.output.error('Error booting cli', e)
-			process.exit(1)
-		}
-
-		if(args.length === 2) {
-			args.push('--help')
-		}
-
-		cli.on('*', args => {
-			this.output.error('Command ”%s” not found.', args.shift())
+	run(args = process.argv.slice(2)) {
+		return this.app.boot().then(() => this.execute(args)).then(() => {
+			process.exit(0)
+		}).catch(err => {
+			this.output.writeError(err)
 			process.exit(1)
 		})
+	}
 
-		try {
-			cli.parse(args)
-		} catch(err) {
-			this.output.error('Error parsing', err)
-			process.exit(1)
+	async execute(args) {
+		const input = new Input(args)
+		const name = (input.arguments[0] || { }).value
+		this.output.formatter.decorated = !input.hasParameterOption('no-ansi')
+
+		let command = null
+		let defaultCommand = false
+
+		if(name.isNil) {
+			command = new ListCommand(this.app, this)
+			defaultCommand = true
+		} else {
+			command = this.find(name)
+
+			if(command.isNil) {
+				if(name !== 'help') {
+					throw new CommandNotFoundError(name)
+				}
+
+				command = new ListCommand(this.app, this)
+				defaultCommand = true
+			}
 		}
+
+		let run = command
+
+		if(!defaultCommand && (input.hasParameterOption('help') || input.hasParameterOption('h'))) {
+			run = new HelpCommand(this.app, this, command)
+		}
+
+		return run.execute(input)
 	}
 
 	find(name) {

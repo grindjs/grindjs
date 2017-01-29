@@ -1,4 +1,4 @@
-import './Command'
+import '../Command'
 import repl from 'repl'
 
 export class TinkerCommand extends Command {

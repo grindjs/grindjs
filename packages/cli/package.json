@@ -1,7 +1,7 @@
 {
   "name": "grind-cli",
   "version": "0.5.4",
-  "description": "CLI provider for Grind powered by Commander",
+  "description": "CLI provider for Grind",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
   "main": "lib/index.js",
@@ -17,7 +17,6 @@
   "dependencies": {
     "as-type": "^1.0.0",
     "chalk": "^1.1.3",
-    "commander": "2.9.x",
     "dot": "^1.0.3",
     "mkdirp": "^0.5.1",
     "later": "1.2.x"

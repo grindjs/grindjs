@@ -1,9 +1,29 @@
-import './AbortError'
+/* eslint-disable max-lines */
+import './Input/InputOption'
+import './Input/InputArgument'
+
+import './Errors/InvalidOptionError'
+import './Errors/InvalidOptionValueError'
+import './Errors/MissingArgumentError'
+import './Errors/MissingOptionError'
+import './Errors/TooManyArgumentsError'
 
 import cast from 'as-type'
-import chalk from 'chalk'
 import readline from 'readline'
 import ChildProcess from 'child_process'
+
+let hasWarnedLegacyArgumentsOptions = false
+
+function warnLegacyArgumentsOptions() {
+	if(hasWarnedLegacyArgumentsOptions) {
+		return
+	}
+
+	hasWarnedLegacyArgumentsOptions = true
+	Log.error('WARNING: The arguments/options structure being used is deprecated in 0.6 and will be removed in 0.7.')
+	Log.error('--> For information on how to update your commands, visit https://grind.rocks/docs/guides/cli')
+	Log.error('')
+}
 
 export class Command {
 	app = null
@@ -12,7 +32,12 @@ export class Command {
 	name = null
 	description = null
 	arguments = [ ]
-	options = { }
+	options = [ ]
+
+	defaultOptions = [
+		new InputOption('help', InputOption.VALUE_NONE, 'Display this help message'),
+		new InputOption('no-ansi', InputOption.VALUE_NONE, 'Disable ANSI output')
+	]
 
 	compiledValues = {
 		arguments: { },
@@ -24,8 +49,12 @@ export class Command {
 		this.cli = cli
 	}
 
+	get output() {
+		return this.cli.output
+	}
+
 	argument(name, fallback = null) {
-		return this.compiledValues.arguments[name] || fallback
+		return (this.compiledValues.arguments[name] || { }).value || fallback
 	}
 
 	containsArgument(name) {
@@ -34,7 +63,7 @@ export class Command {
 	}
 
 	option(name, fallback = null) {
-		return this.compiledValues.options[name] || fallback
+		return (this.compiledValues.options[name] || { }).value || fallback
 	}
 
 	containsOption(name) {
@@ -50,128 +79,149 @@ export class Command {
 		return Promise.resolve()
 	}
 
-	build(cli) {
-		const command = cli.command(this.name)
-		command.description(this.description)
+	execute(input) {
+		this.compiledValues.arguments = { }
+		this.compiledValues.options = { }
 
-		const usage = [ ]
-		const options = Object.keys(this.options).map(key => [ key, this.options[key] ])
+		const args = this._arguments()
+		const options = { }
 
-		if(options.length > 0) {
-			usage.push('[options]')
-			const shorthands = { h: true }
+		for(const option of this._options()) {
+			options[option.name] = option
+		}
 
-			for(const option of options) {
-				let shorthandCharCode = option[0].charCodeAt(0)
-				let shorthand = String.fromCharCode(shorthandCharCode)
+		for(const option of this.defaultOptions) {
+			options[option.name] = option
+		}
 
-				while(shorthands[shorthand] === true) {
-					if(++shorthandCharCode > 122) {
-						shorthandCharCode = 65
-					}
+		// Ensure the input arguments doesn’t exceed the
+		// number of defined arguments
+		const argumentsLength = input.arguments.length
 
-					shorthand = String.fromCharCode(shorthandCharCode)
+		if(argumentsLength - 1 > args.length) {
+			throw new TooManyArgumentsError
+		}
+
+		// Iterate through input arguments and match them to
+		// to the defined arguments
+		for(let i = 1; i < argumentsLength; i++) {
+			input.arguments[i].name = args[i - 1].name
+			input.arguments[i].mode = args[i - 1].mode
+			input.arguments[i].help = args[i - 1].help
+
+			this.compiledValues.arguments[args[i - 1].name] = input.arguments[i]
+		}
+
+		// If the input argument length isn’t the same as the
+		// defined argument length, iterate through and make sure
+		// all the required arguments are satisfied
+		if(this.compiledValues.arguments.length !== arguments.length) {
+			for(const argument of args) {
+				if(argument.mode !== InputArgument.VALUE_REQUIRED) {
+					continue
 				}
 
-				shorthands[shorthand] = true
-
-				let flags = `-${shorthand}, --${option[0]}`
-
-				if(typeof option[1] === 'string' || option.type.isNil) {
-					flags += ' [string]'
+				const arg = this.compiledValues.arguments[argument.name]
+				if(arg.isNil) {
+					throw new MissingArgumentError(argument.name)
 				}
-
-				if(typeof option[1] !== 'string') {
-					option[1] = option[1].description || ''
-				}
-
-				command.option(flags, option[1])
 			}
 		}
 
-		let hadOptional = false
-		for(const argument of this.arguments) {
-			const isOptional = argument.endsWith('?')
+		// Iterate through input options and match them to
+		// the defined options
+		for(const option of input.options) {
+			const definedOption = options[option.name]
 
-			if(!hadOptional && isOptional) {
-				hadOptional = true
-			} else if(hadOptional && !isOptional) {
-				this.error(
-					'Invalid arguments for %s: %s',
-					this.name,
-					'An optional argument can not be followed by a non-optional argument'
-				)
-
-				process.exit(1)
+			if(definedOption.isNil) {
+				throw new InvalidOptionError(option.name)
 			}
 
-			usage.push(`<${argument}>`)
+			if(definedOption.mode === InputOption.VALUE_NONE && !option.value.isNil) {
+				throw new InvalidOptionValueError(option.name)
+			}
+
+			option.mode = definedOption.mode
+			option.help = definedOption.help
+			option.value = option.value.isNil ? definedOption.value : option.value
+
+			this.compiledValues.options[option.name] = option
 		}
 
-		command.usage(usage)
-		command.action((...args) => this._execute(...args))
+		// If the input options length isn’t the same as the
+		// defined option length, iterate through and make sure
+		// all the required options are satisfied
+		if(this.compiledValues.options.length !== options.length) {
+			for(const option of Object.values(options)) {
+				if(option.mode === InputOption.VALUE_NONE) {
+					continue
+				}
 
-		return command
+				const compiledOption = this.compiledValues.options[option.name]
+
+				if(!compiledOption.isNil) {
+					continue
+				}
+
+				if(option.mode === InputOption.VALUE_REQUIRED) {
+					throw new MissingOptionError(option.name)
+				}
+
+				this.compiledValues.options[option.name] = option
+			}
+		}
+
+		return this.ready().then(() => this.run())
 	}
 
-	_execute(...args) {
-		const cli = args.pop()
-
-		const requiredArguments = [ ]
-
-		for(const argument of this.arguments) {
-			if(argument.endsWith('?')) {
-				break
-			}
-
-			requiredArguments.push(argument)
+	_arguments() {
+		if(this.arguments.isNil) {
+			return [ ]
 		}
 
-		if(args.length < requiredArguments.length) {
-			this.error(
-				'Not enough arguments, missing: %s',
-				requiredArguments.slice(args.length).join(', ')
+		return this.arguments.map(value => {
+			if(typeof value !== 'string') {
+				return value
+			}
+
+			warnLegacyArgumentsOptions()
+
+			const optional = value.endsWith('?')
+			const name = optional ? value.substring(0, value.length - 1) : value
+
+			return new InputArgument(
+				name,
+				optional ? InputArgument.VALUE_OPTIONAL : InputArgument.VALUE_REQUIRED
 			)
-
-			process.exit(1)
-		} else if(args.length > this.arguments.length) {
-			this.error('Too many arguments.', args)
-
-			process.exit(1)
-		}
-
-		for(const i in args) {
-			let name = this.arguments[i]
-
-			if(name.endsWith('?')) {
-				name = name.substring(0, name.length - 1)
-			}
-
-			this.compiledValues.arguments[name] = args[i]
-		}
-
-		for(const option of Object.keys(this.options)) {
-			const name = option.split('-').reduce((str, word) => {
-				return `${str}${word[0].toUpperCase()}${word.slice(1)}`
-			})
-
-			this.compiledValues.options[option] = cli[name]
-		}
-
-		process.title = `node ${this.name}`
-
-		this.ready()
-		.then(() => this.run())
-		.then(() => process.exit(0))
-		.catch(err => {
-			if(err instanceof AbortError) {
-				this.error(err.message)
-			} else {
-				this.error(err.message, err.stack)
-			}
-
-			process.exit(1)
 		})
+	}
+
+	_options() {
+		if(this.options.isNil) {
+			return [ ]
+		}
+
+		if(Array.isArray(this.options)) {
+			return this.options
+		}
+
+		const options = [ ]
+
+		warnLegacyArgumentsOptions()
+
+		for(const [ name, value ] of Object.entries(this.options)) {
+			let help = value
+			let mode = InputOption.VALUE_NONE
+
+			if(Array.isArray(value)) {
+				help = value[0]
+				mode = InputOption.VALUE_REQUIRED
+			}
+
+			options.push(new InputOption(name, mode, help))
+		}
+
+		return options
 	}
 
 	execAsChildProcess(args = null, options = null) {
@@ -223,28 +273,36 @@ export class Command {
 		})
 	}
 
-	info(...message) {
-		return this.cli.output.info(...message)
+	line(...messages) {
+		this.cli.output.writeln(...messages)
 	}
 
-	comment(...message) {
-		return this.cli.output.comment(...message)
+	info(...messages) {
+		this.cli.output.writeln(`<info>${messages.shift()}</info>`, ...messages)
 	}
 
-	warn(...message) {
-		return this.cli.output.warn(...message)
+	comment(...messages) {
+		this.cli.output.writeln(`<comment>${messages.shift()}</comment>`, ...messages)
 	}
 
-	error(...message) {
-		return this.cli.output.error(...message)
+	warn(...messages) {
+		this.cli.output.writeln(`<warn>${messages.shift()}</warn>`, ...messages)
 	}
 
-	success(...message) {
-		return this.cli.output.success(...message)
+	success(...messages) {
+		this.cli.output.writeln(`<success>${messages.shift()}</success>`, ...messages)
 	}
 
-	ask(question) {
-		const prompt = chalk.magenta(question)
+	error(...messages) {
+		this.cli.output.writeln(`<error>${messages.shift()}</error>`, ...messages)
+	}
+
+	ask(question, defaultAnswer = null) {
+		let prompt = `<question>${question}</question> `
+
+		if(!defaultAnswer.isNil) {
+			prompt = `${prompt}<questionDefaultValue>[${defaultAnswer}]</questionDefaultValue> `
+		}
 
 		return new Promise(resolve => {
 			const iface = readline.createInterface({
@@ -252,17 +310,15 @@ export class Command {
 				output: process.stdout
 			})
 
-			iface.question(`${prompt} `, answer => {
+			iface.question(this.output.formatter.format(prompt), answer => {
 				iface.close()
-				resolve((answer || '').trim())
+				resolve((answer || defaultAnswer || '').trim())
 			})
 		})
 	}
 
 	confirm(question, defaultAnswer = true) {
-		const prompt = `${question} ${chalk.dim(`[${defaultAnswer ? 'yes' : 'no'}]`)}`
-
-		return this.ask(prompt, 'boolean', defaultAnswer ? 'yes' : 'no').then(answer => {
+		return this.ask(question, defaultAnswer ? 'yes' : 'no').then(answer => {
 			if(answer.length === 0) {
 				answer = defaultAnswer
 			}

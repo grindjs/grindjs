@@ -3,7 +3,7 @@ import dot from 'dot'
 import mkdirp from 'mkdirp'
 import path from 'path'
 
-import './AbortError'
+import './Errors/AbortError'
 
 function compile(stub, context) {
 	return new Promise((resolve, reject) => {

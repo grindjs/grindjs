@@ -1,4 +1,4 @@
-import './Command'
+import '../Command'
 
 export class ScheduleRunCommand extends Command {
 
