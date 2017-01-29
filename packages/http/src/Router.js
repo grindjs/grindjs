@@ -201,12 +201,19 @@ export class Router {
 		}
 
 		this.app.express.param(name, (req, res, next, value) => {
-			resolver(value, newValue => {
+			const resolve = newValue => {
 				req.params[name] = newValue
 				next()
-			}, err => {
-				next(err)
-			}, req, res)
+			}
+
+			const reject = next
+			const result = resolver(value, resolve, reject, req, res)
+
+			if(result.isNil || typeof result.then !== 'function') {
+				return
+			}
+
+			result.then(resolve).catch(reject)
 		})
 	}
 
