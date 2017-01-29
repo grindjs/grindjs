@@ -116,6 +116,14 @@ export class Router {
 		return this._add('delete', pathname, action, context)
 	}
 
+	options(pathname, action, context) {
+		return this._add('options', pathname, action, context)
+	}
+
+	head(pathname, action, context) {
+		return this._add('head', pathname, action, context)
+	}
+
 	_add(method, pathname, action, context) {
 		const handler = this._makeAction(action)
 
