@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import JSON5 from 'json5'
-import { merge } from './Utils/merge'
+import { Obj, merge } from 'grind-support'
 
 export class Config {
 	_repository = null
@@ -15,47 +15,15 @@ export class Config {
 	}
 
 	get(keyPath, fallback = null) {
-		const keys = keyPath.split('.')
-		let value = this._repository[keys.shift()]
-
-		if(value.isNil) {
-			return fallback
-		}
-
-		for(const key of keys) {
-			if(value.isNil) {
-				continue
-			}
-
-			value = value[key]
-		}
-
-		return value || fallback
+		return Obj.get(this._repository, keyPath, fallback)
 	}
 
 	has(keyPath) {
-		const value = this.get(keyPath)
-		return !value.isNil
+		return Obj.has(this._repository, keyPath)
 	}
 
 	set(keyPath, value) {
-		const keys = keyPath.split('.')
-		const last = keys.pop()
-		let object = this._repository
-
-		if(keys.length > 0) {
-			for(const key of keys) {
-				if(object.isNil) {
-					continue
-				}
-
-				object = object[key]
-			}
-		}
-
-		if(object) {
-			object[last] = value
-		}
+		Obj.set(this._repository, keyPath, value)
 	}
 
 	loadDefault(group, file) {
@@ -79,7 +47,7 @@ export class Config {
 		}
 
 		if(!exists(dir)) {
-			console.error('Unable to populate config, path does not exist', dir)
+			Log.error('Unable to populate config, path does not exist', dir)
 			return
 		}
 
@@ -90,11 +58,11 @@ export class Config {
 		for(const env of app.env().split('.')) {
 			dir = path.join(dir, env)
 
-			if(exists(dir)) {
-				this._populateConfigFiles(files, dir)
-			} else {
+			if(!exists(dir)) {
 				break
 			}
+
+			this._populateConfigFiles(files, dir)
 		}
 
 		for(const group in files) {
@@ -109,20 +77,23 @@ export class Config {
 			}
 		}
 
-		if(files['.env']) {
-			for(const file of files['.env']) {
-				// eslint-disable-next-line no-sync
-				const config = JSON5.parse(fs.readFileSync(file))
+		if(!files['.env']) {
+			return
+		}
 
-				for(const group in config) {
-					this._repository[group] = merge(this._repository[group] || { }, config[group])
-				}
+		for(const file of files['.env']) {
+			// eslint-disable-next-line no-sync
+			const config = JSON5.parse(fs.readFileSync(file))
+
+			for(const group in config) {
+				this._repository[group] = merge(this._repository[group] || { }, config[group])
 			}
 		}
 	}
 
 	_populateConfigFiles(files, dir) {
-		for(const file of fs.readdirSync(dir)) { // eslint-disable-line no-sync
+		// eslint-disable-next-line no-sync
+		for(const file of fs.readdirSync(dir)) {
 			if(path.extname(file) !== '.json') {
 				continue
 			}
