@@ -1,6 +1,5 @@
 import { Command } from 'grind-cli'
-
-import '../Support/FS'
+import { FS } from 'grind-support'
 
 export class BaseCommand extends Command {
 

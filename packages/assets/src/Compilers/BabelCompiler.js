@@ -1,8 +1,8 @@
 import './Compiler'
 
 import '../Support/Require'
-import '../Support/FS'
 
+import { FS } from 'grind-support'
 import path from 'path'
 
 const Browserify = Require.optionally('browserify')

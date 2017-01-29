@@ -1,7 +1,7 @@
 import './PostProcessor'
-
-import '../Support/FS'
 import '../Support/Require'
+
+import { FS } from 'grind-support'
 
 const UglifyJS = Require.optionally('uglify-js')
 const INLINE_SOURCE_MAP_REGEX = /\/\/[@#]\s+sourceMappingURL=data:application\/json(?:;charset[:=][^;]+)?;base64,(.*)\n/

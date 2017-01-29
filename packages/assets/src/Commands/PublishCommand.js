@@ -1,6 +1,6 @@
 import './BaseCommand'
-import '../Support/FS'
 
+import { FS } from 'grind-support'
 import crypto from 'crypto'
 import path from 'path'
 import Ignore from 'ignore'

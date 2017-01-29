@@ -1,7 +1,7 @@
 import './PostProcessor'
-
-import '../Support/FS'
 import '../Support/Require'
+
+import { FS } from 'grind-support'
 
 const CleanCSS = Require.optionally('clean-css')
 

@@ -1,5 +1,4 @@
-import '../Support/FS'
-
+import { FS } from 'grind-support'
 import path from 'path'
 
 export class Compiler {

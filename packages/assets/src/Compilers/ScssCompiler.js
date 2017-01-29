@@ -1,8 +1,8 @@
 import './Compiler'
 
-import '../Support/FS'
 import '../Support/Require'
 
+import { FS } from 'grind-support'
 import path from 'path'
 
 const sass = Require.optionally('node-sass')
