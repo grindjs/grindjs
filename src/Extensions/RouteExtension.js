@@ -9,54 +9,72 @@ export function RouteExtension() {
 
 	hasExtended = true
 
-	Route.prototype.use = function(method, handle, prepend = true) {
-		if(typeof method === 'function') {
-			handle = method
-			method = null
+	Route.prototype._addMiddleware = function(source, prepend, ...handlers) {
+		if(handlers.length === 1 && Array.isArray(handlers[0])) {
+			handlers = handlers[0]
 		}
 
-		if(typeof handle !== 'function') {
-			throw new TypeError(`Route.use() requires callback functions but got a ${typeof handle}`)
+		if(prepend) {
+			handlers = handlers.reverse()
 		}
 
-		if(!method) {
-			method = Object.keys(this.methods)[0]
+		const methods = this.methods
+
+		if(methods.length === 0) {
+			throw new Error(`Route.${source}() requires at least one method to be registered.`)
 		}
 
-		if(typeof this.methods[method] === 'undefined' || this.stack.length === 0) {
-			throw new Error(`Route.use() requires method to be already registered, ${method} is not yet registered.`)
+		if(this.stack.length === 0) {
+			throw new Error(`Route.${source}() requires at least one handler already be added.`)
 		}
 
 		const LayerClass = this.stack[0].constructor
 
-		const layer = LayerClass('/', { }, handle)
-		layer.method = method
+		for(const [ method, enabled ] of Object.entries(methods)) {
+			if(!enabled) {
+				continue
+			}
 
-		if(prepend) {
-			this.stack.unshift(layer)
-		} else {
-			this.stack.push(layer)
+			for(const handler of handlers) {
+				if(typeof handler !== 'function') {
+					throw new TypeError(`Route.${source}() requires callback functions but got a ${typeof handler}`)
+				}
+
+				const layer = LayerClass('/', { }, handler)
+				layer.method = method
+
+				if(prepend) {
+					this.stack.unshift(layer)
+				} else {
+					this.stack.push(layer)
+				}
+			}
 		}
 
 		return this
 	}
 
-	Route.prototype.before = function(method, handle) {
-		return this.use(method, handle, true)
+	Route.prototype.before = function(...handlers) {
+		return this._addMiddleware('before', true, ...handlers)
 	}
 
-	Route.prototype.after = function(method, handle) {
-		return this.use(method, handle, false)
+	Route.prototype.after = function(...handlers) {
+		return this._addMiddleware('after', false, ...handlers)
 	}
 
-	Route.prototype.useBefore = function(method, handle) {
+	Route.prototype.use = function(...handlers) {
+		Log.error('WARNING: `use` has been deprecated in favor of `before` and will be removed in 0.7.')
+		return this.before(...handlers)
+	}
+
+	Route.prototype.useBefore = function(...handlers) {
 		Log.error('WARNING: `useBefore` has been deprecated in favor of `before` and will be removed in 0.7.')
-		return this.before(method, handle)
+		return this.before(...handlers)
 	}
 
-	Route.prototype.useAfter = function(method, handle) {
+	Route.prototype.useAfter = function(...handlers) {
 		Log.error('WARNING: `useAfter` has been deprecated in favor of `after` and will be removed in 0.7.')
-		return this.after(method, handle)
+		return this.after(...handlers)
 	}
 
 	Route.prototype.as = function(name) {
