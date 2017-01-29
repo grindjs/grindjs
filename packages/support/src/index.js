@@ -1,3 +1,4 @@
+import './FS'
 import './merge'
 
-export { merge }
+export { FS, merge }
