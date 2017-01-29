@@ -1,13 +1,20 @@
 import '../BaseCommand'
 
-import fs from 'fs'
+import { AbortError, InputArgument, InputOption } from 'grind-cli'
+import { FS } from 'grind-support'
 import path from 'path'
 
 export class MakeCommand extends BaseCommand {
 	name = 'make:seed'
 	description = 'Create a database seed file'
-	arguments = [ 'name?' ]
-	options = { table: 'Name of the table to seed' }
+
+	arguments = [
+		new InputArgument('name', InputArgument.VALUE_OPTIONAL, 'The name of the seed')
+	]
+
+	options = [
+		new InputOption('table', InputOption.VALUE_OPTIONAL, 'Name of the table to seed')
+	]
 
 	run() {
 		let tableName = null
@@ -22,8 +29,7 @@ export class MakeCommand extends BaseCommand {
 		}
 
 		if(name.isNil) {
-			this.error('A seed name must be provided if `--table` isn‘t used.')
-			process.exit(1)
+			throw new AbortError('A seed name must be provided if `--table` isn‘t used.')
 		}
 
 		const seed = this.db.seed
@@ -39,22 +45,15 @@ export class MakeCommand extends BaseCommand {
 	}
 
 	nextSeedOrdinal(seed) {
-		return seed._ensureFolder().then(() => new Promise((resolve, reject) => {
-			fs.readdir(seed._absoluteConfigDir(), (err, files) => {
-				if(!err.isNil) {
-					reject(err)
-					return
-				}
+		return seed._ensureFolder().then(() => FS.readdir(seed._absoluteConfigDir())).then(files => {
+			const ordinal = files.filter(file => file.endsWith('.js')).length + 1
 
-				const ordinal = files.filter(file => file.endsWith('.js')).length + 1
+			if(ordinal < 10) {
+				return `0${ordinal}`
+			}
 
-				if(ordinal < 10) {
-					resolve(`0${ordinal}`)
-				} else {
-					resolve(ordinal.toString())
-				}
-			})
-		}))
+			return ordinal.toString()
+		})
 	}
 
 }

@@ -1,5 +1,7 @@
 import '../BaseCommand'
 
+import { AbortError, InputArgument, InputOption } from 'grind-cli'
+
 import path from 'path'
 
 function prefix() {
@@ -9,11 +11,15 @@ function prefix() {
 export class MakeCommand extends BaseCommand {
 	name = 'make:migration'
 	description = 'Create a migration file'
-	arguments = [ 'name?' ]
-	options = {
-		create: 'Name of the table to create',
-		alter: 'Name of the table to alter'
-	}
+
+	arguments = [
+		new InputArgument('name', InputArgument.VALUE_OPTIONAL, 'The name of the migration file.')
+	]
+
+	options = [
+		new InputOption('create', InputOption.VALUE_OPTIONAL, 'Name of the table to create'),
+		new InputOption('alter', InputOption.VALUE_OPTIONAL, 'Name of the table to alter')
+	]
 
 	run() {
 		let tableName = null
@@ -37,8 +43,7 @@ export class MakeCommand extends BaseCommand {
 		}
 
 		if(name.isNil) {
-			this.error('A migration name must be provided if `--create` or `--alter` aren’t used.')
-			process.exit(1)
+			throw new AbortError('A migration name must be provided if `--create` or `--alter` aren’t used.')
 		}
 
 		return this.generateStub(
