@@ -1,0 +1,3 @@
+import './merge'
+
+export { merge }
