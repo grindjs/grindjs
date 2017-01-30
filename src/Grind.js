@@ -42,7 +42,8 @@ export default class Grind {
 		const urlGeneratorClass = parameters.urlGeneratorClass || UrlGenerator
 		const pathsClass = parameters.pathsClass || Paths
 
-		this.paths = new pathsClass(module.parent.filename)
+		const parent = module.parent.parent === null ? module.parent : module.parent.parent
+		this.paths = new pathsClass(parent.filename)
 		this.config = new configClass(this)
 		this.routes = new routerClass(this)
 		this.errorHandler = new errorHandlerClass(this)
