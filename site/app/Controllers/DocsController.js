@@ -1,36 +1,39 @@
 import { Controller } from 'grind-framework'
 
-import 'App/Support/Markdown'
+import 'App/Support/Documentation'
 
 export class DocsController extends Controller {
+	docs = null
+
+	constructor(app) {
+		super(app)
+
+		this.docs = new Documentation(app)
+	}
 
 	show(req, res) {
-		let path = req.originalUrl.replace(/^\/docs/, '')
+		const path = req.originalUrl.replace(/^\/docs/, '')
 
 		if(path.length === 0) {
 			return res.route('docs.show', [ 'guides', 'installation' ])
+		} else if(req.params.a.isNil) {
+			switch(req.params.group) {
+				case 'guides':
+					return res.route('docs.show', [ 'guides', 'installation' ])
+				case 'structure':
+					return res.route('docs.show', [ 'structure', 'index' ])
+				default:
+					throw new NotFoundError
+			}
 		}
 
-		path = this.app.paths.base('resources/docs', path)
-
 		return Promise.all([
-			Markdown.renderFile(
-				this.app,
-				this.app.paths.base('resources/docs/guides/documentation.markdown')
-			).then(content => {
-				const components = path.split(/\//)
-				const active = components[components.length - 1]
-
-				return content.replace(
-					new RegExp(`<a href="(${active})">`),
-					'<a href="$1" class="docs-navigation-active">'
-				)
-			}),
-
-			Markdown.renderFile(this.app, `${path}.markdown`)
+			this.docs.contents(req, req.params.group, path),
+			this.docs.get(path)
 		]).then(data => res.render('docs.show', {
 			documentation: data[0],
-			content: data[1]
+			content: data[1],
+			path: path
 		}))
 	}
 
