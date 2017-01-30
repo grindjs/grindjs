@@ -122,6 +122,7 @@ export class Command {
 				}
 
 				const arg = this.compiledValues.arguments[argument.name]
+
 				if(arg.isNil) {
 					throw new MissingArgumentError(argument.name)
 				}
@@ -137,8 +138,10 @@ export class Command {
 				throw new InvalidOptionError(option.name)
 			}
 
-			if(definedOption.mode === InputOption.VALUE_NONE && !option.value.isNil) {
-				throw new InvalidOptionValueError(option.name)
+			if(definedOption.mode === InputOption.VALUE_NONE) {
+				if(!option.value.isNil && typeof option.value !== 'boolean') {
+					throw new InvalidOptionValueError(option.name)
+				}
 			}
 
 			option.mode = definedOption.mode

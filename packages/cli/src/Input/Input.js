@@ -19,7 +19,7 @@ export class Input {
 			const components = argument.split(/=/)
 
 			if(components.length === 1) {
-				this.options.push(new InputOption(components[0], InputOption.VALUE_NONE))
+				this.options.push(new InputOption(components[0], InputOption.VALUE_NONE, null, true))
 			} else {
 				this.options.push(new InputOption(components[0], InputOption.VALUE_OPTIONAL, null, components[1]))
 			}

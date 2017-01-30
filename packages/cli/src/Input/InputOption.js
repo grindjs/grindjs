@@ -1,6 +1,8 @@
-const VALUE_NONE = null
+const VALUE_NONE = 'none'
 const VALUE_REQUIRED = 'required'
 const VALUE_OPTIONAL = 'optional'
+
+import cast from 'as-type'
 
 export class InputOption {
 	static VALUE_NONE = VALUE_NONE
@@ -15,7 +17,7 @@ export class InputOption {
 	constructor(name, mode, help = null, value = null) {
 		this.mode = mode
 		this.help = help
-		this.value = mode === VALUE_NONE ? null : value
+		this.value = mode === VALUE_NONE ? cast.boolean(value) : value
 
 		if(name.startsWith('--')) {
 			this.name = name.substring(2)
