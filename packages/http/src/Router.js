@@ -1,3 +1,6 @@
+/* eslint-disable max-lines */
+import './ResourceRouteBuilder'
+
 import bodyParser from 'body-parser'
 import path from 'path'
 import express from 'express'
@@ -10,6 +13,7 @@ export class Router {
 	middleware = { }
 	router = null
 	bodyParserMiddleware = [ ]
+	resourceRouteBuilderClass = ResourceRouteBuilder
 
 	_scope = [
 		{
@@ -168,6 +172,14 @@ export class Router {
 		return this.addRoute(methods, pathname, action, context)
 	}
 
+	resource(name, controller, options = { }, callback = null) {
+		if(typeof controller === 'function') {
+			controller = new controller(this.app)
+		}
+
+		return (new this.resourceRouteBuilderClass(this)).buildRoutes(name, controller, options, callback)
+	}
+
 	addRoute(methods, pathname, action, context) {
 		if(typeof methods === 'string') {
 			methods = [ methods ]
@@ -228,6 +240,10 @@ export class Router {
 
 		if(after.length > 0) {
 			route.after(...this.resolveHandlers(after))
+		}
+
+		if(typeof action.as === 'string') {
+			route.as(action.as)
 		}
 
 		return route
