@@ -1,20 +1,34 @@
 # Routing
 The standard way to register routes in Grind is via a Routes [provider](providers).  The routes provider is located at `app/Providers/RoutesProvider.js`.
 
-Under the hood, Grind’s router is based on [Express’s router](http://expressjs.com/en/starter/basic-routing.html), however it provides a different interace with some additional functionality.  Don’t fear though — this doesn’t come at a performance cost.  All Grind route’s immediately turn into Express routes at boot time, think of it as syntactic sugar.
+Under the hood, Grind’s router is based on [Express’s router](http://expressjs.com/en/starter/basic-routing.html), however it provides a different interface with some additional functionality.  Don’t fear though — this doesn’t come at a performance cost.  All Grind route’s immediately turn into Express routes at boot time, think of it as syntactic sugar.
 
 [[toc]]
 
 ## Basic Interface
 Grind’s router is accessible via `app.routes`.
 
-The router supports `GET`, `POST`, `PUT`, `PATCH` and `DELETE` routes. All five have the same method signature:
+The router supports `GET`, `POST`, `PUT`, `PATCH`, `DELETE`, `HEAD`, and `OPTIONS`  routes. All 7 have the same method signature:
 ```js
 app.routes.get(path, action, context)
 app.routes.post(path, action, context)
 app.routes.put(path, action, context)
 app.routes.patch(path, action, context)
 app.routes.delete(path, action, context)
+app.routes.head(path, action, context)
+app.routes.options(path, action, context)
+```
+
+If you need to respond to multiple HTTP methods for the same route, you can also use `match`:
+```js
+app.routes.match(methods, path, action, context)
+```
+
+###### Example
+```js
+app.routes.match([ "post", "put" ], "/users" (req, res) => {
+	res.send("This will respond to both POST and PUT requests.")
+})
 ```
 
 > {tip} If you’re coming from Express, note that Grind’s routing methods are available via `app.routes`, not directly through `app`.
@@ -192,3 +206,38 @@ app.routes.group({ prefix: 'users', controller: users }, routes => {
 ```
 
 > {note} Grind uses a single controller instance for _all_ requests to that controller.  If you’re coming from a framework that uses a new controller instance for each request, it’s important to remember how this impacts your code.  You can’t assume that state set on a controller will only apply to the current request context.
+
+
+## Resource Controllers
+
+In addition to regular controller routes, Grind also supports `resource` routes which enable you to quickly build RESTful controllers.
+
+```js
+app.routes.resource("users", UserController)
+```
+
+This will now create the following  routes:
+
+### Controller Actions
+
+Method    | URI                | Action       | Route Name
+----------|--------------------|--------------|---------------------
+GET       | `users`            | index        | users.index
+GET       | `users/create`     | create       | users.create
+POST      | `users`            | store        | users.store
+GET       | `users/:user`      | show         | users.show
+GET       | `users/:user/edit` | edit         | users.edit
+PUT/PATCH | `users/:user`      | update       | users.update
+DELETE    | `users/:user`      | destroy      | users.destroy
+
+The router will check to make sure each action has a corresponding method in the controller.  If an action is not found, the route will not be created.
+
+### Additional Routes
+
+If you need to add additional routes to your resource, you can pass a callback function to as the last parameter of `resource` to add routes within the resource group:
+
+```js
+app.routes.resource("users", UsersController, routes => {
+	routes.get("users/trending", "trending").as("users.trending")
+})
+```
