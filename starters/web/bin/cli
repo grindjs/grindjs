@@ -6,4 +6,17 @@ popd > /dev/null
 
 source ${0%/*}/.init
 
-IN_CLI=true CLI_BIN="$CLI_BIN" exec babel-node boot/Cli.js "$@"
+COMMAND=$1
+
+if [[ "$@" == *"--help"* ]]; then
+    COMMAND="$COMMAND-help"
+fi
+
+case $COMMAND in
+	watch) exec babel-node boot/Http.js --watch=app,config $@
+		;;
+	serve) exec babel-node boot/Http.js $@
+		;;
+	*) IN_CLI=true CLI_BIN="$CLI_BIN" exec babel-node boot/Cli.js "$@"
+		;;
+esac
