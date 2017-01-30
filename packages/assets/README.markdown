@@ -16,9 +16,9 @@ npm install --save grind-assets
 
 ```js
 import Grind from 'grind-framework'
-import {AssetsProvider} from 'grind-assets'
+import { AssetsProvider } from 'grind-assets'
 
-const app = new Grind()
+const app = new Grind
 app.providers.push(AssetsProvider)
 ```
 
