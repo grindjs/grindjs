@@ -24,7 +24,7 @@ app.providers.push(QueueProvider)
 
 From there, you can access the Queue via `app.queue`.
 
-To learn more about how to use `grind-queue`, head over to the [Official Documentation](https://grind.readme.io/docs/queues).
+To learn more about how to use `grind-queue`, head over to the [Official Documentation](https://grind.rocks/docs/guides/queues).
 
 ## Config
 
