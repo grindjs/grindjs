@@ -3,7 +3,9 @@ import './Commands/ListCommand'
 import './Commands/MakeCommandCommand'
 import './Commands/MakeControllerCommand'
 import './Commands/ScheduleRunCommand'
+import './Commands/ServeCommand'
 import './Commands/TinkerCommand'
+import './Commands/WatchCommand'
 
 import './Errors/CommandNotFoundError'
 import './Input/Input'
@@ -24,7 +26,9 @@ export class Cli {
 		this.register(MakeCommandCommand)
 		this.register(MakeControllerCommand)
 		this.register(ScheduleRunCommand)
+		this.register(ServeCommand)
 		this.register(TinkerCommand)
+		this.register(WatchCommand)
 	}
 
 	run(args = process.argv.slice(2)) {
