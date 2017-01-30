@@ -6,6 +6,7 @@ import './HttpServer'
 import './Log'
 import './Paths'
 import './ProviderCollection'
+import './ResourceRouteBuilder'
 import './Router'
 import './UrlGenerator'
 
@@ -134,6 +135,7 @@ module.exports.ErrorHandler = ErrorHandler
 module.exports.Errors = Errors
 module.exports.HttpServer = HttpServer
 module.exports.Paths = Paths
+module.exports.ResourceRouteBuilder = ResourceRouteBuilder
 module.exports.Router = Router
 module.exports.UrlGenerator = UrlGenerator
 
