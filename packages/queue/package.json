@@ -1,6 +1,6 @@
 {
   "name": "grind-queue",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "description": "Queue provider for Grind, powered by Kue",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
@@ -20,8 +20,8 @@
     "kue": "^0.11.1"
   },
   "peerDependencies": {
-    "grind-cli": "^0.5.0",
-    "grind-framework": "^0.5.0"
+    "grind-cli": "^0.6.0",
+    "grind-framework": "^0.6.0"
   },
   "devDependencies": {
     "babel-cli": ">=6.7 <=7.0",
