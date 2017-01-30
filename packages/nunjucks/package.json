@@ -1,6 +1,6 @@
 {
   "name": "grind-view",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "View provider for Grind, powered by Nunjucks",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
