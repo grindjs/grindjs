@@ -16,7 +16,7 @@ To use `grind-view` you’ll need to add it to your Grind providers:
 
 ```js
 import Grind from 'grind-framework'
-import {ViewProvider} from 'grind-view'
+import { ViewProvider } from 'grind-view'
 
 const app = new Grind()
 app.providers.push(ViewProvider)
