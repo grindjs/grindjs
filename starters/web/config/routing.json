@@ -1,0 +1,13 @@
+{
+
+	"body_parsers": {
+		"default": [ "json", "form" ],
+		"options": {
+			"json": { },
+			"form": {
+				"extended": true
+			}
+		}
+	}
+
+}
