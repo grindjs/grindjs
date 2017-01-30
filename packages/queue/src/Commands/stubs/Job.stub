@@ -1,7 +1,7 @@
 import { Job } from 'grind-queue'
 
-export class {{=it.name}} extends Job {
-	static jobName = '{{=it.type}}'
+export class StubName extends Job {
+	static jobName = 'StubType'
 
 	$handle(app, queue) {
 		//

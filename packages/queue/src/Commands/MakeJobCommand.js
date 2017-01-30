@@ -52,8 +52,8 @@ export class MakeJobCommand extends Command {
 
 		const filePath = this.app.paths.app('Jobs', `${name}.js`)
 		return StubCompiler(Path.join(__dirname, 'stubs', 'Job.stub'), filePath, {
-			name,
-			type
+			StubName: name,
+			StubType: type
 		}).then(() => {
 			this.success(`Created ${Path.relative(process.cwd(), filePath)}`)
 		})
