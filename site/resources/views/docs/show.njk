@@ -5,6 +5,9 @@
 {% block content %}
 	<div class="docs">
 		<aside class="docs-navigation">{{ documentation | safe }}</aside>
-		<section class="docs-content">{{ content | safe }}</section>
+		<section class="docs-content">
+			{{ content | safe }}
+			<a href="https://github.com/grindjs/docs/edit/master{{ path }}.markdown" class="docs-content-edit">Edit</a>
+		</section>
 	</div>
 {% endblock %}

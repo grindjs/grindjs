@@ -53,6 +53,7 @@ $docs-border-color: #e6e7e9;
 	}
 
 	.docs-content {
+		position: relative;
 		width: 620px;
 		padding: 0 0 100px 60px;
 
@@ -107,4 +108,15 @@ $docs-border-color: #e6e7e9;
 			}
 		}
 
+	}
+
+	.docs-content-edit {
+		position: absolute;
+		top: 0;
+		right: 0;
+
+		font-size: 12px;
+		line-height: 28px;
+
+		color: rgba(#949bad, 0.5);
 	}
