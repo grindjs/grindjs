@@ -16,13 +16,13 @@ To use `grind-html` you’ll need to add it to your Grind providers:
 
 ```js
 import Grind from 'grind-framework'
-import {HtmlProvider} from 'grind-html'
+import { HtmlProvider } from 'grind-html'
 
-const app = new Grind()
+const app = new Grind
 app.providers.push(HtmlProvider)
 ```
 
-`grind-html` is meant to be used with [`grind-view`](https://github.com/grindjs/view):
+`grind-html` is intended to be used with [`grind-view`](https://github.com/grindjs/view):
 
 ```twig
 {{ html.linkRoute('route.name', 'Some Title', { param: 'a' }) }}
