@@ -1,10 +1,10 @@
 {
 
-	"default": "maria",
+	"default": "mysql2",
 
 	"connections": {
 
-		"maria": {
+		"mysql2": {
 			"user": "prod-user",
 			"password": "don’t store here, see .env.example.json"
 		}

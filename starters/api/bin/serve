@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-source ${0%/*}/.init
-
-exec babel-node boot/Http.js $@

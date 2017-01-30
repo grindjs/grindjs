@@ -6,4 +6,19 @@ popd > /dev/null
 
 source ${0%/*}/.init
 
-IN_CLI=true CLI_BIN="$CLI_BIN" exec babel-node boot/Cli.js "$@"
+COMMAND=$1
+
+if [[ "$@" == *"--help"* ]]; then
+    COMMAND="$COMMAND-help"
+fi
+
+FLAGS=$(node -e 'console.log(Number.parseFloat(process.version.substring(1)) >= 7 ? "--harmony-async-await" : "")')
+
+case $COMMAND in
+	watch) exec babel-node $FLAGS boot/Http.js --watch=app,config $@
+		;;
+	serve) exec babel-node $FLAGS boot/Http.js $@
+		;;
+	*) IN_CLI=true CLI_BIN="$CLI_BIN" exec babel-node $FLAGS boot/Cli.js "$@"
+		;;
+esac

@@ -15,14 +15,14 @@ bin/cli db:seed
 ```bash
 # Use `watch` to automatically restart the server on file changes
 # Watch is recommended for development
-bin/watch
+bin/cli watch
 
 # Use `serve --cluster` to launch a cluster of workers
 # Cluster is recommended for production
-bin/serve --cluster
+bin/cli serve --cluster
 
 # Use `serve` to launch a single worker
-bin/serve
+bin/cli serve
 ```
 
 You should now be able to go to [localhost:3000/states](http://localhost:3000/states).

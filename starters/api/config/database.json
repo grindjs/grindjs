@@ -4,8 +4,8 @@
 
 	"connections": {
 
-		"maria": {
-			"driver": "mariasql",
+		"mysql2": {
+			"driver": "mysql2",
 			"host": "localhost",
 			"db": "app-db-name",
 			"user": "app-user",
