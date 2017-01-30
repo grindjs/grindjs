@@ -1,6 +1,6 @@
 {
   "name": "grind-framework",
-  "version": "0.5.8",
+  "version": "0.6.0",
   "description": "An opinionated Node web framework built on Express",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
@@ -21,6 +21,7 @@
     "chokidar": "^1.6.0",
     "express": "4.13.x",
     "find-root": "^1.0.0",
+    "grind-support": "^0.6.0",
     "json5": "^0.4.0"
   },
   "devDependencies": {
@@ -32,7 +33,7 @@
     "eslint-plugin-import-auto-name": "^1.0.3"
   },
   "engines": {
-    "node": ">=6.0"
+    "node": ">=6.9"
   },
   "scripts": {
     "prepublish": "./build",
