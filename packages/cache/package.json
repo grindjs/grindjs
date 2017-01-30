@@ -1,6 +1,6 @@
 {
   "name": "grind-cache",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Cache provider for Grind, powered by node-cache-manager",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
@@ -20,7 +20,7 @@
     "cache-manager": "^2.x"
   },
   "peerDependencies": {
-    "grind-framework": "^0.5.0"
+    "grind-framework": "^0.6.0"
   },
   "devDependencies": {
     "babel-cli": ">=6.7 <=7.0",
@@ -31,7 +31,7 @@
     "eslint-plugin-import-auto-name": "^1.0.3"
   },
   "engines": {
-    "node": ">=6.0"
+    "node": ">=6.9"
   },
   "scripts": {
     "prepublish": "./build",
