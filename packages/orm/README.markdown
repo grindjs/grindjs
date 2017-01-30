@@ -16,12 +16,12 @@ To use `grind-orm` you’ll need to add it to your `Grind` providers:
 
 ```js
 import Grind from 'grind-framework'
-import {DatabaseProvider} from 'grind-db'
-import {OrmProvider} from 'grind-orm'
+import { DatabaseProvider } from 'grind-db'
+import { OrmProvider } from 'grind-orm'
 
-const app = new Grind()
+const app = new Grind
 app.providers.push(DatabaseProvider)
 app.providers.push(OrmProvider)
 ```
 
-See [grind.readme.io/docs/orm](https://grind.readme.io/docs/orm) for more information on how to use `grind-orm`.
+See [grind.rocks/docs/guides/orm](https://grind.rocks/docs/guides/orm) for more information on how to use `grind-orm`.
