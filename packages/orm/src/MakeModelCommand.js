@@ -40,9 +40,9 @@ export class MakeModelCommand extends Command {
 
 		const filePath = this.app.paths.app('Models', `${name}.js`)
 		return StubCompiler(path.join(__dirname, 'stubs', 'Model.stub'), filePath, {
-			name,
-			tableName,
-			descriptiveName
+			StubName: name,
+			StubTable: tableName,
+			StubDescriptiveName: descriptiveName
 		}).then(() => {
 			this.success(`Created ${path.relative(process.cwd(), filePath)}`)
 		})
