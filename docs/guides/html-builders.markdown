@@ -7,9 +7,9 @@ When building frontend apps, Grind has a handy [HTML provider](https://github.co
 
 ## Opening a Form
 ```njk
-{{ from.open({ url: 'foo/bar' }) }}
+{{ form.open({ url: 'foo/bar' }) }}
 	//
-{{ from.close() }}
+{{ form.close() }}
 ```
 
 By default, a `POST` method will be assumed however, you are free to specify another method:
