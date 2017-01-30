@@ -1,6 +1,6 @@
 import MarkdownIt from 'markdown-it'
 
-import fs from 'fs-promise'
+import { FS } from 'grind-support'
 import expandTabs from 'markdown-it-expand-tabs'
 import githubTaskList from 'markdown-it-task-lists'
 import anchor from 'markdown-it-anchor'
@@ -45,13 +45,13 @@ Markdown.render = function(content) {
 }
 
 Markdown.renderFile = (app, path) => {
-	const render = () => fs.readFile(path).then(content => Markdown.render(content.toString()))
+	const render = () => FS.readFile(path).then(content => Markdown.render(content.toString()))
 
 	if(app.debug) {
 		return render()
 	}
 
-	return fs.stat(path).then(stats => app.cache.wrap(`${path}-${stats.mtime.getTime()}`, render))
+	return FS.stat(path).then(stats => app.cache.wrap(`${path}-${stats.mtime.getTime()}`, render))
 }
 
 export { Markdown }

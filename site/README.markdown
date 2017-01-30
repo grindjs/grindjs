@@ -1,3 +1,3 @@
 # Grind Site
 
-Code for http://grind.rocks
+Code for https://grind.rocks
