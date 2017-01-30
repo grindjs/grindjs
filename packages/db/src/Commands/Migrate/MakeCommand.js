@@ -49,7 +49,7 @@ export class MakeCommand extends BaseCommand {
 		return this.generateStub(
 			path.join(__dirname, 'stubs', `${stub}.stub`),
 			path.join(this.db.migrate._absoluteConfigDir(), `${prefix()}-${name}.js`), {
-				tableName
+				StubTable: tableName || 'table_name'
 			}
 		)
 	}

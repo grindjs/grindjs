@@ -1,5 +1,5 @@
 export function seed(db) {
-	const table = '{{=it.tableName}}'
+	const table = 'StubTable'
 	const now = db.fn.now()
 
 	return Promise.all([

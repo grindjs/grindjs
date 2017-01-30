@@ -1,10 +1,10 @@
 export function up(db) {
-	return db.schema.createTable('{{=it.tableName}}', table => {
+	return db.schema.createTable('StubTable', table => {
 		table.increments('id').unsigned().primary()
 		table.timestamps()
 	})
 }
 
 export function down(db) {
-	return db.schema.dropTable('{{=it.tableName}}')
+	return db.schema.dropTable('StubTable')
 }

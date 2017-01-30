@@ -1,11 +1,11 @@
 export function up(db) {
-	return db.schema.table('{{=it.tableName}}', table => {
+	return db.schema.table('StubTable', table => {
 		// table.string('column')
 	})
 }
 
 export function down(db) {
-	return db.schema.table('{{=it.tableName}}', table => {
+	return db.schema.table('StubTable', table => {
 		// table.dropColumn('column')
 	})
 }

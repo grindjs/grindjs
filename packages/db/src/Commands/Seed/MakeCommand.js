@@ -38,7 +38,7 @@ export class MakeCommand extends BaseCommand {
 			this.generateStub(
 				path.join(__dirname, 'stubs', 'seed.stub'),
 				path.join(seed._absoluteConfigDir(), `${ordinal}-${name}.js`), {
-					tableName: tableName || 'table_name'
+					StubTable: tableName || 'table_name'
 				}
 			)
 		)
