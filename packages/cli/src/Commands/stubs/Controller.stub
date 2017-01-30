@@ -1,0 +1,9 @@
+import { Controller } from 'grind-framework'
+
+export class StubName extends Controller {
+
+	index(req, res) {
+		res.send('Hello!')
+	}
+
+}

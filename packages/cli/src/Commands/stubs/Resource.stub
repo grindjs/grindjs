@@ -1,0 +1,54 @@
+import { Controller } from 'grind-framework'
+
+export class StubName extends Controller {
+
+	/**
+	 * Return a list of resources
+	 */
+	index(req, res) {
+		//
+	}
+
+	/**
+	 * Render the page to create a new resource
+	 */
+	create(req, res) {
+		//
+	}
+
+	/**
+	 * Create the resource
+	 */
+	store(req, res) {
+		//
+	}
+
+	/**
+	 * Show the resource
+	 */
+	show(req, res) {
+		//
+	}
+
+	/**
+	 * Render the page to edit the resource
+	 */
+	edit(req, res) {
+		//
+	}
+
+	/**
+	 * Update the resource
+	 */
+	update(req, res) {
+		//
+	}
+
+	/**
+	 * Remove the resource
+	 */
+	destroy(req, res) {
+		//
+	}
+
+}

@@ -1,6 +1,7 @@
 import './Commands/HelpCommand'
 import './Commands/ListCommand'
 import './Commands/MakeCommandCommand'
+import './Commands/MakeControllerCommand'
 import './Commands/ScheduleRunCommand'
 import './Commands/TinkerCommand'
 
@@ -21,8 +22,9 @@ export class Cli {
 		this.scheduler = new Scheduler(this)
 
 		this.register(MakeCommandCommand)
-		this.register(TinkerCommand)
+		this.register(MakeControllerCommand)
 		this.register(ScheduleRunCommand)
+		this.register(TinkerCommand)
 	}
 
 	run(args = process.argv.slice(2)) {
