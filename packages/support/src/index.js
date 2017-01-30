@@ -1,5 +1,11 @@
 import './FS'
-import './Obj'
+import './Inflect'
 import './merge'
+import './Obj'
 
-export { FS, Obj, merge }
+export {
+	FS,
+	Inflect,
+	merge,
+	Obj
+}
