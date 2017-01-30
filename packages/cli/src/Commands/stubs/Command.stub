@@ -1,8 +1,8 @@
 import { Command, InputArgument, InputOption } from 'grind-cli'
 
-export class {{=it.name}} extends Command {
+export class StubName extends Command {
 	// Name of the command
-	name = '{{=it.command}}'
+	name = 'StubCommand'
 
 	// Description of the command to show in help
 	description = 'Command description'

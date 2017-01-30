@@ -1,5 +1,4 @@
 import { FS } from 'grind-support'
-import dot from 'dot'
 import path from 'path'
 
 import './Errors/AbortError'
@@ -25,9 +24,20 @@ export function StubCompiler(stub, target, context) {
 
 	// Compile the stub
 	.then(() => FS.readFile(stub)).then(stub => {
-		stub = stub.toString().replace(/\n/g, '__STUB_LINE').replace(/\t/g, '__STUB_TAB')
+		const entries = Object.entries(context).sort((a, b) => {
+			a = a[0].length
+			b = b[0].length
 
-		return dot.template(stub)(context).replace(/__STUB_LINE/g, '\n').replace(/__STUB_TAB/g, '\t')
+			return a === b ? 0 : (a < b ? 1 : -1)
+		})
+
+		let template = stub.toString()
+
+		for(const [ key, value ] of entries) {
+			template = template.replace(new RegExp(key, 'g'), value)
+		}
+
+		return template
 	})
 
 	// Write the target
