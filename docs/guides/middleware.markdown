@@ -24,7 +24,7 @@ app.routes.use((req, res, next) => {
 
 This middleware will now apply to all routes registered _after_ it’s been added.  Any routes registered _before_ will not have the middleware.
 
-> {note} Unlike Express, you can’t pass a path to `use`.  If you’d like to register middleware on a path, you’ll need to add it to a group with a prefix.
+> {note} Unlike Express, you can’t pass a path to `use`.  If you’d like to register middleware on a path, you’ll need to add it to a [group with a prefix](routing#route-groups).
 
 ## Group Middleware
 

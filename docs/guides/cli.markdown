@@ -11,15 +11,19 @@ All commands support passing a `--help` command to tell you more about the comma
 
 ```shell
 $ bin/cli make:model --help
+Usage:
+  make:model [options] <name?>
 
-	Usage: make:model [options],<className?>
+Arguments:
+  name               The name of the model.
 
-	Create a model class
+Options:
+  --table[=TABLE]    Name of the table to create the model for
+  --help             Display this help message
+  --no-ansi          Disable ANSI output
 
-	Options:
-
-		-h, --help            output usage information
-		-t, --table [string]  Name of the table to create the model for
+Help:
+  Create a model class
 ```
 
 ## Creating Commands
@@ -29,7 +33,7 @@ The fastest way to create a new command is by using the command generator via `b
 You can invoke `make:command` with a few different arguments:
 
 * `bin/cli make:command MakeThingCommand` will create `app/Commands/MakeThingCommand.js`, but will not infer a command name.
-* `bin/cli make:command --comandName=make:thing` will also create `app/Commands/MakeThingCommand.js` and will set the command name for you.
+* `bin/cli make:command --command=make:thing` will also create `app/Commands/MakeThingCommand.js` and will set the command name for you.
 * You can also pass both a class name and a command name at the same time — though this isn’t advised.
 
 ### Naming Conventions
@@ -40,7 +44,7 @@ Class names should follow the command name with a Command suffix, so `make:thing
 ### Command Class
 Once you’ve triggered `make:command`, a class is generated for you that looks like this:
 ```js
-import { Command } from 'grind-cli'
+import { Command, InputArgument, InputOption } from 'grind-cli'
 
 export class MakeThingCommand extends Command {
 	// Name of the command
@@ -50,12 +54,16 @@ export class MakeThingCommand extends Command {
 	description = 'Command description'
 
 	// Arguments available for this command
-	arguments = [ 'requiredArgument', 'optionalArgument?' ]
+	arguments = [
+		new InputArgument('requiredArg', InputArgument.VALUE_REQUIRED, 'This argument is required'),
+		new InputArgument('optionalArg', InputArgument.VALUE_OPTIONAL, 'This argument is optional', 'Default value'),
+	]
 
 	// Options for this command
-	options = {
-		'some-option': 'Description of this option'
-	}
+	options = [
+		new InputOption('someOption', InputOption.VALUE_OPTIONAL, 'This is an optional option', 'Default Value'),
+		new InputOption('quiet', InputOption.VALUE_NONE, 'This is a flag option')
+	]
 
 	run() {
 		// Build something great!
@@ -71,10 +79,7 @@ The name of the command is what you invoke via `bin/cli`, so for MakeThingComman
 The description is what shows up in `bin/cli --help` for your command.  You should provide a short, concise description of what your command does.
 
 #### arguments
-Arguments are data passed into your command, in the order they’re declared.  You can have an optional argument by ending the name with a question mark: `optionalArgument?`.
-
-* `bin/cli make:thing name` would give `requiredArgument` a value of `name` and `optionalArgument` would be `null`.
-* `bin/cli make:thing name otherName` would still give `requiredArgument` a value of `name`, however `optionaArgument` would now have a value of `otherName`
+Arguments are data passed into your command, in the order they’re declared.
 
 #### options
 Options are flags passed to your command via two leading dashes, if options expect a value, the value is passed by using an equals sign:
@@ -84,20 +89,6 @@ Options are flags passed to your command via two leading dashes, if options expe
 
 Options can be passed in before or after arguments and will not affect the order in which arguments are processed in.
 
-Options are declared by setting `options` to an object with the key being the name of the option, and the value it’s description:
-```js
-options = {
-	'some-option': 'Description of this option'
-}
-```
-
-You can also require a value for your option (instead of accepting a boolean flag) by passing the value an array with the first element being the description, and the second being the type of value (currently only string is accepted):
-```js
-options = {
-	'some-option': [ 'Description of this option', 'string' ]
-}
-```
-
 #### run
 The `run` function is what is called when your command is invoked.  CLI supports `run` returning a promise for asynchronous support.
 
@@ -106,12 +97,12 @@ You can also add a `ready` function to your command to perform startup tasks to 
 
 For instance, you may want to `ready` to load data to be used during the execution of the command:
 ```js
-import fs from 'fs-promise'
+import { FS } from 'grind-support'
 
 export class MakeThingCommand extends Command {
 
 	ready() {
-		return fs.readFile(this.app.paths.base('countries.json'))
+		return FS.readFile(this.app.paths.base('countries.json'))
 		.then(data => {
 			this.countries = JSON.parse(data)
 		})
@@ -189,6 +180,9 @@ Assets includes the `assets:publish` and `assets:unpublish` commands to help pre
 
 ### CLI
 As noted above, the CLI includes a built in `make:command` command to generate commands for you.
+
+### Controllers
+You can generate controllers via `make:controller`.  You can also pass a `--resource` flag to generate a full resource controller.
 
 ### Database
 The database provider includes a number of commands for migrating and seeding the database:

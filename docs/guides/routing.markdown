@@ -173,7 +173,7 @@ app.routes.group({ prefix: 'users', controller: UserController }, routes => {
 	routes.get('/', 'index').as('users.index')
 
 	// Routes POST /users to UserController.create(req, res)
-	routes.post('/', 'create').use(formBodyParser).as('users.create')
+	routes.post('/', 'create').before(formBodyParser).as('users.create')
 
 	// Routes GET /users/id to UserController.show(req, res)
 	routes.get(':id', 'show').as('users.show')

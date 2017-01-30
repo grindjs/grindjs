@@ -8,7 +8,7 @@ You can find a lot of well tested and highly used packages on NPM, but tracking 
 
 Grind is built on [Express](http://expressjs.com), and while Express is all about being “unopinionated”, Grind very much as an opinion.  It provides you with an clear, defined structure for building your app, integrating with different packages, loading routes, config, etc…
 
-Outside of Express, Grind leverages popular NPM packages from [Commander](http://npmjs.com/package/commander) for CLI, [Objection.js](https://www.npmjs.com/package/objection) for ORM, to [Nunjucks](https://www.npmjs.com/package/nunjucks) for templating; allowing you to get the benefits of a framework without worrying about whether or not Grind’s DBA library is up to par — you already know that [Knex](https://www.npmjs.com/package/knex) is.
+Outside of Express, Grind leverages popular NPM packages from [Objection.js](https://www.npmjs.com/package/objection) for ORM, to [Nunjucks](https://www.npmjs.com/package/nunjucks) for templating; allowing you to get the benefits of a framework without worrying about whether or not Grind’s DBA library is up to par — you already know that [Knex](https://www.npmjs.com/package/knex) is.
 
 ## Customizable
 Grind has no interest in forcing vendor lock in with it’s own packages.  While we think we chose well, if you decide you’d rather use [sequelize](https://www.npmjs.com/package/sequelize) over Objection.js, go for it!  Grind won’t tie you to anything, it’s highly extensible and swapping out components via it’s [Provider system](providers) is a breeze.

@@ -18,10 +18,10 @@ export function ViewExtensionProvider(app) {
 ### Asynchronous Providers
 Grind also supports providers that return promises, so if needed, you can perform asynchronous operations when your provider is booted:
 ```js
-import fs from 'fs-promise'
+import { FS } from 'grind-support'
 
 export function ViewExtensionProvider(app) {
-  return fs.readFile(app.paths.base('countries.json'), content => {
+  return FS.readFile(app.paths.base('countries.json'), content => {
 	  app.view.share('countries', JSON.parse(content))
   })
 }

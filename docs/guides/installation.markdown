@@ -4,7 +4,7 @@ Getting your environment setup for Grind is a quick process that shouldn’t tak
 [[toc]]
 
 ## Requirements
-Grind doesn’t need much, just make sure you’re running Node v5+ and NPM v3+.
+Grind doesn’t need much, just make sure you’re running Node v6.9+ and NPM v3+.
 
 For information on how to install Node on your OS, head over to [nodejs.org](https://nodejs.org/). For macOS, if you already have `brew` installed, just run `brew install node`.
 

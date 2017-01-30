@@ -38,14 +38,12 @@ We’ll tackle each of these in more detail below, but here’s a quick overview
 The bin directory contains several binaries to assist you while building and running Grind:
 
 * `build` — Transpile your app through Babel for use in Production
-* `cli` — Your gateway into the [Grind CLI](cli), providing everything from code generators to running migrations.
+* `cli` — Your gateway into the Grind, providing everything from running your app, to code generators, migrations and scheduled tasks.
 * `lint` — Triggers `eslint` on your codebase, it’s important to keep things tidy!
-* `serve` — Starts up the HTTP server
-* `watch` — Starts the HTTP server and monitors for changes, for more information see [Running Grind](running-grind#development).
 
 The boot directory provides two entry points into Grind:
 * `Cli.js` — Called by `bin/cli` and actually starts up the CLI
-* `Http.js` — Called by `bin/serve` and `bin/watch` to start the HTTP server
+* `Http.js` — Called by `bin/cli serve` and `bin/cli watch` to start the HTTP server
 
 ## App Directory
 The app directory is the core of your application, this is where the vast majority of your code lives.
@@ -58,7 +56,7 @@ The app directory is the core of your application, this is where the vast majori
 
 > {tip} The cli provides generators for many of these directories and file types.  For example `bin/cli make:model` will generate a model and store it in `app/Models`.
 
-Run `bin/cli --help` for a list of available generators (identified by the `make:` namespace).
+Run `bin/cli list` for a list of available generators (identified by the `make:` namespace).
 
 ## Config Directory
 See the [Configuration guide](configuration) for a full overview of how files in the `config` directory are stored and processed.

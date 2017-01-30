@@ -119,8 +119,9 @@ To write your own compiler, you must first extend the `Compiler` class from `gri
 
 ```js
 import { Compiler } from 'grind-assets'
+import { FS } from 'grind-support'
+
 import PngCrusher from 'png-crusher'
-import fs from 'fs-promise'
 
 export class PngCompiler extends Compiler {
 	// List of supported extensions
@@ -134,7 +135,7 @@ export class PngCompiler extends Compiler {
 
 	compile(pathname, context) {
 		if(!this.autoMinify) {
-			return fs.readFile(pathname)
+			return FS.readFile(pathname)
 		}
 
 		return PngCrusher.crush(pathname)
