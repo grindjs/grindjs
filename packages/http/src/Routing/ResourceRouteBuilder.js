@@ -45,13 +45,13 @@ export class ResourceRouteBuilder {
 		const base = this.getResourceWildcard(segments[segments.length - 1])
 
 		return this.routes.group({ controller }, routes => {
+			if(typeof callback === 'function') {
+				callback(routes, controller)
+			}
+
 			for(const m of this._getResourceMethods(this.resourceDefaults, options)) {
 				const method = `_addResource${m.substring(0, 1).toUpperCase()}${m.substring(1)}`
 				this[method](name, base, controller, options)
-			}
-
-			if(typeof callback === 'function') {
-				callback(routes, controller)
 			}
 		})
 	}
