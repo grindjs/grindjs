@@ -113,7 +113,11 @@ export class Router {
 			})
 		}
 
-		this._scopedAction.before.push(...middleware)
+		if(this._scope.length === 1) {
+			this.router.use(...middleware)
+		} else {
+			this._scopedAction.before.push(...middleware)
+		}
 
 		return this
 	}
