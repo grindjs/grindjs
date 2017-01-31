@@ -210,11 +210,11 @@ export class Router {
 				}
 
 				before.push(...makeArray(action.use.before))
-				after.push(...makeArray(action.use.after))
+				after.unshift(...makeArray(action.use.after))
 			}
 
 			before.push(...makeArray(action.before))
-			after.push(...makeArray(action.after))
+			after.unshift(...makeArray(action.after))
 		}
 
 		pathname = this._normalizePathComponent(pathname)
