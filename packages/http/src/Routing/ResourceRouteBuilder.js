@@ -46,7 +46,9 @@ export class ResourceRouteBuilder {
 
 		return this.routes.group({
 			controller,
-			prefix: this.getResourceUri(name)
+			prefix: this.getResourceUri(name),
+			before: options.before,
+			after: options.after
 		}, routes => {
 			if(typeof callback === 'function') {
 				callback(routes, controller)
@@ -198,22 +200,10 @@ export class ResourceRouteBuilder {
 	}
 
 	_getResourceAction(resource, controller, method, options) {
-		const name = this._getResourceRouteName(resource, method, options)
-
-		const action = {
-			as: name,
+		return {
+			as: this._getResourceRouteName(resource, method, options),
 			method: method
 		}
-
-		if(!options.before.isNil) {
-			action.before = options.before
-		}
-
-		if(!options.after.isNil) {
-			action.after = options.after
-		}
-
-		return action
 	}
 
 	_getResourceRouteName(resource, method, options) {
