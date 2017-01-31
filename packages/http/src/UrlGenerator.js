@@ -72,6 +72,10 @@ export class UrlGenerator {
 			parameters = parameters[0]
 		}
 
+		if(isObject) {
+			parameters = { ...parameters }
+		}
+
 		let index = 0
 		const path = route.path.replace(/:([a-z0-0_-]+)(?:\(([^)]+)\))?(\?)?/g, (_, name) => {
 			if(isObject) {
