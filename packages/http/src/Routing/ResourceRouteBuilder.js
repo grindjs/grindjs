@@ -44,7 +44,10 @@ export class ResourceRouteBuilder {
 		const segments = name.split(/\./)
 		const base = this.getResourceWildcard(segments[segments.length - 1])
 
-		return this.routes.group({ controller }, routes => {
+		return this.routes.group({
+			controller,
+			prefix: this.getResourceUri(name)
+		}, routes => {
 			if(typeof callback === 'function') {
 				callback(routes, controller)
 			}
@@ -92,80 +95,73 @@ export class ResourceRouteBuilder {
 	}
 
 	_addResourceIndex(name, base, controller, options) {
-		const uri = this.getResourceUri(name)
 		const action = this._getResourceAction(name, controller, 'index', options)
 
 		if(typeof controller[action.method] !== 'function') {
 			return null
 		}
 
-		return this.routes.get(uri, action)
+		return this.routes.get('/', action)
 	}
 
 	_addResourceCreate(name, base, controller, options) {
-		const uri = `${this.getResourceUri(name)}/${this.constructor.verbs.create}`
 		const action = this._getResourceAction(name, controller, 'create', options)
 
 		if(typeof controller[action.method] !== 'function') {
 			return null
 		}
 
-		return this.routes.get(uri, action)
+		return this.routes.get(this.constructor.verbs.create, action)
 	}
 
 	_addResourceStore(name, base, controller, options) {
-		const uri = this.getResourceUri(name)
 		const action = this._getResourceAction(name, controller, 'store', options)
 
 		if(typeof controller[action.method] !== 'function') {
 			return null
 		}
 
-		return this.routes.post(uri, action)
+		return this.routes.post('/', action)
 	}
 
 	_addResourceShow(name, base, controller, options) {
-		const uri = `${this.getResourceUri(name)}/:${base}`
 		const action = this._getResourceAction(name, controller, 'show', options)
 
 		if(typeof controller[action.method] !== 'function') {
 			return null
 		}
 
-		return this.routes.get(uri, action)
+		return this.routes.get(`:${base}`, action)
 	}
 
 	_addResourceEdit(name, base, controller, options) {
-		const uri = `${this.getResourceUri(name)}/:${base}/${this.constructor.verbs.edit}`
 		const action = this._getResourceAction(name, controller, 'edit', options)
 
 		if(typeof controller[action.method] !== 'function') {
 			return null
 		}
 
-		return this.routes.get(uri, action)
+		return this.routes.get(`:${base}/${this.constructor.verbs.edit}`, action)
 	}
 
 	_addResourceUpdate(name, base, controller, options) {
-		const uri = `${this.getResourceUri(name)}/:${base}`
 		const action = this._getResourceAction(name, controller, 'update', options)
 
 		if(typeof controller[action.method] !== 'function') {
 			return null
 		}
 
-		return this.routes.match([ 'put', 'patch' ], uri, action)
+		return this.routes.match([ 'put', 'patch' ], `:${base}`, action)
 	}
 
 	_addResourceDestroy(name, base, controller, options) {
-		const uri = `${this.getResourceUri(name)}/:${base}`
 		const action = this._getResourceAction(name, controller, 'destroy', options)
 
 		if(typeof controller[action.method] !== 'function') {
 			return null
 		}
 
-		return this.routes.delete(uri, action)
+		return this.routes.delete(`:${base}`, action)
 	}
 
 	getResourceUri(resource) {
