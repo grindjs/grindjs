@@ -1,5 +1,6 @@
 /* eslint-disable max-lines */
 import './ResourceRouteBuilder'
+import './RouteLayer'
 
 import bodyParser from 'body-parser'
 import path from 'path'
@@ -37,6 +38,10 @@ export class Router {
 		this.app = app
 		this.router = express.Router()
 		this.app.express.use(this.router)
+
+		this.router.param('__middlewareWorkaround', (req, res, next) => {
+			req.route.dispatchMiddleware(req, res, next)
+		})
 
 		const bodyParsersConfig = app.config.get('routing.body_parsers') || { }
 		const parsers = bodyParsersConfig.default || [ 'json', 'form' ]
@@ -192,7 +197,7 @@ export class Router {
 		methods = methods.map(method => method.toLowerCase().trim())
 
 		const handler = this._makeAction(action)
-		const before = [ ...this._scopedAction.before ]
+		const before = [ ]
 		const after = [ ...this._scopedAction.after ]
 
 		if(typeof action === 'object') {
@@ -227,6 +232,18 @@ export class Router {
 		const route = this.router.route(compiledPath)
 		route.context = context || { }
 		route.grindRouter = this
+
+		let layer = this.router.stack[this.router.stack.length - 1]
+
+		if(this._scopedAction.before.length > 0) {
+			layer = new RouteLayer(route, layer, this.resolveHandlers(this._scopedAction.before), {
+				sensitive: this.router.caseSensitive,
+				strict: this.router.strict,
+				end: true
+			})
+
+			this.router.stack[this.router.stack.length - 1] = layer
+		}
 
 		for(const method of methods) {
 			const handlers = [ handler ]
