@@ -6,12 +6,13 @@ import './HttpServer'
 import './Log'
 import './Paths'
 import './ProviderCollection'
-import './ResourceRouteBuilder'
-import './Router'
 import './UrlGenerator'
 
-import './Extensions/RouteExtension'
-import './Extensions/ResponseExtension'
+import './Routing/Router'
+import './Routing/ResourceRouteBuilder'
+
+import './Routing/Extensions/RouteExtension'
+import './Routing/Extensions/ResponseExtension'
 
 import Express from 'express'
 
