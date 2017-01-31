@@ -1,9 +1,9 @@
 import Express from 'express'
 
-const app = Express()
-app.get('/', () => ({ }))
+const router = Express.Router()
+router.get('/', () => ({ }))
 
-const LayerClass = app._router.stack[0].constructor
+const LayerClass = router.stack[0].constructor
 
 export class RouteLayer extends LayerClass {
 	_layer = null
