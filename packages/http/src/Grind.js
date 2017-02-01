@@ -1,22 +1,17 @@
 import './Config'
-import './Controller'
 import './ErrorHandler'
-import './Errors'
-import './HttpServer'
-import './Log'
 import './Paths'
 import './ProviderCollection'
 import './UrlGenerator'
 
 import './Routing/Router'
-import './Routing/ResourceRouteBuilder'
 
 import './Routing/Extensions/RouteExtension'
 import './Routing/Extensions/ResponseExtension'
 
 import Express from 'express'
 
-export default class Grind {
+export class Grind {
 	express = null
 
 	config = null
@@ -43,7 +38,10 @@ export default class Grind {
 		const urlGeneratorClass = parameters.urlGeneratorClass || UrlGenerator
 		const pathsClass = parameters.pathsClass || Paths
 
-		const parent = module.parent.parent === null ? module.parent : module.parent.parent
+		const parent = module.parent.parent === null ? module.parent : (
+			module.parent.parent.parent === null ? module.parent.parent : module.parent.parent.parent
+		)
+
 		this.paths = new pathsClass(parent.filename)
 		this.config = new configClass(this)
 		this.routes = new routerClass(this)
@@ -130,15 +128,3 @@ export default class Grind {
 	disable(...args) { return this.express.disable(...args) }
 
 }
-
-module.exports.Config = Config
-module.exports.Controller = Controller
-module.exports.ErrorHandler = ErrorHandler
-module.exports.Errors = Errors
-module.exports.HttpServer = HttpServer
-module.exports.Paths = Paths
-module.exports.ResourceRouteBuilder = ResourceRouteBuilder
-module.exports.Router = Router
-module.exports.UrlGenerator = UrlGenerator
-
-global.Log = Log
