@@ -126,7 +126,10 @@ export class UrlGenerator {
 			}
 
 			if(url.indexOf('#') >= 0 || url.indexOf('?') >= 0) {
-				url = URL.parse(url)
+				url = URL.parse(url, true)
+				delete url.path
+				delete url.href
+				delete url.search
 			} else {
 				url = { pathname: url }
 			}
@@ -140,7 +143,7 @@ export class UrlGenerator {
 			}
 		}
 
-		url.pathname = Path.normalize(url.pathname || '').replace(/\/+$/, '')
+		url.pathname = `/${Path.normalize(url.pathname || '/').replace(/(^\/|\/+$)/, '')}`
 		url.protocol = this.getProtocol(req, secure)
 		url.host = this.getHost(req)
 
