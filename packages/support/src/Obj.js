@@ -1,6 +1,10 @@
 export class Obj {
 
-	static get(object, keyPath, fallback = null) {
+	static get(object, keyPath, fallback) {
+		if(arguments.length < 3) {
+			fallback = null
+		}
+
 		if(object.isNil) {
 			return fallback
 		}
