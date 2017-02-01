@@ -13,6 +13,7 @@ import Express from 'express'
 
 export class Grind {
 	express = null
+	_env = null
 
 	config = null
 	errorHandler = null
@@ -32,6 +33,8 @@ export class Grind {
 		this.express.disable('etag')
 		this.express._grind = this
 
+		this._env = parameters.env
+
 		const routerClass = parameters.routerClass || Router
 		const configClass = parameters.configClass || Config
 		const errorHandlerClass = parameters.errorHandlerClass || ErrorHandler
@@ -49,13 +52,13 @@ export class Grind {
 		this.providers = new ProviderCollection
 
 		this.debug = this.config.get('app.debug', this.env() === 'local')
-		this.port = process.env.NODE_PORT || this.config.get('app.port', 3000)
+		this.port = parameters.port || process.env.NODE_PORT || this.config.get('app.port', 3000)
 
 		this.url = new urlGeneratorClass(this)
 	}
 
 	env() {
-		return process.env.NODE_ENV || 'local'
+		return this._env || process.env.NODE_ENV || 'local'
 	}
 
 	async boot() {

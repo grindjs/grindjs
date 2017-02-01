@@ -9,8 +9,8 @@ export class Paths {
 	_package = null
 	_public = null
 
-	constructor(bootstrapper) {
-		this._base = findRoot(bootstrapper)
+	constructor(bootstrapper, base = null) {
+		this._base = base || findRoot(bootstrapper)
 		this._app = path.join(this._base, 'app')
 		this._config = path.join(this._base, 'config')
 		this._database = path.join(this._base, 'database')
