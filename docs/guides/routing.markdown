@@ -238,6 +238,8 @@ If you need to add additional routes to your resource, you can pass a callback f
 
 ```js
 app.routes.resource("users", UsersController, routes => {
-	routes.get("users/trending", "trending").as("users.trending")
+	routes.get("trending", "trending").as("users.trending")
 })
 ```
+
+The callback function will be called before any of the default resource routes are added.  Any routes added in the callback will be prefixed with the resource path.
