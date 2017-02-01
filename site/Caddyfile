@@ -1,17 +1,26 @@
-grind.rocks
-root /apps/grind.rocks/public
+grind.rocks {
+	root /apps/grind.rocks/public
 
-header /css Cache-Control "max-age=31536000;"
-header /img Cache-Control "max-age=31536000;"
-header /js Cache-Control "max-age=31536000;"
+	header /css Cache-Control "max-age=31536000;"
+	header /img Cache-Control "max-age=31536000;"
+	header /js Cache-Control "max-age=31536000;"
 
-rewrite / /proxy
+	rewrite / /proxy
 
-rewrite {
-	to {path} /proxy/{uri}
+	rewrite {
+		to {path} /proxy/{uri}
+	}
+
+	proxy /proxy localhost:3900 {
+		without /proxy
+		transparent
+	}
 }
 
-proxy /proxy localhost:3900 {
-	without /proxy
-	transparent
+www.grind.rocks {
+	redir https://grind.rocks{uri}
+}
+
+docs.grind.rocks {
+	redir https://grind.rocks{uri}
 }
