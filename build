@@ -8,8 +8,8 @@ BABEL_TARGET_VERSION=6.9 babel -s inline -d lib/lts/ src/
 echo "Building for Node 7+"
 BABEL_TARGET_VERSION=7.0 babel -s inline -d lib/node7/ src/
 
-echo "if(Number.parseFloat(process.version.substring(1)) >= 7) {" > lib/Grind.js
-echo "	module.exports = require('./node7/Grind.js')" >> lib/Grind.js
-echo "} else {" >> lib/Grind.js
-echo "	module.exports = require('./lts/Grind.js')" >> lib/Grind.js
-echo "}" >> lib/Grind.js
+echo "if(Number.parseFloat(process.version.substring(1)) >= 7) {" > lib/index.js
+echo "	module.exports = require('./node7/index.js')" >> lib/index.js
+echo "} else {" >> lib/index.js
+echo "	module.exports = require('./lts/index.js')" >> lib/index.js
+echo "}" >> lib/index.js
