@@ -20,7 +20,11 @@ export class Obj {
 			value = value[key]
 		}
 
-		return value || fallback
+		if(value.isNil) {
+			return fallback
+		}
+
+		return value
 	}
 
 	static has(object, keyPath) {
