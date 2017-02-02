@@ -1,6 +1,29 @@
 grind.rocks {
 	root /apps/grind.rocks/public
 
+	git github.com/grindjs/docs {
+		hook        /hooks/deploy-docs {$DOCS_SECRET}
+		hook_type   github
+		branch      master
+		key         /apps/.ssh/id_rsa
+		path        ../resources/docs
+		interval    -1
+	}
+
+	git github.com/grindjs/site {
+		hook        /hooks/deploy {$SITE_SECRET}
+		hook_type   github
+		branch      production
+		key         /apps/.ssh/id_rsa
+		path        ../
+		interval    -1
+		then        yarn install
+		then        bin/build
+		then        bash -c "NODE_ENV=production bin/cli assets:publish"
+		then        bash -c "NODE_ENV=production bin/cli view:cache"
+		then        sudo supervisorctl restart grind-rocks
+	}
+
 	header /css Cache-Control "max-age=31536000;"
 	header /img Cache-Control "max-age=31536000;"
 	header /js Cache-Control "max-age=31536000;"
@@ -13,6 +36,8 @@ grind.rocks {
 
 	proxy /proxy localhost:3900 {
 		without /proxy
+		except /hooks/deploy
+		except /hooks/deploy-docs
 		transparent
 	}
 }
