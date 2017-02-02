@@ -142,7 +142,7 @@ app.routes.bind('user', (value, resolve, reject) => {
 		}
 
 		if(err) {
-			return reject(new NotFoundError)
+			return reject(err)
 		}
 
 		resolve(model)
