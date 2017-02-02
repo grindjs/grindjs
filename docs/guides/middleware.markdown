@@ -64,7 +64,6 @@ app.routes.group(routes => {
 Middleware in groups cascade downward, so if you nest groups each group will inherit middleware from it’s ancestors and apply them all contained routes:
 
 ```js
-
 app.routes.group(routes => {
 	routes.use(someMiddleware)
 	routes.get('hello')
