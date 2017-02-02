@@ -42,8 +42,10 @@ export class Router {
 		this.router.param('__middlewareWorkaround', (req, res, next) => {
 			req.route.dispatchMiddleware(req, res, next)
 		})
+	}
 
-		const bodyParsersConfig = app.config.get('routing.body_parsers') || { }
+	boot() {
+		const bodyParsersConfig = this.app.config.get('routing.body_parsers') || { }
 		const parsers = bodyParsersConfig.default || [ 'json', 'form' ]
 		const options = bodyParsersConfig.options || { }
 

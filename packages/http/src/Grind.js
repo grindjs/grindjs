@@ -5,6 +5,7 @@ import './ProviderCollection'
 import './UrlGenerator'
 
 import './Routing/Router'
+import './Routing/RoutingProvider'
 
 import './Routing/Extensions/RouteExtension'
 import './Routing/Extensions/ResponseExtension'
@@ -41,6 +42,9 @@ export class Grind {
 		const urlGeneratorClass = parameters.urlGeneratorClass || UrlGenerator
 		const pathsClass = parameters.pathsClass || Paths
 
+		const routingProvider = parameters.routingProvider || RoutingProvider
+		routingProvider.priority = RoutingProvider.priority
+
 		const parent = module.parent.parent === null ? module.parent : (
 			module.parent.parent.parent === null ? module.parent.parent : module.parent.parent.parent
 		)
@@ -49,7 +53,9 @@ export class Grind {
 		this.config = new configClass(this)
 		this.routes = new routerClass(this)
 		this.errorHandler = new errorHandlerClass(this)
+
 		this.providers = new ProviderCollection
+		this.providers.push(routingProvider)
 
 		this.debug = this.config.get('app.debug', this.env() === 'local')
 		this.port = parameters.port || process.env.NODE_PORT || this.config.get('app.port', 3000)
