@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-rm -fr lib
-mkdir -p lib lib/app lib/boot
-babel -s inline -d lib/app/ app/ --copy-files
-babel -s inline -d lib/boot/ boot/ --copy-files

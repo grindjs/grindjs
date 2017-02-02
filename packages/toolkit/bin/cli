@@ -6,4 +6,12 @@ popd > /dev/null
 
 source ${0%/*}/.init
 
-IN_CLI=true CLI_BIN="$CLI_BIN" exec babel-node boot/Cli.js "$@"
+VERSION=$(node -v)
+VERSION=$(echo ${VERSION#*v} | cut -d. -f1)
+
+FLAGS=""
+if [ "$VERSION" -gt "6" ]; then
+	FLAGS="--harmony-async-await"
+fi
+
+IN_CLI=true CLI_BIN="$CLI_BIN" exec babel-node $FLAGS boot/Cli.js "$@"

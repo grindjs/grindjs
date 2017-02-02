@@ -1,7 +1,7 @@
-import {Command} from 'grind-cli'
-import {execFile} from 'child-process-promise'
+import { Command, InputArgument, InputOption } from 'grind-cli'
+import { execFile } from 'child-process-promise'
 
-import fs from 'fs-promise'
+import { FS } from 'grind-support'
 import path from 'path'
 import request from 'request-promise-native'
 
@@ -9,11 +9,33 @@ export class NewCommand extends Command {
 	name = 'new'
 	description = 'Create a new Grind application'
 	arguments = [ 'name' ]
-	options = {
-		type: 'API or Web. Defaults to web',
-		tag: 'Repository tag to use, defaults to most recent tag',
-		'skip-npm': 'If present, will not run npm install'
-	}
+
+	arguments = [
+		new InputArgument(
+			'name',
+			InputArgument.VALUE_OPTIONAL,
+			'The name of the project to create'
+		)
+	]
+
+	options = [
+		new InputOption(
+			'type',
+			InputOption.VALUE_OPTIONAL,
+			'API or Web.',
+			'web'
+		),
+		new InputOption(
+			'tag',
+			InputOption.VALUE_OPTIONAL,
+			'Repository tag to use, defaults to most recent tag.',
+		),
+		new InputOption(
+			'skip-npm',
+			InputOption.VALUE_NONE,
+			'If present, will not run npm install.'
+		)
+	]
 
 	async run() {
 		const type = this.option('type', 'web').toLowerCase()
@@ -26,7 +48,7 @@ export class NewCommand extends Command {
 			process.exit(1)
 		}
 
-		const exists = await fs.exists(target)
+		const exists = await FS.exists(target)
 
 		if(exists) {
 			Log.error('Target directory already exists')
@@ -47,7 +69,7 @@ export class NewCommand extends Command {
 			tag = tags[0].name
 		}
 
-		await fs.mkdirs(target)
+		await FS.mkdirs(target)
 
 		this.comment(`Cloning ${repository}@${tag}`)
 		await this.exec('git', [
@@ -60,13 +82,13 @@ export class NewCommand extends Command {
 
 		process.chdir(target)
 
-		const packageContents = await fs.readFile('package.json')
+		const packageContents = await FS.readFile('package.json')
 		const packageJson = JSON.parse(packageContents)
 		packageJson.version = '0.0.1'
 		packageJson.name = path.basename(target)
 
-		await fs.remove('.git')
-		await fs.writeFile('package.json', JSON.stringify(packageJson, null, '  '))
+		await FS.remove('.git')
+		await FS.writeFile('package.json', JSON.stringify(packageJson, null, '  '))
 
 		if(!skipNpm) {
 			Log.comment('Installing NPM')
@@ -85,8 +107,8 @@ export class NewCommand extends Command {
 	}
 
 	async modifyFile(pathname, callback) {
-		const contents = await fs.readFile(pathname)
-		await fs.writeFile(pathname, callback(contents))
+		const contents = await FS.readFile(pathname)
+		await FS.writeFile(pathname, callback(contents))
 	}
 
 }

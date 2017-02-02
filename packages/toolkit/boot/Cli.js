@@ -1,4 +1,5 @@
-import {CliProvider} from 'grind-cli'
+import 'babel-polyfill'
+import { CliProvider } from 'grind-cli'
 import 'App/Providers/CommandsProvider'
 
 const app = require('App/Bootstrap')

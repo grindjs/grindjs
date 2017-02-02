@@ -4,8 +4,15 @@ This is the cli installer for Grind.
 
 ## Installation
 
+### npm
+
 ```bash
 npm install -g grind-installer
+```
+
+### yarn
+```bash
+yarn install -g grind-installer
 ```
 
 ## Usage
