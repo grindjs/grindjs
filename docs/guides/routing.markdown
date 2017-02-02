@@ -117,15 +117,7 @@ You can also bind parameters to a function to transform the value, before your a
 Using parameter bindings, we can simplify this:
 ```js
 app.routes.pattern('user', '[0-9]+')
-app.routes.bind('user', (value, resolve, reject) => {
-	User.find(value).then(model => {
-		if(!model) {
-			throw NotFoundError
-		}
-
-		return resolve(model)
-	}).catch(err => reject(err))
-})
+app.routes.bind('user', value => User.findOrFail(value))
 
 app.routes.get('users/:user/profile', (req, res) => {
 	res.send(`Show ${req.params.user.name}`)
@@ -137,6 +129,26 @@ app.routes.get('users/:user/message', (req, res) => {
 ```
 
 Now the actions of the user routes can safely assume it will have the user object, as they will never be called if the user parameter doesn’t bind.
+
+#### Parameter Bindings without Promises
+
+If you need to bind with regular callbacks and not use promises, your callback is invoked with additional `resolve` and `reject` parameters:
+
+```js
+app.routes.bind('user', (value, resolve, reject) => {
+	User.find(value, (err, model) => {
+		if(!err && !model) {
+			err = new NotFoundError
+		}
+
+		if(err) {
+			return reject(new NotFoundError)
+		}
+
+		resolve(model)
+	})
+})
+```
 
 ## Named Routes
 Once you’ve defined a route, you can also name them for convenient referencing when generating URLs:
