@@ -20,7 +20,7 @@ export class NewCommand extends Command {
 
 	options = [
 		new InputOption(
-			'type',
+			'template',
 			InputOption.VALUE_OPTIONAL,
 			'API or Web.',
 			'web'
@@ -43,12 +43,12 @@ export class NewCommand extends Command {
 	]
 
 	async run() {
-		const type = this.option('type', 'web').trim().toLowerCase()
+		const type = this.option('template', 'web').trim().toLowerCase()
 		const repository = `grindjs/example-${type}`
 		const target = this.argument('name')
 
 		if(type !== 'web' && type !== 'api') {
-			this.error('Invalid type option, only web & api are valid')
+			this.error('Invalid template option, only web & api are supported.')
 			process.exit(1)
 		}
 

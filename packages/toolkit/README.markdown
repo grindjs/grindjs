@@ -18,7 +18,15 @@ yarn install -g grind-installer
 ## Usage
 
 ```bash
-grind new my-new-grind-project # default type is web
-grind new my-new-grind-project --type=api
-grind new my-new-grind-project --skip-npm # won’t run npm install
+Usage:
+  grind new [options] <name?>
+
+Arguments:
+  name                     The name of the project to create
+
+Options:
+  --template[=TEMPLATE]    API or Web. [default: ‘web’]
+  --tag[=TAG]              Repository tag to use, defaults to most recent tag.
+  --skip-packages          If present, packages will not be installed.
+  --prefer-npm             yarn will be used by default if it’s installed.  Pass this to use npm.
 ```
