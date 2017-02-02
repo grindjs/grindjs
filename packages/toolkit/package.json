@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "as-type": "^1.0.0",
-    "child-process-promise": "^2.1.0",
     "grind-cli": "^0.6.0",
     "grind-framework": "^0.6.2",
     "request": "^2.74.0",

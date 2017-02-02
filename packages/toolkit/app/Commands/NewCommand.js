@@ -1,9 +1,9 @@
 import { Command, InputArgument, InputOption } from 'grind-cli'
-import { execFile } from 'child-process-promise'
 
 import { FS } from 'grind-support'
 import path from 'path'
 import request from 'request-promise-native'
+import { execFile } from 'child_process'
 
 export class NewCommand extends Command {
 	name = 'new'
@@ -31,17 +31,21 @@ export class NewCommand extends Command {
 			'Repository tag to use, defaults to most recent tag.',
 		),
 		new InputOption(
-			'skip-npm',
+			'skip-packages',
 			InputOption.VALUE_NONE,
-			'If present, will not run npm install.'
+			'If present, packages will not be installed.'
+		),
+		new InputOption(
+			'prefer-npm',
+			InputOption.VALUE_NONE,
+			'yarn will be used by default if it’s installed.  Pass this to use npm.'
 		)
 	]
 
 	async run() {
-		const type = this.option('type', 'web').toLowerCase()
+		const type = this.option('type', 'web').trim().toLowerCase()
 		const repository = `grindjs/example-${type}`
 		const target = this.argument('name')
-		const skipNpm = process.argv.indexOf('--skip-npm') >= 0
 
 		if(type !== 'web' && type !== 'api') {
 			this.error('Invalid type option, only web & api are valid')
@@ -90,16 +94,42 @@ export class NewCommand extends Command {
 		await FS.remove('.git')
 		await FS.writeFile('package.json', JSON.stringify(packageJson, null, '  '))
 
-		if(!skipNpm) {
-			Log.comment('Installing NPM')
-			await this.exec('npm', [ 'install' ])
+		if(!this.option('skip-packages')) {
+			Log.comment('Installing Packages')
+
+			const hasYarn = !this.option('prefer-npm') && await this.execFile('bash', [
+				'type', 'yarn'
+			]).then(() => true).catch(() => false)
+
+			if(hasYarn) {
+				await this.exec('yarn', [ 'install' ])
+			} else {
+				await this.exec('npm', [ 'install' ])
+			}
 		}
 
 		this.comment('Done')
 	}
 
+	execFile(command, args) {
+		return new Promise((resolve, reject) => {
+			execFile(command, args, (err, stdout, stderr) => {
+				if(err) {
+					err.stdout = stdout
+					err.stderr = stderr
+					return reject(err)
+				}
+
+				resolve({
+					stdout: stdout,
+					stderr: stderr
+				})
+			})
+		})
+	}
+
 	exec(command, args) {
-		return execFile(command, args).catch(err => {
+		return this.execFile(command, args).catch(err => {
 			this.error('Error:')
 			this.error('-- %s', err.stderr.trim().replace(/\n/g, `\n-- `))
 			process.exit(1)
