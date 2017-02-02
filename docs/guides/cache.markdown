@@ -10,7 +10,7 @@ You can access cache via `app.cache`.
 To retrieve a value from the cache, call `cache.get(key)`.  It will return a promise that will resolve with the value, or null if it doesn’t exist.
 
 ```js
-app.cache.get(`user-{id}`).then(user => {
+app.cache.get(`user-${id}`).then(user => {
 	if(user) {
 		Log.comment('Loaded cached user', user)
 	} else {
@@ -23,7 +23,7 @@ app.cache.get(`user-{id}`).then(user => {
 To cache a value in the store, call `cache.set(key, value)`.  It will return a promise that resolves once it’s been stored.
 
 ```js
-app.cache.set(`user-{id}`, user, { ttl: 86400 }).then(() => {
+app.cache.set(`user-${id}`, user, { ttl: 86400 }).then(() => {
 	Log.comment('User has been stored')
 })
 ```
@@ -34,7 +34,7 @@ The third `{ ttl }` parameter is optional, if you don’t pass it, it uses the d
 Cache also has a convenient `cache.wrap(key, retreiver)` function that will first try to read the key from the cache, and if it’s missing, call the retreiver and store it.
 
 ```js
-app.cache.wrap(`user-{id}`, () => User.findById(id), { ttl: 86400 }).then(user => {
+app.cache.wrap(`user-${id}`, () => User.findById(id), { ttl: 86400 }).then(user => {
 	Log.comment('Loaded user', user)
 })
 ```
@@ -45,7 +45,7 @@ The third `{ ttl }` parameter is optional, if you don’t pass it, it uses the d
 To remove a cached value from the store, call `cache.del(key)`.  It will return a promise that resolves once it’s been removed.
 
 ```js
-app.cache.del(`user-{id}`).then(() => {
+app.cache.del(`user-${id}`).then(() => {
 	Log.comment('User has been purged')
 })
 ```
@@ -54,7 +54,8 @@ app.cache.del(`user-{id}`).then(() => {
 By default, only in-memory is supported.  If you wish to persist cache (or share between other instances), you’ll want to install a different engine.
 
 cache-manager supports a variety of engines, including fs, redis and memcache:
-```shell
+
+```bash
 npm install cache-manager-redis --save
 npm install cache-manager-mongodb --save
 npm install cache-manager-mongoose --save
