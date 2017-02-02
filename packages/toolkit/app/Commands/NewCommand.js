@@ -2,7 +2,7 @@ import { Command, InputArgument, InputOption } from 'grind-cli'
 
 import { FS } from 'grind-support'
 import path from 'path'
-import request from 'request-promise-native'
+import request from 'request'
 import { execFile } from 'child_process'
 
 export class NewCommand extends Command {
@@ -65,9 +65,17 @@ export class NewCommand extends Command {
 
 		if(tag.isNil) {
 			this.comment('Finding latest tag')
-			const tags = await request(`https://api.github.com/repos/${repository}/tags`, {
-				json: true,
-				headers: { 'User-Agent': 'grind/installer' }
+			const tags = await new Promise((resolve, reject) => {
+				request(`https://api.github.com/repos/${repository}/tags`, {
+					json: true,
+					headers: { 'User-Agent': 'grind/installer' }
+				}, (err, result) => {
+					if(!err.isNil) {
+						return reject(err)
+					}
+
+					resolve(result.body)
+				})
 			})
 
 			tag = tags[0].name
