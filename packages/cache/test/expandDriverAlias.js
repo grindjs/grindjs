@@ -1,5 +1,5 @@
 import test from 'ava'
-import { expandDriverAlias } from '../src/Config'
+import { expandDriverAlias } from '../src/ConfigBuilder'
 
 test('memcache', t => {
 	t.is(expandDriverAlias('MeMcaChe'), 'cache-manager-memcached-store')

@@ -1,7 +1,6 @@
-import './Config'
-
+import './ConfigBuilder'
 import cacheManager from 'cache-manager'
 
 export function Cache(config, app) {
-	return cacheManager.caching(Config(config, app))
+	return cacheManager.caching(ConfigBuilder(config, app))
 }

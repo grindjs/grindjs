@@ -1,4 +1,15 @@
 import './CacheProvider'
-import './Config'
+import './ConfigBuilder'
 
-export { CacheProvider, Config }
+function Config(...args) {
+	Log.error('WARNING: Config has been renamed to ConfigBuilder and will be removed in 0.7')
+	return ConfigBuilder(...args)
+}
+
+export {
+	CacheProvider,
+	ConfigBuilder,
+
+	// Legacy
+	Config
+}

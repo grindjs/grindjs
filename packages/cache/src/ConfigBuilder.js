@@ -1,3 +1,27 @@
+export function ConfigBuilder(store, app) {
+	if(typeof store === 'string') {
+		store = app.config.get(`cache.stores.${store}`)
+	}
+
+	if(store.isNil) {
+		return null
+	}
+
+	const driver = expandDriverAlias(store.driver || null)
+	delete store.driver
+
+	const config = Object.assign({ }, store)
+
+	if(!config.path.isNil) {
+		config.path = app.paths.base(config.path)
+	}
+
+	return {
+		store: driver.isNil ? 'memory' : require(driver),
+		options: config
+	}
+}
+
 export function expandDriverAlias(alias) {
 	if(alias.isNil) {
 		return null
@@ -28,29 +52,5 @@ export function expandDriverAlias(alias) {
 			return null
 		default:
 			return alias
-	}
-}
-
-export function Config(store, app) {
-	if(typeof store === 'string') {
-		store = app.config.get(`cache.stores.${store}`)
-	}
-
-	if(store.isNil) {
-		return null
-	}
-
-	const driver = expandDriverAlias(store.driver || null)
-	delete store.driver
-
-	const config = Object.assign({ }, store)
-
-	if(!config.path.isNil) {
-		config.path = app.paths.base(config.path)
-	}
-
-	return {
-		store: driver.isNil ? 'memory' : require(driver),
-		options: config
 	}
 }
