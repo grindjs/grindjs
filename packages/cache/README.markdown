@@ -1,56 +1,21 @@
-# grind-cache
+<p align="center"><a href="https://grind.rocks"><img src="https://s3.amazonaws.com/assets.grind.rocks/docs/img/grind-cache.svg" alt="Grind Cache" /></a></p>
 
-`grind-cache` is a thin wrapper around [node-cache-manager](https://github.com/BryanDonovan/node-cache-manager/) for simple integration with [Grind](https://github.com/grindjs/framework).
+<p align="center">
+<a href="https://travis-ci.org/grindjs/cache"><img src="https://img.shields.io/travis/grindjs/cache.svg" alt="Build Status"></a>
+<a href="https://www.npmjs.com/package/grind-cache"><img src="https://img.shields.io/npm/dt/grind-cache.svg" alt="Total Downloads"></a>
+<a href="https://www.npmjs.com/package/grind-cache"><img src="https://img.shields.io/npm/v/grind-cache.svg" alt="Latest Version"></a>
+<a href="https:/grind.chat"><img src="https://grind.chat/badge.svg" alt="Slack"></a>
+<a href="https://www.npmjs.com/package/grind-cache"><img src="https://img.shields.io/npm/l/grind-cache.svg" alt="License"></a>
+</p>
 
-## Installation
+# Grind Cache
 
-Add `grind-cache` to your project:
+Grind Cache is a thin wrapper around [node-cache-manager](https://github.com/BryanDonovan/node-cache-manager/) for simple integration with [Grind](https://github.com/grindjs/framework). Once setup, you’ll have a quick and easy to use key-value store in Grind that you can access via `app.cache`.
 
-```bash
-npm install grind-cache --save
-```
+## Documentation
 
-Next, if needed, you should the cache engine(s) you need.  node-cache-manager [supports](https://github.com/BryanDonovan/node-cache-manager#store-engines) a variety of different engines:
+Full documentation for Grind Cache is available on the [Grind website](https://grind.rocks/docs/guides/cache).
 
-```bash
-npm install cache-manager-redis --save
-npm install cache-manager-mongodb --save
-npm install cache-manager-mongoose --save
-npm install cache-manager-fs --save
-npm install cache-manager-fs-binary --save
-npm install cache-manager-memcached-store --save
-```
+## License
 
-## Usage
-
-To use `grind-cache` you’ll need to add it to your `Grind` providers:
-
-```js
-import Grind from 'grind-framework'
-import {CacheProvider} from 'grind-cache'
-
-const app = new Grind()
-app.providers.push(CacheProvider)
-```
-
-From there, you can access the store via `app.cache`.
-
-## Config
-
-`grind-cache` creates it’s node-cache-manager instance by leveraging `Grind`’s config system. Here’s a quick example using Redis:
-
-```json
-{
-	"default": "redis",
-	"connections": {
-		"redis": {
-			"driver": "redis",
-			"host": "localhost",
-			"port": 6379,
-			"ttl": 86400
-		}
-	}
-}
-```
-
-You should place this in `config/cache.json` in your Grind project.
+Grind was created by [Shaun Harrison](https://github.com/shnhrrsn) and is made available under the [MIT license](LICENSE).
