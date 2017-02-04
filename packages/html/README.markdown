@@ -1,32 +1,21 @@
-# grind-html
+<p align="center"><a href="https://grind.rocks"><img src="https://s3.amazonaws.com/assets.grind.rocks/docs/img/grind-html.svg" alt="Grind HTML" /></a></p>
 
-`grind-html` provides an HTML and Form builder for [Grind](https://github.com/grindjs/framework).  The original source for `HtmlBuilder` and `FormBuilder` has been ported from [LaravelCollective/html](https://github.com/LaravelCollective/html).
+<p align="center">
+<a href="https://travis-ci.org/grindjs/html"><img src="https://img.shields.io/travis/grindjs/html.svg" alt="Build Status"></a>
+<a href="https://www.npmjs.com/package/grind-html"><img src="https://img.shields.io/npm/dt/grind-html.svg" alt="Total Downloads"></a>
+<a href="https://www.npmjs.com/package/grind-html"><img src="https://img.shields.io/npm/v/grind-html.svg" alt="Latest Version"></a>
+<a href="https:/grind.chat"><img src="https://grind.chat/badge.svg" alt="Slack"></a>
+<a href="https://www.npmjs.com/package/grind-html"><img src="https://img.shields.io/npm/l/grind-html.svg" alt="License"></a>
+</p>
 
-## Installation
+# Grind HTML
 
-Add `grind-html` to your project:
+When building frontend apps, Grind has a handy HTML provider that provides html and form builder objects to your views.  The original source for `HtmlBuilder` and `FormBuilder` has been ported from [LaravelCollective/html](https://github.com/LaravelCollective/html).
 
-```bash
-npm install grind-html --save
-```
+## Documentation
 
-## Usage
+Full documentation for Grind HTML is available on the [Grind website](https://grind.rocks/docs/guides/html-builders).
 
-To use `grind-html` you’ll need to add it to your Grind providers:
+## License
 
-```js
-import Grind from 'grind-framework'
-import { HtmlProvider } from 'grind-html'
-
-const app = new Grind
-app.providers.push(HtmlProvider)
-```
-
-`grind-html` is intended to be used with [`grind-view`](https://github.com/grindjs/view):
-
-```twig
-{{ html.linkRoute('route.name', 'Some Title', { param: 'a' }) }}
-{{ html.style('css/main.scss')) }}
-```
-
-The `HtmlBuilder` and `FormBuilder` instances are also available via `app.html` and `app.form` respectively.
+Grind was created by [Shaun Harrison](https://github.com/shnhrrsn) and is made available under the [MIT license](LICENSE).
