@@ -1,10 +1,10 @@
 import test from 'ava'
-import { Cache } from '../src/Cache'
+import { CacheBuilder } from '../src/CacheBuilder'
 import { Grind } from './helpers/Grind'
 
 function store() {
 	const app = new Grind
-	const cache = Cache('database', app)
+	const cache = CacheBuilder('database', app)
 
 	return cache.store.db.schema.createTable('cache', table => {
 		table.string('key').unique()
