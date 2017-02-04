@@ -1,51 +1,21 @@
-# grind-view
+<p align="center"><a href="https://grind.rocks"><img src="https://s3.amazonaws.com/assets.grind.rocks/docs/img/grind-view.svg" alt="Grind View" /></a></p>
 
-`grind-view` provides tempating for [Grind](https://github.com/grindjs/framework), powered by [Nunjucks](http://mozilla.github.io/nunjucks/).
+<p align="center">
+<a href="https://travis-ci.org/grindjs/view"><img src="https://img.shields.io/travis/grindjs/view.svg" alt="Build Status"></a>
+<a href="https://www.npmjs.com/package/grind-view"><img src="https://img.shields.io/npm/dt/grind-view.svg" alt="Total Downloads"></a>
+<a href="https://www.npmjs.com/package/grind-view"><img src="https://img.shields.io/npm/v/grind-view.svg" alt="Latest Version"></a>
+<a href="https:/grind.chat"><img src="https://grind.chat/badge.svg" alt="Slack"></a>
+<a href="https://www.npmjs.com/package/grind-view"><img src="https://img.shields.io/npm/l/grind-view.svg" alt="License"></a>
+</p>
 
-## Installation
+# Grind View
 
-Add `grind-view` to your project:
+Grind View provides integrated templating in [Grind](https://github.com/grindjs/framework) by connecting it with [Nunjucks](http://mozilla.github.io/nunjucks/) and adding a few niceties along the way.  Once setup, you’ll be able to quickly serve views via `res.render()`.
 
-```bash
-npm install grind-view --save
-```
+## Documentation
 
-## Usage
+Full documentation for Grind View is available on the [Grind website](https://grind.rocks/docs/guides/templates).
 
-To use `grind-view` you’ll need to add it to your Grind providers:
+## License
 
-```js
-import Grind from 'grind-framework'
-import { ViewProvider } from 'grind-view'
-
-const app = new Grind()
-app.providers.push(ViewProvider)
-```
-
-The view provider will configure Nunjucks with Grind and Express, so you can interact with views through the [Express Render API](http://expressjs.com/en/4x/api.html#res.render):
-
-```js
-res.render('template.njk', { name: 'Grind' })
-```
-
-## View location
-
-By default, `grind-view` tells Nunjucks to look for views in `resources/views`.  You can change this location using the config option below
-
-## Config
-
-If you wish to override the default settings, you should place the following in `config/view.json` in your Grind project.
-
-```json
-{
-	"path": "resources/views",
-	"watch": null,
-	"disable_cache": false,
-	"autoescape": true,
-	"trim_blocks": false,
-	"lstrip_blocks": false,
-	"throw_on_undefined": false
-}
-```
-
-___NOTE___: If `watch` is set to null or not defined, it will default to true when local and false in production.
+Grind was created by [Shaun Harrison](https://github.com/shnhrrsn) and is made available under the [MIT license](LICENSE).
