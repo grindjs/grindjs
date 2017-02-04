@@ -1,6 +1,6 @@
 import { AbortError, Command, InputArgument, InputOption, StubCompiler } from 'grind-cli'
+import { Inflect } from 'grind-support'
 
-import Inflect from 'i'
 import Path from 'path'
 
 export class MakeJobCommand extends Command {
@@ -18,13 +18,12 @@ export class MakeJobCommand extends Command {
 	run() {
 		let name = this.argument('name', '').trim()
 		let type = this.option('type', '').trim()
-		const inflect = Inflect()
 
 		if(this.containsOption('type')) {
 			type = this.option('type')
 
 			if(name.isNil) {
-				name = `${inflect.classify(type)}Job`
+				name = `${Inflect.classify(type)}Job`
 			}
 		}
 
@@ -33,9 +32,9 @@ export class MakeJobCommand extends Command {
 		}
 
 		if(type.length === 0) {
-			type = inflect.underscore(name).replace(/_/g, '-')
+			type = Inflect.underscore(name).replace(/_/g, '-')
 		} else if(name.length === 0) {
-			name = inflect.classify(type.replace(/-/g, '_'))
+			name = Inflect.classify(type.replace(/-/g, '_'))
 		}
 
 		if(!type.endsWith('-job')) {

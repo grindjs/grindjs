@@ -16,7 +16,6 @@
     "queue"
   ],
   "dependencies": {
-    "i": "0.3.x",
     "kue": "^0.11.1"
   },
   "peerDependencies": {
