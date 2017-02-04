@@ -6,10 +6,6 @@ import Path from 'path'
 export class MakeJobCommand extends Command {
 	name = 'make:job'
 	description = 'Create a job class'
-	arguments = [ 'name?' ]
-	options = {
-		type: 'Name of the type of job to create'
-	}
 
 	arguments = [
 		new InputArgument('name', InputArgument.VALUE_OPTIONAL, 'The name of the job.')

@@ -1,10 +1,12 @@
-import { Command } from 'grind-cli'
+import { Command, InputOption } from 'grind-cli'
 
 export class QueueWorkCommand extends Command {
 	name = 'queue:work'
 	description = 'Process jobs in the queue'
-	arguments = [ ]
-	options = { job: 'Restrict the name of job(s) to process' }
+
+	options = [
+		new InputOption('job', InputOption.VALUE_OPTIONAL, 'Restrict the name of job(s) to process')
+	]
 
 	ready() {
 		const shutdown = () => {
