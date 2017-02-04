@@ -32,7 +32,7 @@ Refer to the table below determine which dependencies you’ll need:
 | Babel | `npm install --save-dev babelify browserify` | Provides support for using ES6/7 features in the browser |
 | SCSS | `npm install --save-dev node-sass` | Provides SCSS compilation |
 | Javascript | `npm install --save-dev uglify-js` | Provides JS minificaiton |
-| CSS | `npm install --save-dev clean-css` | Provides CSS minification |
+| CSS | `npm install --save-dev clean-css autoprefixer` | Provides CSS minification and autoprefixing |
 | SVG | `npm install --save-dev svgo` | Provides SVG optimization |
 
 > {tip} Don’t worry if you forget to setup a dependency, Assets will let you know what to install if you try to use a compiler that doesn’t have it’s dependencies installed.
