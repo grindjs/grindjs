@@ -1,9 +1,28 @@
+<p align="center"><a href="https://grind.rocks"><img src="https://s3.amazonaws.com/assets.grind.rocks/docs/img/grind-framework.svg" alt="Grind Framework" /></a></p>
+
+<p align="center">
+<a href="https://travis-ci.org/grindjs/framework"><img src="https://img.shields.io/travis/grindjs/framework.svg" alt="Build Status"></a>
+<a href="https://www.npmjs.com/package/grind-framework"><img src="https://img.shields.io/npm/dt/grind-framework.svg" alt="Total Downloads"></a>
+<a href="https://www.npmjs.com/package/grind-framework"><img src="https://img.shields.io/npm/v/grind-framework.svg" alt="Latest Version"></a>
+<a href="https:/grind.chat"><img src="https://grind.chat/badge.svg" alt="Slack"></a>
+<a href="https://www.npmjs.com/package/grind-framework"><img src="https://img.shields.io/npm/l/grind-framework.svg" alt="License"></a>
+</p>
+
 # Grind Framework
 
-[![Build Status](https://travis-ci.org/grindjs/framework.svg?branch=master)](https://travis-ci.org/grindjs/framework)
+Grind is an opinionated Node web framework that utilizes popular packages in an easy to use framework to provide a solid foundation for you to build your apps on, without reinventing the wheel.
 
-This is the main framework for Grind.  For more information on how the use Grind check out:
+## Documentation
 
-* [Official Website & Documentation](https://grind.rocks)
-* [Web Example Project](https://github.com/grindjs/example-web)
-* [API Example Project](https://github.com/grindjs/example-api)
+Full documentation for Grind is available on the [Grind website](https://grind.rocks/).
+
+### Additional Resources
+
+* [Example Web Project](https://github.com/grindjs/example-web)
+* [Example API Project](https://github.com/grindjs/example-api)
+* [Source for the Grind website](https://github.com/grindjs/site)
+* [Grind Slack](https://grind.chat)
+
+## License
+
+Grind was created by [Shaun Harrison](https://github.com/shnhrrsn) and is made available under the [MIT license](LICENSE).
