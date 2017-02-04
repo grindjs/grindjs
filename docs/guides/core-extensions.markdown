@@ -21,11 +21,11 @@ Here’s a list of available overrides:
 
 | Class Name | Constructor Key | Reference |
 | ---------- | --------------- | --------- |
-| Router | routerClass | [github.com/grindjs/framework/blob/master/src/Router.js](https://github.com/grindjs/framework/blob/master/src/Router.js) |
-| ErrorHandler | errorHandlerClass | [github.com/grindjs/framework/blob/master/src/ErrorHandler.js](https://github.com/grindjs/framework/blob/master/src/ErrorHandler.js) |
-| Config | configClass | [github.com/grindjs/framework/blob/master/src/Config.js](https://github.com/grindjs/framework/blob/master/src/Config.js) |
-| UrlGenerator | urlGeneratorClass | [github.com/grindjs/framework/blob/master/src/UrlGenerator.js](https://github.com/grindjs/framework/blob/master/src/UrlGenerator.js) |
-| Paths | pathsClass | [github.com/grindjs/framework/blob/master/src/Paths.js](https://github.com/grindjs/framework/blob/master/src/Paths.js) |
+| `Router` | `routerClass` | [Router.js](https://github.com/grindjs/framework/blob/master/src/Router.js) |
+| `ErrorHandler` | `errorHandlerClass` | [ErrorHandler.js](https://github.com/grindjs/framework/blob/master/src/ErrorHandler.js) |
+| `Config` | `configClass` | [Config.js](https://github.com/grindjs/framework/blob/master/src/Config.js) |
+| `UrlGenerator` | `urlGeneratorClass` | [UrlGenerator.js](https://github.com/grindjs/framework/blob/master/src/UrlGenerator.js) |
+| `Paths` | `pathsClass` | [Paths.js](https://github.com/grindjs/framework/blob/master/src/Paths.js) |
 
 `grind-framework` exports all of the above classes for you to subclass and extend.
 

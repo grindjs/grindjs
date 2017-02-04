@@ -49,16 +49,16 @@ Provider priority is how we avoid loading one provider that depends on another a
 
 Here’s a list of the priorities for Grind’s standard providers:
 
-Grind Provider | Priority
--------------- | --------
-CliProvider | 100000
-QueueProvider | 60000
-CacheProvider | 50000
-DatabaseProvider | 50000
-OrmProvider | 40000
-ViewProvider | 30000
-HtmlProvider | 20000
-AssetsProvider | 10000
+| Grind Provider     | Priority |
+| ------------------ | -------- |
+| `CliProvider`      | 100000   |
+| `QueueProvider`    | 60000    |
+| `CacheProvider`    | 50000    |
+| `DatabaseProvider` | 50000    |
+| `OrmProvider`      | 40000    |
+| `ViewProvider`     | 30000    |
+| `HtmlProvider`     | 20000    |
+| `AssetsProvider`   | 10000    |
 
 In the previous `ViewExtensionProvider` example, since we haven’t explicitly set a priority, we can be assured that `ViewProvider` is loaded before it and `app.view` will already be resolved.
 
