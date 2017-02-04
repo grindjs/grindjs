@@ -1,4 +1,4 @@
-function expandDriverAlias(alias) {
+export function expandDriverAlias(alias) {
 	if(alias.isNil) {
 		return null
 	}
