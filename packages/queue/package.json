@@ -24,6 +24,7 @@
     "grind-framework": "^0.6.0"
   },
   "devDependencies": {
+    "ava": "^0.18.1",
     "babel-cli": ">=6.7 <=7.0",
     "babel-eslint": "^6.1.1",
     "babel-preset-grind": "^0.6.0",
@@ -35,7 +36,14 @@
     "node": ">=6.9"
   },
   "scripts": {
-    "prepublish": "./.build",
-    "lint": "eslint src"
+    "prepublish": "bin/build",
+    "lint": "eslint src",
+    "test": "bin/ava --verbose"
+  },
+  "ava": {
+    "require": [
+      "babel-register"
+    ],
+    "babel": "inherit"
   }
 }
