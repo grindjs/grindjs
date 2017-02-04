@@ -1,4 +1,5 @@
 import './Job'
+import './ConfigBuilder'
 import './QueryBuilder'
 
 import Kue from 'kue'
@@ -9,20 +10,8 @@ export class Queue {
 	jobs = { }
 
 	constructor(app, config) {
-		if(config.isNil) {
-			config = app.config.get('queue.default')
-		}
-
-		if(typeof config === 'string') {
-			config = app.config.get(`queue.connections.${config}`)
-
-			if(config.isNil) {
-				throw new Error('Invalid config')
-			}
-		}
-
 		this.app = app
-		this.kue = Kue.createQueue(config)
+		this.kue = new Kue(ConfigBuilder(config, app))
 	}
 
 	register(jobClass) {

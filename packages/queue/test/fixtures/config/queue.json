@@ -1,0 +1,27 @@
+{
+
+	"default": "redis",
+
+	"connections": {
+
+		"redis": {
+			"prefix": "q",
+			"connection": {
+				"host": "localhost",
+				"port": 6379
+			}
+		},
+
+		"redis-default": {
+			"prefix": "q",
+			"connection": null
+		},
+
+		"redis-auth": {
+			"prefix": "q",
+			"connection": "auth"
+		}
+
+	}
+
+}
