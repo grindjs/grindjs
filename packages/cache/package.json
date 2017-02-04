@@ -30,7 +30,10 @@
     "eslint": "^3.3.1",
     "eslint-config-grind": "^2.0.0",
     "eslint-plugin-import-auto-name": "^1.0.3",
-    "grind-framework": "^0.6.2"
+    "grind-cli": "^0.6.0",
+    "grind-db": "^0.6.0",
+    "grind-framework": "^0.6.2",
+    "sqlite3": "^3.1.8"
   },
   "engines": {
     "node": ">=6.9"

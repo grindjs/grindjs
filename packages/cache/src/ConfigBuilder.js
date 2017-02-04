@@ -18,6 +18,8 @@ export function ConfigBuilder(store, app, returnStoreName = false) {
 
 	if(returnStoreName) {
 		result.store = driver
+	} else if(driver === 'database') {
+		result.store = require('./DatabaseStore')
 	} else if(driver.isNil) {
 		result.store = 'memory'
 	} else {
@@ -33,6 +35,9 @@ export function expandDriverAlias(alias) {
 	}
 
 	switch(alias.toLowerCase()) {
+		case 'db':
+		case 'database':
+			return 'database'
 		case 'memcache':
 		case 'memcached':
 			return 'cache-manager-memcached-store'
@@ -61,11 +66,22 @@ export function expandDriverAlias(alias) {
 }
 
 export function expandStoreConfig(app, driver, config) {
+	switch(driver) {
+		case 'cache-manager-redis':
+			return expandRedisStoreConfig(app, driver, config)
+		case 'database':
+			return expandDatabaseStoreConfig(app, driver, config)
+	}
+
 	if(!config.path.isNil) {
 		config.path = app.paths.base(config.path)
 	}
 
-	if(driver !== 'cache-manager-redis' || config.connection === void 0) {
+	return config
+}
+
+function expandRedisStoreConfig(app, driver, config) {
+	if(config.connection === void 0) {
 		return config
 	}
 
@@ -99,6 +115,39 @@ export function expandStoreConfig(app, driver, config) {
 	if(config.port === void 0) {
 		config.port = 6379
 	}
+
+	return config
+}
+
+function expandDatabaseStoreConfig(app, driver, config) {
+	if(config.connection === void 0) {
+		return config
+	}
+
+	let connection = config.connection
+	delete config.connection
+
+	if(connection === null) {
+		connection = app.db
+	} else {
+		if(typeof connection === 'string') {
+			connection = app.config.get(`database.connections.${connection}`)
+		}
+
+		if(typeof connection === 'object') {
+			const DatabaseBuilder = require('grind-db').DatabaseBuilder
+			connection = DatabaseBuilder(connection, app)
+		} else {
+			connection = null
+		}
+	}
+
+	if(connection.isNil) {
+		return config
+	}
+
+	config = { ...config, connection }
+	delete config.driver
 
 	return config
 }

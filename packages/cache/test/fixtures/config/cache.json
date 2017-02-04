@@ -29,6 +29,29 @@
 			"driver": "redis",
 			"connection": "auth",
 			"ttl": 86400
+		},
+
+		"database": {
+			"driver": "database",
+			"connection": {
+				"driver": "sqlite3",
+				"filename": ":memory:",
+				"useNullAsDefault": true
+			},
+			"ttl": 86400
+		},
+
+		"database-default": {
+			"driver": "database",
+			"connection": null,
+			"ttl": 86400
+		},
+
+		"database-alt": {
+			"driver": "database",
+			"connection": "sqlite-alt",
+			"table": "alt",
+			"ttl": 86400
 		}
 
 	}

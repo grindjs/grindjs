@@ -3,7 +3,7 @@ import { ConfigBuilder } from '../src/ConfigBuilder'
 import { Grind } from './helpers/Grind'
 
 test('memory', t => {
-	const config = ConfigBuilder('memory', new Grind(), true)
+	const config = ConfigBuilder('memory', new Grind, true)
 
 	t.is(config.store, null)
 	t.is(config.options.max, 10000)
@@ -11,7 +11,7 @@ test('memory', t => {
 })
 
 test('redis', t => {
-	const config = ConfigBuilder('redis', new Grind(), true)
+	const config = ConfigBuilder('redis', new Grind, true)
 
 	t.is(config.store, 'cache-manager-redis')
 	t.is(config.options.host, 'localhost')
@@ -21,7 +21,7 @@ test('redis', t => {
 })
 
 test('redis-default', t => {
-	const config = ConfigBuilder('redis-default', new Grind(), true)
+	const config = ConfigBuilder('redis-default', new Grind, true)
 
 	t.is(config.store, 'cache-manager-redis')
 	t.is(config.options.host, 'test')
@@ -31,11 +31,46 @@ test('redis-default', t => {
 })
 
 test('redis-auth', t => {
-	const config = ConfigBuilder('redis-auth', new Grind(), true)
+	const config = ConfigBuilder('redis-auth', new Grind, true)
 
 	t.is(config.store, 'cache-manager-redis')
 	t.is(config.options.host, 'localhost')
 	t.is(config.options.auth_pass, 'test')
 	t.is(config.options.password, void 0)
+	t.is(config.options.ttl, 86400)
+})
+
+test('database', t => {
+	const config = ConfigBuilder('database', new Grind, true)
+	const connection = config.options.connection.client.config
+
+	t.is(config.store, 'database')
+	t.is(typeof config.options.connection, 'function')
+	t.is(connection.connection.filename, ':memory:')
+	t.is(config.options.ttl, 86400)
+})
+
+test('database-default', t => {
+	const app = new Grind
+	app.providers.push(require('grind-db').DatabaseProvider)
+
+	return app.boot().then(() => {
+		const config = ConfigBuilder('database-default', app, true)
+		const connection = config.options.connection.client.config
+
+		t.is(config.store, 'database')
+		t.is(typeof config.options.connection, 'function')
+		t.is(connection.connection.filename, './database/database.sqlite')
+		t.is(config.options.ttl, 86400)
+	})
+})
+
+test('database-alt', t => {
+	const config = ConfigBuilder('database-alt', new Grind, true)
+	const connection = config.options.connection.client.config
+
+	t.is(config.store, 'database')
+	t.is(typeof config.options.connection, 'function')
+	t.is(connection.connection.filename, './database/database-alt.sqlite')
 	t.is(config.options.ttl, 86400)
 })
