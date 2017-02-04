@@ -1,0 +1,36 @@
+{
+
+	"default": "memory",
+
+	"stores": {
+
+		"memory": {
+			"driver": "memory",
+			"max": 10000,
+			"ttl": 86400
+		},
+
+		"redis": {
+			"driver": "redis",
+			"connection": {
+				"host": "localhost",
+				"port": 6379,
+			},
+			"ttl": 86400
+		},
+
+		"redis-default": {
+			"driver": "redis",
+			"connection": null,
+			"ttl": 86400
+		},
+
+		"redis-auth": {
+			"driver": "redis",
+			"connection": "auth",
+			"ttl": 86400
+		}
+
+	}
+
+}

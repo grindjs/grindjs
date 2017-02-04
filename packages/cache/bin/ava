@@ -6,4 +6,4 @@ if [ "$VERSION" -gt "6" ]; then
 	FLAGS="--harmony-async-await"
 fi
 
-node $FLAGS node_modules/.bin/ava "$@"
+NODE_ENV=test node $FLAGS node_modules/.bin/ava "$@"

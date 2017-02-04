@@ -29,7 +29,8 @@
     "babel-preset-grind": "^0.6.0",
     "eslint": "^3.3.1",
     "eslint-config-grind": "^2.0.0",
-    "eslint-plugin-import-auto-name": "^1.0.3"
+    "eslint-plugin-import-auto-name": "^1.0.3",
+    "grind-framework": "^0.6.2"
   },
   "engines": {
     "node": ">=6.9"
@@ -37,7 +38,7 @@
   "scripts": {
     "prepublish": "bin/build",
     "lint": "eslint src",
-    "test": "bin/ava"
+    "test": "bin/ava --verbose"
   },
   "ava": {
     "require": [

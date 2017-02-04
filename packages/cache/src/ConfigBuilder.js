@@ -13,7 +13,7 @@ export function ConfigBuilder(store, app) {
 	delete store.driver
 
 	return {
-		store: driver.isNil ? 'memory' : require(driver),
+		store: process.env.NODE_ENV === 'test' ? driver : (driver.isNil ? 'memory' : require(driver)),
 		options: { ...expandStoreConfig(app, driver, store) }
 	}
 }
