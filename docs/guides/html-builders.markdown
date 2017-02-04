@@ -5,6 +5,23 @@ When building frontend apps, Grind has a handy [HTML provider](https://github.co
 
 [[toc]]
 
+## Installation
+First, add the `grind-html` package via your preferred package manager:
+
+```shell
+npm install --save grind-html
+```
+
+Next, you’ll need to add `HtmlProvider` to your app providers in `app/Boostrap.js`:
+
+```js
+import Grind from 'grind-framework'
+import { HtmlProvider } from 'grind-html'
+
+const app = new Grind()
+app.providers.push(HtmlProvider)
+```
+
 ## Opening a Form
 ```njk
 {{ form.open({ url: 'foo/bar' }) }}

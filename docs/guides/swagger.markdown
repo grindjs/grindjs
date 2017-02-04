@@ -9,6 +9,23 @@ By building Swagger docs directly into routes, it reduces time and effort involv
 
 [[toc]]
 
+## Installation
+First, add the `grind-swagger` package via your preferred package manager:
+
+```shell
+npm install --save grind-swagger
+```
+
+Next, you’ll need to add `SwaggerProvider` to your app providers in `app/Boostrap.js`:
+
+```js
+import Grind from 'grind-framework'
+import { SwaggerProvider } from 'grind-swagger'
+
+const app = new Grind()
+app.providers.push(SwaggerProvider)
+```
+
 ## Documenting Routes
 Grind will only expose routes that are explicitly documented for Swagger.
 

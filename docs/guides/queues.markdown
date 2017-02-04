@@ -3,13 +3,14 @@ Grind’s [Queue provider](https://github.com/grindjs/queue) is built on [Kue](h
 
 [[toc]]
 
-## Setting Up the Queue
-### Integrating with Grind
-To setup your Grind app to use Queue, simple install via NPM and register in bootstrap:
+## Installation
+First, add the `grind-queue` package via your preferred package manager:
 
 ```shell
 npm install --save grind-queue
 ```
+
+Next, you’ll need to add `QueueProvider` to your app providers in `app/Boostrap.js`:
 
 ```js
 import Grind from 'grind-framework'

@@ -5,6 +5,23 @@ Views should be stored in `/resources/views`.
 
 [[toc]]
 
+## Installation
+First, add the `grind-view` package via your preferred package manager:
+
+```shell
+npm install --save grind-view
+```
+
+Next, you’ll need to add `ViewProvider` to your app providers in `app/Boostrap.js`:
+
+```js
+import Grind from 'grind-framework'
+import { ViewProvider } from 'grind-view'
+
+const app = new Grind()
+app.providers.push(ViewProvider)
+```
+
 ## Sending a View Response
 You can send view responses through [Express’s `res.render()`](http://expressjs.com/en/api.html#res.render):
 

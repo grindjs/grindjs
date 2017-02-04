@@ -5,6 +5,25 @@ You can access cache via `app.cache`.
 
 [[toc]]
 
+## Installation
+First, add the `grind-cache` package via your preferred package manager:
+
+```shell
+npm install --save grind-cache
+```
+
+Next, you’ll need to add `CacheProvider` to your app providers in `app/Boostrap.js`:
+
+```js
+import Grind from 'grind-framework'
+import { CacheProvider } from 'grind-cache'
+
+const app = new Grind()
+app.providers.push(CacheProvider)
+```
+
+> {tip} `grind-cache` is included as part of `grind-core` and `grind-core-frontend`.  If you’re using one of these bundle packages, you don’t need to explicitly add the `grind-cache` package.
+
 ## Usage
 ### Reading from the Cache
 To retrieve a value from the cache, call `cache.get(key)`.  It will return a promise that will resolve with the value, or null if it doesn’t exist.
