@@ -3,7 +3,7 @@ import { ConfigBuilder } from '../src/ConfigBuilder'
 import { Grind } from './helpers/Grind'
 
 test('memory', t => {
-	const config = ConfigBuilder('memory', new Grind())
+	const config = ConfigBuilder('memory', new Grind(), true)
 
 	t.is(config.store, null)
 	t.is(config.options.max, 10000)
@@ -11,7 +11,7 @@ test('memory', t => {
 })
 
 test('redis', t => {
-	const config = ConfigBuilder('redis', new Grind())
+	const config = ConfigBuilder('redis', new Grind(), true)
 
 	t.is(config.store, 'cache-manager-redis')
 	t.is(config.options.host, 'localhost')
@@ -21,7 +21,7 @@ test('redis', t => {
 })
 
 test('redis-default', t => {
-	const config = ConfigBuilder('redis-default', new Grind())
+	const config = ConfigBuilder('redis-default', new Grind(), true)
 
 	t.is(config.store, 'cache-manager-redis')
 	t.is(config.options.host, 'test')
@@ -31,7 +31,7 @@ test('redis-default', t => {
 })
 
 test('redis-auth', t => {
-	const config = ConfigBuilder('redis-auth', new Grind())
+	const config = ConfigBuilder('redis-auth', new Grind(), true)
 
 	t.is(config.store, 'cache-manager-redis')
 	t.is(config.options.host, 'localhost')

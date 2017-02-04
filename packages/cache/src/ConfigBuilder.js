@@ -1,4 +1,4 @@
-export function ConfigBuilder(store, app) {
+export function ConfigBuilder(store, app, returnStoreName = false) {
 	if(typeof store === 'string') {
 		store = app.config.get(`cache.stores.${store}`)
 	}
@@ -12,10 +12,19 @@ export function ConfigBuilder(store, app) {
 	const driver = expandDriverAlias(store.driver || null)
 	delete store.driver
 
-	return {
-		store: process.env.NODE_ENV === 'test' ? driver : (driver.isNil ? 'memory' : require(driver)),
+	const result = {
 		options: { ...expandStoreConfig(app, driver, store) }
 	}
+
+	if(returnStoreName) {
+		result.store = driver
+	} else if(driver.isNil) {
+		result.store = 'memory'
+	} else {
+		result.store = require(driver)
+	}
+
+	return result
 }
 
 export function expandDriverAlias(alias) {
