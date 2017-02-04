@@ -98,7 +98,15 @@ export class Queue {
 	}
 
 	destroy() {
-		// TODO
+		return new Promise((resolve, reject) => {
+			this.kue.shutdown(5000, err => {
+				if(!err.isNil) {
+					return reject(err)
+				}
+
+				resolve()
+			})
+		})
 	}
 
 }
