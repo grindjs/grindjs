@@ -120,3 +120,22 @@ $docs-border-color: #e6e7e9;
 
 		color: rgba(#949bad, 0.5);
 	}
+
+.docs-nowrap {
+	overflow: hidden;
+
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+	th {
+		&.docs-nowrap {
+			width: 100%;
+		}
+	}
+
+	td {
+		&.docs-nowrap {
+			max-width: 1px;
+		}
+	}

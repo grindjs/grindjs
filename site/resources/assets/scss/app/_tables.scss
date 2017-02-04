@@ -20,13 +20,11 @@ th {
 	@extend %table-cell;
 
 	padding: 16px 20px 13px;
-	white-space: nowrap;
-	border-bottom: 2px solid #d7d9dd;
-	text-align: left;
 
-	&:last-child {
-		width: 100%;
-	}
+	text-align: left;
+	white-space: nowrap;
+
+	border-bottom: 2px solid #d7d9dd;
 }
 
 td {
@@ -35,10 +33,9 @@ td {
 	padding: 8px 20px;
 	text-align: left;
 
-	&:last-child {
-		white-space: nowrap;
-		max-width: 1px;
-		text-overflow: ellipsis;
-		overflow: hidden;
+	&:first-child {
+		code {
+			white-space: nowrap;
+		}
 	}
 }

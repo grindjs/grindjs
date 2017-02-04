@@ -27,6 +27,7 @@ Markdown.use(tableOfContents, {
 Markdown.render = function(content) {
 	let result = MarkdownIt.prototype.render.call(this, content)
 	result = result.replace(/<blockquote>\s*<p>\s*\{([a-z]+)\}\s*/g, '<blockquote class="blockquote-$1"><p>')
+	result = result.replace(/>\s*\{nowrap\}\s*/g, ' class="docs-nowrap">')
 
 	result = result.replace(
 		/<(h[1-6]) id="([^"]+)">(.+?)\s*<a class="header-anchor" href="(#.+?)" aria-hidden="true">¶<\/a><\/(h[1-6])>/g,
