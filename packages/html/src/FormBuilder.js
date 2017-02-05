@@ -1027,9 +1027,12 @@ export class FormBuilder {
 			return value
 		}
 
-		const oldValue = this.old(name)
-		if(!oldValue.isNil && name !== '_method') {
-			return oldValue
+		if(name !== '_method') {
+			const oldValue = this.old(name)
+
+			if(!oldValue.isNil) {
+				return oldValue
+			}
 		}
 
 		if(!value.isNil) {
