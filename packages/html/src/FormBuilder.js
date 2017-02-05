@@ -606,7 +606,7 @@ export class FormBuilder {
 	/**
 	 * Create an option group form element.
 	 *
-	 * @param  array  list
+	 * @param  object list
 	 * @param  string label
 	 * @param  string selected
 	 *
@@ -615,8 +615,8 @@ export class FormBuilder {
 	_optionGroup(list, label, selected) {
 		const html = [ ]
 
-		for(const value of list) {
-			html.push(this._option(list[value], value, selected))
+		for(const [ key, value ] of Object.entries(list)) {
+			html.push(this._option(value, key, selected))
 		}
 
 		return this.toHtmlString(`<optgroup label="${this.html.entities(label)}">${html.join('')}</optgroup>`)
