@@ -783,7 +783,7 @@ export class FormBuilder {
 		const posted = this.getValueAttribute(name, checked)
 
 		if(Array.isArray(posted)) {
-			return posted.indexOf(value) >= 0
+			return posted.map(v => v.toString()).indexOf(value.toString()) >= 0
 		}
 
 		return cast.boolean(posted)
