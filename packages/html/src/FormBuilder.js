@@ -36,7 +36,7 @@ export class FormBuilder {
 	 *
 	 * @var mixed
 	 */
-	model = null
+	_model = null
 
 	/**
 	 * An array of label names we've created.
@@ -146,13 +146,13 @@ export class FormBuilder {
 	/**
 	 * Create a new model based form builder.
 	 *
-	 * @param  mixed model
-	 * @param  objection options
+	 * @param  mixed  model
+	 * @param  object options
 	 *
 	 * @return SafeString
 	 */
 	model(model, options = { }) {
-		this.model = model
+		this._model = model
 
 		return this.open(options)
 	}
@@ -165,7 +165,7 @@ export class FormBuilder {
 	 * @return void
 	 */
 	setModel(model) {
-		this.model = model
+		this._model = model
 	}
 
 	/**
@@ -175,8 +175,7 @@ export class FormBuilder {
 	 */
 	close() {
 		this.labels = [ ]
-
-		this.model = null
+		this._model = null
 
 		return this.toHtmlString('</form>')
 	}
@@ -810,7 +809,7 @@ export class FormBuilder {
 			return false
 		}
 
-		if(this.model.isNil) {
+		if(this._model.isNil) {
 			return true
 		}
 
@@ -1026,7 +1025,7 @@ export class FormBuilder {
 			return value
 		}
 
-		if(!this.model.isNil) {
+		if(!this._model.isNil) {
 			return this._getModelValueAttribute(name)
 		}
 
@@ -1043,11 +1042,11 @@ export class FormBuilder {
 	_getModelValueAttribute(name) {
 		const key = this._transformKey(name)
 
-		if(typeof this.model.getFormValue === 'function') {
-			return this.model.getFormValue(key)
+		if(typeof this._model.getFormValue === 'function') {
+			return this._model.getFormValue(key)
 		}
 
-		return this.model[key]
+		return Obj.get(this._model, key)
 	}
 
 	/**
