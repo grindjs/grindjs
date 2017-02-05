@@ -1083,7 +1083,7 @@ export class FormBuilder {
 	_transformKey(key) {
 		return key
 			.replace(/\./g, '_')
-			.replace(/\[ \]/g, '')
+			.replace(/\[\s*\]/g, '')
 			.replace(/\[/g, '.')
 			.replace(/\]/g, '')
 	}
