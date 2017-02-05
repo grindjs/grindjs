@@ -8,12 +8,17 @@ import express from 'express'
 
 export class Router {
 	app = null
+	router = null
+
 	bindings = { }
 	patterns = { }
 	namedRoutes = { }
-	middleware = { }
-	router = null
+
 	bodyParserMiddleware = [ ]
+
+	middleware = { }
+	middlewareBuilders = { }
+
 	resourceRouteBuilderClass = ResourceRouteBuilder
 
 	_scope = [
@@ -45,6 +50,11 @@ export class Router {
 	}
 
 	boot() {
+		this.setupBodyParsers()
+		this.setupMiddleware()
+	}
+
+	setupBodyParsers() {
 		const bodyParsersConfig = this.app.config.get('routing.body_parsers') || { }
 		const parsers = bodyParsersConfig.default || [ 'json', 'form' ]
 		const options = bodyParsersConfig.options || { }
@@ -57,6 +67,34 @@ export class Router {
 
 		this.middleware.json = bodyParser.json(options.json || { })
 		this.middleware.form = bodyParser.urlencoded(options.form || { extended: true })
+	}
+
+	setupMiddleware() {
+		for(const name of this.app.config.get('routing.middleware', [ ])) {
+			if(this.middlewareBuilders[name].isNil) {
+				Log.error(`ERROR: Could not find middleware builder for: ${name}`)
+				continue
+			}
+
+			const middleware = this.middlewareBuilders[name](this.app, this)
+
+			if(middleware.isNil) {
+				Log.error(`ERROR: Unable to load middleware for: ${name}`)
+				continue
+			}
+
+			if(typeof middleware === 'function') {
+				this.middleware[name] = middleware
+				this.router.use(middleware)
+			} else if(typeof middleware === 'object') {
+				for(const [ childName, childMiddleware ] of Object.entries(middleware)) {
+					this.middleware[childName] = childMiddleware
+					this.router.use(childMiddleware)
+				}
+			} else {
+				Log.error(`ERROR: Unknown middleware for: ${name}`)
+			}
+		}
 	}
 
 	group(options, callback) {
