@@ -668,6 +668,17 @@ export class FormBuilder {
 			return selected.indexOf(value) >= 0 ? 'selected' : null
 		}
 
+		const hasValue = !value.isNil
+		const hasSelected = !selected.isNil
+
+		if(!hasValue && !hasSelected) {
+			return 'selected'
+		} else if(!hasValue) {
+			return null
+		} else if(!hasSelected) {
+			return null
+		}
+
 		return value.toString() === selected.toString() ? 'selected' : null
 	}
 
