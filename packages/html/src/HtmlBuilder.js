@@ -54,15 +54,11 @@ export class HtmlBuilder {
 	 * @return string
 	 */
 	entities(value, force) {
-		if(this._isHtmlString(value)) {
-			if(force !== true) {
-				return value
-			}
-
-			value = value.toString()
+		if(this._isHtmlString(value) && force !== true) {
+			return value
 		}
 
-		return Html5Entities.encode(value)
+		return Html5Entities.encode(value.toString())
 	}
 
 	/**
