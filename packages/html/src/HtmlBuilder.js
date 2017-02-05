@@ -23,7 +23,7 @@ export class HtmlBuilder {
 	/**
 	 * Create a new html builder instance.
 	 *
-	 * @param  object app
+	 * @param object app
 	 */
 	constructor(app) {
 		this.app = app
@@ -48,7 +48,7 @@ export class HtmlBuilder {
 	/**
 	 * Convert an HTML string to entities.
 	 *
-	 * @param string value
+	 * @param string  value
 	 * @param boolean force
 	 *
 	 * @return string
@@ -80,7 +80,7 @@ export class HtmlBuilder {
 	 * Generate a link to a JavaScript file.
 	 *
 	 * @param string url
-	 * @param array  attributes
+	 * @param object attributes
 	 * @param bool   secure
 	 *
 	 * @return SafeString
@@ -95,7 +95,7 @@ export class HtmlBuilder {
 	 * Generate a link to a CSS file.
 	 *
 	 * @param string url
-	 * @param array  attributes
+	 * @param object attributes
 	 * @param bool   secure
 	 *
 	 * @return SafeString
@@ -118,7 +118,7 @@ export class HtmlBuilder {
 	 *
 	 * @param string url
 	 * @param string alt
-	 * @param array  attributes
+	 * @param object attributes
 	 * @param bool   secure
 	 *
 	 * @return SafeString
@@ -134,7 +134,7 @@ export class HtmlBuilder {
 	 * Generate a link to a Favicon file.
 	 *
 	 * @param string url
-	 * @param array  attributes
+	 * @param object attributes
 	 * @param bool   secure
 	 *
 	 * @return SafeString
@@ -156,7 +156,7 @@ export class HtmlBuilder {
 	 *
 	 * @param string url
 	 * @param string title
-	 * @param array  attributes
+	 * @param object attributes
 	 * @param bool   secure
 	 * @param bool   escape
 	 *
@@ -183,7 +183,7 @@ export class HtmlBuilder {
 	 *
 	 * @param string url
 	 * @param string title
-	 * @param array  attributes
+	 * @param object attributes
 	 *
 	 * @return SafeString
 	 */
@@ -198,7 +198,7 @@ export class HtmlBuilder {
 	 * @param string name
 	 * @param string title
 	 * @param array  parameters
-	 * @param array  attributes
+	 * @param object attributes
 	 * @param bool   secure
 	 *
 	 * @return SafeString
@@ -212,7 +212,7 @@ export class HtmlBuilder {
 	 *
 	 * @param string email
 	 * @param string title
-	 * @param array  attributes
+	 * @param object attributes
 	 * @param bool   escape
 	 *
 	 * @return SafeString
@@ -256,8 +256,8 @@ export class HtmlBuilder {
 	/**
 	 * Generate an ordered list of items.
 	 *
-	 * @param array list
-	 * @param array attributes
+	 * @param array  list
+	 * @param object attributes
 	 *
 	 * @return SafeString|string
 	 */
@@ -268,8 +268,8 @@ export class HtmlBuilder {
 	/**
 	 * Generate an un-ordered list of items.
 	 *
-	 * @param array list
-	 * @param array attributes
+	 * @param array  list
+	 * @param object attributes
 	 *
 	 * @return SafeString|string
 	 */
@@ -280,8 +280,8 @@ export class HtmlBuilder {
 	/**
 	 * Generate a description list of items.
 	 *
-	 * @param array list
-	 * @param array attributes
+	 * @param array  list
+	 * @param object attributes
 	 *
 	 * @return SafeString
 	 */
@@ -314,7 +314,7 @@ export class HtmlBuilder {
 	 *
 	 * @param string type
 	 * @param array  list
-	 * @param array  attributes
+	 * @param object attributes
 	 *
 	 * @return SafeString|string
 	 */
@@ -374,7 +374,7 @@ export class HtmlBuilder {
 	/**
 	 * Build an HTML attribute string from an array.
 	 *
-	 * @param array attributes
+	 * @param object attributes
 	 *
 	 * @return string
 	 */
@@ -424,7 +424,7 @@ export class HtmlBuilder {
 	 *
 	 * @param string name
 	 * @param string content
-	 * @param array  attributes
+	 * @param object attributes
 	 *
 	 * @return SafeString
 	 */
@@ -439,8 +439,8 @@ export class HtmlBuilder {
 	 * Generate an html tag.
 	 *
 	 * @param string tag
-	 * @param mixed content
-	 * @param array  attributes
+	 * @param mixed  content
+	 * @param object attributes
 	 *
 	 * @return SafeString
 	 */
