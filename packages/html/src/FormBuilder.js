@@ -516,8 +516,8 @@ export class FormBuilder {
 			delete options.placeholder
 		}
 
-		for(const value of list) {
-			html.push(this.getSelectOption(list[value], value, selected))
+		for(const [ key, value ] of Object.entries(list)) {
+			html.push(this.getSelectOption(value, key, selected))
 		}
 
 		// Once we have all of this HTML, we can join this into a single element after
