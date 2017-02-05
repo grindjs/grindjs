@@ -580,7 +580,7 @@ export class FormBuilder {
 		const months = { }
 
 		for(let month = 1; month <= 12; month++) {
-			months[month] = dateFormat(new Date(0, month), format)
+			months[month] = dateFormat(new Date(0, month - 1), format)
 		}
 
 		return this.select(name, months, selected, options)
