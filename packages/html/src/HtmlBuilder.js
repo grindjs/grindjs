@@ -328,8 +328,16 @@ export class HtmlBuilder {
 		// Essentially we will just spin through the list and build the list of the HTML
 		// elements from the array. We will also handled nested lists in case that is
 		// present in the array. Then we will build out the final listing elements.
-		for(const key of list) {
-			html += this._listingElement(key, type, list[key])
+		if(Array.isArray(list)) {
+			const length = list.length
+
+			for(let i = 0; i < length; i++) {
+				html += this._listingElement(i, type, list[i])
+			}
+		} else {
+			for(const [ key, value ] of Object.entries(list)) {
+				html += this._listingElement(key, type, value)
+			}
 		}
 
 		attributes = this.attributes(attributes)
