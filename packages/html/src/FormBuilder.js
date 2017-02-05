@@ -437,7 +437,7 @@ export class FormBuilder {
 		options.id = this.getIdAttribute(name, options)
 		delete options.size
 
-		value = this.getValueAttribute(name, value).toString()
+		value = (this.getValueAttribute(name, value) || '').toString()
 
 		// Next we will convert the attributes into a string form. Also we have removed
 		// the size attribute, as it was merely a short-cut for the rows and cols on
