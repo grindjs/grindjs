@@ -383,6 +383,10 @@ export class HtmlBuilder {
 	 * @return string
 	 */
 	attributes(attributes) {
+		if(attributes.isNil) {
+			return ''
+		}
+
 		const html = [ ]
 
 		if(typeof attributes === 'string') {
