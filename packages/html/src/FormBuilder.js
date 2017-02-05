@@ -1,5 +1,6 @@
 import dateFormat from 'dateformat'
 import cast from 'as-type'
+import { Obj } from 'grind-support'
 
 export class FormBuilder {
 
@@ -1056,9 +1057,12 @@ export class FormBuilder {
 	 *
 	 * @return mixed
 	 */
-	old(/* name */) {
-		// TODO: No session support in Grind yet
-		return null
+	old(name) {
+		if(this.oldInputIsEmpty()) {
+			return null
+		}
+
+		return Obj.get(this.req.session._old_input, this._transformKey(name), null)
 	}
 
 	/**
@@ -1067,8 +1071,7 @@ export class FormBuilder {
 	 * @return bool
 	 */
 	oldInputIsEmpty() {
-		// TODO: No session support in Grind yet
-		return true
+		return this.req.isNil || this.req.session.isNil || this.req.session._old_input.isNil
 	}
 
 	/**
