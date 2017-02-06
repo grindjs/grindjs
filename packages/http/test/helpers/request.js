@@ -4,12 +4,12 @@ import './Grind'
 import '../../src/HttpServer'
 
 let port = 0
-export function makeServer(boot) {
+export function makeServer(space, boot) {
 	let app = null
 
 	return (new HttpServer(() => {
 		app = new Grind({
-			port: 32200 + (++port)
+			port: 32180 + space + (++port)
 		})
 
 		if(typeof boot.before === 'function') {
@@ -30,8 +30,8 @@ export function makeServer(boot) {
 	})
 }
 
-export function request(boot, path, options = { }) {
-	return makeServer(boot).then(server => {
+export function request(space, boot, path, options = { }) {
+	return makeServer(space, boot).then(server => {
 		return server.request(path, options).then(response => {
 			return server.shutdown().then(() => response)
 		}).catch(err => {

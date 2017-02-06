@@ -2,7 +2,7 @@ import test from 'ava'
 import './helpers/request'
 
 function get(path) {
-	return request(app => {
+	return request(0, app => {
 		const handler = (req, res) => res.send(req.path)
 
 		app.routes.get('none', handler)
