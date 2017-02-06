@@ -4,7 +4,7 @@ import './Grind'
 import '../../src/HttpServer'
 
 let port = 0
-export function request(boot, path, options = { }) {
+export function makeServer(boot) {
 	let app = null
 
 	return (new HttpServer(() => {
@@ -12,17 +12,30 @@ export function request(boot, path, options = { }) {
 			port: 32200 + (++port)
 		})
 
-		app.routes.boot()
-		boot(app)
+		if(typeof boot.before === 'function') {
+			boot.before(app)
+		}
 
 		return app
-	})).start().then(() => rp({
-		...options,
-		uri: `http://127.0.0.1:${app.port}/${path}`,
-		resolveWithFullResponse: true
-	})).then(response => {
-		return app.shutdown().then(() => response)
-	}).catch(err => {
-		return app.shutdown().then(() => { throw err })
+	})).start().then(() => {
+		boot(app)
+
+		app.request = (path, options) => rp({
+			...options,
+			uri: `http://127.0.0.1:${app.port}/${path}`,
+			resolveWithFullResponse: true
+		})
+
+		return app
+	})
+}
+
+export function request(boot, path, options = { }) {
+	return makeServer(boot).then(server => {
+		return server.request(path, options).then(response => {
+			return server.shutdown().then(() => response)
+		}).catch(err => {
+			return server.shutdown().then(() => { throw err })
+		})
 	})
 }
