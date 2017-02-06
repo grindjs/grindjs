@@ -2,6 +2,8 @@
 import './ResourceRouteBuilder'
 import './RouteLayer'
 
+import '../Middleware/CookieMiddlewareBuilder'
+
 import bodyParser from 'body-parser'
 import path from 'path'
 import express from 'express'
@@ -17,7 +19,9 @@ export class Router {
 	bodyParserMiddleware = [ ]
 
 	middleware = { }
-	middlewareBuilders = { }
+	middlewareBuilders = {
+		cookie: CookieMiddlewareBuilder
+	}
 
 	resourceRouteBuilderClass = ResourceRouteBuilder
 
