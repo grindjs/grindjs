@@ -10,6 +10,6 @@
 		}
 	},
 
-	"middleware": [ "cookie" ]
+	"middleware": [ "cookie", "session" ]
 
 }
