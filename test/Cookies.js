@@ -2,7 +2,7 @@ import test from 'ava'
 import './helpers/request'
 
 function get(path, options) {
-	return request(app => {
+	return request(-5, app => {
 		app.routes.get('/read', (req, res) => {
 			res.send(req.cookies)
 		})
