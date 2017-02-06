@@ -1,18 +1,8 @@
 import test from 'ava'
-import request from 'request-promise-native'
+import './helpers/request'
 
-import './helpers/Grind'
-import '../src/HttpServer'
-
-let port = 0
 function get(path) {
-	let app = null
-
-	return (new HttpServer(() => {
-		app = new Grind({
-			port: 32200 + (++port)
-		})
-
+	return request(app => {
 		const handler = (req, res) => res.send(req.path)
 
 		app.routes.get('none', handler)
@@ -48,16 +38,7 @@ function get(path) {
 		})
 
 		app.routes.get('scoping', handler)
-
-		return app
-	})).start().then(() => request({
-		uri: `http://127.0.0.1:${app.port}/${path}`,
-		resolveWithFullResponse: true
-	})).then(response => {
-		return app.shutdown().then(() => response)
-	}).catch(err => {
-		return app.shutdown().then(() => { throw err })
-	})
+	}, path)
 }
 
 test('none', t => {
