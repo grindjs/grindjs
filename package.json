@@ -33,8 +33,13 @@
     "eslint": "^3.3.1",
     "eslint-config-grind": "^2.0.0",
     "eslint-plugin-import-auto-name": "^1.0.3",
+    "express-session": "^1.15.0",
+    "flash": "^1.1.0",
+    "grind-cli": "^0.6.0",
+    "grind-db": "^0.6.0",
     "request": "^2.79.0",
-    "request-promise-native": "^1.0.3"
+    "request-promise-native": "^1.0.3",
+    "sqlite3": "^3.1.8"
   },
   "engines": {
     "node": ">=6.9"

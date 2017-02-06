@@ -3,6 +3,7 @@ import './ResourceRouteBuilder'
 import './RouteLayer'
 
 import '../Middleware/CookieMiddlewareBuilder'
+import '../Middleware/SessionMiddlewareBuilder'
 
 import bodyParser from 'body-parser'
 import path from 'path'
@@ -20,7 +21,8 @@ export class Router {
 
 	middleware = { }
 	middlewareBuilders = {
-		cookie: CookieMiddlewareBuilder
+		cookie: CookieMiddlewareBuilder,
+		session: SessionMiddlewareBuilder
 	}
 
 	resourceRouteBuilderClass = ResourceRouteBuilder
