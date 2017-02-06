@@ -1,0 +1,10 @@
+{
+
+	"secret": null,
+	"domain": null,
+	"httpOnly": null,
+	"maxAge": null,
+	"path": "/",
+	"secure": false
+
+}
