@@ -29,6 +29,18 @@ export function ViewExtensionProvider(app) {
 
 > {note} Providers are loaded sequentially, regardless of wether or not they return a promise.  Be mindful of this when doing so, as the entire boot process will wait for your provider’s promise to finish resolving before moving on to the next provider and finishing the boot up.
 
+### Shutdown Handlers
+
+If you’re building a provider that needs to clean up after itself on shutdown, such as closing connections, you can add a handler to the provider:
+
+```js
+export function StreamProvider(app) {
+	app.stream = createSomeStream()	
+}
+
+StreamProvider.shutdown = app => app.stream.close()
+```
+
 ## Registering Providers
 Providers should be registered in `app/Bootstrap.js` via `app.providers.push`.  Here’s how we’d register our new `ViewExtensionProvider`:
 ```js
@@ -90,8 +102,10 @@ export function OrmProvider(app) {
 	// Now add your additional logic
 }
 
-// Make sure you inherit the parent’s priority
+// Make sure you inherit the parent’s priority and shutdown handler (if applicable)
 OrmProvider.priority = BaseOrmProvider.priority
+OrmProvider.shutdown = BaseOrmProvider.shutdown
+
 ```
 
 ## CLI Providers
