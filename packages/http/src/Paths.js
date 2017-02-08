@@ -1,5 +1,5 @@
-import path from 'path'
-import findRoot from 'find-root'
+const path = require('path')
+const findRoot = require('find-root')
 
 export class Paths {
 	_base = null

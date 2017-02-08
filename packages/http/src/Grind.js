@@ -10,7 +10,7 @@ import './Routing/RoutingProvider'
 import './Routing/Extensions/RouteExtension'
 import './Routing/Extensions/ResponseExtension'
 
-import Express from 'express'
+const Express = require('express/lib/express.js')
 
 export class Grind {
 	express = null

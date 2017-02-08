@@ -1,5 +1,5 @@
-import URL from 'url'
-import Path from 'path'
+const URL = require('url')
+const Path = require('path')
 
 export class UrlGenerator {
 	app = null

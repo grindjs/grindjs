@@ -1,4 +1,4 @@
-import Layer from 'express/lib/router/layer.js'
+const Layer = require('express/lib/router/layer.js')
 
 export class RouteLayer extends Layer {
 	_layer = null
