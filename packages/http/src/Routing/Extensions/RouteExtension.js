@@ -1,13 +1,11 @@
 import { Route } from 'express'
 
-let hasExtended = false
-
 export function RouteExtension() {
-	if(hasExtended) {
+	if(Route._grindHasExtended) {
 		return
 	}
 
-	hasExtended = true
+	Route._grindHasExtended = true
 
 	Route.prototype._addMiddleware = function(source, prepend, ...handlers) {
 		if(handlers.length === 1 && Array.isArray(handlers[0])) {
