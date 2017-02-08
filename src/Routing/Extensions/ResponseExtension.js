@@ -1,13 +1,11 @@
 import { response as Response } from 'express'
 
-let hasExtended = false
-
 export function ResponseExtension() {
-	if(hasExtended) {
+	if(Response._grindHasExtended) {
 		return
 	}
 
-	hasExtended = true
+	Response._grindHasExtended = true
 
 	Response.route = function(name, parameters, secure) {
 		if(this.app._grind.isNil) {
