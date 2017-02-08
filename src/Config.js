@@ -1,6 +1,7 @@
-import fs from 'fs'
-import path from 'path'
-import JSON5 from 'json5'
+const fs = require('fs')
+const path = require('path')
+const JSON5 = require('json5')
+
 import { Obj, merge } from 'grind-support'
 
 export class Config {

@@ -1,6 +1,6 @@
-import chalk from 'chalk'
-import express from 'express'
-import path from 'path'
+const chalk = require('chalk')
+const express = require('express/lib/express.js')
+const path = require('path')
 
 export class Watcher {
 	httpServer = null

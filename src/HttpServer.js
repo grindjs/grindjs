@@ -1,7 +1,7 @@
-import chalk from 'chalk'
-import cluster from 'cluster'
-import fs from 'fs'
-import path from 'path'
+const chalk = require('chalk')
+const cluster = require('cluster')
+const fs = require('fs')
+const path = require('path')
 
 export class HttpServer {
 

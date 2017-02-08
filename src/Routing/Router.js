@@ -5,9 +5,8 @@ import './RouteLayer'
 import '../Middleware/CookieMiddlewareBuilder'
 import '../Middleware/SessionMiddlewareBuilder'
 
-import bodyParser from 'body-parser'
-import path from 'path'
-import express from 'express'
+const path = require('path')
+const express = require('express/lib/express.js')
 
 export class Router {
 	app = null
@@ -71,6 +70,7 @@ export class Router {
 			this.bodyParserMiddleware = parsers
 		}
 
+		const bodyParser = require('body-parser')
 		this.middleware.json = bodyParser.json(options.json || { })
 		this.middleware.form = bodyParser.urlencoded(options.form || { extended: true })
 	}
