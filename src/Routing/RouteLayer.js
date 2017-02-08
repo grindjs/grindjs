@@ -1,11 +1,6 @@
-import Express from 'express'
+import Layer from 'express/lib/router/layer.js'
 
-const router = Express.Router()
-router.get('/', () => ({ }))
-
-const LayerClass = router.stack[0].constructor
-
-export class RouteLayer extends LayerClass {
+export class RouteLayer extends Layer {
 	_layer = null
 
 	constructor(route, layer, middleware, options) {
