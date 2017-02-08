@@ -1,7 +1,12 @@
-import session from 'express-session'
-import './DatabaseStore'
-
 export function StoreConfigBuilder(store, app, returnStoreName = false) {
+	let session = null
+
+	try {
+		session = require('express-session')
+	} catch(err) {
+		throw new Error('express-session missing, please run `npm install --save express-session')
+	}
+
 	if(typeof store === 'string') {
 		store = app.config.get(`session.stores.${store}`)
 	}
@@ -27,7 +32,7 @@ export function StoreConfigBuilder(store, app, returnStoreName = false) {
 	if(returnStoreName || driver === 'memory') {
 		result.store = driver
 	} else if(driver === 'database') {
-		result.store = DatabaseStore
+		result.store = require('./DatabaseStore.js').DatabaseStore
 	} else {
 		try {
 			result.store = require(driver)(session)
