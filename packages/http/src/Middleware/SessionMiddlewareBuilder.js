@@ -1,9 +1,14 @@
 import '../Session/StoreConfigBuilder'
 
-import session from 'express-session'
-import flash from 'flash'
-
 export function SessionMiddlewareBuilder(app) {
+	let session = null
+
+	try {
+		session = require('express-session')
+	} catch(err) {
+		throw new Error('express-session missing, please run `npm install --save express-session')
+	}
+
 	const config = { ...app.config.get('session', { }) }
 	const storeConfig = StoreConfigBuilder(config.default, app)
 
@@ -40,6 +45,14 @@ export function SessionMiddlewareBuilder(app) {
 	}
 
 	if(config.flash !== false) {
+		let flash = null
+
+		try {
+			flash = require('flash')
+		} catch(err) {
+			throw new Error('flash missing, please run `npm install --save flash')
+		}
+
 		middleware.flash = flash()
 	}
 
