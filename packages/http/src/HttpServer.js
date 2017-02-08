@@ -1,5 +1,3 @@
-import './HttpServer/Watcher'
-
 import chalk from 'chalk'
 import cluster from 'cluster'
 import fs from 'fs'
@@ -124,6 +122,7 @@ export class HttpServer {
 	}
 
 	watch(...dirs) {
+		const Watcher = require('./HttpServer/Watcher.js')
 		return (new Watcher(this, dirs)).watch()
 	}
 
