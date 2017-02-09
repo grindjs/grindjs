@@ -1,4 +1,4 @@
-import { response as Response } from 'express'
+const Response = require('express/lib/response.js')
 
 export function ResponseExtension() {
 	if(Response._grindHasExtended) {
