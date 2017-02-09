@@ -49,21 +49,21 @@ export class PublishCommand extends BaseCommand {
 				this.comment('Compiling', path.relative(this.app.paths.base(), asset.path))
 				content = await asset.compile()
 			} catch(err) {
-				this.error(err.message || 'Unknown error')
+				let message = err.message || 'Unknown error'
 
 				if(!err.file.isNil) {
-					this.error(` --> File: ${err.file}`)
+					message += `\n --> File: ${err.file}`
 				}
 
 				if(!err.line.isNil) {
-					this.error(` --> Line: ${err.line}`)
+					message += `\n --> Line: ${err.line}`
 				}
 
 				if(!err.column.isNil) {
-					this.error(` --> Column: ${err.column}`)
+					message += `\n --> Column: ${err.column}`
 				}
 
-				process.exit(1)
+				throw new Error(message)
 			}
 
 			let storePath = path.relative(this.assetsPath, asset.path)
