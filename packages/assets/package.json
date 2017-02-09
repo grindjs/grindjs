@@ -36,15 +36,17 @@
     "eslint-config-grind": "^2.0.0",
     "eslint-plugin-import-auto-name": "^1.0.3",
     "grind-cli": "^0.6.0",
-    "grind-framework": "^0.6.0",
-    "grind-support": "^0.6.0"
+    "grind-framework": "0.7.0-beta.1",
+    "grind-support": "0.7.0-beta.1",
     "node-sass": "^4.5.0",
+    "request": "^2.79.0",
+    "request-promise-native": "^1.0.3",
     "svgo": "^0.7.2",
     "uglify-js": "^2.7.5"
   },
   "peerDependencies": {
-    "grind-framework": "^0.6.0",
-    "grind-support": "^0.6.0"
+    "grind-framework": "0.7.0-beta.1",
+    "grind-support": "0.7.0-beta.1"
   },
   "engines": {
     "node": ">=6.9"
