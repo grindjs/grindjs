@@ -2,22 +2,21 @@ import './Errors/HttpError'
 
 const clientErrors = require('./Errors/HttpClientError.js')
 const serverErrors = require('./Errors/HttpServerError.js')
+const allErrors = { ...clientErrors, ...serverErrors }
 
-Object.assign(global, clientErrors, serverErrors)
+Object.assign(global, allErrors)
 
 const codesMapping = { }
 
-for(const errors of [ clientErrors, serverErrors ]) {
-	for(const name of Object.keys(errors)) {
-		const error = errors[name]
-		const code = error.representsCode
+for(const name of Object.keys(allErrors)) {
+	const error = allErrors[name]
+	const code = error.representsCode
 
-		if(code === 0) {
-			continue
-		}
-
-		codesMapping[code] = error
+	if(code === 0) {
+		continue
 	}
+
+	codesMapping[code] = error
 }
 
 HttpError.make = (code, message) => {
