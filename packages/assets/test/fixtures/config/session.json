@@ -1,0 +1,61 @@
+{
+
+	"default": "memory",
+	"stores": {
+
+		"memory": {
+			"driver": "memory"
+		},
+
+		"database": {
+			"driver": "database",
+			"createtable": true,
+			"connection": {
+				"driver": "sqlite3",
+				"filename": ":memory:",
+				"useNullAsDefault": true
+			},
+		},
+
+		"database-default": {
+			"driver": "database",
+			"connection": null
+		},
+
+		"database-alt": {
+			"driver": "database",
+			"connection": "sqlite-alt"
+		},
+
+		"redis": {
+			"driver": "redis",
+			"connection": {
+				"host": "localhost",
+				"port": 6379,
+			},
+			"ttl": 86400
+		},
+
+		"redis-default": {
+			"driver": "redis",
+			"connection": null,
+			"ttl": 86400
+		},
+
+		"redis-auth": {
+			"driver": "redis",
+			"connection": "auth",
+			"ttl": 86400
+		}
+
+	},
+
+	"cookie": {
+		// Overwrites values in cookie config
+		"name": "grind-session",
+		"secret": "asdf"
+	},
+
+	"flash": true
+
+}
