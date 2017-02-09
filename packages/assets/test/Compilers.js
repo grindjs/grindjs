@@ -11,7 +11,7 @@ function compile(compiler, file, ...args) {
 	const app = new Grind
 	app.config.loadDefault('assets', app.paths.base('../../config/assets.json'))
 
-	return (new compiler(app)).compile(app.paths.base('assets', file), ...args)
+	return (new compiler(app)).compile(app.paths.base('resources/assets', file), ...args)
 }
 
 test('scss', async t => {

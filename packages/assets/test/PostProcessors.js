@@ -13,7 +13,7 @@ async function make(processor, file) {
 	const app = new Grind
 	app.config.loadDefault('assets', app.paths.base('../../config/assets.json'))
 
-	file = app.paths.base('assets', file)
+	file = app.paths.base('resources/assets', file)
 
 	return {
 		app,
