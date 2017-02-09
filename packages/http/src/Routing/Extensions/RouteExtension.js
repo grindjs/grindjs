@@ -1,4 +1,4 @@
-import { Route } from 'express'
+const Route = require('express/lib/router/route.js')
 
 export function RouteExtension() {
 	if(Route._grindHasExtended) {
