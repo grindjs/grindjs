@@ -1,6 +1,6 @@
 {
   "name": "grind-html",
-  "version": "0.6.0",
+  "version": "0.7.0-beta.1",
   "description": "HTML/Form builders for Grind",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
@@ -29,10 +29,10 @@
     "eslint-config-grind": "^2.0.0",
     "eslint-plugin-import-auto-name": "^1.0.3",
     "grind-cli": "^0.6.0",
-    "grind-framework": "^0.6.2"
+    "grind-framework": "0.7.0-beta.1"
   },
   "peerDependencies": {
-    "grind-framework": "^0.6.0"
+    "grind-framework": "0.7.0-beta.1"
   },
   "engines": {
     "node": ">=6.9"
