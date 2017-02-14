@@ -122,7 +122,7 @@ export class HttpServer {
 	}
 
 	watch(...dirs) {
-		const Watcher = require('./HttpServer/Watcher.js')
+		const Watcher = require('./HttpServer/Watcher.js').Watcher
 		return (new Watcher(this, dirs)).watch()
 	}
 
