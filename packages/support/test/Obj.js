@@ -58,3 +58,11 @@ test('Obj.only', t => {
 	t.deepEqual(Obj.only(obj, [ 'b', 'c' ]), only)
 	t.deepEqual(Obj.only(obj, [ 'd' ]), { })
 })
+
+test('Obj.except', t => {
+	const obj = { a: 'a', b: 'b', c: 'c' }
+	const except = { b: 'b', c: 'c' }
+
+	t.deepEqual(Obj.except(obj, [ 'a' ]), except)
+	t.deepEqual(Obj.except(obj, [ 'd' ]), obj)
+})

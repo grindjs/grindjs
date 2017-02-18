@@ -74,4 +74,9 @@ export class Obj {
 		return this.filter(object, key => keys.has(key))
 	}
 
+	static except(object, keys) {
+		keys = new Set(keys)
+		return this.filter(object, key => !keys.has(key))
+	}
+
 }
