@@ -14,6 +14,10 @@ function callback(resolve, reject) {
 // Standard fs
 // ----------------------------
 
+FS.access = function(...args) {
+	return new Promise((resolve, reject) => fs.access(...args, callback(resolve, reject)))
+}
+
 FS.rename = function(...args) {
 	return new Promise((resolve, reject) => fs.rename(...args, callback(resolve, reject)))
 }
