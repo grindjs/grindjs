@@ -41,3 +41,20 @@ test('Obj.set', t => {
 
 	t.is(obj.app.debug, true)
 })
+
+test('Obj.filter', t => {
+	const obj = { a: 'a', b: 'b', c: 'c' }
+	const filtered = { a: 'a', c: 'c' }
+
+	t.deepEqual(Obj.filter(obj, key => key === 'a' || key === 'c'), filtered)
+	t.deepEqual(Obj.filter(obj, (_, value) => value === 'a' || value === 'c'), filtered)
+	t.deepEqual(Obj.filter(obj, key => key === 'd'), { })
+})
+
+test('Obj.only', t => {
+	const obj = { a: 'a', b: 'b', c: 'c' }
+	const only = { b: 'b', c: 'c' }
+
+	t.deepEqual(Obj.only(obj, [ 'b', 'c' ]), only)
+	t.deepEqual(Obj.only(obj, [ 'd' ]), { })
+})

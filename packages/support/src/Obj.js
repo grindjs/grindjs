@@ -54,4 +54,24 @@ export class Obj {
 		}
 	}
 
+	static filter(object, callback) {
+		object = object || { }
+		const filtered = { }
+
+		for(const [ key, value ] of Object.entries(object)) {
+			if(!callback(key, value)) {
+				continue
+			}
+
+			filtered[key] = value
+		}
+
+		return filtered
+	}
+
+	static only(object, keys) {
+		keys = new Set(keys)
+		return this.filter(object, key => keys.has(key))
+	}
+
 }
