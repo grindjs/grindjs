@@ -16,6 +16,9 @@
     "validator",
     "joi"
   ],
+  "dependencies": {
+    "joi": "^10.2.2"
+  },
   "peerDependencies": {
     "grind-framework": "0.7.0-beta.2"
   },
