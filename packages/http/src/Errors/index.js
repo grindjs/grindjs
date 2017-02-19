@@ -1,7 +1,7 @@
-import './Errors/HttpError'
+import './HttpError'
 
-const clientErrors = require('./Errors/HttpClientError.js')
-const serverErrors = require('./Errors/HttpServerError.js')
+const clientErrors = require('./HttpClientError.js')
+const serverErrors = require('./HttpServerError.js')
 const allErrors = { ...clientErrors, ...serverErrors }
 
 Object.assign(global, allErrors)
