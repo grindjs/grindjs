@@ -1,4 +1,5 @@
 import '../Session/StoreConfigBuilder'
+import '../Errors/MissingPackageError'
 
 export function SessionMiddlewareBuilder(app) {
 	let session = null
@@ -48,9 +49,13 @@ export function SessionMiddlewareBuilder(app) {
 		let flash = null
 
 		try {
-			flash = require('flash')
+			flash = require('connect-flash')
 		} catch(err) {
-			throw new Error('flash missing, please run `npm install --save flash')
+			try {
+				flash = require('flash')
+			} catch(err) {
+				throw new MissingPackageError('connect-flash')
+			}
 		}
 
 		middleware.flash = flash()
