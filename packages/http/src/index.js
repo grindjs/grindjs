@@ -1,12 +1,14 @@
 import './Config'
 import './Controller'
 import './ErrorHandler'
-import './Errors'
 import './Grind'
 import './HttpServer'
 import './Log'
 import './Paths'
 import './UrlGenerator'
+
+import './Errors'
+import './Errors/MissingPackageError'
 
 import './Routing/Router'
 import './Routing/ResourceRouteBuilder'
@@ -20,6 +22,7 @@ export {
 	Errors,
 	Grind,
 	HttpServer,
+	MissingPackageError,
 	Paths,
 	ResourceRouteBuilder,
 	Router,
