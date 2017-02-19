@@ -1,0 +1,38 @@
+{
+  "name": "grind-validation",
+  "version": "0.7.0-pre",
+  "description": "Validation for Grind, powered by Joi",
+  "author": "Shaun Harrison (@shnhrrsn)",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grindjs/validation.git"
+  },
+  "keywords": [
+    "grindjs",
+    "grind-framework",
+    "validation",
+    "validator",
+    "joi"
+  ],
+  "peerDependencies": {
+    "grind-framework": "0.7.0-beta.2"
+  },
+  "devDependencies": {
+    "babel-cli": ">=6.7 <=7.0",
+    "babel-eslint": "^6.1.1",
+    "babel-preset-grind": "^0.6.2",
+    "eslint": "^3.3.1",
+    "eslint-config-grind": "^2.0.0",
+    "eslint-plugin-import-auto-name": "^1.0.3",
+    "grind-framework": "0.7.0-beta.2"
+  },
+  "engines": {
+    "node": ">=6.9"
+  },
+  "scripts": {
+    "prepublish": "bin/build",
+    "lint": "eslint src"
+  }
+}
