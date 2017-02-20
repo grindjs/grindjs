@@ -39,6 +39,13 @@ export class FormBuilder {
 	_model = null
 
 	/**
+	 * Input from the previous form posting
+	 *
+	 * @var mixed
+	 */
+	_oldInput = null
+
+	/**
 	 * An array of label names we've created.
 	 *
 	 * @var array
@@ -93,6 +100,15 @@ export class FormBuilder {
 		const cloned = new this.constructor(this.app, html || this.html, this.csrfToken)
 		cloned.req = req
 		cloned.res = res
+
+		if(typeof req.flash === 'function') {
+			const oldInput = req.flash('_old_input')
+
+			if(!oldInput.isNil && oldInput.length > 0) {
+				cloned._oldInput = oldInput[0]
+			}
+		}
+
 		return cloned
 	}
 
@@ -1075,7 +1091,7 @@ export class FormBuilder {
 			return null
 		}
 
-		return Obj.get(this.req.session._old_input, this._transformKey(name), null)
+		return Obj.get(this._oldInput, this._transformKey(name), null)
 	}
 
 	/**
@@ -1084,7 +1100,7 @@ export class FormBuilder {
 	 * @return bool
 	 */
 	oldInputIsEmpty() {
-		return this.req.isNil || this.req.session.isNil || this.req.session._old_input.isNil
+		return this._oldInput.isNil
 	}
 
 	/**
