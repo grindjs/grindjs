@@ -5,6 +5,7 @@ class CustomError1 extends Error { }
 class CustomError2 extends Error { }
 class CustomError3 extends Error { }
 class CustomError4 extends Error { }
+class CustomError5 extends Error { }
 
 function server() {
 	return makeServer(80, app => {
@@ -12,6 +13,7 @@ function server() {
 		app.errorHandler.shouldntReport.push(CustomError2)
 		app.errorHandler.shouldntReport.push(CustomError3)
 		app.errorHandler.shouldntReport.push(CustomError4)
+		app.errorHandler.shouldntReport.push(CustomError5)
 
 		app.errorHandler.register(CustomError2, () => ({
 			custom: true,
@@ -25,10 +27,15 @@ function server() {
 			return { code: 418 }
 		})
 
+		app.errorHandler.register(CustomError5, () => {
+			throw new CustomError1('error-in-error')
+		})
+
 		app.routes.post('error', req => { throw new CustomError1(req.body.message) })
 		app.routes.get('custom-handler', () => { throw new CustomError2('testing') })
 		app.routes.get('custom-response', () => { throw new CustomError3('testing') })
 		app.routes.get('custom-header', () => { throw new CustomError4('testing') })
+		app.routes.get('error-in-error', () => { throw new CustomError5('testing') })
 	})
 }
 
@@ -99,5 +106,18 @@ test('custom-header', makeTest(async (t, s) => {
 	} catch(err) {
 		t.is(err.statusCode, 418)
 		t.is(err.response.headers['x-error'].toString(), 'true')
+	}
+}))
+
+test('error-in-error', makeTest(async (t, s) => {
+	try {
+		await s.request('error-in-error', {
+			json: true
+		})
+
+		t.fail('Endpoint should have thrown error')
+	} catch(err) {
+		t.is(err.statusCode, 500)
+		t.is(err.response.body.error, 'error-in-error')
 	}
 }))
