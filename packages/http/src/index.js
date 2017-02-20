@@ -9,6 +9,7 @@ import './UrlGenerator'
 
 import './Errors'
 import './Errors/MissingPackageError'
+import './Errors/RoutesLoadError'
 
 import './Routing/Router'
 import './Routing/ResourceRouteBuilder'
@@ -26,6 +27,7 @@ export {
 	Paths,
 	ResourceRouteBuilder,
 	Router,
+	RoutesLoadError,
 	UrlGenerator
 }
 
