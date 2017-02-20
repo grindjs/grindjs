@@ -143,8 +143,7 @@ export class FormBuilder {
 		}
 
 		// If the method is something other than GET we will go ahead and attach the
-		// CSRF token to the form, as this can’t hurt and is convenient to simply
-		// always have available on every form the developers creates for them.
+		// CSRF token to the form if it’s available.
 		let append = ''
 
 		if(method !== 'GET') {
@@ -214,16 +213,23 @@ export class FormBuilder {
 	/**
 	 * Generate a hidden field with the current CSRF token.
 	 *
+	 * If the CSRF middleware is not loaded, this will
+	 * return a blank string
+	 *
 	 * @return string
 	 */
 	token() {
 		let token = this.csrfToken
 
 		if(token.isNil || token.length) {
-			token = 'UNSUPPORTED'
+			if(typeof this.req.csrfToken !== 'function') {
+				return ''
+			}
+
+			token = this.req.csrfToken()
 		}
 
-		return this.hidden('_token', token)
+		return this.hidden('_csrf', token)
 	}
 
 	/**
