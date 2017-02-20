@@ -120,7 +120,7 @@ export class FormBuilder {
 	 * @return SafeString
 	 */
 	open(options = { }) {
-		const method = options.method || 'post'
+		const method = (options.method || 'POST').toUpperCase()
 
 		// We need to extract the proper method from the attributes. If the method is
 		// something other than GET or POST we'll use POST since we will spoof the
@@ -131,10 +131,25 @@ export class FormBuilder {
 			['accept-charset']: 'UTF-8'
 		}
 
-		// If the method is PUT, PATCH or DELETE we will need to add a spoofer hidden
-		// field that will instruct the Symfony request to pretend the method is a
-		// different method than it actually is, for convenience from the forms.
-		const append = this._getAppendage(method)
+		// If the HTTP method is in this list of spoofed methods, we will attach the
+		// method spoofer hidden input to the form. This allows us to use regular
+		// form to initiate PUT and DELETE requests in addition to the typical.
+		if(this.spoofedMethods.indexOf(method) >= 0) {
+			if(attributes.action.indexOf('?') >= 0) {
+				attributes.action += `&_method=${method}`
+			} else {
+				attributes.action += `?_method=${method}`
+			}
+		}
+
+		// If the method is something other than GET we will go ahead and attach the
+		// CSRF token to the form, as this can’t hurt and is convenient to simply
+		// always have available on every form the developers creates for them.
+		let append = ''
+
+		if(method !== 'GET') {
+			append = this.token()
+		}
 
 		if(!options.files.isNil) {
 			options.enctype = 'multipart/form-data'
@@ -980,34 +995,6 @@ export class FormBuilder {
 		}
 
 		return this.app.url.route(options, null, this.req)
-	}
-
-	/**
-	 * Get the form appendage for the given method.
-	 *
-	 * @param  string method
-	 *
-	 * @return string
-	 */
-	_getAppendage(method) {
-		let appendage = ''
-		method = method.toUpperCase()
-
-		// If the HTTP method is in this list of spoofed methods, we will attach the
-		// method spoofer hidden input to the form. This allows us to use regular
-		// form to initiate PUT and DELETE requests in addition to the typical.
-		if(this.spoofedMethods.indexOf(method) >= 0) {
-			appendage += this.hidden('_method', method)
-		}
-
-		// If the method is something other than GET we will go ahead and attach the
-		// CSRF token to the form, as this can't hurt and is convenient to simply
-		// always have available on every form the developers creates for them.
-		if(method !== 'GET') {
-			appendage += this.token()
-		}
-
-		return appendage
 	}
 
 	/**
