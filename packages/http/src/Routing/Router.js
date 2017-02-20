@@ -5,6 +5,7 @@ import './RouteLayer'
 import '../Errors/RoutesLoadError'
 
 import '../Middleware/CookieMiddlewareBuilder'
+import '../Middleware/MethodOverrideMiddlewareBuilder'
 import '../Middleware/SessionMiddlewareBuilder'
 
 const fs = require('fs')
@@ -24,6 +25,7 @@ export class Router {
 	middleware = { }
 	middlewareBuilders = {
 		cookie: CookieMiddlewareBuilder,
+		'method-override': MethodOverrideMiddlewareBuilder,
 		session: SessionMiddlewareBuilder
 	}
 
