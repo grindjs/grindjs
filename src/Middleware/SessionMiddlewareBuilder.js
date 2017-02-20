@@ -7,7 +7,7 @@ export function SessionMiddlewareBuilder(app) {
 	try {
 		session = require('express-session')
 	} catch(err) {
-		throw new Error('express-session missing, please run `npm install --save express-session')
+		throw new MissingPackageError('express-session')
 	}
 
 	const config = { ...app.config.get('session', { }) }

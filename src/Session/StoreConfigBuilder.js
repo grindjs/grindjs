@@ -1,10 +1,12 @@
+import '../Errors/MissingPackageError'
+
 export function StoreConfigBuilder(store, app, returnStoreName = false) {
 	let session = null
 
 	try {
 		session = require('express-session')
 	} catch(err) {
-		throw new Error('express-session missing, please run `npm install --save express-session')
+		throw new MissingPackageError('express-session')
 	}
 
 	if(typeof store === 'string') {

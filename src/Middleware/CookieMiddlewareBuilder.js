@@ -1,10 +1,12 @@
+import '../Errors/MissingPackageError'
+
 export function CookieMiddlewareBuilder(app) {
 	let cookieParser = null
 
 	try {
 		cookieParser = require('cookie-parser')
 	} catch(err) {
-		throw new Error('cookie-parser missing, please run `npm install --save cookie-parser')
+		throw new MissingPackageError('cookie-parser')
 	}
 
 	const config = { ...app.config.get('cookie', { }) }
