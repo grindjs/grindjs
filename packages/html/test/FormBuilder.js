@@ -19,7 +19,7 @@ function formBuilder(oldInput) {
 	}
 
 	if(!oldInput.isNil) {
-		form.req.session._old_input = oldInput
+		form._oldInput = oldInput
 	}
 
 	return form
@@ -35,7 +35,7 @@ test('opening form', t => {
 
 	t.is(
 		form.open({ method: 'POST', class: 'form', id: 'id-form' }).toString(),
-		'<form method="POST" action="http://localhost/foo" accept-charset="UTF-8" class="form" id="id-form"><input name="_token" type="hidden" value="UNSUPPORTED" />'
+		'<form method="POST" action="http://localhost/foo" accept-charset="UTF-8" class="form" id="id-form">'
 	)
 
 	t.is(
@@ -50,7 +50,7 @@ test('opening form', t => {
 
 	t.is(
 		form.open({ method: 'PUT' }).toString(),
-		'<form method="POST" action="http://localhost/foo" accept-charset="UTF-8"><input name="_method" type="hidden" value="PUT" /><input name="_token" type="hidden" value="UNSUPPORTED" />'
+		'<form method="POST" action="http://localhost/foo?_method=PUT" accept-charset="UTF-8">'
 	)
 })
 
