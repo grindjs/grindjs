@@ -103,7 +103,7 @@ export class ResourceRouteBuilder {
 			return null
 		}
 
-		return this.routes.get('/', action)
+		return this.routes.get('', action)
 	}
 
 	_addResourceCreate(name, base, controller, options) {
@@ -123,7 +123,7 @@ export class ResourceRouteBuilder {
 			return null
 		}
 
-		return this.routes.post('/', action)
+		return this.routes.post('', action)
 	}
 
 	_addResourceShow(name, base, controller, options) {
