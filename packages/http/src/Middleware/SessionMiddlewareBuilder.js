@@ -49,13 +49,9 @@ export function SessionMiddlewareBuilder(app) {
 		let flash = null
 
 		try {
-			flash = require('connect-flash')
+			flash = require('express-flash')
 		} catch(err) {
-			try {
-				flash = require('flash')
-			} catch(err) {
-				throw new MissingPackageError('connect-flash')
-			}
+			throw new MissingPackageError('express-flash')
 		}
 
 		middleware.flash = flash()

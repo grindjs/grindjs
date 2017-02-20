@@ -33,6 +33,7 @@
     "eslint": "^3.3.1",
     "eslint-config-grind": "^2.0.0",
     "eslint-plugin-import-auto-name": "^1.0.3",
+    "express-flash": "^0.0.2",
     "express-session": "^1.15.0",
     "flash": "^1.1.0",
     "grind-cli": "^0.6.0",
