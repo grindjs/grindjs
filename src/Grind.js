@@ -7,8 +7,9 @@ import './UrlGenerator'
 import './Routing/Router'
 import './Routing/RoutingProvider'
 
-import './Routing/Extensions/RouteExtension'
+import './Routing/Extensions/RequestExtension'
 import './Routing/Extensions/ResponseExtension'
+import './Routing/Extensions/RouteExtension'
 
 const Express = require('express/lib/express.js')
 
@@ -27,8 +28,9 @@ export class Grind {
 	providers = null
 
 	constructor(parameters = { }) {
-		RouteExtension()
+		RequestExtension()
 		ResponseExtension()
+		RouteExtension()
 
 		this.express = Express()
 		this.express.disable('etag')

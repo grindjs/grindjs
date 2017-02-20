@@ -16,6 +16,13 @@ function server(connection) {
 		})
 
 		app.routes.get('flash', (req, res) => res.send(req.flash('values')))
+
+		app.routes.post('old-input', (req, res) => {
+			req.flashInput()
+			res.send('done')
+		})
+
+		app.routes.get('old-input', (req, res) => res.send(req.flash('_old_input')[0]))
 	}
 
 	if(connection !== void 0) {
@@ -102,4 +109,29 @@ test('flash', makeTest('memory', async (t, s) => {
 	})
 
 	t.deepEqual(response.body, [ ])
+}))
+
+test('old-input', makeTest('memory', async (t, s) => {
+	const payload = { test: true }
+
+	await s.request('old-input', {
+		json: true,
+		method: 'post',
+		body: payload,
+		jar: true
+	})
+
+	let response = await s.request('old-input', {
+		json: true,
+		jar: true
+	})
+
+	t.deepEqual(response.body, payload)
+
+	response = await s.request('old-input', {
+		json: true,
+		jar: true
+	})
+
+	t.deepEqual(response.body, void 0)
 }))
