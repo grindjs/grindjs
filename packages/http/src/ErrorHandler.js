@@ -45,7 +45,13 @@ export class ErrorHandler {
 		}
 
 		if(!processor.isNil) {
-			Object.assign(info, processor(err))
+			const result = processor(err, req, res)
+
+			if(res.headersSent) {
+				return
+			}
+
+			Object.assign(info, result)
 		} else {
 			info.code = err.status
 

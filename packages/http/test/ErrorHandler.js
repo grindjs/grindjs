@@ -3,20 +3,32 @@ import { makeServer } from './helpers/request'
 
 class CustomError1 extends Error { }
 class CustomError2 extends Error { }
+class CustomError3 extends Error { }
+class CustomError4 extends Error { }
 
 function server() {
 	return makeServer(80, app => {
 		app.errorHandler.shouldntReport.push(CustomError1)
 		app.errorHandler.shouldntReport.push(CustomError2)
+		app.errorHandler.shouldntReport.push(CustomError3)
+		app.errorHandler.shouldntReport.push(CustomError4)
 
-		app.errorHandler.register(CustomError2, info => ({
-			...info,
+		app.errorHandler.register(CustomError2, () => ({
 			custom: true,
 			code: 418
 		}))
 
+		app.errorHandler.register(CustomError3, (info, req, res) => res.send({ intercepted: true }))
+
+		app.errorHandler.register(CustomError4, (err, req, res) => {
+			res.set('X-Error', 'true')
+			return { code: 418 }
+		})
+
 		app.routes.post('error', req => { throw new CustomError1(req.body.message) })
 		app.routes.get('custom-handler', () => { throw new CustomError2('testing') })
+		app.routes.get('custom-response', () => { throw new CustomError3('testing') })
+		app.routes.get('custom-header', () => { throw new CustomError4('testing') })
 	})
 }
 
@@ -65,5 +77,27 @@ test('custom-handler', makeTest(async (t, s) => {
 	} catch(err) {
 		t.is(err.statusCode, 418)
 		t.is(err.response.body.custom, true)
+	}
+}))
+
+test('custom-response', makeTest(async (t, s) => {
+	const response = await s.request('custom-response', {
+		json: true
+	})
+
+	t.is(response.statusCode, 200)
+	t.is(response.body.intercepted, true)
+}))
+
+test('custom-header', makeTest(async (t, s) => {
+	try {
+		await s.request('custom-header', {
+			json: true
+		})
+
+		t.fail('Endpoint should have thrown error')
+	} catch(err) {
+		t.is(err.statusCode, 418)
+		t.is(err.response.headers['x-error'].toString(), 'true')
 	}
 }))
