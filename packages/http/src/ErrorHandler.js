@@ -45,19 +45,20 @@ export class ErrorHandler {
 		}
 
 		if(!processor.isNil) {
-			const result = processor(err, req, res)
+			try {
+				const result = processor(err, req, res)
 
-			if(res.headersSent) {
-				return
+				if(res.headersSent) {
+					return
+				}
+
+				Object.assign(info, result)
+			} catch(err2) {
+				err = err2
+				this._internalProcessor(info, err)
 			}
-
-			Object.assign(info, result)
 		} else {
-			info.code = err.status
-
-			if(this.app.debug) {
-				info.error = err.message || info.error
-			}
+			this._internalProcessor(info, err)
 		}
 
 		if(info.code.isNil) {
@@ -74,6 +75,14 @@ export class ErrorHandler {
 
 		const report = this.shouldReport(err) ? this.report(req, res, err, info) : Promise.resolve()
 		return report.then(() => this.render(req, res, err, info))
+	}
+
+	_internalProcessor(info, err) {
+		info.code = err.status
+
+		if(this.app.debug) {
+			info.error = err.message || info.error
+		}
 	}
 
 	shouldReport(err) {
