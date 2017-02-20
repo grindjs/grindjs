@@ -2,9 +2,12 @@
 import './ResourceRouteBuilder'
 import './RouteLayer'
 
+import '../Errors/RoutesLoadError'
+
 import '../Middleware/CookieMiddlewareBuilder'
 import '../Middleware/SessionMiddlewareBuilder'
 
+const fs = require('fs')
 const path = require('path')
 const express = require('express/lib/express.js')
 
@@ -147,6 +150,101 @@ export class Router {
 		this._scope.pop()
 
 		return this
+	}
+
+	load(pathname) {
+		/* eslint-disable no-sync */
+		if(!path.isAbsolute(pathname)) {
+			const restore = Error.prepareStackTrace
+			Error.prepareStackTrace = (_, stack) => stack
+			const stack = (new Error).stack
+			Error.prepareStackTrace = restore
+
+			pathname = path.resolve(path.dirname(stack[1].getFileName()), pathname)
+		}
+
+		try {
+			pathname = require.resolve(pathname)
+		} catch(err) {
+			// Ignore and just use original name, which is likely a directory
+		}
+
+		let stats = fs.statSync(pathname)
+
+		if(stats.isDirectory()) {
+			try {
+				const index = path.join(pathname, 'index.js')
+				const indexStats = fs.statSync(index)
+
+				if(indexStats.isFile()) {
+					pathname = index
+					stats = indexStats
+				}
+			} catch(e) {
+				// Will load each file in the directory
+			}
+		}
+
+		const files = [ ]
+
+		if(stats.isDirectory()) {
+			files.push(
+				...fs.readdirSync(pathname)
+				.filter(file => path.extname(file) === '.js')
+				.map(file => path.resolve(pathname, file))
+			)
+		} else {
+			files.push(pathname)
+		}
+
+		const loaders = files.map(file => {
+			let name = path.basename(file, '.js')
+
+			if(name === 'index') {
+				name = path.basename(path.dirname(file))
+			}
+
+			let loader = null
+
+			try {
+				loader = require(file)[name]
+			} catch(err) {
+				throw new RoutesLoadError(err, `Unable to load routes file: ${path.relative(process.cwd(), file)}`)
+			}
+
+			if(loader.isNil) {
+				throw new RoutesLoadError(`Invalid routes file: ${path.relative(process.cwd(), file)}`)
+			}
+
+			return loader
+		})
+
+		loaders.sort((a, b) => {
+			const priorityA = a.priority || 0
+			const priorityB = b.priority || 0
+
+			if(priorityA === priorityB) {
+				return a.name.localeCompare(b.name) < 0 ? -1 : 1
+			}
+
+			return priorityA > priorityB ? -1 : 1
+		})
+
+		return this.group(routes => {
+			for(const loader of loaders) {
+				try {
+					loader(routes, this.app)
+				} catch(err) {
+					if(err instanceof RoutesLoadError) {
+						throw err
+					}
+
+					throw new RoutesLoadError(err, `Unable to load routes: ${loader.name}`)
+				}
+			}
+		})
+
+		/* eslint-enable no-sync */
 	}
 
 	all(pathname, action) {
