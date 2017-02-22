@@ -1,4 +1,6 @@
 .btn {
+	position: relative;
+
 	display: inline-block;
 	height: 36px;
 	padding: 0 15px;
@@ -12,8 +14,30 @@
 	border-radius: 6px;
 	box-shadow: 0 1px 2px 0 rgba(#000, 0.15);
 
+	&::before {
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 0;
+
+		display: block;
+		width: 100%;
+		height: 100%;
+
+		background: #000;
+		border-radius: 6px;
+		content: '';
+		opacity: 0.0;
+
+		transition: opacity 0.2s ease;
+	}
+
 	&:hover, &:active {
 		color: #fff;
+
+		&::before {
+			opacity: 0.08;
+		}
 	}
 }
 
