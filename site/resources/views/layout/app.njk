@@ -11,16 +11,16 @@
 			<div class="header-background"></div>
 			<div class="header-background header-background-mirror"></div>
 
-			{{ html.linkRoute('welcome.show', 'Grind', null, { class: 'brand-logo header-logo' }) }}
+			<a href="{{ url.route('welcome.show') }}" class="brand-logo header-logo">Grind</a>
 
 			<nav class="header-links">
-				{{ html.linkRoute('docs.show', 'Documentation', null, { class: 'header-link' }) }}
+				<a href="{{ url.route('docs.show') }}" class="header-link">Documentation</a>
 				<a href="https://github.com/grindjs" class="header-link">GitHub</a>
 				<a href="https://twitter.com/grindjs" class="header-link" target="_blank">Twitter</a>
 				<a href="https://grind.chat/" class="header-link" target="_blank">Slack</a>
 			</nav>
 
-			{{ html.linkRoute('docs.show', 'Get Started', [ 'guides', 'installation' ], { class: 'header-cta btn' }) }}
+			<a href="{{ url.route('docs.show') }}" class="header-cta btn">Get Started</a>
 		</div>
 		{% endfilter %}
 	</header>
@@ -29,11 +29,11 @@
 {% block contentAfter %}
 	<footer class="footer">
 		<div class="container footer-container">
-			{{ html.linkRoute('welcome.show', 'Grind', null, { class: 'brand-logo footer-logo' }) }}
+			<a href="{{ url.route('welcome.show') }}" class="brand-logo footer-logo">Grind</a>
 
 			<span class="footer-content">
 				<nav class="footer-links">
-					{{ html.linkRoute('docs.show', 'Documentation', null, { class: 'footer-link' }) }}
+					<a href="{{ url.route('docs.show') }}" class="footer-link">Documentation</a>
 					<a href="https://github.com/grindjs" class="footer-link">GitHub</a>
 					<a href="https://twitter.com/grindjs" class="footer-link" target="_blank">Twitter</a>
 				</nav>
