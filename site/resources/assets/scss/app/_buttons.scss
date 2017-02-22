@@ -9,6 +9,7 @@
 	font-weight: $font-weight-medium;
 	line-height: 40px;
 	color: #fff;
+	cursor: pointer;
 
 	background-image: linear-gradient(-180deg, #4c82ff 0%, #3b70ed 100%);
 	border-radius: 6px;
@@ -67,3 +68,71 @@
 
 			transform: rotate(90deg);
 		}
+
+	.btn-actions-trigger {
+		display: none;
+	}
+
+	.btn-actions {
+		position: absolute;
+		top: 100%;
+		right: 0;
+
+		display: block;
+		margin-top: 15px;
+
+		font-size: 13px;
+		font-weight: $font-weight-normal;
+		line-height: 36px;
+		color: #1d1c1f;
+		pointer-events: none;
+		cursor: default;
+
+		background-image: linear-gradient(-180deg, #fafcff 0%, #f8faff 100%);
+		border-radius: 6px;
+		opacity: 0.0;
+		transform: scale(0.7, 0.7) translate(-5px, -20px);
+		transform-origin: top right;
+		transition: opacity 0.2s ease, transform 0.2s ease;
+		box-shadow: 0 1px 2px 0 rgba(#000, 0.15);
+
+		:checked ~ & {
+			pointer-events: auto;
+			opacity: 1.0;
+			transform: scale(1.0, 1.0);
+		}
+	}
+
+		.btn-action {
+			display: block;
+			height: 33px;
+			padding: 0 15px;
+			margin: 0;
+
+			& + & {
+				height: 34px;
+				border-top: 1px solid rgba(#000, 0.05);
+			}
+
+			&:first-child {
+				border-top-right-radius: 6px;
+				border-top-left-radius: 6px;
+			}
+
+			&:last-child {
+				border-bottom-right-radius: 6px;
+				border-bottom-left-radius: 6px;
+			}
+		}
+
+			.btn-action-link {
+				display: block;
+				height: 33px;
+				padding: inherit;
+				margin: 0 -15px;
+				border-radius: inherit;
+
+				&:hover {
+					background: #f5f8ff;
+				}
+			}
