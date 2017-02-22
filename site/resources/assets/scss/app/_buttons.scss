@@ -51,9 +51,19 @@
 		background: transparent none no-repeat center center;
 	}
 
-		.btn-icon-chevron-right {
+		%btn-icon-chevron {
 			width: 6px;
 			height: 10px;
 			margin-left: 10px;
 			background-image: url(../img/button-chevron-right.svg);
+		}
+
+		.btn-icon-chevron-right {
+			@extend %btn-icon-chevron;
+		}
+
+		.btn-icon-chevron-down {
+			@extend %btn-icon-chevron;
+
+			transform: rotate(90deg);
 		}
