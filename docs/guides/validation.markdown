@@ -14,10 +14,10 @@ Next, you’ll need to add `ValidationProvider` to your app providers in `app/Bo
 
 ```js
 import Grind from 'grind-framework'
-import { ValidationProvider } from 'grind-db'
+import { ValidationProvider } from 'grind-validation'
 
 const app = new Grind()
-app.providers.push(DatabaseProvider)
+app.providers.push(ValidationProvider)
 ```
 
 ## Basic Validation
