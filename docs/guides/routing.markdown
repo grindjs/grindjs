@@ -189,6 +189,85 @@ app.routes.group({ prefix: 'users/:id' }, routes => {
 
 By grouping routes with common prefixes together, you’re able to end up with [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) code that’s much easier to read.
 
+## Route Files
+
+For large applications, a single routes file can become monolithic and unwieldy.  Fortunately, Grind provides a simple way for you to split up your routes into multiple files and easily load them.
+
+The `routes.load` function accepts a single parameter that will load a routes file or a directory relative to the current file invoking it.
+
+If you specify a directory, it will first check for an `index.js` file, if no index file is provided, it will load all `*.js` files as routes.
+
+#### Single File
+```js
+app.routes.load('./UserRoutes')
+```
+
+```js
+export function UserRoutes(routes) {
+	routes.group({ prefix: 'users' }, routes => {
+		routes.get(':id', …)
+	})
+}
+```
+
+---
+
+#### Routes Directory
+
+Assuming the following directory structure:
+```
+┌─ Providers
+│  └── RoutesProvider.js
+└─ Routes
+   ├── PublicRoutes
+   │  ├─── PostsRoutes.js
+   │  ├─── TagsRoutes.js
+   ├── AuthenticatedRoutes
+   │  ├─── AdminRoutes.js
+   │  ├─── DashboardRoutes.js
+   │  └─── UserRoutes.js
+   └── index.js
+```
+
+#### Providers/RoutesProvider.js
+```js
+export function RoutesProvider(app) {
+	app.routes.load('../Routes')
+}
+```
+
+In this example, `routes.load` will first check for if `../Routes/index.js` exists, see that it does and then load it.
+
+#### Routes/index.js
+```js
+export function Routes(routes) {
+	routes.load('./PublicRoutes')
+	routes.group({ before: 'auth' }, routes => {
+		routes.load('./AuthenticatedRoutes')
+	})
+}
+```
+
+In both of these examples, `routes.load` will check if the respective `index.js` files exist (`PublicRoutes/index.js` and `AuthenticatedRoutes/index.js`), and once it sees that they don’t, it’ll look for all `*.js` files within those directories and load them alphabetically.
+
+> {note} When using an `index.js` file, it’s important that you export a function with the same name as the enclosing directory.  As you can see above, our `Routes/index.js` file exports a function called `Routes`.
+
+#### Customizing Load Order
+
+By default, when a directory is loaded, `routes.load` will load them alphabetically.  If you need to ensure a certain order, you can add a `priority` property to one or all of the files:
+
+```js
+export function UserRoutes(routes) {
+	routes.group({ prefix: 'users' }, routes => {
+		routes.get(':id', …)
+	})
+}
+
+UserRoutes.priority = 1000
+```
+
+All route loaders that have a priority will be loaded first and then any loaders that do not have an explicit priority will be loaded alphabetically.
+
 ## Controller Routes
 Putting it all together, we can build rich controller routes with everything above:
 ```js
