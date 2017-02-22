@@ -1,5 +1,5 @@
 # Installation
-Getting your environment setup for Grind is a quick process that shouldn’t take you more than a few minutes.  Just follow the simple steps below and you’ll be building your first Grind app is no time!
+Getting your environment set up for Grind is a quick process that shouldn’t take you more than a few minutes.  Just follow the simple steps below and you’ll be building your first Grind app is no time!
 
 [[toc]]
 
