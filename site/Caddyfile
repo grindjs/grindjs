@@ -6,7 +6,25 @@ grind.rocks {
 		hook_type   github
 		branch      master
 		key         /apps/.ssh/id_rsa
-		path        ../resources/docs
+		path        ../resources/docs/master
+		interval    -1
+	}
+
+	git github.com/grindjs/docs {
+		hook        /hooks/deploy-docs {$DOCS_SECRET}
+		hook_type   github
+		branch      0.6
+		key         /apps/.ssh/id_rsa
+		path        ../resources/docs/0.6
+		interval    -1
+	}
+
+	git github.com/grindjs/docs {
+		hook        /hooks/deploy-docs {$DOCS_SECRET}
+		hook_type   github
+		branch      0.5
+		key         /apps/.ssh/id_rsa
+		path        ../resources/docs/0.5
 		interval    -1
 	}
 

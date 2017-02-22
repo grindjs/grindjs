@@ -15,4 +15,18 @@ export function ViewExtensionProvider(app) {
 
 		return highlighted
 	})
+
+	app.view.addFilter('formatVersion', version => {
+		if(version === 'master') {
+			return 'Latest'
+		}
+
+		return version
+	})
+
+	app.view.addFilter('set', (object, key, value) => {
+		object[key] = value
+		return object
+	})
+
 }
