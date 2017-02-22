@@ -2163,8 +2163,8 @@ grind-core@^0.6.0:
     grind-framework "^0.6.0"
 
 grind-framework@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/grind-framework/-/grind-framework-0.6.0.tgz#d427f9c478ec464e06e10049e9e100ebb9af46d3"
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/grind-framework/-/grind-framework-0.6.2.tgz#a5110fb75858297f5eda9571a98d79ecb682ab70"
   dependencies:
     body-parser "^1.15.2"
     chalk "^1.1.3"
