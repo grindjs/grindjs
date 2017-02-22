@@ -14,6 +14,7 @@
 * [Logging](logging)
 * [Queues](queues)
 * [Swagger](swagger)
+* [Validation](validation)
 
 ##### Extending
 * [Providers](providers)
