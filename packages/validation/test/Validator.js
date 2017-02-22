@@ -16,6 +16,26 @@ test('simple', async t => {
 	}
 })
 
+test('custom-mesage', async t => {
+	const validator = new Validator
+
+	try {
+		await validator.validate({ username: '' }, rule => ({
+			username: rule.string().required()
+		}), {
+			language: {
+				any: {
+					empty: 'The {{key}} field is not allowed to be empty.',
+				}
+			}
+		})
+
+		t.fail('Validation passed when it should have failed')
+	} catch(err) {
+		t.is(err.errors.username[0].message, 'The username field is not allowed to be empty.')
+	}
+})
+
 test('extend', async t => {
 	const validator = new Validator
 
