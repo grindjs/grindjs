@@ -20,7 +20,9 @@
 				<a href="https://grind.chat/" class="header-link" target="_blank">Slack</a>
 			</nav>
 
-			<a href="{{ url.route('docs.show') }}" class="header-cta btn">Get Started</a>
+			{% block headerActions %}
+				<a href="{{ url.route('docs.show') }}" class="header-cta btn">Get Started</a>
+			{% endblock %}
 		</div>
 		{% endfilter %}
 	</header>
