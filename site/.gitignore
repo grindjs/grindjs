@@ -1,3 +1,4 @@
 node_modules/
 build/
 resources/docs/
+.DS_Store
