@@ -105,12 +105,12 @@ export class UrlGenerator {
 	 * Generate a URL
 	 *
 	 * @param  {string} url URL/Path to generate
-	 * @param  {Object|Array|string} parameters Query string parameters
-	 * @param  {Object|null} req Origin request to generate URL from, uses correct host/protocol
+	 * @param  {Object} query Query string parameters
+	 * @param  {Object|null} req Original request to generate URL from, uses correct host/protocol
 	 * @param  {boolean|null} secure Whether or not to force https, null uses default behavior
 	 * @return {string}
 	 */
-	make(url, parameters, req, secure = null) {
+	make(url, query, req, secure = null) {
 		if(req === true || req === false) {
 			secure = req
 			req = null
@@ -135,11 +135,11 @@ export class UrlGenerator {
 			}
 		}
 
-		if(!parameters.isNil) {
+		if(!query.isNil) {
 			if(url.query.isNil) {
-				url.query = parameters
+				url.query = query
 			} else {
-				url.query = { ...url.query, ...parameters }
+				url.query = { ...url.query, ...query }
 			}
 		}
 
@@ -148,6 +148,24 @@ export class UrlGenerator {
 		url.host = this.getHost(req)
 
 		return URL.format(url)
+	}
+
+	/**
+	 * Generate the current URL
+	 *
+	 * @param  {Object} query Additional query string parameters to add to the current URL
+	 * @param  {Object|null} req Original request to generate URL from, uses correct host/protocol
+	 * @param  {boolean|null} secure Whether or not to force https, null uses default behavior
+	 * @return {string}
+	 */
+	current(query = { }, req, secure = null) {
+		req = req || this.req
+
+		if(req.isNil) {
+			throw new Error('`current` requires a request object')
+		}
+
+		return this.make(req.originalUrl, query, req, secure)
 	}
 
 	getProtocol(req = null, secure = null) {
