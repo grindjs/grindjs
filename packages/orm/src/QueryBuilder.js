@@ -21,6 +21,31 @@ export class QueryBuilder extends ObjectionQueryBuilder {
 		return this.limit(limit).offset(offset)
 	}
 
+	paginate(req, perPage = 25, { query, param } = { }) {
+		let page = 1
+
+		if(!param.isNil) {
+			page = Number.parseInt(req.params[param]) || 1
+		} else {
+			page = Number.parseInt(req.query[query || 'page']) || 1
+		}
+
+		page = Math.max(1, page)
+
+		const start = (page - 1) * perPage
+		const end = start + perPage
+
+		return this.range(start, end).runAfter(result => {
+			result.totalPages = Math.ceil(result.total / perPage)
+			result.perPage = perPage
+			result.page = page
+			result.start = start
+			result.end = Math.min(end, result.total)
+
+			return result
+		})
+	}
+
 	withoutEager() {
 		this._allowEager = false
 		this._eagerExpression = null
