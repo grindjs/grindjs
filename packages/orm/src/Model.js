@@ -13,6 +13,7 @@ export class Model extends ObjectionModel {
 	static useTimestamps = true
 	static createdAt = 'created_at'
 	static updatedAt = 'updated_at'
+	static dates = [ ]
 
 	static $$app = null
 
@@ -142,6 +143,15 @@ export class Model extends ObjectionModel {
 
 	$parseDatabaseJson(json) {
 		json = super.$parseDatabaseJson(json)
+
+		for(const date of this.constructor.getDates()) {
+			if(json[date].isNil) {
+				continue
+			}
+
+			json[date] = this.constructor.asDate(json[date])
+		}
+
 		const schema = this.constructor.jsonSchema
 
 		if(schema.isNil || schema.properties.isNil) {
@@ -171,6 +181,20 @@ export class Model extends ObjectionModel {
 			} else if(property.type === 'integer') {
 				json[field] = as.integer(json[field])
 			}
+		}
+
+		return json
+	}
+
+	$formatDatabaseJson(json) {
+		json = super.$formatDatabaseJson(json)
+
+		for(const date of this.constructor.getDates()) {
+			if(json[date].isNil) {
+				continue
+			}
+
+			json[date] = this.constructor.asDatabaseDate(json[date])
 		}
 
 		return json
@@ -237,6 +261,26 @@ export class Model extends ObjectionModel {
 
 	$beforeUpdate() {
 		return this.$beforeSave(false)
+	}
+
+	static getDates() {
+		if(this.useTimestamps) {
+			return [ ...this.dates, this.createdAt, this.updatedAt ]
+		}
+
+		return this.dates
+	}
+
+	static asDate(value) {
+		return new Date(value)
+	}
+
+	static asDatabaseDate(value) {
+		if(value instanceof Date) {
+			return value
+		}
+
+		return new Date(value)
 	}
 
 	static describe() {
