@@ -1,5 +1,7 @@
 import { QueryBuilder as ObjectionQueryBuilder } from 'objection'
 
+import './ModelNotFoundError'
+
 export class QueryBuilder extends ObjectionQueryBuilder {
 	static registeredFilters = { }
 
@@ -41,6 +43,20 @@ export class QueryBuilder extends ObjectionQueryBuilder {
 			result.page = page
 			result.start = start
 			result.end = Math.min(end, result.total)
+
+			return result
+		})
+	}
+
+	orFail() {
+		return this.runAfter(result => {
+			if(
+				result.isNil ||
+				(Array.isArray(result) && result.length === 0) ||
+				(Array.isArray(result.results) && result.results.length === 0)
+			) {
+				throw new ModelNotFoundError(this._modelClass)
+			}
 
 			return result
 		})

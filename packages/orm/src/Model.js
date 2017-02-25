@@ -34,6 +34,10 @@ export class Model extends ObjectionModel {
 		return this.query().findById(id)
 	}
 
+	static findByIdOrFail(id) {
+		return this.findById(id).orFail()
+	}
+
 	static findByRouteParameter(value) {
 		return this.findById(value)
 	}
