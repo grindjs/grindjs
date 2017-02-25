@@ -10,6 +10,7 @@ export class Model extends ObjectionModel {
 	static descriptiveName = null
 	static eager = null
 	static eagerFilters = null
+	static useTimestamps = true
 
 	static $$app = null
 
@@ -215,11 +216,13 @@ export class Model extends ObjectionModel {
 
 	$beforeSave(inserting) {
 		return new Promise(resolve => {
-			const now = new Date
-			this.updated_at = now
+			if(this.constructor.useTimestamps) {
+				const now = new Date
+				this.updated_at = now
 
-			if(inserting) {
-				this.created_at = now
+				if(inserting) {
+					this.created_at = now
+				}
 			}
 
 			resolve()
