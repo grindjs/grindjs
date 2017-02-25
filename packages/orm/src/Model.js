@@ -1,8 +1,8 @@
 import { Model as ObjectionModel } from 'objection'
 
+import './Inflect'
 import './RelationSynchronizer'
 import './RelationValidator'
-import './inflect'
 
 const as = require('as-type')
 
@@ -73,7 +73,7 @@ export class Model extends ObjectionModel {
 	}
 
 	static _hasOneOrMany(relation, modelClass, foreignKey = null, localKey = null) {
-		foreignKey = foreignKey || inflect.foreignKey(this.name)
+		foreignKey = foreignKey || Inflect.foreignKey(this.name)
 
 		if(localKey.isNil) {
 			localKey = this.getFullIdColumn()
@@ -92,7 +92,7 @@ export class Model extends ObjectionModel {
 	}
 
 	static belongsTo(modelClass, foreignKey = null, otherKey = null) {
-		foreignKey = foreignKey || inflect.foreignKey(modelClass.name)
+		foreignKey = foreignKey || Inflect.foreignKey(modelClass.name)
 
 		if(otherKey.isNil) {
 			otherKey = modelClass.getFullIdColumn()
@@ -112,8 +112,8 @@ export class Model extends ObjectionModel {
 
 	static belongsToMany(modelClass, tableName = null, foreignKey = null, otherKey = null) {
 		tableName = tableName || [ this.tableName, modelClass.tableName ].sort().join('_')
-		foreignKey = foreignKey || inflect.foreignKey(modelClass.name)
-		otherKey = otherKey || inflect.foreignKey(this.name)
+		foreignKey = foreignKey || Inflect.foreignKey(modelClass.name)
+		otherKey = otherKey || Inflect.foreignKey(this.name)
 
 		return {
 			relation: this.ManyToManyRelation,
@@ -288,7 +288,7 @@ export class Model extends ObjectionModel {
 			return this.descriptiveName
 		}
 
-		return inflect.singular(this.tableName)
+               return Inflect.singular(this.tableName)
 	}
 
 }

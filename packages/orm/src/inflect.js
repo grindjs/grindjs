@@ -1,8 +1,8 @@
-import i from 'i'
+import { Inflect as BaseInflect } from 'grind-support'
 
-export const inflect = Object.assign({ }, i())
+export const Inflect = { ...BaseInflect }
 
-const foreignKey = inflect.foreign_key
-delete inflect.foreign_key
+const foreignKey = Inflect.foreign_key
+delete Inflect.foreign_key
 
-inflect.foreignKey = val => foreignKey(val.replace(/Model$/, ''))
+Inflect.foreignKey = val => foreignKey(val.replace(/Model$/, ''))

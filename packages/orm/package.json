@@ -17,12 +17,12 @@
   ],
   "dependencies": {
     "as-type": "^1.0.0",
-    "i": "0.3.x",
     "objection": ">=0.4.0 <= 0.6.0"
   },
   "peerDependencies": {
     "grind-db": "^0.6.0",
-    "grind-framework": "^0.6.0"
+    "grind-framework": "^0.6.0",
+    "grind-support": "^0.6.0"
   },
   "devDependencies": {
     "babel-cli": ">=6.7 <=7.0",

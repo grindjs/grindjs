@@ -1,5 +1,5 @@
 import { AbortError, Command, InputArgument, InputOption, StubCompiler } from 'grind-cli'
-import './inflect'
+import './Inflect'
 import path from 'path'
 
 export class MakeModelCommand extends Command {
@@ -23,7 +23,7 @@ export class MakeModelCommand extends Command {
 			tableName = this.option('table')
 
 			if(name.isNil) {
-				name = `${inflect.classify(tableName)}Model`
+				name = `${Inflect.classify(tableName)}Model`
 			}
 		}
 
@@ -31,7 +31,7 @@ export class MakeModelCommand extends Command {
 			tableName = 'table_name'
 			descriptiveName = 'model'
 		} else {
-			descriptiveName = inflect.singularize(tableName)
+			descriptiveName = Inflect.singularize(tableName)
 		}
 
 		if(name.isNil) {
