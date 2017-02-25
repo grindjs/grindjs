@@ -289,7 +289,8 @@ export class Model extends ObjectionModel {
 			return this.descriptiveName
 		}
 
-               return Inflect.singular(this.tableName)
+		const name = Inflect.singularize(this.tableName)
+		return name.charAt(0).toUpperCase() + name.substring(1)
 	}
 
 }
