@@ -1,6 +1,7 @@
 import { Model as ObjectionModel } from 'objection'
 
 import './Inflect'
+import './ModelNotFoundError'
 import './RelationSynchronizer'
 import './RelationValidator'
 
@@ -43,7 +44,7 @@ export class Model extends ObjectionModel {
 		this.app().routes.bind(name, (value, resolve, reject) => {
 			this.findByRouteParameter(value).then(row => {
 				if(row.isNil) {
-					reject(new NotFoundError(`${this.describe()} Not found`))
+					reject(new ModelNotFoundError(this))
 					return
 				}
 
