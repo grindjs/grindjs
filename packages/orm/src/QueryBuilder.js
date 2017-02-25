@@ -11,6 +11,8 @@ export class QueryBuilder extends ObjectionQueryBuilder {
 	}
 
 	subset(limit, offset = 0) {
+		Log.error('subset is deprecated and will be removed in 0.8.')
+
 		if(typeof limit === 'object') {
 			offset = limit.offset || 0
 			limit = limit.limit
@@ -62,6 +64,7 @@ export class QueryBuilder extends ObjectionQueryBuilder {
 
 	// Objection 0.4.x
 	_execute() {
+		Log.error('Support for Objection 0.4.x is deprecated and will be removed in 0.8')
 		return this.__execute('_execute')
 	}
 
