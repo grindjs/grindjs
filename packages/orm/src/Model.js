@@ -11,6 +11,8 @@ export class Model extends ObjectionModel {
 	static eager = null
 	static eagerFilters = null
 	static useTimestamps = true
+	static createdAt = 'created_at'
+	static updatedAt = 'updated_at'
 
 	static $$app = null
 
@@ -218,10 +220,10 @@ export class Model extends ObjectionModel {
 		return new Promise(resolve => {
 			if(this.constructor.useTimestamps) {
 				const now = new Date
-				this.updated_at = now
+				this[this.constructor.updatedAt] = now
 
 				if(inserting) {
-					this.created_at = now
+					this[this.constructor.createdAt] = now
 				}
 			}
 
