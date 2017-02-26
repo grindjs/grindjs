@@ -232,19 +232,21 @@ export class Router {
 			return priorityA > priorityB ? -1 : 1
 		})
 
-		return this.group(routes => {
-			for(const loader of loaders) {
-				try {
+		for(const loader of loaders) {
+			try {
+				this.group(loader.options || { }, routes => {
 					loader(routes, this.app)
-				} catch(err) {
-					if(err instanceof RoutesLoadError) {
-						throw err
-					}
-
-					throw new RoutesLoadError(err, `Unable to load routes: ${loader.name}`)
+				})
+			} catch(err) {
+				if(err instanceof RoutesLoadError) {
+					throw err
 				}
+
+				throw new RoutesLoadError(err, `Unable to load routes: ${loader.name}`)
 			}
-		})
+		}
+
+		return this
 
 		/* eslint-enable no-sync */
 	}
