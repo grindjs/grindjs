@@ -15,12 +15,18 @@ export function ResponseExtension() {
 		return this.redirect(this.app._grind.url.route(name, parameters, this.req, secure))
 	}
 
+	Response.flash = function(key, value) {
+		this.req.flash(key, value)
+		return this
+	}
+
+	Response.flashError = function(error) {
+		this.req.flash('error', error)
+		return this
+	}
+
 	Response.flashInput = function() {
-		if(typeof this.req.flash === 'function') {
-			this.req.flash('_old_input', this.req.body)
-		} else {
-			this.flash('_old_input', this.req.body)
-		}
+		this.req.flash('_old_input', this.req.body)
 
 		return this
 	}
