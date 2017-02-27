@@ -73,7 +73,7 @@ By default, Grind will do nothing with the `public` directory.  When assets are 
 
 The expectation is that in production you’re running Grind behind a web server like nginx, which will handle serving out of `public` without ever hitting Grind.
 
-If you’d like to Grind to serve out of public itself, you can setup static middleware in your `RoutesProvider.js` file to do so:
+If you’d like Grind to serve out of public itself, you can setup static middleware in your `RoutesProvider.js` file to do so:
 ```js
 export function RoutesProvider(app) {
 	app.routes.static('css', 'css')
