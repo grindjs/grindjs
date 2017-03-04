@@ -6,9 +6,7 @@ export class ViewClearCommand extends Command {
 	description = 'Clears precompiled view cache'
 
 	async run() {
-		const exists = FS.exists(this.app.view.compiledViewPath)
-
-		if(exists) {
+		if(await FS.exists(this.app.view.compiledViewPath)) {
 			await FS.unlink(this.app.view.compiledViewPath)
 		}
 
