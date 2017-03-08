@@ -1,6 +1,6 @@
 {
   "name": "grind-swagger",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Swagger provider for Grind",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
