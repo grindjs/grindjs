@@ -4,10 +4,10 @@ import './compileRoute'
 export function SwaggerProvider(app) {
 
 	app.routes.get('/swagger.json', (req, res) => {
-		const router = app.express._router
-		const stack = router ? router.stack : null
+		const router = app.routes.router
+		const stack = router.stack
 
-		if(router.isNil || router.length <= 0) {
+		if(stack.length <= 0) {
 			res.status(400).send({
 				error: 'No defined routes'
 			})
