@@ -1,8 +1,8 @@
 import './Swagger'
 import './expandParameters'
 
-import { route as inferRoute } from './inference/route'
-import { parameter as inferParameter } from './inference/parameter'
+import { route as inferRoute } from './Inference/route'
+import { parameter as inferParameter } from './Inference/parameter'
 
 export function compileRoute(route, app) {
 	let docs = !route.context.isNil ? route.context.swagger : null
