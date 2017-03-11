@@ -1,3 +1,4 @@
+import './HtmlString'
 import { encodeHTML } from 'entities'
 
 const acorn = require('acorn')
@@ -56,6 +57,10 @@ export class Template {
 	static escape(value) {
 		if(value.isNil) {
 			return ''
+		}
+
+		if(value instanceof HtmlString) {
+			return value.toString()
 		}
 
 		return encodeHTML(value.toString())

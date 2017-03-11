@@ -1,12 +1,14 @@
 import './Template'
 import './Compiler'
+import './HtmlString'
 
 export class StoneEngine {
 	viewsPath = null
 	compiler = null
 
 	context = {
-		escape: Template.escape
+		escape: Template.escape,
+		HtmlString: HtmlString
 	}
 
 	constructor(viewsPath) {
