@@ -150,6 +150,36 @@ export class Compiler {
 		return this.compileEnd()
 	}
 
+	/**
+	 * Generate continue code that optionally has a condition
+	 * associated with it.
+	 *
+	 * @param  {string} condition Optional condition to continue on
+	 * @return {string}           Code to continue
+	 */
+	compileContinue(condition) {
+		if(condition.isNil) {
+			return 'continue;'
+		}
+
+		return `if(${condition}) { continue; }`
+	}
+
+	/**
+	 * Generate break code that optionally has a condition
+	 * associated with it.
+	 *
+	 * @param  {string} condition Optional condition to break on
+	 * @return {string}           Code to break
+	 */
+	compileBreak(condition) {
+		if(condition.isNil) {
+			return 'break;'
+		}
+
+		return `if(${condition}) { break; }`
+	}
+
 	compileWhile(condition) {
 		return `while(${condition}) {`
 	}
