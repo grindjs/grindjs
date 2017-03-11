@@ -13,11 +13,14 @@ export class Compiler {
 
 	compile(template) {
 		// eslint-disable-next-line no-sync
-		let contents = fs.readFileSync(template).toString().trim()
+		return this.compileString(fs.readFileSync(template).toString())
+	}
+
+	compileString(contents) {
 		let extendsLayout = null
 
 		// Strip comments
-		contents = contents.replace(/\{\{--([\s\S]+)--\}\}/g, '')
+		contents = contents.trim().replace(/\{\{--([\s\S]+)--\}\}/g, '')
 
 		// Loop through and find all directives
 		const expressions = [ ]
@@ -97,12 +100,12 @@ export class Compiler {
 			}
 		}
 
-		code = `template = function(_, _sections = { }) {\nlet output = '';\n${Template.contextualize(code)}\n`
+		code = `const template = function(_, _sections = { }) {\nlet output = '';\n${Template.contextualize(code)}\n`
 
 		if(extendsLayout !== null) {
-			code += `return _.$compiler._extends(${extendsLayout}, _, _sections);\n}`
+			code += `return _.$compiler._extends(${extendsLayout}, _, _sections);\n}; template`
 		} else {
-			code += `return output;\n}`
+			code += `return output;\n}; template`
 		}
 
 		return eval(code)
