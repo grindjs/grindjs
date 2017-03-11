@@ -185,6 +185,15 @@ export class Compiler {
 	}
 
 	/**
+	 * Ends the current section and yields it for display
+	 * @return {string} Output from the section
+	 */
+	compileShow() {
+		const section = this.sectionStack[this.sectionStack.length - 1]
+		return `${this.compileEndsection()};\n${this.compileYield(section)}`
+	}
+
+	/**
 	 * Compiles the yield directive to output a section
 	 *
 	 * @param  {string} section Name of the section to yield
