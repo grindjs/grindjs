@@ -18,7 +18,7 @@ export class Compiler {
 		let match = null
 
 		// Loops through and finds all directives
-		while((match = contents.match(/@([a-z0-9_]+)(\s*\()?/))) {
+		while((match = contents.match(/@([a-zA-Z0-9_]+)(\s*\()?/))) {
 			if(match.index > 0) {
 				expressions.push({
 					type: 'string',
@@ -63,7 +63,7 @@ export class Compiler {
 				continue
 			}
 
-			const result = this.compileDirective(match[1], args)
+			const result = this.compileDirective(match[1].toLowerCase(), args)
 
 			if(!result.isNil) {
 				expressions.push({
@@ -117,7 +117,13 @@ export class Compiler {
 			return this.directives[name](args)
 		}
 
-		return this[`compile${name[0].toUpperCase()}${name.substring(1)}`](args)
+		const method = `compile${name[0].toUpperCase()}${name.substring(1)}`
+
+		if(typeof this[method] !== 'function') {
+			throw new Error(`@${name} is not a valid Stone directive.`)
+		}
+
+		return this[method](args)
 	}
 
 	compileIf(condition) {
