@@ -112,6 +112,14 @@ export class Compiler {
 		return (this.compile(this.engine.resolve(template)))(context, sections)
 	}
 
+	_include(context, sections, template, extra) {
+		if(extra) {
+			context = { ...context, ...extra }
+		}
+
+		return (this.compile(this.engine.resolve(template)))(context, sections)
+	}
+
 	compileDirective(name, args) {
 		if(name === 'directive') {
 			// Avoid infinite loop
@@ -277,6 +285,10 @@ export class Compiler {
 	 */
 	compileHassection(section) {
 		return `if((_sections[${section}] || [ ]).length > 0) {`
+	}
+
+	compileInclude(args) {
+		return `output += (_.$compiler._include(_, _sections, ${args}));\n`
 	}
 
 }
