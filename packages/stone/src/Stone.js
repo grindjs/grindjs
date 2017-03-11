@@ -158,7 +158,17 @@ export class Stone {
 	}
 
 	compileSection(args) {
-		return `_sections[${args}] = function() {\nlet output = '';\n`
+		if(args.indexOf(',') === -1) {
+			return `_sections[${args}] = function() {\nlet output = '';\n`
+		}
+
+		args = args.split(/,/)
+
+		if(args.length !== 2) {
+			throw new Error('Invalid section block')
+		}
+
+		return `_sections[${args[0]}] = function() { return ${args[1]}; }\n`
 	}
 
 	compileEndsection() {
