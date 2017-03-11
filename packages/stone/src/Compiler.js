@@ -14,10 +14,13 @@ export class Compiler {
 		let contents = (await FS.readFile(template)).toString().trim()
 		let extendsLayout = null
 
+		// Strip comments
+		contents = contents.replace(/\{\{--([\s\S]+)--\}\}/g, '')
+
+		// Loop through and find all directives
 		const expressions = [ ]
 		let match = null
 
-		// Loops through and finds all directives
 		while((match = contents.match(/@([a-zA-Z0-9_]+)(\s*\()?/))) {
 			if(match.index > 0) {
 				expressions.push({
