@@ -1,5 +1,4 @@
 import { Html5Entities } from 'html-entities'
-import { runtime as NunjucksRuntime } from 'nunjucks'
 
 const EOL = '\n'
 
@@ -466,11 +465,11 @@ export class HtmlBuilder {
 	 * @return SafeString
 	 */
 	toHtmlString(html) {
-		return new NunjucksRuntime.SafeString(html)
+		return this.app.view.toHtmlString(html)
 	}
 
 	_isHtmlString(html) {
-		return html instanceof NunjucksRuntime.SafeString
+		return this.app.view.isHtmlString(html)
 	}
 
 }
