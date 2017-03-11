@@ -7,6 +7,7 @@ acorn.walk = require('acorn/dist/walk').simple
 const astring = require('astring')
 
 export class Stone {
+	viewsPath = null
 
 	context = {
 		escape: value => {
@@ -17,6 +18,10 @@ export class Stone {
 			return encodeHTML(value.toString())
 		}
 
+	}
+
+	constructor(viewsPath) {
+		this.viewsPath = viewsPath
 	}
 
 	async compile(template) {
@@ -101,7 +106,11 @@ export class Stone {
 	}
 
 	render(template, context) {
-		return this.compile(template).then(template => template({ ...this.context, ...context }))
+		return this.compile(this.resolve(template)).then(template => template({ ...this.context, ...context }))
+	}
+
+	resolve(template) {
+		return `${this.viewsPath}/${template.replace(/\./g, '/')}.stone`
 	}
 
 	_contextualize(code) {
