@@ -1,15 +1,11 @@
 import { FS } from 'grind-support'
 import './Template'
 
-export class Stone {
-	viewsPath = null
+export class Compiler {
+	engine = null
 
-	context = {
-		escape: Template.escape,
-	}
-
-	constructor(viewsPath) {
-		this.viewsPath = viewsPath
+	constructor(engine) {
+		this.engine = engine
 	}
 
 	async compile(template) {
@@ -97,7 +93,7 @@ export class Stone {
 		code = `template = function(_, _sections = { }) {\nlet output = '';\n${Template.contextualize(code)}\n`
 
 		if(extendsLayout !== null) {
-			code += `return _.$engine._extends(${extendsLayout}, _, _sections);\n}`
+			code += `return _.$compiler._extends(${extendsLayout}, _, _sections);\n}`
 		} else {
 			code += `return output;\n}`
 		}
@@ -105,20 +101,8 @@ export class Stone {
 		return eval(code)
 	}
 
-	render(template, context) {
-		return this.compile(this.resolve(template)).then(template => template({
-			...this.context,
-			...context,
-			$engine: this
-		}))
-	}
-
 	_extends(template, context, sections) {
-		return this.compile(this.resolve(template)).then(template => template(context, sections))
-	}
-
-	resolve(template) {
-		return `${this.viewsPath}/${template.replace(/\./g, '/')}.stone`
+		return this.compile(this.engine.resolve(template)).then(template => template(context, sections))
 	}
 
 	compileIf(args) {
