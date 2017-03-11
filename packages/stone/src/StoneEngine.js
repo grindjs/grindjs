@@ -17,12 +17,27 @@ export class StoneEngine {
 	}
 
 	render(template, context) {
-		return (this.compiler.compile(this.resolve(template)))({
+		const compiled = this.compiler.compile(this.resolve(template))
+		const rendered = compiled({
 			...this.context,
 			...context,
 			$engine: this,
 			$compiler: this.compiler
 		})
+
+		return rendered
+	}
+
+	renderString(template, context) {
+		const compiled = this.compiler.compileString(template)
+		const rendered = compiled({
+			...this.context,
+			...context,
+			$engine: this,
+			$compiler: this.compiler
+		})
+
+		return rendered
 	}
 
 	resolve(template) {
