@@ -26,6 +26,7 @@ export class Stone {
 
 	async compile(template) {
 		let contents = (await FS.readFile(template)).toString().trim()
+		let extendsLayout = null
 
 		const expressions = [ ]
 		let match = null
@@ -70,6 +71,11 @@ export class Stone {
 				contents = contents.substring(match[0].length)
 			}
 
+			if(match[1] === 'extends') {
+				extendsLayout = args
+				continue
+			}
+
 			const method = `compile${match[1][0].toUpperCase()}${match[1].substring(1)}`
 			const result = this[method](args)
 
@@ -100,13 +106,27 @@ export class Stone {
 			}
 		}
 
-		code = `template = function(_) {\nlet output = '';\n${this._contextualize(code)}\nreturn output;\n}`
+		code = `template = function(_, _sections = { }) {\nlet output = '';\n${this._contextualize(code)}\n`
+
+		if(extendsLayout !== null) {
+			code += `return _.$engine._extends(${extendsLayout}, _, _sections);\n}`
+		} else {
+			code += `return output;\n}`
+		}
 
 		return eval(code)
 	}
 
 	render(template, context) {
-		return this.compile(this.resolve(template)).then(template => template({ ...this.context, ...context }))
+		return this.compile(this.resolve(template)).then(template => template({
+			...this.context,
+			...context,
+			$engine: this
+		}))
+	}
+
+	_extends(template, context, sections) {
+		return this.compile(this.resolve(template)).then(template => template(context, sections))
 	}
 
 	resolve(template) {
@@ -117,7 +137,7 @@ export class Stone {
 		const tree = acorn.parse(code)
 		const scopes = [
 			{
-				locals: new Set,
+				locals: new Set([ '_sections' ]),
 				end: Number.MAX_VALUE
 			}
 		]
@@ -201,6 +221,18 @@ export class Stone {
 
 	compileEnd() {
 		return '}'
+	}
+
+	compileSection(args) {
+		return `_sections[${args}] = function() {\nlet output = '';\n`
+	}
+
+	compileEndsection() {
+		return 'return output;\n}'
+	}
+
+	compileYield(section) {
+		return `output += typeof _sections[${section}] === 'function' ? _sections[${section}]() : ''`
 	}
 
 }
