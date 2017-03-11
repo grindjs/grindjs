@@ -1,4 +1,3 @@
-import './ViewFactory'
-import './ViewProvider'
+import './NunjucksEngine'
 
-export { ViewFactory, ViewProvider }
+export { NunjucksEngine }

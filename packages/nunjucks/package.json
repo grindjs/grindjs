@@ -1,18 +1,20 @@
 {
-  "name": "grind-view",
-  "version": "0.6.1",
-  "description": "View provider for Grind, powered by Nunjucks",
+  "name": "grind-nunjucks",
+  "version": "0.7.0",
+  "description": "Integrated Nunjucks with Grind‘s View system",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
   "main": "lib/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/grindjs/grind-view.git"
+    "url": "https://github.com/grindjs/nunjucks.git"
   },
   "keywords": [
     "grindjs",
     "grind-framework",
-    "nunjucks"
+    "grind-view",
+    "nunjucks",
+    "templates"
   ],
   "dependencies": {
     "nunjucks": "^2.0"
@@ -26,8 +28,8 @@
     "eslint-plugin-import-auto-name": "^1.0.3"
   },
   "peerDependencies": {
-    "grind-framework": "^0.6.0",
-    "grind-support": "^0.6.0"
+    "grind-framework": "^0.7.0-beta.0",
+    "grind-support": "^0.7.0-beta.0"
   },
   "engines": {
     "node": ">=6.9"

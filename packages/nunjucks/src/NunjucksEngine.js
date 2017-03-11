@@ -1,22 +1,18 @@
-import './Globals/Filters'
-import './Globals/Functions'
+import { ViewEngine } from '../../grind-view'
+import { FS } from 'grind-support'
+
+const Nunjucks = require('nunjucks')
+const path = require('path')
 
 import './ViewEnvironment'
 
-import { FS } from 'grind-support'
-import Nunjucks from 'nunjucks'
-import Path from 'path'
-
-export class ViewFactory {
-	app = null
+export class NunjucksEngine extends ViewEngine {
 	nunjucks = null
-	viewPath = null
 	compiledViewPath = null
 
-	constructor(app) {
-		this.app = app
+	constructor(app, view) {
+		super(app, view)
 
-		this.viewPath = app.paths.base(app.config.get('view.path', 'resources/views'))
 		this.compiledViewPath = app.paths.base('storage/views/compiled.js')
 	}
 
@@ -35,7 +31,7 @@ export class ViewFactory {
 			}
 		}
 
-		loaders.push(new Nunjucks.FileSystemLoader(this.viewPath, {
+		loaders.push(new Nunjucks.FileSystemLoader(this.view.viewPath, {
 			dev: this.app.debug,
 			watch: this.app.config.get('view.watch', this.app.debug),
 			noCache: this.app.config.get('view.disable_cache', false)
@@ -51,35 +47,18 @@ export class ViewFactory {
 		this.nunjucks.express(this.app.express)
 		this.app.express.set('view engine', 'njk')
 
-		Filters(this)
-		Functions(this)
-	}
-
-	exists(view) {
-		return FS.stat(Path.join(this.viewPath, view))
-		.then(stats => stats.isFile())
-		.catch(err => {
-			if(err.code === 'ENOENT') {
-				return false
-			}
-
-			throw err
-		})
+		this.filter('spaceless', html => this.toHtmlString(html.replace(/>\s+</g, '><')))
 	}
 
 	share(name, value) {
 		this.nunjucks.addGlobal(name, value)
 	}
 
-	addFilter(name, callback) {
+	filter(name, callback) {
 		this.nunjucks.addFilter(name, callback)
 	}
 
-	addFunction(name, callback) {
-		this.nunjucks.addGlobal(name, callback)
-	}
-
-	addExtension(name, extension) {
+	extend(name, extension) {
 		this.nunjucks.addExtension(name, extension)
 	}
 
@@ -93,6 +72,47 @@ export class ViewFactory {
 				return resolve(result)
 			})
 		})
+	}
+
+	async writeCache() {
+		const result = Nunjucks.precompile(this.view.viewPath, {
+			env: this.nunjucks,
+			include: [ /\.njk$/ ],
+			wrapper: templates => {
+				let out = 'const templates = { };\nmodule.exports.templates = templates;\n\n'
+
+				for(const template of templates) {
+					const name = JSON.stringify(template.name)
+
+					out += `templates[${name}] = (function() {${template.template}})();`
+				}
+
+				return out
+			}
+		})
+
+		const dir = path.dirname(this.compiledViewPath)
+
+		if(!(await FS.exists(dir))) {
+			await FS.mkdirp(dir)
+			await FS.writeFile(path.join(dir, '.gitignore'), '*\n!.gitignore\n')
+		}
+
+		await FS.writeFile(this.compiledViewPath, result)
+	}
+
+	async clearCache() {
+		if(await FS.exists(this.compiledViewPath)) {
+			await FS.unlink(this.compiledViewPath)
+		}
+	}
+
+	toHtmlString(html) {
+		return new Nunjucks.runtime.SafeString(html)
+	}
+
+	isHtmlString(html) {
+		return html instanceof Nunjucks.runtime.SafeString
 	}
 
 }
