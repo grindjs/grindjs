@@ -159,14 +159,38 @@ export class Stone {
 	}
 
 	compileIf(args) {
-		return `if(${args}){`
+		return `if(${args}) {`
 	}
 
 	compileElseif(args) {
-		return `} else if(${args}){`
+		return `} else if(${args}) {`
+	}
+
+	compileElse() {
+		return '} else {'
 	}
 
 	compileEndif() {
+		return this.compileEnd()
+	}
+
+	compileFor(args) {
+		return `for(${args}) {`
+	}
+
+	compileEndfor() {
+		return this.compileEnd()
+	}
+
+	compileWhile(args) {
+		return `while(${args}) {`
+	}
+
+	compileEndwhile() {
+		return this.compileEnd()
+	}
+
+	compileEnd() {
 		return '}'
 	}
 
