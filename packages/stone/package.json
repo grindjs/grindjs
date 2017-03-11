@@ -2,7 +2,7 @@
   "name": "grind-stone",
   "version": "0.7.0",
   "description": "Stone is a templating language for Grind based on Laravel’s Blade",
-  "main": "index.js",
+  "main": "src/index.js",
   "author": "Shaun Harrison",
   "license": "MIT",
   "dependencies": {
