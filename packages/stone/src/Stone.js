@@ -1,23 +1,11 @@
 import { FS } from 'grind-support'
-import { encodeHTML } from 'entities'
-
-const acorn = require('acorn')
-acorn.walk = require('acorn/dist/walk').simple
-
-const astring = require('astring')
+import './Template'
 
 export class Stone {
 	viewsPath = null
 
 	context = {
-		escape: value => {
-			if(value.isNil) {
-				return ''
-			}
-
-			return encodeHTML(value.toString())
-		}
-
+		escape: Template.escape,
 	}
 
 	constructor(viewsPath) {
@@ -49,7 +37,7 @@ export class Stone {
 				let startIndex = 0
 				let lastIndex = 0
 
-				while(openCount !== 0 && (index = indexOfParenthesis(contents, index)) >= 0) {
+				while(openCount !== 0 && (index = Template.nextIndexOfParenthesis(contents, index)) >= 0) {
 					const parenthesis = contents.substring(index, index + 1)
 
 					if(parenthesis === ')') {
@@ -102,11 +90,11 @@ export class Stone {
 			if(type === 'code') {
 				code += `${contents}\n`
 			} else {
-				code += `output += \`${sanetizeString(contents)}\`;\n`
+				code += `output += \`${Template.sanitizeHtml(contents)}\`;\n`
 			}
 		}
 
-		code = `template = function(_, _sections = { }) {\nlet output = '';\n${this._contextualize(code)}\n`
+		code = `template = function(_, _sections = { }) {\nlet output = '';\n${Template.contextualize(code)}\n`
 
 		if(extendsLayout !== null) {
 			code += `return _.$engine._extends(${extendsLayout}, _, _sections);\n}`
@@ -131,60 +119,6 @@ export class Stone {
 
 	resolve(template) {
 		return `${this.viewsPath}/${template.replace(/\./g, '/')}.stone`
-	}
-
-	_contextualize(code) {
-		const tree = acorn.parse(code)
-		const scopes = [
-			{
-				locals: new Set([ '_sections' ]),
-				end: Number.MAX_VALUE
-			}
-		]
-
-		let scope = scopes[0]
-
-		const checkScope = fromNode => {
-			while(fromNode.start >= scope.end && scopes.length > 1) {
-				scopes.pop()
-				scope = scopes[scopes.length - 1]
-			}
-		}
-
-		acorn.walk(tree, {
-			Statement: node => {
-				checkScope(node)
-			},
-
-			BlockStatement: node => {
-				checkScope(node)
-
-				scope = {
-					locals: new Set(scope.locals),
-					node: node,
-					end: node.end
-				}
-
-				scopes.push(scope)
-			},
-
-			VariableDeclarator: node => {
-				checkScope(node)
-				scope.locals.add(node.id.name)
-			},
-
-			Identifier: node => {
-				checkScope(node)
-
-				if(scope.locals.has(node.name)) {
-					return
-				}
-
-				node.name = `_.${node.name}`
-			}
-		})
-
-		return astring(tree)
 	}
 
 	compileIf(args) {
@@ -235,33 +169,4 @@ export class Stone {
 		return `output += typeof _sections[${section}] === 'function' ? _sections[${section}]() : ''`
 	}
 
-}
-
-/**
- * [indexOfParenthesis description]
- * @param  {string} string    [description]
- * @param  {number} fromIndex [description]
- * @return {number}           [description]
- */
-function indexOfParenthesis(string, fromIndex) {
-	const open = string.indexOf('(', fromIndex)
-	const close = string.indexOf(')', fromIndex)
-
-	if(open === -1) {
-		return close
-	} else if(close === -1)  {
-		return open
-	}
-
-	return Math.min(open, close)
-}
-
-function sanetizeString(string) {
-	string = string.replace(/\{\{\s*(.+?)\s*\}\}/g, '${escape($1)}')
-	string = string.replace(/\{!!\s*(.+?)\s*!!\}/g, '${$1}')
-	string = string.replace(/[\n]/g, '\\n')
-	string = string.replace(/[\r]/g, '\\r')
-	string = string.replace(/[\t]/g, '\\t')
-
-	return string
 }
