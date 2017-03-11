@@ -1,0 +1,40 @@
+{
+  "name": "grind-stone",
+  "version": "0.7.0",
+  "description": "Stone is a templating language for Grind inspired by Laravel’s Blade",
+  "main": "index.js",
+  "author": "Shaun Harrison",
+  "license": "MIT",
+  "dependencies": {
+    "acorn": "^4.0.11",
+    "astring": "^0.8.0",
+    "ava": "^0.18.2",
+    "entities": "^1.1.1"
+  },
+  "peerDependencies": {
+    "grind-support": "^0.7.0-beta.2"
+  },
+  "devDependencies": {
+    "babel-cli": ">=6.7 <=7.0",
+    "babel-eslint": "^7.1.1",
+    "babel-preset-grind": "^0.6.2",
+    "eslint": "3.3",
+    "eslint-config-grind": "^2.0.0",
+    "eslint-plugin-import-auto-name": "^1.0.3",
+    "grind-support": "^0.7.0-beta.2"
+  },
+  "engines": {
+    "node": ">=6.9"
+  },
+  "scripts": {
+    "prepublish": "bin/build",
+    "lint": "eslint src",
+    "test": "bin/ava --verbose"
+  },
+  "ava": {
+    "require": [
+      "babel-register"
+    ],
+    "babel": "inherit"
+  }
+}
