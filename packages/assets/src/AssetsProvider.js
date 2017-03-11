@@ -15,7 +15,8 @@ import './PostProcessors/SvgOptimizePostProcessor'
 import './Controllers/CompileController'
 
 import './View/AssetContainer'
-import './View/AssetExtension'
+import './View/NunjucksExtension'
+import './View/StoneExtension'
 
 import path from 'path'
 
@@ -106,8 +107,15 @@ export function AssetsProvider(app, parameters = { }) {
 
 	if(!app.view.isNil) {
 		if(!app.html.isNil) {
-			const assetExtensionClass = parameters.assetExtensionClass || AssetExtension
-			app.view.addExtension('AssetExtension', new assetExtensionClass)
+			if(app.view.engineName === 'nunjucks') {
+				const nunjucksExtensionClass = parameters.nunjucksExtensionClass || NunjucksExtension
+				app.view.extend('AssetExtension', new nunjucksExtensionClass)
+			} else if(app.view.engineName === 'stone') {
+				const stoneExtensionClass = parameters.stoneExtensionClass || StoneExtension
+				stoneExtensionClass.extend(app.view)
+			} else {
+				Log.error('WARNING: Unsupported view engine, assets can not extend.')
+			}
 		}
 
 		const assetContainerClass = parameters.assetContainerClass || AssetContainer
