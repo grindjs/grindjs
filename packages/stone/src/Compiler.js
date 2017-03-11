@@ -3,6 +3,7 @@ import './Template'
 
 export class Compiler {
 	engine = null
+	directives = { }
 
 	constructor(engine) {
 		this.engine = engine
@@ -15,6 +16,7 @@ export class Compiler {
 		const expressions = [ ]
 		let match = null
 
+		// Loops through and finds all directives
 		while((match = contents.match(/@([a-z0-9_]+)(\s*\()?/))) {
 			if(match.index > 0) {
 				expressions.push({
@@ -60,8 +62,7 @@ export class Compiler {
 				continue
 			}
 
-			const method = `compile${match[1][0].toUpperCase()}${match[1].substring(1)}`
-			const result = this[method](args)
+			const result = this.compileDirective(match[1], args)
 
 			if(!result.isNil) {
 				expressions.push({
@@ -105,12 +106,25 @@ export class Compiler {
 		return this.compile(this.engine.resolve(template)).then(template => template(context, sections))
 	}
 
-	compileIf(args) {
-		return `if(${args}) {`
+	compileDirective(name, args) {
+		if(name === 'directive') {
+			// Avoid infinite loop
+			return null
+		}
+
+		if(typeof this.directives[name] === 'function') {
+			return this.directives[name](args)
+		}
+
+		return this[`compile${name[0].toUpperCase()}${name.substring(1)}`](args)
 	}
 
-	compileElseif(args) {
-		return `} else if(${args}) {`
+	compileIf(condition) {
+		return `if(${condition}) {`
+	}
+
+	compileElseif(condition) {
+		return `} else if(${condition}) {`
 	}
 
 	compileElse() {
@@ -129,8 +143,8 @@ export class Compiler {
 		return this.compileEnd()
 	}
 
-	compileWhile(args) {
-		return `while(${args}) {`
+	compileWhile(condition) {
+		return `while(${condition}) {`
 	}
 
 	compileEndwhile() {
