@@ -9,7 +9,14 @@ const astring = require('astring')
 export class Stone {
 
 	context = {
-		escape: encodeHTML
+		escape: value => {
+			if(value.isNil) {
+				return ''
+			}
+
+			return encodeHTML(value.toString())
+		}
+
 	}
 
 	async compile(template) {
