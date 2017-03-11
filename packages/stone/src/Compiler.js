@@ -145,6 +145,14 @@ export class Compiler {
 		return this.compileEnd()
 	}
 
+	compileUnless(condition) {
+		return `if(!${condition}) {`
+	}
+
+	compileEndunless() {
+		return this.compileEnd()
+	}
+
 	compileFor(args) {
 		return `for(${args}) {`
 	}
