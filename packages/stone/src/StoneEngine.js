@@ -15,12 +15,12 @@ export class StoneEngine {
 	}
 
 	render(template, context) {
-		return this.compiler.compile(this.resolve(template)).then(template => template({
+		return (this.compiler.compile(this.resolve(template)))({
 			...this.context,
 			...context,
 			$engine: this,
 			$compiler: this.compiler
-		}))
+		})
 	}
 
 	resolve(template) {

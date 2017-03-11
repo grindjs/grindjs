@@ -1,5 +1,6 @@
-import { FS } from 'grind-support'
 import './Template'
+
+const fs = require('fs')
 
 export class Compiler {
 	engine = null
@@ -10,8 +11,9 @@ export class Compiler {
 		this.engine = engine
 	}
 
-	async compile(template) {
-		let contents = (await FS.readFile(template)).toString().trim()
+	compile(template) {
+		// eslint-disable-next-line no-sync
+		let contents = fs.readFileSync(template).toString().trim()
 		let extendsLayout = null
 
 		// Strip comments
@@ -107,7 +109,7 @@ export class Compiler {
 	}
 
 	_extends(template, context, sections) {
-		return this.compile(this.engine.resolve(template)).then(template => template(context, sections))
+		return (this.compile(this.engine.resolve(template)))(context, sections)
 	}
 
 	compileDirective(name, args) {
