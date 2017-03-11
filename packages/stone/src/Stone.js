@@ -99,9 +99,51 @@ export class Stone {
 
 	_contextualize(code) {
 		const tree = acorn.parse(code)
+		const scopes = [
+			{
+				locals: new Set,
+				end: Number.MAX_VALUE
+			}
+		]
+
+		let scope = scopes[0]
+
+		const checkScope = fromNode => {
+			while(fromNode.start >= scope.end && scopes.length > 1) {
+				scopes.pop()
+				scope = scopes[scopes.length - 1]
+			}
+		}
 
 		acorn.walk(tree, {
+			Statement: node => {
+				checkScope(node)
+			},
+
+			BlockStatement: node => {
+				checkScope(node)
+
+				scope = {
+					locals: new Set(scope.locals),
+					node: node,
+					end: node.end
+				}
+
+				scopes.push(scope)
+			},
+
+			VariableDeclarator: node => {
+				checkScope(node)
+				scope.locals.add(node.id.name)
+			},
+
 			Identifier: node => {
+				checkScope(node)
+
+				if(scope.locals.has(node.name)) {
+					return
+				}
+
 				node.name = `_.${node.name}`
 			}
 		})
