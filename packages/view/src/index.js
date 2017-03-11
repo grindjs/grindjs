@@ -1,4 +1,5 @@
+import './ViewEngine'
 import './ViewFactory'
 import './ViewProvider'
 
-export { ViewFactory, ViewProvider }
+export { ViewEngine, ViewFactory, ViewProvider }

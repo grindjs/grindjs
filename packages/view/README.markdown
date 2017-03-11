@@ -10,7 +10,7 @@
 
 # Grind View
 
-Grind View provides integrated templating in [Grind](https://github.com/grindjs/framework) by connecting it with [Nunjucks](http://mozilla.github.io/nunjucks/) and adding a few niceties along the way.  Once setup, you’ll be able to quickly serve views via `res.render()`.
+Grind View provides integrated templating in [Grind](https://github.com/grindjs/framework) by connecting it with either [Stone](http://github.com/grindjs/stone) or [Nunjucks](http://mozilla.github.io/nunjucks/).  Once setup, you’ll be able to quickly serve views via `res.render()`.
 
 ## Documentation
 
