@@ -4,6 +4,7 @@ import './Template'
 export class Compiler {
 	engine = null
 	directives = { }
+	sectionStack = [ ]
 
 	constructor(engine) {
 		this.engine = engine
@@ -157,7 +158,8 @@ export class Compiler {
 
 	compileSection(args) {
 		if(args.indexOf(',') === -1) {
-			return `_sections[${args}] = function() {\nlet output = '';\n`
+			this.sectionStack.push(args)
+			return this._compileSection(args, `function() {\nlet output = '';`)
 		}
 
 		args = args.split(/,/)
@@ -166,15 +168,49 @@ export class Compiler {
 			throw new Error('Invalid section block')
 		}
 
-		return `_sections[${args[0]}] = function() { return ${args[1]}; }\n`
+		return this._compileSection(args[0], `function() { return ${args[1]}; })`)
 	}
 
+	_compileSection(name, code) {
+		return `(_sections[${name}] = (_sections[${name}] || [ ])).unshift(${code}\n`
+	}
+
+	/**
+	 * Ends the current section and returns output
+	 * @return {string} Output from the section
+	 */
 	compileEndsection() {
-		return 'return output;\n}'
+		this.sectionStack.pop()
+		return 'return output;\n})'
 	}
 
+	/**
+	 * Compiles the yield directive to output a section
+	 *
+	 * @param  {string} section Name of the section to yield
+	 * @return {string}         Code to render the section
+	 */
 	compileYield(section) {
-		return `output += typeof _sections[${section}] === 'function' ? _sections[${section}]() : ''`
+		return `output += _sections[${section}].length > 0 ? (_sections[${section}].pop())() : ''`
+	}
+
+	/**
+	 * Renders content from the section section
+	 * @return {string} Code to render the super section
+	 */
+	compileSuper() {
+		// Due to how sections work, we can cheat by just calling yeild
+		// which will pop off the next chunk of content in this section
+		// and render it within ours
+		return this.compileYield(this.sectionStack[this.sectionStack.length - 1])
+	}
+
+	/**
+	 * Alias of compileSuper for compatibility with Blade
+	 * @return {string} Code to render the super section
+	 */
+	compileParent() {
+		return this.compileSuper()
 	}
 
 }
