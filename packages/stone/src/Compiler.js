@@ -206,7 +206,7 @@ export class Compiler {
 	 * @return {string}         Code to render the section
 	 */
 	compileYield(section) {
-		return `output += _sections[${section}].length > 0 ? (_sections[${section}].pop())() : ''`
+		return `output += (_sections[${section}] || [ ]).length > 0 ? (_sections[${section}].pop())() : ''`
 	}
 
 	/**
@@ -226,6 +226,14 @@ export class Compiler {
 	 */
 	compileParent() {
 		return this.compileSuper()
+	}
+
+	/**
+	 * Convenience directive to determine if a section has content
+	 * @return {string} If statement that determines if a section has content
+	 */
+	compileHassection(section) {
+		return `if((_sections[${section}] || [ ]).length > 0) {`
 	}
 
 }
