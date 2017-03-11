@@ -1,0 +1,88 @@
+%YAML 1.2
+---
+name: Grind Stone
+file_extensions: [ stone ]
+scope: text.stone
+contexts:
+  main:
+    - match: ''
+      push:
+        - include: 'scope:text.html.basic'
+        - meta_scope: text.html.stone
+          pop: true
+      with_prototype:
+
+        - match: '{{--'
+          captures:
+            0: punctuation.definition.comment.begin.stone
+          push:
+            - meta_scope: comment.block.html.stone
+            - match: '--}}'
+              scope: punctuation.definition.comment.end.stone
+              pop: true
+            - match: "--"
+              scope: invalid.illegal.bad-comments-or-CDATA.html.stone
+
+        - match: '\{(!!)|(\{\{)-?'
+          captures:
+            0: punctuation.section.embedded.begin.stone
+          push:
+            - meta_scope: entity.name.tag.stone
+            - meta_content_scope: source.js.stone
+            - match: '-?(\}?\}\})|(!!)\}'
+              captures:
+                0: punctuation.section.embedded.end.stone
+                1: punctuation.section.embedded.end.stone
+              pop: true
+            - include: 'scope:source.js'
+
+        - match: '@\{\{\{?-?'
+          captures:
+            0: punctuation.section.embedded.ignore.begin.stone
+          push:
+            - meta_scope: 'scope:text.html.basic'
+            - meta_content_scope: 'scope:text.html.basic'
+            - match: '-?\}?\}\}'
+              captures:
+                0: punctuation.section.embedded.ignore.end.stone
+                1: punctuation.section.embedded.ignore.end.stone
+              pop: true
+
+        - match: '(\s{0}|^)(\@)\b(block|break|continue|debug|each|elseif|extends|for|foreach|forelse|hasSection|if|include|layout|push|section|stack|unless|while|yield)\b(?=(|\s*|)\()'
+          captures:
+            0: punctuation.section.embedded.js
+            2: constant.other.inline-data.html
+            3: entity.name.tag.block.any.html
+          push:
+            - meta_scope: custom.compiler.stone.js
+            - meta_content_scope: source.js.stone
+            - match: '(?<=\))'
+              pop: true
+            - include: 'scope:source.js'
+
+        - match: '(\s{0}|^)(\@)\b(break|continue|else|empty|endblock|endfor|endforeach|endforelse|endif|endpush|endsection|endunless|endwhile|parent|setup|show|super)\b'
+          scope: custom.compiler.stone.js
+          captures:
+            0: punctuation.section.embedded.js
+            2: constant.other.inline-data.html
+            3: entity.name.tag.block.any.html
+          pop: false
+
+        - match: '(\s{0}|^)(\@)\b([a-zA-Z_]+)\b(?=(|\s*|)\()'
+          captures:
+            0: support.function
+            2: constant.other.inline-data.html
+          push:
+            - meta_scope: custom.compiler.stone.js
+            - meta_content_scope: source.js.stone
+            - match: '(?<=\))'
+              pop: true
+            - include: 'scope:source.js'
+
+        - match: '(\s{0}|^)(\@)\b([a-zA-Z_]+)\b(\s?)\b'
+          scope: custom.compiler.stone.js
+          captures:
+            0: support.function
+            2: constant.other.inline-data.html
+          pop: false
+

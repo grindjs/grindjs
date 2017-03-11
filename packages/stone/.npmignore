@@ -1,6 +1,7 @@
 .DS_Store
 bin
 test
-node_modules/*
+node_modules/
+editors/
 npm-debug.log
 yarn.lock

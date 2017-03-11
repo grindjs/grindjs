@@ -1,0 +1,113 @@
+{{-- Echo Data --}}
+Hello, {{ name }}.
+The current UNIX timestamp is {{ Date.now() }}.
+
+{{-- Echoing Data After Checking For Existence --}}
+{{ name || 'Default' }}
+
+{{-- Displaying Raw Text With Curly Braces --}}
+@{{ This will 'not be processed' by Grind }}
+
+{{-- Do not escape data --}}
+Hello, {!! name !!}.
+
+@include('header')
+
+@include('footer')
+
+{{-- Define Grind Layout --}}
+<html>
+    <head>
+        <title>
+            @hasSection('title')
+                @yield('title') - App Name
+            @else
+                App Name
+            @endif
+        </title>
+    </head>
+    <body>
+        @section('sidebar')
+            This is the master sidebar.
+        @endsection
+
+        <div class="container">
+            @yield('content')
+        </div>
+    </body>
+</html>
+
+{{-- Use Grind Layout --}}
+@extends('layouts.master')
+
+@section('sidebar')
+    <p>This is appended to the master sidebar.</p>
+@endsection
+
+@section('content')
+    @super
+    <p>This is my body content.</p>
+@endsection
+
+{{-- yield section --}}
+@yield('section', 'Default Content')
+
+{{-- If Statement --}}
+@if(records.length === 1)
+    I have one record!
+@elseif(records.length > 1)
+    I have multiple records!
+@else
+    I don't have any records!
+@endif
+
+@unless(Auth.check())
+    You are not signed in.
+@endunless
+
+{{-- Loops --}}
+@for(let i = 0; i < 10; i++)
+    The current value is {{ i }}
+@endfor
+
+@for(const user of users)
+    <p>This is user {{ user.id }}</p>
+@endforeach
+
+@forelse(const user of users)
+    <li>{{ user.name }}</li>
+@empty
+    <p>No users</p>
+@endforelse
+
+@while(true)
+    <p>I'm looping forever.</p>
+@endwhile
+
+{{-- Include --}}
+@include('view.name')
+@include('view.name', { some: 'data' })
+
+{{-- Overwriting Sections --}}
+@extends('list.item.container')
+
+@section('list.item.content')
+    <p>This is an item of type {{ item->type }}</p>
+@overwrite
+
+{{-- This comment will not be in the rendered HTML --}}
+
+{{--
+This comment will not be in the rendered HTML
+This comment will not be in the rendered HTML
+This comment will not be in the rendered HTML
+ --}}
+
+{{-- Stacks --}}
+@push('scripts')
+    <script src="/example.js"></script>
+@endpush
+
+<head>
+    @stack('scripts')
+</head>
