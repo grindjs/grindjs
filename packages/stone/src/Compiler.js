@@ -335,8 +335,36 @@ export class Compiler {
 		return `if((_sections[${section}] || [ ]).length > 0) {`
 	}
 
-	compileInclude(context, args) {
-		return `output += (_.$compiler._include(_, _sections, ${args}));\n`
+	/**
+	 * Renders content from a subview
+	 *
+	 * @param  {object} context Context for the compilation
+	 * @param  {string} view    Subview to include
+	 * @return {string} Code to render the subview
+	 */
+	compileInclude(context, view) {
+		return `output += (_.$compiler._include(_, _sections, ${view}));\n`
+	}
+
+	/**
+	 * Sets a context variable
+	 *
+	 * @param  {object} context Context for the compilation
+	 * @param  {string} args    Arguments to set
+	 * @return {string} Code to set the context variable
+	 */
+	compileSet(context, args) {
+		if(args.indexOf(',') === -1) {
+			return `${args};`
+		}
+
+		args = args.split(/,/)
+
+		if(args.length !== 2) {
+			throw new Error('Invalid section block')
+		}
+
+		return `_.${args[0]} = ${args[1]};`
 	}
 
 }
