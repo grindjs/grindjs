@@ -12,20 +12,29 @@ highlighter.requireGrammarsSync({
 	modulePath: require.resolve('atom-jinja2/package.json')
 })
 
+highlighter.requireGrammarsSync({
+	modulePath: require.resolve('language-blade/package.json')
+})
+
 export function Highlighter(code, lang) {
 	switch(lang) {
 		case 'json':
-			lang = 'json5'
+			lang = 'source.json5'
 			break
 		case 'nunjucks':
 		case 'njk':
-		case 'view':
-			lang = 'jinja'
+			lang = 'source.jinja'
 			break
+		case 'stone':
+		case 'view':
+			lang = 'text.html.php.blade'
+			break
+		default:
+			lang = `source.${lang}`
 	}
 
 	return highlighter.highlightSync({
 		fileContents: code,
-		scopeName: `source.${lang}`
+		scopeName: lang
 	})
 }

@@ -6,6 +6,7 @@
     "cache-manager": "^2.1.2",
     "grind-core-frontend": "^0.6.0",
     "highlights": "^1.4.1",
+    "language-blade": "https://github.com/jawee/language-blade",
     "language-json5": "https://github.com/wiredmax/language-json5",
     "markdown-it": "^8.2.2",
     "markdown-it-anchor": "^2.6.0",
