@@ -297,7 +297,15 @@ export class Compiler {
 	 * @return {string}         Code to render the section
 	 */
 	compileYield(context, section) {
-		return `output += (_sections[${section}] || [ ]).length > 0 ? (_sections[${section}].pop())() : ''`
+		let code = ''
+
+		if(section.indexOf(',') >= 0) {
+			const sectionName = section.split(/,/)[0]
+			code = `${this.compileSection(context, section)}\n`
+			section = sectionName
+		}
+
+		return `${code}output += (_sections[${section}] || [ ]).length > 0 ? (_sections[${section}].pop())() : ''`
 	}
 
 	/**
