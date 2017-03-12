@@ -33,6 +33,14 @@ export class ViewEngine {
 		throw new Error('Subclasses must implement.')
 	}
 
+	writeCache() {
+		throw new Error('Subclasses must implement.')
+	}
+
+	clearCache() {
+		throw new Error('Subclasses must implement.')
+	}
+
 	toHtmlString(html) {
 		throw new Error('Subclasses must implement.')
 	}
