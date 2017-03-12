@@ -48,7 +48,7 @@ contexts:
                 1: punctuation.section.embedded.ignore.end.stone
               pop: true
 
-        - match: '(\s{0}|^)(\@)\b(asset|babel|block|break|coffee|continue|css|debug|each|elseif|extends|for|foreach|forelse|hasSection|if|include|js|layout|less|push|sass|scss|script|section|set|stack|styl|style|stylus|unless|while|yield)\b(?=(|\s*|)\()'
+        - match: '(\s{0}|^)(\@)\b(asset|babel|block|break|coffee|continue|css|debug|dump|each|elseif|extends|for|foreach|forelse|hasSection|if|include|js|layout|less|push|sass|scss|script|section|set|stack|styl|style|stylus|unless|while|yield)\b(?=(|\s*|)\()'
           captures:
             0: punctuation.section.embedded.js
             2: constant.other.inline-data.html

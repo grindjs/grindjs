@@ -367,4 +367,15 @@ export class Compiler {
 		return `_.${args[0]} = ${args[1]};`
 	}
 
+	/**
+	 * Displays the contents of an object or value
+	 *
+	 * @param  {object} context Context for the compilation
+	 * @param  {mixed}  value   Object or value to display
+	 * @return {string} Code to display the contents
+	 */
+	compileDump(context, value) {
+		return `output += \`<pre>\${stringify(${value}, null, '  ')}</pre>\``
+	}
+
 }
