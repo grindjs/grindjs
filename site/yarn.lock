@@ -2159,9 +2159,9 @@ grind-html@0.7.0-beta.3:
     html-entities "^1.2"
     nunjucks "^2.0"
 
-grind-stone@0.7.0-beta.3:
-  version "0.7.0-beta.3"
-  resolved "https://registry.yarnpkg.com/grind-stone/-/grind-stone-0.7.0-beta.3.tgz#c2489e1808ba1ee40f8a4d97d66c1b1ae6dca322"
+grind-stone@0.7.0-beta.4:
+  version "0.7.0-beta.4"
+  resolved "https://registry.yarnpkg.com/grind-stone/-/grind-stone-0.7.0-beta.4.tgz#1eefe2e4116cf4536b8eb00fc6a7ef0d897ad9c2"
   dependencies:
     acorn "^4.0.11"
     astring "^0.8.0"
