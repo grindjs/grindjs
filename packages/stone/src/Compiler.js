@@ -188,24 +188,24 @@ export class Compiler {
 		return '} else {'
 	}
 
-	compileEndif() {
-		return this.compileEnd()
+	compileEndif(context) {
+		return this.compileEnd(context)
 	}
 
 	compileUnless(context, condition) {
 		return `if(!${condition}) {`
 	}
 
-	compileEndunless() {
-		return this.compileEnd()
+	compileEndunless(context) {
+		return this.compileEnd(context)
 	}
 
 	compileFor(context, args) {
 		return `for(${args}) {`
 	}
 
-	compileEndfor() {
-		return this.compileEnd()
+	compileEndfor(context) {
+		return this.compileEnd(context)
 	}
 
 	/**
@@ -244,8 +244,8 @@ export class Compiler {
 		return `while(${condition}) {`
 	}
 
-	compileEndwhile() {
-		return this.compileEnd()
+	compileEndwhile(context) {
+		return this.compileEnd(context)
 	}
 
 	compileEnd() {
@@ -286,7 +286,7 @@ export class Compiler {
 	 */
 	compileShow(context) {
 		const section = context.sections[context.sections.length - 1]
-		return `${this.compileEndsection(context)};\n${this.compileYield(section)}`
+		return `${this.compileEndsection(context)};\n${this.compileYield(context, section)}`
 	}
 
 	/**
