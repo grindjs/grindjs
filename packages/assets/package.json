@@ -1,6 +1,6 @@
 {
   "name": "grind-assets",
-  "version": "0.7.0-beta.1",
+  "version": "0.7.0-beta.2",
   "description": "Asset management for Grind",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
@@ -36,8 +36,8 @@
     "eslint-config-grind": "^2.0.0",
     "eslint-plugin-import-auto-name": "^1.0.3",
     "grind-cli": "^0.6.0",
-    "grind-framework": "0.7.0-beta.1",
-    "grind-support": "0.7.0-beta.1",
+    "grind-framework": "0.7.0-beta.3",
+    "grind-support": "0.7.0-beta.2",
     "node-sass": "^4.5.0",
     "request": "^2.79.0",
     "request-promise-native": "^1.0.3",
@@ -45,8 +45,8 @@
     "uglify-js": "^2.7.5"
   },
   "peerDependencies": {
-    "grind-framework": "0.7.0-beta.1",
-    "grind-support": "0.7.0-beta.1"
+    "grind-framework": "0.7.0-beta.3",
+    "grind-support": "0.7.0-beta.2"
   },
   "engines": {
     "node": ">=6.9"
