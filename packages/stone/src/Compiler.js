@@ -5,7 +5,6 @@ const fs = require('fs')
 export class Compiler {
 	engine = null
 	directives = { }
-	sectionStack = [ ]
 	compiled = { }
 
 	constructor(engine) {
@@ -27,7 +26,10 @@ export class Compiler {
 	}
 
 	compileString(contents, shouldEval = true) {
-		let extendsLayout = null
+		const context = {
+			sections: [ ],
+			layout: null
+		}
 
 		// Strip comments
 		contents = contents.trim().replace(/\{\{--([\s\S]+)--\}\}/g, '')
@@ -77,11 +79,11 @@ export class Compiler {
 			}
 
 			if(match[1] === 'extends') {
-				extendsLayout = args
+				context.layout = args
 				continue
 			}
 
-			const result = this.compileDirective(match[1].toLowerCase(), args)
+			const result = this.compileDirective(context, match[1].toLowerCase(), args)
 
 			if(!result.isNil) {
 				expressions.push({
@@ -110,21 +112,23 @@ export class Compiler {
 			}
 		}
 
-		code = `function(_, _sections = { }) {\nlet output = '';\n${Template.contextualize(code)}\n`
+		code = Template.contextualize(code)
 
-		if(extendsLayout !== null) {
-			code += `return _.$compiler._extends(${extendsLayout}, _, _sections);\n}`
+		let template = `function(_, _sections = { }) {\nlet output = '';\n${code}\n`
+
+		if(context.layout !== null) {
+			template += `return _.$compiler._extends(${context.layout}, _, _sections);\n}`
 		} else {
-			code += `return output;\n}`
+			template += `return output;\n}`
 		}
 
 		if(!shouldEval) {
 			return code
 		}
 
-		code = `const template = ${code}; template`
+		template = `const template = ${template}; template`
 
-		return eval(code)
+		return eval(template)
 	}
 
 	_extends(template, context, sections) {
@@ -139,14 +143,14 @@ export class Compiler {
 		return (this.compile(this.engine.resolve(template)))(context, sections)
 	}
 
-	compileDirective(name, args) {
+	compileDirective(context, name, args) {
 		if(name === 'directive') {
 			// Avoid infinite loop
 			return null
 		}
 
 		if(typeof this.directives[name] === 'function') {
-			return this.directives[name](args)
+			return this.directives[name](context, args)
 		}
 
 		const method = `compile${name[0].toUpperCase()}${name.substring(1)}`
@@ -155,14 +159,14 @@ export class Compiler {
 			throw new Error(`@${name} is not a valid Stone directive.`)
 		}
 
-		return this[method](args)
+		return this[method](context, args)
 	}
 
-	compileIf(condition) {
+	compileIf(context, condition) {
 		return `if(${condition}) {`
 	}
 
-	compileElseif(condition) {
+	compileElseif(context, condition) {
 		return `} else if(${condition}) {`
 	}
 
@@ -174,7 +178,7 @@ export class Compiler {
 		return this.compileEnd()
 	}
 
-	compileUnless(condition) {
+	compileUnless(context, condition) {
 		return `if(!${condition}) {`
 	}
 
@@ -182,7 +186,7 @@ export class Compiler {
 		return this.compileEnd()
 	}
 
-	compileFor(args) {
+	compileFor(context, args) {
 		return `for(${args}) {`
 	}
 
@@ -194,10 +198,11 @@ export class Compiler {
 	 * Generate continue code that optionally has a condition
 	 * associated with it.
 	 *
+	 * @param  {object} context   Context for the compilation
 	 * @param  {string} condition Optional condition to continue on
 	 * @return {string}           Code to continue
 	 */
-	compileContinue(condition) {
+	compileContinue(context, condition) {
 		if(condition.isNil) {
 			return 'continue;'
 		}
@@ -209,10 +214,11 @@ export class Compiler {
 	 * Generate break code that optionally has a condition
 	 * associated with it.
 	 *
+	 * @param  {object} context   Context for the compilation
 	 * @param  {string} condition Optional condition to break on
 	 * @return {string}           Code to break
 	 */
-	compileBreak(condition) {
+	compileBreak(context, condition) {
 		if(condition.isNil) {
 			return 'break;'
 		}
@@ -220,7 +226,7 @@ export class Compiler {
 		return `if(${condition}) { break; }`
 	}
 
-	compileWhile(condition) {
+	compileWhile(context, condition) {
 		return `while(${condition}) {`
 	}
 
@@ -232,10 +238,10 @@ export class Compiler {
 		return '}'
 	}
 
-	compileSection(args) {
+	compileSection(context, args) {
 		if(args.indexOf(',') === -1) {
-			this.sectionStack.push(args)
-			return this._compileSection(args, `function() {\nlet output = '';`)
+			context.sections.push(args)
+			return this._compileSection(context, args, `function() {\nlet output = '';`)
 		}
 
 		args = args.split(/,/)
@@ -244,10 +250,10 @@ export class Compiler {
 			throw new Error('Invalid section block')
 		}
 
-		return this._compileSection(args[0], `function() { return ${args[1]}; })`)
+		return this._compileSection(context, args[0], `function() { return ${args[1]}; });`)
 	}
 
-	_compileSection(name, code) {
+	_compileSection(context, name, code) {
 		return `(_sections[${name}] = (_sections[${name}] || [ ])).unshift(${code}\n`
 	}
 
@@ -255,27 +261,28 @@ export class Compiler {
 	 * Ends the current section and returns output
 	 * @return {string} Output from the section
 	 */
-	compileEndsection() {
-		this.sectionStack.pop()
-		return 'return output;\n})'
+	compileEndsection(context) {
+		context.sections.pop()
+		return 'return output;\n});'
 	}
 
 	/**
 	 * Ends the current section and yields it for display
 	 * @return {string} Output from the section
 	 */
-	compileShow() {
-		const section = this.sectionStack[this.sectionStack.length - 1]
-		return `${this.compileEndsection()};\n${this.compileYield(section)}`
+	compileShow(context) {
+		const section = context.sections[context.sections.length - 1]
+		return `${this.compileEndsection(context)};\n${this.compileYield(section)}`
 	}
 
 	/**
 	 * Compiles the yield directive to output a section
 	 *
+	 * @param  {object} context Context for the compilation
 	 * @param  {string} section Name of the section to yield
 	 * @return {string}         Code to render the section
 	 */
-	compileYield(section) {
+	compileYield(context, section) {
 		return `output += (_sections[${section}] || [ ]).length > 0 ? (_sections[${section}].pop())() : ''`
 	}
 
@@ -283,30 +290,30 @@ export class Compiler {
 	 * Renders content from the section section
 	 * @return {string} Code to render the super section
 	 */
-	compileSuper() {
+	compileSuper(context) {
 		// Due to how sections work, we can cheat by just calling yeild
 		// which will pop off the next chunk of content in this section
 		// and render it within ours
-		return this.compileYield(this.sectionStack[this.sectionStack.length - 1])
+		return this.compileYield(context, context.sections[context.sections.length - 1])
 	}
 
 	/**
 	 * Alias of compileSuper for compatibility with Blade
 	 * @return {string} Code to render the super section
 	 */
-	compileParent() {
-		return this.compileSuper()
+	compileParent(context) {
+		return this.compileSuper(context)
 	}
 
 	/**
 	 * Convenience directive to determine if a section has content
 	 * @return {string} If statement that determines if a section has content
 	 */
-	compileHassection(section) {
+	compileHassection(context, section) {
 		return `if((_sections[${section}] || [ ]).length > 0) {`
 	}
 
-	compileInclude(args) {
+	compileInclude(context, args) {
 		return `output += (_.$compiler._include(_, _sections, ${args}));\n`
 	}
 
