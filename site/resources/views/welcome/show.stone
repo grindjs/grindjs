@@ -1,8 +1,8 @@
-{% extends 'layout/app.njk' %}
+@extends('layout.app')
 
-{% scss 'welcome' %}
+@scss('welcome')
 
-{% block content %}
+@section('content')
 	<div class="welcome">
 		<div class="welcome-body">
 			<h1 class="welcome-header">Say Hello to Grind</h1>
@@ -14,26 +14,28 @@
 			</div>
 		</div>
 		<div class="welcome-code">
-			{% filter spaceless %}
+			@spaceless
 				<div class="welcome-code-faux-toolbar">
 					<span class="welcome-code-faux-toolbar-button"></span>
 					<span class="welcome-code-faux-toolbar-button"></span>
 					<span class="welcome-code-faux-toolbar-button"></span>
 				</div>
-			{% endfilter %}
+			@endspaceless
 
-{% filter highlight('js') %}export function RoutesProvider(app) {
+@highlight
+export function RoutesProvider(app) {
    app.routes.get('/', (req, res) => {
       res.render('welcome.show', {
          name: 'Grind'
       })
    }).as('welcome.show')
-}{% endfilter %}
+}
+@endhighlight('js')
 		</div>
 	</div>
-{% endblock %}
+@endsection
 
-{% block contentAfter %}
+@section('content.after')
 
 	<div class="alternate-container">
 		<div class="container container-wide welcome-features">
@@ -74,7 +76,6 @@
 		</div>
 	</div>
 
-	{{ super() }}
+	@super
 
-{% endblock %}
-
+@endsection

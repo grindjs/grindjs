@@ -1,0 +1,29 @@
+@extends('layout.app')
+
+@scss('docs')
+
+@if(title)
+	@section('title', title)
+@endif
+
+@section('header.actions')
+	<label class="header-cta btn btn-info">
+		<input type="checkbox" class="btn-actions-trigger" />
+		{{ formatVersion(activeVersion) }}<span class="btn-icon btn-icon-chevron-down"></span>
+		<ul class="btn-actions">
+			@for(const version of versions)
+				<li class="btn-action"><a href="{{ url.route('docs.show', extend(routeParams, { version })) }}" class="btn-action-link">{{ formatVersion(version) }}</a></li>
+			@endfor
+		</ul>
+	</label>
+@endsection
+
+@section('content')
+	<div class="docs">
+		<aside class="docs-navigation">{!! documentation !!}</aside>
+		<section class="docs-content">
+			{!! content !!}
+			<a href="https://github.com/grindjs/docs/edit{{ path }}.markdown" class="docs-content-edit">Edit</a>
+		</section>
+	</div>
+@endsection

@@ -20,7 +20,7 @@ export class ErrorHandler extends BaseErrorHandler {
 	}
 
 	renderView(req, res, err, info, code) {
-		const view = path.join(this.app.view.viewPath, 'errors', `${code}.njk`)
+		const view = path.join(this.app.view.viewPath, 'errors', `${code}.stone`)
 
 		return FS.exists(view).then(exists => {
 			if(!exists) {

@@ -3,18 +3,23 @@ import 'App/Support/Highlighter'
 export function ViewExtensionProvider(app) {
 	const cache = { }
 
-	app.view.filter('highlight', (content, lang) => {
+	app.view.share('highlight', (lang, content) => {
 		let highlighted = cache[content]
 
 		if(highlighted.isNil) {
-			highlighted = app.view.toHtmlString(Highlighter(content, lang))
+			highlighted = app.view.toHtmlString(Highlighter(content.trim(), lang))
 			cache[content] = highlighted
 		}
 
 		return highlighted
 	})
 
-	app.view.filter('formatVersion', version => {
+	app.view.extend('highlight', () => 'let tmpOutput = output;\noutput = \'\';')
+	app.view.extend('endhighlight', (context, lang) => {
+		return `tmpOutput += highlight(${lang}, output);\noutput = tmpOutput;`
+	})
+
+	app.view.share('formatVersion', version => {
 		if(version === 'master') {
 			return 'Latest'
 		}
@@ -22,9 +27,6 @@ export function ViewExtensionProvider(app) {
 		return version
 	})
 
-	app.view.filter('set', (object, key, value) => {
-		object[key] = value
-		return object
-	})
+	app.view.share('extend', Object.assign)
 
 }

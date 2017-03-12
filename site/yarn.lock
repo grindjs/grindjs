@@ -42,9 +42,9 @@ acorn@^3.0.4, acorn@^3.1.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-3.3.0.tgz#45e37fb39e8da3f25baee3ff5369e2bb5f22017a"
 
-acorn@^4.0.1:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-4.0.4.tgz#17a8d6a7a6c4ef538b814ec9abac2779293bf30a"
+acorn@^4.0.1, acorn@^4.0.11:
+  version "4.0.11"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-4.0.11.tgz#edcda3bd937e7556410d42ed5860f67399c794c0"
 
 ajv-keywords@^1.0.0:
   version "1.5.0"
@@ -186,6 +186,10 @@ assert@^1.4.0:
   resolved "https://registry.yarnpkg.com/assert/-/assert-1.4.1.tgz#99912d591836b5a6f5b345c0f07eefc08fc65d91"
   dependencies:
     util "0.10.3"
+
+astring@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/astring/-/astring-0.8.0.tgz#86b128fc0e8f691590574496632bd02c33496181"
 
 astw@^2.0.0:
   version "2.0.0"
@@ -1555,7 +1559,7 @@ encodeurl@~1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/encodeurl/-/encodeurl-1.0.1.tgz#79e3d58655346909fe6f0f45a5de68103b294d20"
 
-entities@~1.1.1:
+entities@^1.1.1, entities@~1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.1.tgz#6e5c2d0a5621b5dadaecef80b90edfb5cd7772f0"
 
@@ -2112,9 +2116,9 @@ grim@^2.0.1:
   dependencies:
     event-kit "^2.0.0"
 
-grind-assets@0.7.0-beta.2:
-  version "0.7.0-beta.2"
-  resolved "https://registry.yarnpkg.com/grind-assets/-/grind-assets-0.7.0-beta.2.tgz#610ef1920670012d29d70122b84a5daa0906c336"
+grind-assets@0.7.0-beta.4:
+  version "0.7.0-beta.4"
+  resolved "https://registry.yarnpkg.com/grind-assets/-/grind-assets-0.7.0-beta.4.tgz#a53138f36f443617ef47ec0deadef15432bd4bf3"
   dependencies:
     dateformat "^1.0.12"
     ignore "^3.1.5"
@@ -2155,11 +2159,14 @@ grind-html@0.7.0-beta.3:
     html-entities "^1.2"
     nunjucks "^2.0"
 
-grind-nunjucks@0.7.0-beta.2:
-  version "0.7.0-beta.2"
-  resolved "https://registry.yarnpkg.com/grind-nunjucks/-/grind-nunjucks-0.7.0-beta.2.tgz#936d723bc347b8d5a7a1c5ebe9fa3e52ad223e36"
+grind-stone@0.7.0-beta.3:
+  version "0.7.0-beta.3"
+  resolved "https://registry.yarnpkg.com/grind-stone/-/grind-stone-0.7.0-beta.3.tgz#c2489e1808ba1ee40f8a4d97d66c1b1ae6dca322"
   dependencies:
-    nunjucks "^2.0"
+    acorn "^4.0.11"
+    astring "^0.8.0"
+    chokidar "^1.6.1"
+    entities "^1.1.1"
 
 grind-support@0.7.0-beta.1:
   version "0.7.0-beta.1"

@@ -1,12 +1,12 @@
-{% extends 'layout/master.njk' %}
+@extends('layout.master')
 
-{% scss 'editor' %}
-{% scss 'app' %}
-{% scss 'grid' %}
+@scss('editor')
+@scss('app')
+@scss('grid')
 
-{% block contentBefore %}
+@section('content.before')
 	<header class="header">
-		{% filter spaceless %}
+		@spaceless
 		<div class="container header-container">
 			<div class="header-background"></div>
 			<div class="header-background header-background-mirror"></div>
@@ -20,15 +20,15 @@
 				<a href="https://grind.chat/" class="header-link" target="_blank">Slack</a>
 			</nav>
 
-			{% block headerActions %}
+			@section('header.actions')
 				<a href="{{ url.route('docs.show') }}" class="header-cta btn">Get Started</a>
-			{% endblock %}
+			@show
 		</div>
-		{% endfilter %}
+		@endspaceless
 	</header>
-{% endblock %}
+@endsection
 
-{% block contentAfter %}
+@section('content.after')
 	<footer class="footer">
 		<div class="container footer-container">
 			<a href="{{ url.route('welcome.show') }}" class="brand-logo footer-logo">Grind</a>
@@ -44,4 +44,4 @@
 			</span>
 		</div>
 	</footer>
-{% endblock %}
+@endsection

@@ -1,27 +1,33 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>{% block title %}Grind | Web Framework for Node.js{% endblock %}</title>
+		<title>
+			@hasSection('title')
+				@yield('title') | Grind | Web Framework for Node.js
+			@else
+				Grind | Web Framework for Node.js
+			@endif
+		</title>
 		<meta name="viewport" content="width=1070" />
 
 		{{ html.style('https://s3.amazonaws.com/assets.grind.rocks/docs/css/BentonSans.css') }}
 		{{ html.style('https://s3.amazonaws.com/assets.grind.rocks/docs/css/fira_code.css') }}
 
-		{% asset 'render', 'styles' %}
-		{% block styles %}{% endblock %}
+		@asset('render', 'styles')
+		@yield('styles')
 	</head>
 	<body>
-		{% block contentBefore %}{% endblock %}
+		@yield('content.before')
 
 		<div class="container">
 			<div class="content">
-				{% block content %}{% endblock %}
+				@yield('content')
 			</div>
 		</div>
 
-		{% block contentAfter %}{% endblock %}
+		@yield('content.after')
 
-		{% asset 'render', 'scripts' %}
-		{% block scripts %}{% endblock %}
+		@asset('render', 'scripts')
+		@yield('scripts')
 	</body>
 </html>
