@@ -114,6 +114,57 @@ You may use the `@` symbol to inform the Stone rendering engine an expression sh
 
 In this example, the `@` symbol will be removed by Stone; however, the `{{ name }}` expression will remain untouched by the Stone engine.
 
+### Controlling Whitespace
+
+Stone has a `@spaceless` directive that allows you to strip all whitespace between HTML tags:
+
+```stone
+@spaceless
+<nav>
+	<span>Home</span>
+	<span>Posts</span>
+	<span>Contact</span>
+</nav>
+@endspaceless
+```
+
+The above example will render as:
+
+```html
+<nav><span>Home</span><span>Posts</span><span>Contact</span></nav>
+```
+
+> {tip} `@spaceless` is applied during compilation, so there‘s no real world performance cost!
+
+### Inspecting Objects
+
+During the course of development, you’ll more than likely run into a scenario where you want to see what the contents of an object are.
+
+Stone solves this with a `@dump` directive that will `stringify` the object and render it in a `pre` tag:
+
+```stone
+@dump({
+	title: 'Grind'
+})
+```
+
+## Variable Assignemnts
+
+Stone‘s `@set` directive allows you to assign variables within the current context.  These assignments will cascade downwards to subviews via `@include`, however an assignment within a subview will not affect it’s parent.
+
+```stone
+{{-- @set supports simple assignments: --}}
+@set(title, 'Grind')
+
+{{-- With @set you can also assign an object property: --}}
+@set(object, { title: Grind })
+@set(object.version, 1.0)
+
+{{-- @set even supports pushing values onto an array: --}}
+@set(versions, [ 1.0, 2.0 ])
+@set(versions.push(3.0))
+```
+
 ## Control Structures
 
 In addition to template inheritance and displaying data, Stone also provides convenient shortcuts for common control structures, such as conditional statements and loops. These shortcuts provide a very clean, terse way of working with control structures, while also remaining familiar to their Javascript counterparts.
