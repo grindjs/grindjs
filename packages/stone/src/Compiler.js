@@ -264,7 +264,7 @@ export class Compiler {
 			throw new Error('Invalid section block')
 		}
 
-		return this._compileSection(context, args[0], `function() { return ${args[1]}; });`)
+		return this._compileSection(context, args[0], `function() { return escape(${args[1]}); });`)
 	}
 
 	_compileSection(context, name, code) {
