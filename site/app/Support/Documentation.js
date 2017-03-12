@@ -24,7 +24,12 @@ export class Documentation {
 				'<a href="$1" class="docs-navigation-active">'
 			).replace(/href="([^"#]+)"/g, (_, link) => {
 				const components = link.split('/')
-				return `href="${this.app.url.route('docs.show', [ version, group, ...components ], req)}"`
+
+				return `href="${this.app.url.route(
+					'docs.show',
+					[ version, group, ...components ],
+					req
+				).replace(/\/$/g, '')}"`
 			})
 		})
 	}

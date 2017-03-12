@@ -1,5 +1,7 @@
 import { ErrorHandler as BaseErrorHandler } from 'grind-framework'
+import { FS } from 'grind-support'
 import Ouch from 'ouch'
+import path from 'path'
 
 export class ErrorHandler extends BaseErrorHandler {
 
@@ -18,9 +20,9 @@ export class ErrorHandler extends BaseErrorHandler {
 	}
 
 	renderView(req, res, err, info, code) {
-		const view = `errors/${code}.njk`
+		const view = path.join(this.app.view.viewPath, 'errors', `${code}.njk`)
 
-		return this.app.view.exists(view).then(exists => {
+		return FS.exists(view).then(exists => {
 			if(!exists) {
 				if(code !== '500') {
 					return this.renderView(req, res, err, info, 500)
@@ -29,7 +31,7 @@ export class ErrorHandler extends BaseErrorHandler {
 				}
 			}
 
-			return super.renderView(req, res, err, info, view)
+			return super.renderView(req, res, err, info, `errors.${code}`)
 		}).catch(err => {
 			return this.renderJson(req, res, err, info)
 		})

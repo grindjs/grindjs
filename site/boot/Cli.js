@@ -1,3 +1,6 @@
+import 'babel-polyfill'
+import 'grind-framework'
+
 import { CliProvider } from 'grind-cli'
 import 'App/Providers/CommandsProvider'
 

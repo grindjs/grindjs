@@ -1,22 +1,20 @@
 import 'App/Support/Highlighter'
 
-import { runtime as NunjucksRuntime } from 'nunjucks'
-
 export function ViewExtensionProvider(app) {
 	const cache = { }
 
-	app.view.addFilter('highlight', (content, lang) => {
+	app.view.filter('highlight', (content, lang) => {
 		let highlighted = cache[content]
 
 		if(highlighted.isNil) {
-			highlighted = new NunjucksRuntime.SafeString(Highlighter(content, lang))
+			highlighted = app.view.toHtmlString(Highlighter(content, lang))
 			cache[content] = highlighted
 		}
 
 		return highlighted
 	})
 
-	app.view.addFilter('formatVersion', version => {
+	app.view.filter('formatVersion', version => {
 		if(version === 'master') {
 			return 'Latest'
 		}
@@ -24,7 +22,7 @@ export function ViewExtensionProvider(app) {
 		return version
 	})
 
-	app.view.addFilter('set', (object, key, value) => {
+	app.view.filter('set', (object, key, value) => {
 		object[key] = value
 		return object
 	})

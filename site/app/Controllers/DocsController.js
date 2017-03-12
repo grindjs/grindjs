@@ -19,7 +19,7 @@ export class DocsController extends Controller {
 	}
 
 	show(req, res) {
-		const path = req.originalUrl.replace(/^\/docs/, '')
+		const path = req.originalUrl.replace(/^\/docs/, '').replace(/\/$/g, '')
 
 		if(path.length === 0 || req.params.group.isNil) {
 			return res.route('docs.show', [ this.currentVersion, 'guides', 'installation' ])
