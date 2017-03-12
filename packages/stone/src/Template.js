@@ -39,6 +39,7 @@ export class Template {
 	 */
 	static sanitizeHtml(html) {
 		html = html.replace(/(^|[^@])\{\{\s*(.+?)\s*\}\}/g, '$1${escape($2)}')
+		html = html.replace(/@\{\{(.+?)\}\}/g, '{{$1}}')
 		html = html.replace(/\{!!\s*(.+?)\s*!!\}/g, '${$1}')
 		html = html.replace(/[\n]/g, '\\n')
 		html = html.replace(/[\r]/g, '\\r')
