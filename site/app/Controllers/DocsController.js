@@ -42,9 +42,10 @@ export class DocsController extends Controller {
 		return Promise.all([
 			this.docs.contents(req, req.params.version, req.params.group, path),
 			this.docs.get(path)
-		]).then(data => res.render('docs.show', {
-			documentation: data[0],
-			content: data[1],
+		]).then(([ documentation, { content, title } ]) => res.render('docs.show', {
+			documentation: documentation,
+			content: content,
+			title: title,
 			path: path,
 			activeVersion: req.params.version,
 			versions: this.versions,

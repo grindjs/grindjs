@@ -46,7 +46,14 @@ Markdown.render = function(content) {
 }
 
 Markdown.renderFile = (app, path) => {
-	const render = () => FS.readFile(path).then(content => Markdown.render(content.toString()))
+	const render = () => FS.readFile(path).then(content => Markdown.render(content.toString())).then(content => {
+		const match = content.match(/<h1[^>]+><a[^>]+>(.+?)<\/a><\/h1>/)
+
+		return {
+			content: content,
+			title: match.isNil ? null : match[1]
+		}
+	})
 
 	if(app.debug) {
 		return render()

@@ -2,6 +2,10 @@
 
 {% scss 'docs' %}
 
+{% if title %}
+	{% block title %}{{ title }} | {{ super() }}{% endblock %}
+{% endif %}
+
 {% block headerActions %}
 	<label class="header-cta btn btn-info">
 		<input type="checkbox" class="btn-actions-trigger" />

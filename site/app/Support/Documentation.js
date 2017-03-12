@@ -15,7 +15,7 @@ export class Documentation {
 		return Markdown.renderFile(
 			this.app,
 			path.join(this.basePath, version, group, 'documentation.markdown')
-		).then(content => {
+		).then(({ content }) => {
 			const components = active.split(/\//)
 			active = components[components.length - 1]
 
