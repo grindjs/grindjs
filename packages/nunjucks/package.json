@@ -1,6 +1,6 @@
 {
   "name": "grind-nunjucks",
-  "version": "0.7.0-beta.1",
+  "version": "0.7.0-beta.2",
   "description": "Integrates Nunjucks with Grind‘s View system",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
