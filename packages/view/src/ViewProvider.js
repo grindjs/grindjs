@@ -17,4 +17,5 @@ export async function ViewProvider(app) {
 	}
 }
 
+ViewProvider.shutdown = app => app.view.shutdown()
 ViewProvider.priority = 30000

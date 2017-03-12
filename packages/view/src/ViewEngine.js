@@ -13,6 +13,10 @@ export class ViewEngine {
 		return Promise.resolve()
 	}
 
+	shutdown() {
+		return Promise.resolve()
+	}
+
 	share(name, value) {
 		throw new Error('Subclasses must implement.')
 	}

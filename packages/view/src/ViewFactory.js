@@ -34,6 +34,10 @@ export class ViewFactory {
 		this.share('markHtml', html => this.toHtmlString(html))
 	}
 
+	shutdown() {
+		return this.engine.shutdown()
+	}
+
 	share(name, value) {
 		return this.engine.share(name, value)
 	}
