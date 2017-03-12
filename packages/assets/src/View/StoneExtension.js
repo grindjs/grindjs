@@ -1,14 +1,14 @@
 export class StoneExtension {
 
 	static extend(view) {
-		view.extend('asset', args => this.asset(args))
+		view.extend('asset', (context, args) => this.asset(args))
 
 		for(const directive of [ 'style', 'css', 'sass', 'scss', 'styl', 'stylus', 'less' ]) {
-			view.extend(directive, args => this.append(`'${directive}', ${args}`))
+			view.extend(directive, (context, args) => this.append(`'${directive}', ${args}`))
 		}
 
 		for(const directive of [ 'script', 'js', 'babel', 'coffee' ]) {
-			view.extend(directive, args => this.append(`'${directive}', ${args}`))
+			view.extend(directive, (context, args) => this.append(`'${directive}', ${args}`))
 		}
 	}
 
