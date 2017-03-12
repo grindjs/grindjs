@@ -126,14 +126,14 @@ export class Compiler {
 			}
 		}
 
-		code = Template.contextualize(code)
+		code = Template.contextualize(`let output = '';\n${code}`)
 
-		let template = `function(_, _sections = { }) {\nlet output = '';\n${code}\n`
+		let template = `function(_, _sections = { }) {\n${code}\n`
 
 		if(context.layout !== null) {
 			template += `return _.$compiler._extends(${context.layout}, _, _sections);\n}`
 		} else {
-			template += `return output;\n}`
+			template += 'return output;\n}'
 		}
 
 		if(!shouldEval) {
