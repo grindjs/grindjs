@@ -1,6 +1,6 @@
 {
   "name": "grind-view",
-  "version": "0.6.1",
+  "version": "0.7.0-beta.1",
   "description": "View provider for Grind, powered by Nunjucks",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
@@ -24,8 +24,8 @@
     "eslint-plugin-import-auto-name": "^1.0.3"
   },
   "peerDependencies": {
-    "grind-framework": "^0.6.0",
-    "grind-support": "^0.6.0"
+    "grind-framework": "^0.7.0-beta.3",
+    "grind-support": "^0.7.0-beta.2"
   },
   "engines": {
     "node": ">=6.9"
