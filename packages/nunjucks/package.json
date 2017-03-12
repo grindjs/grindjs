@@ -1,7 +1,7 @@
 {
   "name": "grind-nunjucks",
-  "version": "0.7.0",
-  "description": "Integrated Nunjucks with Grind‘s View system",
+  "version": "0.7.0-beta.1",
+  "description": "Integrates Nunjucks with Grind‘s View system",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
   "main": "lib/index.js",
@@ -28,8 +28,8 @@
     "eslint-plugin-import-auto-name": "^1.0.3"
   },
   "peerDependencies": {
-    "grind-framework": "^0.7.0-beta.0",
-    "grind-support": "^0.7.0-beta.0"
+    "grind-framework": "^0.7.0-beta.3",
+    "grind-support": "^0.7.0-beta.2"
   },
   "engines": {
     "node": ">=6.9"
