@@ -8,7 +8,6 @@
   "dependencies": {
     "acorn": "^4.0.11",
     "astring": "^0.8.0",
-    "ava": "^0.18.2",
     "chokidar": "^1.6.1",
     "entities": "^1.1.1"
   },
@@ -16,6 +15,7 @@
     "grind-support": "0.7.0-beta.2"
   },
   "devDependencies": {
+    "ava": "^0.18.2",
     "babel-cli": ">=6.7 <=7.0",
     "babel-eslint": "^7.1.1",
     "babel-preset-grind": "^0.6.2",
