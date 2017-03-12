@@ -3,9 +3,11 @@ import { ViewEngine } from 'grind-view'
 import './Compiler'
 import './HtmlString'
 import './Template'
+import './Watcher'
 
 export class StoneEngine extends ViewEngine {
 	compiler = null
+	watcher = null
 
 	context = {
 		escape: Template.escape,
@@ -41,7 +43,20 @@ export class StoneEngine extends ViewEngine {
 
 		this.app.express.set('view', StoneExpressView)
 
+		if(this.app.config.get('view.watch', this.app.debug)) {
+			this.watcher = new Watcher(this, this.view.viewPath)
+			this.watcher.start()
+		}
+
 		return Promise.resolve()
+	}
+
+	shutdown() {
+		if(this.watcher.isNil) {
+			return
+		}
+
+		return this.watcher.stop()
 	}
 
 	share(name, value) {

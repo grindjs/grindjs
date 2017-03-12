@@ -6,14 +6,24 @@ export class Compiler {
 	engine = null
 	directives = { }
 	sectionStack = [ ]
+	compiled = { }
 
 	constructor(engine) {
 		this.engine = engine
 	}
 
-	compile(template) {
+	compile(template, force = false) {
+		let compiled = force ? null : this.compiled[template]
+
+		if(typeof compiled === 'function') {
+			return compiled
+		}
+
 		// eslint-disable-next-line no-sync
-		return this.compileString(fs.readFileSync(template).toString())
+		compiled = this.compileString(fs.readFileSync(template).toString())
+		this.compiled[template] = compiled
+
+		return compiled
 	}
 
 	compileString(contents) {
