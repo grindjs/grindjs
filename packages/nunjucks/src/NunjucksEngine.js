@@ -1,4 +1,4 @@
-import { ViewEngine } from '../../grind-view'
+import { ViewEngine } from 'grind-view'
 import { FS } from 'grind-support'
 
 const Nunjucks = require('nunjucks')
