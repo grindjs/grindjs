@@ -41,10 +41,10 @@ export class Compiler {
 
 		while((match = contents.match(/@([a-zA-Z0-9_]+)(\s*\()?/))) {
 			if(match.index > 0) {
-				let string = contents.substring(0, match.index).replace(/>\s+</g, '><')
+				let string = contents.substring(0, match.index)
 
 				if(context.spaceless > 0) {
-					string = string.trim()
+					string = string.replace(/>\s+</g, '><').trim()
 				}
 
 				expressions.push({
