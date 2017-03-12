@@ -1,11 +1,13 @@
 import { ViewEngine } from 'grind-view'
 
+import './CacheManager'
 import './Compiler'
 import './HtmlString'
 import './Template'
 import './Watcher'
 
 export class StoneEngine extends ViewEngine {
+	cacheManager = null
 	compiler = null
 	watcher = null
 
@@ -17,10 +19,11 @@ export class StoneEngine extends ViewEngine {
 	constructor(app, view) {
 		super(app, view)
 
+		this.cacheManager = new CacheManager(app, this)
 		this.compiler = new Compiler(this)
 	}
 
-	bootstrap() {
+	async bootstrap() {
 		const engine = this
 
 		function StoneExpressView(name) {
@@ -48,7 +51,9 @@ export class StoneEngine extends ViewEngine {
 			this.watcher.start()
 		}
 
-		return Promise.resolve()
+		if(await this.cacheManager.exists()) {
+			await this.cacheManager.load()
+		}
 	}
 
 	shutdown() {
@@ -97,6 +102,14 @@ export class StoneEngine extends ViewEngine {
 
 	resolve(template) {
 		return `${this.view.viewPath}/${template.replace(/\./g, '/')}.stone`
+	}
+
+	writeCache() {
+		return this.cacheManager.write()
+	}
+
+	clearCache() {
+		return this.cacheManager.clear()
 	}
 
 	toHtmlString(html) {

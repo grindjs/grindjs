@@ -26,7 +26,7 @@ export class Compiler {
 		return compiled
 	}
 
-	compileString(contents) {
+	compileString(contents, shouldEval = true) {
 		let extendsLayout = null
 
 		// Strip comments
@@ -110,13 +110,19 @@ export class Compiler {
 			}
 		}
 
-		code = `const template = function(_, _sections = { }) {\nlet output = '';\n${Template.contextualize(code)}\n`
+		code = `function(_, _sections = { }) {\nlet output = '';\n${Template.contextualize(code)}\n`
 
 		if(extendsLayout !== null) {
-			code += `return _.$compiler._extends(${extendsLayout}, _, _sections);\n}; template`
+			code += `return _.$compiler._extends(${extendsLayout}, _, _sections);\n}`
 		} else {
-			code += `return output;\n}; template`
+			code += `return output;\n}`
 		}
+
+		if(!shouldEval) {
+			return code
+		}
+
+		code = `const template = ${code}; template`
 
 		return eval(code)
 	}
