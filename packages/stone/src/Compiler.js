@@ -27,8 +27,9 @@ export class Compiler {
 
 	compileString(contents, shouldEval = true) {
 		const context = {
+			layout: null,
 			sections: [ ],
-			layout: null
+			spaceless: 0
 		}
 
 		// Strip comments
@@ -40,9 +41,15 @@ export class Compiler {
 
 		while((match = contents.match(/@([a-zA-Z0-9_]+)(\s*\()?/))) {
 			if(match.index > 0) {
+				let string = contents.substring(0, match.index).replace(/>\s+</g, '><')
+
+				if(context.spaceless > 0) {
+					string = string.trim()
+				}
+
 				expressions.push({
 					type: 'string',
-					contents: contents.substring(0, match.index)
+					contents: string
 				})
 
 				contents = contents.substring(match.index)
@@ -78,9 +85,16 @@ export class Compiler {
 				contents = contents.substring(match[0].length)
 			}
 
-			if(match[1] === 'extends') {
-				context.layout = args
-				continue
+			switch(match[1]) {
+				case 'extends':
+					context.layout = args
+					continue
+				case 'spaceless':
+					context.spaceless++
+					continue
+				case 'endspaceless':
+					context.spaceless--
+					continue
 			}
 
 			const result = this.compileDirective(context, match[1].toLowerCase(), args)

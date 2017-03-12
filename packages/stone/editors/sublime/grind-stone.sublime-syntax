@@ -60,7 +60,7 @@ contexts:
               pop: true
             - include: 'scope:source.js'
 
-        - match: '(\s{0}|^)(\@)\b(break|continue|else|empty|endblock|endfor|endforeach|endforelse|endif|endpush|endsection|endunless|endwhile|parent|setup|show|super)\b'
+        - match: '(\s{0}|^)(\@)\b(break|continue|else|empty|endblock|endfor|endforeach|endforelse|endif|endpush|endsection|endspaceless|endunless|endwhile|parent|setup|show|spaceless|super)\b'
           scope: custom.compiler.stone.js
           captures:
             0: punctuation.section.embedded.js
