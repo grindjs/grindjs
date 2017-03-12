@@ -14,7 +14,7 @@ export class StoneEngine extends ViewEngine {
 	context = {
 		escape: Template.escape,
 		HtmlString: HtmlString,
-               stringify: JSON.stringify
+		stringify: JSON.stringify
 	}
 
 	constructor(app, view) {
