@@ -24,6 +24,7 @@
 * [Views](templates)
 * [Assets](assets)
 * [HTML Builders](html-builders)
+* [Stone Templates](stone)
 
 ##### Database
 * [Database](database)
