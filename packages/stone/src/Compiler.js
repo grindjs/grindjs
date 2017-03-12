@@ -137,7 +137,7 @@ export class Compiler {
 		}
 
 		if(!shouldEval) {
-			return code
+			return template
 		}
 
 		template = `const template = ${template}; template`
