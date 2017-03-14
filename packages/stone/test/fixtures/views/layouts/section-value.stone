@@ -1,0 +1,4 @@
+@extends('layouts._master')
+
+@section('head', new HtmlString('<meta />'))
+@section('body', 'Body')

@@ -1,0 +1,3 @@
+@extends('layouts._introspection')
+
+@section('title', 'Framework')

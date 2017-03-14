@@ -1,0 +1,4 @@
+@extends('layouts._master')
+
+@section('head')<meta name="viewport" />@endsection
+@section('body')@super!@endsection

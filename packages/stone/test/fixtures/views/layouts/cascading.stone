@@ -1,0 +1,3 @@
+@extends('layouts._intermediary')
+
+@section('body')@super Framework@endsection

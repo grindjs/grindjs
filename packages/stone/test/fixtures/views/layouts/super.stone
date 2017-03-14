@@ -1,0 +1,4 @@
+@extends('layouts._master')
+
+@section('head')<!-- -->@endsection
+@section('body')@super!@endsection

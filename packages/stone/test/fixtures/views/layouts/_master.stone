@@ -1,0 +1,7 @@
+<html>
+	<head>
+		<title>@yield('title', 'Grind')</title>
+		@yield('head')
+	</head>
+	<body>@section('body')Grind@show</body>
+</html>

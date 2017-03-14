@@ -1,0 +1,5 @@
+<html>
+	<head>
+		<title>@hasSection('title')@yield('title')@else()Grind@endif</title>
+	</head>
+</html>
