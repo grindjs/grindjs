@@ -9,7 +9,7 @@
     "acorn": "^4.0.11",
     "astring": "^0.8.0",
     "chokidar": "^1.6.1",
-    "entities": "^1.1.1"
+    "he": "^1.1.1"
   },
   "peerDependencies": {
     "grind-support": "0.7.0-beta.2"

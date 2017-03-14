@@ -1,5 +1,6 @@
 import './HtmlString'
-import { encodeHTML } from 'entities'
+
+const he = require('he')
 
 const acorn = require('acorn')
 acorn.walk = require('acorn/dist/walk').simple
@@ -64,7 +65,9 @@ export class Template {
 			return value.toString()
 		}
 
-		return encodeHTML(value.toString())
+		return he.encode(value.toString(), {
+			useNamedReferences: true
+		})
 	}
 
 	/**
