@@ -375,7 +375,7 @@ export class Compiler {
 	 * @return {string} Code to display the contents
 	 */
 	compileDump(context, value) {
-		return `output += \`<pre>\${stringify(${value}, null, '  ')}</pre>\``
+		return `output += \`<pre>\${escape(stringify(${value}, null, '  '))}</pre>\``
 	}
 
 }
