@@ -1,0 +1,15 @@
+@spaceless
+
+<nav>
+	<span>Home</span>
+
+
+
+
+
+	<span>Posts</span>
+
+	<span>Contact</span>
+</nav>
+
+@endspaceless
