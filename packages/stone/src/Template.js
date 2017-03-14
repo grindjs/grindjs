@@ -123,10 +123,27 @@ export class Template {
 				scope.locals.add(node.id.name)
 			},
 
+			ObjectExpression: node => {
+				for(const property of node.properties) {
+					if(property.shorthand !== true) {
+						continue
+					}
+
+					property.shorthand = false
+					property.key = new property.key.constructor({ options: { } })
+					property.key.shouldntContextualize = true
+					Object.assign(property.key, property.value)
+
+					if(property.key.name.startsWith('_.')) {
+						property.key.name = property.key.name.substring(2)
+					}
+				}
+			},
+
 			Identifier: node => {
 				checkScope(node)
 
-				if(scope.locals.has(node.name)) {
+				if(node.shouldntContextualize || scope.locals.has(node.name)) {
 					return
 				}
 
