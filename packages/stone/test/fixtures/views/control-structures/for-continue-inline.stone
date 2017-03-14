@@ -1,0 +1,4 @@
+@for(let i = 0; i < 3; i++)
+@continue(i < 1)
+The current value is {{ i }}.
+@endfor
