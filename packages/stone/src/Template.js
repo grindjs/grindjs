@@ -86,7 +86,17 @@ export class Template {
 
 		const scopes = [
 			{
-				locals: new Set([ '_', '_sections' ]),
+				locals: new Set([
+					'_',
+					'_sections',
+					'Object',
+					'Set',
+					'Date',
+					'Array',
+					'String',
+					'global',
+					'process'
+				]),
 				end: Number.MAX_VALUE
 			}
 		]
