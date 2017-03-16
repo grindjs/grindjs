@@ -1,11 +1,7 @@
+import './AST'
 import './HtmlString'
 
 const he = require('he')
-
-const acorn = require('acorn')
-acorn.walk = require('acorn/dist/walk').simple
-
-const astring = require('astring')
 
 export class Template {
 
@@ -82,7 +78,7 @@ export class Template {
 		let tree = null
 
 		try {
-			tree = acorn.parse(code)
+			tree = AST.parse(code)
 		} catch(err) {
 			err._code = code
 			throw err
@@ -104,7 +100,7 @@ export class Template {
 			}
 		}
 
-		acorn.walk(tree, {
+		AST.walk(tree, {
 			Statement: node => {
 				checkScope(node)
 			},
@@ -169,7 +165,7 @@ export class Template {
 			}
 		})
 
-		return astring(tree)
+		return AST.stringify(tree)
 	}
 
 }
