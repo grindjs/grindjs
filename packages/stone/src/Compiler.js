@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import './Template'
 
 const fs = require('fs')
@@ -39,18 +40,20 @@ export class Compiler {
 		const expressions = [ ]
 		let match = null
 
-		while((match = contents.match(/@([a-zA-Z0-9_]+)(\s*\()?/))) {
+		while((match = contents.match(/@(\w+)([ \t]*\()?\n*/))) {
 			if(match.index > 0) {
 				let string = contents.substring(0, match.index)
 
-				if(context.spaceless > 0) {
-					string = string.replace(/>\s+</g, '><').trim()
-				}
+				if(string.trim().length > 0) {
+					if(context.spaceless > 0) {
+						string = string.replace(/>\s+</g, '><').trim()
+					}
 
-				expressions.push({
-					type: 'string',
-					contents: string
-				})
+					expressions.push({
+						type: 'string',
+						contents: string
+					})
+				}
 
 				contents = contents.substring(match.index)
 			}
