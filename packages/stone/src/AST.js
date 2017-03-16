@@ -1,5 +1,5 @@
 const acorn = require('acorn')
-const walk = require('acorn/dist/walk').simple
+const base = require('acorn/dist/walk').base
 const astring = require('astring')
 
 export class AST {
@@ -9,7 +9,16 @@ export class AST {
 	}
 
 	static walk(node, visitors) {
-		return walk(node, visitors)
+		(function c(node, st, override) {
+			const type = override || node.type
+			const found = visitors[type]
+
+			if(found) {
+				found(node, st)
+			}
+
+			base[type](node, st, c)
+		})(node)
 	}
 
 	static stringify(tree) {
