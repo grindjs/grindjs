@@ -6,6 +6,38 @@ const he = require('he')
 export class Template {
 
 	/**
+	 * Finds the next index of a set of characters
+	 *
+	 * @param  {string}    string    String to search in
+	 * @param  {array|set} set       Array or set of characters to search for
+	 * @param  {number}    fromIndex Index to search from
+	 * @return {number}              Index of the parenthesis or -1
+	 */
+	static nextIndexOf(string, set, fromIndex) {
+		let index = null
+
+		for(const character of set) {
+			const characterIndex = string.indexOf(character, fromIndex)
+
+			if(characterIndex === -1) {
+				continue
+			}
+
+			if(index === null) {
+				index = characterIndex
+			}
+
+			index = Math.min(index, characterIndex)
+		}
+
+		if(index === null) {
+			return -1
+		}
+
+		return index
+	}
+
+	/**
 	 * Finds the next index of an
 	 * opening or closing parenthesis
 	 *
@@ -14,16 +46,7 @@ export class Template {
 	 * @return {number}           Index of the parenthesis or -1
 	 */
 	static nextIndexOfParenthesis(string, fromIndex) {
-		const open = string.indexOf('(', fromIndex)
-		const close = string.indexOf(')', fromIndex)
-
-		if(open === -1) {
-			return close
-		} else if(close === -1)  {
-			return open
-		}
-
-		return Math.min(open, close)
+		return this.nextIndexOf(string, [ '(', ')' ], fromIndex)
 	}
 
 	/**
