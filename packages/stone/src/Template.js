@@ -100,22 +100,27 @@ export class Template {
 			}
 		}
 
+		const pushScope = node => {
+			checkScope(node)
+
+			scope = {
+				locals: new Set(scope.locals),
+				node: node,
+				end: node.end
+			}
+
+			scopes.push(scope)
+		}
+
 		AST.walk(tree, {
 			Statement: node => {
 				checkScope(node)
 			},
 
-			BlockStatement: node => {
-				checkScope(node)
-
-				scope = {
-					locals: new Set(scope.locals),
-					node: node,
-					end: node.end
-				}
-
-				scopes.push(scope)
-			},
+			BlockStatement: node => pushScope(node),
+			ForStatement: node => pushScope(node),
+			ForOfStatement: node => pushScope(node),
+			WhileStatement: node => pushScope(node),
 
 			VariableDeclarator: node => {
 				checkScope(node)
