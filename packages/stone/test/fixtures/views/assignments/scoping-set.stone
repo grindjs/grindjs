@@ -1,0 +1,4 @@
+<p>{{ title }}</p>
+@set(const title, 'Grind Framework')
+<p>{{ title }}</p>
+<p>{{ _.title }}</p>

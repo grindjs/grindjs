@@ -1,0 +1,3 @@
+@set(obj, { })
+@set(obj.i, 1)
+The value is {{ obj.i }}.

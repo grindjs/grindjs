@@ -1,0 +1,2 @@
+@set({ i, j }, { i: 1, j: 2 })
+The values are {{ i }} and {{ j }}.

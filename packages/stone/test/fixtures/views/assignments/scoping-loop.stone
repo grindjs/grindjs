@@ -1,0 +1,7 @@
+@for(const i of [ 1, 2 ])
+	<p>The value is {{ i }}.</p>
+@endfor
+@for(let i = 3; i < 5; i++)
+	<p>The value is {{ i }}.</p>
+@endfor
+<p>The value is {{ i }}.</p>
