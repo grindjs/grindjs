@@ -123,7 +123,22 @@ export class Template {
 
 			VariableDeclarator: node => {
 				checkScope(node)
-				scope.locals.add(node.id.name)
+
+				const add = node => {
+					if(node.type === 'ArrayPattern') {
+						for(const element of node.elements) {
+							add(element)
+						}
+					} else if(node.type === 'ObjectPattern') {
+						for(const property of node.properties) {
+							add(property.value)
+						}
+					} else {
+						scope.locals.add(node.name)
+					}
+				}
+
+				add(node.id)
 			},
 
 			ObjectExpression: node => {
