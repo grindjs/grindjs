@@ -210,6 +210,15 @@ export function UserRoutes(routes) {
 }
 ```
 
+You can even specify options directly on your route to avoid needing to nest in another group:
+
+```js
+UserRoutes.options = { prefix: 'users' }
+export function UserRoutes(routes) {
+	routes.get(':id', …)
+}
+```
+
 ---
 
 #### Routes Directory
