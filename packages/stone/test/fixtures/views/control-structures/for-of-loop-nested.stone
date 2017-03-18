@@ -1,0 +1,12 @@
+@for(const i of [ 'a', 'b' ])
+@for(const j of [ 1, 2, 3 ])
+Value: {{ j }}, {{ i }}
+Index: {{ loop.index }}, {{ loop.parent.index }}
+Iteration: {{ loop.iteration }}, {{ loop.parent.iteration }}
+First: {{ loop.first ? 'true' : 'false' }}, {{ loop.parent.first ? 'true' : 'false' }}
+Last: {{ loop.last ? 'true' : 'false' }}, {{ loop.parent.last ? 'true' : 'false' }}
+Count: {{ loop.count }}, {{ loop.parent.count }}
+Remaining: {{ loop.remaining }}, {{ loop.parent.remaining }}
+Depth: {{ loop.depth }}, {{ loop.parent.depth }}
+@endfor
+@endfor

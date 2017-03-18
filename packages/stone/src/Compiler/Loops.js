@@ -1,8 +1,63 @@
+import '../AST'
+
 export function compileFor(context, args) {
-	return `for(${args}) {`
+	context.loopStack = context.loopStack || [ ]
+
+	args = `for(${args}) {`
+	const tree = AST.parse(`${args} }`)
+
+	if(tree.body.length > 1 || (tree.body[0].type !== 'ForInStatement' && tree.body[0].type !== 'ForOfStatement'))  {
+		context.loopStack.push(false)
+		return args
+	}
+
+	const node = tree.body[0]
+	const lhs = AST.stringify(node.left).trim().replace(/;$/, '')
+	let rhs = AST.stringify(node.right).trim().replace(/;$/, '')
+
+	if(node.type === 'ForInStatement') {
+		rhs = `new StoneLoop(Object.keys(${rhs}))`
+	} else {
+		rhs = `new StoneLoop(${rhs})`
+	}
+
+	context.loops = context.loops || 0
+	context.loopVariableStack = context.loopVariableStack || [ ]
+
+	const loopVariable = `__loop${context.loops++}`
+	context.loopVariableStack.push(loopVariable)
+	context.loopStack.push(true)
+
+	let code = `const ${loopVariable} = ${rhs};\n`
+	code += `${loopVariable}.depth = ${context.loopVariableStack.length};\n`
+
+	if(context.loopStack.length > 1) {
+		code += `${loopVariable}.parent = ${context.loopVariableStack[context.loopVariableStack.length - 2]};\n`
+	}
+
+	code += `for(${lhs} of ${loopVariable}) {\n`
+	code += `\tconst loop = ${loopVariable};`
+
+	return code
+}
+
+export function compileForeach(context, args) {
+	// No difference between for and foreach
+	// Included for consistency with Blade
+	return this.compileFor(context, args)
 }
 
 export function compileEndfor(context) {
+	if(context.loopStack.pop()) {
+		context.loopVariableStack.pop()
+	}
+
+	return this.compileEnd(context)
+}
+
+export function compileEndforeach(context) {
+	// No difference between for and foreach
+	// Included for consistency with Blade
 	return this.compileEnd(context)
 }
 

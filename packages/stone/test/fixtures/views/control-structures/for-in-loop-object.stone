@@ -1,0 +1,10 @@
+@for(const i in { a: 1, b: 2, c: 3 })
+Value: {{ i }}
+Index: {{ loop.index }}
+Iteration: {{ loop.iteration }}
+First: {{ loop.first ? 'true' : 'false' }}
+Last: {{ loop.last ? 'true' : 'false' }}
+Count: {{ loop.count }}
+Remaining: {{ loop.remaining }}
+Depth: {{ loop.depth }}
+@endfor

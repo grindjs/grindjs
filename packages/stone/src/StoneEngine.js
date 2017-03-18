@@ -3,6 +3,7 @@ import { ViewEngine } from 'grind-view'
 import './CacheManager'
 import './Compiler'
 import './HtmlString'
+import './StoneLoop'
 import './Template'
 import './Watcher'
 
@@ -14,6 +15,7 @@ export class StoneEngine extends ViewEngine {
 	context = {
 		escape: Template.escape,
 		HtmlString: HtmlString,
+		StoneLoop: StoneLoop,
 		stringify: JSON.stringify
 	}
 
