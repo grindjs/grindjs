@@ -81,6 +81,9 @@ export class Template {
 		// Escape escape characters
 		html = html.replace(/\\/g, '\\\\')
 
+		// Escape backticks
+		html = html.replace(/`/g, '\\`')
+
 		// Escape whitespace characters
 		html = html.replace(/[\n]/g, '\\n')
 		html = html.replace(/[\r]/g, '\\r')
