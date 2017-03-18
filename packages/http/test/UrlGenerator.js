@@ -8,6 +8,7 @@ function url() {
 
 	app.routes.get('users', handler).as('users.index')
 	app.routes.get('users/:id', handler).as('users.show')
+	app.routes.get('users/:id/:section?', handler).as('users.section')
 
 	return app.url
 }
@@ -48,4 +49,9 @@ test('parameters', t => {
 	t.is(url().route('users.index', { filter: 'all' }), 'http://localhost/users?filter=all')
 	t.is(url().route('users.show', { id: 1, filter: 'all' }), 'http://localhost/users/1?filter=all')
 	t.is(url().route('users.show', { id: 1, filter: 'all' }, true), 'https://localhost/users/1?filter=all')
+})
+
+test('optional', t => {
+	t.is(url().route('users.section', { id: 1 }), 'http://localhost/users/1')
+	t.is(url().route('users.section', { id: 1, section: 'all' }), 'http://localhost/users/1/all')
 })
