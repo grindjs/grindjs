@@ -143,7 +143,7 @@ export class UrlGenerator {
 			}
 		}
 
-		url.pathname = `/${Path.normalize(url.pathname || '/').replace(/(^\/|\/+$)/, '')}`
+		url.pathname = `/${Path.normalize(url.pathname || '/').replace(/(^\/|\/+$)/g, '')}`
 		url.protocol = this.getProtocol(req, secure)
 		url.host = this.getHost(req)
 
