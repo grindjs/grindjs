@@ -1,0 +1,3 @@
+{{ numbers.map(number => number + 1).join(', ') }}
+{{ numbers.map(function(number) { return number + 1 }).join(', ') }}
+{{ number + 1 }}

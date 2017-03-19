@@ -1,0 +1,4 @@
+{{ pairs.map(({ b }) => b - 1).join(', ') }}
+{{ pairs.map(({ a, b }) => `${a}${b}`).join(', ') }}
+{{ pairs.map(function({ a, b }) { return `${a}${b}` }).join(', ') }}
+{{ b + 1 }}

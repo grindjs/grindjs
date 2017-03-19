@@ -174,6 +174,20 @@ export class Template {
 			scopes.push(scope)
 		}
 
+		const addVariable = node => {
+			if(node.type === 'ArrayPattern') {
+				for(const element of node.elements) {
+					addVariable(element)
+				}
+			} else if(node.type === 'ObjectPattern') {
+				for(const property of node.properties) {
+					addVariable(property.value)
+				}
+			} else {
+				scope.locals.add(node.name)
+			}
+		}
+
 		AST.walk(tree, {
 			Statement: node => {
 				checkScope(node)
@@ -184,24 +198,26 @@ export class Template {
 			ForOfStatement: node => pushScope(node),
 			WhileStatement: node => pushScope(node),
 
+			ArrowFunctionExpression: node => {
+				pushScope(node)
+
+				for(const parameter of node.params) {
+					addVariable(parameter)
+				}
+			},
+
+			FunctionExpression: node => {
+				pushScope(node)
+
+				for(const parameter of node.params) {
+					addVariable(parameter)
+				}
+			},
+
 			VariableDeclarator: node => {
 				checkScope(node)
 
-				const add = node => {
-					if(node.type === 'ArrayPattern') {
-						for(const element of node.elements) {
-							add(element)
-						}
-					} else if(node.type === 'ObjectPattern') {
-						for(const property of node.properties) {
-							add(property.value)
-						}
-					} else {
-						scope.locals.add(node.name)
-					}
-				}
-
-				add(node.id)
+				addVariable(node.id)
 			},
 
 			ObjectExpression: node => {
