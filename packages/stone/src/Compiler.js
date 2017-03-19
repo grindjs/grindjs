@@ -1,4 +1,5 @@
 import './Template'
+import './Errors/StoneCompilerError'
 
 const fs = require('fs')
 
@@ -19,14 +20,22 @@ export class Compiler {
 		}
 
 		// eslint-disable-next-line no-sync
-		compiled = this.compileString(fs.readFileSync(template).toString())
+		compiled = this.compileString(fs.readFileSync(template).toString(), true, template)
 		this.compiled[template] = compiled
 
 		return compiled
 	}
 
-	compileString(contents, shouldEval = true) {
+	compileString(contents, shouldEval = true, file = null) {
 		const context = {
+			template: {
+				file: file,
+				contents: contents,
+				lines: contents.split(/\n/).map(line => line.length)
+			},
+			compile: {
+				index: 0
+			},
 			layout: null,
 			sections: [ ],
 			spaceless: 0
@@ -54,10 +63,12 @@ export class Compiler {
 					})
 				}
 
+				context.compile.index += match.index
 				contents = contents.substring(match.index)
 			}
 
 			let args = null
+			let nextIndex = 0
 
 			if(match[2]) {
 				let openCount = -1
@@ -82,20 +93,30 @@ export class Compiler {
 				}
 
 				args = contents.substring(startIndex + 1, lastIndex)
-				contents = contents.substring(lastIndex + 1)
+				nextIndex = lastIndex + 1
 			} else {
-				contents = contents.substring(match[0].length)
+				nextIndex = match[0].length
+			}
+
+			context.compile.index -= 1
+
+			const advance = () => {
+				contents = contents.substring(nextIndex)
+				context.compile.index += nextIndex + 1
 			}
 
 			switch(match[1]) {
 				case 'extends':
 					context.layout = args
+					advance()
 					continue
 				case 'spaceless':
 					context.spaceless++
+					advance()
 					continue
 				case 'endspaceless':
 					context.spaceless--
+					advance()
 					continue
 			}
 
@@ -107,6 +128,8 @@ export class Compiler {
 					contents: result
 				})
 			}
+
+			advance()
 		}
 
 		contents = contents.trim()
@@ -172,7 +195,7 @@ export class Compiler {
 		const method = `compile${name[0].toUpperCase()}${name.substring(1)}`
 
 		if(typeof this[method] !== 'function') {
-			throw new Error(`@${name} is not a valid Stone directive.`)
+			throw new StoneCompilerError(context, `@${name} is not a valid Stone directive.`)
 		}
 
 		return this[method](context, args)

@@ -3,9 +3,15 @@ import './HtmlString'
 import './StoneEngine'
 import './Template'
 
+import './Errors/StoneError'
+import './Errors/StoneCompilerError'
+
 export {
 	Compiler,
 	HtmlString,
 	StoneEngine,
-	Template
+	Template,
+
+	StoneError,
+	StoneCompilerError
 }

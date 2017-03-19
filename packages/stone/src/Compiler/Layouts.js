@@ -1,3 +1,5 @@
+import '../Errors/StoneCompilerError'
+
 export function compileSection(context, args) {
 	if(args.indexOf(',') === -1) {
 		context.sections.push(args)
@@ -7,7 +9,7 @@ export function compileSection(context, args) {
 	args = args.split(/,/)
 
 	if(args.length !== 2) {
-		throw new Error('Invalid section block')
+		throw new StoneCompilerError(context, 'Invalid section block')
 	}
 
 	return this._compileSection(context, args[0], `function() { return escape(${args[1]}); });`)

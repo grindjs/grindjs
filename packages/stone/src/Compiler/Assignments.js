@@ -1,5 +1,6 @@
 import '../AST'
 import '../Template'
+import '../Errors/StoneCompilerError'
 
 /**
  * Sets a context variable
@@ -97,7 +98,7 @@ export function compileSet(context, args) {
 	const extracted = [ ]
 
 	if(tree.body.length > 1 || tree.body[0].type !== 'VariableDeclaration')  {
-		throw new Error('Unexpected variable assignment.')
+		throw new StoneCompilerError(context, 'Unexpected variable assignment.')
 	}
 
 	const extract = node => {
