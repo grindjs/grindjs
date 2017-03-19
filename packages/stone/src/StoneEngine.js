@@ -4,8 +4,8 @@ import './CacheManager'
 import './Compiler'
 import './HtmlString'
 import './StoneLoop'
-import './Template'
 import './Watcher'
+import './Support/escape'
 
 export class StoneEngine extends ViewEngine {
 	cacheManager = null
@@ -13,7 +13,7 @@ export class StoneEngine extends ViewEngine {
 	watcher = null
 
 	context = {
-		escape: Template.escape,
+		escape: escape,
 		HtmlString: HtmlString,
 		StoneLoop: StoneLoop,
 		stringify: JSON.stringify

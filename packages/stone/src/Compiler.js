@@ -1,5 +1,8 @@
-import './Template'
 import './Errors/StoneCompilerError'
+
+import './Support/contextualize'
+import './Support/nextIndexOf'
+import './Support/sanitizeHtml'
 
 const fs = require('fs')
 
@@ -76,7 +79,7 @@ export class Compiler {
 				let startIndex = 0
 				let lastIndex = 0
 
-				while(openCount !== 0 && (index = Template.nextIndexOfParenthesis(contents, index)) >= 0) {
+				while(openCount !== 0 && (index = nextIndexOf(contents, [ '(', ')' ], index)) >= 0) {
 					const parenthesis = contents.substring(index, index + 1)
 
 					if(parenthesis === ')') {
@@ -147,11 +150,11 @@ export class Compiler {
 			if(type === 'code') {
 				code += `${contents}\n`
 			} else {
-				code += `output += \`${Template.sanitizeHtml(contents)}\`;\n`
+				code += `output += \`${sanitizeHtml(contents)}\`;\n`
 			}
 		}
 
-		code = Template.contextualize(`let output = '';\n${code}`)
+		code = contextualize(`let output = '';\n${code}`)
 
 		let template = `function(_, _sections = { }) {\n${code}\n`
 

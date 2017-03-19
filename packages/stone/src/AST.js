@@ -21,6 +21,20 @@ export class AST {
 		})(node)
 	}
 
+	static walkVariables(node, callback) {
+		if(node.type === 'ArrayPattern') {
+			for(const element of node.elements) {
+				this.walkVariables(element, callback)
+			}
+		} else if(node.type === 'ObjectPattern') {
+			for(const property of node.properties) {
+				this.walkVariables(property.value, callback)
+			}
+		} else {
+			callback(node)
+		}
+	}
+
 	static stringify(tree) {
 		return astring(tree)
 	}

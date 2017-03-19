@@ -1,6 +1,6 @@
 import '../AST'
-import '../Template'
 import '../Errors/StoneCompilerError'
+import '../Support/nextIndexOf'
 
 /**
  * Sets a context variable
@@ -38,7 +38,7 @@ export function compileSet(context, args) {
 	const set = [ '(', ')', '{', '}', '[', ']', ',' ]
 	let index = 0
 
-	while(openCount() !== 0 && (index = Template.nextIndexOf(args, set, index)) >= 0) {
+	while(openCount() !== 0 && (index = nextIndexOf(args, set, index)) >= 0) {
 		const character = args.substring(index, index + 1)
 
 		switch(character) {
@@ -101,22 +101,8 @@ export function compileSet(context, args) {
 		throw new StoneCompilerError(context, 'Unexpected variable assignment.')
 	}
 
-	const extract = node => {
-		if(node.type === 'ArrayPattern') {
-			for(const element of node.elements) {
-				extract(element)
-			}
-		} else if(node.type === 'ObjectPattern') {
-			for(const property of node.properties) {
-				extract(property.value)
-			}
-		} else {
-			extracted.push(node.name)
-		}
-	}
-
 	for(const declaration of tree.body[0].declarations) {
-		extract(declaration.id)
+		AST.walkVariables(declaration.id, node => extracted.push(node.name))
 	}
 
 	return `Object.assign(_, (function() {\n\t${code}\n\treturn { ${extracted.join(', ')} };\n})());`
