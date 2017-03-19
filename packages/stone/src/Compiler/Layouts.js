@@ -91,5 +91,5 @@ export function compileHassection(context, section) {
  * @return {string} Code to render the subview
  */
 export function compileInclude(context, view) {
-	return `output += (_.$compiler._include(_, _sections, ${view}));\n`
+	return `output += (_.$engine._include(_, _sections, ${view}));\n`
 }

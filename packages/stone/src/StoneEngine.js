@@ -107,6 +107,18 @@ export class StoneEngine extends ViewEngine {
 		return `${this.view.viewPath}/${template.replace(/\./g, '/')}.stone`
 	}
 
+	_extends(template, context, sections) {
+		return (this.compiler.compile(this.resolve(template)))(context, sections)
+	}
+
+	_include(context, sections, template, extra) {
+		if(extra) {
+			context = { ...context, ...extra }
+		}
+
+		return (this.compiler.compile(this.resolve(template)))(context, sections)
+	}
+
 	writeCache() {
 		return this.cacheManager.write()
 	}

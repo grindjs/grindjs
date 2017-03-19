@@ -156,7 +156,7 @@ export class Compiler {
 		let template = `function(_, _sections = { }) {\n${code}\n`
 
 		if(context.layout !== null) {
-			template += `return _.$compiler._extends(${context.layout}, _, _sections);\n}`
+			template += `return _.$engine._extends(${context.layout}, _, _sections);\n}`
 		} else {
 			template += 'return output;\n}'
 		}
@@ -168,18 +168,6 @@ export class Compiler {
 		template = `const template = ${template}; template`
 
 		return eval(template)
-	}
-
-	_extends(template, context, sections) {
-		return (this.compile(this.engine.resolve(template)))(context, sections)
-	}
-
-	_include(context, sections, template, extra) {
-		if(extra) {
-			context = { ...context, ...extra }
-		}
-
-		return (this.compile(this.engine.resolve(template)))(context, sections)
 	}
 
 	compileDirective(context, name, args) {
