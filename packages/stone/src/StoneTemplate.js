@@ -138,6 +138,11 @@ export class StoneTemplate {
 
 			case 'endspaceless':
 				this.spaceless--
+
+				if(this.spaceless < 0) {
+					throw new StoneCompilerError(this, 'Unbalanced calls to @endspaceless')
+				}
+
 				break
 
 			default: {
