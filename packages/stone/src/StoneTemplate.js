@@ -2,7 +2,6 @@ import './Errors/StoneCompilerError'
 
 import './Support/contextualize'
 import './Support/nextIndexOf'
-import './Support/sanitizeHtml'
 
 export class StoneTemplate {
 	compiler = null
@@ -50,7 +49,7 @@ export class StoneTemplate {
 			if(type === 'code') {
 				code += `${contents}\n`
 			} else {
-				const output = sanitizeHtml(contents)
+				const output = this.finalizeOutput(contents)
 				code += `output += \`${output}\`;\n`
 			}
 		}
@@ -152,6 +151,54 @@ export class StoneTemplate {
 		contents = contents.substring(nextIndex)
 		this.state.index += nextIndex + 1
 		return this.advance(contents)
+	}
+
+	/**
+	 * Finalizes an output block by replacing white space
+	 * and converting output tags to placeholders for
+	 * use within template literals
+	 *
+	 * @param  {string} output Raw output
+	 * @return {string}        Finalized output
+	 */
+	finalizeOutput(output) {
+		const placeholders = { }
+		let placeholderOrdinal = 0
+
+		// Store regular output blocks
+		output = output.replace(/(^|[^@])\{\{\s*(.+?)\s*\}\}/g, ($0, $1, $2) => {
+			const placeholder = `@@__stone_placeholder_${++placeholderOrdinal}__@@`
+			placeholders[placeholder] = `\${escape(${$2})}`
+			return `${$1}${placeholder}`
+		})
+
+		// Strip escaped braces
+		output = output.replace(/@\{\{(.+?)\}\}/g, '{{$1}}')
+
+		// Store raw output blocks
+		output = output.replace(/\{!!\s*(.+?)\s*!!\}/g, ($0, $1) => {
+			const placeholder = `@@__stone_placeholder_${++placeholderOrdinal}__@@`
+			placeholders[placeholder] = `\${${$1}}`
+			return placeholder
+		})
+
+		// Escape escape characters
+		output = output.replace(/\\/g, '\\\\')
+
+		// Escape backticks
+		output = output.replace(/`/g, '\\`')
+
+		// Escape whitespace characters
+		output = output.replace(/[\n]/g, '\\n')
+		output = output.replace(/[\r]/g, '\\r')
+		output = output.replace(/[\t]/g, '\\t')
+
+		// Restore placeholders
+		for(const [ placeholder, content ] of Object.entries(placeholders)) {
+			output = output.replace(placeholder, content)
+		}
+
+		return output
 	}
 
 	findLineColumn(position) {
