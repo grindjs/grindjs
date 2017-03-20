@@ -7,7 +7,7 @@ export class StoneCompilerError extends StoneError {
 
 		let line = 0
 		let column = 1
-		let position = context.compile.index
+		let position = context.state.index
 
 		for(const length of context.template.lines) {
 			line++
