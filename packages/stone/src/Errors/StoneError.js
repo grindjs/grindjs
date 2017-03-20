@@ -4,7 +4,7 @@ export class StoneError extends Error {
 		super(message)
 
 		this.name = this.constructor.name
-		this.file = context.template.file || '[stone]'
+		this.file = context.state.file || '[stone]'
 	}
 
 }

@@ -27,8 +27,8 @@ export class Compiler {
 	}
 
 	compileString(contents, shouldEval = true, file = null) {
-		const template = new StoneTemplate(contents, file)
-		template.compile(this)
+		const template = new StoneTemplate(this, contents, file)
+		template.compile()
 
 		if(!shouldEval) {
 			return template.toString()
