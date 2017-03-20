@@ -14,6 +14,7 @@ export class StoneTemplate {
 	}
 
 	layout = null
+	layoutIndex = null
 	sections = [ ]
 
 	expressions = [ ]
@@ -30,6 +31,7 @@ export class StoneTemplate {
 
 	compile() {
 		// Strip comments
+		// TODO: This is going to break source maps
 		let contents = this.state.contents.trim().replace(/\{\{--([\s\S]+)--\}\}/g, '')
 
 		contents = this.advance(contents)
@@ -38,14 +40,14 @@ export class StoneTemplate {
 		if(contents.length > 0) {
 			this.expressions.push({
 				type: 'string',
-				contents: contents
+				contents: contents,
+				index: this.state.index
 			})
 		}
 
 		let code = ''
 
-		for(const { type, contents } of this.expressions) {
-
+		for(const { type, contents, index } of this.expressions) {
 			if(type === 'code') {
 				code += `${contents}\n`
 			} else {
@@ -82,7 +84,8 @@ export class StoneTemplate {
 
 				this.expressions.push({
 					type: 'string',
-					contents: string
+					contents: string,
+					index: this.state.index
 				})
 			}
 
@@ -126,6 +129,7 @@ export class StoneTemplate {
 		switch(match[1]) {
 			case 'extends':
 				this.layout = args
+				this.layoutIndex = this.state.index
 				break
 
 			case 'spaceless':
@@ -142,7 +146,8 @@ export class StoneTemplate {
 				if(!result.isNil) {
 					this.expressions.push({
 						type: 'code',
-						contents: result
+						contents: result,
+						index: this.state.index
 					})
 				}
 			}
