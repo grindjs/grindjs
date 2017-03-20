@@ -1,10 +1,21 @@
 import '../AST'
+import '../Errors/StoneSyntaxError'
 
 export function compileFor(context, args) {
 	context.loopStack = context.loopStack || [ ]
 
 	args = `for(${args}) {`
-	const tree = AST.parse(`${args} }`)
+	let tree = null
+
+	try {
+		tree = AST.parse(`${args} }`)
+	} catch(err) {
+		if(err instanceof SyntaxError) {
+			throw new StoneSyntaxError(context, err, context.state.index)
+		}
+
+		throw err
+	}
 
 	if(tree.body.length > 1 || (tree.body[0].type !== 'ForInStatement' && tree.body[0].type !== 'ForOfStatement'))  {
 		context.loopStack.push(false)
@@ -74,6 +85,7 @@ export function compileContinue(context, condition) {
 		return 'continue;'
 	}
 
+	context.validateSyntax(condition)
 	return `if(${condition}) { continue; }`
 }
 
@@ -90,10 +102,12 @@ export function compileBreak(context, condition) {
 		return 'break;'
 	}
 
+	context.validateSyntax(condition)
 	return `if(${condition}) { break; }`
 }
 
 export function compileWhile(context, condition) {
+	context.validateSyntax(condition)
 	return `while(${condition}) {`
 }
 

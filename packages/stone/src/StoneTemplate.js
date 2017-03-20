@@ -1,5 +1,7 @@
 import './Errors/StoneCompilerError'
+import './Errors/StoneSyntaxError'
 
+import './AST'
 import './Support/contextualize'
 import './Support/nextIndexOf'
 
@@ -51,8 +53,8 @@ export class StoneTemplate {
 			if(type === 'code') {
 				code += `${contents}\n`
 			} else {
-				const output = this.finalizeOutput(contents)
-				code += `output += \`${output}\`;\n`
+				const output = this.finalizeOutput(contents, index)
+				code += `output += ${output}\n`
 			}
 		}
 
@@ -172,10 +174,11 @@ export class StoneTemplate {
 	 * and converting output tags to placeholders for
 	 * use within template literals
 	 *
-	 * @param  {string} output Raw output
-	 * @return {string}        Finalized output
+	 * @param  {string} output      Raw output
+	 * @param  {number} sourceIndex Index in the source file this occurs
+	 * @return {string}             Finalized output
 	 */
-	finalizeOutput(output) {
+	finalizeOutput(output, sourceIndex) {
 		const placeholders = { }
 		let placeholderOrdinal = 0
 
@@ -212,7 +215,7 @@ export class StoneTemplate {
 			output = output.replace(placeholder, content)
 		}
 
-		return output
+		return this.validateSyntax(`\`${output}\`;`, sourceIndex)
 	}
 
 	findLineColumn(position) {
@@ -232,6 +235,20 @@ export class StoneTemplate {
 		}
 
 		return { line, column }
+	}
+
+	validateSyntax(code, position) {
+		try {
+			AST.parse(code)
+		} catch(err) {
+			if(err instanceof SyntaxError) {
+				throw new StoneSyntaxError(this, err, position || this.state.index)
+			}
+
+			throw err
+		}
+
+		return code
 	}
 
 	toString() {

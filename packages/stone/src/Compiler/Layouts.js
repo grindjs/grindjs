@@ -12,10 +12,12 @@ export function compileSection(context, args) {
 		throw new StoneCompilerError(context, 'Invalid section block')
 	}
 
+	context.validateSyntax(args[1])
 	return this._compileSection(context, args[0], `function() { return escape(${args[1]}); });`)
 }
 
 export function _compileSection(context, name, code) {
+	context.validateSyntax(name)
 	return `(_sections[${name}] = (_sections[${name}] || [ ])).unshift(${code}\n`
 }
 
@@ -53,6 +55,7 @@ export function compileYield(context, section) {
 		section = sectionName
 	}
 
+	context.validateSyntax(section)
 	return `${code}output += (_sections[${section}] || [ ]).length > 0 ? (_sections[${section}].pop())() : ''`
 }
 
@@ -80,6 +83,7 @@ export function compileParent(context) {
  * @return {string} If statement that determines if a section has content
  */
 export function compileHassection(context, section) {
+	context.validateSyntax(section)
 	return `if((_sections[${section}] || [ ]).length > 0) {`
 }
 
@@ -91,5 +95,6 @@ export function compileHassection(context, section) {
  * @return {string} Code to render the subview
  */
 export function compileInclude(context, view) {
+	context.validateSyntax(view)
 	return `output += (_.$engine._include(_, _sections, ${view}));\n`
 }

@@ -1,5 +1,6 @@
 import '../AST'
 import '../Errors/StoneCompilerError'
+import '../Errors/StoneSyntaxError'
 import '../Support/nextIndexOf'
 
 /**
@@ -12,7 +13,7 @@ import '../Support/nextIndexOf'
 export function compileSet(context, args) {
 	if(args.indexOf(',') === -1) {
 		// If there’s no commas, this is a simple raw code block
-		return `${args};`
+		return context.validateSyntax(`${args};`)
 	}
 
 	// If there are commas, we need to determine if
@@ -75,26 +76,37 @@ export function compileSet(context, args) {
 	const rhs = args.substring(index).trim().replace(/^,/, '')
 
 	if(rhs.length === 0) {
-		return `${lhs};`
+		return context.validateSyntax(`${lhs};`)
 	}
 
 	// If var type has been explicitly defined, we’ll
 	// pass through directly and scope locally
 	if(lhs.startsWith('const ') || lhs.startsWith('let ')) {
-		return `${lhs} = ${rhs};`
+		return context.validateSyntax(`${lhs} = ${rhs};`)
 	}
 
 	// Otherwise, scoping is assumed to be on the context var
 	if(lhs[0] !== '{' && lhs[0] !== '[') {
 		// If we‘re not destructuring, we can just assign it
 		// directly on the context var and bail out early
-		return `_.${lhs} = ${rhs};`
+		return context.validateSyntax(`_.${lhs} = ${rhs};`)
 	}
 
 	// If we are destructuring, we need to find the vars to extract
 	// then wrap them in a function and assign them to the context var
 	const code = `const ${lhs} = ${rhs};`
-	const tree = AST.parse(code)
+	let tree = null
+
+	try {
+		tree = AST.parse(code)
+	} catch(err) {
+		if(err instanceof SyntaxError) {
+			throw new StoneSyntaxError(context, err, context.state.index)
+		}
+
+		throw err
+	}
+
 	const extracted = [ ]
 
 	if(tree.body.length > 1 || tree.body[0].type !== 'VariableDeclaration')  {
