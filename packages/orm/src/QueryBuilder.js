@@ -74,7 +74,7 @@ export class QueryBuilder extends ObjectionQueryBuilder {
 			return this
 		}
 
-		if(!exp.isNil) {
+		if(typeof exp === 'string') {
 			filters = Object.assign({ }, this.constructor.registeredFilters, filters || { })
 		}
 
