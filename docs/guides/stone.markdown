@@ -237,6 +237,50 @@ You may also include the condition with the directive declaration in one line:
 @endforeach
 ```
 
+#### The Loop Variable
+
+When using `for of` and `for in` loops, a magic `loop` variable is made available. This variable provides quick access to the context of the loop, such as the current index and whether this is the first or last iteration through the loop:
+
+```stone
+@for(const user of users)
+	@if(loop.first)
+		This is the first iteration.
+	@endif
+
+	@if(loop.last)
+		This is the last iteration.
+	@endif
+
+	<p>This is user {{ user.id }}</p>
+@endfor
+```
+
+If you are in a nested loop, the parent loop’s loop variable is also available via the `parent` property:
+
+```stone
+@for(const user of users)
+	@for(const post of user.posts)
+		@if(loop.parent.first)
+			This is first iteration of the parent loop.
+		@endif
+	@endfor
+@endfor
+```
+
+The loop variable also contains a variety of other useful properties:
+
+| Property       | Description                                            |
+| -------------- | ------------------------------------------------------ |
+| loop.index     | The index of the current loop iteration (starts at 0). |
+| loop.iteration | The current loop iteration (starts at 1).              |
+| loop.remaining | The iteration remaining in the loop.                   |
+| loop.length    | The total number of items being iterated.              |
+| loop.first     | Whether this is the first iteration through the loop.  |
+| loop.last      | Whether this is the last iteration through the loop.   |
+| loop.depth     | The nesting level of the current loop.                 |
+| loop.parent    | When in a nested loop, the parent’s loop variable.     |
+
+
 ### Comments
 
 Stone also allows you to define comments in your views. However, unlike HTML comments, Stone comments are not included in the HTML returned by your application:
