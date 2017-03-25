@@ -1,5 +1,6 @@
-export class ProviderCollection extends Array {
+export class ProviderCollection {
 	nextPriority = 0
+	storage = [ ]
 
 	push(...providers) {
 		for(const provider of providers) {
@@ -10,15 +11,19 @@ export class ProviderCollection extends Array {
 			provider.priority = this.nextPriority--
 		}
 
-		super.push(...providers)
+		this.storage.push(...providers)
 	}
 
-	sort(func) {
-		if(func.isNil) {
-			func = (a, b) => a.priority > b.priority ? 1 : -1
-		}
+	sort(func = (a, b) => a.priority > b.priority ? 1 : -1) {
+		this.storage.sort(func)
+	}
 
-		return super.sort(func)
+	[Symbol.iterator]() {
+		const iterator = this.storage[Symbol.iterator]()
+
+		return {
+			next: () => iterator.next()
+		}
 	}
 
 }
