@@ -57,7 +57,7 @@ export class Grind {
 		this.errorHandler = new errorHandlerClass(this)
 
 		this.providers = new ProviderCollection
-		this.providers.push(routingProvider)
+		this.providers.add(routingProvider)
 
 		this.debug = this.config.get('app.debug', this.env() === 'local')
 		this.port = parameters.port || process.env.NODE_PORT || this.config.get('app.port', 3000)
