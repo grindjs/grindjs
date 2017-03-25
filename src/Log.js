@@ -24,4 +24,24 @@ export class Log {
 		Log.logger.success(...message)
 	}
 
+	static deprecated(name, { version, obsoleted, rename } = { }) {
+		let message = `WARNING: ${name} has been deprecated`
+
+		if((version || '').length > 0) {
+			message += ` as of ${version}`
+		}
+
+		if((obsoleted || '').length > 0) {
+			message += ` and will be removed in ${obsoleted}`
+		}
+
+		message += '.'
+
+		if((rename || '').length > 0) {
+			message += ` Use ${rename} instead.`
+		}
+
+		this.warn(message)
+	}
+
 }

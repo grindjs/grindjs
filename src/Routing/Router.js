@@ -122,8 +122,11 @@ export class Router {
 		const after = makeArray(options.after)
 
 		if(!options.use.isNil) {
-			Log.error('WARNING: The `use` parameter in Router.group has been deprecated and will be removed in 0.7')
-			Log.error('--> Please use Please use `before` and `after` insead.')
+			Log.deprecated('Using `use` in Router.group', {
+				version: 0.6,
+				obsoleted: 0.8,
+				rename: '`before` and `after`'
+			})
 
 			if(Array.isArray(options.use) || typeof options.use !== 'object') {
 				options.use = { before: options.use }
@@ -252,14 +255,21 @@ export class Router {
 	}
 
 	all(pathname, action) {
-		Log.error('Router.all is deprecated and will be removed in 0.7. Offending route: %s', pathname)
+		Log.deprecated('Router.all', {
+			obsoleted: '0.7',
+			rename: 'Router.match'
+		})
+
 		return this.app.express.all(this._scopedPrefix + pathname, this._makeAction(action))
 	}
 
 	use(...middleware) {
 		if(middleware.length > 1 && typeof middleware[0] === 'string') {
-			Log.error('WARNING: Passing a path to Router.use() has been deprecated and will be removed in 0.7.')
-			Log.error('--> Please use a route group instead.', middleware[0])
+			Log.deprecated('Passing a path to Router.use', {
+				version: '0.6',
+				obsoleted: '0.7',
+				rename: 'Router.group({ prefix: path })'
+			})
 
 			return this.group({ prefix: middleware.shift() }, routes => {
 				routes.use(...middleware)
@@ -350,8 +360,11 @@ export class Router {
 
 		if(typeof action === 'object') {
 			if(!action.use.isNil) {
-				Log.error('WARNING: The `use` option in route actions has been deprecated and will be removed in 0.7')
-				Log.error('--> Please use `before` and `after` insead.')
+				Log.deprecated('Using `use` in route actions', {
+					version: 0.6,
+					obsoleted: 0.7,
+					rename: '`before` and `after`'
+				})
 
 				if(Array.isArray(action.use) || typeof action.use !== 'object') {
 					action.use = { before: action.use }
