@@ -61,17 +61,32 @@ export function RouteExtension() {
 	}
 
 	Route.prototype.use = function(...handlers) {
-		Log.error('WARNING: `use` has been deprecated in favor of `before` and will be removed in 0.7.')
+		Log.deprecated('Route.use', {
+			version: 0.6,
+			obsoleted: 0.7,
+			rename: 'Route.before'
+		})
+
 		return this.before(...handlers)
 	}
 
 	Route.prototype.useBefore = function(...handlers) {
-		Log.error('WARNING: `useBefore` has been deprecated in favor of `before` and will be removed in 0.7.')
+		Log.deprecated('Route.useBefore', {
+			version: 0.6,
+			obsoleted: 0.7,
+			rename: 'Route.before'
+		})
+
 		return this.before(...handlers)
 	}
 
 	Route.prototype.useAfter = function(...handlers) {
-		Log.error('WARNING: `useAfter` has been deprecated in favor of `after` and will be removed in 0.7.')
+		Log.deprecated('Route.useAfter', {
+			version: 0.6,
+			obsoleted: 0.7,
+			rename: 'Route.after'
+		})
+
 		return this.after(...handlers)
 	}
 
