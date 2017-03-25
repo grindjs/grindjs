@@ -1,4 +1,5 @@
-const chalk = require('chalk')
+import { constructor as Chalk } from 'chalk'
+const chalk = new Chalk({ enabled: true })
 
 export class ChalkedConsoleLogger {
 
