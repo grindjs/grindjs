@@ -1,6 +1,6 @@
 {
   "name": "grind-core-frontend",
-  "version": "0.7.0-beta.1",
+  "version": "0.7.0-beta.2",
   "description": "Proxy package to provide frontend Grind dependencies",
   "main": "index.js",
   "repository": {
@@ -14,10 +14,14 @@
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
   "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.15.1",
     "grind-assets": "^0.7.0-beta.4",
     "grind-core": "^0.7.0-beta.1",
     "grind-html": "^0.7.0-beta.3",
     "grind-stone": "^0.7.0-beta.5",
-    "grind-view": "^0.7.0-beta.1"
+    "grind-view": "^0.7.0-beta.1",
+    "method-override": "^2.3.8"
   }
 }
