@@ -4,10 +4,10 @@
 
 	"connections": {
 
-		"maria": {
-			"driver": "mariasql",
+		"mysql": {
+			"driver": "mysql",
 			"host": "localhost",
-			"db": "app-db-name",
+			"database": "app-db-name",
 			"user": "app-user",
 			"password": "app-password",
 			"charset": "utf8"

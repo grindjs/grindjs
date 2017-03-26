@@ -12,7 +12,13 @@ if [[ "$@" == *"--help"* ]]; then
     COMMAND="$COMMAND-help"
 fi
 
-FLAGS=$(node -e 'console.log(Number.parseFloat(process.version.substring(1)) >= 7 ? "--harmony-async-await" : "")')
+NODE_VERSION=$(node -v)
+NODE_VERSION=$(echo ${NODE_VERSION#*v} | cut -d. -f1)
+
+FLAGS=""
+if [ "$NODE_VERSION" -gt "6" ]; then
+	FLAGS="--harmony-async-await"
+fi
 
 case $COMMAND in
 	watch) exec babel-node $FLAGS boot/Http.js --watch=app,config $@

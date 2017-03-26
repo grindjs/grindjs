@@ -1,0 +1,10 @@
+{
+
+	"secret": "change-me",
+	"domain": null,
+	"httpOnly": null,
+	"maxAge": null,
+	"path": "/",
+	"secure": false
+
+}

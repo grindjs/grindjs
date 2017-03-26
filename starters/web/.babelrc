@@ -2,10 +2,12 @@
 	"presets": [ "grind" ],
 	"plugins": [
 		[
-			"babel-plugin-module-alias", [
-				{ "src": "./app", "expose": "App" },
-				{ "src": "./boot", "expose": "Boot" }
-			]
+			"module-resolver", {
+				"alias": {
+					"App": "./app",
+					"Boot": "./boot"
+				}
+			}
 		]
 	]
 }

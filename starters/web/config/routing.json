@@ -8,6 +8,8 @@
 				"extended": true
 			}
 		}
-	}
+	},
+
+	"middleware": [ "cookie", "session", "method-override" ]
 
 }
