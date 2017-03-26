@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>@yield('title', 'Grind')</title>
+
+		{{ html.style('https://fonts.googleapis.com/css?family=Source+Sans+Pro') }}
+		@asset('render', 'styles')
+		@yield('styles')
+	</head>
+	<body>
+		@yield('content.before')
+
+		<div class="container">
+			<div class="content">
+				@yield('content')
+			</div>
+		</div>
+
+		@yield('content.after')
+
+		@asset('render', 'scripts')
+		@yield('scripts')
+	</body>
+</html>

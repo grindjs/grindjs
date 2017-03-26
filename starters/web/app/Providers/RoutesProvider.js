@@ -3,7 +3,7 @@ import 'App/Controllers/HelloController'
 export function RoutesProvider(app) {
 
 	app.routes.get('/', (req, res) => {
-		res.render('welcome.njk', {
+		res.render('welcome', {
 			name: 'Grind'
 		})
 	}).as('welcome.show')

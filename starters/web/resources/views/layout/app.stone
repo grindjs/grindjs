@@ -1,16 +1,12 @@
-{% extends 'layout/master.njk' %}
+@extends('layout.master')
 
-{% scss 'app' %}
-{% babel 'app' %}
+@scss('app')
+@babel('app')
 
-{% block contentBefore %}
+@section('content.before')
 	<header class="header">
 		<div class="container header-container">
-			{% if not name %}
-				{% set name = 'Grind' %}
-			{% endif %}
-
-			{{ html.linkRoute('welcome.show', name, null, { class: 'header-logo' }) }}
+			<a href="{{ url.route('welcome.show') }}" class="header-logo">{{ name || 'Grind' }}</a>
 
 			<nav class="header-links">
 				<a href="https://grind.rocks" class="header-link">Docs</a>
@@ -19,12 +15,12 @@
 			</nav>
 		</div>
 	</header>
-{% endblock %}
+@endsection
 
-{% block contentAfter %}
+@section('content.after')
 	<footer class="footer">
 		<div class="container footer-container">
 			<span class="footer-text">Grind was created by <a href="http://github.com/shnhrrsn">Shaun Harrison</a> and is made available under the MIT license.</span>
 		</div>
 	</footer>
-{% endblock %}
+@endsection
