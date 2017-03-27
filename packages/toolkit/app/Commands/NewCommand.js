@@ -1,9 +1,10 @@
 import { Command, InputArgument, InputOption } from 'grind-cli'
 
 import { FS } from 'grind-support'
-import path from 'path'
-import request from 'request'
 import { execFile } from 'child_process'
+
+const path = require('path')
+const request = require('request')
 
 export class NewCommand extends Command {
 	name = 'new'

@@ -1,2 +1,2 @@
 import Grind from 'grind-framework'
-module.exports = new Grind()
+module.exports = new Grind
