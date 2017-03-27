@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export ORIGINAL_WD=`pwd`
+
 pushd ${0%/*} > /dev/null
 CLI_BIN="`pwd`/${0##*/}"
 popd > /dev/null

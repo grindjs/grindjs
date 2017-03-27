@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+export ORIGINAL_WD=$(pwd)
 cd "`dirname "$BASH_SOURCE"`"
 
 if [[ -L "$BASH_SOURCE" ]]; then

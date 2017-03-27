@@ -43,6 +43,8 @@ export class NewCommand extends Command {
 	]
 
 	async run() {
+		process.chdir(process.env.ORIGINAL_WD)
+
 		const type = this.option('template', 'web').trim().toLowerCase()
 		const repository = `grindjs/example-${type}`
 		const target = this.argument('name')
