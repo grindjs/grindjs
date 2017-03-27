@@ -6,8 +6,14 @@ echo "Cleaning up old build"
 rm -fr lib
 
 echo "Building"
-mkdir lib lib/app lib/boot
-babel -s inline -d lib/app/ app/
-babel -s inline -d lib/boot/ boot/
+mkdir -p lib/node7/app lib/node7/boot lib/lts/app lib/lts/boot
+
+echo "--> Building for Node 6"
+BABEL_TARGET_VERSION=6.9 babel -s inline -d lib/lts/app/ app/ --copy-files
+BABEL_TARGET_VERSION=6.9 babel -s inline -d lib/lts/boot/ boot/ --copy-files
+
+echo "--> Building for Node 7+"
+BABEL_TARGET_VERSION=7.0 babel -s inline -d lib/node7/app/ app/ --copy-files
+BABEL_TARGET_VERSION=7.0 babel -s inline -d lib/node7/boot/ boot/ --copy-files
 
 echo "Done"

@@ -7,11 +7,9 @@ cd "`dirname "$BASH_SOURCE"`"
 
 WORKING_DIR=`pwd`
 
-if [ -d "$WORKING_DIR/../node_modules" ];
-then
+if [ -d "$WORKING_DIR/../node_modules" ]; then
 	NODE_ROOT="$WORKING_DIR/../node_modules"
-elif [ -d "$WORKING_DIR/../node_modules" ];
-then
+elif [ -d "$WORKING_DIR/../../node_modules" ]; then
 	NODE_ROOT="$WORKING_DIR/../../node_modules"
 else
 	NODE_ROOT=`npm root`
@@ -19,6 +17,10 @@ fi
 
 pushd $NODE_ROOT > /dev/null
 NODE_ROOT="`pwd`"
+popd > /dev/null
+
+pushd $NODE_ROOT/.. > /dev/null
+export BASE_PATH="`pwd`"
 popd > /dev/null
 
 if [ -f "$NODE_ROOT/../.env" ];
