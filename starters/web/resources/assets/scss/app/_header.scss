@@ -1,20 +1,17 @@
 $header-padding-top: 100px;
 
 .header {
-	position: fixed;
-	top: 0;
-	left: 0;
-
 	display: block;
 	width: 100%;
-	padding-top: $header-padding-top;
-
-	background: $header-background-color;
 }
 
 	.header-container {
-		height: $header-height - $header-padding-top;
-		line-height: $header-height - $header-padding-top;
+		position: relative;
+		height: $header-height;
+		padding: 0 15px;
+
+		font-weight: $font-weight-medium;
+		line-height: $header-height;
 	}
 
 	.header-logo, .header-link {
@@ -22,23 +19,28 @@ $header-padding-top: 100px;
 	}
 
 	.header-logo {
-		font-size: 48px;
-		font-weight: $font-weight-ultra-light;
+		position: relative;
+		z-index: 1;
+
+		margin-right: 50px;
+		vertical-align: middle;
 	}
 
 	.header-links {
-		float: right;
+		position: relative;
+		z-index: 1;
+
+		display: inline-block;
+		vertical-align: middle;
 	}
 
 		.header-link {
-			display: block;
-			float: left;
+			display: inline-block;
 
-			font-size: 20px;
-			font-weight: $font-weight-light;
-			color: $body-text-color;
+			font-size: 15px;
+			color: #494850;
 
-			+ .header-link {
+			& + & {
 				margin-left: 20px;
 			}
 		}

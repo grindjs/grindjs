@@ -5,22 +5,35 @@
 
 @section('content.before')
 	<header class="header">
+		@spaceless
 		<div class="container header-container">
-			<a href="{{ url.route('welcome.show') }}" class="header-logo">{{ name || 'Grind' }}</a>
+			<a href="{{ url.route('welcome.show') }}" class="brand-logo header-logo">Grind</a>
 
 			<nav class="header-links">
-				<a href="https://grind.rocks" class="header-link">Docs</a>
-				<a href="http://github.com/grindjs" class="header-link">GitHub</a>
-				<a href="http://twitter.com/grindjs" class="header-link">Twitter</a>
+				<a href="https://grind.rocks/docs" class="header-link">Documentation</a>
+				<a href="https://github.com/grindjs" class="header-link">GitHub</a>
+				<a href="https://twitter.com/grindjs" class="header-link" target="_blank">Twitter</a>
+				<a href="https://grind.chat/" class="header-link" target="_blank">Slack</a>
 			</nav>
 		</div>
+		@endspaceless
 	</header>
 @endsection
 
 @section('content.after')
 	<footer class="footer">
 		<div class="container footer-container">
-			<span class="footer-text">Grind was created by <a href="http://github.com/shnhrrsn">Shaun Harrison</a> and is made available under the MIT license.</span>
+			<a href="{{ url.route('welcome.show') }}" class="brand-logo footer-logo">Grind</a>
+
+			<span class="footer-content">
+				<nav class="footer-links">
+					<a href="https://grind.rocks/docs" class="footer-link">Documentation</a>
+					<a href="https://github.com/grindjs" class="footer-link">GitHub</a>
+					<a href="https://grind.chat/" class="footer-link" target="_blank">Slack</a>
+				</nav>
+
+				<span class="footer-text">Grind was created by <a href="https://github.com/shnhrrsn" target="_blank">Shaun Harrison</a> and is made available under the MIT license.</span>
+			</span>
 		</div>
 	</footer>
 @endsection

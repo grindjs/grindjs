@@ -1,7 +1,7 @@
-<pre class="code"><code><span class="code-keyword">export function</span> <span class="code-func">RoutesProvider</span>(app) {
-   app.routes.<span class="code-func">get</span>(<span class="code-string">'/'</span>, (req, res) => {
-      res.<span class="code-func">render</span>(<span class="code-string">'welcome'</span>, {
-         <span class="code-string">name:</span> <span class="code-string">'Grind'</span>
+<pre class="code"><code><span class="code-keyword">export function</span> <span class="code-func">RoutesProvider</span>(<span class="code-param">app</span>) {
+   <span class="code-object">app</span>.<span class="code-object">routes</span>.<span class="code-func">get</span>(<span class="code-string">'/'</span>, (<span class="code-param">req</span>, <span class="code-param">res</span>) <span class="code-keyword">=></span> {
+      <span class="code-object">res</span>.<span class="code-func">render</span>(<span class="code-string">'welcome'</span>, {
+         name: <span class="code-string">'Grind'</span>
       })
    }).<span class="code-func">as</span>(<span class="code-string">'welcome.show'</span>)
 }</code></pre>

@@ -10,9 +10,22 @@
 	<div class="welcome">
 		<div class="welcome-body">
 			<h1 class="welcome-header">Welcome to Grind</h1>
-			<p class="welcome-lead">Grind is an opinionated Node web framework that brings together popular packages in an easy to use framework to provide a solid foundation for you to build your apps on, without reinventing the wheel.</p>
+			<p class="welcome-lead">Grind is an opinionated Node web framework that utilizes popular packages in an easy to use framework to provide a solid foundation for you to build your apps on, without reinventing the wheel.</p>
+
+			<div class="welcome-buttons">
+				<a href="https://grind.rocks/docs" class="btn btn-info welcome-button">View Documentation<span class="btn-icon btn-icon-chevron-right"></span></a>
+				<a href="https://github.com/grindjs" class="btn welcome-button">Explore the Code<span class="btn-icon btn-icon-chevron-right"></span></a>
+			</div>
 		</div>
 		<div class="welcome-code">
+			@spaceless
+				<div class="welcome-code-toolbar">
+					<span class="welcome-code-toolbar-button"></span>
+					<span class="welcome-code-toolbar-button"></span>
+					<span class="welcome-code-toolbar-button"></span>
+				</div>
+			@endspaceless
+
 			@include('welcome.code')
 		</div>
 	</div>

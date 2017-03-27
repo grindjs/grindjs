@@ -1,9 +1,36 @@
-p {
-	font-size: 22px;
-	font-weight: $font-weight-light;
+p, ul, ol {
+	margin: 0;
+
+	font-size: 13px;
+	font-weight: $font-weight-normal;
+	line-height: 26px;
+}
+
+li + li {
+	margin-top: 2px;
+}
+
+%header {
+	margin: 0 0 20px;
+
+	font-weight: $font-weight-medium;
+	color: #1d1c1f;
+
+	&:first-child {
+		margin-top: 0;
+	}
 }
 
 h1 {
-	font-size: 36px;
-	font-weight: $font-weight-medium;
+	@extend %header;
+
+	margin-top: 60px;
+	font-size: 20px;
+}
+
+h2 {
+	@extend %header;
+
+	margin-top: 50px;
+	font-size: 17px;
 }

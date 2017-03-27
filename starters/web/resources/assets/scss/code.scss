@@ -1,38 +1,23 @@
 @import 'common';
 
-@font-face {
-	$base: 'https://raw.githubusercontent.com/tonsky/FiraCode/master/distr';
-	font-family: fira-code;
-	font-style: normal;
-	font-weight: 400;
-	src: url(#{$base}/eot/FiraCode-Regular.eot) format('embedded-opentype'),
-		url(#{$base}/woff2/FiraCode-Regular.woff2) format('woff2'),
-		url(#{$base}/woff/FiraCode-Regular.woff) format('woff'),
-		url(#{$base}/ttf/FiraCode-Regular.ttf) format('truetype');
-}
-
 pre, code {
-	font-family: fira-code, monospace;
+	margin: 0;
+	font-family: 'Fira Code', monospace;
 }
 
 .code {
-	padding: 6px 15px;
-
-	color: #625682;
-
-	background: #f9f9f9;
-	border: 1px solid #eee;
-	border-radius: 8px;
+	padding: 30px;
+	color: #555;
 }
 
 	.code-keyword {
-		color: $accent-color;
+		color: #5520ff;
 	}
 
-	.code-func {
-		color: #328eff;
+	.code-func, .code-param, .code-object {
+		color: #5d99ff;
 	}
 
 	.code-string {
-		color: #129c9a;
+		color: #00d8ff;
 	}
