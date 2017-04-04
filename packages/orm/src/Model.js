@@ -15,6 +15,7 @@ export class Model extends ObjectionModel {
 	static createdAt = 'created_at'
 	static updatedAt = 'updated_at'
 	static dates = [ ]
+	static useIdSafeUpdates = false
 
 	static $$app = null
 
@@ -265,6 +266,18 @@ export class Model extends ObjectionModel {
 	}
 
 	$beforeUpdate() {
+		if(this.constructor.useIdSafeUpdates) {
+			const cols = this.constructor.getIdColumnArray()
+
+			if(cols.length === 1) {
+				delete this[cols[0]]
+			} else {
+				for(let i = 0, l = cols.length; i < l; i++) {
+					delete this[cols[i]]
+				}
+			}
+		}
+
 		return this.$beforeSave(false)
 	}
 
