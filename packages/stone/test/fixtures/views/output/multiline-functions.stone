@@ -1,0 +1,7 @@
+{{
+	pairs.map(
+		pair => pair.b
+	).join(
+		' - '
+	)
+}}
