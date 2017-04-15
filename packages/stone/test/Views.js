@@ -6,9 +6,9 @@ import { FS } from 'grind-support'
 import readdir from 'recursive-readdir-sync'
 import path from 'path'
 
-const viewPath = `${__dirname}/fixtures/views`
+const viewPath = `${__dirname}/views`
 
-const files = readdir(viewPath).sort((a, b) => {
+const files = readdir(viewPath).filter(view => view.indexOf('errors/' === -1)).sort((a, b) => {
 	const aext = path.extname(a)
 	const bext = path.extname(b)
 

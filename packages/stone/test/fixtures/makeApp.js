@@ -18,7 +18,7 @@ export async function makeApp() {
 	app.providers.push(ViewProvider)
 	await app.boot()
 
-	app.view.viewPath = `${__dirname}/views`
+	app.view.viewPath = `${__dirname}/../views`
 
 	return app
 }
