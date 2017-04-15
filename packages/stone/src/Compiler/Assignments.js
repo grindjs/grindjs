@@ -87,9 +87,15 @@ export function compileSet(context, args) {
 
 	// Otherwise, scoping is assumed to be on the context var
 	if(lhs[0] !== '{' && lhs[0] !== '[') {
-		// If we‘re not destructuring, we can just assign it
-		// directly on the context var and bail out early
-		return context.validateSyntax(`_.${lhs} = ${rhs};`)
+		// If we‘re not destructuring, we can assign it directly
+		// and bail out early.
+		//
+		// `__auto_scope_` will be processed by `contextualize` to
+		// determine whether or not the var should be set on the
+		// global `_` context or if there is a variable within the
+		// scope with the same name as `lhs`
+
+		return context.validateSyntax(`__auto_scope_${lhs} = ${rhs};`)
 	}
 
 	// If we are destructuring, we need to find the vars to extract

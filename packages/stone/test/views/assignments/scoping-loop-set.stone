@@ -1,0 +1,5 @@
+@for(const child of [ { }, { } ])
+	@set(child.parameters, { })
+	@set(child.parameters.id, loop.iteration)
+	<p>The value is {{ child.parameters.id }}.</p>
+@endfor

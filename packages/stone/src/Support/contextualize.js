@@ -67,6 +67,22 @@ export function contextualize(code) {
 			}
 		},
 
+		AssignmentExpression: node => {
+			if(node.left.name.isNil) {
+				return
+			}
+
+			if(node.left.name.substring(0, 13) !== '__auto_scope_') {
+				return
+			}
+
+			node.left.name = node.left.name.substring(13)
+
+			if(!scope.locals.has(node.left.name)) {
+				node.left.name = `_.${node.left.name}`
+			}
+		},
+
 		VariableDeclarator: node => {
 			scope = checkScope(scopes, node)
 
@@ -91,6 +107,10 @@ export function contextualize(code) {
 		},
 
 		Identifier: node => {
+			if(node.name.substring(0, 13) === '__auto_scope_') {
+				node.name = node.name.substring(13)
+			}
+
 			scope = checkScope(scopes, node)
 
 			if(node.shouldntContextualize || scope.locals.has(node.name)) {
