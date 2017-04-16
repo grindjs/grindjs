@@ -58,15 +58,16 @@ export class StoneTemplate {
 			}
 		}
 
-		code = contextualize(`let output = '';\n${code}`)
 
-		this._template = `function(_, _sections = { }) {\n${code}\n`
+		code = `function template(_, _sections = { }) {\nlet output = '';\n${code}\n`
 
 		if(this.layout !== null) {
-			this._template += `return _.$engine._extends(${this.layout}, _, _sections);\n}`
+			code += `return _.$engine._extends(${this.layout}, _, _sections);\n}`
 		} else {
-			this._template += 'return output;\n}'
+			code += 'return output;\n}'
 		}
+
+		this._template = contextualize(code)
 	}
 
 	advance(contents) {

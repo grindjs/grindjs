@@ -1,0 +1,4 @@
+@set(layoutName, '_master')
+@extends(`layouts.${layoutName}`)
+
+@section('head')<meta />@endsection
