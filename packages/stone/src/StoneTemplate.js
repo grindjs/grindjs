@@ -130,15 +130,6 @@ export class StoneTemplate {
 		this.state.index -= 1
 
 		switch(match[1]) {
-			case 'extends':
-				if(typeof this.layout === 'string') {
-					throw new StoneCompilerError(this, '@extends may only be called once per view.')
-				}
-
-				this.layout = args
-				this.layoutIndex = this.state.index
-				break
-
 			case 'spaceless':
 				this.spaceless++
 				break

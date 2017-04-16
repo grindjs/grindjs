@@ -1,5 +1,14 @@
 import '../Errors/StoneCompilerError'
 
+export function compileExtends(context, args) {
+	if(typeof context.layout === 'string') {
+		throw new StoneCompilerError(context, '@extends may only be called once per view.')
+	}
+
+	context.layout = args
+	context.layoutIndex = context.state.index
+}
+
 export function compileSection(context, args) {
 	if(args.indexOf(',') === -1) {
 		context.sections.push(args)
