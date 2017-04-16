@@ -1,0 +1,5 @@
+@extends(`layouts._title-var`, {
+	layoutTitle: 'Grind Framework'
+})
+
+@section('head')<meta />@endsection

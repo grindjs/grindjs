@@ -32,7 +32,15 @@ export function compileExtends(context, args) {
 	args = tree.body[0].expression.arguments
 
 	context.isLayout = true
-	return `const __extendsLayout = ${AST.stringify(args[0])};`
+	context.hasLayoutContext = args.length > 1
+
+	let code = `const __extendsLayout = ${AST.stringify(args[0])};`
+
+	if(context.hasLayoutContext) {
+		code += `\nconst __extendsContext = ${AST.stringify(args[1])};`
+	}
+
+	return code
 }
 
 export function compileSection(context, args) {

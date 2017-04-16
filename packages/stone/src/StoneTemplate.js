@@ -15,8 +15,8 @@ export class StoneTemplate {
 		index: 0
 	}
 
-	layout = null
-	layoutIndex = null
+	isLayout = false
+	hasLayoutContext = false
 	sections = [ ]
 
 	expressions = [ ]
@@ -61,10 +61,12 @@ export class StoneTemplate {
 
 		code = `function template(_, _sections = { }) {\nlet output = '';\n${code}\n`
 
-		if(this.isLayout) {
-			code += `return _.$engine._extends(__extendsLayout, _, _sections);\n}`
-		} else {
+		if(!this.isLayout) {
 			code += 'return output;\n}'
+		} else if(this.hasLayoutContext) {
+			code += `return _.$engine._extends(__extendsLayout, Object.assign(_, __extendsContext), _sections);\n}`
+		} else {
+			code += `return _.$engine._extends(__extendsLayout, _, _sections);\n}`
 		}
 
 		this._template = contextualize(code)
