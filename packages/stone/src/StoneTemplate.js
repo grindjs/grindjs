@@ -61,8 +61,8 @@ export class StoneTemplate {
 
 		code = `function template(_, _sections = { }) {\nlet output = '';\n${code}\n`
 
-		if(this.layout !== null) {
-			code += `return _.$engine._extends(${this.layout}, _, _sections);\n}`
+		if(this.isLayout) {
+			code += `return _.$engine._extends(__extendsLayout, _, _sections);\n}`
 		} else {
 			code += 'return output;\n}'
 		}
