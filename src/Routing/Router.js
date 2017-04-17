@@ -4,6 +4,7 @@ import './RouteLayer'
 
 import '../Errors/RoutesLoadError'
 
+import '../Middleware/CompressionMiddlewareBuilder'
 import '../Middleware/CookieMiddlewareBuilder'
 import '../Middleware/MethodOverrideMiddlewareBuilder'
 import '../Middleware/SessionMiddlewareBuilder'
@@ -24,6 +25,7 @@ export class Router {
 
 	middleware = { }
 	middlewareBuilders = {
+		compression: CompressionMiddlewareBuilder,
 		cookie: CookieMiddlewareBuilder,
 		'method-override': MethodOverrideMiddlewareBuilder,
 		session: SessionMiddlewareBuilder
