@@ -254,7 +254,9 @@ export class StoneTemplate {
 	}
 
 	toFunction() {
-		const template = `const template = ${this.toString()}; template`
+		let template = `const template = ${this.toString()}; template`
+		template += `\n//@ sourceURL=${this.state.file}`
+
 		return eval(template)
 	}
 
