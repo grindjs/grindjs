@@ -58,7 +58,6 @@ export class StoneTemplate {
 			}
 		}
 
-
 		code = `function template(_, _sections = { }) {\nlet output = '';\n${code}\n`
 
 		if(!this.isLayout) {
@@ -69,7 +68,15 @@ export class StoneTemplate {
 			code += `return _.$engine._extends(__extendsLayout, _, _sections);\n}`
 		}
 
-		this._template = contextualize(code)
+		let wrapped = `(function() { const t = ${contextualize(code)};`
+
+		if(this.isLayout) {
+			wrapped += 't.isLayout = true;'
+		}
+
+		wrapped += 'return t; })()'
+
+		this._template = wrapped
 	}
 
 	advance(contents) {

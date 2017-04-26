@@ -116,7 +116,14 @@ export class StoneEngine extends ViewEngine {
 			context = { ...context, ...extra }
 		}
 
-		return (this.compiler.compile(this.resolve(template)))(context, sections)
+		const compiled = this.compiler.compile(this.resolve(template))
+
+		if(compiled.isLayout) {
+			// Don’t pass through sections if including another layout
+			return compiled(context)
+		}
+
+		return compiled(context, sections)
 	}
 
 	writeCache() {

@@ -1,0 +1,5 @@
+@extends('layouts._master')
+
+@section('title', 'Primary')
+@section('head', new HtmlString('<primary />'))
+@section('body')@include('layouts._secondary')@endsection
