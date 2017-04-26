@@ -213,7 +213,9 @@ export class StoneTemplate {
 
 		// Restore placeholders
 		for(const [ placeholder, content ] of Object.entries(placeholders)) {
-			output = output.replace(placeholder, content)
+			// Content is returned as a function to avoid any processing
+			// See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
+			output = output.replace(placeholder, () => content)
 		}
 
 		return this.validateSyntax(`\`${output}\`;`, sourceIndex)
