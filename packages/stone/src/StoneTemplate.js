@@ -37,8 +37,7 @@ export class StoneTemplate {
 		// TODO: This is going to break source maps
 		let contents = this.state.contents.trim().replace(/\{\{--([\s\S]+)--\}\}/g, '')
 
-		contents = this.advance(contents)
-		contents = contents.trim()
+		contents = contents.substring(this.advance(contents, 0)).trim()
 
 		if(contents.length > 0) {
 			this.expressions.push({
@@ -80,15 +79,18 @@ export class StoneTemplate {
 		this._template = wrapped
 	}
 
-	advance(contents) {
-		const match = contents.match(/@(\w+)([ \t]*\()?\n*/)
+	advance(contents, index) {
+		const match = contents.substring(index).match(/@(\w+)([ \t]*\()?\n*/)
 
 		if(!match) {
-			return contents
+			return index
 		}
 
-		if(match.index > 0) {
-			let string = contents.substring(0, match.index)
+		match.index += index
+		this.state.index = index
+
+		if(match.index > index) {
+			let string = contents.substring(index, match.index)
 
 			if(string.trim().length > 0) {
 				if(this.spaceless > 0) {
@@ -102,18 +104,17 @@ export class StoneTemplate {
 				})
 			}
 
-			this.state.index += match.index
-			contents = contents.substring(match.index)
+			index = match.index
+			this.state.index = match.index
 		}
 
 		let args = null
-		let nextIndex = 0
+		let nextIndex = match.index + match[0].length
 
 		if(match[2]) {
 			let openCount = -1
-			let index = 0
-			let startIndex = 0
-			let lastIndex = 0
+			let startIndex = index
+			let lastIndex = index
 
 			while(openCount !== 0 && (index = nextIndexOf(contents, [ '(', ')' ], index)) >= 0) {
 				const parenthesis = contents.substring(index, index + 1)
@@ -133,11 +134,7 @@ export class StoneTemplate {
 
 			args = contents.substring(startIndex + 1, lastIndex)
 			nextIndex = lastIndex + 1
-		} else {
-			nextIndex = match[0].length
 		}
-
-		this.state.index -= 1
 
 		const result = this.compiler.compileDirective(this, match[1].toLowerCase(), args)
 
@@ -145,13 +142,12 @@ export class StoneTemplate {
 			this.expressions.push({
 				type: 'code',
 				contents: result,
-				index: this.state.index
+				index: match.index
 			})
 		}
 
-		contents = contents.substring(nextIndex)
-		this.state.index += nextIndex + 1
-		return this.advance(contents)
+
+		return this.advance(contents, nextIndex)
 	}
 
 	/**
