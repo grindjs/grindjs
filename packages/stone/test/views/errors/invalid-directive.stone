@@ -1,0 +1,4 @@
+@if(true)@endif
+<p>
+	@doesNotExist()
+</p>
