@@ -1,6 +1,6 @@
 const acorn = require('acorn')
 const base = require('acorn/dist/walk').base
-const astring = require('astring')
+const astring = require('astring').generate
 
 export class AST {
 

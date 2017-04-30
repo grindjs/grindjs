@@ -7,7 +7,7 @@
   "license": "MIT",
   "dependencies": {
     "acorn": "^4.0.11",
-    "astring": "^0.8.0",
+    "astring": "^1.0.2",
     "chokidar": "^1.6.1",
     "he": "^1.1.1"
   },
