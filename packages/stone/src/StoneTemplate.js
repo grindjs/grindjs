@@ -4,6 +4,8 @@ import './AST'
 import './Support/contextualize'
 import './Support/nextIndexOf'
 
+const vm = require('vm')
+
 export class StoneTemplate {
 	compiler = null
 
@@ -245,10 +247,8 @@ export class StoneTemplate {
 	}
 
 	toFunction() {
-		let template = `const template = ${this.toString()}; template`
-		template += `\n//@ sourceURL=${this.state.file}`
-
-		return eval(template)
+		const script = new vm.Script(`(${this.toString()})`, { filename: this.state.file })
+		return script.runInNewContext()
 	}
 
 }
