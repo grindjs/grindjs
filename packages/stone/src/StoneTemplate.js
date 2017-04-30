@@ -164,6 +164,9 @@ export class StoneTemplate {
 			})
 		}
 
+		if(contents[nextIndex] === '\n') {
+			nextIndex++
+		}
 
 		return this.advance(contents, nextIndex)
 	}
