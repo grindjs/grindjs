@@ -1,4 +1,3 @@
-import './Errors/StoneCompilerError'
 import './Errors/StoneSyntaxError'
 
 import './AST'
@@ -138,31 +137,14 @@ export class StoneTemplate {
 
 		this.state.index -= 1
 
-		switch(match[1]) {
-			case 'spaceless':
-				this.spaceless++
-				break
+		const result = this.compiler.compileDirective(this, match[1].toLowerCase(), args)
 
-			case 'endspaceless':
-				this.spaceless--
-
-				if(this.spaceless < 0) {
-					throw new StoneCompilerError(this, 'Unbalanced calls to @endspaceless')
-				}
-
-				break
-
-			default: {
-				const result = this.compiler.compileDirective(this, match[1].toLowerCase(), args)
-
-				if(!result.isNil) {
-					this.expressions.push({
-						type: 'code',
-						contents: result,
-						index: this.state.index
-					})
-				}
-			}
+		if(!result.isNil) {
+			this.expressions.push({
+				type: 'code',
+				contents: result,
+				index: this.state.index
+			})
 		}
 
 		contents = contents.substring(nextIndex)
