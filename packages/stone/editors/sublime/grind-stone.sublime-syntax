@@ -51,8 +51,8 @@ contexts:
         - match: '(\s{0}|^)(\@)\b(asset|babel|block|break|coffee|continue|css|debug|dump|each|elseif|extends|for|foreach|forelse|hasSection|if|include|js|layout|less|push|sass|scss|script|section|set|stack|styl|style|stylus|unless|while|yield)\b(?=(|\s*|)\()'
           captures:
             0: punctuation.section.embedded.js
-            2: constant.other.inline-data.html
-            3: entity.name.tag.block.any.html
+            2: keyword.control.flow.js
+            3: keyword.control.flow.js
           push:
             - meta_scope: custom.compiler.stone.js
             - meta_content_scope: source.js.stone
@@ -64,8 +64,8 @@ contexts:
           scope: custom.compiler.stone.js
           captures:
             0: punctuation.section.embedded.js
-            2: constant.other.inline-data.html
-            3: entity.name.tag.block.any.html
+            2: keyword.control.flow.js
+            3: keyword.control.flow.js
           pop: false
 
         - match: '(\s{0}|^)(\@)\b([a-zA-Z_]+)\b(?=(|\s*|)\()'
@@ -85,4 +85,3 @@ contexts:
             0: support.function
             2: constant.other.inline-data.html
           pop: false
-
