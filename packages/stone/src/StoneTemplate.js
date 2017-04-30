@@ -223,21 +223,26 @@ export class StoneTemplate {
 	}
 
 	findLineColumn(position) {
-		let line = 0
-		let column = 1
+		let min = 0
+		let max = this.state.lines.length
 
-		for(const { start, end } of this.state.lines) {
-			line++
+		while(min < max) {
+			const mid = min + ((max - min) >> 1)
+			const { start, end } = this.state.lines[mid]
 
-			if(position >= end) {
-				continue
+			if(position < start) {
+				max = mid
+			} else if(position >= end) {
+				min = mid + 1
+			} else {
+				return {
+					line: mid + 1,
+					column: (position - start) + 1
+				}
 			}
-
-			column = (position - start) + 1
-			break
 		}
 
-		return { line, column }
+		return { line: max, column: 1 }
 	}
 
 	validateSyntax(code, position) {
