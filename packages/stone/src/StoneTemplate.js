@@ -29,7 +29,25 @@ export class StoneTemplate {
 		this.compiler = compiler
 		this.state.contents = contents
 		this.state.file = file
-		this.state.lines = contents.split(/\n/).map(line => line.length)
+
+		const lines = contents.split(/\n/)
+		const last = lines.length - 1
+		let index = 0
+
+		this.state.lines = lines.map((line, i) => {
+			const length = line.length + (last === i ? 0 : 1)
+
+			const range = {
+				start: index,
+				end: index + length,
+				code: line,
+				subsring: contents.substring(index, index + length)
+			}
+
+			index = range.end
+
+			return range
+		})
 	}
 
 	compile() {
@@ -205,15 +223,14 @@ export class StoneTemplate {
 		let line = 0
 		let column = 1
 
-		for(const length of this.state.lines) {
+		for(const { start, end } of this.state.lines) {
 			line++
 
-			if(position >= length) {
-				position -= length
+			if(position >= end) {
 				continue
 			}
 
-			column = position + 1
+			column = (position - start) + 1
 			break
 		}
 

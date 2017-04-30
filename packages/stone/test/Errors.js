@@ -31,7 +31,7 @@ test('invalid-directive', async t => {
 		const frame = parseErrorFrame(err)
 		t.is(frame.file, app.view.engine.resolve(template))
 		t.is(frame.line, 3)
-		t.is(frame.column, 3)
+		t.is(frame.column, 2)
 	}
 })
 
