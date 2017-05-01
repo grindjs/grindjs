@@ -13,6 +13,8 @@ export class StoneRuntime {
 	include(context, sections, template, extra) {
 		if(extra) {
 			context = { ...context, ...extra }
+		} else {
+			context = { ...context }
 		}
 
 		const compiled = this.compiler.compile(this.engine.resolve(template))
