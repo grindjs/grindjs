@@ -1,6 +1,6 @@
 # Stone Templates
 
-Stone is Grind‘s official templating engine, it’s based on [Laravel Blade](https://laravel.com/docs/master/blade).  Stone compiles your templates into pure Javascript to minimize any overhead.  In fact, any time you’re inside of a Stone directive or displaying data, you’re writing Javascript.  Stone view files use the `.stone` file extension and should be stored in the `resources/views` directory.
+Stone is Grind’s official templating engine, it’s based on [Laravel Blade](https://laravel.com/docs/master/blade).  Stone compiles your templates into pure Javascript to minimize any overhead.  In fact, any time you’re inside of a Stone directive or displaying data, you’re writing Javascript.  Stone view files use the `.stone` file extension and should be stored in the `resources/views` directory.
 
 > {tip} As Stone is based on Laravel Blade, much of the documentation below was originally ported from [Laravel’s docs](https://github.com/laravel/docs/blob/5.4/blade.md).
 
@@ -87,7 +87,7 @@ You can display the contents of the `name` variable by surrounding it with two c
 <p>Hello, {{ name }}.</p>
 ```
 
-Of course, you are not limited to displaying the contents of the variables passed to the view. You may also display the results of any JS expression. In fact, you can put any JS code you wish inside of a Stone echo statement:
+Of course, you are not limited to displaying the contents of the variables passed to the view. You may also display the results of any JS expression. In fact, you can put any JS code you wish inside of a Stone output statement:
 
 ```stone
 <p>The current UNIX timestamp is {{ Date.now() }}.</p>
@@ -101,7 +101,7 @@ By default, Stone `{{ }}` statements are automatically pased through the [entiti
 <p>Hello, {!! name !!}.</p>
 ```
 
-> {note} Be very careful when echoing content that is supplied by users of your application. Always use the escaped, double curly brace syntax to prevent XSS attacks when displaying user supplied data.
+> {note} Be very careful when outputting content that is supplied by users of your application. Always use the escaped, double curly brace syntax to prevent XSS attacks when displaying user supplied data.
 
 ### Escaping Braces
 
@@ -134,7 +134,7 @@ The above example will render as:
 <nav><span>Home</span><span>Posts</span><span>Contact</span></nav>
 ```
 
-> {tip} `@spaceless` is applied during compilation, so there‘s no real world performance cost!
+> {tip} `@spaceless` is applied during compilation, so there’s no real world performance cost!
 
 ### Inspecting Objects
 
@@ -150,7 +150,7 @@ Stone solves this with a `@dump` directive that will `stringify` the object and 
 
 ## Variable Assignemnts
 
-Stone‘s `@set` directive allows you to assign variables within the current context.  These assignments will cascade downwards to subviews via `@include`, however an assignment within a subview will not affect it’s parent.
+Stone’s `@set` directive allows you to assign variables within the current context.  These assignments will cascade downwards to subviews via `@include`, however an assignment within a subview will not affect it’s parent.
 
 ```stone
 {{-- @set supports simple assignments: --}}
@@ -219,10 +219,10 @@ When using loops you may also end the loop or skip the current iteration:
 
 	<li>{{ user.name }}</li>
 
-	@if(user.id == 5)
+	@if(user.id === 5)
 		@break
 	@endif
-@endforeach
+@endfor
 ```
 
 You may also include the condition with the directive declaration in one line:
@@ -234,7 +234,7 @@ You may also include the condition with the directive declaration in one line:
 	<li>{{ user.name }}</li>
 
 	@break(user.number === 5)
-@endforeach
+@endfor
 ```
 
 #### The Loop Variable
