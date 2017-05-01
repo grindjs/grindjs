@@ -80,27 +80,20 @@ export class StoneEngine extends ViewEngine {
 	}
 
 	_render(template, context) {
-		const compiled = this.compiler.compile(this.resolve(template))
-		const rendered = compiled({
-			...this.context,
-			...context,
-			$engine: this,
-			$compiler: this.compiler
-		})
-
-		return rendered
+		return this._renderCompiled(this.compiler.compile(this.resolve(template)), context)
 	}
 
 	renderString(template, context) {
-		const compiled = this.compiler.compileString(template)
-		const rendered = compiled({
+		return this._renderCompiled(this.compiler.compileString(template), context)
+	}
+
+	_renderCompiled(compiled, context) {
+		return compiled({
 			...this.context,
 			...context,
 			$engine: this,
 			$compiler: this.compiler
 		})
-
-		return rendered
 	}
 
 	resolve(template) {
