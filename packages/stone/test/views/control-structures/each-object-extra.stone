@@ -1,0 +1,3 @@
+@each('control-structures._each-object-partial', pairs[0], 'value', null, {
+	label: 'Value is'
+})

@@ -1,0 +1,1 @@
+{{ placeholder || 'This is an empty placeholder.' }}

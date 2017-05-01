@@ -1,0 +1,1 @@
+<p>{{ label || 'The current value is' }} {{ value }} and the key is {{ key }}.</p>

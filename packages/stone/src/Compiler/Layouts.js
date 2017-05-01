@@ -141,3 +141,16 @@ export function compileInclude(context, view) {
 	context.validateSyntax(view)
 	return `output += (_.$stone.include(_, _sections, ${view}));\n`
 }
+
+/**
+ * Compiles each directive to call the runtime and output
+ * the result.
+ *
+ * @param  object context Context for the compilation
+ * @param  string args    Arguments to pass through to runtime
+ * @return string         Code to render the each block
+ */
+export function compileEach(context, args) {
+	context.validateSyntax(`each(${args})`)
+	return `output += (_.$stone.each(_, ${args}));\n`
+}
