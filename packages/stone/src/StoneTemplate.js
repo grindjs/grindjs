@@ -80,19 +80,31 @@ export class StoneTemplate {
 			}
 		}
 
-		// Wrap the compiled code in a template func with it’s return value
-		code = `function template(_, _sections = { }) {\nlet output = '';\n${code}\n`
+		// Determine correct return value for the template:
+		// * For non-layout templates it’s the `output` var
+		// * For templates that extend a layout, it’s calling the parent layout
+		let returns = null
 
 		if(!this.isLayout) {
-			code += 'return output;\n}'
-		} else if(this.hasLayoutContext) {
-			code += `return _.$engine._extends(__extendsLayout, Object.assign(_, __extendsContext), _sections);\n}`
+			returns = 'output'
 		} else {
-			code += `return _.$engine._extends(__extendsLayout, _, _sections);\n}`
+			let context = '_'
+
+			if(this.hasLayoutContext) {
+				// If `@extends` was called with a second context
+				// parameter, we assign those values over the
+				// current context
+				context = 'Object.assign(_, __extendsContext)'
+			}
+
+			returns = `_.$engine._extends(__extendsLayout, ${context}, _sections)`
 		}
 
+		// Wrap the compiled code in a template func with it’s return value
+		const template = `function template(_, _sections = { }) {\nlet output = '';\n${code}\nreturn ${returns};\n}`
+
 		// Contextualize the template so all global vars are prefixed with `_.`
-		const contextualized = contextualize(code)
+		const contextualized = contextualize(template)
 
 		// Take the contextualized template and wrap it in function
 		// that will be called immediately.  This enables us to set
