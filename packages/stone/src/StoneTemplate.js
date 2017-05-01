@@ -92,7 +92,7 @@ export class StoneTemplate {
 				context = 'Object.assign(_, __extendsContext)'
 			}
 
-			returns = `_.$engine._extends(__extendsLayout, ${context}, _sections)`
+			returns = `_.$stone.extends(__extendsLayout, ${context}, _sections)`
 		}
 
 		// Wrap the compiled code in a template func with it’s return value

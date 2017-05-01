@@ -5,12 +5,15 @@ import './Compiler'
 import './HtmlString'
 import './StoneLoop'
 import './Watcher'
+import './StoneRuntime'
+
 import './Support/escape'
 
 export class StoneEngine extends ViewEngine {
 	cacheManager = null
 	compiler = null
 	watcher = null
+	runtime = null
 
 	context = {
 		escape: escape,
@@ -24,6 +27,7 @@ export class StoneEngine extends ViewEngine {
 
 		this.cacheManager = new CacheManager(app, this)
 		this.compiler = new Compiler(this)
+		this.runtime = new StoneRuntime(this)
 	}
 
 	async bootstrap() {
@@ -91,6 +95,7 @@ export class StoneEngine extends ViewEngine {
 		return compiled({
 			...this.context,
 			...context,
+			$stone: this.runtime,
 			$engine: this,
 			$compiler: this.compiler
 		})
@@ -98,25 +103,6 @@ export class StoneEngine extends ViewEngine {
 
 	resolve(template) {
 		return `${this.view.viewPath}/${template.replace(/\./g, '/')}.stone`
-	}
-
-	_extends(template, context, sections) {
-		return (this.compiler.compile(this.resolve(template)))(context, sections)
-	}
-
-	_include(context, sections, template, extra) {
-		if(extra) {
-			context = { ...context, ...extra }
-		}
-
-		const compiled = this.compiler.compile(this.resolve(template))
-
-		if(compiled.isLayout) {
-			// Don’t pass through sections if including another layout
-			return compiled(context)
-		}
-
-		return compiled(context, sections)
 	}
 
 	writeCache() {
