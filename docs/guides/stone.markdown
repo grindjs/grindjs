@@ -309,6 +309,41 @@ Even though the included view will inherit all data available in the parent view
 })
 ```
 
+### Rendering Views For Collections
+Stone has a helpful `@each` directive that combines the `@for` and `@include` directives into a single one line statement:
+
+```stone
+@each('view.name', jobs, 'job')
+```
+
+* The first argument is the view partial to render for each element in the collection.
+* The second argument is the array or collection you wish to iterate over.
+* The third argument is the variable name that will be assigned to the current iteration within the view. So, for example, if you are iterating over an array of jobs, typically you will want to access each job as a `job` variable within your view partial.
+
+> {tip} Use `@each` where possible when looping and displaying views as it’s able to make runtime optimizations to speed up the rendering of your views that aren’t available by doing a standard `@for`/`@include` pattern.
+
+#### Empty Collections
+You may also pass a fourth argument to the `@each` directive. This argument determines the view that will be rendered if the collection is empty:
+
+```stone
+@each('view.name', jobs, 'job', 'view.empty')
+```
+
+If you’d prefer to render a raw string, you can prefix the argument with `raw|`:
+
+```stone
+@each('view.name', jobs, 'job', 'raw|There are no jobs.')
+```
+
+#### Additional Context
+Finally, there is a fifth parameter that you can pass to send extra data to either your view partials or the empty view:
+
+```stone
+@each('view.name', jobs, 'job', 'view.empty', {
+	section: 'Jobs'
+})
+```
+
 ## Extending Stone
 
 Stone allows you to define your own custom directives using the `directive` method. When the Stone compiler encounters the custom directive, it will call the provided callback with the expression that the directive contains.
