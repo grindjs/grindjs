@@ -61,23 +61,18 @@ export class StoneTemplate {
 		// If there’s anything left in `contents` after parsing is done
 		// append is as an output string
 		if(contents.trim().length > 0) {
-			this.expressions.push({
-				type: 'string',
-				contents: contents,
-				index: this.state.index
-			})
+			this.addOutputExpression(this.state.index, contents)
 		}
 
 		let code = ''
 
 		// Loop through the expressions and add the code
-		for(const { type, contents, index } of this.expressions) {
-			if(type === 'code') {
-				code += `${contents}\n`
-			} else {
-				const output = this.finalizeOutput(contents, index)
-				code += `output += ${output}\n`
+		for(const { type, contents } of this.expressions) {
+			if(type !== 'code') {
+				throw new Error('Unsupported type')
 			}
+
+			code += `${contents.trim()}\n`
 		}
 
 		// Determine correct return value for the template:
@@ -140,20 +135,19 @@ export class StoneTemplate {
 		this.state.index = index
 
 		if(match.index > index) {
-                       // If the match starts after 0, it means there’s
-                       // output to display
+			// If the match starts after 0, it means there’s
+			// output to display
 			let string = contents.substring(index, match.index)
 
+			// Only add the output if the string isn’t
+			// blank to avoid unnecessary whitespace before
+			// a directive
 			if(string.trim().length > 0) {
 				if(this.spaceless > 0) {
 					string = string.replace(/>\s+</g, '><').trim()
 				}
 
-				this.expressions.push({
-					type: 'string',
-					contents: string,
-					index: this.state.index
-				})
+				this.addOutputExpression(this.state.index, string)
 			}
 
 			index = match.index
@@ -202,7 +196,23 @@ export class StoneTemplate {
 			nextIndex++
 		}
 
+		this.state.index = nextIndex
+
 		return this.advance(contents, nextIndex)
+	}
+
+	/**
+	 * Adds an output code expression
+	 *
+	 * @param number index  Index in the source file this occurs
+	 * @param string output Output to display
+	 */
+	addOutputExpression(index, output) {
+		this.expressions.push({
+			type: 'code',
+			contents: `output += ${this.finalizeOutput(index, output)}\n`,
+			index: index
+		})
 	}
 
 	/**
@@ -210,11 +220,11 @@ export class StoneTemplate {
 	 * and converting output tags to placeholders for
 	 * use within template literals
 	 *
-	 * @param  {string} output      Raw output
 	 * @param  {number} sourceIndex Index in the source file this occurs
+	 * @param  {string} output      Raw output
 	 * @return {string}             Finalized output
 	 */
-	finalizeOutput(output, sourceIndex) {
+	finalizeOutput(sourceIndex, output) {
 		const placeholders = { }
 		let placeholderOrdinal = 0
 
