@@ -55,9 +55,12 @@ export class StoneTemplate {
 		// TODO: This is going to break source maps
 		let contents = this.state.contents.trim().replace(/\{\{--([\s\S]+)--\}\}/g, '')
 
+		// Parse through the template
 		contents = contents.substring(this.advance(contents, 0)).trim()
 
-		if(contents.length > 0) {
+		// If there’s anything left in `contents` after parsing is done
+		// append is as an output string
+		if(contents.trim().length > 0) {
 			this.expressions.push({
 				type: 'string',
 				contents: contents,
@@ -67,6 +70,7 @@ export class StoneTemplate {
 
 		let code = ''
 
+		// Loop through the expressions and add the code
 		for(const { type, contents, index } of this.expressions) {
 			if(type === 'code') {
 				code += `${contents}\n`
@@ -76,6 +80,7 @@ export class StoneTemplate {
 			}
 		}
 
+		// Wrap the compiled code in a template func with it’s return value
 		code = `function template(_, _sections = { }) {\nlet output = '';\n${code}\n`
 
 		if(!this.isLayout) {
@@ -86,7 +91,13 @@ export class StoneTemplate {
 			code += `return _.$engine._extends(__extendsLayout, _, _sections);\n}`
 		}
 
-		let wrapped = `(function() { const t = ${contextualize(code)};`
+		// Contextualize the template so all global vars are prefixed with `_.`
+		const contextualized = contextualize(code)
+
+		// Take the contextualized template and wrap it in function
+		// that will be called immediately.  This enables us to set
+		// properties on the template function
+		let wrapped = `(function() { const t = ${contextualized};`
 
 		if(this.isLayout) {
 			wrapped += 't.isLayout = true;'
@@ -97,6 +108,15 @@ export class StoneTemplate {
 		this._template = wrapped
 	}
 
+	/**
+	 * Parses contents to the next directive
+	 * Recursive and will continue calling itself
+	 * until there are no more directives to parse.
+	 *
+	 * @param  string contents Template to parse
+	 * @param  number index    Current position
+	 * @return number          End position
+	 */
 	advance(contents, index) {
 		const match = contents.substring(index).match(/@(\w+)([ \t]*\()?\n*/)
 
@@ -108,6 +128,8 @@ export class StoneTemplate {
 		this.state.index = index
 
 		if(match.index > index) {
+                       // If the match starts after 0, it means there’s
+                       // output to display
 			let string = contents.substring(index, match.index)
 
 			if(string.trim().length > 0) {
@@ -245,6 +267,14 @@ export class StoneTemplate {
 		return { line: max, column: 1 }
 	}
 
+	/**
+	 * Validates the syntax of raw code and optionally
+	 * throws StoneSyntaxError if it’s invalid
+	 *
+	 * @param  string code     Code to validate
+	 * @param  number position Location of this code in the template
+	 * @return string          Passed in code
+	 */
 	validateSyntax(code, position) {
 		try {
 			AST.parse(code)
