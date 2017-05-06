@@ -1,31 +1,17 @@
-import { Job as KueJob } from 'kue'
-
 export class Job {
 	static jobName = null
+
 	static priority = 'normal'
-	static removeOnComplete = true
-	static attempts = 1
-	static backoff = null
-	static concurrency = 1
+	static tries = 1
+	static retryDelay = null
+	static timeout = null
 
-	$kueJob = null
-	$queue = null
-
-	constructor(data = { }, $kueJob = null) {
-		Object.assign(this, data)
-		this.$kueJob = $kueJob || (() => {
-			const job = new KueJob
-			job.attempts(this.constructor.attempts)
-			job.priority(this.constructor.priority)
-			job.removeOnComplete(this.constructor.removeOnComplete)
-			job.backoff(this.constructor.backoff)
-			job.events(false)
-			return job
-		})()
-	}
-
-	get id() {
-		return this.$kueJob.id
+	$options = {
+		priority: null,
+		delay: null,
+		tries: null,
+		retryDelay: null,
+		timeout: null
 	}
 
 	// eslint-disable-next-line no-unused-vars
@@ -33,85 +19,29 @@ export class Job {
 		//
 	}
 
-	$priority(...args) {
-		this.$kueJob.priority(...args)
+	$priority(value) {
+		this.$options.priority = value
 		return this
 	}
 
-	$delay(...args) {
-		this.$kueJob.delay(...args)
+	$delay(value) {
+		this.$options.delay = value
 		return this
 	}
 
-	$isDelayedFor(ms) {
-		return (this.$kueJob.promote_at - Date.now()) > ms
-	}
-
-	$attempts(...args) {
-		this.$kueJob.attempts(...args)
+	$tries(value) {
+		this.$options.tries = value
 		return this
 	}
 
-	$backoff(...args) {
-		this.$kueJob.backoff(...args)
+	$retryDelay(value) {
+		this.$options.retryDelay = value
 		return this
 	}
 
-	$ttl(...args) {
-		this.$kueJob.ttl(...args)
+	$timeout(value) {
+		this.$options.timeout = value
 		return this
-	}
-
-	$progress(...args) {
-		this.$kueJob.progress(...args)
-		return this
-	}
-
-	$log(...args) {
-		this.$kueJob.log(...args)
-		return this
-	}
-
-	$save(queue) {
-		if(this.id.isNil) {
-			if(queue.isNil) {
-				throw new Error('Calling $save on new jobs requires a queue parameter.')
-			}
-
-			const jobName = this.constructor.jobName
-
-			if(jobName.isNil) {
-				throw new Error('Invalid Job, must have `jobName` set.')
-			}
-
-			if(queue.jobs[jobName].isNil) {
-				throw new Error('This job is not yet registered with the target queue.')
-			}
-
-			this.$kueJob.type = jobName
-			this.$kueJob.client = queue.kue.client
-		}
-
-		this.$kueJob.data = this.toJSON()
-
-		return new Promise((resolve, reject) => {
-			let resolved = false
-
-			this.$kueJob.save(err => {
-				if(resolved) {
-					return
-				}
-
-				resolved = true
-
-				if(!err.isNil) {
-					return reject(err)
-				}
-
-				resolved = true
-				return resolve(this)
-			})
-		})
 	}
 
 	toJSON() {
@@ -130,6 +60,10 @@ export class Job {
 		}
 
 		return json
+	}
+
+	static fromJson(json) {
+		return Object.assign(Object.create(this.prototype), json)
 	}
 
 }

@@ -1,11 +1,11 @@
-import './Queue'
+import './QueueFactory'
 
 import './Commands/MakeJobCommand'
 import './Commands/QueueWorkCommand'
 
 export function QueueProvider(app, classes = { }) {
-	const queueClass = classes.queueClass || Queue
-	app.queue = new queueClass(app)
+	const factoryClass = classes.factoryClass || QueueFactory
+	app.queue = new factoryClass(app)
 
 	if(app.cli.isNil) {
 		return

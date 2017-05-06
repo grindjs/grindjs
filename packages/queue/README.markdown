@@ -10,7 +10,7 @@
 
 # grind-queue
 
-Grind Queue is a queue provider for [Grind](https://github.com/grindjs/framework) that is built on [Kue](https://github.com/Automattic/kue) internally.  Grind Queue provides a much different interace from Kue so it feels right at home within the Grind ecosystem.
+Grind Queue is a queue provider for [Grind](https://github.com/grindjs/framework) that provides a unified interface for working with jobs across various Queue engines such as [Kue](https://github.com/Automattic/kue).
 
 ## Documentation
 

@@ -1,17 +1,26 @@
 import './Job'
 
 import './Queue'
-import './QueryBuilder'
+import './QueueFactory'
 import './QueueProvider'
 
 import './Commands/MakeJobCommand'
 import './Commands/QueueWorkCommand'
 
+import './Drivers/BaseDriver'
+import './Drivers/KueDriver'
+
 export {
 	Job,
 	Queue,
-	QueryBuilder,
+	QueueFactory,
 	QueueProvider,
+
+	// Drivers
+	BaseDriver,
+	KueDriver,
+
+	// Commands
 	QueueWorkCommand,
 	MakeJobCommand
 }
