@@ -2,6 +2,7 @@ import './Job'
 import './Queue'
 
 import './Drivers/BaseDriver'
+import './Drivers/BeanstalkDriver'
 import './Drivers/KueDriver'
 
 export class QueueFactory {
@@ -9,6 +10,8 @@ export class QueueFactory {
 	queues = { }
 	jobs = { }
 	drivers = {
+		beanstalk: BeanstalkDriver,
+		beanstalkd: BeanstalkDriver,
 		kue: KueDriver
 	}
 
