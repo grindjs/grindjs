@@ -20,6 +20,8 @@ import './Output/Output'
 import './Output/OutputFormatter'
 import './Output/OutputFormatterStyle'
 
+import './Runner'
+
 import './StubCompiler'
 
 export {
@@ -44,6 +46,8 @@ export {
 	Output,
 	OutputFormatter,
 	OutputFormatterStyle,
+
+	Runner,
 
 	StubCompiler
 }
