@@ -5,12 +5,19 @@ export class QueueWorkCommand extends Command {
 	description = 'Process jobs in the queue'
 
 	options = [
-		new InputOption('job', InputOption.VALUE_OPTIONAL, 'Restrict the name of job(s) to process')
+		new InputOption('job', InputOption.VALUE_OPTIONAL, 'Restrict the name of job(s) to process'),
+		new InputOption('watch', InputOption.VALUE_OPTIONAL, 'Folders to watch for changes')
 	]
 
-	ready() {
+	async ready() {
+		let app = this
+
+		if(this.containsOption('watch')) {
+			app = await this.cli.runner.watch(this, 'watch')
+		}
+
 		const shutdown = () => {
-			this.app.queue.destroy().catch(err => {
+			app.app.queue.destroy().catch(err => {
 				Log.error('Error shutting down', err)
 			}).then(() => process.exit(0))
 		}
