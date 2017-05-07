@@ -36,6 +36,16 @@ export class BaseDriver {
 	}
 
 	/**
+	 * Called before `listen` is called to allow the driver
+	 * to do any prep work before listening starts.
+	 *
+	 * @return Promise
+	 */
+	willListen() {
+		return Promise.resolve()
+	}
+
+	/**
 	 * Listens for jobs dispatched to the queue
 	 *
 	 * @param  string   name    Name of the queue to listen on

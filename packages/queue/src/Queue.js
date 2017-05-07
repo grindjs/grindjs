@@ -52,6 +52,10 @@ export class Queue {
 		return this.driver.connect().then(() => this.driver.dispatch(job))
 	}
 
+	willListen() {
+		return this.driver.willListen()
+	}
+
 	listen(jobClass) {
 		if(typeof jobClass === 'string') {
 			jobClass = this.factory.jobs[jobClass]
