@@ -26,7 +26,6 @@ function loadPackage() {
  * Kue backed Queue Driver
  */
 export class KueDriver extends BaseDriver {
-
 	kue = null
 
 	constructor(app, config) {
@@ -34,6 +33,11 @@ export class KueDriver extends BaseDriver {
 
 		loadPackage()
 		this.kue = new Kue(buildConfig(config, app), app)
+	}
+
+	connect() {
+		// TODO
+		return Promise.resolve()
 	}
 
 	dispatch(job) {

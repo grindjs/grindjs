@@ -5,6 +5,7 @@ import '../JobPriority'
  */
 export class BaseDriver {
 	app = null
+	state = null
 	retryDelay = 90000
 
 	constructor(app, config) {
@@ -13,6 +14,15 @@ export class BaseDriver {
 		if(config.retry_delay) {
 			this.retryDelay = Number.parseInt(config.retry_delay)
 		}
+	}
+
+	/**
+	 * Connects to the backend engine
+	 *
+	 * @return Promise Promise that resolves when connected
+	 */
+	connect() {
+		return Promise.reject('Abstract method, subclasses must implement.')
 	}
 
 	/**

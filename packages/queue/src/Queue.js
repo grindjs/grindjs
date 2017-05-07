@@ -3,6 +3,7 @@ export class Queue {
 	driver = null
 	app = null
 	factory = null
+	_connectQueue = null
 
 	constructor(app, factory, driver) {
 		this.app = app
@@ -10,8 +11,45 @@ export class Queue {
 		this.driver = driver
 	}
 
+	connect() {
+		if(this.driver.state === 'connected') {
+			return Promise.resolve()
+		} else if(this.driver.state === 'connecting') {
+			return new Promise((resolve, reject) => {
+				this._connectQueue.push(err => {
+					if(!err.isNil) {
+						return reject(err)
+					}
+
+					return resolve()
+				})
+			})
+		}
+
+		this._connectQueue = [ ]
+		this.driver.state = 'connecting'
+
+		return this.driver.connect().catch(err => {
+			const queue = this._connectQueue
+			this._connectQueue = null
+			this.driver.state = 'error'
+
+			for(const handler of queue) {
+				handler(err)
+			}
+		}).then(() => {
+			const queue = this._connectQueue
+			this._connectQueue = null
+			this.driver.state = 'connected'
+
+			for(const handler of queue) {
+				handler()
+			}
+		})
+	}
+
 	dispatch(job) {
-		return this.driver.dispatch(job)
+		return this.driver.connect().then(() => this.driver.dispatch(job))
 	}
 
 	listen(jobClass) {
@@ -23,7 +61,7 @@ export class Queue {
 			throw new Error('Invalid job')
 		}
 
-		return this.driver.listen(jobClass.jobName, payload => {
+		return this.driver.connect().then(() => this.driver.listen(jobClass.jobName, payload => {
 			let result = null
 
 			try {
@@ -42,7 +80,7 @@ export class Queue {
 			}
 
 			return result.catch(err => this.handleError(err))
-		})
+		}))
 	}
 
 	status(jobId) {
@@ -54,7 +92,9 @@ export class Queue {
 	}
 
 	destroy() {
-		return this.driver.destroy()
+		return this.driver.destroy().then(() => {
+			this.driver.state = 'destroyed'
+		})
 	}
 
 }
