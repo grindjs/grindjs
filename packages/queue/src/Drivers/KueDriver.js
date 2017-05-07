@@ -85,6 +85,15 @@ export class KueDriver extends BaseDriver {
 		})
 	}
 
+	willListen() {
+		this.client.watchStuckJobs()
+		this.client.on('error', err => {
+			Log.error('Error', err)
+		})
+
+		return Promise.resolve()
+	}
+
 	listen(name, handler) {
 		return new Promise(() => {
 			this.kue.process(name, (job, ctx, done) => {

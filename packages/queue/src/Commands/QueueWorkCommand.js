@@ -10,13 +10,9 @@ export class QueueWorkCommand extends Command {
 
 	ready() {
 		const shutdown = () => {
-			this.app.queue.kue.shutdown(5000, err => {
-				if(!err.isNil) {
-					Log.error('Error shutting down', err)
-				}
-
-				process.exit(0)
-			})
+			this.app.queue.destroy().catch(err => {
+				Log.error('Error shutting down', err)
+			}).then(() => process.exit(0))
 		}
 
 		process.once('SIGTERM', shutdown)
@@ -25,19 +21,19 @@ export class QueueWorkCommand extends Command {
 		return super.ready()
 	}
 
-	run() {
-		this.app.queue.kue.watchStuckJobs()
-		this.app.queue.kue.on('error', err => {
-			Log.error('Error', err)
-		})
-
+	async run() {
 		let jobNames = null
 
 		if(this.containsOption('job')) {
-			jobNames = this.option('job').split(/,/)
+			jobNames = this.option('job').split(/,/).map(job => job.trim())
+		} else {
+			jobNames = Object.keys(this.app.queue.jobs)
 		}
 
-		return this.app.queue.process(jobNames)
+		const queue = this.app.queue.get()
+		await queue.willListen()
+
+		return Promise.all(jobNames.map(name => queue.listen(name)))
 	}
 
 }
