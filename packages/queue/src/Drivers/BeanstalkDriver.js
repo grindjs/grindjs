@@ -20,31 +20,19 @@ export class BeanstalkDriver extends BaseDriver {
 	}
 
 	async dispatch(job) {
-		const options = job.$options
-		const defaults = job.constructor
 		const payload = this.buildPayload(job)
-
-		const priority = this.resolvePriority(options.priority || defaults.priority)
-		const delay = Math.round((options.delay || 0) / 1000)
-		const timeout = Math.round((options.timeout || 0) / 1000)
-		const tries = Math.max(1, Number.parseInt(options.tries || defaults.tries) || 1)
-		const retryDelay = Math.round((
-			options.retryDelay || defaults.retryDelay || this.retryDelay || options.delay || 0
-		) / 1000)
+		payload.delay = Math.round(payload.delay / 1000)
+		payload.timeout = Math.round(payload.timeout / 1000)
+		payload.retryDelay = Math.round(payload.delay / 1000)
 
 		await this.client.use(this.tube)
 
-		return this.client.put(priority, delay, 0, payload.name, {
-			tries: tries || 1,
-			timeout: timeout,
-			retryDelay: retryDelay,
-			payload: payload
-		})
+		return this.client.put(payload.priority, payload.delay, 0, payload.name, payload)
 	}
 
 	listen(name, handler) {
 		return this.client.watch(this.tube, name, (job, jobId, callback) => {
-			handler(job.payload).then(() => callback('success')).catch(err => {
+			handler(job).then(() => callback('success')).catch(err => {
 				const tries = Number.parseInt(job.tries) || 1
 
 				if(tries <= 1) {

@@ -41,8 +41,6 @@ export class KueDriver extends BaseDriver {
 	}
 
 	dispatch(job) {
-		const options = job.$options
-		const defaults = job.constructor
 		const payload = this.buildPayload(job)
 
 		const kueJob = new KueJob
@@ -50,18 +48,18 @@ export class KueDriver extends BaseDriver {
 		kueJob.type = payload.name
 		kueJob.client = this.kue.client
 
-		kueJob.attempts(options.tries || defaults.tries)
-		kueJob.priority(this.resolvePriority(options.priority || defaults.priority))
-		kueJob.backoff(options.retryDelay || defaults.retryDelay || this.retryDelay)
+		kueJob.attempts(payload.tries)
+		kueJob.priority(payload.priority)
+		kueJob.backoff(payload.retryDelay)
 		kueJob.removeOnComplete(true)
 		kueJob.events(false)
 
-		if(!options.delay.isNil) {
-			kueJob.delay(options.delay)
+		if(payload.delay > 0) {
+			kueJob.delay(payload.delay)
 		}
 
-		if(!options.timeout.isNil) {
-			kueJob.ttl(options.timeout)
+		if(payload.timeout > 0) {
+			kueJob.ttl(payload.timeout)
 		}
 
 		return new Promise((resolve, reject) => {

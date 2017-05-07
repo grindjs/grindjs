@@ -76,9 +76,17 @@ export class BaseDriver {
 	 * @return object  Raw object that can be serialized and stored
 	 */
 	buildPayload(job) {
+		const options = job.$options
+		const defaults = job.constructor
+
 		return {
+			name: job.constructor.jobName,
 			data: job.$toJson(),
-			name: job.constructor.jobName
+			priority: this.resolvePriority(options.priority || defaults.priority),
+			delay: options.delay || 0,
+			timeout: options.timeout || 0,
+			tries: Math.max(1, Number.parseInt(options.tries || defaults.tries) || 1),
+			retryDelay: options.retryDelay || defaults.retryDelay || this.retryDelay || options.delay || 0
 		}
 	}
 
