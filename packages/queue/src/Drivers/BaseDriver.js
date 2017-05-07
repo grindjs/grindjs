@@ -1,3 +1,5 @@
+import '../JobPriority'
+
 /**
  * Base class all drivers must extend
  */
@@ -64,6 +66,24 @@ export class BaseDriver {
 	 */
 	handleError(err) {
 		return Promise.reject(err)
+	}
+
+	/**
+	 * Resolves job priority from different values
+	 *
+	 * @param  mixed  priority String or Number representing priority
+	 * @return number          Integer representing the job priority
+	 */
+	resolvePriority(priority) {
+		const type = typeof priority
+
+		if(type === 'string') {
+			return JobPriority[priority.toLowerCase()] || 0
+		} else if(type === 'number') {
+			return priority
+		}
+
+		return 0
 	}
 
 	/**

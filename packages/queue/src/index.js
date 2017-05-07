@@ -1,4 +1,5 @@
 import './Job'
+import './JobPriority'
 
 import './Queue'
 import './QueueFactory'
@@ -12,6 +13,7 @@ import './Drivers/KueDriver'
 
 export {
 	Job,
+	JobPriority,
 	Queue,
 	QueueFactory,
 	QueueProvider,

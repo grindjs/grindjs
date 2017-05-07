@@ -47,7 +47,7 @@ export class KueDriver extends BaseDriver {
 		kueJob.client = this.kue.client
 
 		kueJob.attempts(options.tries || defaults.tries)
-		kueJob.priority(options.priority || defaults.priority)
+		kueJob.priority(this.resolvePriority(options.priority || defaults.priority))
 		kueJob.backoff(options.retryDelay || defaults.retryDelay)
 		kueJob.removeOnComplete(true)
 		kueJob.events(false)
