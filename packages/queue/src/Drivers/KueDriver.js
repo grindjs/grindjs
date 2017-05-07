@@ -30,7 +30,7 @@ export class KueDriver extends BaseDriver {
 	kue = null
 
 	constructor(app, config) {
-		super(app)
+		super(app, config)
 
 		loadPackage()
 		this.kue = new Kue(buildConfig(config, app), app)
@@ -48,7 +48,7 @@ export class KueDriver extends BaseDriver {
 
 		kueJob.attempts(options.tries || defaults.tries)
 		kueJob.priority(this.resolvePriority(options.priority || defaults.priority))
-		kueJob.backoff(options.retryDelay || defaults.retryDelay)
+		kueJob.backoff(options.retryDelay || defaults.retryDelay || this.retryDelay)
 		kueJob.removeOnComplete(true)
 		kueJob.events(false)
 

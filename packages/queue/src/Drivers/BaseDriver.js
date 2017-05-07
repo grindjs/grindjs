@@ -5,9 +5,14 @@ import '../JobPriority'
  */
 export class BaseDriver {
 	app = null
+	retryDelay = 90000
 
-	constructor(app) {
+	constructor(app, config) {
 		this.app = app
+
+		if(config.retry_delay) {
+			this.retryDelay = Number.parseInt(config.retry_delay)
+		}
 	}
 
 	/**
