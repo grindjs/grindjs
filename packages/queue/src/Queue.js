@@ -49,7 +49,7 @@ export class Queue {
 	}
 
 	dispatch(job) {
-		return this.driver.connect().then(() => this.driver.dispatch(job))
+		return this.connect().then(() => this.driver.dispatch(job))
 	}
 
 	willListen() {
@@ -65,7 +65,7 @@ export class Queue {
 			throw new Error('Invalid job')
 		}
 
-		return this.driver.connect().then(() => this.driver.listen(jobClass.jobName, payload => {
+		return this.connect().then(() => this.driver.listen(jobClass.jobName, payload => {
 			let result = null
 
 			try {
