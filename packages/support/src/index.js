@@ -2,6 +2,7 @@ import './FS'
 import './Inflect'
 import './merge'
 import './Obj'
+import './Str'
 import './Watcher'
 
 export {
@@ -9,5 +10,6 @@ export {
 	Inflect,
 	merge,
 	Obj,
+	Str,
 	Watcher
 }
