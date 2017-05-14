@@ -86,19 +86,25 @@ export class Beanstalk {
 		})
 	}
 
-	watch(tube, type, handler) {
+	watch(tube, types, handler) {
 		let worker = null
+		const handlers = { }
 
+		if(typeof types === 'string') {
+			types = [ types ]
+		}
 
-		worker = new FivebeansWorker({
-			handlers: {
-				[type]: {
-					work: (payload, callback) => {
-						handler(JSON.parse(payload), worker.currentJob, callback)
-					}
-				}
+		const _handler = {
+			work: (payload, callback) => {
+				handler(JSON.parse(payload), worker.currentJob, callback)
 			}
-		})
+		}
+
+		for(const type of types) {
+			handlers[type] = _handler
+		}
+
+		worker = new FivebeansWorker({ handlers })
 
 		// fivebeans’s worker class creates it’s
 		// own client, since we already have one

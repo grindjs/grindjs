@@ -30,8 +30,8 @@ export class BeanstalkDriver extends BaseDriver {
 		return this.client.put(payload.priority, payload.delay, 0, payload.name, payload)
 	}
 
-	listen(name, handler) {
-		return this.client.watch(this.tube, name, (job, jobId, callback) => {
+	listen(names, handler) {
+		return this.client.watch(this.tube, names, (job, jobId, callback) => {
 			handler(job).then(() => callback('success')).catch(err => {
 				const tries = Number.parseInt(job.tries) || 1
 

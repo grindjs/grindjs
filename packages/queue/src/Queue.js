@@ -56,19 +56,21 @@ export class Queue {
 		return this.driver.willListen()
 	}
 
-	listen(jobClass) {
-		if(typeof jobClass === 'string') {
-			jobClass = this.factory.jobs[jobClass]
+	listen(jobNames) {
+		if(typeof jobNames === 'string') {
+			jobNames = [ jobNames ]
 		}
 
-		if(jobClass.isNil) {
-			throw new Error('Invalid job')
-		}
-
-		return this.connect().then(() => this.driver.listen(jobClass.jobName, payload => {
+		return this.connect().then(() => this.driver.listen(jobNames, payload => {
 			let result = null
 
 			try {
+				const jobClass = this.factory.jobs[payload.name]
+
+				if(jobClass.isNil) {
+					throw new Error('Invalid job name', payload.name)
+				}
+
 				result = jobClass.fromJson(payload.data).$handle(this.app, this)
 			} catch(err) {
 				try {

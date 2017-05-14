@@ -92,12 +92,12 @@ export class KueDriver extends BaseDriver {
 		return Promise.resolve()
 	}
 
-	listen(name, handler) {
-		return new Promise(() => {
+	listen(names, handler) {
+		return Promise.all(names.map(name => new Promise(() => {
 			this.kue.process(name, (job, ctx, done) => {
 				handler(job.data).then(() => done).catch(err => done(err))
 			})
-		})
+		})))
 	}
 
 	destroy() {

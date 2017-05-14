@@ -48,14 +48,14 @@ export class BaseDriver {
 	/**
 	 * Listens for jobs dispatched to the queue
 	 *
-	 * @param  string   name    Name of the queue to listen on
+	 * @param  [string] names   Name of the jobs to listen for
 	 * @param  function handler Callback hander to process the job
 	 *
 	 * @return Promise          Promise that resolves once the
 	 *                          queue is exhausted, or never resolves
 	 *                          if the queue listens forever
 	 */
-	listen(/* name, handler */) {
+	listen(/* names, handler */) {
 		return Promise.reject('Abstract method, subclasses must implement.')
 	}
 

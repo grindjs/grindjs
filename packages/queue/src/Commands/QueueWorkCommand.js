@@ -40,7 +40,7 @@ export class QueueWorkCommand extends Command {
 		const queue = this.app.queue.get()
 		await queue.willListen()
 
-		return Promise.all(jobNames.map(name => queue.listen(name)))
+		return queue.listen(jobNames)
 	}
 
 }
