@@ -101,6 +101,7 @@ export class Grind extends EventEmitter {
 			this.errorHandler.handle(new NotFoundError, req, res, next)
 		})
 
+		this.emit('listen', this)
 		return this.express.listen(...args)
 	}
 
@@ -120,6 +121,8 @@ export class Grind extends EventEmitter {
 				Log.error(`Error while shutting ${provider.name} down`, e)
 			}
 		}
+
+		this.emit('shutdown', this)
 
 		this.booted = false
 	}
