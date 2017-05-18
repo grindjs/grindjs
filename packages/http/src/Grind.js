@@ -12,8 +12,9 @@ import './Routing/Extensions/ResponseExtension'
 import './Routing/Extensions/RouteExtension'
 
 const Express = require('express/lib/express.js')
+const EventEmitter = require('events')
 
-export class Grind {
+export class Grind extends EventEmitter {
 	express = null
 	_env = null
 
@@ -31,6 +32,8 @@ export class Grind {
 		RequestExtension()
 		ResponseExtension()
 		RouteExtension()
+
+		super()
 
 		this.express = Express()
 		this.express.disable('etag')
@@ -63,6 +66,8 @@ export class Grind {
 		this.port = parameters.port || process.env.NODE_PORT || this.config.get('app.port', 3000)
 
 		this.url = new urlGeneratorClass(this)
+
+		this.on('error', err => Log.error('EventEmitter error', err))
 	}
 
 	env() {
