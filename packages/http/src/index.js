@@ -31,4 +31,6 @@ export {
 	UrlGenerator
 }
 
-global.Log = Log
+if(global.Log.isNil) {
+	global.Log = Log
+}
