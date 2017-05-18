@@ -101,8 +101,10 @@ export class Grind extends EventEmitter {
 			this.errorHandler.handle(new NotFoundError, req, res, next)
 		})
 
-		this.emit('listen', this)
-		return this.express.listen(...args)
+		this.server = require('http').createServer(this.express)
+		this.emit('listen', this, this.server)
+
+		return this.server.listen(...args)
 	}
 
 	async shutdown() {
