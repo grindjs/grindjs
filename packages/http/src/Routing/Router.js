@@ -62,6 +62,7 @@ export class Router {
 	}
 
 	boot() {
+		this.app.emit('router:boot', this.app, this)
 		this.setupBodyParsers()
 		this.setupMiddleware()
 	}
