@@ -3,8 +3,8 @@ export class RoutesLoadError extends Error {
 
 	constructor(err, message) {
 		if(typeof err === 'string') {
-			err = null
 			message = err
+			err = null
 		}
 
 		super(message)
