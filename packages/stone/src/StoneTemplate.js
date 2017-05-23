@@ -230,15 +230,19 @@ export class StoneTemplate {
 		const placeholders = { }
 		let placeholderOrdinal = 0
 
-		// Store regular output blocks
-		output = output.replace(/(^|[^@])\{\{\s*([\s\S]+?)\s*\}\}/gm, ($0, $1, $2) => {
+		// Store raw blocks
+		output = output.replace(/@\{\{([\s\S]+?)\}\}/gm, ($0, $1) => {
 			const placeholder = `@@__stone_placeholder_${++placeholderOrdinal}__@@`
-			placeholders[placeholder] = `\${escape(${$2})}`
-			return `${$1}${placeholder}`
+			placeholders[placeholder] = `{{${$1}}}`
+			return placeholder
 		})
 
-		// Strip escaped braces
-		output = output.replace(/@\{\{([\s\S]+?)\}\}/gm, '{{$1}}')
+		// Store regular output blocks
+		output = output.replace(/\{\{\s*([\s\S]+?)\s*\}\}/gm, ($0, $1) => {
+			const placeholder = `@@__stone_placeholder_${++placeholderOrdinal}__@@`
+			placeholders[placeholder] = `\${escape(${$1})}`
+			return placeholder
+		})
 
 		// Store raw output blocks
 		output = output.replace(/\{!!\s*([\s\S]+?)\s*!!\}/gm, ($0, $1) => {
