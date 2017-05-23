@@ -1,0 +1,10 @@
+@extends('layouts._nested')
+
+@section('content.before')
+	@super
+	<header></header>
+@endsection
+
+@section('content.after')
+	<footer></footer>
+@endsection

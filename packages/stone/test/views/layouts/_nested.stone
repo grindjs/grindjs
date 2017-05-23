@@ -1,0 +1,17 @@
+<html>
+	<body>
+		@section('wrapper')
+			<div class="wrapper">
+				@yield('content.before')
+					@section('container')
+						<div class="container">
+							<div class="content">@yield('content')</div>
+						</div>
+					@show
+				@yield('container.after')
+			</div>
+		@show
+
+		@yield('content.after')
+	</body>
+</html>

@@ -1,0 +1,3 @@
+@extends('layouts._nested-intermediary')
+
+@section('content', 'Grind Framework')
