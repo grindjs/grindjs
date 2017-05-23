@@ -59,7 +59,7 @@ export function compileEndsection(context) {
  */
 export function compileShow(context) {
 	const section = context.sections[context.sections.length - 1]
-	return `${this.compileEndsection(context)};\n${this.compileYield(context, section)}`
+	return `${this.compileEndsection(context)}\n${this.compileYield(context, section)}`
 }
 
 /**
