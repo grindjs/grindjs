@@ -1,0 +1,6 @@
+@macro('testMacro', a, { a: b } = { a: 'Framework' })
+	<p>a: {{ a }}</p>
+	<p>b: {{ b }}</p>
+@endmacro
+
+{{ testMacro('Grind') }}
