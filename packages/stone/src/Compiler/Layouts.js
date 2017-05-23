@@ -21,23 +21,26 @@ export function compileExtends(context, args) {
 }
 
 export function compileSection(context, args) {
-	if(args.indexOf(',') === -1) {
+	args = context.parseArguments(args)
+
+	if(args.length === 1) {
+		args = AST.stringify(args[0])
 		context.sections.push(args)
 		return this._compileSection(context, args, `function() {\nlet output = '';`)
 	}
-
-	args = args.split(/,/)
 
 	if(args.length !== 2) {
 		throw new StoneCompilerError(context, 'Invalid section block')
 	}
 
-	context.validateSyntax(args[1])
-	return this._compileSection(context, args[0], `function() { return escape(${args[1]}); });`)
+	return this._compileSection(
+		context,
+		AST.stringify(args[0]),
+		`function() { return escape(${AST.stringify(args[1])}); });`
+	)
 }
 
 export function _compileSection(context, name, code) {
-	context.validateSyntax(name)
 	return `(_sections[${name}] = (_sections[${name}] || [ ])).unshift(${code}\n`
 }
 
