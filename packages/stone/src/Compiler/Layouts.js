@@ -1,35 +1,12 @@
 import '../AST'
 import '../Errors/StoneCompilerError'
-import '../Errors/StoneSyntaxError'
 
 export function compileExtends(context, args) {
 	if(context.isLayout === true) {
 		throw new StoneCompilerError(context, '@extends may only be called once per view.')
 	}
 
-	let tree = null
-
-	try {
-		tree = AST.parse(`_extends(${args})`)
-	} catch(err) {
-		if(err instanceof SyntaxError) {
-			throw new StoneSyntaxError(context, err, context.state.index)
-		}
-
-		throw err
-	}
-
-	if(
-		tree.body.length > 1
-		|| tree.body[0].type !== 'ExpressionStatement'
-		|| tree.body[0].expression.type !== 'CallExpression'
-		|| !Array.isArray(tree.body[0].expression.arguments)
-		|| tree.body[0].expression.arguments.length < 1
-	)  {
-		throw new StoneCompilerError(context, 'Unexpected layout extension.')
-	}
-
-	args = tree.body[0].expression.arguments
+	args = context.parseArguments(args)
 
 	context.isLayout = true
 	context.hasLayoutContext = args.length > 1

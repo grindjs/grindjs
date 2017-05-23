@@ -1,4 +1,6 @@
+/* eslint-disable max-lines */
 import './Errors/StoneSyntaxError'
+import './Errors/StoneCompilerError'
 
 import './AST'
 import './Support/contextualize'
@@ -309,6 +311,32 @@ export class StoneTemplate {
 		}
 
 		return code
+	}
+
+	parseArguments(args, index = this.state.index) {
+		let tree = null
+
+		try {
+			tree = AST.parse(`args(${args})`)
+		} catch(err) {
+			if(err instanceof SyntaxError) {
+				throw new StoneSyntaxError(this, err, index)
+			}
+
+			throw err
+		}
+
+		if(
+			tree.body.length > 1
+			|| tree.body[0].type !== 'ExpressionStatement'
+			|| tree.body[0].expression.type !== 'CallExpression'
+			|| !Array.isArray(tree.body[0].expression.arguments)
+			|| tree.body[0].expression.arguments.length < 1
+		)  {
+			throw new StoneCompilerError(this, 'Unexpected arguments.')
+		}
+
+		return tree.body[0].expression.arguments
 	}
 
 	toString() {
