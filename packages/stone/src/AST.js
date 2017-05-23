@@ -30,6 +30,8 @@ export class AST {
 			for(const property of node.properties) {
 				this.walkVariables(property.value, callback)
 			}
+		} else if(node.type === 'AssignmentPattern') {
+			this.walkVariables(node.left, callback)
 		} else {
 			callback(node)
 		}
