@@ -79,7 +79,7 @@ export function compileYield(context, section) {
 	}
 
 	context.validateSyntax(section)
-	return `${code}output += (_sections[${section}] || [ ]).length > 0 ? (_sections[${section}].pop())() : ''`
+	return `${code}output += (_sections[${section}] || [ ]).length > 0 ? (_sections[${section}].pop())() : '';`
 }
 
 /**
