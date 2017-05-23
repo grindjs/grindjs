@@ -1,0 +1,2 @@
+<h1>{{ title || 'Grind' }}</h1>
+<p>{{ slot }}</p>

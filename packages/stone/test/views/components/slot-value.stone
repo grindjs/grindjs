@@ -1,0 +1,3 @@
+@component('components._component')
+	@slot('title', 'Grind Framework')
+@endcomponent

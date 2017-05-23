@@ -1,0 +1,1 @@
+@component('components._component')Hello@endcomponent

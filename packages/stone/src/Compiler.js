@@ -65,6 +65,7 @@ export class Compiler {
 // Load in the rest of the compilers
 for(const [ name, func ] of Object.entries({
 	...require('./Compiler/Assignments'),
+	...require('./Compiler/Components'),
 	...require('./Compiler/Conditionals'),
 	...require('./Compiler/Layouts'),
 	...require('./Compiler/Loops'),
