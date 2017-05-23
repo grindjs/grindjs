@@ -19,8 +19,8 @@ export function compileComponent(context, args) {
 }
 
 export function compileEndcomponent() {
-	const context = 'Object.assign({ }, _, { slot: new HtmlString(output) }, __componentContext)'
-	return `return _.$stone.include(_, _sections, __componentView, ${context});\n})()`
+	const context = 'Object.assign({ slot: new HtmlString(output) }, __componentContext)'
+	return `return _.$stone.include(_, { }, __componentView, ${context});\n})()`
 }
 
 export function compileSlot(context, args) {
