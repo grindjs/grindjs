@@ -55,6 +55,13 @@ for(const { stone, html } of Array.from(tests).sort()) {
 			FS.readFile(html).then(html => html.toString().trim())
 		])
 
-		t.is(rendered, target)
+		if(rendered === target) {
+			return t.pass()
+		}
+
+		const compiled = await app.view.engine.compiler.compile(app.view.engine.resolve(view))
+
+		// eslint-disable-next-line max-len
+		t.fail(`Rendered Stone does not match expecting HTML:\nStone: '${rendered}'\nTarget: '${target}'\nCompiled: '${compiled}'`)
 	})
 }
