@@ -15,7 +15,7 @@ class Paths extends BasePaths {
 
 export async function makeApp() {
 	const app = new Grind({ pathsClass: Paths })
-	app.providers.push(ViewProvider)
+	app.providers.add(ViewProvider)
 	await app.boot()
 
 	app.view.viewPath = `${__dirname}/../views`
