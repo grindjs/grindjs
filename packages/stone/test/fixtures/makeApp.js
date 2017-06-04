@@ -15,6 +15,7 @@ class Paths extends BasePaths {
 
 export async function makeApp(before = () => { }) {
 	const app = new Grind({ pathsClass: Paths })
+	app.config.set('view.ignore-compiled', true)
 	app.providers.add(ViewProvider)
 	before(app)
 	await app.boot()

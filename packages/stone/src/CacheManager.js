@@ -15,6 +15,10 @@ export class CacheManager {
 	}
 
 	exists() {
+		if(this.app.config.get('view.ignore-compiled', false)) {
+			return false
+		}
+
 		return FS.exists(this.compiledViewPath)
 	}
 
