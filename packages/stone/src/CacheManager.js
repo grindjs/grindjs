@@ -1,7 +1,6 @@
 import { FS } from 'grind-support'
+import './AST'
 
-const acorn = require('acorn')
-const astring = require('astring')
 const path = require('path')
 
 export class CacheManager {
@@ -53,7 +52,7 @@ export class CacheManager {
 			// Has the benefit of both validating syntax errors
 			// and allows for nicer code formatting
 
-			tree = acorn.parse(contents)
+			tree = AST.parse(contents)
 		} catch(causedBy) {
 			const err = new Error(`Error compiling views: ${causedBy.message}`)
 			err.causedBy = causedBy
@@ -67,7 +66,7 @@ export class CacheManager {
 			await FS.writeFile(path.join(dir, '.gitignore'), '*\n!.gitignore\n')
 		}
 
-		return FS.writeFile(this.compiledViewPath, astring(tree))
+		return FS.writeFile(this.compiledViewPath, AST.stringify(tree))
 	}
 
 	async clear() {
