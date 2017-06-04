@@ -12,7 +12,7 @@
     "he": "^1.1.1"
   },
   "peerDependencies": {
-    "grind-support": "0.7.0-beta.2"
+    "grind-support": "^0.7.0-beta.4"
   },
   "devDependencies": {
     "ava": "^0.19.1",
@@ -23,9 +23,8 @@
     "eslint": "3.3",
     "eslint-config-grind": "^2.0.0",
     "eslint-plugin-import-auto-name": "^1.0.3",
-    "grind-cli": "^0.6.0",
-    "grind-framework": "0.7.0-beta.3",
-    "grind-support": "0.7.0-beta.2",
+    "grind-cli": "0.7.0-beta.1",
+    "grind-framework": "0.7.0-beta.5",
     "grind-view": "0.7.0-beta.1",
     "recursive-readdir-sync": "^1.0.6"
   },
