@@ -1,5 +1,6 @@
 {
 	"engine": "stone",
+	"path": "../views",
 	"data": {
 		"title": "Grind",
 		"html": "<strong>Grind</strong>",
