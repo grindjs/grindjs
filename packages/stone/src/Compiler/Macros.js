@@ -14,5 +14,5 @@ export function compileMacro(context, args) {
 }
 
 export function compileEndmacro() {
-	return 'return new HtmlString(output);\n}'
+	return 'return new HtmlString(output);\n};'
 }
