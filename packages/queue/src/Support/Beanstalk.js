@@ -114,6 +114,14 @@ export class Beanstalk {
 		worker.client = this.client
 		worker.on('next', () => worker.doNext())
 
+		worker.on('info', message => {
+			Log.info('beanstalk.info', message)
+		})
+
+		worker.on('warning', message => {
+			Log.warn('beanstalk.warning', message)
+		})
+
 		return new Promise((resolve, reject) => {
 			worker.watch([ tube ], err => {
 				if(!err.isNil) {
