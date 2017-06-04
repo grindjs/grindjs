@@ -1,14 +1,18 @@
+const EventEmitter = require('events')
+
 export class Queue {
 
 	driver = null
 	app = null
 	factory = null
-	_connectQueue = null
+	_connectEmitter = new EventEmitter
 
 	constructor(app, factory, driver) {
 		this.app = app
 		this.factory = factory
 		this.driver = driver
+
+		this._connectEmitter.on('error', err => Log.error('_connectEmitter error', err))
 	}
 
 	connect() {
@@ -16,13 +20,8 @@ export class Queue {
 			return Promise.resolve()
 		} else if(this.driver.state === 'connecting') {
 			return new Promise((resolve, reject) => {
-				this._connectQueue.push(err => {
-					if(!err.isNil) {
-						return reject(err)
-					}
-
-					return resolve()
-				})
+				this._connectEmitter.once('connected', resolve)
+				this._connectEmitter.once('failed', reject)
 			})
 		}
 
@@ -30,21 +29,12 @@ export class Queue {
 		this.driver.state = 'connecting'
 
 		return this.driver.connect().catch(err => {
-			const queue = this._connectQueue
-			this._connectQueue = null
 			this.driver.state = 'error'
-
-			for(const handler of queue) {
-				handler(err)
-			}
+			this._connectEmitter.emit('failed', err)
+			throw err
 		}).then(() => {
-			const queue = this._connectQueue
-			this._connectQueue = null
 			this.driver.state = 'connected'
-
-			for(const handler of queue) {
-				handler()
-			}
+			this._connectEmitter.emit('connected')
 		})
 	}
 
