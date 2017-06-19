@@ -55,7 +55,7 @@ export class StoneTemplate {
 	compile() {
 		// Strip comments
 		// TODO: This is going to break source maps
-		let contents = this.state.contents.trim().replace(/\{\{--([\s\S]+)--\}\}/g, '')
+		let contents = this.state.contents.trim().replace(/\{\{--([\s\S]+?)--\}\}/g, '')
 
 		// Parse through the template
 		contents = contents.substring(this.advance(contents, 0)).trim()
