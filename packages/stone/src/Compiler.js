@@ -10,10 +10,11 @@ export class Compiler {
 
 	constructor(engine) {
 		this.engine = engine
+		this.disableCache = engine.app.config.get('view.disable_cache', false)
 	}
 
-	compile(template, force = false) {
-		let compiled = force ? null : this.compiled[template]
+	compile(template, force = null) {
+		let compiled = force || this.disableCache ? null : this.compiled[template]
 
 		if(typeof compiled === 'function') {
 			return compiled
