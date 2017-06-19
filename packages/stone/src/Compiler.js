@@ -28,7 +28,21 @@ export class Compiler {
 
 	compileString(contents, shouldEval = true, file = null) {
 		const template = new StoneTemplate(this, contents, file)
-		template.compile()
+
+		try {
+			template.compile()
+		} catch(err) {
+			if(!err._hasTemplate) {
+				err._hasTemplate = true
+				err.file = file
+
+				if(file) {
+					err.message += ` in template ${file}.`
+				}
+			}
+
+			throw err
+		}
 
 		if(!shouldEval) {
 			return template.toString()

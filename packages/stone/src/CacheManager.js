@@ -40,7 +40,7 @@ export class CacheManager {
 
 		for(const file of files) {
 			contents += `'${path.relative(viewPath, file)}': `
-			contents += this.engine.compiler.compileString((await FS.readFile(file)).toString(), false)
+			contents += this.engine.compiler.compileString((await FS.readFile(file)).toString(), false, file)
 			contents += ',\n'
 		}
 
