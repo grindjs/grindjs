@@ -6,6 +6,7 @@ import './UrlGenerator'
 
 import './Routing/Router'
 import './Routing/RoutingProvider'
+import './Routing/UpgradeDispatcher'
 
 import './Routing/Extensions/RequestExtension'
 import './Routing/Extensions/ResponseExtension'
@@ -102,6 +103,12 @@ export class Grind extends EventEmitter {
 		})
 
 		this.server = require('http').createServer(this.express)
+
+		// Register upgrade handlers
+		if(Object.keys(this.routes.upgraders).length > 0) {
+			this.server.on('upgrade', UpgradeDispatcher.bind(this.routes, this.routes.upgraders))
+		}
+
 		this.emit('listen', this, this.server)
 
 		return this.server.listen(...args)

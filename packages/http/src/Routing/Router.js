@@ -2,6 +2,7 @@
 import './ResourceRouteBuilder'
 import './RouteLayer'
 
+import '../Errors/MissingPackageError'
 import '../Errors/RoutesLoadError'
 
 import '../Middleware/CompressionMiddlewareBuilder'
@@ -20,6 +21,7 @@ export class Router {
 	bindings = { }
 	patterns = { }
 	namedRoutes = { }
+	upgraders = { }
 
 	bodyParserMiddleware = [ ]
 
@@ -350,6 +352,34 @@ export class Router {
 		return (new this.resourceRouteBuilderClass(this)).buildRoutes(name, controller, options, callback)
 	}
 
+	upgrade(pathname, handler = null) {
+		let returnValue = handler
+
+		if(handler.isNil) {
+			let WebSocketServer = null
+
+			try {
+				WebSocketServer = require('ws').Server
+			} catch(err) {
+				throw new MissingPackageError('ws')
+			}
+
+			returnValue = new WebSocketServer({
+				noServer: true
+			})
+
+			handler = (req, socket, head) => {
+				return returnValue.handleUpgrade(req, socket, head, ws => {
+					returnValue.emit('connection', ws)
+				})
+			}
+		}
+
+		this.upgraders[this._compilePath(pathname)] = handler
+
+		return returnValue
+	}
+
 	addRoute(methods, pathname, action, context) {
 		if(typeof methods === 'string') {
 			methods = [ methods ]
@@ -381,19 +411,7 @@ export class Router {
 			after.unshift(...makeArray(action.after))
 		}
 
-		pathname = this._normalizePathComponent(pathname)
-		const fullPath = path.join('/', this._scopedPrefix, pathname)
-		const compiledPath = fullPath.replace(/:([a-z0-0_\-.]+)/g, (param, name) => {
-			const pattern = this.patterns[name]
-
-			if(pattern.isNil) {
-				return param
-			} else {
-				return `${param}(${pattern})`
-			}
-		})
-
-		const route = this.router.route(compiledPath)
+		const route = this.router.route(this._compilePath(pathname))
 		route.context = context || { }
 		route.grindRouter = this
 
@@ -432,6 +450,21 @@ export class Router {
 		}
 
 		return route
+	}
+
+	_compilePath(pathname) {
+		pathname = this._normalizePathComponent(pathname)
+		const fullPath = path.join('/', this._scopedPrefix, pathname)
+
+		return fullPath.replace(/:([a-z0-0_\-.]+)/g, (param, name) => {
+			const pattern = this.patterns[name]
+
+			if(pattern.isNil) {
+				return param
+			} else {
+				return `${param}(${pattern})`
+			}
+		})
 	}
 
 	_makeAction(action) {
