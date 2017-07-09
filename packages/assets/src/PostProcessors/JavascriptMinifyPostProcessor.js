@@ -1,9 +1,11 @@
 import './PostProcessor'
 
 import { FS } from 'grind-support'
-import optional from 'optional'
+import { MissingPackageError } from 'grind-framework'
 
+const optional = require('optional')
 const UglifyJS = optional('uglify-js')
+
 const INLINE_SOURCE_MAP_REGEX = /\/\/[@#]\s+sourceMappingURL=data:application\/json(?:;charset[:=][^;]+)?;base64,(.*)\n/
 
 export class JavascriptMinifyPostProcessor extends PostProcessor {
@@ -26,7 +28,7 @@ export class JavascriptMinifyPostProcessor extends PostProcessor {
 		}
 
 		if(UglifyJS.isNil) {
-			Log.error('uglify-js missing, unable to minify. please run `npm install --save-dev uglify-js`')
+			Log.error((new MissingPackageError('uglify-js', 'dev')).message, 'Unable to minify.')
 			return Promise.resolve(contents)
 		}
 

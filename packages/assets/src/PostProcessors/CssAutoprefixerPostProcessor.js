@@ -1,7 +1,8 @@
 import './PostProcessor'
 
-import optional from 'optional'
+import { MissingPackageError } from 'grind-framework'
 
+const optional = require('optional')
 const PostCSS = optional('postcss')
 const Autoprefixer = optional('autoprefixer')
 
@@ -27,7 +28,7 @@ export class CssAutoprefixerPostProcessor extends PostProcessor {
 		}
 
 		if(Autoprefixer.isNil) {
-			Log.error('autoprefixer missing, unable to minify. please run `npm install --save-dev autoprefixer`')
+			Log.error((new MissingPackageError('autoprefixer', 'dev')).message, 'Unable to minify.')
 			return Promise.resolve(contents)
 		}
 

@@ -1,9 +1,10 @@
 import './Compiler'
 
+import { MissingPackageError } from 'grind-framework'
 import { FS } from 'grind-support'
-import path from 'path'
-import optional from 'optional'
 
+const path = require('path')
+const optional = require('optional')
 const Browserify = optional('browserify')
 const Babelify = optional('babelify')
 
@@ -33,11 +34,11 @@ export class BabelCompiler extends Compiler {
 
 	async compile(pathname) {
 		if(Browserify.isNil) {
-			return Promise.reject(new Error('browserify missing, please run `npm install --save-dev browserify`'))
+			return Promise.reject(new MissingPackageError('browserify', 'dev'))
 		}
 
 		if(Babelify.isNil) {
-			return Promise.reject(new Error('babelify missing, please run `npm install --save-dev babelify`'))
+			return Promise.reject(new MissingPackageError('babelify', 'dev'))
 		}
 
 		const imports = await this.getLiveReloadImports(pathname)

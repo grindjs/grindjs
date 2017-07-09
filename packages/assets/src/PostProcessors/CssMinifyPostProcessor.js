@@ -1,8 +1,9 @@
 import './PostProcessor'
 
 import { FS } from 'grind-support'
-import optional from 'optional'
+import { MissingPackageError } from 'grind-framework'
 
+const optional = require('optional')
 const CleanCSS = optional('clean-css')
 
 export class CssMinifyPostProcessor extends PostProcessor {
@@ -25,7 +26,7 @@ export class CssMinifyPostProcessor extends PostProcessor {
 		}
 
 		if(CleanCSS.isNil) {
-			Log.error('clean-css missing, unable to minify. please run `npm install --save-dev clean-css`')
+			Log.error((new MissingPackageError('clean-css', 'dev')).message, 'Unable to minify.')
 			return Promise.resolve(contents)
 		}
 

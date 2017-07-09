@@ -1,7 +1,7 @@
 import './Compiler'
 
 import { FS } from 'grind-support'
-import path from 'path'
+const path = require('path')
 
 export class RawCompiler extends Compiler {
 	wantsHashSuffixOnPublish = false
