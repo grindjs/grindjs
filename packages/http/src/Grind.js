@@ -86,6 +86,8 @@ export class Grind extends EventEmitter {
 			await provider(this)
 		}
 
+		this.emit('boot', this)
+
 		this.booted = true
 	}
 
