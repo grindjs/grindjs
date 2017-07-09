@@ -10,31 +10,14 @@ try {
 }
 
 export function LiveReloadProvider(app) {
-	app.on('listen', listen)
+	app.assets.liveReload = app.routes.upgrade('_livereload')
 	app.on('shutdown', shutdown)
 
-	const script = '/_livereload.js'
-
-	if(global._assetsUsePrepackagedLiveReload) {
-		app.routes.static(script, path.join(__dirname, '../../../dist/livereload.min.js'))
-	} else {
-		app.routes.get(script, (req, res) => {
-			return app.assets.controller._serve(req, res, app.assets.make(path.join(__dirname, 'Client/LiveReload.js')))
-		})
-	}
-
-	app.routes.use((req, res, next) => {
-		res.locals._assetContainer._scripts.push(script)
-		next()
-	})
+	watch(app)
+	inject(app)
 }
 
-function listen(app, server) {
-	app.assets.liveReload = new ws.Server({
-		server: server,
-		path: '/_livereload'
-	})
-
+function watch(app) {
 	const resources = app.paths.base('resources')
 	const assets = app.paths.base('resources/assets')
 	app.assets.watcher = require('chokidar').watch(assets)
@@ -55,6 +38,23 @@ function listen(app, server) {
 				Log.error('Error notifying clients', err)
 			}
 		})
+	})
+}
+
+function inject(app) {
+	const script = '/_livereload.js'
+
+	if(global._assetsUsePrepackagedLiveReload) {
+		app.routes.static(script, path.join(__dirname, '../../../dist/livereload.min.js'))
+	} else {
+		app.routes.get(script, (req, res) => {
+			return app.assets.controller._serve(req, res, app.assets.make(path.join(__dirname, 'Client/LiveReload.js')))
+		})
+	}
+
+	app.routes.use((req, res, next) => {
+		res.locals._assetContainer._scripts.push(script)
+		next()
 	})
 }
 
