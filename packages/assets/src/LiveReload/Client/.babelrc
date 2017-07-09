@@ -1,0 +1,19 @@
+{
+	"presets": [
+		[
+			"env", {
+				"targets": {
+					"chrome": 30,
+					"safari": 6,
+					"firefox": 30,
+					"ie": 8
+				}
+			}
+		],
+		"stage-1"
+	],
+	"plugins": [
+		"babel-plugin-transform-isnil",
+		"babel-plugin-import-auto-name"
+	]
+}

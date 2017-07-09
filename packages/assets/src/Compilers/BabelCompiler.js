@@ -13,8 +13,8 @@ export class BabelCompiler extends Compiler {
 	browserifyOptions = [ ]
 	priority = 1000
 
-	constructor(app, sourceMaps) {
-		super(app, sourceMaps)
+	constructor(app, ...args) {
+		super(app, ...args)
 
 		this.browserifyOptions = app.config.get('assets.compilers.babel.browserify', { })
 
@@ -28,7 +28,7 @@ export class BabelCompiler extends Compiler {
 			return false
 		}
 
-		return pathname.indexOf('babel') >= 0
+		return pathname.includes('babel') || pathname.includes('LiveReload')
 	}
 
 	compile(pathname) {

@@ -70,8 +70,9 @@ export function AssetsProvider(app, parameters = { }) {
 	app.config.set('assets', config)
 
 	const shouldOptimize = typeof config.should_optimize === 'boolean' ? config.should_optimize : !app.debug
+	const liveReload = config.live_reload === true
 	const sourceMaps = config.source_maps === 'auto' ? 'auto' : false
-	const factory = new AssetFactory(app, shouldOptimize, sourceMaps)
+	const factory = new AssetFactory(app, shouldOptimize, sourceMaps, liveReload)
 	app.assets = factory
 
 	factory.registerCompiler(BabelCompiler)
@@ -83,7 +84,9 @@ export function AssetsProvider(app, parameters = { }) {
 	factory.registerPostProcessor(JavascriptMinifyPostProcessor)
 	factory.registerPostProcessor(SvgOptimizePostProcessor)
 
-	app.routes.group({ prefix: 'assets', controller: new CompileController(app, factory) }, routes => {
+	app.assets.controller = new CompileController(app, factory)
+
+	app.routes.group({ prefix: 'assets', controller: app.assets.controller }, routes => {
 		routes.get(':type/:a?/:b?/:c?/:d?/:e?', 'compile')
 	})
 
@@ -105,6 +108,8 @@ export function AssetsProvider(app, parameters = { }) {
 		app.cli.register(UnpublishCommand)
 	}
 
+	let hasAssetContainer = false
+
 	if(!app.view.isNil) {
 		if(!app.html.isNil) {
 			if(app.view.engineName === 'nunjucks') {
@@ -119,6 +124,7 @@ export function AssetsProvider(app, parameters = { }) {
 		}
 
 		const assetContainerClass = parameters.assetContainerClass || AssetContainer
+		hasAssetContainer = true
 
 		app.routes.use((req, res, next) => {
 			res.locals.assetPath = (path, secure) => factory.publishedPath(path, req, secure)
@@ -129,6 +135,14 @@ export function AssetsProvider(app, parameters = { }) {
 
 			next()
 		})
+	}
+
+	if(liveReload) {
+		if(!hasAssetContainer) {
+			throw new Error('grind-asset’s live reload functionality must be used with grind-view and grind-html')
+		}
+
+		require('./LiveReload/LiveReloadProvider').LiveReloadProvider(app)
 	}
 }
 

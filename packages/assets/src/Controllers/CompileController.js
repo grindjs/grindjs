@@ -35,11 +35,14 @@ export class CompileController {
 			throw new NotFoundError()
 		}
 
-		const asset = this.factory.make(pathname)
+		return this._serve(req, res, this.factory.make(pathname))
+	}
+
+	async _serve(req, res, asset) {
 		const lastModified = await asset.lastModified()
 
 		const sha1 = crypto.createHash('sha1')
-		sha1.update(`${pathname}_${lastModified}`)
+		sha1.update(`${asset.path}_${lastModified}`)
 		const etag = `"${sha1.digest('hex')}"`
 
 		if(!req.headers.http_if_none_match.isNil && req.headers.http_if_none_match === etag) {

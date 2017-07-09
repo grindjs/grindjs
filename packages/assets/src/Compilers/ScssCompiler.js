@@ -11,8 +11,8 @@ export class ScssCompiler extends Compiler {
 	options = { }
 	priority = 1000
 
-	constructor(app, sourceMaps) {
-		super(app, sourceMaps)
+	constructor(app, ...args) {
+		super(app, ...args)
 
 		this.options = app.config.get('assets.compilers.scss', { })
 
@@ -23,9 +23,23 @@ export class ScssCompiler extends Compiler {
 		}
 	}
 
-	compile(pathname, context) {
+	async compile(pathname, context) {
 		if(sass.isNil) {
 			return Promise.reject(new Error('node-sass missing, please run `npm install --save-dev node-sass`'))
+		}
+
+		const imports = [ ]
+
+		if(this.liveReload) {
+			const resources = this.app.paths.base('resources')
+
+			await this.enumerateImports(pathname, pathname => {
+				if(!pathname.startsWith(resources)) {
+					return
+				}
+
+				imports.push(pathname.substring(resources.length))
+			})
 		}
 
 		return new Promise((resolve, reject) => {
@@ -37,7 +51,19 @@ export class ScssCompiler extends Compiler {
 					return reject(err)
 				}
 
-				resolve(result.css)
+				if(!this.liveReload) {
+					return resolve(result.css)
+				}
+
+				let css = result.css.toString()
+
+				if(imports.length > 0) {
+					css += '\n#__liveReloadImports{background-image:'
+					css += `url(${imports.join('),url(')})`
+					css += '}'
+				}
+
+				resolve(css)
 			})
 		})
 	}

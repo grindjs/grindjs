@@ -7,10 +7,12 @@ export class Compiler {
 	supportedExtensions = [ ]
 	wantsHashSuffixOnPublish = true
 	sourceMaps = 'auto'
+	liveReload = false
 
-	constructor(app, sourceMaps) {
+	constructor(app, sourceMaps, liveReload) {
 		this.app = app
 		this.sourceMaps = sourceMaps
+		this.liveReload = liveReload
 	}
 
 	// eslint-disable-next-line no-unused-vars

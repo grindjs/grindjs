@@ -11,6 +11,12 @@
 	"should_optimize": null,
 
 	/**
+		Whether or not the browser should update when local assets
+		are changed.  Do not use in production.
+	*/
+	"live_reload": false,
+
+	/**
 		Whether or not source maps should be generated.
 		Current supported options are "auto" or false.
 
