@@ -31,7 +31,7 @@ export class BabelCompiler extends Compiler {
 		return pathname.includes('babel') || pathname.includes('LiveReload')
 	}
 
-	compile(pathname) {
+	async compile(pathname) {
 		if(Browserify.isNil) {
 			return Promise.reject(new Error('browserify missing, please run `npm install --save-dev browserify`'))
 		}
@@ -39,6 +39,8 @@ export class BabelCompiler extends Compiler {
 		if(Babelify.isNil) {
 			return Promise.reject(new Error('babelify missing, please run `npm install --save-dev babelify`'))
 		}
+
+		const imports = await this.getLiveReloadImports(pathname)
 
 		return new Promise((resolve, reject) => {
 			const browserify = Browserify(Object.assign({ }, this.browserifyOptions, {
@@ -51,6 +53,21 @@ export class BabelCompiler extends Compiler {
 				if(!err.isNil) {
 					return reject(err)
 				}
+
+				if(!this.liveReload || imports.length === 0) {
+					return resolve(contents)
+				}
+
+				const resources = this.app.paths.base('resources')
+				if(pathname.startsWith(resources)) {
+					pathname = pathname.substring(resources.length)
+				}
+
+				contents = contents.toString()
+				contents += '// LIVE_RELOAD_START\n'
+				contents += 'window.__liveReloadImports = window.__liveReloadImports || { }\n'
+				contents += `window.__liveReloadImports['${pathname}'] = ${JSON.stringify(imports)}\n`
+				contents += '// LIVE_RELOAD_END\n'
 
 				resolve(contents)
 			})

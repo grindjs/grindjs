@@ -1,5 +1,6 @@
 const CssReloader = require('./CssReloader')
 const ScssReloader = require('./ScssReloader')
+const JsReloader = require('./JsReloader')
 
 function LiveReload() {
 	if(window.WebSocket.isNil) {
@@ -14,6 +15,8 @@ function LiveReload() {
 			ScssReloader.reload(pathname)
 		} else if(/css$/i.test(pathname)) {
 			CssReloader.reload(pathname)
+		} else if(/js$/i.test(pathname)) {
+			JsReloader.reload(pathname)
 		}
 	}
 
