@@ -1,34 +1,37 @@
-import './Reloader'
+const { getOrigin, cacheBust } = require('./Reloader')
 
-export class CssReloader extends Reloader {
+module.exports = {
 
-	static reload(pathname) {
-		const origin = this.getOrigin()
+	reload: function(pathname) {
+		const origin = getOrigin()
 		const stylesheets = this.getStylesheets()
 		const reload = [ ]
 
-		for(const stylesheet of stylesheets) {
+		for(let i = 0, length = stylesheets.length; i < length; i++) {
+			const stylesheet = stylesheets[i]
 			let href = stylesheet.href.split(/\?/)[0]
 
-			if(href.startsWith(origin)) {
+			if(href.substring(0, origin.length) === origin) {
 				href = href.substring(origin.length)
 			}
 
 			if(href !== pathname && this.findImports(stylesheet).indexOf(pathname) === -1) {
 				continue
-
 			}
 
 			reload.push(stylesheet)
 		}
 
-		for(const link of reload) {
+		for(let j = 0, length2 = reload.length; j < length2; j++) {
+			const link = reload[j]
 			const replacement = document.createElement('link')
-			for(const { name, value } of Array.from(link.attributes)) {
-				replacement.setAttribute(name, value)
+
+			for(let k = 0, length3 = link.attributes.length; k < length3; k++) {
+				const attribute = link.attributes[k]
+				replacement.setAttribute(attribute.name, attribute.value)
 			}
 
-			replacement.href = this.cacheBust(replacement.href)
+			replacement.href = cacheBust(replacement.href)
 
 			replacement.addEventListener('load', () => {
 				link.remove()
@@ -40,16 +43,19 @@ export class CssReloader extends Reloader {
 
 			link.parentNode.insertBefore(replacement, link)
 		}
-	}
+	},
 
-	static findImports(/* href */) {
+	findImports: function(/* href */) {
 		return [ ]
-	}
+	},
 
-	static getStylesheets() {
+	getStylesheets: function() {
 		const results = [ ]
+		const links = document.getElementsByTagName('link')
 
-		for(const link of Array.from(document.getElementsByTagName('link'))) {
+		for(let i = 0, length = links.length; i < length; i++) {
+			const link = links[i]
+
 			if(!link.hasAttribute('rel') || !/^stylesheet$/i.test(link.getAttribute('rel'))) {
 				continue
 			}
@@ -58,17 +64,19 @@ export class CssReloader extends Reloader {
 		}
 
 		return results
-	}
+	},
 
-	static getRules(stylesheet) {
+	getRules: function(stylesheet) {
 		const href = stylesheet.href || stylesheet
 
-		for(const sheet of Array.from(document.styleSheets)) {
+		for(let i = 0, length = document.styleSheets.length; i < length; i++) {
+			const sheet = document.styleSheets[i]
+
 			if(sheet.href !== href) {
 				continue
 			}
 
-			return Array.from(sheet.cssRules || sheet.rules || [ ])
+			return sheet.cssRules || sheet.rules || [ ]
 		}
 
 		return [ ]

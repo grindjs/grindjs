@@ -1,24 +1,37 @@
-import './CssReloader'
+const CssReloader = require('./CssReloader')
+const { getOrigin } = require('./Reloader')
 
-export class ScssReloader extends CssReloader {
+module.exports = {
+	...CssReloader,
 
-	static getStylesheets() {
-		return super.getStylesheets().filter(stylesheet => /(scss|sass)$/.test(stylesheet.href.split(/\?/)[0]))
-	}
+	getStylesheets: function() {
+		return CssReloader.getStylesheets().filter(stylesheet => /(scss|sass)$/.test(stylesheet.href.split(/\?/)[0]))
+	},
 
-	static findImports(href) {
-		const imports = super.findImports(href)
+	findImports: function(href) {
+		const imports = CssReloader.findImports(href)
 		const rules = this.getRules(href)
-		const _imports = rules.find(rule => rule.selectorText === '#__liveReloadImports')
+		let importsRule = null
 
-		if(_imports.isNil) {
+		for(let i = 0, length = rules.length; i < length; i++) {
+			const rule = rules[i]
+
+			if(rule.selectorText !== '#__liveReloadImports') {
+				continue
+			}
+
+			importsRule = rule
+			break
+		}
+
+		if(importsRule.isNil) {
 			return imports
 		}
 
-		const origin = this.getOrigin()
+		const origin = getOrigin()
 
-		_imports.cssText.replace(/url\((.+?)\)/g, (_, i) => {
-			if(i.startsWith(origin)) {
+		importsRule.cssText.replace(/url\((.+?)\)/g, (_, i) => {
+			if(i.substring(0, origin.length) === origin) {
 				i = i.substring(origin.length)
 			}
 

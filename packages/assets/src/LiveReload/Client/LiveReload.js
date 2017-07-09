@@ -1,17 +1,15 @@
-import './CssReloader'
-import './ScssReloader'
+const CssReloader = require('./CssReloader')
+const ScssReloader = require('./ScssReloader')
 
-class LiveReload {
-
-	constructor() {
-		if(window.WebSocket.isNil) {
-			throw new Error('This browser does not support web sockets, live reload will not work.')
-		}
-
-		this.socket = this.open()
+function LiveReload() {
+	if(window.WebSocket.isNil) {
+		throw new Error('This browser does not support websockets, live reload will not work.')
 	}
 
-	onAssetChanged(pathname) {
+	let attempts = 0
+	connect()
+
+	function onAssetChanged(pathname) {
 		if(/(scss|sass)$/i.test(pathname)) {
 			ScssReloader.reload(pathname)
 		} else if(/css$/i.test(pathname)) {
@@ -19,34 +17,32 @@ class LiveReload {
 		}
 	}
 
-	open() {
+	function connect() {
 		const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws'
 		const socket = new WebSocket(`${protocol}://${window.location.host}/_livereload`)
 
 		socket.onopen = () => {
-			this.attempts = 1
+			attempts = 1
 		}
 
-		socket.onclose = this._reconnect.bind(this)
-		socket.onerror = this._reconnect.bind(this)
+		socket.onclose = _reconnect
+		socket.onerror = _reconnect
 
 		socket.onmessage = message => {
-			this.onAssetChanged(message.data)
+			onAssetChanged(message.data)
 		}
 
 		return socket
 	}
 
-	_reconnect() {
-		this.socket = null
-		const delay = Math.min(30, (Math.pow(2, this.attempts) - 1)) * 1000
+	function _reconnect() {
+		const delay = Math.min(30, (Math.pow(2, attempts) - 1)) * 1000
 
 		setTimeout(() => {
-			this.attempts++
-			this.open()
+			attempts++
+			connect()
 		}, delay)
 	}
-
 }
 
-window.__liveReload = new LiveReload
+LiveReload()

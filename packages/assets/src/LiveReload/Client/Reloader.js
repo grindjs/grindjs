@@ -1,6 +1,6 @@
-export class Reloader {
+module.exports = {
 
-	static cacheBust(url) {
+	cacheBust: function cacheBust(url) {
 		url = url.replace(/(\?|&)?__ts=\d+/g, '')
 
 		if(url.indexOf('?') >= 0) {
@@ -10,9 +10,9 @@ export class Reloader {
 		}
 
 		return `${url}__ts=${Date.now()}`
-	}
+	},
 
-	static getOrigin() {
+	getOrigin: function getOrigin() {
 		if(!window.location.origin.isNil) {
 			return window.location.origin
 		}

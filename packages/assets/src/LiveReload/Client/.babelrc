@@ -1,19 +1,8 @@
 {
-	"presets": [
-		[
-			"env", {
-				"targets": {
-					"chrome": 30,
-					"safari": 6,
-					"firefox": 30,
-					"ie": 8
-				}
-			}
-		],
-		"stage-1"
-	],
+	"presets": [ "es2015" ],
 	"plugins": [
 		"babel-plugin-transform-isnil",
-		"babel-plugin-import-auto-name"
+		"babel-plugin-import-auto-name",
+		"transform-object-rest-spread"
 	]
 }
