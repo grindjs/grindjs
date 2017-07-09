@@ -111,16 +111,14 @@ export function AssetsProvider(app, parameters = { }) {
 	let hasAssetContainer = false
 
 	if(!app.view.isNil) {
-		if(!app.html.isNil) {
-			if(app.view.engineName === 'nunjucks') {
-				const nunjucksExtensionClass = parameters.nunjucksExtensionClass || NunjucksExtension
-				app.view.extend('AssetExtension', new nunjucksExtensionClass)
-			} else if(app.view.engineName === 'stone') {
-				const stoneExtensionClass = parameters.stoneExtensionClass || StoneExtension
-				stoneExtensionClass.extend(app.view)
-			} else {
-				Log.error('WARNING: Unsupported view engine, assets can not extend.')
-			}
+		if(app.view.engineName === 'nunjucks') {
+			const nunjucksExtensionClass = parameters.nunjucksExtensionClass || NunjucksExtension
+			app.view.extend('AssetExtension', new nunjucksExtensionClass)
+		} else if(app.view.engineName === 'stone') {
+			const stoneExtensionClass = parameters.stoneExtensionClass || StoneExtension
+			stoneExtensionClass.extend(app.view)
+		} else {
+			Log.error('WARNING: Unsupported view engine, assets can not extend.')
 		}
 
 		const assetContainerClass = parameters.assetContainerClass || AssetContainer
@@ -128,10 +126,7 @@ export function AssetsProvider(app, parameters = { }) {
 
 		app.routes.use((req, res, next) => {
 			res.locals.assetPath = (path, secure) => factory.publishedPath(path, req, secure)
-
-			if(!res.locals.html.isNil) {
-				res.locals._assetContainer = new assetContainerClass(req, res, factory, res.locals.html)
-			}
+			res.locals._assetContainer = new assetContainerClass(req, res, factory, app.view)
 
 			next()
 		})
@@ -139,7 +134,7 @@ export function AssetsProvider(app, parameters = { }) {
 
 	if(liveReload) {
 		if(!hasAssetContainer) {
-			throw new Error('grind-asset’s live reload functionality must be used with grind-view and grind-html')
+			throw new Error('grind-asset’s live reload functionality must be used with grind-view.')
 		}
 
 		require('./LiveReload/LiveReloadProvider').LiveReloadProvider(app)

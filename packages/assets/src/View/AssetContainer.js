@@ -4,16 +4,16 @@ export class AssetContainer {
 	req = null
 	res = null
 	factory = null
-	html = null
+	view = null
 
 	_styles = [ ]
 	_scripts = [ ]
 
-	constructor(req, res, factory, html) {
+	constructor(req, res, factory, view) {
 		this.req = req
 		this.res = res
 		this.factory = factory
-		this.html = html
+		this.view = view
 	}
 
 	append(type, asset) {
@@ -111,11 +111,11 @@ export class AssetContainer {
 			case 'style':
 			case 'styles':
 			case 'css':
-				return this.html.toHtmlString(this._styles.reverse().map(style => this.html.style(style)).join(''))
+				return this.view.toHtmlString(this._styles.reverse().map(style => this.makeStyle(style)).join(''))
 			case 'script':
 			case 'scripts':
 			case 'js':
-				return this.html.toHtmlString(this._scripts.reverse().map(script => this.html.script(script)).join(''))
+				return this.view.toHtmlString(this._scripts.reverse().map(script => this.makeScript(script)).join(''))
 		}
 
 		Log.error('Unsupported render type', type)
@@ -127,6 +127,14 @@ export class AssetContainer {
 		}
 
 		return this.factory.publishedPath(asset, this.req)
+	}
+
+	makeStyle(style) {
+		return `<link media="all" type="text/css" rel="stylesheet" href="${style}" />\n`
+	}
+
+	makeScript(script) {
+		return `<script src="${script}"></script>\n`
 	}
 
 }
