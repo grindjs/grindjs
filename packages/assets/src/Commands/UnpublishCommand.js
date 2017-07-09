@@ -1,7 +1,7 @@
 import './BaseCommand'
 
 import { FS } from 'grind-support'
-import path from 'path'
+const path = require('path')
 
 export class UnpublishCommand extends BaseCommand {
 	name = 'assets:unpublish'

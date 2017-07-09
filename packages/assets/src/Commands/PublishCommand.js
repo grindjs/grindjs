@@ -1,9 +1,10 @@
 import './BaseCommand'
 
 import { FS } from 'grind-support'
-import crypto from 'crypto'
-import path from 'path'
-import Ignore from 'ignore'
+
+const crypto = require('crypto')
+const path = require('path')
+const Ignore = require('ignore')
 
 export class PublishCommand extends BaseCommand {
 	name = 'assets:publish'

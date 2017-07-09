@@ -1,5 +1,5 @@
 import { FS } from 'grind-support'
-import path from 'path'
+const path = require('path')
 
 export class Compiler {
 	app = null

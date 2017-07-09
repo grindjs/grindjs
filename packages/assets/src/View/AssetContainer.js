@@ -1,4 +1,4 @@
-import path from 'path'
+const path = require('path')
 
 export class AssetContainer {
 	req = null

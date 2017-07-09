@@ -18,7 +18,7 @@ import './View/AssetContainer'
 import './View/NunjucksExtension'
 import './View/StoneExtension'
 
-import path from 'path'
+const path = require('path')
 
 function expandMacros(config, macros) {
 	const isArray = Array.isArray(config)

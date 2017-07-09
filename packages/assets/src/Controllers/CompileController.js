@@ -1,8 +1,8 @@
 import { FS } from 'grind-support'
 
-import path from 'path'
-import crypto from 'crypto'
-import dateFormat from 'dateformat'
+const path = require('path')
+const crypto = require('crypto')
+const dateFormat = require('dateformat')
 
 const HTTP_DATE_FORMAT = 'ddd, dd mmm yyyy HH:MM:ss Z'
 

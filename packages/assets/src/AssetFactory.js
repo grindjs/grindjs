@@ -2,7 +2,7 @@ import './Asset'
 import './Compilers/Compiler'
 import './PostProcessors/PostProcessor'
 
-import path from 'path'
+const path = require('path')
 
 export class AssetFactory {
 	app = null
