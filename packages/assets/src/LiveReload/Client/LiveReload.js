@@ -8,7 +8,9 @@ function LiveReload() {
 	}
 
 	let attempts = 0
-	connect()
+	let attemptsReset = null
+	let pending = false
+	let socket = connect()
 
 	function onAssetChanged(pathname) {
 		if(/(scss|sass)$/i.test(pathname)) {
@@ -25,11 +27,17 @@ function LiveReload() {
 		const socket = new WebSocket(`${protocol}://${window.location.host}/_livereload`)
 
 		socket.onopen = () => {
-			attempts = 1
+			if(attemptsReset) {
+				clearTimeout(attemptsReset)
+			}
+
+			attemptsReset = setTimeout(() => {
+				attempts = 1
+			}, 1000)
 		}
 
-		socket.onclose = _reconnect
-		socket.onerror = _reconnect
+		socket.onclose = _reconnect.bind(null, 'close')
+		socket.onerror = _reconnect.bind(null, 'error')
 
 		socket.onmessage = message => {
 			onAssetChanged(message.data)
@@ -39,11 +47,27 @@ function LiveReload() {
 	}
 
 	function _reconnect() {
+		if(socket.readyState === WebSocket.OPEN) {
+			return
+		}
+
+		if(pending) {
+			return
+		} else {
+			pending = true
+		}
+
 		const delay = Math.min(30, (Math.pow(2, attempts) - 1)) * 1000
+
+		if(attemptsReset) {
+			clearTimeout(attemptsReset)
+			attemptsReset = null
+		}
 
 		setTimeout(() => {
 			attempts++
-			connect()
+			pending = false
+			socket = connect()
 		}, delay)
 	}
 }
