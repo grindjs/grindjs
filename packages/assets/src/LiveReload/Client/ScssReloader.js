@@ -1,5 +1,5 @@
 const CssReloader = require('./CssReloader')
-const { getOrigin } = require('./Reloader')
+const { origininize } = require('./Reloader')
 
 module.exports = {
 	...CssReloader,
@@ -28,14 +28,8 @@ module.exports = {
 			return imports
 		}
 
-		const origin = getOrigin()
-
 		importsRule.cssText.replace(/url\((.+?)\)/g, (_, i) => {
-			if(i.substring(0, origin.length) === origin) {
-				i = i.substring(origin.length)
-			}
-
-			imports.push(i)
+			imports.push(origininize(i))
 			return ''
 		})
 

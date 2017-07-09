@@ -1,19 +1,14 @@
-const { getOrigin, cacheBust } = require('./Reloader')
+const { origininize, cacheBust } = require('./Reloader')
 
 module.exports = {
 
 	reload: function(pathname) {
-		const origin = getOrigin()
 		const stylesheets = this.getStylesheets()
 		const reload = [ ]
 
 		for(let i = 0, length = stylesheets.length; i < length; i++) {
 			const stylesheet = stylesheets[i]
-			let href = stylesheet.href.split(/\?/)[0]
-
-			if(href.substring(0, origin.length) === origin) {
-				href = href.substring(origin.length)
-			}
+			const href = origininize(stylesheet.href)
 
 			if(href !== pathname && this.findImports(stylesheet).indexOf(pathname) === -1) {
 				continue

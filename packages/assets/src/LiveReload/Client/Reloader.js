@@ -1,3 +1,14 @@
+function getOrigin() {
+	if(!window.location.origin.isNil) {
+		return window.location.origin
+	}
+
+	// Polyfill for IE
+	const origin = `${window.location.protocol}//${window.location.host}`
+	window.location.origin = origin
+	return origin
+}
+
 module.exports = {
 
 	cacheBust: function cacheBust(url) {
@@ -12,12 +23,15 @@ module.exports = {
 		return `${url}__ts=${Date.now()}`
 	},
 
-	getOrigin: function getOrigin() {
-		if(!window.location.origin.isNil) {
-			return window.location.origin
+	origininize: function origininize(pathname) {
+		pathname = pathname.split(/\?/)[0]
+		const origin = getOrigin()
+
+		if(pathname.substring(0, origin.length) === origin) {
+			pathname = pathname.substring(origin.length)
 		}
 
-		return `${window.location.protocol}//${window.location.host}`
+		return pathname
 	}
 
 }
