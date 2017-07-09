@@ -13,12 +13,18 @@ export function LiveReloadProvider(app) {
 	app.on('listen', listen)
 	app.on('shutdown', shutdown)
 
-	app.routes.get('_livereload.js', (req, res) => {
-		return app.assets.controller._serve(req, res, app.assets.make(path.join(__dirname, 'Client/LiveReload.js')))
-	})
+	const script = '/_livereload.js'
+
+	if(global._assetsUsePrepackagedLiveReload) {
+		app.routes.static(script, path.join(__dirname, '../../../dist/livereload.min.js'))
+	} else {
+		app.routes.get(script, (req, res) => {
+			return app.assets.controller._serve(req, res, app.assets.make(path.join(__dirname, 'Client/LiveReload.js')))
+		})
+	}
 
 	app.routes.use((req, res, next) => {
-		res.locals._assetContainer._scripts.push('/_livereload.js')
+		res.locals._assetContainer._scripts.push(script)
 		next()
 	})
 }
