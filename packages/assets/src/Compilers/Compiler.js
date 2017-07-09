@@ -44,6 +44,29 @@ export class Compiler {
 		})
 	}
 
+	async getLiveReloadImports(pathname, resources = null) {
+		const imports = [ ]
+
+		if(this.liveReload) {
+			if(resources.isNil) {
+				resources = this.app.paths.base('resources')
+			}
+
+			await this.enumerateImports(pathname, async i => {
+				if(!i.startsWith(resources)) {
+					return
+				}
+
+				imports.push(
+					i.substring(resources.length),
+					...(await this.getLiveReloadImports(i, resources))
+				)
+			})
+		}
+
+		return imports
+	}
+
 	// eslint-disable-next-line no-unused-vars
 	enumerateImports(file, callback) {
 		// Does nothing by default, subclasses that support imports

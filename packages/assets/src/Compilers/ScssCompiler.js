@@ -28,19 +28,7 @@ export class ScssCompiler extends Compiler {
 			return Promise.reject(new Error('node-sass missing, please run `npm install --save-dev node-sass`'))
 		}
 
-		const imports = [ ]
-
-		if(this.liveReload) {
-			const resources = this.app.paths.base('resources')
-
-			await this.enumerateImports(pathname, pathname => {
-				if(!pathname.startsWith(resources)) {
-					return
-				}
-
-				imports.push(pathname.substring(resources.length))
-			})
-		}
+		const imports = await this.getLiveReloadImports(pathname)
 
 		return new Promise((resolve, reject) => {
 			sass.render(Object.assign({ }, this.options, {
@@ -51,7 +39,7 @@ export class ScssCompiler extends Compiler {
 					return reject(err)
 				}
 
-				if(!this.liveReload) {
+				if(!this.liveReload || imports.length === 0) {
 					return resolve(result.css)
 				}
 
