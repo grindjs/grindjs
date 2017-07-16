@@ -34,7 +34,7 @@ export class SchedulerJob {
 				let command = null
 
 				if(this.type === 'className') {
-					command = new this.options.className
+					command = new this.options.className(this.cli.app, this.cli)
 				} else if(this.type === 'name') {
 					command = this.cli.commands.find(command => command.name === this.options.name)
 				} else {
