@@ -267,13 +267,16 @@ export class Command {
 
 		args.unshift(this.name)
 
-		return new Promise(resolve => {
-			const childProcess = ChildProcess.spawn(process.env.CLI_BIN, args, options)
-
+		const childProcess = ChildProcess.spawn(process.env.CLI_BIN, args, options)
+		const promise = new Promise(resolve => {
 			childProcess.on('close', code => {
 				resolve(Number.parseInt(code))
 			})
 		})
+
+		promise.childProcess = childProcess
+
+		return promise
 	}
 
 	line(...messages) {
