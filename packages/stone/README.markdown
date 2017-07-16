@@ -16,6 +16,11 @@ Stone is Grind‘s official templating engine, it’s based on [Laravel Blade](h
 
 Full documentation for Grind Stone is available on the [Grind website](https://grind.rocks/docs/guides/stone).
 
+## Officially Supported Editors
+
+* Atom: [grindjs/stone-editor-atom](https://github.com/grindjs/stone-editor-atom)
+* Sublime Text: [grindjs/stone-editor-sublime](https://github.com/grindjs/stone-editor-sublime)
+
 ## License
 
 Grind was created by [Shaun Harrison](https://github.com/shnhrrsn) and is made available under the [MIT license](LICENSE).
