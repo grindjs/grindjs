@@ -20,7 +20,7 @@ function warnLegacyArgumentsOptions() {
 	}
 
 	hasWarnedLegacyArgumentsOptions = true
-	Log.error('WARNING: The arguments/options structure being used is deprecated in 0.6 and will be removed in 0.7.')
+	Log.error('WARNING: The arguments/options structure being used is deprecated in 0.6 and will be removed in 0.8.')
 	Log.error('--> For information on how to update your commands, visit https://grind.rocks/docs/guides/cli')
 	Log.error('')
 }
