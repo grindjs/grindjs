@@ -34,8 +34,10 @@ FS.fchown = function(...args) {
 	return new Promise((resolve, reject) => fs.fchown(...args, callback(resolve, reject)))
 }
 
-FS.lchown = function(...args) {
-	return new Promise((resolve, reject) => fs.lchown(...args, callback(resolve, reject)))
+if(fs.lchown) {
+	FS.lchown = function(...args) {
+		return new Promise((resolve, reject) => fs.lchown(...args, callback(resolve, reject)))
+	}
 }
 
 FS.chmod = function(...args) {
