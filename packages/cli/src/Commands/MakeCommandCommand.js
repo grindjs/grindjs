@@ -4,7 +4,7 @@ import '../Input/InputOption'
 import '../StubCompiler'
 import '../Errors/AbortError'
 
-import path from 'path'
+const path = require('path')
 
 export class MakeCommandCommand extends Command {
 	name = 'make:command'

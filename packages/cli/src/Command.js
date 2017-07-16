@@ -8,9 +8,9 @@ import './Errors/MissingArgumentError'
 import './Errors/MissingOptionError'
 import './Errors/TooManyArgumentsError'
 
-import cast from 'as-type'
-import readline from 'readline'
-import ChildProcess from 'child_process'
+const cast = require('as-type')
+const readline = require('readline')
+const ChildProcess = require('child_process')
 
 let hasWarnedLegacyArgumentsOptions = false
 

@@ -1,4 +1,4 @@
-import later from 'later'
+const later = require('later')
 
 export class SchedulerJob {
 

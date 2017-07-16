@@ -3,7 +3,7 @@ import '../Input/InputArgument'
 import '../Input/InputOption'
 import '../StubCompiler'
 
-import path from 'path'
+const path = require('path')
 
 export class MakeControllerCommand extends Command {
 	name = 'make:controller'

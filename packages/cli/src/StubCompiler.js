@@ -1,7 +1,7 @@
 import { FS } from 'grind-support'
-import path from 'path'
-
 import './Errors/AbortError'
+
+const path = require('path')
 
 export function StubCompiler(stub, target, context) {
 	// Check if the target already exists

@@ -2,7 +2,7 @@ const VALUE_NONE = 'none'
 const VALUE_REQUIRED = 'required'
 const VALUE_OPTIONAL = 'optional'
 
-import cast from 'as-type'
+const cast = require('as-type')
 
 export class InputOption {
 	static VALUE_NONE = VALUE_NONE

@@ -1,5 +1,5 @@
 import '../Command'
-import repl from 'repl'
+const repl = require('repl')
 
 export class TinkerCommand extends Command {
 	name = 'tinker'
