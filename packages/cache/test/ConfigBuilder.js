@@ -52,7 +52,7 @@ test('database', t => {
 
 test('database-default', t => {
 	const app = new Grind
-	app.providers.push(require('grind-db').DatabaseProvider)
+	app.providers.add(require('grind-db').DatabaseProvider)
 
 	return app.boot().then(() => {
 		const config = ConfigBuilder('database-default', app, true)
