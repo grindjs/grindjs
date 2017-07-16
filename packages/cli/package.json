@@ -20,6 +20,7 @@
     "later": "^1.2.0"
   },
   "devDependencies": {
+    "ava": "^0.21.0",
     "babel-cli": ">=6.7 <=7.0",
     "babel-eslint": "^6.0.5",
     "babel-preset-grind": "^0.6.3",
@@ -37,7 +38,14 @@
     "node": ">=6.9"
   },
   "scripts": {
-    "prepublish": "./.build",
-    "lint": "eslint src"
+    "prepublish": "bin/build",
+    "lint": "eslint src",
+    "test": "bin/ava --verbose"
+  },
+  "ava": {
+    "require": [
+      "babel-register"
+    ],
+    "babel": "inherit"
   }
 }
