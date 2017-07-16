@@ -6,9 +6,9 @@
   "author": "Shaun Harrison",
   "license": "MIT",
   "dependencies": {
-    "acorn": "^4.0.11",
-    "astring": "^1.0.2",
-    "chokidar": "^1.6.1",
+    "acorn": "^5.1.1",
+    "astring": "^1.0.3",
+    "chokidar": "^1.7.0",
     "he": "^1.1.1"
   },
   "peerDependencies": {
@@ -24,7 +24,7 @@
     "eslint-config-grind": "^2.0.0",
     "eslint-plugin-import-auto-name": "^1.0.3",
     "grind-cli": "0.7.0-beta.1",
-    "grind-framework": "0.7.0-beta.5",
+    "grind-framework": "0.7.0-beta.6",
     "grind-view": "0.7.0-beta.1",
     "recursive-readdir-sync": "^1.0.6"
   },
