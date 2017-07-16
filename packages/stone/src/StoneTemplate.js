@@ -5,6 +5,7 @@ import './Errors/StoneCompilerError'
 import './AST'
 import './Support/contextualize'
 import './Support/nextIndexOf'
+import './Support/nextClosingIndexOf'
 
 const vm = require('vm')
 
@@ -127,13 +128,39 @@ export class StoneTemplate {
 	 * @return number          End position
 	 */
 	advance(contents, index) {
-		const match = contents.substring(index).match(/@(\w+)([ \t]*\()?\n*/)
+		// Find the next @ index (indicating a directive) that occurs
+		// outside of an output block
+		const set = [ '@', '{{', '{!!' ]
+		let startIndex = index
+
+		while(startIndex >= 0 && startIndex + 1 < contents.length) {
+			startIndex = nextIndexOf(contents, set, startIndex)
+
+			// Break if we’ve found an @ char or if we’re at
+			// the end of the road
+			if(startIndex === -1 || contents[startIndex] !== '{') {
+				break
+			}
+
+			if(contents[startIndex + 1] === '{') {
+				startIndex = nextClosingIndexOf(contents, '{{', '}}', startIndex)
+			} else {
+				startIndex = nextClosingIndexOf(contents, '{!!', '!!}', startIndex)
+			}
+		}
+
+		if(startIndex === -1) {
+			// If we haven’t matched anything, we can bail out
+			return index
+		}
+
+		const match = contents.substring(startIndex).match(/@(\w+)([ \t]*\()?\n*/)
 
 		if(!match) {
 			return index
 		}
 
-		match.index += index
+		match.index += startIndex
 		this.state.index = index
 
 		if(match.index > index) {
