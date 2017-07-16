@@ -1,13 +1,9 @@
 import './Command'
 import './SchedulerJob'
 
-const later = require('later')
-
 export class Scheduler {
 
-	provider = later
 	cli = null
-
 	jobs = [ ]
 
 	constructor(cli) {

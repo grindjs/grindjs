@@ -11,6 +11,7 @@ export class SchedulerJob {
 
 	isRunning = false
 	allowOverlapping = false
+	timeout = null
 
 	constructor(cli, type, options) {
 		this.driver = later
@@ -29,6 +30,10 @@ export class SchedulerJob {
 			let promise = null
 
 			if(this.type === 'closure') {
+				if(!this.timeout.isNil) {
+					this._warn('WARNING: Scheduled job timeouts can not be used with closures.')
+				}
+
 				promise = Promise.resolve(this.options.closure(this.options.args))
 			} else {
 				let command = null
@@ -51,15 +56,33 @@ export class SchedulerJob {
 	}
 
 	executeCommand(command, args) {
-		return command.spawn(args).then(code => {
+		let description = command.name
+
+		if(Array.isArray(args) && args.length > 0) {
+			description += ` [${args.join(', ')}]`
+		}
+
+		const promise = command.spawn(args)
+		let timeout = null
+
+		if(!this.timeout.isNil) {
+			const childProcess = promise.childProcess
+			timeout = setTimeout(() => {
+				this._warn(
+					`${description} exceeded it’s execution timeout of ${this.timeout}ms and is being terminated.`
+				)
+
+				childProcess.kill()
+			}, this.timeout)
+		}
+
+		return promise.then(code => {
+			if(!timeout.isNil) {
+				clearTimeout(timeout)
+			}
+
 			if(code !== 0) {
-				let description = command.name
-
-				if(Array.isArray(args) && args.length > 0) {
-					description += ` [${args.join(', ')}]`
-				}
-
-				this.cli.output.error('%s failed with code: %d', description, code)
+				this._warn(`${description} failed with code: ${code}`)
 			}
 
 			return code
@@ -151,6 +174,21 @@ export class SchedulerJob {
 		return this
 	}
 
+	withTimeout(timeout) {
+		this.timeout = Number.parseInt(timeout) || null
+
+		if(!this.timeout.isNil && this.timeout <= 0) {
+			this.timeout = null
+		}
+
+		return this
+	}
+
+	withoutTimeout() {
+		this.timeout = null
+		return this
+	}
+
 	nextOccurence() {
 		if(!this.schedule) {
 			return null
@@ -163,6 +201,10 @@ export class SchedulerJob {
 		}
 
 		return null
+	}
+
+	_warn(message) {
+		return this.cli.output.writeln(`<warn>${message}</warn>`)
 	}
 
 }
