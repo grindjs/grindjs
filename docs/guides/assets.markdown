@@ -41,24 +41,28 @@ Refer to the table below determine which dependencies you’ll need:
 
 ## Development & Live Reload
 
-Grind Assets comes with build in support for live reloading your CSS/SCSS changes as they happen, without needing to reload the page.
+Grind Assets comes with built in support for live reloading your CSS/SCSS changes as they happen, without needing to reload the page.
 
-This is disabled by default, but can be turned on via config:
+For safety this functionality is disabled by default, however it can be quickly turned on via config:
 
 **config/local/assets.json**
 ```json
 {
-
 	"live_reload": true
-
 }
+```
+
+You’ll also need to add the `ws` package:
+
+```shell
+npm install --save-dev ws
 ```
 
 Once enabled, this will also reload the page anytime a JS/Babel file on your page changes.
 
 Live Reload works by appending a small JS asset to each page and opening a WebSocket connection to your server that monitors for changes to your assets.
 
->{note} **Do not use this in production.**  Live Reload is only intended to be used in development. It is not optimized for production.  By storing the config setting in `config/local/assets.json` you can be sure it will never be on in production.
+>{note} **Do not use this in production.**  Live Reload is only intended to be used in development. It is not optimized for production.  By storing the config setting in `config/local/assets.json` you can be sure it will never run in production.
 
 ## Compilers vs Post Processors
 
