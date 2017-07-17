@@ -1,0 +1,41 @@
+@extends('docs._layout')
+
+@section('title', `Release Notes for ${formatVersion(activeVersion)}`)
+
+@section('docs')
+	<h1>Release Notes</h1>
+
+	@if(releases.length === 0)
+		<p>Sorry, there aren’t any release notes available for {{ formatVersion(activeVersion) }}.</p>
+	@else
+		<div class="table-of-contents">
+			<ul>
+				@for(const release of releases)
+					@set(release.hash, release.version)
+					<li>
+						<a href="#{{ release.hash }}">{{ release.version }}</a>
+						@if(release.notes.length > 0)
+						<ul>
+							@for(const note of release.notes)
+								@set(note.hash, `${release.version}-${note.name}`)
+								<li>
+									<a href="#{{ note.hash }}">{{ note.name }}</a>
+								</li>
+							@endif
+						</ul>
+						@endif
+					</li>
+				@endif
+			</ul>
+		</div>
+
+		@for(const release of releases)
+			<h2 id="{{ release.hash }}"><a href="#{{ release.hash }}" class="header-anchor">{{ release.version }}</a></h2>
+
+			@for(const note of release.notes)
+				<h3 id="{{ note.hash }}"><a href="#{{ note.hash }}" class="header-anchor">{{ note.name }}</a></h3>
+				{!! note.body !!}
+			@endfor
+		@endfor
+	@endif
+@endsection

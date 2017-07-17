@@ -5,6 +5,7 @@ import { CacheProvider } from 'grind-cache'
 import { HtmlProvider } from 'grind-html'
 import { ViewProvider } from 'grind-view'
 
+import 'App/Providers/GitHubProvider'
 import 'App/Providers/HttpsProvider'
 import 'App/Providers/RoutesProvider'
 import 'App/Providers/ViewExtensionProvider'
@@ -22,6 +23,7 @@ app.providers.add(HtmlProvider)
 app.providers.add(ViewProvider)
 
 // App providers
+app.providers.add(GitHubProvider)
 app.providers.add(HttpsProvider)
 app.providers.add(RoutesProvider)
 app.providers.add(ViewExtensionProvider)
