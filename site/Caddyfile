@@ -13,6 +13,15 @@ grind.rocks {
 	git github.com/grindjs/docs {
 		hook        /hooks/deploy-docs {$DOCS_SECRET}
 		hook_type   github
+		branch      0.7
+		key         /apps/.ssh/id_rsa
+		path        ../resources/docs/0.7
+		interval    -1
+	}
+
+	git github.com/grindjs/docs {
+		hook        /hooks/deploy-docs {$DOCS_SECRET}
+		hook_type   github
 		branch      0.6
 		key         /apps/.ssh/id_rsa
 		path        ../resources/docs/0.6
