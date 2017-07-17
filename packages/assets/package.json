@@ -23,8 +23,7 @@
     "optional": "^0.1.3"
   },
   "peerDependencies": {
-    "grind-framework": "0.7.0-beta.6",
-    "grind-support": "0.7.0-beta.4"
+    "grind-framework": "^0.7.0"
   },
   "optionalDependencies": {
     "ws": "^3.0.0"
@@ -35,7 +34,7 @@
     "babel-cli": ">=6.7 <=7.0",
     "babel-eslint": "^6.1.1",
     "babel-preset-es2015": "^6.22.0",
-    "babel-preset-grind": "0.7.0-beta.2",
+    "babel-preset-grind": "^0.7.0",
     "babelify": "^7.3.0",
     "browserify": "^14.4.0",
     "clean-css": "^4.1.6",
@@ -43,8 +42,7 @@
     "eslint-config-grind": "^2.0.0",
     "eslint-plugin-import-auto-name": "^1.0.3",
     "grind-cli": "0.7.0-beta.1",
-    "grind-framework": "0.7.0-beta.6",
-    "grind-support": "0.7.0-beta.4",
+    "grind-framework": "^0.7.0",
     "node-sass": "^4.5.3",
     "request": "^2.81.0",
     "request-promise-native": "^1.0.4",
