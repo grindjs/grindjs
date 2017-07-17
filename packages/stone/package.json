@@ -12,20 +12,19 @@
     "he": "^1.1.1"
   },
   "peerDependencies": {
-    "grind-support": "^0.7.0-beta.4"
+    "grind-support": "^0.7.0"
   },
   "devDependencies": {
     "ava": "^0.21.0",
     "babel-cli": ">=6.7 <=7.0",
     "babel-eslint": "^7.1.1",
-    "babel-plugin-import-auto-name": "^0.2.1",
-    "babel-preset-grind": "0.7.0-beta.2",
-    "eslint": "3.3",
+    "babel-preset-grind": "^0.7.0",
+    "eslint": "^3.19.0",
     "eslint-config-grind": "^2.0.0",
     "eslint-plugin-import-auto-name": "^1.0.3",
-    "grind-cli": "0.7.0-beta.1",
-    "grind-framework": "0.7.0-beta.6",
-    "grind-view": "0.7.0-beta.1",
+    "grind-cli": "^0.7.0",
+    "grind-framework": "^0.7.0",
+    "grind-view": "^0.7.0",
     "recursive-readdir-sync": "^1.0.6"
   },
   "engines": {
