@@ -13,6 +13,7 @@
 * [CLI](cli)
 * [Logging](logging)
 * [Queues](queues)
+* [Redis](redis)
 * [Swagger](swagger)
 * [Validation](validation)
 
