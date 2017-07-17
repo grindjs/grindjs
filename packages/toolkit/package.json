@@ -1,7 +1,7 @@
 {
   "name": "grind-installer",
   "description": "CLI Installer for Grind",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "license": "MIT",
   "repository": {
     "type": "git",
