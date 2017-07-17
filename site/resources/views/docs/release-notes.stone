@@ -33,6 +33,7 @@
 			<h2 id="{{ release.hash }}"><a href="#{{ release.hash }}" class="header-anchor">{{ release.version }}</a></h2>
 
 			@for(const note of release.notes)
+				@if(!loop.first)<hr />@endif
 				<h3 id="{{ note.hash }}"><a href="#{{ note.hash }}" class="header-anchor">{{ note.name }}</a></h3>
 				{!! note.body !!}
 			@endfor
