@@ -58,14 +58,14 @@ All Babel files must be stored in a directory with “babel” in the path.  For
 ## Basic Usage
 Assets provides an `assetPath()` function that will look for your files in `resources/assets`, so the file referenced in the snippet below should be in `resources/assets/scss/site.scss`.
 
-```njk
+```stone
 <link type="text/css" rel="stylesheet"
 	href="{{ assetPath('scss/site.scss') }}" />
 ```
 
 This works for any file type stored in `resource/assets`, including images:
 
-```njk
+```stone
 <img src="{{ assetPath('img/icon.svg') }}" />
 ```
 
@@ -74,20 +74,20 @@ Assets ships with a full asset container system to integrate with views in simpl
 
 To use these tags, you must first configure your master layout to include them:
 
-```njk
+```stone
 <!DOCTYPE html>
 <html>
 	<head>
-		{# …head… #}
+		{{-- …head… --}}
 
-		{# Renders included styles: #}
-		{% asset 'render', 'styles' %}
+		{{-- Renders included styles: --}}
+		@asset('render', 'styles')
 	</head>
 	<body>
-		{# …body… #}
+		{{-- …body… --}}
 
-		{# Renders included scripts: #}
-		{% asset 'render', 'scripts' %}
+		{{-- Renders included scripts: --}}
+		@asset('render', 'scripts')
 	</body>
 </html>
 ```
@@ -134,15 +134,15 @@ The following tags are also supported, however Assets does not ship with compile
 
 ### Usage
 Now that you’re familiar with the tags work, here’s an example of them in use:
-```njk
-{% extends 'layout/master.njk' %}
+```stone
+@extends('layout.master')
 
-{% babel 'welcome' %}
-{% scss 'welcome' %}
+@babel('welcome')
+@scss('welcome')
 
-{% block content %}
-	{# …some content… #}
-{% endblock %}
+@section('content')
+	{{-- …some content… --}}
+@endsection
 ```
 
 When this view renders, it will load look something like this:

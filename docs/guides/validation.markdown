@@ -97,14 +97,14 @@ await this.app.validator.validate(req.body, rule => {
 
 Errors are automatically exposed to your [Views](templates) via `messages.errors`.  Here‘s an example of how to display errors in a simple list:
 
-```njk
-{% if messages and messages.errors and messages.errors.length > 0 %}
+```stone
+@if(messages && messages.errors && messages.errors.length > 0)
 	<ul class="errors">
-		{% for field, errors in messages.errors[0] %}
-			{% for error in errors %}
+		@for(const [ field, errors ] of Object.entries(messages.errors[0]))
+			@for(error of errors)
 				<li class="error">{{ error.message }}</li>
-			{% endfor %}
-		{% endfor %}
+			@endfor
+		@endfor
 	</ul>
-{% endif %}
+@endif
 ```

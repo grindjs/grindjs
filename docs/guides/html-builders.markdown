@@ -23,36 +23,36 @@ app.providers.push(HtmlProvider)
 ```
 
 ## Opening a Form
-```njk
+```stone
 {{ form.open({ url: 'foo/bar' }) }}
 	//
 {{ form.close() }}
 ```
 
 By default, a `POST` method will be assumed however, you are free to specify another method:
-```njk
+```stone
 {{ form.open({ url: 'foo/bar', method: 'put' }) }}
 ```
 
 > {tip} Since HTML forms only support `POST` and `GET`, `PUT` and `DELETE` methods will be spoofed by automatically adding a `_method` hidden field to your form.You may also open forms that point to named routes:
 
-```njk
+```stone
 {{ form.open({ route: 'route.name' }) }}
 ```
 
 You may pass in route parameters as well:
-```njk
+```stone
 {{ form.open({ route: [ 'route.name', user.id ] }) }}
 ```
 
 If your form is going to accept file uploads, add a `files` option to your array:
-```njk
+```stone
 {{ form.open({ url: 'foo/bar', files: true)) }}
 ```
 
 ## Form Model Binding
 Often, you will want to populate a form based on the contents of a model. To do so, use the `form.model` method:
-```njk
+```stone
 {{ form.model(user, { route: [ 'user.update', user.id ]}) }}
 ```
 
@@ -68,12 +68,12 @@ This allows you to quickly build forms that not only bind to model values, but e
 
 ## Labels
 ### Generating a Label Element
-```njk
+```stone
 {{ form.label('email', 'E-Mail Address') }}
 ```
 
 ### Specifying Extra HTML Attributes
-```njk
+```stone
 {{ form.label('email', 'E-Mail Address', { class: 'awesome' }) }}
 ```
 
@@ -82,57 +82,57 @@ This allows you to quickly build forms that not only bind to model values, but e
 ## Text, Text Area, Password & Hidden Fields
 ### Generating a Text Input
 
-```njk
+```stone
 {{ form.text('username') }}
 {{ form.textarea('body') }}
 ```
 
 #### Specifying a Default Value
 
-```njk
+```stone
 {{ form.text('email', 'example@gmail.com') }}
 ```
 
 ### Generation a Hidden Input
 
-```njk
+```stone
 {{ form.hidden('id', 10) }}
 ```
 
 ### Generating a Password Input
 
-```njk
+```stone
 {{ form.password('password') }}
 ```
 
 ### Generating Other Inputs
-```njk
+```stone
 {{ form.email(name, value, attributes) }}
 {{ form.file(name, attributes) }}
 ```
 
 ## Checkboxes and Radio Buttons
 ### Generating a Checkbox Or Radio Input
-```njk
+```stone
 {{ form.checkbox('name', 'value') }}
 {{ form.radio('name', 'value') }}
 ```
 
 ### Generating a Checkbox Or Radio Input That Is Checked
-```njk
+```stone
 {{ form.checkbox('name', 'value', true) }}
 {{ form.radio('name', 'value', true) }}
 ```
 
 ## Number
 ### Generating a Number Input
-```njk
+```stone
 {{ form.number('name', 'value') }}
 ```
 
 ## File Input
 ### Generating a File Input
-```njk
+```stone
 {{ form.file('image') }}
 ```
 
@@ -140,17 +140,17 @@ This allows you to quickly build forms that not only bind to model values, but e
 
 ## Drop-Down Lists
 ### Generating a Drop-Down List
-```njk
+```stone
 {{ form.select('size', { L: 'Large', S: 'Small' }) }}
 ```
 
 ### Generating a Drop-Down List With Selected Default
-```njk
+```stone
 {{ form.select('size', { L: 'Large', S: 'Small' }, 'S') }}
 ```
 
 ### Generating a Grouped List
-```njk
+```stone
 {{ form.select('animal', {
 	Cats: { leopard: 'Leopard' },
 	Dogs: { spaniel: 'Spaniel' },
@@ -158,18 +158,18 @@ This allows you to quickly build forms that not only bind to model values, but e
 ```
 
 ### Generating a Drop-Down List With a Range
-```njk
+```stone
 {{ form.selectRange('number', 10, 20) }}
 ```
 
 ### Generating a List With Month Names
-```njk
+```stone
 {{ form.selectMonth('month') }}
 ```
 
 ## Buttons
 ### Generating a Submit Button
-```njk
+```stone
 {{ echo form.submit('Click Me!') }}
 ```
 
