@@ -8,8 +8,10 @@ import '../src/HtmlBuilder'
 import '../src/FormBuilder'
 import './helpers/Grind'
 
-function formBuilder(oldInput) {
+async function formBuilder(oldInput) {
 	const app = new Grind
+	await app.boot()
+
 	const form = new FormBuilder(app, new HtmlBuilder(app))
 
 	form.req = {
@@ -25,8 +27,8 @@ function formBuilder(oldInput) {
 	return form
 }
 
-test('opening form', t => {
-	const form = formBuilder()
+test('opening form', async t => {
+	const form = await formBuilder()
 
 	t.is(
 		form.open({ method: 'GET' }).toString(),
@@ -54,15 +56,15 @@ test('opening form', t => {
 	)
 })
 
-test('closing form', t => {
+test('closing form', async t => {
 	t.is(
-		formBuilder().close().toString(),
+		(await formBuilder()).close().toString(),
 		'</form>'
 	)
 })
 
-test('form label', t => {
-	const form = formBuilder()
+test('form label', async t => {
+	const form = await formBuilder()
 
 	t.is(
 		form.label('foo', 'Foobar').toString(),
@@ -80,8 +82,8 @@ test('form label', t => {
 	)
 })
 
-test('form input', t => {
-	const form = formBuilder()
+test('form input', async t => {
+	const form = await formBuilder()
 
 	t.is(
 		form.input('text', 'foo').toString(),
@@ -99,22 +101,22 @@ test('form input', t => {
 	)
 })
 
-test('passwords not filled', t => {
+test('passwords not filled', async t => {
 	t.is(
-		formBuilder().password('password').toString(),
+		(await formBuilder()).password('password').toString(),
 		'<input name="password" type="password" value="" />'
 	)
 })
 
-test('file not filled', t => {
+test('file not filled', async t => {
 	t.is(
-		formBuilder().file('img').toString(),
+		(await formBuilder()).file('img').toString(),
 		'<input name="img" type="file" />'
 	)
 })
 
-test('form text', t => {
-	const form = formBuilder()
+test('form text', async t => {
+	const form = await formBuilder()
 
 	t.is(
 		form.input('text', 'foo').toString(),
@@ -137,8 +139,8 @@ test('form text', t => {
 	)
 })
 
-test('form text repopulation', t => {
-	const form = formBuilder({
+test('form text repopulation', async t => {
+	const form = await formBuilder({
 		name_with_dots: 'some value',
 		text: {
 			key: {
@@ -171,8 +173,8 @@ test('form text repopulation', t => {
 	t.is(input1.toString(), input2.toString())
 })
 
-test('form repopulation with mix of arrays and objects', t => {
-	const form = formBuilder()
+test('form repopulation with mix of arrays and objects', async t => {
+	const form = await formBuilder()
 
 	form.model({ user: { password: 'apple' } })
 	t.is(
@@ -187,8 +189,8 @@ test('form repopulation with mix of arrays and objects', t => {
 	)
 })
 
-test('form password', t => {
-	const form = formBuilder()
+test('form password', async t => {
+	const form = await formBuilder()
 
 	t.is(
 		form.password('foo').toString(),
@@ -201,8 +203,8 @@ test('form password', t => {
 	)
 })
 
-test('form hidden', t => {
-	const form = formBuilder()
+test('form hidden', async t => {
+	const form = await formBuilder()
 
 	t.is(
 		form.hidden('foo').toString(),
@@ -220,8 +222,8 @@ test('form hidden', t => {
 	)
 })
 
-test('form email', t => {
-	const form = formBuilder()
+test('form email', async t => {
+	const form = await formBuilder()
 
 	t.is(
 		form.email('foo').toString(),
@@ -239,8 +241,8 @@ test('form email', t => {
 	)
 })
 
-test('form tel', t => {
-	const form = formBuilder()
+test('form tel', async t => {
+	const form = await formBuilder()
 
 	t.is(
 		form.tel('foo').toString(),
@@ -258,8 +260,8 @@ test('form tel', t => {
 	)
 })
 
-test('form number', t => {
-	const form = formBuilder()
+test('form number', async t => {
+	const form = await formBuilder()
 
 	t.is(
 		form.number('foo').toString(),
@@ -277,8 +279,8 @@ test('form number', t => {
 	)
 })
 
-test('form date', t => {
-	const form = formBuilder()
+test('form date', async t => {
+	const form = await formBuilder()
 
 	t.is(
 		form.date('foo').toString(),
@@ -301,8 +303,8 @@ test('form date', t => {
 	)
 })
 
-test('form time', t => {
-	const form = formBuilder()
+test('form time', async t => {
+	const form = await formBuilder()
 
 	t.is(
 		form.time('foo').toString(),
@@ -320,8 +322,8 @@ test('form time', t => {
 	)
 })
 
-test('form file', t => {
-	const form = formBuilder()
+test('form file', async t => {
+	const form = await formBuilder()
 
 	t.is(
 		form.file('foo').toString(),
@@ -334,8 +336,8 @@ test('form file', t => {
 	)
 })
 
-test('form textarea', t => {
-	const form = formBuilder()
+test('form textarea', async t => {
+	const form = await formBuilder()
 
 	t.is(
 		form.textarea('foo').toString(),
@@ -363,8 +365,8 @@ test('form textarea', t => {
 	)
 })
 
-test('select', t => {
-	const form = formBuilder()
+test('select', async t => {
+	const form = await formBuilder()
 
 	t.is(
 		form.select('size', { L: 'Large', S: 'Small' }).toString(),
@@ -426,8 +428,8 @@ test('select', t => {
 	)
 })
 
-test('form select repopulation', t => {
-	let form = formBuilder({
+test('form select repopulation', async t => {
+	let form = await formBuilder({
 		size: 'M'
 	})
 
@@ -440,7 +442,7 @@ test('form select repopulation', t => {
 		'<select name="size"><option value="L">Large</option><option value="M" selected="selected">Medium</option><option value="S">Small</option></select>'
 	)
 
-	form = formBuilder({
+	form = await formBuilder({
 		size: {
 			multi: [ 'L', 'S' ],
 			key: null
@@ -459,8 +461,8 @@ test('form select repopulation', t => {
 	)
 })
 
-test('form with optional placeholder', t => {
-	const form = formBuilder()
+test('form with optional placeholder', async t => {
+	const form = await formBuilder()
 
 	t.is(
 		form.select(
@@ -493,8 +495,8 @@ test('form with optional placeholder', t => {
 	)
 })
 
-test('form select year', t => {
-	const form = formBuilder()
+test('form select year', async t => {
+	const form = await formBuilder()
 
 	t.is(
 		form.selectYear('year', 2000, 2020).toString().substring(0, 88),
@@ -512,8 +514,8 @@ test('form select year', t => {
 	)
 })
 
-test('form select range', t => {
-	const range = formBuilder().selectRange('dob', 1900, 2013).toString()
+test('form select range', async t => {
+	const range = (await formBuilder()).selectRange('dob', 1900, 2013).toString()
 
 	t.is(
 		range.substring(0, 53),
@@ -526,8 +528,8 @@ test('form select range', t => {
 	)
 })
 
-test('form select month', t => {
-	const form = formBuilder()
+test('form select month', async t => {
+	const form = await formBuilder()
 
 	t.is(
 		form.selectMonth('month').toString().substring(0, 90),
@@ -545,8 +547,8 @@ test('form select month', t => {
 	)
 })
 
-test('form checkbox', t => {
-	const form = formBuilder()
+test('form checkbox', async t => {
+	const form = await formBuilder()
 
 	t.is(
 		form.input('checkbox', 'foo').toString(),
@@ -569,8 +571,8 @@ test('form checkbox', t => {
 	)
 })
 
-test('form checkbox repopulation', t => {
-	let form = formBuilder({
+test('form checkbox repopulation', async t => {
+	let form = await formBuilder({
 		check: null
 	})
 
@@ -579,7 +581,7 @@ test('form checkbox repopulation', t => {
 		'<input name="check" type="checkbox" value="1" />'
 	)
 
-	form = formBuilder({
+	form = await formBuilder({
 		check: {
 			key: 'yes'
 		}
@@ -590,7 +592,7 @@ test('form checkbox repopulation', t => {
 		'<input checked="checked" name="check[key]" type="checkbox" value="yes" />'
 	)
 
-	form = formBuilder({
+	form = await formBuilder({
 		multicheck: [ 1, 3 ]
 	})
 
@@ -610,8 +612,8 @@ test('form checkbox repopulation', t => {
 	)
 })
 
-test('form checkbox with model relation', t => {
-	const form = formBuilder()
+test('form checkbox with model relation', async t => {
+	const form = await formBuilder()
 	setModel(form, { items: [ 2, 3 ] })
 
 	t.is(
@@ -635,8 +637,8 @@ test('form checkbox with model relation', t => {
 	)
 })
 
-test('form checkbox without session', t => {
-	const form = formBuilder()
+test('form checkbox without session', async t => {
+	const form = await formBuilder()
 
 	t.is(
 		form.checkbox('foo').toString(),
@@ -649,8 +651,8 @@ test('form checkbox without session', t => {
 	)
 })
 
-test('form radio', t => {
-	const form = formBuilder()
+test('form radio', async t => {
+	const form = await formBuilder()
 
 	t.is(
 		form.input('radio', 'foo').toString(),
@@ -673,8 +675,8 @@ test('form radio', t => {
 	)
 })
 
-test('form radio repopulation', t => {
-	const form = formBuilder({
+test('form radio repopulation', async t => {
+	const form = await formBuilder({
 		radio: 1
 	})
 
@@ -689,8 +691,8 @@ test('form radio repopulation', t => {
 	)
 })
 
-test('form submit', t => {
-	const form = formBuilder()
+test('form submit', async t => {
+	const form = await formBuilder()
 
 	t.is(
 		form.submit('foo').toString(),
@@ -703,8 +705,8 @@ test('form submit', t => {
 	)
 })
 
-test('form button', t => {
-	const form = formBuilder()
+test('form button', async t => {
+	const form = await formBuilder()
 
 	t.is(
 		form.button('foo').toString(),
@@ -717,24 +719,24 @@ test('form button', t => {
 	)
 })
 
-test('reset input', t => {
+test('reset input', async t => {
 	t.is(
-		formBuilder().reset('foo').toString(),
+		(await formBuilder()).reset('foo').toString(),
 		'<input type="reset" value="foo" />'
 	)
 })
 
-test('image input', t => {
+test('image input', async t => {
 	const url = 'http://grind.rocks/'
 
 	t.is(
-		formBuilder().image(url).toString(),
+		(await formBuilder()).image(url).toString(),
 		`<input src="${url}" type="image" />`
 	)
 })
 
-test('form color', t => {
-	const form = formBuilder()
+test('form color', async t => {
+	const form = await formBuilder()
 
 	t.is(
 		form.color('foo').toString(),

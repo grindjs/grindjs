@@ -5,6 +5,8 @@ import {
 	Paths as BasePaths
 } from 'grind-framework'
 
+import { ViewProvider } from 'grind-view'
+
 class Paths extends BasePaths {
 
 	constructor(bootstrapper) {
@@ -21,6 +23,8 @@ export class Grind extends BaseGrind {
 	constructor(parameters = { }) {
 		parameters.pathsClass = Paths
 		super(parameters)
+
+		this.providers.add(ViewProvider)
 	}
 
 }

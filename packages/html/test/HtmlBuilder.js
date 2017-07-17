@@ -3,40 +3,42 @@ import test from 'ava'
 import '../src/HtmlBuilder'
 import './helpers/Grind'
 
-function htmlBuilder() {
-	return new HtmlBuilder(new Grind)
+async function htmlBuilder() {
+	const app = new Grind
+	await app.boot()
+	return new HtmlBuilder(app)
 }
 
-test('dl', t => {
+test('dl', async t => {
 	t.is(
-		htmlBuilder().dl({ foo: 'bar', bing: 'baz' }, { class: 'example' }).toString(),
+		(await htmlBuilder()).dl({ foo: 'bar', bing: 'baz' }, { class: 'example' }).toString(),
 		'<dl class="example"><dt>foo</dt><dd>bar</dd><dt>bing</dt><dd>baz</dd></dl>'
 	)
 })
 
-test('ol', t => {
+test('ol', async t => {
 	t.is(
-		htmlBuilder().ol([ 'foo', 'bar', '&amp;' ], { class: 'example' }).toString(),
+		(await htmlBuilder()).ol([ 'foo', 'bar', '&amp;' ], { class: 'example' }).toString(),
 		'<ol class="example"><li>foo</li><li>bar</li><li>&amp;amp;</li></ol>'
 	)
 })
 
-test('ul', t => {
+test('ul', async t => {
 	t.is(
-		htmlBuilder().ul([ 'foo', 'bar', '&amp;' ], { class: 'example' }).toString(),
+		(await htmlBuilder()).ul([ 'foo', 'bar', '&amp;' ], { class: 'example' }).toString(),
 		'<ul class="example"><li>foo</li><li>bar</li><li>&amp;amp;</li></ul>'
 	)
 })
 
-test('meta', t => {
+test('meta', async t => {
 	t.is(
-		htmlBuilder().meta('description', 'Lorem ipsum dolor sit amet.').toString(),
+		(await htmlBuilder()).meta('description', 'Lorem ipsum dolor sit amet.').toString(),
 		'<meta name="description" content="Lorem ipsum dolor sit amet." />\n'
 	)
 })
 
-test('tag', t => {
-	const html = htmlBuilder()
+test('tag', async t => {
+	const html = await htmlBuilder()
 
 	t.is(
 		html.tag('p', 'Lorem ipsum dolor sit amet.').toString(),
@@ -62,22 +64,22 @@ test('tag', t => {
 	)
 })
 
-test('meta og', t => {
+test('meta og', async t => {
 	t.is(
-		htmlBuilder().meta(null, 'website', { property: 'og:type' }).toString(),
+		(await htmlBuilder()).meta(null, 'website', { property: 'og:type' }).toString(),
 		'<meta content="website" property="og:type" />\n'
 	)
 })
 
-test('favicon', t => {
+test('favicon', async t => {
 	t.is(
-		htmlBuilder().favicon('http://foo.com/bar.ico').toString(),
+		(await htmlBuilder()).favicon('http://foo.com/bar.ico').toString(),
 		'<link rel="shortcut icon" type="image/x-icon" href="http://foo.com/bar.ico" />\n'
 	)
 })
 
-test('link', t => {
-	const html = htmlBuilder()
+test('link', async t => {
+	const html = await htmlBuilder()
 
 	t.is(
 		html.link('http://www.example.com', '<span>Example.com</span>', { class: 'example-link' }, null, true).toString(),
