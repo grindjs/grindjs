@@ -30,3 +30,7 @@
 * [Database](database)
 * [Models & ORM](orm)
 * [Migrations & Seeds](migrations-seeds)
+
+##### Releases
+* [Release Notes](release-notes)
+* [Upgrading](upgrading)
