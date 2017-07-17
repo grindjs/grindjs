@@ -30,7 +30,7 @@ function processPathParameter(app, parameters, name, pattern, optional) {
 }
 
 export function route(path, app, parameters) {
-	return path.replace(/:([a-z0-0_\-\.]+)(?:\(([^\)]+)\))?(\?)?/g, (...args) => {
+	return path.replace(/:([a-z0-0_\-.]+)(?:\(([^)]+)\))?(\?)?/g, (...args) => {
 		args.shift()
 		return processPathParameter(app, parameters, ...args)
 	})
