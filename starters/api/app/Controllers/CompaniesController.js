@@ -6,7 +6,9 @@ export class CompaniesController extends BaseController {
 	model = CompanyModel
 
 	index(req, res) {
-		return this.model.query().subset(this.pagination(req)).then(rows => {
+		const { start, end } = this.paginationRange(req)
+
+		return this.model.query().range(start, end).then(rows => {
 			if(rows.isNil) {
 				throw new NotFoundError('No companies found')
 			}

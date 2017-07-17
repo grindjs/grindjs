@@ -1,4 +1,4 @@
-import { Command } from 'grind-cli'
+import { Command, InputArgument, InputOption } from 'grind-cli'
 
 import 'App/Models/StateModel'
 
@@ -10,12 +10,14 @@ export class StatesListCommand extends Command {
 	description = 'List all states in the database'
 
 	// Arguments available for this command
-	arguments = [ 'term?' ]
+	arguments = [
+		new InputArgument('term', InputArgument.VALUE_OPTIONAL, 'Search term'),
+	]
 
 	// Options for this command
-	options = {
-		limit: 'Limit the number of states'
-	}
+	options = [
+		new InputOption('limit', InputOption.VALUE_OPTIONAL, 'Limit the number of states', '100')
+	]
 
 	run() {
 		const limit = Number.parseInt(this.option('limit', 100))

@@ -1,9 +1,9 @@
-export function seed(knex) {
+export function seed(db) {
 	const table = 'countries'
 
 	return Promise.all([
-		knex(table).del(),
+		db(table).del(),
 
-		knex(table).insert({ id: 1, abbreviation: 'US', name: 'United States' })
+		db(table).insert({ id: 1, abbreviation: 'US', name: 'United States' })
 	])
 }

@@ -6,7 +6,9 @@ export class CountriesController extends BaseController {
 	model = CountryModel
 
 	index(req, res) {
-		return this.model.query().subset(this.pagination(req)).then(rows => {
+		const { start, end } = this.paginationRange(req)
+
+		return this.model.query().range(start, end).then(rows => {
 			if(rows.isNil) {
 				throw new NotFoundError('No countries found')
 			}
@@ -26,7 +28,9 @@ export class CountriesController extends BaseController {
 			throw new ValidationError({ term: 'term is required' })
 		}
 
-		return this.model.find(req.query.term).subset(this.pagination(req)).then(rows => {
+		const { start, end } = this.paginationRange(req)
+
+		return this.model.find(req.query.term).range(start, end).then(rows => {
 			if(rows.isNil) {
 				throw new NotFoundError('No countries found, try a different term')
 			}

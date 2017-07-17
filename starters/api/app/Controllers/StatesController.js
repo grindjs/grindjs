@@ -6,7 +6,9 @@ export class StatesController extends BaseController {
 	model = StateModel
 
 	index(req, res) {
-		return this.model.query().subset(this.pagination(req)).then(rows => {
+		const { start, end } = this.paginationRange(req)
+
+		return this.model.query().range(start, end).then(rows => {
 			if(rows.isNil) {
 				throw new NotFoundError('No states found')
 			}
@@ -26,7 +28,9 @@ export class StatesController extends BaseController {
 			throw new BadRequestError('`term` is required')
 		}
 
-		return this.model.find(req.query.term).subset(this.pagination(req)).then(rows => {
+		const { start, end } = this.paginationRange(req)
+
+		return this.model.find(req.query.term).range(start, end).then(rows => {
 			if(rows.isNil) {
 				throw new NotFoundError('No states found, try a different term')
 			}

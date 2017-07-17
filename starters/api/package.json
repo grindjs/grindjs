@@ -3,18 +3,18 @@
   "version": "0.6.0",
   "private": true,
   "dependencies": {
-    "grind-core": "^0.6.0",
-    "grind-db": "^0.6.0",
-    "grind-orm": "^0.6.0",
-    "grind-swagger": "^0.6.0",
+    "grind-core": "^0.7.0",
+    "grind-db": "^0.7.0",
+    "grind-orm": "^0.7.0",
+    "grind-swagger": "^0.7.0",
     "sqlite3": "^3.1.8"
   },
   "devDependencies": {
-    "babel-cli": "^6.7.5",
-    "babel-eslint": "^6.1.1",
-    "babel-plugin-import-auto-name": "^0.1.0",
-    "babel-plugin-module-alias": "^1.6.0",
-    "babel-preset-grind": "^0.6.0",
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-module-resolver": "^2.7.1",
+    "babel-preset-grind": "^0.7.0",
+    "babel-register": "^6.24.1",
     "eslint": "^3.3.1",
     "eslint-config-grind": "^2.0.0",
     "eslint-plugin-import-auto-name": "^1.0.3"

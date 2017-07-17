@@ -8,9 +8,9 @@ import 'App/Providers/RoutesProvider'
 
 const app = new Grind()
 
-app.providers.push(DatabaseProvider)
-app.providers.push(OrmProvider)
-app.providers.push(SwaggerProvider)
-app.providers.push(RoutesProvider)
+app.providers.add(DatabaseProvider)
+app.providers.add(OrmProvider)
+app.providers.add(SwaggerProvider)
+app.providers.add(RoutesProvider)
 
 module.exports = app

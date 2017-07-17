@@ -1,12 +1,12 @@
-export function seed(knex) {
+export function seed(db) {
 	const table = 'companies_states'
 
 	return Promise.all([
 		// Deletes ALL existing entries
-		knex(table).del(),
+		db(table).del(),
 
 		// Inserts seed entries
-		knex(table).insert([
+		db(table).insert([
 			// Apple
 			{ company_id: 1, state_id: 5 },
 			{ company_id: 1, state_id: 32 },

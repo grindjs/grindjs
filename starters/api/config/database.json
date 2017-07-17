@@ -4,10 +4,10 @@
 
 	"connections": {
 
-		"mysql2": {
-			"driver": "mysql2",
+		"mysql": {
+			"driver": "mysql",
 			"host": "localhost",
-			"db": "app-db-name",
+			"database": "app-db-name",
 			"user": "app-user",
 			"password": "app-password",
 			"charset": "utf8"
