@@ -1,5 +1,3 @@
-require('babel-polyfill')
-
 import Grind from 'grind-framework'
 
 import { AssetsProvider } from 'grind-assets'
@@ -18,14 +16,14 @@ const app = new Grind({
 })
 
 // Framework providers
-app.providers.push(AssetsProvider)
-app.providers.push(CacheProvider)
-app.providers.push(HtmlProvider)
-app.providers.push(ViewProvider)
+app.providers.add(AssetsProvider)
+app.providers.add(CacheProvider)
+app.providers.add(HtmlProvider)
+app.providers.add(ViewProvider)
 
 // App providers
-app.providers.push(HttpsProvider)
-app.providers.push(RoutesProvider)
-app.providers.push(ViewExtensionProvider)
+app.providers.add(HttpsProvider)
+app.providers.add(RoutesProvider)
+app.providers.add(ViewExtensionProvider)
 
 module.exports = app

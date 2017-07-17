@@ -24,7 +24,7 @@ export class ErrorHandler extends BaseErrorHandler {
 
 		return FS.exists(view).then(exists => {
 			if(!exists) {
-				if(code !== '500') {
+				if(Number.parseInt(code) !== 500) {
 					return this.renderView(req, res, err, info, 500)
 				} else {
 					return this.renderJson(req, res, err, info)

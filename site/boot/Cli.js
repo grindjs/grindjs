@@ -1,13 +1,20 @@
-import 'babel-polyfill'
-import 'grind-framework'
+//
+// WARNING: This file is *NOT* processed through babel
+//
 
-import { CliProvider } from 'grind-cli'
-import 'App/Providers/CommandsProvider'
+require('babel-register')
+require('babel-polyfill')
+require('grind-framework')
 
-const app = require('App/Bootstrap')
-app.providers.push(CliProvider, CommandsProvider)
+const { CliProvider, Runner } = require('grind-cli')
 
-app.boot().then(() => app.cli.run()).catch(err => {
+new Runner(() => {
+	const app = require('../app/Bootstrap')
+	const { CommandsProvider } = require('../app/Providers/CommandsProvider')
+	app.providers.add(CliProvider, CommandsProvider)
+
+	return app
+}).run().catch(err => {
 	Log.error('Boot Error', err)
 	process.exit(1)
 })
