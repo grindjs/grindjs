@@ -1,3 +1,5 @@
+
+
 # Queues
 Grind’s [Queue provider](https://github.com/grindjs/queue) is built on [Kue](https://github.com/Automattic/kue) internally, however Grind provides a much different interace so it feels right at home within the Grind ecosystem.
 
@@ -28,11 +30,38 @@ To configure your queue, create `config/queue.json`:
 	"connections": {
 		"redis": {
 			"prefix": "q", // Default prefix for the Queue
-			"redis": {
+			"connection": {
 				"host": "127.0.0.1",
 				"port": 6379,
-				"auth": null
+				"password": null
 			}
+		}
+	}
+}
+```
+
+Queue also supports referencing connections in the global Redis config file:
+
+```json
+{
+	"default": "redis",
+	"connections": {
+		"redis": {
+			"prefix": "q",
+			"connection": "prod" // This will reference the “prod” connection defined in config/redis.json
+		}
+	}
+}
+```
+
+In fact, you can omit the `connection` object entirely to reference the default connection in `config/redis.json`:
+
+```json
+{
+	"default": "redis",
+	"connections": {
+		"redis": {
+			"prefix": "q"
 		}
 	}
 }

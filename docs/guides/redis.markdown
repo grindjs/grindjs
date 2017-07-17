@@ -26,7 +26,7 @@ Grind supports a global `redis.json` config file that abstracts away  the variou
 
 The Redis config file is currently supported in Grind by the following providers:
 
-- [Queue](queues)
+- [Queue](queues#configuring)
 - [Cache](cache)
 - Session middleware
 
