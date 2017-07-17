@@ -26,7 +26,7 @@ export function compileSection(context, args) {
 	if(args.length === 1) {
 		args = AST.stringify(args[0])
 		context.sections.push(args)
-		return this._compileSection(context, args, `function() {\nlet output = '';`)
+		return this._compileSection(context, args, 'function() {\nlet output = \'\';')
 	}
 
 	if(args.length !== 2) {
