@@ -1,5 +1,4 @@
-import { Html5Entities } from 'html-entities'
-
+const he = require('he')
 const EOL = '\n'
 
 export class HtmlBuilder {
@@ -57,7 +56,9 @@ export class HtmlBuilder {
 			return value
 		}
 
-		return Html5Entities.encode(value.toString())
+		return he.encode(value.toString(), {
+			useNamedReferences: true
+		})
 	}
 
 	/**
@@ -68,7 +69,7 @@ export class HtmlBuilder {
 	 * @return string
 	 */
 	decode(value) {
-		return Html5Entities.decode(value)
+		return he.decode(value)
 	}
 
 	/**

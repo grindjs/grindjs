@@ -17,7 +17,7 @@
   "dependencies": {
     "as-type": "^1.0",
     "dateformat": "^2.0.0",
-    "html-entities": "^1.2"
+    "he": "^1.1.1"
   },
   "devDependencies": {
     "ava": "^0.18.1",
