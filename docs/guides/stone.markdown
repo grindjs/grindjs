@@ -363,3 +363,19 @@ When you add a custom directive, Stone expends you to return **valid** Javascrip
 This enables you to create powerful extensions, but can be a little confusing at first.  For instance, as seen above, in order for your custom directive to display data in the view, it must append the `output` variable.
 
 The `output` variable is a special variable that will exist in every circumstance and contains all HTML and non-Stone directives that will be rendered.
+
+## Editor Support
+Currently, Stone is supported by Atom and Sublime Text.  If you’ve added support for Stone for another editor, but sure to submit a PR to have it listed here.
+
+### Atom
+To enable support for Stone in Atom, install the `language-stone` package.
+
+### Sublime Text
+To enable support for Stone in Sublime Text, run the following commands:
+
+```shell
+cd ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User/
+git clone https://github.com/grindjs/stone-editor-sublime.git grind-stone
+```
+
+Sublime should detect the package right away, however you may need to restart Sublime if it doesn’t.
