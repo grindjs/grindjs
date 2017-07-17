@@ -1,8 +1,7 @@
 /* eslint-disable no-sync */
 
-import Highlights from 'highlights'
-
-const highlighter = new Highlights()
+const Highlights = require('highlights')
+const highlighter = new Highlights
 
 highlighter.requireGrammarsSync({
 	modulePath: require.resolve('language-json5/package.json')
@@ -13,7 +12,7 @@ highlighter.requireGrammarsSync({
 })
 
 highlighter.requireGrammarsSync({
-	modulePath: require.resolve('language-blade/package.json')
+	modulePath: require.resolve('language-stone/package.json')
 })
 
 export function Highlighter(code, lang) {
@@ -27,7 +26,7 @@ export function Highlighter(code, lang) {
 			break
 		case 'stone':
 		case 'view':
-			lang = 'text.html.php.blade'
+			lang = 'text.html.stone'
 			break
 		default:
 			lang = `source.${lang}`

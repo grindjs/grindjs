@@ -2736,13 +2736,13 @@ labeled-stream-splicer@^2.0.0:
     isarray "~0.0.1"
     stream-splicer "^2.0.0"
 
-"language-blade@https://github.com/jawee/language-blade":
-  version "0.32.0"
-  resolved "https://github.com/jawee/language-blade#70bdfb67d7f5e48c804819e4f6c88d4c89300f53"
-
 "language-json5@https://github.com/wiredmax/language-json5":
   version "1.1.1"
   resolved "https://github.com/wiredmax/language-json5#6e2c6821f3d4429dc94a4881444e497647f084e5"
+
+"language-stone@https://github.com/grindjs/stone-editor-atom.git":
+  version "1.0.0"
+  resolved "https://github.com/grindjs/stone-editor-atom.git#6afd53b7c1f2075a034358e6eaf675d4355820e1"
 
 later@^1.2.0:
   version "1.2.0"
