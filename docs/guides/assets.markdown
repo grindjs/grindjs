@@ -22,6 +22,8 @@ const app = new Grind()
 app.providers.push(AssetsProvider)
 ```
 
+> {tip} `grind-assets` comes fully setup if you’re projected is based on the Web template.
+
 ### Dependencies
 Assets comes with built in support for numerous asset types, however in order to maintain flexibility and minimize package bloat, it doesn’t explicitly require any compiler depenencies.  Instead you can pick and choose which you want to use, and install them directly.
 
@@ -36,6 +38,27 @@ Refer to the table below determine which dependencies you’ll need:
 | SVG | `npm install --save-dev svgo` | Provides SVG optimization |
 
 > {tip} Don’t worry if you forget to setup a dependency, Assets will let you know what to install if you try to use a compiler that doesn’t have it’s dependencies installed.
+
+## Development & Live Reload
+
+Grind Assets comes with build in support for live reloading your CSS/SCSS changes as they happen, without needing to reload the page.
+
+This is disabled by default, but can be turned on via config:
+
+**config/local/assets.json**
+```json
+{
+
+	"live_reload": true
+
+}
+```
+
+Once enabled, this will also reload the page anytime a JS/Babel file on your page changes.
+
+Live Reload works by appending a small JS asset to each page and opening a WebSocket connection to your server that monitors for changes to your assets.
+
+>{note} **Do not use this in production.**  Live Reload is only intended to be used in development. It is not optimized for production.  By storing the config setting in `config/local/assets.json` you can be sure it will never be on in production.
 
 ## Compilers vs Post Processors
 
