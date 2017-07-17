@@ -1,6 +1,6 @@
 {
   "name": "grind-html",
-  "version": "0.7.0-beta.3",
+  "version": "0.7.0",
   "description": "HTML/Form builders for Grind",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
