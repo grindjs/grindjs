@@ -60,7 +60,7 @@ export class Grind extends EventEmitter {
 		urlGeneratorClass,
 		pathsClass,
 		routingProvider
-	}) {
+	} = { }) {
 		RequestExtension()
 		ResponseExtension()
 		RouteExtension()
