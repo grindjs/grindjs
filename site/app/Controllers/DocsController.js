@@ -69,6 +69,10 @@ export class DocsController extends Controller {
 		for(const release of await this._fetchReleases(req, currentVersion, nextVersion)) {
 			for(const version of release.versions) {
 				version.body = version.body.trim()
+				version.body = version.body.replace(
+					/\(http(s)?:\/\/grind.rocks\/docs\/.+?\/guides\/(.+?)\)/ig,
+					'($2)'
+				)
 
 				releases[version.tag_name] = releases[version.tag_name] || [ ]
 				releases[version.tag_name].push({
