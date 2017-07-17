@@ -2,4 +2,4 @@
 
 source ${0%/*}/.init
 
-eslint app config server
+eslint app boot config

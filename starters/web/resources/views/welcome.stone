@@ -4,7 +4,6 @@
 
 @scss('welcome')
 @scss('code')
-@style('https://raw.githubusercontent.com/tonsky/FiraCode/master/distr/fira_code.css')
 
 @section('content')
 	<div class="welcome">

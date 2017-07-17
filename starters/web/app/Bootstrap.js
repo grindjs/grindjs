@@ -15,14 +15,14 @@ const app = new Grind({
 })
 
 // Framework providers
-app.providers.push(AssetsProvider)
-app.providers.push(CacheProvider)
-app.providers.push(DatabaseProvider)
-app.providers.push(HtmlProvider)
-app.providers.push(OrmProvider)
-app.providers.push(ViewProvider)
+app.providers.add(AssetsProvider)
+app.providers.add(CacheProvider)
+app.providers.add(DatabaseProvider)
+app.providers.add(HtmlProvider)
+app.providers.add(OrmProvider)
+app.providers.add(ViewProvider)
 
 // App providers
-app.providers.push(RoutesProvider)
+app.providers.add(RoutesProvider)
 
 module.exports = app

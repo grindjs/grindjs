@@ -16,15 +16,15 @@ NODE_VERSION=$(node -v)
 NODE_VERSION=$(echo ${NODE_VERSION#*v} | cut -d. -f1)
 
 FLAGS=""
-if [ "$NODE_VERSION" -gt "6" ]; then
+if [ "$NODE_VERSION" = "7" ]; then
 	FLAGS="--harmony-async-await"
 fi
 
 case $COMMAND in
-	watch) exec babel-node $FLAGS boot/Http.js --watch=app,config $@
+	watch) exec node $FLAGS boot/Http.js --watch=app,config $@
 		;;
-	serve) exec babel-node $FLAGS boot/Http.js $@
+	serve) exec node $FLAGS boot/Http.js $@
 		;;
-	*) IN_CLI=true CLI_BIN="$CLI_BIN" exec babel-node $FLAGS boot/Cli.js "$@"
+	*) IN_CLI=true CLI_BIN="$CLI_BIN" exec node $FLAGS boot/Cli.js "$@"
 		;;
 esac
