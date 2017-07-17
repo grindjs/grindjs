@@ -17,17 +17,16 @@
   ],
   "dependencies": {
     "as-type": "^1.0.0",
-    "objection": ">=0.4.0 <= 0.6.0"
+    "objection": ">=0.4.0 <0.7.0"
   },
   "peerDependencies": {
-    "grind-db": "^0.6.0",
-    "grind-framework": "^0.7.0-beta.1",
-    "grind-support": "^0.7.0-beta.1"
+    "grind-db": "^0.7.0",
+    "grind-framework": "^0.7.0"
   },
   "devDependencies": {
     "babel-cli": ">=6.7 <=7.0",
     "babel-eslint": "^6.1.1",
-    "babel-preset-grind": "^0.6.0",
+    "babel-preset-grind": "^0.7.0",
     "eslint": "^3.3.1",
     "eslint-config-grind": "^2.0.0",
     "eslint-plugin-import-auto-name": "^1.0.3"
