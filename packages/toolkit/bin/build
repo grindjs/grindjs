@@ -2,6 +2,12 @@
 
 source ${0%/*}/.init
 
+strip_babel() {
+	cp "$1" "$1-tmp"
+	cat "$1-tmp" | sed "s/require('babel-register')//g" > "$1"
+	rm "$1-tmp"
+}
+
 echo "Cleaning up old build"
 rm -fr lib
 
@@ -11,9 +17,11 @@ mkdir -p lib/node7/app lib/node7/boot lib/lts/app lib/lts/boot
 echo "--> Building for Node 6"
 BABEL_TARGET_VERSION=6.9 babel -s inline -d lib/lts/app/ app/ --copy-files
 BABEL_TARGET_VERSION=6.9 babel -s inline -d lib/lts/boot/ boot/ --copy-files
+strip_babel lib/lts/boot/Cli.js
 
 echo "--> Building for Node 7+"
 BABEL_TARGET_VERSION=7.0 babel -s inline -d lib/node7/app/ app/ --copy-files
 BABEL_TARGET_VERSION=7.0 babel -s inline -d lib/node7/boot/ boot/ --copy-files
+strip_babel lib/node7/boot/Cli.js
 
 echo "Done"

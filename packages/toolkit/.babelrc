@@ -1,11 +1,21 @@
 {
-	"presets": [ "grind" ],
+	"presets": [
+		[
+			"grind", {
+				"import-auto-name": {
+					"autoresolve": true
+				}
+			}
+		]
+	],
 	"plugins": [
 		[
-			"babel-plugin-module-alias", [
-				{ "src": "./app", "expose": "App" },
-				{ "src": "./boot", "expose": "Boot" }
-			]
+			"module-resolver", {
+				"alias": {
+					"App": "./app",
+					"Boot": "./boot"
+				}
+			}
 		]
 	]
 }

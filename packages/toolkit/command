@@ -13,7 +13,7 @@ NODE_VERSION=$(echo ${NODE_VERSION#*v} | cut -d. -f1)
 
 FLAGS=""
 LIB_DIR="lib/lts"
-if [ "$NODE_VERSION" -gt "6" ]; then
+if [ "$NODE_VERSION" = "7" ]; then
 	FLAGS="--harmony-async-await"
 	LIB_DIR="lib/node7"
 fi

@@ -11,9 +11,12 @@ source ${0%/*}/.init
 VERSION=$(node -v)
 VERSION=$(echo ${VERSION#*v} | cut -d. -f1)
 
+NODE_VERSION=$(node -v)
+NODE_VERSION=$(echo ${NODE_VERSION#*v} | cut -d. -f1)
+
 FLAGS=""
-if [ "$VERSION" -gt "6" ]; then
+if [ "$NODE_VERSION" = "7" ]; then
 	FLAGS="--harmony-async-await"
 fi
 
-IN_CLI=true CLI_BIN="$CLI_BIN" exec babel-node $FLAGS boot/Cli.js "$@"
+IN_CLI=true CLI_BIN="$CLI_BIN" exec node $FLAGS boot/Cli.js "$@"

@@ -102,7 +102,7 @@ export class NewCommand extends Command {
 		packageJson.version = '0.0.1'
 		packageJson.name = path.basename(target)
 
-		await FS.remove('.git')
+		await this.exec('rm', [ '-fr', '.git' ])
 		await FS.writeFile('package.json', JSON.stringify(packageJson, null, '  '))
 
 		if(!this.option('skip-packages')) {
