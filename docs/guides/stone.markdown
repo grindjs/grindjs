@@ -34,7 +34,7 @@ As you can see, the Stone view contains typical HTML markup. However, take note 
 
 Now that we have defined a layout for our app, let’s define a child view that inherits the layout.
 
-### Extending A Layout
+### Extending a Layout
 
 When defining a child view, use the Stone `@extends` directive to specify which layout the child view should “inherit”. Views which extend a Stone layout may inject content into the layout’s sections using `@section` directives. Remember, as seen in the example above, the contents of these sections will be displayed in the layout using `@yield`:
 
@@ -63,13 +63,82 @@ You may also determine if a given layout section has any content using the `@has
 
 ```stone
 <title>
-    @hasSection('title')
-        @yield('title') - Grind
-    @else
-        Grind
-    @endif
+	@hasSection('title')
+		@yield('title') - Grind
+	@else
+		Grind
+	@endif
 </title>
 ```
+
+## Components & Slots
+
+Components and slots provide similar benefits to sections and layouts; however, they can provide a simpler interface for reusable code throughout your app.  You can use components with layouts, and layouts with components.
+
+As an example, consider an “alert” component used throughout your application:
+
+**resources/views/shared/alert.stone**
+```stone
+<div class="alert alert-danger">
+	{{ slot }}
+</div>
+```
+
+The `{{ slot }}` variable will contain the content we wish to inject into the component. Now, to construct this component, we can use the `@component` Stone directive:
+
+```stone
+@component('shared.alert')
+	<strong>Whoops!</strong> Something went wrong!
+@endcomponent
+```
+
+Sometimes it is helpful to define multiple slots for a component. Let’s modify our alert component to allow for the injection of a “title”. Named slots may be displayed by simply outputting the variable that matches their name:
+
+**resources/views/shared/alert.stone**
+```stone
+<div class="alert alert-danger">
+	<div class="alert-title">{{ title }}</div>
+
+	{{ slot }}
+</div>
+```
+
+Now, we can inject content into the named slot using the `@slot` directive. Any content not within a `@slot` directive will be passed to the component in the `slot` variable:
+
+```stone
+@component('shared.alert')
+	@slot('title')
+		Forbidden
+	@endslot
+
+	You are not allowed to access this resource!
+@endcomponent
+```
+
+> {tip} For simple slot assignments such as above, you can pass a second parameter to keep it as one line: `@slot('tile', 'Forbidden')`
+
+#### Passing Additional Data To Components
+
+Sometimes you may need to pass additional data to a component. For this reason, you can pass an array of data as the second argument to the `@component` directive. All of the data will be made available to the component template as variables:
+
+```stone
+@component('alert',  { foo: 'bar' })
+	{{-- … --}}
+@endcomponent
+```
+
+#### Advantages Over Layouts
+
+Since components don‘t have any explicit hierarchy like layouts do (they’re really just simple templates after all), you’re even to render content exactly the same using `@include`:
+
+```stone
+@include('shared.alert', {
+	title: 'Forbidden',
+	slot: 'You are not allowed to access this resource!'
+})
+```
+
+This isn’t practical for every scenario (as soon as you start including HTML tags you’ll want to leverage the `@component` directive), but it’s easy to see how powerful and flexible components can be in your app.
 
 ## Displaying Data
 
