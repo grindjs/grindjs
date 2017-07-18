@@ -95,7 +95,7 @@ Of course, you are not limited to displaying the contents of the variables passe
 
 #### Displaying Unescaped Data
 
-By default, Stone `{{ }}` statements are automatically pased through the [entities](https://www.npmjs.com/package/entities) package to prevent XSS attacks. If you do not want your data to be escaped, you may use the following syntax:
+By default, Stone `{{ }}` statements are automatically passed through the [he](https://www.npmjs.com/package/he) package to prevent XSS attacks. If you do not want your data to be escaped, you may use the following syntax:
 
 ```stone
 <p>Hello, {!! name !!}.</p>
@@ -289,7 +289,7 @@ Stone also allows you to define comments in your views. However, unlike HTML com
 {{-- This comment will not be present in the rendered HTML --}}
 ```
 
-## Including Sub-Views
+## Including Views
 
 Stone’s `@include` directive allows you to include a Stone view from within another view. All variables that are available to the parent view will be made available to the included view:
 
@@ -342,6 +342,26 @@ Finally, there is a fifth parameter that you can pass to send extra data to eith
 @each('view.name', jobs, 'job', 'view.empty', {
 	section: 'Jobs'
 })
+```
+
+## Macros
+
+The `@macro` directive enables you to define reusable blocks of code within your templates:
+
+```stone
+@macro('avatar' user, size = 'large')
+<span class="avatar avatar-{{ size }}">
+	<img src="{{ user.avatar }}" />
+</span>
+@endmacro
+```
+
+The first parameter of `@macro` is the name of the macro, all subsequent parameters are arguments for your macro.  You can define these as you would any function in JS, including default values and even destructuring.
+
+Once defined, you can use the macro anywhere within the same template or included templates by calling it as a function using the name you defined in the first parameter of `@macro`:
+
+```stone
+{{ avatar(post.user) }}
 ```
 
 ## Extending Stone
