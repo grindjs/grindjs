@@ -185,6 +185,60 @@ export class UserModel extends Model {
 }
 ```
 
+## Query Builder
+
+Grind ORM extends [Objection.js’s](http://vincit.github.io/objection.js/#query-examples) already powerful QueryBuider to provide some additional functionality.
+
+### paginate
+
+The `paginate` method provides a way to return paginated results with a object result object that includes the total number of items, number of pages, the current page, and more.
+
+```js
+paginate(req, perPage = 25, { param, query } = { })
+```
+
+###### Parameters
+* `req` — The original http request object — this is used to automatically detect the current page.
+* `perPage` — The number of items to include in a single page
+* `options.param` — If provided, `paginate` will look for the current page number in a URL param instead of the query string.  This value will override any provided `options.query` value.
+* `options.query` — By default, `paginate` looks for a `page` field in the query string, this option can be used to tell it to look for a different field.
+
+###### Result
+
+* `totalPages` — The total number of pages.
+* `perPage` — The number of items included in each page.
+* `page` — The current page number.
+* `start` — The start range for this page.
+* `end` — The end range for this page.
+* `total` — The total number of items for this page.
+* `results` — The items in this page.
+
+---
+
+### orFail
+
+The `orFail` method will throw a `ModelNotFoundError` if the result set is empty.
+
+###### Example
+
+```js
+const user = UserModel.where('id', req.param.user).first().orFail()
+```
+
+By tacking on `orFail()` to the query, your code can now be confident the `user` var is populated, saving you the need to check and throw errors.  `orFail()` will automatically throw `ModelNotFoundError` — which extends NotFoundError, resulting in a 404 being displayed to the end user.
+
+---
+
+### withoutEager
+
+The `withoutEager` method will clear any previously added eager filter as well as ignore any Model level eager filters that may be defined.
+
+###### Example
+
+```js
+const user = UserModel.where('id', req.param.user).first().withoutEager()
+```
+
 ## Eager Loading
 Objection.js has an amazing way to do [eager loading](http://vincit.github.io/objection.js/#eager-queries), so Grind Model builds on top of it to add a few additional niceties.
 
