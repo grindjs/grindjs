@@ -51,7 +51,7 @@ Markdown.renderFile = (app, path) => {
 
 		return {
 			content: content,
-			title: match.isNil ? null : match[1]
+			title: match.isNil ? null : app.html.decode(match[1])
 		}
 	})
 
