@@ -97,9 +97,9 @@ This works for any file type stored in `resource/assets`, including images:
 ```
 
 ## Asset Containers
-Assets ships with a full asset container system to integrate with views in simple and clean way.  The container system provides Nunjucks tags for `asset`, `style`, `script`, `scss`, `babel` and many more.
+Assets ships with a full asset container system to integrate with views in simple and clean way.  The container system provides Stone directives for `asset`, `style`, `script`, `scss`, `babel` and many more.
 
-To use these tags, you must first configure your master layout to include them:
+To use these directives, you must first configure your master layout to include them:
 
 ```stone
 <!DOCTYPE html>
@@ -119,48 +119,48 @@ To use these tags, you must first configure your master layout to include them:
 </html>
 ```
 
-Once you’ve added those two lines to your master layout, you can begin using the view tags.
+Once you’ve added those two lines to your master layout, you can begin using the view directives.
 
 ---
 
 ### Styles
-Assets supports the following style-related view tags:
+Assets supports the following style-related view directives:
 
-| Tag                  | Loads…                            |
+| Directive            | Loads…                            |
 | -------------------- | --------------------------------- |
-| `style 'http://url'` | Any style path relative to `resources/assets` or an absolute URL |
-| `css 'main'`         | `resources/assets/css/main.css`   |
-| `scss 'main'`        | `resources/assets/scss/main.scss` |
-| `sass 'main'`        | `resources/assets/scss/main.sass` |
+| `@style('http://url')` | Any style path relative to `resources/assets` or an absolute URL |
+| `@css('main')`       | `resources/assets/css/main.css`   |
+| `@scss('main')`      | `resources/assets/scss/main.scss` |
+| `@sass('main')`      | `resources/assets/scss/main.sass` |
 
-The following tags are also supported, however Assets does not ship with compilers for them, so you’ll need to [write your own](#writing-your-own-compiler) if you wish to use them.  If you do, please submit a pull request to share with everyone else!
+The following directives are also supported, however Assets does not ship with compilers for them, so you’ll need to [write your own](#writing-your-own-compiler) if you wish to use them.  If you do, please submit a pull request to share with everyone else!
 
-| Tag             | Loads…                              |
-| --------------- | ----------------------------------- |
-| `less 'main'`   | `resources/assets/less/main.less`   |
-| `styl 'main'`   | `resources/assets/styl/styl.styl`   |
-| `stylus 'main'` | `resources/assets/styl/main.stylus` |
+| Directive         | Loads…                              |
+| ----------------- | ----------------------------------- |
+| `@less('main')`   | `resources/assets/less/main.less`   |
+| `@styl('main')`   | `resources/assets/styl/styl.styl`   |
+| `@stylus('main')` | `resources/assets/styl/main.stylus` |
 
 ---
 
 ### Scripts
-Assets supports the following script-related view tags:
+Assets supports the following script-related view directives:
 
-| Tag                   | Loads…                           |
+| Directive             | Loads…                           |
 | --------------------- | -------------------------------- |
-| `script 'http://url'` | Any style script relative to `resources/assets` or an absolute URL |
-| `js 'main'`           | `resources/assets/js/main.js`    |
-| `babel 'main'`        | `resources/assets/babel/main.js` |
+| `@script('http://url')` | Any style script relative to `resources/assets` or an absolute URL |
+| `@js('main')`         | `resources/assets/js/main.js`    |
+| `@babel('main')`      | `resources/assets/babel/main.js` |
 
-The following tags are also supported, however Assets does not ship with compilers for them, so you’ll need to [write your own](#writing-your-own-compiler) if you wish to use them.  If you do, please submit a pull request to share with everyone else!
+The following directives are also supported, however Assets does not ship with compilers for them, so you’ll need to [write your own](#writing-your-own-compiler) if you wish to use them.  If you do, please submit a pull request to share with everyone else!
 
-| Tag                   | Loads…                                |
+| Directive             | Loads…                                |
 | --------------------- | ------------------------------------- |
-| `coffee 'main'`       | `resources/assets/coffee/main.coffee` |
+| `@coffee('main')`     | `resources/assets/coffee/main.coffee` |
 
 
 ### Usage
-Now that you’re familiar with the tags work, here’s an example of them in use:
+Now that you’re familiar with how the directives work, here’s an example of them in use:
 ```stone
 @extends('layout.master')
 
@@ -187,10 +187,34 @@ When this view renders, it will load look something like this:
 </html>
 ```
 
+### Nunjucks
+
+All the references Stone directives mentioned above can also be used as Nunjucks tags:
+
+```njk
+<!DOCTYPE html>
+<html>
+	<head>
+		{% asset 'render', 'styles' %}
+	</head>
+	<body>
+		{% asset 'render', 'scripts' %}
+	</body>
+</html>
+```
+
+```njk
+{% extends 'layout.master' %}
+
+{% babel 'welcome' %}
+{% scss 'welcome' %}
+```
+
+
 ## Deployments
 During your deploy process, you should run `bin/cli assets:publish`.  This will precompile all assets and move them into the `public/` directory.
 
-As long as you’re using `assetPath()` or one of the asset container tags to reference your assets, they’ll start serving the compiled versions automatically.
+As long as you’re using `assetPath()` or one of the asset container directives to reference your assets, they’ll start serving the compiled versions automatically.
 
 ## Building Your Own Compiler
 Assets’ compilation system is fully extendable.
