@@ -9,7 +9,7 @@ When building frontend apps, Grind has a handy [HTML provider](https://github.co
 First, add the `grind-html` package via your preferred package manager:
 
 ```shell
-npm install --save grind-html
+yarn add grind-html
 ```
 
 Next, you’ll need to add `HtmlProvider` to your app providers in `app/Boostrap.js`:

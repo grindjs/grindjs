@@ -13,7 +13,7 @@ By building Swagger docs directly into routes, it reduces time and effort involv
 First, add the `grind-swagger` package via your preferred package manager:
 
 ```shell
-npm install --save grind-swagger
+yarn add grind-swagger
 ```
 
 Next, you’ll need to add `SwaggerProvider` to your app providers in `app/Boostrap.js`:

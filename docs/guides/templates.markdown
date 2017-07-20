@@ -9,7 +9,7 @@ Views should be stored in `/resources/views`.
 First, add the `grind-view` package via your preferred package manager:
 
 ```shell
-npm install --save grind-view
+yarn add grind-view
 ```
 
 Next, you’ll need to add `ViewProvider` to your app providers in `app/Boostrap.js`:
@@ -119,7 +119,7 @@ To use Nunjucks intead of Stone, update your view config:
 You’ll also need to add the Grind Nunjucks integration:
 
 ```shell
-npm install --save grind-nunjucks
+yarn add grind-nunjucks
 ```
 
 And that’s it!  The view factory will automatically load the Nunjucks engine from `grind-nunjucks`, so no need to register a provider.

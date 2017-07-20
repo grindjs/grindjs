@@ -9,7 +9,7 @@ Once setup, all you need to do is store your assets in `resources/assets` and th
 First, add the `grind-assets` package via your preferred package manager:
 
 ```shell
-npm install --save grind-assets
+yarn add grind-assets
 ```
 
 Next, you’ll need to add `AssetsProvider` to your app providers in `app/Boostrap.js`:
@@ -31,11 +31,11 @@ Refer to the table below determine which dependencies you’ll need:
 
 | Compiler | Install Command | Description |
 | -------- | --------------- | ----------- |
-| Babel | `npm install --save-dev babelify browserify` | Provides support for using ES6/7 features in the browser |
-| SCSS | `npm install --save-dev node-sass` | Provides SCSS compilation |
-| Javascript | `npm install --save-dev uglify-js` | Provides JS minificaiton |
-| CSS | `npm install --save-dev clean-css autoprefixer` | Provides CSS minification and autoprefixing |
-| SVG | `npm install --save-dev svgo` | Provides SVG optimization |
+| Babel | `yarn add --dev babelify browserify` | Provides support for using ES6/7 features in the browser |
+| SCSS | `yarn add --dev node-sass` | Provides SCSS compilation |
+| Javascript | `yarn add --dev uglify-js` | Provides JS minificaiton |
+| CSS | `yarn add --dev clean-css autoprefixer` | Provides CSS minification and autoprefixing |
+| SVG | `yarn add --dev svgo` | Provides SVG optimization |
 
 > {tip} Don’t worry if you forget to setup a dependency, Assets will let you know what to install if you try to use a compiler that doesn’t have it’s dependencies installed.
 
@@ -55,7 +55,7 @@ For safety this functionality is disabled by default, however it can be quickly 
 You’ll also need to add the `ws` package:
 
 ```shell
-npm install --save-dev ws
+yarn add --dev ws
 ```
 
 Once enabled, this will also reload the page anytime a JS/Babel file on your page changes.

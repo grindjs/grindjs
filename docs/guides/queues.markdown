@@ -9,7 +9,7 @@ Grind’s [Queue provider](https://github.com/grindjs/queue) is built on [Kue](h
 First, add the `grind-queue` package via your preferred package manager:
 
 ```shell
-npm install --save grind-queue
+yarn add grind-queue
 ```
 
 Next, you’ll need to add `QueueProvider` to your app providers in `app/Boostrap.js`:

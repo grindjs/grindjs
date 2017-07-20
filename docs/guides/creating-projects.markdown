@@ -16,8 +16,10 @@ The `grind` command provides a couple of different options for you when setting 
 * `--type=[web|api]`
 	* `web` is the default option, so there’s no need to pass it explicitly.  A web project includes a fully functional example site built on Grind, and includes dependencies for asset compilation and optimization, template rendering and HTML helpers.
 	* `api` should be used if you’re building, well, an API.  The API project will be barebones with enough to get you started, but not too much that it starts slowing you down.
-* `--skip-npm`
-	* By default `grind new` will run `npm install` for you, if you’d prefer to run it yourself and save time during project creation, you can pass this option.
+* `--skip-packages`
+	* By default `grind new` will run `yarn install` or `npm install` for you, if you’d prefer to run it yourself and save time during project creation, you can pass this option.
+* `--prefer-npm`
+	* Yarn is used by default if it’s detected, you can use `--prefer-npm` to override that behavior and install using `npm`.
 * `--tag=??`
 	* Without this flag, the installer will grab a list of available tags and pick the newest one.  If you’d prefer to install an older version of Grind (or a future, unreleased, version), you can explicitly pass in a tag via `--tag=0.6.0`.  Passing in the name of a branch or a commit hash as a tag is also supported.
 

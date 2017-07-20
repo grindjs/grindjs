@@ -9,7 +9,7 @@ This document only focuses on additional functionality Grind ORM provides on top
 First, add the `grind-orm` package via your preferred package manager:
 
 ```shell
-npm install --save grind-orm
+yarn add grind-orm
 ```
 
 Next, you’ll need to add `OrmProvider` to your app providers in `app/Boostrap.js`:

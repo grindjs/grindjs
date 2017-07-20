@@ -7,7 +7,7 @@ Grind’s [Database provider](https://github.com/grindjs/db) integrates Grind wi
 First, add the `grind-db` package via your preferred package manager:
 
 ```shell
-npm install --save grind-db
+yarn add grind-db
 ```
 
 Next, you’ll need to add `DatabaseProvider` to your app providers in `app/Boostrap.js`:
@@ -24,10 +24,10 @@ app.providers.push(DatabaseProvider)
 In order to actually use a database, you’ll first need to install the database driver(s) you need.  Knex [supports](http://knexjs.org/#Installation-node) a variety of different drivers:
 
 ```shell
-npm install mysql2 --save
-npm install mariasql --save
-npm install sqlite3 --save
-npm install pg --save
+yarn add mysql2
+yarn add mariasql
+yarn add sqlite3
+yarn add pg
 ```
 
 ## Usage

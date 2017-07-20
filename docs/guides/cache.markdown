@@ -9,7 +9,7 @@ You can access cache via `app.cache`.
 First, add the `grind-cache` package via your preferred package manager:
 
 ```shell
-npm install --save grind-cache
+yarn add grind-cache
 ```
 
 Next, you’ll need to add `CacheProvider` to your app providers in `app/Boostrap.js`:
@@ -75,12 +75,12 @@ By default, only in-memory is supported.  If you wish to persist cache (or share
 cache-manager supports a variety of engines, including fs, redis and memcache:
 
 ```bash
-npm install cache-manager-redis --save
-npm install cache-manager-mongodb --save
-npm install cache-manager-mongoose --save
-npm install cache-manager-fs --save
-npm install cache-manager-fs-binary --save
-npm install cache-manager-memcached-store --save
+yarn add cache-manager-redis
+yarn add cache-manager-mongodb
+yarn add cache-manager-mongoose
+yarn add cache-manager-fs
+yarn add cache-manager-fs-binary
+yarn add cache-manager-memcached-store
 ```
 
 ## Configuration
