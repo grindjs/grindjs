@@ -15,6 +15,7 @@
 * [Queues](queues)
 * [Redis](redis)
 * [Swagger](swagger)
+* [Support Helpers](support)
 * [Validation](validation)
 
 ##### Extending
