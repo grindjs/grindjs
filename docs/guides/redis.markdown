@@ -6,19 +6,14 @@ Grind supports a global `redis.json` config file that abstracts away  the variou
 
 ```json
 {
-
 	"default": "redis",
-
 	"connections": {
-
 		"redis": {
 			"host": "localhost",
 			"port": 6379,
 			"password": null
 		}
-
 	}
-
 }
 ```
 
