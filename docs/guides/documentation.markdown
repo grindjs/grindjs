@@ -20,6 +20,7 @@
 ##### Extending
 * [Providers](providers)
 * [Core Extensions](core-extensions)
+* [Events](events)
 
 ##### Building UI
 * [Views](templates)
