@@ -1,10 +1,21 @@
 /* eslint-disable no-sync */
 
-import test from 'ava'
+import { serial as test } from 'ava'
 import path from 'path'
 
-import '../src/Watcher'
-import '../src/FS'
+import { FS, Watcher } from '../src'
+
+class WatchNeverFiredError extends Error { constructor() { super('Watch never fired') } }
+
+function watchCatcher(t) {
+	return err => {
+		if(err instanceof WatchNeverFiredError) {
+			t.fail(err.message)
+		}
+
+		throw err
+	}
+}
 
 function delay(timeout) {
 	return new Promise(resolve => setTimeout(resolve, timeout))
@@ -19,7 +30,7 @@ async function startWatching(watch, { before = () => { }, watching = () => { }, 
 	await watching()
 
 	return new Promise((resolve, reject) => {
-		const timeout = setTimeout(() => reject('Watch never fired'), 1000)
+		const timeout = setTimeout(() => reject(new WatchNeverFiredError), 500)
 
 		watcher.restart = async () => {
 			clearTimeout(timeout)
@@ -35,7 +46,7 @@ async function startWatching(watch, { before = () => { }, watching = () => { }, 
 	})
 }
 
-test.serial('simple watch', async t => {
+test('simple watch - add', async t => {
 	const watch = path.join(__dirname, 'fixtures/watch/simple')
 	const file = path.join(watch, 'test.txt')
 
@@ -44,12 +55,44 @@ test.serial('simple watch', async t => {
 	}
 
 	return startWatching(watch, {
-		watching: () => setTimeout(async () => FS.writeFile(file, Date.now()), 50),
+		watching: () => setTimeout(() => FS.writeFile(file, Date.now()), 50),
 		restart: () => t.pass()
+	}).catch(watchCatcher(t))
+})
+
+test('simple watch - change', async t => {
+	const watch = path.join(__dirname, 'fixtures/watch/simple')
+	const file = path.join(watch, 'test.txt')
+
+	await FS.writeFile(file, 'start')
+
+	return startWatching(watch, {
+		watching: () => setTimeout(() => FS.writeFile(file, Date.now()), 50),
+		restart: () => t.pass()
+	}).catch(watchCatcher(t))
+})
+
+test('shouldn’t watch', async t => {
+	const watch = path.join(__dirname, 'fixtures/watch/simple')
+	const file = path.join(watch, 'test.txt')
+
+	if(await FS.exists(file)) {
+		await FS.unlink(file)
+	}
+
+	return startWatching(path.join(__dirname, 'fixtures/watch/cache'), {
+		watching: () => setTimeout(() => FS.writeFile(file, Date.now()), 50),
+		restart: () => t.fail('Watched a file it shouldn’t have')
+	}).catch(err => {
+		if(!(err instanceof WatchNeverFiredError)) {
+			throw err
+		}
+
+		t.pass()
 	})
 })
 
-test.serial('ensure clear cache', async t => {
+test('ensure clear cache', async t => {
 	const watch = path.join(__dirname, 'fixtures/watch/cache')
 	const before = { value: 1 }
 	const after = { value: 2 }
@@ -82,5 +125,5 @@ test.serial('ensure clear cache', async t => {
 
 		watching: () => setTimeout(() => writeJson(after), 300),
 		restart: () => t.deepEqual(require(file), after)
-	})
+	}).catch(watchCatcher(t))
 })
