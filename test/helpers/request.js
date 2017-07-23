@@ -1,7 +1,7 @@
 import 'babel-polyfill'
 import rp from 'request-promise-native'
 
-import './Grind'
+import './Application'
 import '../../src/HttpServer'
 
 let port = 0
@@ -9,7 +9,7 @@ export function makeServer(space, boot) {
 	let app = null
 
 	return (new HttpServer(() => {
-		app = new Grind({
+		app = new Application({
 			port: 32180 + space + (++port)
 		})
 

@@ -8,7 +8,7 @@ const EventEmitter = require('events')
 /**
  * Main Application class for Grind
  */
-export class Grind extends EventEmitter {
+export class Application extends EventEmitter {
 	express = null
 	_env = null
 

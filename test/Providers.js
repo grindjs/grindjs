@@ -1,12 +1,12 @@
 import test from 'ava'
-import './helpers/Grind'
+import './helpers/Application'
 
 function wait(time) {
 	new Promise(resolve => setTimeout(resolve, time))
 }
 
 function makeApp(provider) {
-	const app = new Grind
+	const app = new Application
 	app.providers.storage = [ ]
 	app.providers.add(provider)
 	return app

@@ -1,8 +1,8 @@
-import 'babel-polyfill'
-import path from 'path'
+require('babel-polyfill')
+const path = require('path')
 
 import {
-	Grind as BaseGrind,
+	Application as BaseApplication,
 	Paths as BasePaths
 } from '../../src'
 
@@ -14,7 +14,7 @@ class Paths extends BasePaths {
 
 }
 
-export class Grind extends BaseGrind {
+export class Application extends BaseApplication {
 
 	constructor(parameters = { }) {
 		parameters.pathsClass = parameters.pathsClass || Paths
