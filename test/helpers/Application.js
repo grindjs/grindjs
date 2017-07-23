@@ -9,7 +9,7 @@ import {
 class Paths extends BasePaths {
 
 	constructor() {
-		super(null, path.join(__dirname, '../fixtures'))
+		super(path.join(__dirname, '../fixtures'))
 	}
 
 }

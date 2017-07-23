@@ -57,11 +57,7 @@ export class Application extends EventEmitter {
 		configClass = configClass || Config
 		pathsClass = pathsClass || Paths
 
-		const parent = module.parent.parent === null ? module.parent : (
-			module.parent.parent.parent === null ? module.parent.parent : module.parent.parent.parent
-		)
-
-		this.paths = new pathsClass(parent.filename)
+		this.paths = new pathsClass
 		this.config = new configClass(this)
 		this.providers = new ProviderCollection
 		this.debug = this.config.get('app.debug', this.env() === 'local')
