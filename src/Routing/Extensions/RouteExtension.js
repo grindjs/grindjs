@@ -60,36 +60,6 @@ export function RouteExtension() {
 		return this._addMiddleware('after', false, ...handlers)
 	}
 
-	Route.prototype.use = function(...handlers) {
-		Log.deprecated('Route.use', {
-			version: 0.6,
-			obsoleted: 0.7,
-			rename: 'Route.before'
-		})
-
-		return this.before(...handlers)
-	}
-
-	Route.prototype.useBefore = function(...handlers) {
-		Log.deprecated('Route.useBefore', {
-			version: 0.6,
-			obsoleted: 0.7,
-			rename: 'Route.before'
-		})
-
-		return this.before(...handlers)
-	}
-
-	Route.prototype.useAfter = function(...handlers) {
-		Log.deprecated('Route.useAfter', {
-			version: 0.6,
-			obsoleted: 0.7,
-			rename: 'Route.after'
-		})
-
-		return this.after(...handlers)
-	}
-
 	Route.prototype.as = function(name) {
 		this.grindRouter.nameRoute(name, this)
 		return this
