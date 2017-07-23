@@ -1,9 +1,8 @@
 import test from 'ava'
-
-import './helpers/Grind'
+import './helpers/Application'
 
 function config(env = 'local') {
-	return (new Grind({ env })).config
+	return (new Application({ env })).config
 }
 
 test('simple', t => {

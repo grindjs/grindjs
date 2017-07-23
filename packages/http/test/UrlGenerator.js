@@ -1,9 +1,8 @@
 import test from 'ava'
-
-import './helpers/Grind'
+import './helpers/Application'
 
 function url() {
-	const app = new Grind({ port: 80 })
+	const app = new Application({ port: 80 })
 	const handler = (req, res) => res.send(req.path)
 
 	app.routes.get('users', handler).as('users.index')

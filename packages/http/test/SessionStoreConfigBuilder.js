@@ -1,15 +1,15 @@
 import test from 'ava'
-import { StoreConfigBuilder } from '../src/Session/StoreConfigBuilder'
-import { Grind } from './helpers/Grind'
+import '../src/Session/StoreConfigBuilder'
+import './helpers/Application'
 
 test('memory', t => {
-	const config = StoreConfigBuilder('memory', new Grind, true)
+	const config = StoreConfigBuilder('memory', new Application, true)
 
 	t.is(config.store, 'memory')
 })
 
 test('redis', t => {
-	const config = StoreConfigBuilder('redis', new Grind, true)
+	const config = StoreConfigBuilder('redis', new Application, true)
 
 	t.is(config.store, 'connect-redis')
 	t.is(config.options.host, 'localhost')
@@ -18,7 +18,7 @@ test('redis', t => {
 })
 
 test('redis-default', t => {
-	const config = StoreConfigBuilder('redis-default', new Grind, true)
+	const config = StoreConfigBuilder('redis-default', new Application, true)
 
 	t.is(config.store, 'connect-redis')
 	t.is(config.options.host, 'test')
@@ -27,7 +27,7 @@ test('redis-default', t => {
 })
 
 test('redis-auth', t => {
-	const config = StoreConfigBuilder('redis-auth', new Grind, true)
+	const config = StoreConfigBuilder('redis-auth', new Application, true)
 
 	t.is(config.store, 'connect-redis')
 	t.is(config.options.host, 'localhost')
@@ -36,7 +36,7 @@ test('redis-auth', t => {
 })
 
 test('database', t => {
-	const config = StoreConfigBuilder('database', new Grind, true)
+	const config = StoreConfigBuilder('database', new Application, true)
 	const connection = config.options.connection.client.config
 
 	t.is(config.store, 'database')
@@ -45,7 +45,7 @@ test('database', t => {
 })
 
 test('database-default', t => {
-	const app = new Grind
+	const app = new Application
 	app.providers.add(require('grind-db').DatabaseProvider)
 
 	return app.boot().then(() => {
@@ -59,7 +59,7 @@ test('database-default', t => {
 })
 
 test('database-alt', t => {
-	const config = StoreConfigBuilder('database-alt', new Grind, true)
+	const config = StoreConfigBuilder('database-alt', new Application, true)
 	const connection = config.options.connection.client.config
 
 	t.is(config.store, 'database')
