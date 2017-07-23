@@ -1,6 +1,6 @@
 {
   "name": "grind-support",
-  "version": "0.8.0-dev.0",
+  "version": "0.8.0-alpha.1",
   "description": "Support package for Grind",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
