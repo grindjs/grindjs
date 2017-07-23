@@ -1,5 +1,5 @@
 import test from 'ava'
-import '../src/Str'
+import { Str } from '../src'
 
 // Tests ported from https://github.com/dodo/node-slug/blob/master/test/slug.test.coffee
 

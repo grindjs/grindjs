@@ -1,5 +1,5 @@
 import test from 'ava'
-import '../src/merge'
+import { merge } from '../src'
 
 const lhs = {
 	debug: true,

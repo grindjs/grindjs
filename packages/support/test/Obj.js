@@ -1,5 +1,5 @@
 import test from 'ava'
-import '../src/Obj'
+import { Obj } from '../src'
 
 test('Obj.get', t => {
 	t.is(Obj.get({

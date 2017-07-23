@@ -1,3 +1,3 @@
-import i from 'i'
+const i = require('i')
 
 export const Inflect = { ...i() }

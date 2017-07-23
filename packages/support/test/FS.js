@@ -1,5 +1,5 @@
 import test from 'ava'
-import '../src/FS'
+import { FS } from '../src'
 
 const path = require('path')
 const fixtures = path.join(__dirname, 'fixtures/fs')
