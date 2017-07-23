@@ -1,3 +1,5 @@
+import '../Errors/MissingPackageError'
+
 const chalk = require('chalk')
 const express = require('express/lib/express.js')
 const path = require('path')
@@ -20,7 +22,18 @@ export class Watcher {
 	}
 
 	async watch() {
-		const watcher = require('chokidar').watch(this.dirs)
+		let chokidar = null
+
+		try {
+			chokidar = require('chokidar')
+		} catch(err) {
+			throw new MissingPackageError(
+				'chokidar', 'dev',
+				'`chokidar` is required to monitor file changes in your app.'
+			)
+		}
+
+		const watcher = chokidar.watch(this.dirs)
 
 		watcher.on('ready', () => {
 			watcher.on('all', async () => {
