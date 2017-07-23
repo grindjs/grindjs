@@ -6,7 +6,7 @@ let hasYarn = false
 
 export class MissingPackageError extends Error {
 
-	constructor(pkg, type = null) {
+	constructor(pkg, type = null, why = null) {
 		if(!hasCheckedForYarn) {
 			hasCheckedForYarn = true
 
@@ -39,7 +39,13 @@ export class MissingPackageError extends Error {
 			command = `npm install --save${type} ${pkg}`
 		}
 
-		super(`${pkg} missing, please run \`${command}\``)
+		let message = `${pkg} missing, please run \`${command}\``
+
+		if(typeof why === 'string') {
+			message += `: ${why}`
+		}
+
+		super(message)
 
 		this.name = this.constructor.name
 	}
