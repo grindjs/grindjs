@@ -126,21 +126,6 @@ export class Router {
 		const before = makeArray(options.before)
 		const after = makeArray(options.after)
 
-		if(!options.use.isNil) {
-			Log.deprecated('Using `use` in Router.group', {
-				version: 0.6,
-				obsoleted: 0.8,
-				rename: '`before` and `after`'
-			})
-
-			if(Array.isArray(options.use) || typeof options.use !== 'object') {
-				options.use = { before: options.use }
-			}
-
-			before.push(...makeArray(options.use.before))
-			after.push(...makeArray(options.use.after))
-		}
-
 		const parentAction = this._scopedAction
 		const scope = {
 			prefix: path.join(this._scopedPrefix, this._normalizePathComponent(options.prefix || '/')),
@@ -259,28 +244,7 @@ export class Router {
 		/* eslint-enable no-sync */
 	}
 
-	all(pathname, action) {
-		Log.deprecated('Router.all', {
-			obsoleted: '0.7',
-			rename: 'Router.match'
-		})
-
-		return this.app.express.all(this._scopedPrefix + pathname, this._makeAction(action))
-	}
-
 	use(...middleware) {
-		if(middleware.length > 1 && typeof middleware[0] === 'string') {
-			Log.deprecated('Passing a path to Router.use', {
-				version: '0.6',
-				obsoleted: '0.7',
-				rename: 'Router.group({ prefix: path })'
-			})
-
-			return this.group({ prefix: middleware.shift() }, routes => {
-				routes.use(...middleware)
-			})
-		}
-
 		if(this._scope.length === 1) {
 			this.router.use(...middleware)
 		} else {
@@ -392,21 +356,6 @@ export class Router {
 		const after = [ ...this._scopedAction.after ]
 
 		if(typeof action === 'object') {
-			if(!action.use.isNil) {
-				Log.deprecated('Using `use` in route actions', {
-					version: 0.6,
-					obsoleted: 0.7,
-					rename: '`before` and `after`'
-				})
-
-				if(Array.isArray(action.use) || typeof action.use !== 'object') {
-					action.use = { before: action.use }
-				}
-
-				before.push(...makeArray(action.use.before))
-				after.unshift(...makeArray(action.use.after))
-			}
-
 			before.push(...makeArray(action.before))
 			after.unshift(...makeArray(action.after))
 		}
