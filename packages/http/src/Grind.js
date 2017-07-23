@@ -1,18 +1,8 @@
 import './Config'
-import './ErrorHandler'
 import './Paths'
 import './ProviderCollection'
-import './UrlGenerator'
 
-import './Routing/Router'
-import './Routing/RoutingProvider'
-import './Routing/UpgradeDispatcher'
-
-import './Routing/Extensions/RequestExtension'
-import './Routing/Extensions/ResponseExtension'
-import './Routing/Extensions/RouteExtension'
-
-const Express = require('express/lib/express.js')
+import { lazy } from 'grind-support'
 const EventEmitter = require('events')
 
 /**
@@ -29,6 +19,7 @@ export class Grind extends EventEmitter {
 	url = null
 
 	booted = false
+	booting = false
 	port = 3000
 	providers = null
 
@@ -49,7 +40,6 @@ export class Grind extends EventEmitter {
 	 * @param  {Class}   options.errorHandlerClass  Override for ErrorHandler class
 	 * @param  {Class}   options.urlGeneratorClass  Override for UrlGenerator class
 	 * @param  {Class}   options.pathsClass         Override for Paths class
-	 * @param  {Function} options.routingProvider   Override for RoutingProvider
 	 */
 	constructor({
 		env,
@@ -58,29 +48,14 @@ export class Grind extends EventEmitter {
 		configClass,
 		errorHandlerClass,
 		urlGeneratorClass,
-		pathsClass,
-		routingProvider
+		pathsClass
 	} = { }) {
-		RequestExtension()
-		ResponseExtension()
-		RouteExtension()
-
 		super()
-
-		this.express = Express()
-		this.express.disable('etag')
-		this.express._grind = this
 
 		this._env = env
 
-		routerClass = routerClass || Router
 		configClass = configClass || Config
-		errorHandlerClass = errorHandlerClass || ErrorHandler
-		urlGeneratorClass = urlGeneratorClass || UrlGenerator
 		pathsClass = pathsClass || Paths
-
-		routingProvider = routingProvider || RoutingProvider
-		routingProvider.priority = RoutingProvider.priority
 
 		const parent = module.parent.parent === null ? module.parent : (
 			module.parent.parent.parent === null ? module.parent.parent : module.parent.parent.parent
@@ -88,18 +63,44 @@ export class Grind extends EventEmitter {
 
 		this.paths = new pathsClass(parent.filename)
 		this.config = new configClass(this)
-		this.routes = new routerClass(this)
-		this.errorHandler = new errorHandlerClass(this)
-
 		this.providers = new ProviderCollection
-		this.providers.add(routingProvider)
-
 		this.debug = this.config.get('app.debug', this.env() === 'local')
-		this.port = port || process.env.NODE_PORT || this.config.get('app.port', 3000)
-
-		this.url = new urlGeneratorClass(this)
-
 		this.on('error', err => Log.error('EventEmitter error', err))
+
+		this.lazy('express', app => {
+			const express = require('express/lib/express.js')()
+			express.disable('etag')
+			express._grind = app
+			return express
+		})
+
+		// Register lazy loaded properties
+		this.lazy('routes', app => {
+			if(routerClass.isNil) {
+				routerClass = require('./Routing/Router.js').Router
+			}
+
+			return app._loadRouting(routerClass)
+		})
+
+		this.lazy('errorHandler', app => {
+			if(errorHandlerClass.isNil) {
+				errorHandlerClass = require('./ErrorHandler.js').ErrorHandler
+			}
+
+			return new errorHandlerClass(app)
+		})
+
+		this.lazy('url', app => {
+			if(urlGeneratorClass.isNil) {
+				urlGeneratorClass = require('./UrlGenerator.js').UrlGenerator
+			}
+
+
+			return new urlGeneratorClass(app)
+		})
+
+		this.lazy('port', () => port || process.env.NODE_PORT || this.config.get('app.port', 3000))
 	}
 
 	/**
@@ -120,6 +121,7 @@ export class Grind extends EventEmitter {
 			return
 		}
 
+		this.booting = true
 		this.providers.sort((a, b) => a.priority > b.priority ? -1 : 1)
 
 		for(const provider of this.providers) {
@@ -129,6 +131,7 @@ export class Grind extends EventEmitter {
 		this.emit('boot', this)
 
 		this.booted = true
+		this.booting = false
 	}
 
 	/**
@@ -136,6 +139,7 @@ export class Grind extends EventEmitter {
 	 * @return {object} HTTP server instance
 	 */
 	async listen(...args) {
+		this.routes // Ensure the router is lazy loaded before we boot
 		await this.boot()
 
 		// Register error handler
@@ -152,6 +156,7 @@ export class Grind extends EventEmitter {
 
 		// Register upgrade handlers
 		if(Object.keys(this.routes.upgraders).length > 0) {
+			const { UpgradeDispatcher } = require('./Routing/UpgradeDispatcher')
 			this.server.on('upgrade', UpgradeDispatcher.bind(this.routes, this.routes.upgraders))
 		}
 
@@ -161,7 +166,7 @@ export class Grind extends EventEmitter {
 	}
 
 	/**
-	 * Shutsdown the current application, if booted.
+	 * Shuts down the current application, if booted.
 	 * This will notify all registered providers with a shutdown handler.
 	 *
 	 * @return {Promise}
@@ -189,6 +194,34 @@ export class Grind extends EventEmitter {
 	}
 
 	/**
+	 * Setups up the application to handle routing
+	 *
+	 * @param  {Class}  routerClass Class or subclass of Router
+	 * @return {Object}             Instance of routerClass
+	 */
+	_loadRouting(routerClass) {
+		const { RequestExtension } = require('./Routing/Extensions/RequestExtension.js')
+		const { ResponseExtension } = require('./Routing/Extensions/ResponseExtension.js')
+		const { RouteExtension } = require('./Routing/Extensions/RouteExtension.js')
+
+		RequestExtension()
+		ResponseExtension()
+		RouteExtension()
+
+		const router = new routerClass(this)
+
+		if(this.booted || this.booting) {
+			router.boot()
+		} else {
+			const boot = router.boot.bind(router)
+			boot.priority = 35000
+			this.providers.add(boot)
+		}
+
+		return router
+	}
+
+	/**
 	 * Register a property on the app instance that will be
 	 * populated with the value of `callback` after the first
 	 * time it’s called.
@@ -198,19 +231,7 @@ export class Grind extends EventEmitter {
 	 *                             the value of the property
 	 */
 	lazy(name, callback) {
-		Object.defineProperty(this, name, {
-			configurable: true,
-			get: () => {
-				const value = callback(this)
-
-				Object.defineProperty(this, name, {
-					value: value,
-					writeable: false
-				})
-
-				return value
-			}
-		})
+		lazy(this, name, callback)
 	}
 
 	/**
