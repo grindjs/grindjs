@@ -6,7 +6,7 @@
   "author": "Shaun Harrison",
   "license": "MIT",
   "dependencies": {
-    "acorn": "^5.1.1",
+    "acorn": "5.1.0",
     "astring": "^1.0.3",
     "chokidar": "^1.7.0",
     "he": "^1.1.1"
