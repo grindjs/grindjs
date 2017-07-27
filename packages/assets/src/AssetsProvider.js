@@ -86,7 +86,13 @@ export function AssetsProvider(app, parameters = { }) {
 
 	app.assets.controller = new CompileController(app, factory)
 
+	const cors = (req, res, next) => {
+		res.header('Access-Control-Allow-Origin', '*')
+		return next()
+	}
+
 	app.routes.group({ prefix: 'assets', controller: app.assets.controller }, routes => {
+		routes.use(cors)
 		routes.get(':type/:a?/:b?/:c?/:d?/:e?', 'compile')
 	})
 
@@ -96,12 +102,16 @@ export function AssetsProvider(app, parameters = { }) {
 		dirs.add(published[src].replace(/^\//, '').split(/\//)[0])
 	}
 
-	for(const dir of dirs) {
-		app.routes.static(dir, dir, {
-			lastModified: true,
-			maxAge: 864000000
-		})
-	}
+	app.routes.group(routes => {
+		routes.use(cors)
+
+		for(const dir of dirs) {
+			routes.static(dir, dir, {
+				lastModified: true,
+				maxAge: 864000000
+			})
+		}
+	})
 
 	if(!app.cli.isNil) {
 		app.cli.register(PublishCommand)

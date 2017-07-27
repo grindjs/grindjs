@@ -55,6 +55,7 @@ test('headers', async t => {
 	t.is(response.headers['cache-control'], 'public, max-age=31536000')
 	t.is(response.headers['content-type'], 'text/css; charset=utf-8')
 	t.is(response.headers['content-length'], '63')
+	t.is(response.headers['access-control-allow-origin'], '*')
 	t.is((response.headers['last-modified'] || '').length > 0, true)
 	t.is((response.headers.expires || '').length > 0, true)
 	t.is((response.headers.etag || '').length > 0, true)
