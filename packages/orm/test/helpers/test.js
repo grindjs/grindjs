@@ -7,12 +7,16 @@ test.beforeEach(async t => {
 	t.context.app = await makeApp()
 
 	UserModel.app(t.context.app)
+	UserModel.knex(t.context.app.db)
 	t.context.UserModel = UserModel
 
 	UserAvatarModel.app(t.context.app)
+	UserAvatarModel.knex(t.context.app.db)
 	t.context.UserAvatarModel = UserAvatarModel
 })
 
 test.afterEach.always(t => t.context.app.shutdown())
 
-export { test }
+module.exports = {
+	test: test.serial
+}
