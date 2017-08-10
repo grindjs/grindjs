@@ -82,7 +82,7 @@ export class Model extends ObjectionModel {
 		foreignKey = foreignKey || Inflect.foreignKey(this.name)
 
 		if(localKey.isNil) {
-			localKey = this.getFullIdColumn()
+			localKey = this._getFullIdColumn()
 		} else {
 			localKey = `${this.tableName}.${localKey}`
 		}
@@ -101,7 +101,7 @@ export class Model extends ObjectionModel {
 		foreignKey = foreignKey || Inflect.foreignKey(modelClass.name)
 
 		if(otherKey.isNil) {
-			otherKey = modelClass.getFullIdColumn()
+			otherKey = modelClass._getFullIdColumn()
 		} else {
 			otherKey = `${modelClass.tableName}.${otherKey}`
 		}
@@ -125,12 +125,12 @@ export class Model extends ObjectionModel {
 			relation: this.ManyToManyRelation,
 			modelClass: modelClass,
 			join: {
-				from: this.getFullIdColumn(),
+				from: this._getFullIdColumn(),
 				through: {
 					from: `${tableName}.${otherKey}`,
 					to: `${tableName}.${foreignKey}`
 				},
-				to: modelClass.getFullIdColumn()
+				to: modelClass._getFullIdColumn()
 			}
 		}
 	}
@@ -310,4 +310,20 @@ export class Model extends ObjectionModel {
 		return name.charAt(0).toUpperCase() + name.substring(1)
 	}
 
+}
+
+if(typeof Model.getFullIdColumn !== 'function') {
+	// `getFullIdColumn` removed in Objection after 0.6.x
+	// however the relation builder uses it, so we’ll restore
+	// the functionality privately
+
+	Model._getFullIdColumn = function() {
+		if(Array.isArray(this.idColumn)) {
+			return this.idColumn.map(col => `${this.tableName}.${col}`)
+		}
+
+		return `${this.tableName}.${this.idColumn}`
+	}
+} else {
+	Model._getFullIdColumn = Model.getFullIdColumn
 }
