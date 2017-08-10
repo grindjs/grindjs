@@ -1,0 +1,15 @@
+{
+
+	"default": "sqlite",
+
+	"connections": {
+
+		"sqlite": {
+			"driver": "sqlite3",
+			"filename": "./database.sqlite",
+			"useNullAsDefault": true
+		}
+
+	}
+
+}

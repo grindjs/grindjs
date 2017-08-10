@@ -24,18 +24,30 @@
     "grind-framework": "^0.7.0"
   },
   "devDependencies": {
+    "ava": "^0.21.0",
     "babel-cli": ">=6.7 <=7.0",
     "babel-eslint": "^6.1.1",
     "babel-preset-grind": "^0.7.0",
     "eslint": "^3.3.1",
     "eslint-config-grind": "^2.0.0",
-    "eslint-plugin-import-auto-name": "^1.0.3"
+    "eslint-plugin-import-auto-name": "^1.0.3",
+    "grind-cli": "^0.7.0",
+    "grind-db": "^0.7.0",
+    "grind-framework": "^0.7.1",
+    "sqlite": "^2.8.0"
   },
   "engines": {
     "node": ">=6.9"
   },
   "scripts": {
-    "prepublish": "./build",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "prepare": "bin/build",
+    "test": "bin/ava --verbose"
+  },
+  "ava": {
+    "require": [
+      "babel-register"
+    ],
+    "babel": "inherit"
   }
 }
