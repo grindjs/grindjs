@@ -246,7 +246,7 @@ export class Model extends ObjectionModel {
 		return super.$beforeValidate(jsonSchema, json, opt)
 	}
 
-	$beforeSave(inserting) {
+	$beforeSave(inserting, queryContext) {
 		return new Promise(resolve => {
 			if(this.constructor.useTimestamps) {
 				const now = new Date
@@ -258,14 +258,14 @@ export class Model extends ObjectionModel {
 			}
 
 			resolve()
-		}).then(() => RelationValidator(this))
+		}).then(() => RelationValidator(this, queryContext))
 	}
 
-	$beforeInsert() {
-		return this.$beforeSave(true)
+	$beforeInsert(...args) {
+		return this.$beforeSave(true, ...args)
 	}
 
-	$beforeUpdate() {
+	$beforeUpdate(...args) {
 		if(this.constructor.useIdSafeUpdates) {
 			const cols = this.constructor.getIdColumnArray()
 
@@ -278,7 +278,7 @@ export class Model extends ObjectionModel {
 			}
 		}
 
-		return this.$beforeSave(false)
+		return this.$beforeSave(false, ...args)
 	}
 
 	static getDates() {

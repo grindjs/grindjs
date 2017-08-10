@@ -81,6 +81,23 @@ export class QueryBuilder extends ObjectionQueryBuilder {
 		return super.eager(exp, filters)
 	}
 
+	context(...args) {
+		if(args.length > 0) {
+			return super.context(...args)
+		}
+
+		const context = super.context()
+
+		if(context.transaction === void 0) {
+			// `context.transaction` wasn‘t added
+			// until Objection 0.7, this polyfills
+			// support for older versions
+			context.transaction = this._context.knex
+		}
+
+		return context
+	}
+
 	clone() {
 		const builder = super.clone()
 		builder._cyclicalEagerProtection = [ ].concat(this._cyclicalEagerProtection)

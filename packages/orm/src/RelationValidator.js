@@ -1,6 +1,6 @@
 const as = require('as-type')
 
-export function RelationValidator(model) {
+export function RelationValidator(model, queryContext) {
 	const modelClass = model.constructor
 
 	if(!modelClass.jsonSchema || !modelClass.jsonSchema.properties) {
@@ -15,6 +15,7 @@ export function RelationValidator(model) {
 	}
 
 	const promises = [ ]
+	const transaction = (queryContext || { }).transaction || model.$knex()
 
 	for(const field of Object.keys(properties)) {
 		if(typeof model[field] === 'undefined') {
@@ -36,7 +37,6 @@ export function RelationValidator(model) {
 
 		const relation = relations[property.relation]
 
-		const knex = model.$knex()
 		let foreignTable = null
 		let foreignColumn = null
 
@@ -48,7 +48,7 @@ export function RelationValidator(model) {
 			foreignColumn = relation.ownerCol[0]
 		}
 
-		promises.push(knex(foreignTable).where(foreignColumn, value).first().then(row => {
+		promises.push(transaction(foreignTable).where(foreignColumn, value).first().then(row => {
 			if(!row.isNil) {
 				return
 			}
