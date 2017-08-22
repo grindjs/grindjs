@@ -86,25 +86,22 @@ export class Beanstalk {
 		})
 	}
 
-	watch(tube, types, handler) {
+	watch(tubes, type, handler) {
 		let worker = null
-		const handlers = { }
 
-		if(typeof types === 'string') {
-			types = [ types ]
+		if(typeof tubes === 'string') {
+			tubes = [ tubes ]
 		}
 
-		const _handler = {
-			work: (payload, callback) => {
-				handler(JSON.parse(payload), worker.currentJob, callback)
+		worker = new FivebeansWorker({
+			handlers: {
+				[type]: {
+					work: (payload, callback) => {
+						handler(JSON.parse(payload), worker.currentJob, callback)
+					}
+				}
 			}
-		}
-
-		for(const type of types) {
-			handlers[type] = _handler
-		}
-
-		worker = new FivebeansWorker({ handlers })
+		})
 
 		// fivebeans’s worker class creates it’s
 		// own client, since we already have one
@@ -123,24 +120,25 @@ export class Beanstalk {
 		})
 
 		return new Promise((resolve, reject) => {
-			worker.watch([ tube ], err => {
+			worker.watch(tubes, err => {
 				if(!err.isNil) {
 					return reject(err)
 				}
 
-				if(tube !== 'default') {
-					worker.ignore([ 'default' ], err => {
-						if(!err.isNil) {
-							return reject(err)
-						}
-
-						worker.emit('started')
-						worker.emit('next')
-					})
-				} else {
+				if(tubes.includes('default')) {
 					worker.emit('started')
 					worker.emit('next')
+					return
 				}
+
+				worker.ignore([ 'default' ], err => {
+					if(!err.isNil) {
+						return reject(err)
+					}
+
+					worker.emit('started')
+					worker.emit('next')
+				})
 			})
 		})
 	}

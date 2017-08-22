@@ -1,6 +1,6 @@
 {
   "name": "grind-queue",
-  "version": "0.7.0",
+  "version": "0.8.0-pre.1",
   "description": "Queue provider for Grind",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
@@ -17,7 +17,7 @@
   ],
   "peerDependencies": {
     "grind-cli": "^0.7.0",
-    "grind-framework": "^0.7.0"
+    "grind-framework": "^0.7.1"
   },
   "devDependencies": {
     "ava": "^0.18.1",
@@ -29,7 +29,7 @@
     "eslint-plugin-import-auto-name": "^1.0.3",
     "fivebeans": "^1.5.0",
     "grind-cli": "^0.7.0",
-    "grind-framework": "^0.7.0",
+    "grind-framework": "^0.7.1",
     "kue": "^0.11.5"
   },
   "engines": {

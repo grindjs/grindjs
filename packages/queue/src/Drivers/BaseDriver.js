@@ -1,5 +1,3 @@
-import '../JobPriority'
-
 /**
  * Base class all drivers must extend
  */
@@ -7,9 +5,11 @@ export class BaseDriver {
 	app = null
 	state = null
 	retryDelay = 90000
+	queue = null
 
 	constructor(app, config) {
 		this.app = app
+		this.queue = config.queue || 'default'
 
 		if(config.retry_delay) {
 			this.retryDelay = Number.parseInt(config.retry_delay)
@@ -46,16 +46,16 @@ export class BaseDriver {
 	}
 
 	/**
-	 * Listens for jobs dispatched to the queue
+	 * Listens for jobs dispatched to the specified queues
 	 *
-	 * @param  [string] names   Name of the jobs to listen for
-	 * @param  function handler Callback hander to process the job
-	 *
-	 * @return Promise          Promise that resolves once the
-	 *                          queue is exhausted, or never resolves
-	 *                          if the queue listens forever
+	 * @param  [string] queues       Name of the queues listen for
+	 * @param  function jobHandler   Job handler to process the job
+	 * @param  function errorHandler Error handler for unrecoverable errors
+	 * @return Promise               Promise that resolves once the
+	 *                               queue is exhausted, or never resolves
+	 *                               if the queue listens forever
 	 */
-	listen(/* names, handler */) {
+	listen(/* queues, jobHandler, errorHandler */) {
 		return Promise.reject('Abstract method, subclasses must implement.')
 	}
 
@@ -82,11 +82,11 @@ export class BaseDriver {
 		return {
 			name: job.constructor.jobName,
 			data: job.$toJson(),
-			priority: this.resolvePriority(options.priority || defaults.priority),
-			delay: options.delay || 0,
-			timeout: options.timeout || 0,
+			queue: options.queue || defaults.queue || this.queue,
+			delay: options.delay || defaults.delay || 0,
+			timeout: options.timeout || defaults.timeout || 0,
 			tries: Math.max(1, Number.parseInt(options.tries || defaults.tries) || 1),
-			retryDelay: options.retryDelay || defaults.retryDelay || this.retryDelay || options.delay || 0
+			retry_delay: options.retryDelay || defaults.retryDelay || this.retryDelay || options.delay || 0
 		}
 	}
 
@@ -99,24 +99,6 @@ export class BaseDriver {
 	 */
 	handleError(err) {
 		return Promise.reject(err)
-	}
-
-	/**
-	 * Resolves job priority from different values
-	 *
-	 * @param  mixed  priority String or Number representing priority
-	 * @return number          Integer representing the job priority
-	 */
-	resolvePriority(priority) {
-		const type = typeof priority
-
-		if(type === 'string') {
-			return JobPriority[priority.toLowerCase()] || 0
-		} else if(type === 'number') {
-			return priority
-		}
-
-		return 0
 	}
 
 	/**

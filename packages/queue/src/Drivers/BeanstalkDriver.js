@@ -6,13 +6,11 @@ import '../Support/Beanstalk'
  */
 export class BeanstalkDriver extends BaseDriver {
 	client = null
-	tube = null
 
 	constructor(app, config) {
 		super(app, config)
 
 		this.client = new Beanstalk(config.host, config.port)
-		this.tube = config.queue || 'default'
 	}
 
 	connect() {
@@ -23,16 +21,18 @@ export class BeanstalkDriver extends BaseDriver {
 		const payload = this.buildPayload(job)
 		payload.delay = Math.round(payload.delay / 1000)
 		payload.timeout = Math.round(payload.timeout / 1000)
-		payload.retryDelay = Math.round(payload.delay / 1000)
+		payload.retry_delay = Math.round(payload.delay / 1000)
 
-		await this.client.use(this.tube)
+		await this.client.use(payload.queue)
 
-		return this.client.put(payload.priority, payload.delay, 0, payload.name, payload)
+		// FIXME: There’s an edge case here where use can change from a different
+		// dispatched job and this job will get placed in the wrong queue.
+		return this.client.put(0, payload.delay, 0, 'grind-job', payload)
 	}
 
-	listen(names, handler) {
-		return this.client.watch(this.tube, names, (job, jobId, callback) => {
-			handler(job).then(() => callback('success')).catch(err => {
+	listen(queues, jobHandler, errorHandler) {
+		return this.client.watch(queues, 'grind-job', (job, jobId, callback) => {
+			jobHandler(job).then(() => callback('success')).catch(err => {
 				const tries = Number.parseInt(job.tries) || 1
 
 				if(tries <= 1) {
@@ -48,14 +48,14 @@ export class BeanstalkDriver extends BaseDriver {
 						throw err
 					}
 
-					if(job.retryDelay <= 0) {
-						delete job.retryDelay
+					if(job.retry_delay <= 0) {
+						delete job.retry_delay
 					}
 
-					callback('release', job.retryDelay)
+					callback('release', job.retry_delay)
 				})
 			}).catch(err => {
-				Log.error('Erroring running job, deleting', err)
+				errorHandler(job, err)
 				callback('success')
 			})
 		})

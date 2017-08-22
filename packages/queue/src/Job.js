@@ -1,13 +1,13 @@
 export class Job {
 	static jobName = null
 
-	static priority = 'normal'
+	static queue = null
 	static tries = 1
 	static retryDelay = null
 	static timeout = null
 
 	$options = {
-		priority: null,
+		queue: null,
 		delay: null,
 		tries: null,
 		retryDelay: null,
@@ -19,8 +19,8 @@ export class Job {
 		//
 	}
 
-	$priority(value) {
-		this.$options.priority = value
+	$queue(value) {
+		this.$options.queue = value
 		return this
 	}
 

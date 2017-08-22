@@ -46,12 +46,14 @@ export class Queue {
 		return this.driver.willListen()
 	}
 
-	listen(jobNames) {
-		if(typeof jobNames === 'string') {
-			jobNames = [ jobNames ]
+	listen(queues) {
+		if(typeof queues === 'string') {
+			queues = [ queues ]
+		} else if(queues.isNil) {
+			queues = [ this.driver.queue ]
 		}
 
-		return this.connect().then(() => this.driver.listen(jobNames, payload => {
+		return this.connect().then(() => this.driver.listen(queues, payload => {
 			let result = null
 
 			try {
@@ -76,7 +78,7 @@ export class Queue {
 			}
 
 			return result.catch(err => this.handleError(err))
-		}))
+		}, this.logError.bind(this)))
 	}
 
 	status(jobId) {
@@ -85,6 +87,10 @@ export class Queue {
 
 	handleError(err) {
 		return this.driver.handleError(err)
+	}
+
+	logError(payload, err) {
+		Log.error(`Job failed: ${payload.name}`, err)
 	}
 
 	destroy() {

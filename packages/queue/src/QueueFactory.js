@@ -3,66 +3,64 @@ import './Queue'
 
 import './Drivers/BaseDriver'
 import './Drivers/BeanstalkDriver'
-import './Drivers/KueDriver'
 
 export class QueueFactory {
 	app = null
-	queues = { }
+	connections = { }
 	jobs = { }
 	drivers = {
 		beanstalk: BeanstalkDriver,
-		beanstalkd: BeanstalkDriver,
-		kue: KueDriver
+		beanstalkd: BeanstalkDriver
 	}
 
 	constructor(app) {
 		this.app = app
 	}
 
-	dispatch(job, queue = null) {
-		return this.get(queue).dispatch(job)
+	dispatch(job, connection = null) {
+		return this.get(connection).dispatch(job)
 	}
 
-	status(job, queue = null) {
-		return this.get(queue).status(job)
+	status(job, connection = null) {
+		return this.get(connection).status(job)
 	}
 
-	get(queue) {
+	get(connection) {
 		let name = null
 
-		if(queue.isNil) {
-			queue = this.app.config.get('queue.default')
+		if(connection.isNil) {
+			connection = this.app.config.get('queue.default')
 		}
 
-		if(typeof queue === 'string') {
-			const q = this.queues[queue]
+		if(typeof connection === 'string') {
+			const q = this.connections[connection]
 
 			if(!q.isNil) {
 				return q
 			}
 
-			name = queue
-			queue = this.app.config.get(`queue.connections.${name}`)
+			name = connection
+			connection = this.app.config.get(`queue.connections.${name}`)
 		}
 
-		if(queue.isNil || typeof queue !== 'object') {
+		if(connection.isNil || typeof connection !== 'object') {
 			throw new Error('Invalid config')
 		}
 
-		const config = { ...queue }
+		const config = { ...connection }
 		const driverClass = this.drivers[config.driver]
 
 		if(driverClass.isNil) {
 			throw new Error(`Unsupported queue driver: ${config.driver}`)
 		}
 
-		queue = this.make(driverClass, config)
+		connection = this.make(driverClass, config)
 
 		if(!name.isNil) {
-			this.queues[name] = queue
+			this.connections[name] = connection
 		}
 
-		return queue
+		return connection
 	}
 
 	make(driverClass, config) {
@@ -88,7 +86,7 @@ export class QueueFactory {
 	}
 
 	destroy() {
-		return Promise.all(Object.values(this.queues).map(queue => queue.destroy()))
+		return Promise.all(Object.values(this.connections).map(connection => connection.destroy()))
 	}
 
 }

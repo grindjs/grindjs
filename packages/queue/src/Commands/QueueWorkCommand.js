@@ -1,11 +1,16 @@
-import { Command, InputOption } from 'grind-cli'
+import { Command, InputArgument, InputOption } from 'grind-cli'
+import '../Worker'
 
 export class QueueWorkCommand extends Command {
 	name = 'queue:work'
 	description = 'Process jobs in the queue'
 
+	arguments = [
+		new InputArgument('connection', InputArgument.VALUE_OPTIONAL, 'Connection to perform work for.')
+	]
+
 	options = [
-		new InputOption('job', InputOption.VALUE_OPTIONAL, 'Restrict the name of job(s) to process'),
+		new InputOption('queue', InputOption.VALUE_OPTIONAL, 'Specify the queue(s) to perform work for.'),
 		new InputOption('watch', InputOption.VALUE_OPTIONAL, 'Folders to watch for changes')
 	]
 
@@ -29,18 +34,15 @@ export class QueueWorkCommand extends Command {
 	}
 
 	async run() {
-		let jobNames = null
+		let queues = null
+		const connection = this.app.queue.get(this.argument('connection'))
 
-		if(this.containsOption('job')) {
-			jobNames = this.option('job').split(/,/).map(job => job.trim())
-		} else {
-			jobNames = Object.keys(this.app.queue.jobs)
+		if(this.containsOption('queue')) {
+			queues = this.option('queue').split(/,/).map(job => job.trim()).filter(job => job.length > 0)
 		}
 
-		const queue = this.app.queue.get()
-		await queue.willListen()
-
-		return queue.listen(jobNames)
+		const worker = new Worker(connection)
+		return worker.work(queues)
 	}
 
 }
