@@ -9,6 +9,7 @@ import './Commands/QueueWorkCommand'
 
 import './Drivers/BaseDriver'
 import './Drivers/BeanstalkDriver'
+import './Drivers/RabbitDriver'
 
 export {
 	Job,
@@ -19,6 +20,7 @@ export {
 	// Drivers
 	BaseDriver,
 	BeanstalkDriver,
+	RabbitDriver,
 
 	// Commands
 	QueueWorkCommand,
