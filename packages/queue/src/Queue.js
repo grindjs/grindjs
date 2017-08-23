@@ -5,14 +5,12 @@ export class Queue {
 	driver = null
 	app = null
 	factory = null
-	_connectEmitter = new EventEmitter
+	_connectEmitter = null
 
 	constructor(app, factory, driver) {
 		this.app = app
 		this.factory = factory
 		this.driver = driver
-
-		this._connectEmitter.on('error', err => Log.error('_connectEmitter error', err))
 	}
 
 	connect() {
@@ -25,8 +23,9 @@ export class Queue {
 			})
 		}
 
-		this._connectQueue = [ ]
 		this.driver.state = 'connecting'
+		this._connectEmitter = new EventEmitter
+		this._connectEmitter.on('error', err => Log.error('_connectEmitter error', err))
 
 		return this.driver.connect().catch(err => {
 			this.driver.state = 'error'
