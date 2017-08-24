@@ -11,6 +11,7 @@ export class QueueWorkCommand extends Command {
 
 	options = [
 		new InputOption('queue', InputOption.VALUE_OPTIONAL, 'Specify the queue(s) to perform work for.'),
+		new InputOption('concurrency', InputOption.VALUE_OPTIONAL, 'Number of jobs to process concurrency.', '1'),
 		new InputOption('watch', InputOption.VALUE_OPTIONAL, 'Folders to watch for changes')
 	]
 
@@ -42,7 +43,7 @@ export class QueueWorkCommand extends Command {
 		}
 
 		const worker = new Worker(connection)
-		return worker.work(queues)
+		return worker.work(queues, Number.parseInt(this.option('concurrency', 1)) || 1)
 	}
 
 }

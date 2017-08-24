@@ -45,14 +45,14 @@ export class Queue {
 		return this.driver.willListen()
 	}
 
-	listen(queues) {
+	listen(queues, concurrency) {
 		if(typeof queues === 'string') {
 			queues = [ queues ]
 		} else if(queues.isNil) {
 			queues = [ this.driver.queue ]
 		}
 
-		return this.connect().then(() => this.driver.listen(queues, payload => {
+		return this.connect().then(() => this.driver.listen(queues, concurrency, payload => {
 			let result = null
 
 			try {

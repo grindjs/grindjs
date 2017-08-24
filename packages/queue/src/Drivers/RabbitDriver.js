@@ -86,8 +86,8 @@ export class RabbitDriver extends BaseDriver {
 		return this.channel.waitForConfirms()
 	}
 
-	async listen(queues, jobHandler, errorHandler) {
-		await this.channel.prefetch(1, queues.length > 1)
+	async listen(queues, concurrency, jobHandler, errorHandler) {
+		await this.channel.prefetch(concurrency, queues.length > 1)
 
 		for(const queue of queues) {
 			await this.channel.assertQueue(queue)

@@ -49,13 +49,14 @@ export class BaseDriver {
 	 * Listens for jobs dispatched to the specified queues
 	 *
 	 * @param  [string] queues       Name of the queues listen for
+	 * @param  number   concurrency  Number of jobs to process at once
 	 * @param  function jobHandler   Job handler to process the job
 	 * @param  function errorHandler Error handler for unrecoverable errors
 	 * @return Promise               Promise that resolves once the
 	 *                               queue is exhausted, or never resolves
 	 *                               if the queue listens forever
 	 */
-	listen(/* queues, jobHandler, errorHandler */) {
+	listen(/* queues, concurrency, jobHandler, errorHandler */) {
 		return Promise.reject('Abstract method, subclasses must implement.')
 	}
 

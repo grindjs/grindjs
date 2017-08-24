@@ -5,8 +5,8 @@ export class Worker {
 		this.connection = connection
 	}
 
-	work(queues) {
-		return this.connection.willListen().then(() => this.connection.listen(queues))
+	work(queues, concurrency = 1) {
+		return this.connection.willListen().then(() => this.connection.listen(queues, concurrency))
 	}
 
 }

@@ -30,7 +30,17 @@ export class BeanstalkDriver extends BaseDriver {
 		return this.client.put(0, payload.delay, 0, 'grind-job', payload)
 	}
 
-	listen(queues, jobHandler, errorHandler) {
+	listen(queues, concurrency, jobHandler, errorHandler) {
+		const listeners = [ ]
+
+		for(let i = 0; i < concurrency; i++) {
+			listeners.push(this._listen(queues, jobHandler, errorHandler))
+		}
+
+		return Promise.all(listeners)
+	}
+
+	_listen(queues, jobHandler, errorHandler) {
 		return this.client.watch(queues, 'grind-job', (job, jobId, callback) => {
 			jobHandler(job).then(() => callback('success')).catch(err => {
 				const tries = Number.parseInt(job.tries) || 1
