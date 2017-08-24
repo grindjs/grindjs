@@ -45,7 +45,7 @@ export class RabbitDriver extends BaseDriver {
 			uri.auth = config.user
 
 			if(!config.password.isNil) {
-				uri.password += `:${config.password}`
+				uri.auth += `:${config.password}`
 			}
 		}
 
