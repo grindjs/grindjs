@@ -1,6 +1,7 @@
 const path = require('path')
+const EventEmitter = require('events')
 
-export class Devbar {
+export class Devbar extends EventEmitter {
 
 	/**
 	 * The app instance.
@@ -46,8 +47,11 @@ export class Devbar {
 	 * @param  string viewPath Path to the devbar template
 	 */
 	constructor(app, viewPath = null) {
+		super()
+
 		this.app = app
 		this.viewPath = viewPath || path.join(__dirname, '../resources/views/devbar.stone')
+		this.on('error', err => Log.error('Error during devbar event', err))
 	}
 
 	/**
@@ -154,8 +158,9 @@ export class Devbar {
 
 		const send = this.res.send
 		this.res.send = function(body) {
+			const devbar = this.devbar
+
 			try {
-				const devbar = this.devbar
 				devbar.timeEnd('request')
 				devbar.timeEnd('render')
 
@@ -166,6 +171,12 @@ export class Devbar {
 				body = inject(app, body, devbar, start, duration)
 			} catch(err) {
 				Log.error('Failed to render devbar', err)
+			}
+
+			try {
+				devbar.emit('finish')
+			} catch(err) {
+				Log.error('Error emitting devbar finish event', err)
 			}
 
 			return send.call(this, body)
