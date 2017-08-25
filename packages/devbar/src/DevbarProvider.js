@@ -1,5 +1,6 @@
 import './Devbar'
 import './MockDevbar'
+import './Collectors/DatabaseCollector'
 
 const path = require('path')
 
@@ -7,6 +8,7 @@ export function DevbarProvider(app, { devbarClass = Devbar } = { }) {
 	if(app.debug) {
 		app.routes.static('__devbar', path.join(__dirname, '../resources/assets'))
 		app.devbar = new devbarClass(app)
+		app.devbar.register(DatabaseCollector)
 	} else {
 		app.devbar = { ...MockDevbar }
 	}
