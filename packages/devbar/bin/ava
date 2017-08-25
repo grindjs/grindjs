@@ -1,0 +1,9 @@
+NODE_VERSION=$(node -v)
+NODE_VERSION=$(echo ${NODE_VERSION#*v} | cut -d. -f1)
+
+FLAGS=""
+if [ "$NODE_VERSION" = "7" ]; then
+	FLAGS="--harmony-async-await"
+fi
+
+NODE_ENV=test node $FLAGS node_modules/.bin/ava "$@"

@@ -1,0 +1,20 @@
+<link media="all" type="text/css" rel="stylesheet" href="/__devbar/css/devbar.css" />
+<div class="devbar">
+	<ul class="devbar-items">
+		<li class="devbar-item" tabindex="-1">
+			<span class="devbar-item-label">Timeline</span>
+			<ul class="devbar-panel devbar-timeline">
+				@for(const item of timeline)
+					<li class="devbar-timeline-item">
+						<span class="devbar-timeline-item-duration" style="width: {{ (item.duration / duration) * 100.0 }}%; left: {{ ((item.start - start) / duration) * 100.0 }}%"></span>
+						<span class="devbar-timeline-item-label">{{ item.label }} ({{ item.durationInMs }}ms)</span>
+					</li>
+				@endfor
+			</ul>
+		</li>
+
+		@for(const label of context.reverse())
+			<li class="devbar-item devbar-item-right">{{ label }}</li>
+		@endfor
+	</ul>
+</div>
