@@ -13,6 +13,29 @@
 			</ul>
 		</li>
 
+		@for(const [ label, messages ] of containers)
+			@if(messages.length === 0)
+				<li class="devbar-item">{{ label }}</span></li>
+				@continue
+			@endif
+
+			<li class="devbar-item" tabindex="-1">
+				<span class="devbar-item-label">{{ label }} ({{ messages.length }})</span>
+				<ul class="devbar-panel devbar-messages">
+					@for(const message of messages)
+						@if(typeof message === 'string')
+							<li class="devbar-messages-item">{{ message }}</li>
+						@else
+							<li class="devbar-messages-item">
+								<small class="devbar-messages-item-duration">{{ message.durationInMs }}ms</small>
+								{{ message.message }}
+							</li>
+						@endif
+					@endfor
+				</ul>
+			</li>
+		@endfor
+
 		@for(const label of context.reverse())
 			<li class="devbar-item devbar-item-right">{{ label }}</li>
 		@endfor

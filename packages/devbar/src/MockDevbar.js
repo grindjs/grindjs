@@ -9,6 +9,7 @@ export const MockDevbar = {
 	time: () => { },
 	timeEnd: () => { },
 	addContext: () => { },
+	add: () => { },
 	start: next => next(),
 	clone: () => MockDevbar
 }

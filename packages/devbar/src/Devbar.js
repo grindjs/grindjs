@@ -34,6 +34,12 @@ export class Devbar {
 	context = [ ]
 
 	/**
+	 * Containers are groups of messages that appear
+	 * on the devbar
+	 */
+	containers = { }
+
+	/**
 	 * Create a new devbar instance.
 	 *
 	 * @param  object app      App instance
@@ -90,6 +96,25 @@ export class Devbar {
 		}
 
 		timing.duration = process.hrtime(timing.start)
+	}
+
+	/**
+	 * Push a message onto a container
+	 * @param string container Container label to appear on the devbar
+	 * @param mixed  message   Message string or object containing a message
+	 *                         property and a start or duration property
+	 */
+	add(container, message) {
+		if(typeof message === 'object') {
+			if(message.duration.isNil && !message.start.isNil) {
+				message.duration = process.hrtime(message.start)
+			}
+
+			message.duration = flattenTime(message.duration)
+			message.durationInMs = Math.round(message.duration) / 1000.0
+		}
+
+		(this.containers[container] = this.containers[container] || [ ]).push(message)
 	}
 
 	/**
@@ -171,6 +196,7 @@ function inject(app, body, devbar, start, duration) {
 		start: flattenTime(start),
 		duration: flattenTime(duration),
 		context: devbar.context,
+		containers: Object.entries(devbar.containers),
 		timeline: Object.entries(devbar.timeline).map(([ label, item ]) => {
 			if(!item.duration) {
 				return null
