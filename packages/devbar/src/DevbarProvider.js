@@ -12,11 +12,20 @@ export function DevbarProvider(app, { devbarClass = Devbar } = { }) {
 	}
 
 	app.routes.use((req, res, next) => {
+		require('zone.js/dist/zone-node.js')
 		const devbar = req.app._grind.devbar.clone(req, res)
-		req.devbar = devbar
-		res.devbar = devbar
-		res.locals.devbar = devbar
-		return devbar.start(next)
+
+		global.Zone.current.fork({
+			properties: {
+				devbar: devbar,
+				id: Math.random()
+			}
+		}).run(() => {
+			req.devbar = devbar
+			res.devbar = devbar
+			res.locals.devbar = devbar
+			return devbar.start(next)
+		})
 	})
 }
 

@@ -6,10 +6,12 @@
  * to run unaffected in production.
  */
 export const MockDevbar = {
-	time: () => { },
-	timeEnd: () => { },
-	addContext: () => { },
-	add: () => { },
-	start: next => next(),
-	clone: () => MockDevbar
+	time() { },
+	timeEnd() { },
+	addContext() { },
+	add() { },
+	register() { },
+	start(next) { return  next() },
+	clone() { return MockDevbar },
+	current: null
 }

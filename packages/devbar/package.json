@@ -23,5 +23,8 @@
   "scripts": {
     "prepublish": "bin/build",
     "lint": "eslint src"
+  },
+  "dependencies": {
+    "zone.js": "^0.8.17"
   }
 }

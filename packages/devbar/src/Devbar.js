@@ -145,8 +145,6 @@ export class Devbar {
 			return next()
 		}
 
-		const start = process.hrtime()
-
 		const render = this.res.render
 		this.res.render = function(...args) {
 			this.devbar.timeEnd('request')
@@ -173,8 +171,29 @@ export class Devbar {
 			return send.call(this, body)
 		}
 
+		const start = process.hrtime()
 		this.time('request')
-		next()
+		return next()
+	}
+
+	/**
+	 * Get the current devbar from the Zone
+	 */
+	get current() {
+		return this.constructor.current
+	}
+
+	/**
+	 * Get the current devbar from the Zone
+	 */
+	static get current() {
+		const zone = (global.Zone || { }).current
+
+		if(zone.isNil) {
+			return null
+		}
+
+		return zone.get('devbar')
 	}
 
 }
