@@ -35,6 +35,11 @@ export class Devbar extends EventEmitter {
 	context = [ ]
 
 	/**
+	 * Collectors are called when the devbar starts
+	 */
+	collectors = [ ]
+
+	/**
 	 * Containers are groups of messages that appear
 	 * on the devbar
 	 */
@@ -68,6 +73,7 @@ export class Devbar extends EventEmitter {
 		cloned.req = req
 		cloned.res = res
 		cloned.context = [ ...this.context ]
+		cloned.collectors = [ ...this.collectors ]
 		return cloned
 	}
 
@@ -100,6 +106,13 @@ export class Devbar extends EventEmitter {
 		}
 
 		timing.duration = process.hrtime(timing.start)
+	}
+
+	/**
+	 * Registers a collector to be started with the devbar
+	 */
+	register(collector) {
+		this.collectors.push(collector)
 	}
 
 	/**
@@ -180,6 +193,10 @@ export class Devbar extends EventEmitter {
 			}
 
 			return send.call(this, body)
+		}
+
+		for(const collector of this.collectors) {
+			collector(this.app, this)
 		}
 
 		const start = process.hrtime()
