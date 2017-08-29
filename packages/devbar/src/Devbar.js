@@ -212,7 +212,7 @@ export class Devbar extends EventEmitter {
 	renderView(template, context) {
 		const view = this.app.view
 		const pathname = path.join(this.viewPath, template)
-		return view.engine._renderCompiled(view.engine.compiler.compile(pathname, true), context)
+		return view.engine._renderCompiled(view.engine.compiler.compile(pathname), context)
 	}
 
 	/**
