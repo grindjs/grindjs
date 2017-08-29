@@ -90,10 +90,11 @@ export class Devbar extends EventEmitter {
 	 * timer and the elapsed time in milliseconds to devbar’s
 	 * timeline.
 	 *
-	 * @param  string label Unique label to identify this operation
+	 * @param  string label   Unique label to identify this operation
+	 * @param  string message Optional message to display in panel instead of label
 	 */
-	time(label) {
-		return this.containers.timeline.time(label)
+	time(label, message = null) {
+		return this.containers.timeline.time(label, message)
 	}
 
 	/**

@@ -11,8 +11,8 @@ export class TimelineContainer extends Container {
 	/**
 	 * @inheritdoc
 	 */
-	get hasPanel() {
-		return Object.keys(this.timeline).length > 0
+	get size() {
+		return Object.keys(this.timeline).length
 	}
 
 	/**
@@ -22,11 +22,13 @@ export class TimelineContainer extends Container {
 	 * timer and the elapsed time in milliseconds to devbar’s
 	 * timeline.
 	 *
-	 * @param  string label Unique label to identify this operation
+	 * @param  string label   Unique label to identify this operation
+	 * @param  string message Optional message to display in panel instead of label
 	 */
-	time(label) {
+	time(label, message = null) {
 		this.timeline[label] = {
-			start: process.hrtime()
+			start: process.hrtime(),
+			message: message
 		}
 	}
 
@@ -36,8 +38,8 @@ export class TimelineContainer extends Container {
 	 *
 	 * @param  string label Unique label originally passed to devbar.time()
 	 */
-	timeEnd(name) {
-		const timing = this.timeline[name]
+	timeEnd(label) {
+		const timing = this.timeline[label]
 
 		if(timing === void 0 || timing.duration !== void 0) {
 			return
@@ -58,7 +60,7 @@ export class TimelineContainer extends Container {
 			item.duration = Time.flatten(item.duration)
 
 			return {
-				label: label,
+				label: item.message || label,
 				start: Time.flatten(item.start),
 				duration: item.duration,
 				durationInMs: Time.toMillis(item.duration)
