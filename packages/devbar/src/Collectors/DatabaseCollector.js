@@ -1,4 +1,5 @@
 import './EventCollectorBuilder'
+import '../Containers/TimelineContainer'
 
 export function DatabaseCollector(app, devbar) {
 	if(app.db.isNil || app.db.client.isNil) {
@@ -6,22 +7,16 @@ export function DatabaseCollector(app, devbar) {
 	}
 
 	const events = EventCollectorBuilder(app, devbar, app.db.client)
+	const timeline = new TimelineContainer('Queries')
+	timeline.shouldDisplay = false
+	devbar.containers.queries = timeline
 
-	events.on('query-response', (devbar, result, obj) => {
-		obj.__devbarStart = process.hrtime()
+	events.on('query', (devbar, obj) => {
+		timeline.shouldDisplay = true
+		timeline.time(obj.__knexQueryUid, app.db.client._formatQuery(obj.sql, obj.bindings))
 	})
 
 	events.on('query-response', (devbar, result, obj) => {
-		if(obj.__devbarStart.isNil) {
-			return
-		}
-
-		const duration = process.hrtime(obj.__devbarStart)
-
-		devbar.add('Queries', {
-			message: app.db.client._formatQuery(obj.sql, obj.bindings),
-			start: obj.__devbarStart,
-			duration: duration
-		})
+		timeline.timeEnd(obj.__knexQueryUid)
 	})
 }
