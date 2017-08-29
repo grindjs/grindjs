@@ -4,7 +4,7 @@
 			<li class="devbar-messages-item">{{ message }}</li>
 		@else
 			<li class="devbar-messages-item">
-				<small class="devbar-messages-item-duration">{{ message.durationInMs }}ms</small>
+				<span class="devbar-code devbar-messages-item-duration">{{ message.durationInMs }}ms</span>
 				{{ message.message }}
 			</li>
 		@endif

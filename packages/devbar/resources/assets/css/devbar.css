@@ -1,7 +1,11 @@
 .devbar, .devbar-panel {
-	color: #d8dee9;
-	background: #1b2b34;
-	border-top: 1px solid #343d46;
+	color: #24292e;
+	background: #f6f8fa;
+	border-top: 1px solid #d1d5da;
+}
+
+.devbar > * {
+	box-sizing: border-box;
 }
 
 .devbar {
@@ -12,12 +16,15 @@
 
 	display: block;
 	width: 100%;
-	height: 40px;
-	font-size: 16px;
 
-	font-family: 'Fira Code', 'SF Mono Regular', 'Source Sans Pro', 'Menlo', 'Monoca', fixed;
-	line-height: 40px;
+	font-size: 14px;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+	line-height: 1.6em;
 }
+
+	.devbar-code {
+		font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+	}
 
 	.devbar-items {
 		display: block;
@@ -25,15 +32,15 @@
 
 		.devbar-item {
 			float: left;
-			padding: 0 12px;
+			padding: 8px 12px;
 
-			border-right: 1px solid #343d46;
+			border-right: 1px solid #d1d5da;
 		}
 
 			.devbar-item-right {
 				float: right;
 
-				border-left: 1px solid #343d46;
+				border-left: 1px solid #d1d5da;
 				border-right: none;
 			}
 
@@ -43,7 +50,8 @@
 			}
 
 			.devbar-item:focus {
-				background: #4f5b66;
+				color: #0366d6;
+				background: #ddeeff;
 			}
 
 			.devbar-item:focus .devbar-panel {
@@ -53,42 +61,47 @@
 	.devbar-panel {
 		position: absolute;
 		left: 0;
-		bottom: 40px;
+		bottom: calc(100% + 1px);
 
 		display: none;
 		width: 100%;
-		padding: 15px;
 		max-height: 80vh;
 		overflow-y: auto;
+
+		background: #fff;
 	}
 
 	.devbar-timeline {
 
 	}
 
-		.devbar-timeline-item {
+		.devbar-timeline-item, .devbar-messages-item {
 			position: relative;
 
 			display: block;
-			padding: 10px 15px;
+			padding: 8px 15px;
 
 			line-height: 20px;
 		}
 
-			.devbar-timeline-item + .devbar-timeline-item {
-				margin-top: 15px;
+			.devbar-timeline-item:hover {
+				background: #f6f8fa;
+			}
+
+			.devbar-timeline-item + .devbar-timeline-item,
+			.devbar-messages-item + .devbar-messages-item {
+				border-top: 1px solid #eaecef;
 			}
 
 			.devbar-timeline-item-duration-bar {
 				position: absolute;
-				top: 50%;
+				top: 0;
 				z-index: 0;
 
-				height: 30px;
-				margin-top: -15px;
+				height: 100%;
 
-				background: #6699cc;
-				opacity: 0.35;
+				border-top: 2px solid #0366d6;
+				background: #ddeeff;
 			}
 
 			.devbar-timeline-item-label, .devbar-timeline-item-duration-label {
@@ -97,19 +110,10 @@
 			}
 
 	.devbar-messages {
-		padding: 0;
+
 	}
 
-		.devbar-messages-item {
-			padding: 10px 15px;
-			line-height: 20px;
+		.devbar-messages-item-duration, .devbar-timeline-item-duration-label {
+			font-size: 12px;
+			color: #f66a0a;
 		}
-
-			.devbar-messages-item + .devbar-messages-item {
-				border-top: 1px solid #343d46;
-			}
-
-			.devbar-messages-item-duration, .devbar-timeline-item-duration-label {
-				font-size: 12px;
-				color: #c594c5;
-			}
