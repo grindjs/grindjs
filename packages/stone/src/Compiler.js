@@ -28,6 +28,10 @@ export class Compiler {
 	}
 
 	compileString(contents, shouldEval = true, file = null) {
+		if(!file.isNil) {
+			this.engine.view.emit('compile:start', file)
+		}
+
 		const template = new StoneTemplate(this, contents, file)
 
 		try {
@@ -43,6 +47,10 @@ export class Compiler {
 			}
 
 			throw err
+		} finally {
+			if(!file.isNil) {
+				this.engine.view.emit('compile:end', file)
+			}
 		}
 
 		if(!shouldEval) {

@@ -80,7 +80,13 @@ export class StoneEngine extends ViewEngine {
 	}
 
 	render(template, context) {
-		return Promise.resolve(this._render(template, context))
+		this.view.emit('render:start', template)
+
+		return Promise.resolve(this._render(template, context)).then(result => {
+			this.view.emit('render:end', template, result)
+
+			return result
+		})
 	}
 
 	_render(template, context) {
