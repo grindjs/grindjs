@@ -79,7 +79,7 @@
 				margin-top: 15px;
 			}
 
-			.devbar-timeline-item-duration {
+			.devbar-timeline-item-duration-bar {
 				position: absolute;
 				top: 0;
 				z-index: 0;
@@ -89,7 +89,7 @@
 				background: #6699cc;
 			}
 
-			.devbar-timeline-item-label {
+			.devbar-timeline-item-label, .devbar-timeline-item-duration-label {
 				position: relative;
 				z-index: 1;
 			}
@@ -107,7 +107,7 @@
 				border-top: 1px solid #343d46;
 			}
 
-			.devbar-messages-item-duration {
+			.devbar-messages-item-duration, .devbar-timeline-item-duration-label {
 				font-size: 12px;
 				color: #c594c5;
 			}
