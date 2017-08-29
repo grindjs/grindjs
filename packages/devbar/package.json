@@ -2,7 +2,7 @@
   "name": "grind-devbar",
   "version": "0.8.0-beta.1",
   "description": "Toolbar that provides insights and instrumentations during development of Grind apps.",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "author": "Shaun Harrison",
   "license": "MIT",
   "dependencies": {
