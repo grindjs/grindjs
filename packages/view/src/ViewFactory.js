@@ -1,6 +1,7 @@
 import { MissingPackageError } from 'grind-framework'
+const EventEmitter = require('events')
 
-export class ViewFactory {
+export class ViewFactory extends EventEmitter {
 
 	app = null
 	viewPath = null
@@ -13,6 +14,8 @@ export class ViewFactory {
 	}
 
 	constructor(app) {
+		super()
+
 		this.app = app
 
 		this.engineName = app.config.get('view.engine', 'stone')
