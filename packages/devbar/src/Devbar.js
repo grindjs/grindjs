@@ -13,6 +13,11 @@ export class Devbar extends EventEmitter {
 	app = null
 
 	/**
+	 * Whether or not the instance is enabled
+	 */
+	isEnabled = true
+
+	/**
 	 * The req instance, if in a request lifecycle
 	 */
 	req = null

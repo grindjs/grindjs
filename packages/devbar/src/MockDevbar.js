@@ -13,5 +13,7 @@ export const MockDevbar = {
 	register() { },
 	start(next) { return  next() },
 	clone() { return MockDevbar },
-	current: null
+	current: null,
+	isEnabled: false,
+	isMock: true
 }
