@@ -70,9 +70,9 @@
 			position: relative;
 
 			display: block;
-			height: 30px;
+			padding: 10px 15px;
 
-			line-height: 30px;
+			line-height: 20px;
 		}
 
 			.devbar-timeline-item + .devbar-timeline-item {
@@ -81,12 +81,14 @@
 
 			.devbar-timeline-item-duration-bar {
 				position: absolute;
-				top: 0;
+				top: 50%;
 				z-index: 0;
 
-				height: inherit;
+				height: 30px;
+				margin-top: -15px;
 
 				background: #6699cc;
+				opacity: 0.35;
 			}
 
 			.devbar-timeline-item-label, .devbar-timeline-item-duration-label {
@@ -99,8 +101,8 @@
 	}
 
 		.devbar-messages-item {
-			line-height: 20px;
 			padding: 10px 15px;
+			line-height: 20px;
 		}
 
 			.devbar-messages-item + .devbar-messages-item {
