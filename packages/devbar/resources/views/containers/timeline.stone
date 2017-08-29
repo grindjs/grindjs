@@ -1,0 +1,8 @@
+<ul class="devbar-panel devbar-timeline">
+	@for(const item of timeline)
+		<li class="devbar-timeline-item">
+			<span class="devbar-timeline-item-duration" style="width: {{ (item.duration / duration) * 100.0 }}%; left: {{ ((item.start - start) / duration) * 100.0 }}%"></span>
+			<span class="devbar-timeline-item-label">{{ item.label }} ({{ item.durationInMs }}ms)</span>
+		</li>
+	@endfor
+</ul>

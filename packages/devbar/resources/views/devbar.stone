@@ -1,40 +1,16 @@
 <link media="all" type="text/css" rel="stylesheet" href="/__devbar/css/devbar.css" />
 <div class="devbar">
 	<ul class="devbar-items">
-		<li class="devbar-item" tabindex="-1">
-			<span class="devbar-item-label">Timeline</span>
-			<ul class="devbar-panel devbar-timeline">
-				@for(const item of timeline)
-					<li class="devbar-timeline-item">
-						<span class="devbar-timeline-item-duration" style="width: {{ (item.duration / duration) * 100.0 }}%; left: {{ ((item.start - start) / duration) * 100.0 }}%"></span>
-						<span class="devbar-timeline-item-label">{{ item.label }} ({{ item.durationInMs }}ms)</span>
-					</li>
-				@endfor
-			</ul>
-		</li>
-
-		@for(const [ label, messages ] of containers)
-			@if(messages.length === 0)
-				<li class="devbar-item">{{ label }}</span></li>
-				@continue
+		@for(const container of containers)
+			@if(!container.hasPanel)
+				<li class="devbar-item">{{ container.label }}</span></li>
+			@else
+				<li class="devbar-item" tabindex="-1">
+					<span class="devbar-item-label">{{ container.label }}@if(container.size > 0) ({{ container.size }})@endif</span>
+					{!! container.render(devbar, { start, duration }) !!}
+				</li>
 			@endif
-
-			<li class="devbar-item" tabindex="-1">
-				<span class="devbar-item-label">{{ label }} ({{ messages.length }})</span>
-				<ul class="devbar-panel devbar-messages">
-					@for(const message of messages)
-						@if(typeof message === 'string')
-							<li class="devbar-messages-item">{{ message }}</li>
-						@else
-							<li class="devbar-messages-item">
-								<small class="devbar-messages-item-duration">{{ message.durationInMs }}ms</small>
-								{{ message.message }}
-							</li>
-						@endif
-					@endfor
-				</ul>
-			</li>
-		@endfor
+		@endif
 
 		@for(const label of context.reverse())
 			<li class="devbar-item devbar-item-right">{{ label }}</li>

@@ -1,0 +1,12 @@
+<ul class="devbar-panel devbar-messages">
+	@for(const message of messages)
+		@if(typeof message === 'string')
+			<li class="devbar-messages-item">{{ message }}</li>
+		@else
+			<li class="devbar-messages-item">
+				<small class="devbar-messages-item-duration">{{ message.durationInMs }}ms</small>
+				{{ message.message }}
+			</li>
+		@endif
+	@endfor
+</ul>

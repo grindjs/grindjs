@@ -1,5 +1,6 @@
 import './Devbar'
 import './MockDevbar'
+
 import './Collectors/DatabaseCollector'
 
 const path = require('path')

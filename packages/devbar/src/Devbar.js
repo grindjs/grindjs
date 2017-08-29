@@ -1,6 +1,10 @@
 const path = require('path')
 const EventEmitter = require('events')
 
+import './Containers/TimelineContainer'
+import './Containers/MessagesContainer'
+import './Support/Time'
+
 export class Devbar extends EventEmitter {
 
 	/**
@@ -19,14 +23,14 @@ export class Devbar extends EventEmitter {
 	res = null
 
 	/**
-	 * The path of the devbar template to render
+	 * The path to the devbar templates
 	 */
 	viewPath = null
 
 	/**
-	 * Timeline object to track time/timeEnd
+	 * Template to render the devbar
 	 */
-	timeline = { }
+	template = 'devbar.stone'
 
 	/**
 	 * Context items that appear on the right side
@@ -43,7 +47,9 @@ export class Devbar extends EventEmitter {
 	 * Containers are groups of messages that appear
 	 * on the devbar
 	 */
-	containers = { }
+	containers = {
+		timeline: new TimelineContainer('Timeline')
+	}
 
 	/**
 	 * Create a new devbar instance.
@@ -55,7 +61,7 @@ export class Devbar extends EventEmitter {
 		super()
 
 		this.app = app
-		this.viewPath = viewPath || path.join(__dirname, '../resources/views/devbar.stone')
+		this.viewPath = viewPath || path.join(__dirname, '../resources/views')
 		this.on('error', err => Log.error('Error during devbar event', err))
 	}
 
@@ -87,9 +93,7 @@ export class Devbar extends EventEmitter {
 	 * @param  string label Unique label to identify this operation
 	 */
 	time(label) {
-		this.timeline[label] = {
-			start: process.hrtime()
-		}
+		return this.containers.timeline.time(label)
 	}
 
 	/**
@@ -98,14 +102,8 @@ export class Devbar extends EventEmitter {
 	 *
 	 * @param  string label Unique label originally passed to devbar.time()
 	 */
-	timeEnd(name) {
-		const timing = this.timeline[name]
-
-		if(timing === void 0 || timing.duration !== void 0) {
-			return
-		}
-
-		timing.duration = process.hrtime(timing.start)
+	timeEnd(label) {
+		return this.containers.timeline.timeEnd(label)
 	}
 
 	/**
@@ -122,16 +120,14 @@ export class Devbar extends EventEmitter {
 	 *                         property and a start or duration property
 	 */
 	add(container, message) {
-		if(typeof message === 'object') {
-			if(message.duration.isNil && !message.start.isNil) {
-				message.duration = process.hrtime(message.start)
-			}
+		let messages = this.containers[container]
 
-			message.duration = flattenTime(message.duration)
-			message.durationInMs = Math.round(message.duration) / 1000.0
+		if(messages.isNil) {
+			messages = new MessagesContainer(container)
+			this.containers[container] = messages
 		}
 
-		(this.containers[container] = this.containers[container] || [ ]).push(message)
+		messages.add(message)
 	}
 
 	/**
@@ -147,7 +143,7 @@ export class Devbar extends EventEmitter {
 	 * @private
 	 */
 	_addStandardContext(duration) {
-		this.addContext(`Duration: ${Math.round(flattenTime(duration)) / 1000.0}ms`)
+		this.addContext(`Duration: ${Time.toMillis(Time.flatten(duration))}ms`)
 		this.addContext(`${this.req.method} ${this.req.route.path}`)
 	}
 
@@ -177,7 +173,7 @@ export class Devbar extends EventEmitter {
 				devbar.timeEnd('request')
 				devbar.timeEnd('render')
 
-				const duration = process.hrtime(start)
+				const duration = Time.get(start)
 				devbar._addStandardContext(duration)
 
 				const app = devbar.app
@@ -199,9 +195,18 @@ export class Devbar extends EventEmitter {
 			collector(this.app, this)
 		}
 
-		const start = process.hrtime()
+		const start = Time.get()
 		this.time('request')
 		return next()
+	}
+
+	/**
+	 * Renders a view
+	 */
+	renderView(template, context) {
+		const view = this.app.view
+		const pathname = path.join(this.viewPath, template)
+		return view.engine._renderCompiled(view.engine.compiler.compile(pathname, true), context)
 	}
 
 	/**
@@ -236,36 +241,13 @@ function inject(app, body, devbar, start, duration) {
 		return body
 	}
 
-	const view = app.view
-
-	const html = view.engine._renderCompiled(view.engine.compiler.compile(devbar.viewPath, true), {
+	const html = devbar.renderView(devbar.template, {
 		devbar: devbar,
-		start: flattenTime(start),
-		duration: flattenTime(duration),
+		start: Time.flatten(start),
+		duration: Time.flatten(duration),
 		context: devbar.context,
-		containers: Object.entries(devbar.containers),
-		timeline: Object.entries(devbar.timeline).map(([ label, item ]) => {
-			if(!item.duration) {
-				return null
-			}
-
-			item.duration = flattenTime(item.duration)
-
-			return {
-				label: label,
-				start: flattenTime(item.start),
-				duration: item.duration,
-				durationInMs: Math.round(item.duration) / 1000.0
-			}
-		}).filter(item => item !== null)
+		containers: Object.values(devbar.containers)
 	})
 
 	return body.substring(0, index) + html + body.substring(index)
-}
-
-/**
- * Converts hrtime tuple to microseconds
- */
-function flattenTime(time) {
-	return (time[0] * 1000000) + (time[1] / 1000)
 }
