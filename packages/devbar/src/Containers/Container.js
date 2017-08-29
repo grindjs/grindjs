@@ -7,6 +7,11 @@ export class Container {
 	label = null
 
 	/**
+	 * @type Boolean
+	 */
+	shouldDisplay = true
+
+	/**
 	 * Create a container instance
 	 *
 	 * @param  string label Name of the container

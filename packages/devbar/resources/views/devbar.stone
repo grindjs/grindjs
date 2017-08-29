@@ -2,6 +2,8 @@
 <div class="devbar">
 	<ul class="devbar-items">
 		@for(const container of containers)
+			@continue(!container.shouldDisplay)
+
 			@if(!container.hasPanel)
 				<li class="devbar-item">{{ container.label }}</span></li>
 			@else
