@@ -460,11 +460,12 @@ Currently, Stone is supported by Atom and Sublime Text.  If you’ve added suppo
 To enable support for Stone in Atom, install the `language-stone` package.
 
 ### Sublime Text
-To enable support for Stone in Sublime Text, run the following commands:
+To enable support for Stone in Sublime Text, first add the repository to [Package Control](https://packagecontrol.io/installation):
+1. Open Package Control via `<cmd>`+`<shift>`+`<p>`
+2. Go to `Package Control: Add Repository`
+3. Enter https://github.com/grindjs/stone-editor-sublime
 
-```shell
-cd ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/User/
-git clone https://github.com/grindjs/stone-editor-sublime.git grind-stone
-```
-
-Sublime should detect the package right away, however you may need to restart Sublime if it doesn’t.
+Once you’ve added the repository, you can install it by searching `stone-editor-sublime`: 
+1. Open Package Control via `<cmd>`+`<shift>`+`<p>`
+2. Go to `Package Control: Install Package`
+3. Then enter `stone-editor-sublime`
