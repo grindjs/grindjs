@@ -87,13 +87,29 @@ export class CompileController {
 			promise = compile()
 		} else {
 			const key = `${req.path.replace(/[^a-z0-9]+/, '-')}-${lastModifiedDate.getTime()}`
-			promise = this.app.cache.wrap(key, compile, { ttl: 86400 }).then(data => {
-				if(!(data instanceof Buffer) && !data.data.isNil) {
-					return Buffer.from(data)
-				}
+			const memoryCache = this.app.debug ? (global.__grindAssetsCache = global.__grindAssetsCache || { }) : { }
 
-				return data
-			})
+			if(this.app.debug && memoryCache[key] instanceof Buffer) {
+				promise = Promise.resolve(memoryCache[key])
+			} else {
+				promise = this.app.cache.wrap(key, compile, { ttl: 86400 }).then(data => {
+					if(!(data instanceof Buffer) && !data.data.isNil) {
+						return Buffer.from(data)
+					}
+
+					return data
+				})
+
+				if(this.app.debug) {
+					promise = promise.then(data => {
+						if(this.app.debug) {
+							memoryCache[key] = data
+						}
+
+						return data
+					})
+				}
+			}
 		}
 
 		return promise.then(content => {
