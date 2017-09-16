@@ -16,6 +16,15 @@ export class UnpublishCommand extends BaseCommand {
 		const dirs = [ ]
 		const published = this.app.config.get('assets-published', { })
 
+		if(!published.__base_url.isNil) {
+			const length = published.__base_url.length
+			delete published.__base_url
+
+			for(const key of Object.keys(published)) {
+				published[key] = published[key].substring(length)
+			}
+		}
+
 		for(const key of Object.keys(published)) {
 			const asset = published[key]
 

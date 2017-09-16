@@ -1,6 +1,7 @@
 import './BaseCommand'
 
 import { FS } from 'grind-support'
+import { InputOption } from 'grind-cli'
 
 const crypto = require('crypto')
 const path = require('path')
@@ -16,6 +17,11 @@ export class PublishCommand extends BaseCommand {
 	assets = { }
 	oldAssets = { }
 	factory = null
+	publishedBaseUrl = null
+
+	options = [
+		new InputOption('published-base-url', InputOption.VALUE_OPTIONAL, 'Specify the base URL for published assets.'),
+	]
 
 	ready() {
 		return super.ready().then(result => {
@@ -32,6 +38,20 @@ export class PublishCommand extends BaseCommand {
 
 		if(this.oldAssets.isNil) {
 			this.oldAssets = { }
+		}
+
+		if(this.containsOption('published-base-url')) {
+			this.publishedBaseUrl = this.option('published-base-url').replace(/\/$/g, '')
+			this.assets.__base_url = `${this.publishedBaseUrl}/`
+		}
+
+		if(!this.oldAssets.__base_url.isNil) {
+			const length = this.oldAssets.__base_url.length
+			delete this.oldAssets.__base_url
+
+			for(const key of Object.keys(this.oldAssets)) {
+				this.oldAssets[key] = this.oldAssets[key].substring(length)
+			}
 		}
 
 		await this.compile()
@@ -142,7 +162,12 @@ export class PublishCommand extends BaseCommand {
 
 		const src = path.relative(this.resourcesPath, asset.path)
 		const dest = path.relative(this.publishPath, file)
-		this.assets[src] = dest
+
+		if(this.publishedBaseUrl !== null) {
+			this.assets[src] = `${this.publishedBaseUrl}/${dest}`
+		} else {
+			this.assets[src] = dest
+		}
 
 		if(this.oldAssets[src] === dest) {
 			delete this.oldAssets[src]
