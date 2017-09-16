@@ -25,9 +25,6 @@
   "peerDependencies": {
     "grind-framework": "^0.7.0"
   },
-  "optionalDependencies": {
-    "ws": "^3.0.0"
-  },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
     "ava": "^0.20.0",
