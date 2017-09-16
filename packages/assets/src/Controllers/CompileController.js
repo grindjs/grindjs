@@ -97,8 +97,11 @@ export class CompileController {
 		}
 
 		return promise.then(content => {
-			res.header('Cache-Control', 'public, max-age=31536000')
-			res.header('Expires', dateFormat(expires, HTTP_DATE_FORMAT))
+			if(!this.app.debug) {
+				res.header('Cache-Control', 'public, max-age=31536000')
+				res.header('Expires', dateFormat(expires, HTTP_DATE_FORMAT))
+			}
+
 			res.header('Last-Modified', dateFormat(lastModifiedDate, HTTP_DATE_FORMAT))
 			res.header('ETag', etag)
 			res.header('Content-Type', `${asset.mime}; charset=utf-8`)
