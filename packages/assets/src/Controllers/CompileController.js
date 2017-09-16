@@ -86,7 +86,7 @@ export class CompileController {
 		if(this.app.cache.isNil || req.query['ignore-cache'] === 'true') {
 			promise = compile()
 		} else {
-			const key = `${req.path.replace(/[^a-z0-9]+/, '-')}-${expires.getTime()}`
+			const key = `${req.path.replace(/[^a-z0-9]+/, '-')}-${lastModifiedDate.getTime()}`
 			promise = this.app.cache.wrap(key, compile, { ttl: 86400 }).then(data => {
 				if(!(data instanceof Buffer) && !data.data.isNil) {
 					return Buffer.from(data)
