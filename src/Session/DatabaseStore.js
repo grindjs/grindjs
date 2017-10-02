@@ -9,11 +9,18 @@ export class DatabaseStore extends Store {
 	db = null
 	table = null
 
-	constructor(options) {
+	constructor({ app, connection, table, ...options }) {
 		super(options)
 
-		this.db = options.connection
-		this.table = options.table || 'sessions'
+		if(connection.isNil) {
+			this.db = app.db
+		} else if(typeof connection === 'string') {
+			this.db = require('grind-db').DatabaseBuilder(connection, app)
+		} else {
+			this.db = connection
+		}
+
+		this.table = table || 'sessions'
 		this.options = {
 			checkExpirationInterval: 900000,
 			expiration: 86400000,
