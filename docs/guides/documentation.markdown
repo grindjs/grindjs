@@ -3,6 +3,7 @@
 * [Creating a Project](creating-projects)
 * [Running Grind](running-grind)
 * [Directory Structure](directory-structure)
+* [Code Style](code-style)
 * [Philosophy](philosophy)
 
 ##### Guides
