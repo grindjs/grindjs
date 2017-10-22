@@ -55,6 +55,8 @@ export function ConfigBuilder(connection, app) {
 
 			if(!connection.db.isNil) {
 				connection.connection += `/${connection.db}`
+			} else if(!connection.database.isNil) {
+				connection.connection += `/${connection.database}`
 			}
 		}
 
