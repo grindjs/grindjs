@@ -8,12 +8,12 @@ Once you have the Grind Installer [installed](installation#installing-grinds-ins
 grind new project-name
 ```
 
-> {tip} **tl;dr API Projects** When running the previous command, it defaults to setting up a web project.  If you’re going to be building an API, you should run `grind new project-name --type=api` to avoid installing unwanted dependencies that may slow your project down.
+> {tip} **tl;dr API Projects** When running the previous command, it defaults to setting up a web project.  If you’re going to be building an API, you should run `grind new project-name --template=api` to avoid installing unwanted dependencies that may slow your project down.
 
 ### CLI options
 The `grind` command provides a couple of different options for you when setting up a new project.  You can run `grind new --help` for full details, here’s a quick list of options:
 
-* `--type=[web|api]`
+* `--template=[web|api]`
 	* `web` is the default option, so there’s no need to pass it explicitly.  A web project includes a fully functional example site built on Grind, and includes dependencies for asset compilation and optimization, template rendering and HTML helpers.
 	* `api` should be used if you’re building, well, an API.  The API project will be barebones with enough to get you started, but not too much that it starts slowing you down.
 * `--skip-packages`
