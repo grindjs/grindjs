@@ -45,7 +45,7 @@ export function ConfigBuilder(connection, app) {
 				connection.connection += connection.user
 
 				if(!connection.password.isNil) {
-					connection.connection += connection.password
+					connection.connection += `:${connection.password}`
 				}
 
 				connection.connection += '@'
