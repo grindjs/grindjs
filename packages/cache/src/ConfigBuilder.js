@@ -16,6 +16,12 @@ export function ConfigBuilder(store, app, returnStoreName = false) {
 		options: { ...expandStoreConfig(app, driver, store) }
 	}
 
+	if(result.options.flat === true) {
+		Object.assign(result, result.options)
+		delete result.options
+		delete result.flat
+	}
+
 	if(returnStoreName) {
 		result.store = driver
 	} else if(driver === 'database') {
@@ -100,7 +106,7 @@ function expandRedisStoreConfig(app, driver, config) {
 		return config
 	}
 
-	config = { ...config, ...connection }
+	config = { ...config, ...connection, flat: true }
 	delete config.driver
 
 	if(config.password !== void 0 && config.auth_pass === void 0) {
