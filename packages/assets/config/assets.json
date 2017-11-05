@@ -58,6 +58,12 @@
 				"woff": "application/x-font-woff",
 				"woff2": "application/font-woff2"
 			}
+		},
+
+		"babel": {
+			"browserify": {
+				"enabled": true
+			}
 		}
 
 	},

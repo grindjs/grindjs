@@ -1,26 +1,35 @@
 import './Compiler'
 
-import { MissingPackageError } from 'grind-framework'
+import './BabelCompiler/BrowserifyStage'
+
 import { FS } from 'grind-support'
 
 const path = require('path')
-const optional = require('optional')
-const Browserify = optional('browserify')
-const Babelify = optional('babelify')
+const { Readable } = require('stream')
 
 export class BabelCompiler extends Compiler {
+	static stages = [
+		BrowserifyStage
+	]
+
 	wantsHashSuffixOnPublish = true
 	supportedExtensions = [ 'js', 'jsx', 'es', 'es6', 'es7', 'esx' ]
-	browserifyOptions = [ ]
 	priority = 1000
+	stages = null
 
 	constructor(app, ...args) {
 		super(app, ...args)
 
-		this.browserifyOptions = app.config.get('assets.compilers.babel.browserify', { })
+		const stages = [ ]
 
-		if(this.browserifyOptions.debug.isNil) {
-			this.browserifyOptions.debug = this.sourceMaps === 'auto'
+		for(const stage of this.constructor.stages) {
+			stages.push(new stage(this.sourceMaps, app.config.get(`assets.compilers.babel.${stage.configName}`, { })))
+		}
+
+		this.stages = stages.filter(({ enabled }) => enabled)
+
+		if(this.stages.length === 0) {
+			throw new Error('Invalid assets config: at least one stage must be enabled.')
 		}
 	}
 
@@ -33,46 +42,37 @@ export class BabelCompiler extends Compiler {
 	}
 
 	async compile(pathname) {
-		if(Browserify.isNil) {
-			return Promise.reject(new MissingPackageError('browserify', 'dev'))
-		}
-
-		if(Babelify.isNil) {
-			return Promise.reject(new MissingPackageError('babelify', 'dev'))
-		}
-
 		const imports = await this.getLiveReloadImports(pathname)
+		let contents = null
 
-		return new Promise((resolve, reject) => {
-			const browserify = Browserify(Object.assign({ }, this.browserifyOptions, {
-				basedir: path.dirname(pathname)
-			}))
+		for(const stage of this.stages) {
+			stage.handleBabel = contents.isNil
+			let stream = null
 
-			browserify.transform('babelify')
-			browserify.add(pathname)
-			browserify.bundle((err, contents) => {
-				if(!err.isNil) {
-					return reject(err)
-				}
+			if(!stage.handleBabel) {
+				stream = new Readable
+				stream.push(contents)
+				stream.push(null)
+			}
 
-				if(!this.liveReload || imports.length === 0) {
-					return resolve(contents)
-				}
+			contents = await stage.compile(pathname, stream)
+		}
 
-				const resources = this.app.paths.base('resources')
-				if(pathname.startsWith(resources)) {
-					pathname = pathname.substring(resources.length)
-				}
+		if(!this.liveReload || imports.length === 0) {
+			return contents
+		}
 
-				contents = contents.toString()
-				contents += '// LIVE_RELOAD_START\n'
-				contents += 'window.__liveReloadImports = window.__liveReloadImports || { }\n'
-				contents += `window.__liveReloadImports['${pathname}'] = ${JSON.stringify(imports)}\n`
-				contents += '// LIVE_RELOAD_END\n'
+		const resources = this.app.paths.base('resources')
+		if(pathname.startsWith(resources)) {
+			pathname = pathname.substring(resources.length)
+		}
 
-				resolve(contents)
-			})
-		})
+		contents = contents.toString()
+		contents += '// LIVE_RELOAD_START\n'
+		contents += 'window.__liveReloadImports = window.__liveReloadImports || { }\n'
+		contents += `window.__liveReloadImports['${pathname}'] = ${JSON.stringify(imports)}\n`
+		contents += '// LIVE_RELOAD_END\n'
+		return contents
 	}
 
 	async enumerateImports(pathname, callback) {
