@@ -1,6 +1,7 @@
 const path = require('path')
 
 export class AssetContainer {
+
 	req = null
 	res = null
 	factory = null

@@ -36,7 +36,7 @@
     "browserify": "^14.4.0",
     "clean-css": "^4.1.6",
     "eslint": "^3.3.1",
-    "eslint-config-grind": "^2.0.0",
+    "eslint-config-grind": "^2.0.1",
     "eslint-plugin-import-auto-name": "^1.0.3",
     "fetchit": "^1.0.0",
     "grind-cli": "^0.7.0",

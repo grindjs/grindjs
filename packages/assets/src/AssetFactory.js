@@ -5,6 +5,7 @@ import './PostProcessors/PostProcessor'
 const path = require('path')
 
 export class AssetFactory {
+
 	app = null
 	published = null
 	shouldOptimizeDefault = null

@@ -7,6 +7,7 @@ const optional = require('optional')
 const CleanCSS = optional('clean-css')
 
 export class CssMinifyPostProcessor extends PostProcessor {
+
 	supportedExtensions = [ 'css' ]
 	options = { }
 

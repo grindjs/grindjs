@@ -4,6 +4,7 @@ import { FS } from 'grind-support'
 const path = require('path')
 
 export class RawCompiler extends Compiler {
+
 	wantsHashSuffixOnPublish = false
 	directories = [ ]
 	extensions = null

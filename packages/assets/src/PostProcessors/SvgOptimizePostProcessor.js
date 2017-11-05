@@ -6,6 +6,7 @@ const optional = require('optional')
 const SVGO = optional('svgo')
 
 export class SvgOptimizePostProcessor extends PostProcessor {
+
 	supportedExtensions = [ 'svg' ]
 	options = { }
 

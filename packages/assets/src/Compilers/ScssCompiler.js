@@ -8,6 +8,7 @@ const optional = require('optional')
 const sass = optional('node-sass')
 
 export class ScssCompiler extends Compiler {
+
 	supportedExtensions = [ 'scss', 'sass' ]
 	options = { }
 	priority = 1000

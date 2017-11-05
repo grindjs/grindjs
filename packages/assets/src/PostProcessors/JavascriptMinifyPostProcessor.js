@@ -7,6 +7,7 @@ const optional = require('optional')
 const INLINE_SOURCE_MAP_REGEX = /\/\/[@#]\s+sourceMappingURL=data:application\/json(?:;charset[:=][^;]+)?;base64,(.*)\n/
 
 export class JavascriptMinifyPostProcessor extends PostProcessor {
+
 	supportedExtensions = [ 'js' ]
 	options = { }
 	uglify = null

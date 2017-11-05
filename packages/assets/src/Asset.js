@@ -1,4 +1,5 @@
 export class Asset {
+
 	compiler = null
 	path = null
 

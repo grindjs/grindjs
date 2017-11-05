@@ -7,6 +7,7 @@ const PostCSS = optional('postcss')
 const Autoprefixer = optional('autoprefixer')
 
 export class CssAutoprefixerPostProcessor extends PostProcessor {
+
 	priority = 100
 	supportedExtensions = [ 'css' ]
 	options = { }

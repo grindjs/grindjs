@@ -1,4 +1,5 @@
 export class NunjucksExtension {
+
 	tags = [
 		'asset',
 		'style', 'css', 'sass', 'scss', 'styl', 'stylus', 'less',

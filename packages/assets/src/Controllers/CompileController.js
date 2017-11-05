@@ -7,6 +7,7 @@ const dateFormat = require('dateformat')
 const HTTP_DATE_FORMAT = 'ddd, dd mmm yyyy HH:MM:ss Z'
 
 export class CompileController {
+
 	app = null
 	factory = null
 	local = null

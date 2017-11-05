@@ -2,6 +2,7 @@ import { FS } from 'grind-support'
 const path = require('path')
 
 export class Compiler {
+
 	app = null
 	priority = 0
 	supportedExtensions = [ ]

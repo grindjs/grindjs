@@ -9,6 +9,7 @@ const path = require('path')
 const { Readable } = require('stream')
 
 export class BabelCompiler extends Compiler {
+
 	static stages = [
 		RollupStage,
 		BrowserifyStage

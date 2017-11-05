@@ -1,6 +1,7 @@
 const path = require('path')
 
 export class PostProcessor {
+
 	app = null
 	priority = 0
 	supportedExtensions = [ ]

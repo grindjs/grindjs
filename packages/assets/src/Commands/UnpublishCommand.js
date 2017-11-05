@@ -4,6 +4,7 @@ import { FS } from 'grind-support'
 const path = require('path')
 
 export class UnpublishCommand extends BaseCommand {
+
 	name = 'assets:unpublish'
 	description = 'Removes published assets'
 

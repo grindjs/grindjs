@@ -8,6 +8,7 @@ const path = require('path')
 const Ignore = require('ignore')
 
 export class PublishCommand extends BaseCommand {
+
 	name = 'assets:publish'
 	description = 'Compies and publishes all assets'
 
