@@ -4,18 +4,20 @@ import { FS } from 'grind-support'
 import { MissingPackageError } from 'grind-framework'
 
 const optional = require('optional')
-const UglifyJS = optional('uglify-js')
-
 const INLINE_SOURCE_MAP_REGEX = /\/\/[@#]\s+sourceMappingURL=data:application\/json(?:;charset[:=][^;]+)?;base64,(.*)\n/
 
 export class JavascriptMinifyPostProcessor extends PostProcessor {
 	supportedExtensions = [ 'js' ]
 	options = { }
+	uglify = null
 
 	constructor(app, shouldOptimize, sourceMaps) {
 		super(app, shouldOptimize, sourceMaps)
 
-		this.options = app.config.get('assets.post_processors.js.minify', { })
+		this.options = { ...app.config.get('assets.post_processors.js.minify', { }) }
+		this.uglify = optional(this.options.package || 'uglify-js')
+		delete this.options.package
+
 
 		if(typeof this.options.enabled === 'boolean') {
 			this.shouldOptimize = this.options.enabled
@@ -27,8 +29,8 @@ export class JavascriptMinifyPostProcessor extends PostProcessor {
 			return Promise.resolve(contents)
 		}
 
-		if(UglifyJS.isNil) {
-			Log.error((new MissingPackageError('uglify-js', 'dev')).message, 'Unable to minify.')
+		if(this.uglify.isNil) {
+			Log.error((new MissingPackageError('uglify-es', 'dev')).message, 'Unable to minify.')
 			return Promise.resolve(contents)
 		}
 
@@ -61,7 +63,7 @@ export class JavascriptMinifyPostProcessor extends PostProcessor {
 					}
 				}
 
-				result = UglifyJS.minify(contents.toString(), options)
+				result = this.uglify.minify(contents.toString(), options)
 
 				if(!result.error.isNil && result.error.message.indexOf('fromString') >= 0) {
 					// Uglify 3.x
@@ -78,7 +80,9 @@ export class JavascriptMinifyPostProcessor extends PostProcessor {
 					delete options.sourceMapInline
 					delete options.outSourceMap
 
-					result = UglifyJS.minify(contents.toString(), options)
+					result = this.uglify.minify(contents.toString(), options)
+				} else if(!result.error.isNil) {
+					throw result.error
 				}
 			} catch(err) {
 				err.file = sourcePath

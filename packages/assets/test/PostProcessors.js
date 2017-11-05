@@ -9,9 +9,10 @@ import '../src/PostProcessors/CssAutoprefixerPostProcessor'
 import '../src/PostProcessors/JavascriptMinifyPostProcessor'
 import '../src/PostProcessors/SvgOptimizePostProcessor'
 
-async function make(processor, file) {
+async function make(processor, file, hook = () => { }) {
 	const app = new Grind
 	app.config.loadDefault('assets', app.paths.base('../../config/assets.json'))
+	hook(app)
 
 	file = app.paths.base('resources/assets', file)
 
@@ -42,6 +43,16 @@ test('js-minify', async t => {
 	const js = await processor.process(file, null, contents)
 
 	t.is(js.toString().trim(), '!function(){document.body.getElementById("test").style.border="none"}();')
+})
+
+test('babel-minify', async t => {
+	const { processor, file, contents } = await make(JavascriptMinifyPostProcessor, 'babel/test.js', app => {
+		app.config.set('assets.post_processors.js.minify.package', 'uglify-es')
+	})
+
+	const js = await processor.process(file, null, contents)
+
+	t.is(js.toString().trim(), 'export class Test{test(){return document.body.getElementById("test")}};')
 })
 
 test('svg-optimize', async t => {
