@@ -63,6 +63,11 @@
 		"babel": {
 			"browserify": {
 				"enabled": true
+			},
+			"rollup": {
+				"enabled": false,
+				"babel": { },
+				"output": { },
 			}
 		}
 

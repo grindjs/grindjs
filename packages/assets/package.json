@@ -42,6 +42,8 @@
     "grind-cli": "^0.7.0",
     "grind-framework": "^0.7.0",
     "node-sass": "^4.5.3",
+    "rollup": "^0.50.0",
+    "rollup-plugin-babel": "^3.0.2",
     "svgo": "^1.0.2",
     "uglify-es": "^3.1.6",
     "uglify-js": "^3.1.6"

@@ -1,6 +1,7 @@
 import './Compiler'
 
 import './BabelCompiler/BrowserifyStage'
+import './BabelCompiler/RollupStage'
 
 import { FS } from 'grind-support'
 
@@ -9,6 +10,7 @@ const { Readable } = require('stream')
 
 export class BabelCompiler extends Compiler {
 	static stages = [
+		RollupStage,
 		BrowserifyStage
 	]
 
