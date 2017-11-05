@@ -6,12 +6,12 @@ import '../src/AssetsProvider'
 function get(path, full = false, options = { }) {
 	return request(app => {
 		AssetsProvider(app)
-	}, `assets/${path}`, options).then(response => {
+	}, `assets/${path}`, options).then(async response => {
 		if(full) {
 			return response
 		}
 
-		return response.body.toString().trim()
+		return (await response.text()).trim()
 	})
 }
 
@@ -51,14 +51,14 @@ test('security', async t => {
 
 test('headers', async t => {
 	const response = await get('css/test.css', true)
-	t.is(response.headers['x-cached'], 'false')
-	t.is(response.headers['cache-control'], 'public, max-age=31536000')
-	t.is(response.headers['content-type'], 'text/css; charset=utf-8')
-	t.is(response.headers['content-length'], '63')
-	t.is(response.headers['access-control-allow-origin'], '*')
-	t.is((response.headers['last-modified'] || '').length > 0, true)
-	t.is((response.headers.expires || '').length > 0, true)
-	t.is((response.headers.etag || '').length > 0, true)
+	t.is(response.headers.get('x-cached'), 'false')
+	t.is(response.headers.get('cache-control'), 'public, max-age=31536000')
+	t.is(response.headers.get('content-type'), 'text/css; charset=utf-8')
+	t.is(response.headers.get('content-length'), '63')
+	t.is(response.headers.get('access-control-allow-origin'), '*')
+	t.is((response.headers.get('last-modified') || '').length > 0, true)
+	t.is((response.headers.get('expires') || '').length > 0, true)
+	t.is((response.headers.get('etag') || '').length > 0, true)
 })
 
 test('cached', async t => {
@@ -67,12 +67,12 @@ test('cached', async t => {
 	try {
 		await get('css/test.css', true, {
 			headers: {
-				'If-None-Match': response.headers.etag
+				'If-None-Match': response.headers.get('etag')
 			}
 		})
 
 		t.fail('Returned full asset instead of 304')
 	} catch(err) {
-		t.is(err.statusCode, 304)
+		t.is(err.status, 304)
 	}
 })

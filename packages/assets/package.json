@@ -38,11 +38,10 @@
     "eslint": "^3.3.1",
     "eslint-config-grind": "^2.0.0",
     "eslint-plugin-import-auto-name": "^1.0.3",
-    "grind-cli": "0.7.0-beta.1",
+    "fetchit": "^1.0.0",
+    "grind-cli": "^0.7.0",
     "grind-framework": "^0.7.0",
     "node-sass": "^4.5.3",
-    "request": "^2.81.0",
-    "request-promise-native": "^1.0.4",
     "svgo": "^0.7.2",
     "uglify-js": "^2.8.29"
   },

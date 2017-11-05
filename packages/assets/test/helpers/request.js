@@ -1,8 +1,8 @@
 import 'babel-polyfill'
 import './Grind'
 
-import rp from 'request-promise-native'
 import { HttpServer } from 'grind-framework'
+const fetch = require('fetchit')
 
 let port = 0
 export function request(boot, path, options = { }) {
@@ -17,11 +17,7 @@ export function request(boot, path, options = { }) {
 	})).start().then(() => {
 		boot(app)
 
-		return rp({
-			...options,
-			uri: `http://127.0.0.1:${app.port}/${path}`,
-			resolveWithFullResponse: true
-		})
+		return fetch(`http://127.0.0.1:${app.port}/${path}`, options)
 	}).then(response => {
 		return app.shutdown().then(() => response)
 	}).catch(err => {
