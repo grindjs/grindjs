@@ -27,7 +27,7 @@ test('scss', async t => {
 
 test('js', async t => {
 	const js = await get('js/test.js')
-	t.is(js, '!function(){(function(){return document.body.getElementById("test")})().style.border="none"}();')
+	t.is(js, '!function(){document.body.getElementById("test").style.border="none"}();')
 })
 
 test('babel', async t => {

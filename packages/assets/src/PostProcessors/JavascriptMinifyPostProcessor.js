@@ -62,6 +62,24 @@ export class JavascriptMinifyPostProcessor extends PostProcessor {
 				}
 
 				result = UglifyJS.minify(contents.toString(), options)
+
+				if(!result.error.isNil && result.error.message.indexOf('fromString') >= 0) {
+					// Uglify 3.x
+					delete options.fromString
+					delete options.inSourceMap
+					options.sourceMap = {
+						content: sourceMap
+					}
+
+					if(options.sourceMapInline) {
+						options.sourceMap.url = 'inline'
+					}
+
+					delete options.sourceMapInline
+					delete options.outSourceMap
+
+					result = UglifyJS.minify(contents.toString(), options)
+				}
 			} catch(err) {
 				err.file = sourcePath
 				err.column = err.col
