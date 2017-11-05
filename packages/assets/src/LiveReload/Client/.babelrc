@@ -1,5 +1,12 @@
 {
-	"presets": [ "es2015" ],
+	"presets": [
+		[
+			"es2015",
+			{
+				"modules": false
+			}
+		]
+	],
 	"plugins": [
 		"babel-plugin-transform-isnil",
 		"babel-plugin-import-auto-name",

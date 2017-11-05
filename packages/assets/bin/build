@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-rm -fr lib && mkdir -p lib
+rm -fr lib dist && mkdir -p lib dist
 
 echo "Building"
 BABEL_TARGET_VERSION=8.9 babel -s inline -d lib/ src/ --copy-files
 
 echo "Building LiveReload Client"
-browserify src/LiveReload/Client/LiveReload.js -o dist/livereload.js -t [ babelify ]
+rollup -c src/LiveReload/Client/.rolluprc.js
 uglifyjs --compress -o dist/livereload.min.js -- dist/livereload.js

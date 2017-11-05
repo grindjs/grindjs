@@ -1,15 +1,16 @@
-const CssReloader = require('./CssReloader')
-const { origininize } = require('./Reloader')
+import { helpers as cssHelpers, CssReloader } from './CssReloader'
+import { origininize } from './Reloader'
 
-module.exports = {
-	...CssReloader,
+export const helpers = {
+
+	...cssHelpers,
 
 	getStylesheets: function() {
-		return CssReloader.getStylesheets().filter(stylesheet => /(scss|sass)$/.test(stylesheet.href.split(/\?/)[0]))
+		return cssHelpers.getStylesheets().filter(stylesheet => /(scss|sass)$/.test(stylesheet.href.split(/\?/)[0]))
 	},
 
 	findImports: function(href) {
-		const imports = CssReloader.findImports(href)
+		const imports = cssHelpers.findImports(href)
 		const rules = this.getRules(href)
 		let importsRule = null
 
@@ -24,7 +25,7 @@ module.exports = {
 			break
 		}
 
-		if(importsRule.isNil) {
+		if(!importsRule) {
 			return imports
 		}
 
@@ -37,3 +38,5 @@ module.exports = {
 	}
 
 }
+
+export const ScssReloader = CssReloader.bind(helpers)

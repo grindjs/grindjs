@@ -1,9 +1,9 @@
-const CssReloader = require('./CssReloader')
-const ScssReloader = require('./ScssReloader')
-const JsReloader = require('./JsReloader')
+import { CssReloader } from './CssReloader'
+import { ScssReloader } from './ScssReloader'
+import { JsReloader } from './JsReloader'
 
 function LiveReload() {
-	if(window.WebSocket.isNil) {
+	if(!window.WebSocket) {
 		throw new Error('This browser does not support websockets, live reload will not work.')
 	}
 
@@ -14,11 +14,11 @@ function LiveReload() {
 
 	function onAssetChanged(pathname) {
 		if(/(scss|sass)$/i.test(pathname)) {
-			ScssReloader.reload(pathname)
+			ScssReloader(pathname)
 		} else if(/css$/i.test(pathname)) {
-			CssReloader.reload(pathname)
+			CssReloader(pathname)
 		} else if(/js$/i.test(pathname)) {
-			JsReloader.reload(pathname)
+			JsReloader(pathname)
 		}
 	}
 

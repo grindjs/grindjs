@@ -1,22 +1,22 @@
-const { origininize } = require('./Reloader')
+import { origininize } from './Reloader'
 
-module.exports = {
+function reload(pathname) {
+	const scripts = this.getScripts()
 
-	reload: function(pathname) {
-		const scripts = this.getScripts()
+	for(let i = 0, length = scripts.length; i < length; i++) {
+		const script = scripts[i]
+		const src = origininize(script.src)
 
-		for(let i = 0, length = scripts.length; i < length; i++) {
-			const script = scripts[i]
-			const src = origininize(script.src)
-
-			if(src !== pathname && this.findImports(script).indexOf(pathname) === -1) {
-				continue
-			}
-
-			window.location.reload()
-			break
+		if(src !== pathname && this.findImports(script).indexOf(pathname) === -1) {
+			continue
 		}
-	},
+
+		window.location.reload()
+		break
+	}
+}
+
+export const helpers = {
 
 	findImports: function(src) {
 		return (window.__liveReloadImports || { })[origininize(src.src || src)] || [ ]
@@ -40,3 +40,5 @@ module.exports = {
 	}
 
 }
+
+export const JsReloader = reload.bind(helpers)

@@ -1,44 +1,44 @@
-const { origininize, cacheBust } = require('./Reloader')
+import { origininize, cacheBust } from './Reloader'
 
-module.exports = {
+function reload(pathname) {
+	const stylesheets = this.getStylesheets()
+	const reload = [ ]
 
-	reload: function(pathname) {
-		const stylesheets = this.getStylesheets()
-		const reload = [ ]
+	for(let i = 0, length = stylesheets.length; i < length; i++) {
+		const stylesheet = stylesheets[i]
+		const href = origininize(stylesheet.href)
 
-		for(let i = 0, length = stylesheets.length; i < length; i++) {
-			const stylesheet = stylesheets[i]
-			const href = origininize(stylesheet.href)
-
-			if(href !== pathname && this.findImports(stylesheet).indexOf(pathname) === -1) {
-				continue
-			}
-
-			reload.push(stylesheet)
+		if(href !== pathname && this.findImports(stylesheet).indexOf(pathname) === -1) {
+			continue
 		}
 
-		for(let j = 0, length2 = reload.length; j < length2; j++) {
-			const link = reload[j]
-			const replacement = document.createElement('link')
+		reload.push(stylesheet)
+	}
 
-			for(let k = 0, length3 = link.attributes.length; k < length3; k++) {
-				const attribute = link.attributes[k]
-				replacement.setAttribute(attribute.name, attribute.value)
-			}
+	for(let j = 0, length2 = reload.length; j < length2; j++) {
+		const link = reload[j]
+		const replacement = document.createElement('link')
 
-			replacement.href = cacheBust(replacement.href)
-
-			replacement.addEventListener('load', () => {
-				link.remove()
-			}, false)
-
-			replacement.addEventListener('error', () => {
-				replacement.remove()
-			}, false)
-
-			link.parentNode.insertBefore(replacement, link)
+		for(let k = 0, length3 = link.attributes.length; k < length3; k++) {
+			const attribute = link.attributes[k]
+			replacement.setAttribute(attribute.name, attribute.value)
 		}
-	},
+
+		replacement.href = cacheBust(replacement.href)
+
+		replacement.addEventListener('load', () => {
+			link.remove()
+		}, false)
+
+		replacement.addEventListener('error', () => {
+			replacement.remove()
+		}, false)
+
+		link.parentNode.insertBefore(replacement, link)
+	}
+}
+
+export const helpers = {
 
 	findImports: function(/* href */) {
 		return [ ]
@@ -78,3 +78,5 @@ module.exports = {
 	}
 
 }
+
+export const CssReloader = reload.bind(helpers)
