@@ -18,7 +18,7 @@
     "babel"
   ],
   "dependencies": {
-    "dateformat": "^2.0.0",
+    "dateformat": "^3.0.2",
     "ignore": "^3.3.3",
     "optional": "^0.1.3"
   },
