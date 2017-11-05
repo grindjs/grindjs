@@ -37,7 +37,7 @@ test('babel', async t => {
 
 test('svg', async t => {
 	const svg = await get('img/test.svg')
-	t.is(svg, '<svg width="108" height="108" viewBox="0 0 108 108" xmlns="http://www.w3.org/2000/svg"><path fill="#000" d="M4 2h100v100H4z" fill-rule="evenodd"/></svg>')
+	t.is(svg, '<svg width="108" height="108" xmlns="http://www.w3.org/2000/svg"><path fill="#000" d="M4 2h100v100H4z" fill-rule="evenodd"/></svg>')
 })
 
 test('security', async t => {

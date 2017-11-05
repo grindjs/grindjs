@@ -29,36 +29,29 @@ export class SvgOptimizePostProcessor extends PostProcessor {
 			return Promise.resolve(contents)
 		}
 
-		return new Promise((resolve, reject) => {
-			try {
-				(new SVGO(this.options)).optimize(contents, result => {
-					if(result.isNil) {
-						return reject({
-							file: sourcePath,
-							message: 'Unknown error'
-						})
-					}
-
-					if(!result.error.isNil) {
-						const err = { file: sourcePath }
-
-						err.message = result.error.replace(/Line:\s*([0-9]+)\s*/, (_, line) => {
-							err.line = line
-							return ''
-						}).replace(/Column:\s*([0-9]+)\s*/, (_, column) => {
-							err.column = column
-							return ''
-						})
-
-						Log.comment('error', result.error, typeof result.error)
-						return reject(err)
-					}
-
-					resolve(result.data)
-				})
-			} catch(err) {
-				return reject(err)
+		return (new SVGO(this.options)).optimize(contents).then(result => {
+			if(result.isNil) {
+				const error = new Error('Unknown error optimizing SVG')
+				error.file = sourcePath
+				throw error
 			}
+
+			if(!result.error.isNil) {
+				const error = new Error('Error optimizing SVG')
+				error.file = sourcePath
+
+				error.message = result.error.replace(/Line:\s*([0-9]+)\s*/, (_, line) => {
+					error.line = line
+					return ''
+				}).replace(/Column:\s*([0-9]+)\s*/, (_, column) => {
+					error.column = column
+					return ''
+				})
+
+				throw error
+			}
+
+			return result.data
 		})
 	}
 

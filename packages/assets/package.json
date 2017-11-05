@@ -42,7 +42,7 @@
     "grind-cli": "^0.7.0",
     "grind-framework": "^0.7.0",
     "node-sass": "^4.5.3",
-    "svgo": "^0.7.2",
+    "svgo": "^1.0.2",
     "uglify-js": "^2.8.29"
   },
   "engines": {
