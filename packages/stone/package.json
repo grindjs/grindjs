@@ -6,8 +6,8 @@
   "author": "Shaun Harrison",
   "license": "MIT",
   "dependencies": {
-    "acorn": "5.1.0",
-    "astring": "^1.0.3",
+    "acorn": "^5.2.1",
+    "astring": "^1.2.0",
     "chokidar": "^1.7.0",
     "he": "^1.1.1"
   },
