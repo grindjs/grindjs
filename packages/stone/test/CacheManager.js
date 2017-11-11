@@ -10,6 +10,7 @@ const compiledPath = path.join(__dirname, 'fixtures/storage/views/compiled.js')
 function makeApp() {
 	return baseMakeApp(app => {
 		app.config.set('view.path', '../views/output')
+		app.config.set('view.tags', { })
 		app.config.set('view.ignore-compiled', false)
 	})
 }

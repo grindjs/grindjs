@@ -6,6 +6,7 @@ import './AST'
 import './Support/contextualize'
 import './Support/nextIndexOf'
 import './Support/nextClosingIndexOf'
+import './Support/convertTaggedComponents'
 
 const vm = require('vm')
 
@@ -58,6 +59,9 @@ export class StoneTemplate {
 		// Strip comments
 		// TODO: This is going to break source maps
 		let contents = this.state.contents.trim().replace(/\{\{--([\s\S]+?)--\}\}/g, '')
+
+		// Convert tagged components to regular components
+		contents = convertTaggedComponents(this.compiler.tags, contents)
 
 		// Parse through the template
 		contents = contents.substring(this.advance(contents, 0)).trim()

@@ -1,0 +1,6 @@
+@set(attributes, {
+	bool: true,
+	testing: false,
+	grind: 'framework'
+})
+<attributes {...attributes} />

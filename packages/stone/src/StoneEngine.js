@@ -10,6 +10,7 @@ import './StoneRuntime'
 import './Support/escape'
 
 const path = require('path')
+const fs = require('fs')
 
 export class StoneEngine extends ViewEngine {
 
@@ -61,6 +62,19 @@ export class StoneEngine extends ViewEngine {
 			this.watcher.start()
 		}
 
+		const tags = this.app.config.get('view.tags')
+
+		if(!tags.isNil) {
+			for(const [ key, value ] of Object.entries(tags)) {
+				if(value === '*') {
+					this.tag(`${key}.*`)
+					continue
+				}
+
+				this.tag(key, value)
+			}
+		}
+
 		if(await this.cacheManager.exists()) {
 			await this.cacheManager.load()
 		}
@@ -80,6 +94,35 @@ export class StoneEngine extends ViewEngine {
 
 	extend(name, extension) {
 		this.compiler.directives[name] = extension
+	}
+
+	tag(name, template = null) {
+		if(template.isNil) {
+			if(name.endsWith('.*')) {
+				const base = name.substring(0, name.length - 2)
+
+				// eslint-disable-next-line no-sync
+				const templates = fs.readdirSync(path.join(this.view.viewPath, base.replace(/\./g, '/')))
+
+				for(const template of templates) {
+					const extname = path.extname(template)
+					const name = path.basename(template, extname)
+
+					if(extname !== '.stone') {
+						continue
+					}
+
+					this.tag(`${base}.${name}`)
+				}
+
+				return
+			}
+
+			template = name
+			name = template.split(/\./).pop().replace(/^_/g, '')
+		}
+
+		this.compiler.tags[name] = template
 	}
 
 	render(template, context) {

@@ -7,6 +7,7 @@ export class Compiler {
 
 	engine = null
 	directives = { }
+	tags = { }
 	compiled = { }
 
 	constructor(engine) {
