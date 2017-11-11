@@ -125,3 +125,14 @@ export function compileSet(context, args) {
 
 	return `Object.assign(_, (function() {\n\t${code}\n\treturn { ${extracted.join(', ')} };\n})());`
 }
+
+/**
+ * Unsets a context variable
+ *
+ * @param  {object} context Context for the compilation
+ * @param  {string} args    Arguments to unset
+ * @return {string} Code to set the context variable
+ */
+export function compileUnset(context, args) {
+	return context.validateSyntax(`delete ${args};`)
+}
