@@ -1,4 +1,5 @@
 export class StoneLoop {
+
 	target
 	iterator
 	_index

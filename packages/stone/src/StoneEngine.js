@@ -10,6 +10,7 @@ import './StoneRuntime'
 import './Support/escape'
 
 export class StoneEngine extends ViewEngine {
+
 	cacheManager = null
 	compiler = null
 	watcher = null

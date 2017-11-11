@@ -4,6 +4,7 @@ import './StoneTemplate'
 const fs = require('fs')
 
 export class Compiler {
+
 	engine = null
 	directives = { }
 	compiled = { }

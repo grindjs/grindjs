@@ -10,6 +10,7 @@ import './Support/nextClosingIndexOf'
 const vm = require('vm')
 
 export class StoneTemplate {
+
 	compiler = null
 
 	state = {

@@ -1,4 +1,5 @@
 export class HtmlString {
+
 	html = null
 
 	constructor(html) {

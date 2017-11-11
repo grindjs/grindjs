@@ -4,6 +4,7 @@ import './AST'
 const path = require('path')
 
 export class CacheManager {
+
 	engine = null
 	compiledViewPath = null
 
