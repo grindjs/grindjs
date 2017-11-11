@@ -27,7 +27,7 @@ export class StoneRuntime {
 		return compiled(context, sections)
 	}
 
-	each(context, template, collection, key, empty = 'raw|', extra = { }) {
+	each(context, fromTemplate, template, collection, key, empty = 'raw|', extra = { }) {
 		let length = 0
 		let isObject = false
 
@@ -47,11 +47,11 @@ export class StoneRuntime {
 			}
 
 			// If the value of empty doesn’t start with `raw|`, we render it as a template
-			return this.compiler.compile(this.engine.resolve(empty))({ ...context, ...extra })
+			return this.compiler.compile(this.engine.resolve(empty, fromTemplate))({ ...context, ...extra })
 		}
 
 		let output = ''
-		const compiled = this.compiler.compile(this.engine.resolve(template))
+		const compiled = this.compiler.compile(this.engine.resolve(template, fromTemplate))
 
 		if(isObject) {
 			for(const value of collection) {

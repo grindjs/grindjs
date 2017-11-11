@@ -132,5 +132,5 @@ export function compileInclude(context, view) {
  */
 export function compileEach(context, args) {
 	context.validateSyntax(`each(${args})`)
-	return `output += (_.$stone.each(_, ${args}));\n`
+	return `output += (_.$stone.each(_, __templatePathname, ${args}));\n`
 }
