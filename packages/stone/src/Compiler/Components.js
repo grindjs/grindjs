@@ -20,7 +20,7 @@ export function compileComponent(context, args) {
 
 export function compileEndcomponent() {
 	const context = 'Object.assign({ slot: new HtmlString(output) }, __componentContext)'
-	return `return _.$stone.include(_, { }, __componentView, ${context});\n})()`
+	return `return _.$stone.include(_, { }, __templatePathname, __componentView, ${context});\n})()`
 }
 
 export function compileSlot(context, args) {

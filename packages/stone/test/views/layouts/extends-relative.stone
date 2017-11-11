@@ -1,0 +1,2 @@
+@extends(`._title-var`)
+@section('head')<meta />@endsection

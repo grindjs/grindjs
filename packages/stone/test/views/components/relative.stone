@@ -1,0 +1,3 @@
+@component('._component')Hello@endcomponent
+@component('..components._component')Hello@endcomponent
+@component('...views.components._component')Hello@endcomponent

@@ -9,6 +9,8 @@ import './StoneRuntime'
 
 import './Support/escape'
 
+const path = require('path')
+
 export class StoneEngine extends ViewEngine {
 
 	cacheManager = null
@@ -108,8 +110,22 @@ export class StoneEngine extends ViewEngine {
 		})
 	}
 
-	resolve(template) {
-		return `${this.view.viewPath}/${template.replace(/\./g, '/')}.stone`
+	resolve(template, relativeTo = null) {
+		if(template.substring(0, 1) === '.' && typeof relativeTo === 'string') {
+			let join = ''
+
+			template = template.replace(/^(\.+)/, (_, dots) => {
+				if(dots.length !== 1) {
+					join = '../'.repeat(dots.length - 1)
+				}
+
+				return ''
+			})
+
+			return path.join(path.dirname(relativeTo), join, `${template.replace(/\./g, '/')}.stone`)
+		}
+
+		return path.join(this.view.viewPath, `${template.replace(/\./g, '/')}.stone`)
 	}
 
 	writeCache() {

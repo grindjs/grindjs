@@ -6,18 +6,18 @@ export class StoneRuntime {
 		this.engine = engine
 	}
 
-	extends(template, context, sections) {
-		return (this.compiler.compile(this.engine.resolve(template)))(context, sections)
+	extends(fromTemplate, template, context, sections) {
+		return (this.compiler.compile(this.engine.resolve(template, fromTemplate)))(context, sections)
 	}
 
-	include(context, sections, template, extra) {
+	include(context, sections, fromTemplate, template, extra) {
 		if(extra) {
 			context = { ...context, ...extra }
 		} else {
 			context = { ...context }
 		}
 
-		const compiled = this.compiler.compile(this.engine.resolve(template))
+		const compiled = this.compiler.compile(this.engine.resolve(template, fromTemplate))
 
 		if(compiled.isLayout) {
 			// Don’t pass through sections if including another layout

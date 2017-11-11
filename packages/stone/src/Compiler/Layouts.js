@@ -119,7 +119,7 @@ export function compileHassection(context, section) {
  */
 export function compileInclude(context, view) {
 	context.validateSyntax(view)
-	return `output += (_.$stone.include(_, _sections, ${view}));\n`
+	return `output += (_.$stone.include(_, _sections, __templatePathname, ${view}));\n`
 }
 
 /**

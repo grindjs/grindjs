@@ -96,11 +96,11 @@ export class StoneTemplate {
 				context = 'Object.assign(_, __extendsContext)'
 			}
 
-			returns = `_.$stone.extends(__extendsLayout, ${context}, _sections)`
+			returns = `_.$stone.extends(__templatePathname, __extendsLayout, ${context}, _sections)`
 		}
 
 		// Wrap the compiled code in a template func with it’s return value
-		const template = `function template(_, _sections = { }) {\nlet output = '';\n${code}\nreturn ${returns};\n}`
+		const template = `function template(_, _sections = { }) {\nlet output = '';const __templatePathname = '${this.state.file}';\n${code}\nreturn ${returns};\n}`
 
 		// Contextualize the template so all global vars are prefixed with `_.`
 		const contextualized = contextualize(template)
