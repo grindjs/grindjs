@@ -399,7 +399,7 @@ In the above example, if you were to pass extra attributes to `fancy-border`, it
 If we modify our `fancy-border` component to leverage `$local` and `html.attributes`, we can allow full customization of the component:
 
 ```stone
-@set(const { color = 'green', class = '', ...attrs } = $local)
+@set(const { color = 'green', class = '', ...attrs }, $local)
 <div
 	class="fancy-border fancy-border-{{ color }} {{ class }}"
 	{{ html.attributes(attrs) }}
