@@ -2782,8 +2782,8 @@ labeled-stream-splicer@^2.0.0:
   resolved "https://github.com/wiredmax/language-json5#6e2c6821f3d4429dc94a4881444e497647f084e5"
 
 "language-stone@https://github.com/grindjs/stone-editor-atom.git":
-  version "1.0.0"
-  resolved "https://github.com/grindjs/stone-editor-atom.git#6afd53b7c1f2075a034358e6eaf675d4355820e1"
+  version "1.1.0"
+  resolved "https://github.com/grindjs/stone-editor-atom.git#20832f135a4f3fa258e680327fb66e427c3115c5"
 
 later@^1.2.0:
   version "1.2.0"
