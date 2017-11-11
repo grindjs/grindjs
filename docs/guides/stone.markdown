@@ -228,7 +228,7 @@ Tagged Components provide all of the benefits of the regular component syntax, b
 </app-modal>
 ```
 
-This is effectively the same as doing (in fact, behind the scenes, it’s what Stone turns it into):
+This is effectively the same as doing the following (in fact, behind the scenes, it’s what Stone turns it into):
 
 ```stone
 @component('shared.app-modal', {
@@ -243,7 +243,7 @@ This is effectively the same as doing (in fact, behind the scenes, it’s what S
 
 ### Registering Tags
 
-As you may have noticed, tagged components are referenced by just a single tag name, like `app-model` and not the full path we use with components (`shared.app-modal`).
+As you may have noticed, tagged components are referenced by just a single tag name like `app-modal` and not the full path we use with components (`shared.app-modal`).
 
 In order to use tagged components, you must first tell Stone about them.  The easiest way to do this is via your View config:
 
@@ -261,7 +261,6 @@ The object key (`app-modal`) becomes your component tag and it’s value (`share
 While you can define tagged components one by one, this may become a little cumbersome as you start creating more of them.  To alleviate this process, you can register tags via wildcards:
 
 ```json
-// config/view.json
 {
 	"tags": {
 		"shared.tags": "*"
@@ -361,7 +360,7 @@ With components, this is also achieved by composition, where a more “specific�
 
 ### Attribute Passthrough
 
-All templates have a special `$local` variable that contains _only_ the context explicitly passed to them.  When using this with tagged components, it gives us some pretty powerful options.
+All templates have a special `$local` variable that contains _only_ the context explicitly passed to them.  When using this with tagged components, it gives us pretty powerful functionality.
 
 In the above example, if you were to pass extra attributes to `fancy-border`, it gets lost:
 
@@ -375,19 +374,19 @@ In the above example, if you were to pass extra attributes to `fancy-border`, it
 </fancy-border>
 ```
 
-If we modify our `fancy-border` component to leverage `$local` and `html.attributes`, we can allow full customization of our component:
+If we modify our `fancy-border` component to leverage `$local` and `html.attributes`, we can allow full customization of the component:
 
 ```stone
-@set(const { color, class, ...attrs } = $local)
+@set(const { color = 'green', class = '', ...attrs } = $local)
 <div
-	class="fancy-border fancy-border-{{ color || 'green' }} {{ class || '' }}"
+	class="fancy-border fancy-border-{{ color }} {{ class }}"
 	{{ html.attributes(attrs) }}
 >
 	{{ slot }}
 </div>
 ```
 
-Now when call `fancy-border` with the extra attributes, it’ll render as expected:
+Now when calling `fancy-border` with the extra attributes, it’ll render as expected:
 
 ```stone
 <div
