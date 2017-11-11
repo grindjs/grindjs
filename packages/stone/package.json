@@ -19,9 +19,9 @@
     "ava": "^0.21.0",
     "babel-cli": ">=6.7 <=7.0",
     "babel-eslint": "^7.1.1",
-    "babel-preset-grind": "^0.7.0",
+    "babel-preset-grind": "^0.8.0-beta.1",
     "eslint": "^3.19.0",
-    "eslint-config-grind": "^2.0.0",
+    "eslint-config-grind": "^2.0.1",
     "eslint-plugin-import-auto-name": "^1.0.3",
     "grind-cli": "^0.7.0",
     "grind-framework": "^0.7.0",
@@ -29,7 +29,7 @@
     "recursive-readdir-sync": "^1.0.6"
   },
   "engines": {
-    "node": ">=6.9"
+    "node": ">=8.9"
   },
   "scripts": {
     "prepublish": "bin/build",
