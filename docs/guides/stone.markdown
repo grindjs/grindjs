@@ -6,6 +6,83 @@ Stone is Grind’s official templating engine, it’s based on [Laravel Blade](h
 
 [[toc]]
 
+## Displaying Data
+
+You may display data passed to your Stone views by wrapping the variable in curly braces. For example, given the following route:
+
+```js
+app.routes.get('greeting', (req, res) => {
+	return res.render('welcome', { name: 'Taylor' })
+})
+```
+
+You can display the contents of the `name` variable by surrounding it with two curly braces:
+
+```stone
+<p>Hello, {{ name }}.</p>
+```
+
+Of course, you are not limited to displaying the contents of the variables passed to the view. You may also display the results of any JS expression. In fact, you can put any JS code you wish inside of a Stone output statement:
+
+```stone
+<p>The current UNIX timestamp is {{ Date.now() }}.</p>
+```
+
+#### Displaying Unescaped Data
+
+By default, Stone `{{ }}` statements are automatically passed through the [he](https://www.npmjs.com/package/he) package to prevent XSS attacks. If you do not want your data to be escaped, you may use the following syntax:
+
+```stone
+<p>Hello, {!! name !!}.</p>
+```
+
+> {note} Be very careful when outputting content that is supplied by users of your application. Always use the escaped, double curly brace syntax to prevent XSS attacks when displaying user supplied data.
+
+### Escaping Braces
+
+You may use the `@` symbol to inform the Stone rendering engine an expression should remain untouched. For example:
+
+```stone
+<h1>Stone</h1>
+<p>Hello, @{{ name }}.</p>
+```
+
+In this example, the `@` symbol will be removed by Stone; however, the `{{ name }}` expression will remain untouched by the Stone engine.
+
+### Controlling Whitespace
+
+Stone has a `@spaceless` directive that allows you to strip all whitespace between HTML tags:
+
+```stone
+@spaceless
+<nav>
+	<span>Home</span>
+	<span>Posts</span>
+	<span>Contact</span>
+</nav>
+@endspaceless
+```
+
+The above example will render as:
+
+```html
+<nav><span>Home</span><span>Posts</span><span>Contact</span></nav>
+```
+
+> {tip} `@spaceless` is applied during compilation, so there’s no real world performance cost!
+
+### Inspecting Objects
+
+During the course of development, you’ll more than likely run into a scenario where you want to see what the contents of an object are.
+
+Stone solves this with a `@dump` directive that will `stringify` the object and render it in a `pre` tag:
+
+```stone
+@dump({
+	title: 'Grind'
+})
+```
+
 ## Layouts & Sections
 
 ### Defining A Layout
@@ -139,83 +216,6 @@ Since components don‘t have any explicit hierarchy like layouts do (they’re 
 ```
 
 This isn’t practical for every scenario (as soon as you start including HTML tags you’ll want to leverage the `@component` directive), but it’s easy to see how powerful and flexible components can be in your app.
-
-## Displaying Data
-
-You may display data passed to your Stone views by wrapping the variable in curly braces. For example, given the following route:
-
-```js
-app.routes.get('greeting', (req, res) => {
-	return res.render('welcome', { name: 'Taylor' })
-})
-```
-
-You can display the contents of the `name` variable by surrounding it with two curly braces:
-
-```stone
-<p>Hello, {{ name }}.</p>
-```
-
-Of course, you are not limited to displaying the contents of the variables passed to the view. You may also display the results of any JS expression. In fact, you can put any JS code you wish inside of a Stone output statement:
-
-```stone
-<p>The current UNIX timestamp is {{ Date.now() }}.</p>
-```
-
-#### Displaying Unescaped Data
-
-By default, Stone `{{ }}` statements are automatically passed through the [he](https://www.npmjs.com/package/he) package to prevent XSS attacks. If you do not want your data to be escaped, you may use the following syntax:
-
-```stone
-<p>Hello, {!! name !!}.</p>
-```
-
-> {note} Be very careful when outputting content that is supplied by users of your application. Always use the escaped, double curly brace syntax to prevent XSS attacks when displaying user supplied data.
-
-### Escaping Braces
-
-You may use the `@` symbol to inform the Stone rendering engine an expression should remain untouched. For example:
-
-```stone
-<h1>Stone</h1>
-<p>Hello, @{{ name }}.</p>
-```
-
-In this example, the `@` symbol will be removed by Stone; however, the `{{ name }}` expression will remain untouched by the Stone engine.
-
-### Controlling Whitespace
-
-Stone has a `@spaceless` directive that allows you to strip all whitespace between HTML tags:
-
-```stone
-@spaceless
-<nav>
-	<span>Home</span>
-	<span>Posts</span>
-	<span>Contact</span>
-</nav>
-@endspaceless
-```
-
-The above example will render as:
-
-```html
-<nav><span>Home</span><span>Posts</span><span>Contact</span></nav>
-```
-
-> {tip} `@spaceless` is applied during compilation, so there’s no real world performance cost!
-
-### Inspecting Objects
-
-During the course of development, you’ll more than likely run into a scenario where you want to see what the contents of an object are.
-
-Stone solves this with a `@dump` directive that will `stringify` the object and render it in a `pre` tag:
-
-```stone
-@dump({
-	title: 'Grind'
-})
-```
 
 ## Variable Assignemnts
 
@@ -465,7 +465,7 @@ To enable support for Stone in Sublime Text, first add the repository to [Packag
 2. Go to `Package Control: Add Repository`
 3. Enter https://github.com/grindjs/stone-editor-sublime
 
-Once you’ve added the repository, you can install it by searching `stone-editor-sublime`: 
+Once you’ve added the repository, you can install it by searching `stone-editor-sublime`:
 1. Open Package Control via `<cmd>`+`<shift>`+`<p>`
 2. Go to `Package Control: Install Package`
 3. Then enter `stone-editor-sublime`
