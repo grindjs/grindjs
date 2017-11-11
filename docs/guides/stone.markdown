@@ -217,6 +217,187 @@ Since components don‘t have any explicit hierarchy like layouts do (they’re 
 
 This isn’t practical for every scenario (as soon as you start including HTML tags you’ll want to leverage the `@component` directive), but it’s easy to see how powerful and flexible components can be in your app.
 
+## Tagged Components
+
+Tagged Components provide all of the benefits of the regular component syntax, but via HTML tags:
+
+```stone
+<app-modal position="center">
+	<h1>Grind Framework</h1>
+	<p>Aren’t tagged components cool?</p>
+</app-modal>
+```
+
+This is effectively the same as doing (in fact, behind the scenes, it’s what Stone turns it into):
+
+```stone
+@component('shared.app-modal', {
+	position: 'center'
+})
+	<h1>Grind Framework</h1>
+	<p>Aren’t tagged components cool?</p>
+@endcomponent
+```
+
+> {tip} Tagged Components are handled during compilation, so there is no runtime performance hit!
+
+### Registering Tags
+
+As you may have noticed, tagged components are referenced by just a single tag name, like `app-model` and not the full path we use with components (`shared.app-modal`).
+
+In order to use tagged components, you must first tell Stone about them.  The easiest way to do this is via your View config:
+
+```json
+// config/view.json
+{
+	"tags": {
+		"app-modal": "shared.app-modal"
+	}
+}
+```
+
+The object key (`app-modal`) becomes your component tag and it’s value (`shared.app-modal`) is the view that is loaded.
+
+While you can define tagged components one by one, this may become a little cumbersome as you start creating more of them.  To alleviate this process, you can register tags via wildcards:
+
+```json
+// config/view.json
+{
+	"tags": {
+		"shared.tags": "*"
+	}
+}
+```
+
+Using the wildcard syntax, all views within `shared/tags` will be registered as tags.  Take the following directory structure:
+
+```
+views
+└─ shared
+   └─ tags
+      ├─ alert.stone
+      ├─ app-modal.stone
+      └─ popover.stone
+```
+
+Using the above config, the following will be automatically registered:
+
+* `shared.tags.alert` is registered as `alert`
+* `shared.tags.app-modal` is registered as `app-modal`
+* `shared.tags.popover` is registered as `popover`
+
+### Passing Data
+
+#### Simple Values
+You pass data to your component by setting attributes on the tag, just like any other HTML tag:
+
+```stone
+<app-modal position="center" />
+```
+
+`app-modal` will be called with the context `{ position: 'center' }`.
+
+#### Variables
+If you need to pass variables to the component, you can do so by surrounding the attribute value with braces instead of quotes:
+
+```stone
+<app-modal position="center" title={title} />
+```
+
+`app-modal` will be called with the context `{ position: 'center', title: title }`.
+
+#### Spread
+You can also pass an entire object to a component using spread syntax:
+
+```stone
+<app-modal position="center" { ...attributes } />
+```
+
+`app-modal` will be called with the context `{ position: 'center', ...attributes }`.
+
+### Nesting and Composition
+
+Tagged components support full nesting and composition, just like any other HTML tag or component.
+
+By using the [`slot` variable](#components-slots), we can build flexible components:
+
+```stone
+{{-- fancy-border.stone --}}
+<div class="fancy-border fancy-border-{{ color || 'green' }}">
+	{{ slot }}
+</div>
+```
+
+This lets other components pass arbitrary elements to them by nesting the tags:
+
+```stone
+{{-- welcome-dialog.stone --}}
+<fancy-border color="blue">
+	<h1 class="dialog-title">Welcome</h1>
+	<p class="dialog-message">Thank you for visiting our spacecraft!</p>
+</fancy-border>
+```
+
+Anything inside the `<fancy-border>` tag gets passed into the `fancy-border` component via the `slot` variable. Since `<fancy-border>` renders `{{ slot }}` inside of it‘s `<div>`, the passed elements appear in the final output.
+
+### Specialization
+
+Sometimes we think about components as being “special cases” of other components. For example, we might say that a `welcome-dialog` is a special case of `dialog`.
+
+With components, this is also achieved by composition, where a more “specific” component renders a more “generic” one and configures it with attributes:
+
+```stone
+{{-- dialog.stone --}}
+<fancy-border color="blue">
+	<h1 class="dialog-title">{{ title }}</h1>
+	<p class="dialog-message">{{ message }}</p>
+</fancy-border>
+
+{{-- welcome-dialog.stone --}}
+<dialog
+	title="Welcome"
+	message="Thank you for visiting our spacecraft!" />
+```
+
+### Attribute Passthrough
+
+All templates have a special `$local` variable that contains _only_ the context explicitly passed to them.  When using this with tagged components, it gives us some pretty powerful options.
+
+In the above example, if you were to pass extra attributes to `fancy-border`, it gets lost:
+
+```stone
+<fancy-border
+	color="blue"
+	class="my-extra-class"
+	data-id="welcome-dialog"
+>
+	{{-- ... --}}
+</fancy-border>
+```
+
+If we modify our `fancy-border` component to leverage `$local` and `html.attributes`, we can allow full customization of our component:
+
+```stone
+@set(const { color, class, ...attrs } = $local)
+<div
+	class="fancy-border fancy-border-{{ color || 'green' }} {{ class || '' }}"
+	{{ html.attributes(attrs) }}
+>
+	{{ slot }}
+</div>
+```
+
+Now when call `fancy-border` with the extra attributes, it’ll render as expected:
+
+```stone
+<div
+	class="fancy-border fancy-border-blue my-extra-class"
+	data-id="welcome-dialog"
+>
+	{{-- ... --}}
+</div>
+```
+
 ## Variable Assignemnts
 
 Stone’s `@set` directive allows you to assign variables within the current context.  These assignments will cascade downwards to subviews via `@include`, however an assignment within a subview will not affect it’s parent.
