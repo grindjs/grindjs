@@ -23,6 +23,9 @@ export function convertTaggedComponents(tags, contents) {
 		}
 	}
 
+	contents = contents.replace(/<slot:([a-zA-Z0-9_]+)>/g, '@slot(\'$1\')')
+	contents = contents.replace(/<\/slot:([a-zA-Z0-9_]+)>/g, '@endslot()')
+
 	return contents
 }
 

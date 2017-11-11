@@ -1,0 +1,4 @@
+<slotted-group>
+	<slot:title><h1>Grind</h1></slot:title>
+	<p>Framework</p>
+</slotted-group>
