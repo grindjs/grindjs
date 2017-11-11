@@ -106,6 +106,10 @@ export function contextualize(code) {
 			}
 		},
 
+		RestElement: node => {
+			node.name = `_.${node.name}`
+		},
+
 		Identifier: node => {
 			if(node.name.substring(0, 13) === '__auto_scope_') {
 				node.name = node.name.substring(13)

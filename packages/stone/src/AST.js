@@ -1,15 +1,25 @@
-const acorn = require('acorn')
+const acorn = require('acorn5-object-spread')
 const base = require('acorn/dist/walk').base
-const astring = require('astring').generate
+const astring = require('astring')
 
 export class AST {
 
 	static parse(string) {
-		return acorn.parse(string)
+		return acorn.parse(string, {
+			ecmaVersion: 9,
+			plugins: {
+				objectSpread: true
+			}
+		})
 	}
 
 	static walk(node, visitors) {
 		(function c(node, st, override) {
+			if(node.isNil) {
+				// This happens during RestElement, unsure why.
+				return
+			}
+
 			const type = override || node.type
 			const found = visitors[type]
 
@@ -28,7 +38,11 @@ export class AST {
 			}
 		} else if(node.type === 'ObjectPattern') {
 			for(const property of node.properties) {
-				this.walkVariables(property.value, callback)
+				if(property.type === 'RestElement') {
+					callback(property.argument)
+				} else {
+					this.walkVariables(property.value, callback)
+				}
 			}
 		} else if(node.type === 'AssignmentPattern') {
 			this.walkVariables(node.left, callback)
@@ -38,7 +52,21 @@ export class AST {
 	}
 
 	static stringify(tree) {
-		return astring(tree)
+		return astring.generate(tree, {
+			generator: {
+				...astring.baseGenerator,
+				Property(node, state) {
+					if(node.type === 'SpreadElement') {
+						state.write('...(')
+						this[node.argument.type](node.argument, state)
+						state.write(')')
+						return
+					}
+
+					return astring.baseGenerator.Property.call(this, node, state)
+				}
+			}
+		})
 	}
 
 }

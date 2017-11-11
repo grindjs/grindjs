@@ -1,0 +1,6 @@
+@set(const obj, {
+	grind: 'framework',
+	template: 'stone'
+})
+@set(const { grind, ...args }, obj)
+{!! stringify({ ...pairs[0], ...obj, ...({ a: 'a' }), grind, ...args, grind: 'framework!' }) !!}
