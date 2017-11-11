@@ -339,6 +339,28 @@ This lets other components pass arbitrary elements to them by nesting the tags:
 
 Anything inside the `<fancy-border>` tag gets passed into the `fancy-border` component via the `slot` variable. Since `<fancy-border>` renders `{{ slot }}` inside of it‘s `<div>`, the passed elements appear in the final output.
 
+### Slots
+Looking back to our earlier `alert` component, you’ll see there are multiple slots:
+
+```stone
+<div class="alert alert-danger">
+	<div class="alert-title">{{ title }}</div>
+
+	{{ slot }}
+</div>
+```
+
+This is supported in tagged components via a special `<slot:name>` tag, where `name` is the name of the slot:
+
+```stone
+<alert>
+	<slot:title><strong>Uh oh!</strong> Forbidden</slot:title>
+	You are not allowed to access this resource!
+</alert>
+```
+
+> {note} Slot tags do not support attributes.
+
 ### Specialization
 
 Sometimes we think about components as being “special cases” of other components. For example, we might say that a `welcome-dialog` is a special case of `dialog`.
