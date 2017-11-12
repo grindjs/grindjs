@@ -227,8 +227,8 @@ export class Router {
 
 		for(const loader of loaders) {
 			try {
-				this.group(loader.options || { }, routes => {
-					loader(routes, this.app)
+				this.group(loader.options || { }, (routes, ...args) => {
+					loader(routes, this.app, ...args)
 				})
 			} catch(err) {
 				if(err instanceof RoutesLoadError) {
