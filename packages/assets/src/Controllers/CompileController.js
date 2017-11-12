@@ -114,7 +114,9 @@ export class CompileController {
 		}
 
 		return promise.then(content => {
-			if(!this.app.debug) {
+			if(this.app.debug) {
+				res.header('Cache-Control', 'no-cache')
+			} else {
 				res.header('Cache-Control', 'public, max-age=31536000')
 				res.header('Expires', dateFormat(expires, HTTP_DATE_FORMAT))
 			}
