@@ -16,7 +16,7 @@ export function SessionMiddlewareBuilder(app) {
 	if(storeConfig.isNil) {
 		throw new Error('Invalid session config')
 	} else if(storeConfig.store !== 'memory') {
-		config.store = new storeConfig.store({ app, ...storeConfig.options })
+		config.store = new storeConfig.store(storeConfig.options)
 	} else if(app.env() === 'production') {
 		Log.error('WARNING: Using memory sessions in production is not supported.')
 	}
