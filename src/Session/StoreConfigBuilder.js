@@ -160,7 +160,7 @@ function expandDatabaseStoreConfig(app, driver, config) {
 	config.connection = connection
 	delete config.driver
 
-	return config
+	return { app, ...config }
 }
 
 function expandFileStoreConfig(app, driver, config) {
