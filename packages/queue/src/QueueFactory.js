@@ -3,6 +3,7 @@ import './Queue'
 
 import './Drivers/BaseDriver'
 import './Drivers/BeanstalkDriver'
+import './Drivers/FaktoryDriver'
 import './Drivers/RabbitDriver'
 
 export class QueueFactory {
@@ -12,6 +13,7 @@ export class QueueFactory {
 	drivers = {
 		beanstalk: BeanstalkDriver,
 		beanstalkd: BeanstalkDriver,
+		faktory: FaktoryDriver,
 		rabbit: RabbitDriver,
 		rabbitmq: RabbitDriver,
 		amqp: RabbitDriver
