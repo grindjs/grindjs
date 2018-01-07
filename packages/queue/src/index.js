@@ -9,6 +9,7 @@ import './Commands/QueueWorkCommand'
 
 import './Drivers/BaseDriver'
 import './Drivers/BeanstalkDriver'
+import './Drivers/FaktoryDriver'
 import './Drivers/RabbitDriver'
 
 export {
@@ -20,6 +21,7 @@ export {
 	// Drivers
 	BaseDriver,
 	BeanstalkDriver,
+	FaktoryDriver,
 	RabbitDriver,
 
 	// Commands

@@ -12,8 +12,12 @@
   "keywords": [
     "grindjs",
     "grind-framework",
+    "rabbitmq",
+    "beanstalk",
+    "ampq",
     "kue",
-    "queue"
+    "queue",
+    "faktory"
   ],
   "peerDependencies": {
     "grind-cli": "^0.7.0",
@@ -28,6 +32,7 @@
     "eslint": "^3.3.1",
     "eslint-config-grind": "^2.0.0",
     "eslint-plugin-import-auto-name": "^1.0.3",
+    "faktory-worker": "^0.6.3",
     "fivebeans": "^1.5.0",
     "grind-cli": "^0.7.0",
     "grind-framework": "^0.7.1"
