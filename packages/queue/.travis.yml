@@ -1,9 +1,10 @@
 language: node_js
 node_js:
-  - "6"
-  - "7"
   - "8"
+  - "9"
 sudo: false
 script:
   - "npm run lint"
-  - "bin/ava"
+  - "bin/test"
+services:
+  - docker
