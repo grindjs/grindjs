@@ -2,12 +2,19 @@ import { serial as test } from 'ava'
 
 import './helpers/TestJob'
 import './helpers/Listener'
+import './helpers/Service'
+
 import '../src/Drivers/RabbitDriver'
+
+const service = new Service(test, 'rabbitmq', {
+	image: 'rabbitmq:3.7-alpine',
+	port: 5672
+})
 
 test.beforeEach(t => {
 	t.context.driver = new RabbitDriver(null, {
 		host: 'localhost',
-		port: process.env.RABBIT_PORT
+		port: service.port
 	})
 
 	return t.context.driver.connect()

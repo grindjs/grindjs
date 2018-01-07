@@ -2,12 +2,19 @@ import { serial as test } from 'ava'
 
 import './helpers/TestJob'
 import './helpers/Listener'
+import './helpers/Service'
+
 import '../src/Drivers/BeanstalkDriver'
+
+const service = new Service(test, 'beanstalk', {
+	image: 'kusmierz/beanstalkd',
+	port: 11300
+})
 
 test.beforeEach(t => {
 	t.context.driver = new BeanstalkDriver(null, {
 		host: 'localhost',
-		port: process.env.BEANSTALK_PORT
+		port: service.port
 	})
 
 	return t.context.driver.connect()

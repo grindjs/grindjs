@@ -38,7 +38,7 @@
   "scripts": {
     "prepublish": "bin/build",
     "lint": "eslint src",
-    "test": "bin/test --verbose"
+    "test": "ava --verbose"
   },
   "ava": {
     "require": [
