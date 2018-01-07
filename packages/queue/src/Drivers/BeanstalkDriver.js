@@ -21,7 +21,7 @@ export class BeanstalkDriver extends BaseDriver {
 		const payload = this.buildPayload(job)
 		payload.delay = Math.round(payload.delay / 1000)
 		payload.timeout = Math.round(payload.timeout / 1000)
-		payload.retry_delay = Math.round(payload.delay / 1000)
+		payload.retry_delay = Math.round(payload.retry_delay / 1000)
 
 		await this.client.use(payload.queue)
 
