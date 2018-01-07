@@ -6,7 +6,7 @@ export function Listener(queue, callback, canFail = false) {
 
 		try {
 			await queue.listen(
-				TestJob.queue,
+				[ TestJob.queue ],
 				1,
 				async job => {
 					await callback(job)
