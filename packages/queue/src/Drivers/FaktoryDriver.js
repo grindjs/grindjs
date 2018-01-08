@@ -67,7 +67,10 @@ export class FaktoryDriver extends BaseDriver {
 			}
 		})
 
-		return this.manager.run()
+		this.manager.trapSignals = () => { }
+		this.manager.run()
+
+		return new Promise(() => { })
 	}
 
 	async _receiveMessage(jobHandler, errorHandler, payload) {
