@@ -9,7 +9,10 @@ export function Listener(queue, callback, canFail = false) {
 				[ TestJob.queue ],
 				1,
 				async job => {
-					await callback(job)
+					if(await callback(job) === true) {
+						return
+					}
+
 					clearTimeout(timeout)
 					return resolve()
 				},
