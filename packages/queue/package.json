@@ -1,6 +1,6 @@
 {
   "name": "grind-queue",
-  "version": "0.8.0-beta.3",
+  "version": "0.8.0-beta.4",
   "description": "Queue provider for Grind",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
