@@ -48,7 +48,21 @@ export class FaktoryDriver extends BaseDriver {
 		return this.client.connect()
 	}
 
-	dispatch(job) {
+
+	get isAlive() {
+		return (
+			!this.client.isNil
+			&& !this.client.socket.isNil
+			&& !this.client.socket.destroyed
+			&& this.client.connected
+		)
+	}
+
+	async dispatch(job) {
+		if(!this.isAlive) {
+			await this.connect()
+		}
+
 		const payload = this.buildPayload(job)
 		const at = payload.delay.isNil ? null : (new Date(Date.now() + payload.delay))
 		payload.try = 1

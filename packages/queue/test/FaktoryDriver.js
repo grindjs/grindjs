@@ -75,3 +75,14 @@ test('multi dispatch', t => {
 
 	return Listener(t.context.driver, () => ++count < 4).then(() => t.is(count, 4))
 })
+
+test('resiliency', async t => {
+	let count = 0
+
+	await t.context.driver.dispatch(new TestJob({ id: 1 }))
+	t.context.driver.client.socket.destroy()
+
+	await t.context.driver.dispatch(new TestJob({ id: 1 }))
+
+	return Listener(t.context.driver, () => ++count < 2).then(() => t.is(count, 2))
+})
