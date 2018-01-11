@@ -95,6 +95,8 @@ export class RabbitDriver extends BaseDriver {
 		return new Promise((resolve, reject) => {
 			this.channel.on('close', resolve)
 			this.channel.on('error', reject)
+			this.connection.on('error', reject)
+			this.connection.on('close', reject)
 		})
 	}
 
