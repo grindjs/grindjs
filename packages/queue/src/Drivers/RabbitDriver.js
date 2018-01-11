@@ -26,38 +26,34 @@ function loadPackage() {
 export class RabbitDriver extends BaseDriver {
 	connection = null
 	channel = null
-	uri = null
+	config = null
 
-	constructor(app, config) {
-		super(app, config)
+	constructor(app, {
+		host = 'localhost',
+		port = 5672,
+		user,
+		password,
+		virtual_host,
+		virtualHost,
+		...options
+	} = { }) {
+		super(app, options)
 
 		loadPackage()
 
-		const uri = {
-			protocol: 'amqp:',
-			slashes: true,
-			hostname: config.host || 'localhost',
-			port: config.port || 5672,
-			pathname: config.virtual_host || config.virtualHost || '/'
+		this.config = {
+			protocol: 'amqp',
+			hostname: host,
+			port: port,
+			username: user,
+			password: password,
+			vhost: virtual_host || virtualHost || '/',
+			...options
 		}
-
-		if(!config.user.isNil) {
-			uri.auth = config.user
-
-			if(!config.password.isNil) {
-				uri.auth += `:${config.password}`
-			}
-		}
-
-		if(!config.options.isNil) {
-			uri.query = { ...config.options }
-		}
-
-		this.uri = url.format(uri)
 	}
 
 	async connect() {
-		this.connection = await amqp.connect(this.uri)
+		this.connection = await amqp.connect(this.config)
 		this.channel = await this.connection.createConfirmChannel()
 	}
 
