@@ -69,3 +69,47 @@ test('extend', async t => {
 		t.pass('Validation successfully failed')
 	}
 })
+
+test('extend-multi', async t => {
+	const validator = new Validator
+
+	validator.extend('testA', value => {
+		if(value !== 'a') {
+			throw new Error('invalid test value')
+		}
+
+		return value
+	})
+
+	validator.extend('testB', value => {
+		if(value !== 'b') {
+			throw new Error('invalid test value')
+		}
+
+		return value
+	})
+
+	try {
+		await validator.validate({ a: 'a', b: 'b' }, rule => ({
+			a: rule.any().testA().required(),
+			b: rule.any().testB().required(),
+			email: rule.string().email()
+		}))
+
+		t.pass('Validation passed')
+	} catch(err) {
+		t.fail('Validation failed')
+	}
+
+	try {
+		await validator.validate({ a: 'b', b: 'a' }, rule => ({
+			a: rule.any().testA().required(),
+			b: rule.any().testB().required(),
+			email: rule.string().email()
+		}))
+
+		t.fail('Validation passed when it should have failed')
+	} catch(err) {
+		t.pass('Validation successfully failed')
+	}
+})

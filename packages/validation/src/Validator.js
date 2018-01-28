@@ -21,8 +21,8 @@ export class Validator {
 
 	get joi() {
 		if(this._joi === null) {
-			if(this.extensions.length > 0) {
-				this._joi = Joi.extend(...this.extensions)
+			if(Object.keys(this.extensions).length > 0) {
+				this._joi = Joi.extend(...Object.values(this.extensions))
 			} else {
 				this._joi = Joi
 			}
@@ -89,29 +89,42 @@ export class Validator {
 			type = 'any'
 		}
 
+		let extension = this.extensions[type]
 		this._joi = null
-		this.extensions.push({
-			base: Joi[type](),
-			name: type,
-			language: { },
-			rules: [
-				{
-					name: name,
-					validate: function(params, value, state, options) {
-						try {
-							return validator(value, params, this, state, options)
-						} catch(err) {
-							options.language = {
-								_dynamicLabel: err.message,
-								...(options.language || { })
-							}
 
-							return this.createError('_dynamicLabel', { v: value }, state, options)
-						}
+		if(extension.isNil) {
+			extension = {
+				base: Joi[type](),
+				name: type,
+				language: { },
+				rules: [ ],
+				...options
+			}
+
+			this.extensions[type] = extension
+		} else {
+			if(!options.language.isNil) {
+				Object.assign(extension.language, options.language)
+				delete extension.language
+			}
+
+			Object.assign(extension, options)
+		}
+
+		extension.rules.push({
+			name: name,
+			validate: function(params, value, state, options) {
+				try {
+					return validator(value, params, this, state, options)
+				} catch(err) {
+					options.language = {
+						_dynamicLabel: err.message,
+						...(options.language || { })
 					}
+
+					return this.createError('_dynamicLabel', { v: value }, state, options)
 				}
-			],
-			...options
+			}
 		})
 	}
 
