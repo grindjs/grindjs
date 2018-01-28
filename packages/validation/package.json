@@ -1,6 +1,6 @@
 {
   "name": "grind-validation",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Validation for Grind, powered by Joi",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
