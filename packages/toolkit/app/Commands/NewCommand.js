@@ -73,7 +73,8 @@ export class NewCommand extends Command {
 				headers: { 'User-Agent': 'grind/installer' }
 			})
 
-			tag = tags[0].name
+			const released = tags.filter(({ name }) => name.match(/^\d+\.\d+\.\d+$/))
+			tag = (released.length > 0 ? released : tags)[0].name
 		}
 
 		await FS.mkdirs(target)
