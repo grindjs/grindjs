@@ -1,28 +1,28 @@
-<p align="center"><a href="https://grind.rocks"><img src="https://s3.amazonaws.com/assets.grind.rocks/docs/img/grind-installer.svg" alt="Grind Installer" /></a></p>
+<p align="center"><a href="https://grind.rocks"><img src="https://s3.amazonaws.com/assets.grind.rocks/docs/img/grind-toolkit.svg" alt="Grind Toolkit" /></a></p>
 
 <p align="center">
-<a href="https://travis-ci.org/grindjs/installer"><img src="https://img.shields.io/travis/grindjs/installer.svg" alt="Build Status"></a>
-<a href="https://www.npmjs.com/package/grind-installer"><img src="https://img.shields.io/npm/dt/grind-installer.svg" alt="Total Downloads"></a>
-<a href="https://www.npmjs.com/package/grind-installer"><img src="https://img.shields.io/npm/v/grind-installer.svg" alt="Latest Version"></a>
+<a href="https://travis-ci.org/grindjs/toolkit"><img src="https://img.shields.io/travis/grindjs/toolkit.svg" alt="Build Status"></a>
+<a href="https://www.npmjs.com/package/grind-toolkit"><img src="https://img.shields.io/npm/dt/grind-toolkit.svg" alt="Total Downloads"></a>
+<a href="https://www.npmjs.com/package/grind-toolkit"><img src="https://img.shields.io/npm/v/grind-toolkit.svg" alt="Latest Version"></a>
 <a href="https:/grind.chat"><img src="https://grind.chat/badge.svg" alt="Slack"></a>
-<a href="https://www.npmjs.com/package/grind-installer"><img src="https://img.shields.io/npm/l/grind-installer.svg" alt="License"></a>
+<a href="https://www.npmjs.com/package/grind-toolkit"><img src="https://img.shields.io/npm/l/grind-toolkit.svg" alt="License"></a>
 </p>
 
-# Grind Installer
+# Grind Tookit
 
-Grind Installer is a CLI tool you can use in your dev environment to quickly create new [Grind](https://github.com/grindjs/framework) projects.
+Grind Toolkit is a CLI tool you can use in your dev environment to quickly create and manage [Grind](https://github.com/grindjs/framework) projects.
 
 ## Installation
 
 ### npm
 
 ```bash
-npm install -g grind-installer
+npm install -g grind-toolkit
 ```
 
 ### yarn
 ```bash
-yarn install -g grind-installer
+yarn install -g grind-toolkit
 ```
 
 ## Usage
