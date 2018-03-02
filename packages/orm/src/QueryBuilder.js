@@ -1,12 +1,11 @@
-import { QueryBuilder as ObjectionQueryBuilder } from 'objection'
+import { QueryBuilder as BaseQueryBuilder } from 'objection'
 
 import './ModelNotFoundError'
 
-export class QueryBuilder extends ObjectionQueryBuilder {
+export class QueryBuilder extends BaseQueryBuilder {
 
 	static registeredFilters = { }
 
-	_cyclicalEagerProtection = [ ]
 	_allowEager = true
 
 	static registerFilter(name, filter) {
@@ -73,39 +72,19 @@ export class QueryBuilder extends ObjectionQueryBuilder {
 
 	clone() {
 		const builder = super.clone()
-		builder._cyclicalEagerProtection = [ ].concat(this._cyclicalEagerProtection)
 		builder._allowEager = this._allowEager
 		return builder
 	}
 
-	childQueryOf(query) {
-		super.childQueryOf(query)
-
-		if(!query.isNil && !query._cyclicalEagerProtection.isNil) {
-			this._cyclicalEagerProtection = [ ].concat(query._cyclicalEagerProtection)
-		}
-
-		return this
-	}
-
 	execute() {
 		if(this._allowEager && this.isFind()) {
-			if(this._cyclicalEagerProtection.indexOf(this._modelClass) >= 0) {
-				return Promise.resolve([ ])
-			}
-
 			if(this._eagerExpression === null) {
 				const filters = this._modelClass.eager.isNil ? null : this._modelClass.eagerFilters
 				this.eager(this._modelClass.eager, filters)
 			}
 		}
 
-		this._cyclicalEagerProtection.push(this._modelClass)
-
-		return super.execute().then(result => {
-			this._cyclicalEagerProtection.pop()
-			return result
-		})
+		return super.execute()
 	}
 
 }
