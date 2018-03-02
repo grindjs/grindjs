@@ -12,6 +12,13 @@ export class QueryBuilder extends BaseQueryBuilder {
 		this.registeredFilters[name] = filter
 	}
 
+	constructor(modelClass) {
+		super(modelClass)
+
+		const filters = modelClass.eager.isNil ? null : modelClass.eagerFilters
+		this.eager(modelClass.eager, filters)
+	}
+
 	paginate(req, perPage = 25, { query, param } = { }) {
 		let page = 1
 
@@ -55,6 +62,7 @@ export class QueryBuilder extends BaseQueryBuilder {
 		this._allowEager = false
 		this._eagerExpression = null
 		this._eagerFilterExpressions = [ ]
+
 		return this
 	}
 
@@ -74,17 +82,6 @@ export class QueryBuilder extends BaseQueryBuilder {
 		const builder = super.clone()
 		builder._allowEager = this._allowEager
 		return builder
-	}
-
-	execute() {
-		if(this._allowEager && this.isFind()) {
-			if(this._eagerExpression === null) {
-				const filters = this._modelClass.eager.isNil ? null : this._modelClass.eagerFilters
-				this.eager(this._modelClass.eager, filters)
-			}
-		}
-
-		return super.execute()
 	}
 
 }
