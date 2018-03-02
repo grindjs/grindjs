@@ -1,11 +1,6 @@
-#!/usr/bin/env bash
+#!/usr/bin/env node
 
-export ORIGINAL_WD=`pwd`
+process.env.IN_CLI = true
+process.env.CLI_BIN = __filename
 
-pushd ${0%/*} > /dev/null
-CLI_BIN="`pwd`/${0##*/}"
-popd > /dev/null
-
-source ${0%/*}/.init
-
-IN_CLI=true CLI_BIN="$CLI_BIN" exec node boot/Cli.js "$@"
+require('../boot/Cli.js')
