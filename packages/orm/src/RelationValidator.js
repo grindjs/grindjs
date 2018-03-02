@@ -42,10 +42,10 @@ export function RelationValidator(model, queryContext) {
 
 		if(relation.ownerModelClass === modelClass) {
 			foreignTable = relation.relatedModelClass.tableName
-			foreignColumn = relation.relatedCol[0]
+			foreignColumn = relation.relatedProp.cols[0]
 		} else {
 			foreignTable = relation.ownerModelClass.tableName
-			foreignColumn = relation.ownerCol[0]
+			foreignColumn = relation.ownerProp.cols[0]
 		}
 
 		promises.push(transaction(foreignTable).where(foreignColumn, value).first().then(row => {
@@ -54,7 +54,9 @@ export function RelationValidator(model, queryContext) {
 			}
 
 			throw new ValidationError({
-				[field]: `Could not find ${relation.name.replace(/_/g, ' ')} for ${model[field]}`
+				data: {
+					[field]: `Could not find ${relation.name.replace(/_/g, ' ')} for ${model[field]}`
+				}
 			})
 		}))
 	}

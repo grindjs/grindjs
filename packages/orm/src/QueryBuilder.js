@@ -89,7 +89,7 @@ export class QueryBuilder extends ObjectionQueryBuilder {
 	}
 
 	execute() {
-		if(this._allowEager && this.isFindQuery()) {
+		if(this._allowEager && this.isFind()) {
 			if(this._cyclicalEagerProtection.indexOf(this._modelClass) >= 0) {
 				return Promise.resolve([ ])
 			}
