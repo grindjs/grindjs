@@ -37,7 +37,7 @@
     "sqlite": "^2.8.0"
   },
   "engines": {
-    "node": ">=6.9"
+    "node": ">=8.7"
   },
   "scripts": {
     "lint": "eslint src",
