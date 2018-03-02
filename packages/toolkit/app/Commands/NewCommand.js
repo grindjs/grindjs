@@ -4,7 +4,7 @@ import { FS } from 'grind-support'
 import { execFile } from 'child_process'
 
 const path = require('path')
-const request = require('request')
+const fetch = require('fetchit')
 
 export class NewCommand extends Command {
 
@@ -69,17 +69,8 @@ export class NewCommand extends Command {
 
 		if(tag.isNil) {
 			this.comment('Finding latest tag')
-			const tags = await new Promise((resolve, reject) => {
-				request(`https://api.github.com/repos/${repository}/tags`, {
-					json: true,
-					headers: { 'User-Agent': 'grind/installer' }
-				}, (err, result) => {
-					if(!err.isNil) {
-						return reject(err)
-					}
-
-					resolve(result.body)
-				})
+			const tags = await fetch.json(`https://api.github.com/repos/${repository}/tags`, {
+				headers: { 'User-Agent': 'grind/installer' }
 			})
 
 			tag = tags[0].name

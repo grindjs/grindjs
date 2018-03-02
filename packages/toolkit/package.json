@@ -18,9 +18,9 @@
   "dependencies": {
     "as-type": "^1.0.0",
     "babel-polyfill": "^6.23.0",
+    "fetchit": "^1.0.0",
     "grind-cli": "0.7.0",
-    "grind-framework": "^0.7.1",
-    "request": "^2.81.0"
+    "grind-framework": "^0.7.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
