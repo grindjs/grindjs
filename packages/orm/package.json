@@ -40,7 +40,7 @@
     "node": ">=8.7"
   },
   "scripts": {
-    "lint": "eslint src",
+    "lint": "eslint src test",
     "prepare": "bin/build",
     "test": "bin/ava --verbose"
   },
