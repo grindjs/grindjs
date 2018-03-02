@@ -13,17 +13,6 @@ export class QueryBuilder extends ObjectionQueryBuilder {
 		this.registeredFilters[name] = filter
 	}
 
-	subset(limit, offset = 0) {
-		Log.error('subset is deprecated and will be removed in 0.8.')
-
-		if(typeof limit === 'object') {
-			offset = limit.offset || 0
-			limit = limit.limit
-		}
-
-		return this.limit(limit).offset(offset)
-	}
-
 	paginate(req, perPage = 25, { query, param } = { }) {
 		let page = 1
 
@@ -82,23 +71,6 @@ export class QueryBuilder extends ObjectionQueryBuilder {
 		return super.eager(exp, filters)
 	}
 
-	context(...args) {
-		if(args.length > 0) {
-			return super.context(...args)
-		}
-
-		const context = super.context()
-
-		if(context.transaction === void 0) {
-			// `context.transaction` wasn‘t added
-			// until Objection 0.7, this polyfills
-			// support for older versions
-			context.transaction = this._context.knex
-		}
-
-		return context
-	}
-
 	clone() {
 		const builder = super.clone()
 		builder._cyclicalEagerProtection = [ ].concat(this._cyclicalEagerProtection)
@@ -116,18 +88,7 @@ export class QueryBuilder extends ObjectionQueryBuilder {
 		return this
 	}
 
-	// Objection 0.5.x
 	execute() {
-		return this.__execute('execute')
-	}
-
-	// Objection 0.4.x
-	_execute() {
-		Log.error('Support for Objection 0.4.x is deprecated and will be removed in 0.8')
-		return this.__execute('_execute')
-	}
-
-	__execute(name) {
 		if(this._allowEager && this.isFindQuery()) {
 			if(this._cyclicalEagerProtection.indexOf(this._modelClass) >= 0) {
 				return Promise.resolve([ ])
@@ -141,7 +102,7 @@ export class QueryBuilder extends ObjectionQueryBuilder {
 
 		this._cyclicalEagerProtection.push(this._modelClass)
 
-		return super[name]().then(result => {
+		return super.execute().then(result => {
 			this._cyclicalEagerProtection.pop()
 			return result
 		})

@@ -282,6 +282,18 @@ export class Model extends ObjectionModel {
 		return this.$beforeSave(false, ...args)
 	}
 
+	static _getFullIdColumn() {
+		// `getFullIdColumn` removed in Objection after 0.6.x
+		// however the relation builder uses it, so we’ll restore
+		// the functionality privately
+
+		if(Array.isArray(this.idColumn)) {
+			return this.idColumn.map(col => `${this.tableName}.${col}`)
+		}
+
+		return `${this.tableName}.${this.idColumn}`
+	}
+
 	static getDates() {
 		if(this.useTimestamps) {
 			return [ ...this.dates, this.createdAt, this.updatedAt ]
@@ -311,20 +323,4 @@ export class Model extends ObjectionModel {
 		return name.charAt(0).toUpperCase() + name.substring(1)
 	}
 
-}
-
-if(typeof Model.getFullIdColumn !== 'function') {
-	// `getFullIdColumn` removed in Objection after 0.6.x
-	// however the relation builder uses it, so we’ll restore
-	// the functionality privately
-
-	Model._getFullIdColumn = function() {
-		if(Array.isArray(this.idColumn)) {
-			return this.idColumn.map(col => `${this.tableName}.${col}`)
-		}
-
-		return `${this.tableName}.${this.idColumn}`
-	}
-} else {
-	Model._getFullIdColumn = Model.getFullIdColumn
 }
