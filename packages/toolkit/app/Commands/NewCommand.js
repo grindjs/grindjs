@@ -7,6 +7,7 @@ const path = require('path')
 const request = require('request')
 
 export class NewCommand extends Command {
+
 	name = 'new'
 	description = 'Create a new Grind application'
 	arguments = [ 'name' ]
@@ -142,7 +143,7 @@ export class NewCommand extends Command {
 	exec(command, args) {
 		return this.execFile(command, args).catch(err => {
 			this.error('Error:')
-			this.error('-- %s', err.stderr.trim().replace(/\n/g, `\n-- `))
+			this.error('-- %s', err.stderr.trim().replace(/\n/g, '\n-- '))
 			process.exit(1)
 		})
 	}
