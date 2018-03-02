@@ -8,6 +8,7 @@ import './RelationValidator'
 const as = require('as-type')
 
 export class Model extends ObjectionModel {
+
 	static descriptiveName = null
 	static eager = null
 	static eagerFilters = null

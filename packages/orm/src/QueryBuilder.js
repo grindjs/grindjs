@@ -3,6 +3,7 @@ import { QueryBuilder as ObjectionQueryBuilder } from 'objection'
 import './ModelNotFoundError'
 
 export class QueryBuilder extends ObjectionQueryBuilder {
+
 	static registeredFilters = { }
 
 	_cyclicalEagerProtection = [ ]

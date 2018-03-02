@@ -1,8 +1,10 @@
 import { AbortError, Command, InputArgument, InputOption, StubCompiler } from 'grind-cli'
 import './Inflect'
-import path from 'path'
+
+const path = require('path')
 
 export class MakeModelCommand extends Command {
+
 	name = 'make:model'
 	description = 'Create a model class'
 

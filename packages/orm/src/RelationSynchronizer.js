@@ -1,4 +1,5 @@
 export class RelationSynchronizer {
+
 	model = null
 	modelClass = null
 	relation = null
