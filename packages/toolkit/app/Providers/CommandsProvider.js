@@ -1,5 +1,5 @@
-import 'App/Commands/AddProviderCommand'
-import 'App/Commands/NewCommand'
+import '../Commands/ProviderAddCommand'
+import '../Commands/NewCommand'
 
 export function CommandsProvider(app) {
 	app.cli.commands.length = 0
