@@ -1,4 +1,4 @@
-import { Command, InputArgument, InputOption } from 'grind-cli'
+import { Command, InputArgument, InputOption, AbortError } from 'grind-cli'
 import { FS } from 'grind-support'
 
 const fetch = require('fetchit')
@@ -22,8 +22,7 @@ export class AddProviderCommand extends Command {
 
 	async run() {
 		if(!await FS.exists('package.json')) {
-			this.error('Unable to find package.json, are you sure you’re in a Grind project directory?')
-			return process.exit(1)
+			throw new AbortError('Unable to find package.json, are you sure you’re in a Grind project directory?')
 		}
 
 		const name = await this.addPackage()
@@ -34,8 +33,7 @@ export class AddProviderCommand extends Command {
 		const providers = await this.findProviders(name, packagePath, info, context)
 
 		if(providers.isNil) {
-			this.error(`Unable to find provider for ${name}.`)
-			return process.exit(1)
+			throw new AbortError(`Unable to find provider for ${name}.`)
 		}
 
 		const importLine = `import { ${providers.join(', ')} } from '${name}'`
@@ -55,8 +53,7 @@ export class AddProviderCommand extends Command {
 	}
 
 	async failWithInstructions(message, context, importLine, addLines) {
-		this.error(message)
-		this.info('\n')
+		this.output.writeError(new AbortError(message))
 		this.comment('To finish the setup, add the following line towards the top of your Bootstrap file:')
 		this.info('')
 		this.info(`\t${importLine}`)
@@ -82,8 +79,7 @@ export class AddProviderCommand extends Command {
 		}
 
 		if(!exists) {
-			this.error(`Unable to find ${name}.`)
-			return process.exit(1)
+			throw new AbortError(`Unable to find ${name}.`)
 		}
 
 		const packageName = version.isNil ? name : `${name}@${version}`

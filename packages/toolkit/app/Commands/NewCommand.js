@@ -1,4 +1,4 @@
-import { Command, InputArgument, InputOption } from 'grind-cli'
+import { Command, InputArgument, InputOption, AbortError } from 'grind-cli'
 
 import { FS } from 'grind-support'
 import { execFile } from 'child_process'
@@ -50,15 +50,13 @@ export class NewCommand extends Command {
 		const target = this.argument('name')
 
 		if(type !== 'web' && type !== 'api') {
-			this.error('Invalid template option, only web & api are supported.')
-			process.exit(1)
+			throw new AbortError('Invalid template option, only web & api are supported.')
 		}
 
 		const exists = await FS.exists(target)
 
 		if(exists) {
-			Log.error('Target directory already exists')
-			process.exit(1)
+			throw new AbortError('Target directory already exists')
 		}
 
 		this.comment(`Creating a new Grind ${type} application.`)
