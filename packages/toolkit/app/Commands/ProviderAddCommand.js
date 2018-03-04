@@ -5,9 +5,9 @@ const fetch = require('fetchit')
 const path = require('path')
 const { spawn } = require('child_process')
 
-export class AddProviderCommand extends Command {
+export class ProviderAddCommand extends Command {
 
-	name = 'add:provider'
+	name = 'provider:add'
 	description = 'Adds a provider to your Grind project'
 
 	// Arguments available for this command
