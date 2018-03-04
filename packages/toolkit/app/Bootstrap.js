@@ -15,4 +15,8 @@ try {
 	app.inProject = false
 }
 
+if(app.inProject) {
+	app.providers.add(require('./Providers/DetectPackagesProvider').DetectPackagesProvider)
+}
+
 module.exports = app
