@@ -27,8 +27,8 @@ export class ProviderAddCommand extends Command {
 
 		const name = await this.addPackage()
 
-		const packagePath = path.join(process.cwd(), 'node_modules', name)
-		const info = require(path.join(packagePath, 'package.json'))
+		const packagePath = this.app.paths.packages(name)
+		const info = require(this.app.paths.packageInfo)
 		const context = info.grind || { }
 		const providers = await this.findProviders(name, packagePath, info, context)
 
@@ -118,7 +118,7 @@ export class ProviderAddCommand extends Command {
 			return
 		}
 
-		const configDir = path.join(process.cwd(), 'config')
+		const configDir = this.app.paths.project('config')
 
 		if(!await FS.stat(config).then(stats => stats.isDirectory())) {
 			return this.copyConfigFile(config, path.join(configDir, path.basename(config)))
@@ -133,13 +133,11 @@ export class ProviderAddCommand extends Command {
 	}
 
 	async injectProviders(name, providers, context, importLine, addLines) {
-		const bootstrapPath = path.join(process.cwd(), 'app/Bootstrap.js')
-
-		if(!await FS.exists(bootstrapPath)) {
+		if(!await FS.exists(this.app.paths.bootstrap)) {
 			return this.failWithInstructions('Unable to find app/Bootstrap.js', context, importLine, addLines)
 		}
 
-		let bootstrap = (await FS.readFile(bootstrapPath)).toString()
+		let bootstrap = (await FS.readFile(this.app.paths.bootstrap)).toString()
 		let nameConflict = bootstrap.includes(name)
 
 		if(!nameConflict) {
@@ -183,7 +181,7 @@ export class ProviderAddCommand extends Command {
 			throw new Error('Irregular app/Bootstrap.js detected.')
 		}
 
-		return FS.writeFile(bootstrapPath, bootstrap)
+		return FS.writeFile(this.app.paths.bootstrap, bootstrap)
 	}
 
 	async copyConfigFile(source, destination) {
@@ -191,7 +189,7 @@ export class ProviderAddCommand extends Command {
 			return
 		}
 
-		Log.comment(`Adding config file ${path.relative(process.cwd(), destination)}`)
+		Log.comment(`Adding config file ${path.relative(this.app.paths.project(), destination)}`)
 
 		await FS.mkdirp(path.dirname(destination))
 		return FS.writeFile(destination, await FS.readFile(source))

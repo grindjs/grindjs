@@ -1,2 +1,9 @@
 import Grind from 'grind-framework'
-module.exports = new Grind
+
+import './Extensions/Paths'
+
+const app = new Grind({
+	pathsClass: Paths
+})
+
+module.exports = app
