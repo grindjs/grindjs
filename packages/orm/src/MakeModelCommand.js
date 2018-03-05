@@ -1,4 +1,4 @@
-import { AbortError, Command, InputArgument, InputOption, StubCompiler } from 'grind-cli'
+import { AbortError, Command, InputArgument, InputOption } from 'grind-cli'
 import './Inflect'
 
 const path = require('path')
@@ -16,7 +16,7 @@ export class MakeModelCommand extends Command {
 		new InputOption('table', InputOption.VALUE_OPTIONAL, 'Name of the table to create the model for')
 	]
 
-	run() {
+	async run() {
 		let name = this.argument('name')
 		let tableName = null
 		let descriptiveName = null
@@ -40,14 +40,15 @@ export class MakeModelCommand extends Command {
 			throw new AbortError('A class name must be provided if `--table` isn’t used.')
 		}
 
-		const filePath = this.app.paths.app('Models', `${name}.js`)
-		return StubCompiler(path.join(__dirname, 'stubs', 'Model.stub'), filePath, {
-			StubName: name,
-			StubTable: tableName,
-			StubDescriptiveName: descriptiveName
-		}).then(() => {
-			this.success(`Created ${path.relative(process.cwd(), filePath)}`)
+		const filePath = this.app.paths.project(`app/Models/${name}.js`)
+
+		await this.app.stubs.generate('grind-orm::model', filePath, {
+			name,
+			tableName,
+			descriptiveName
 		})
+
+		return this.success(`Created ${path.relative(this.app.paths.project(), filePath)}`)
 	}
 
 }

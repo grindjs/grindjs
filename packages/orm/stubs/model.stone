@@ -1,8 +1,9 @@
 import { Model } from 'grind-orm'
 
-export class StubName extends Model {
-	static tableName = 'StubTable'
-	static descriptiveName = 'StubDescriptiveName'
+export class {{ name }} extends Model {
+
+	static tableName = '{{ tableName }}'
+	static descriptiveName = '{{ descriptiveName }}'
 
 	static jsonSchema = {
 		type: 'object',

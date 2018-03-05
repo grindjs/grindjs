@@ -44,6 +44,9 @@
     "prepare": "bin/build",
     "test": "bin/ava --verbose"
   },
+  "grind": {
+    "command": "lib/MakeModelCommand.js"
+  },
   "ava": {
     "require": [
       "babel-register"

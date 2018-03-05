@@ -1,6 +1,5 @@
 import './Model'
 import './QueryBuilder'
-import './MakeModelCommand'
 
 import { ValidationError } from 'objection'
 
@@ -22,12 +21,6 @@ export function OrmProvider(app) {
 	})
 
 	global.ValidationError = ValidationError
-
-	if(app.cli.isNil) {
-		return
-	}
-
-	app.cli.register(MakeModelCommand)
 }
 
 OrmProvider.priority = 40000
