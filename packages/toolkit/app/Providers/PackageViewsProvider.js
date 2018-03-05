@@ -15,6 +15,8 @@ export async function PackageViewsProvider(app) {
 			}
 		} else if(await FS.exists(path.join(pkg.path, 'views'))) {
 			views = path.join(pkg.path, 'views')
+		} else if(await FS.exists(path.join(pkg.path, 'stubs'))) {
+			views = path.join(pkg.path, 'stubs')
 		} else {
 			return
 		}

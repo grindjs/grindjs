@@ -20,6 +20,7 @@ if(app.inProject) {
 	app.providers.add(require('./Providers/DetectPackagesProvider').DetectPackagesProvider)
 	app.providers.add(require('./Providers/PackageCommandsProvider').PackageCommandsProvider)
 	app.providers.add(require('./Providers/PackageViewsProvider').PackageViewsProvider)
+	app.providers.add(require('./Providers/StubGeneratorProvider').StubGeneratorProvider)
 }
 
 module.exports = app
