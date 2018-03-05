@@ -18,6 +18,7 @@ export class StoneEngine extends ViewEngine {
 	compiler = null
 	watcher = null
 	runtime = null
+	namespaces = { }
 
 	context = {
 		escape: escape,
@@ -78,6 +79,10 @@ export class StoneEngine extends ViewEngine {
 		if(await this.cacheManager.exists()) {
 			await this.cacheManager.load()
 		}
+	}
+
+	namespace(namespace, path) {
+		this.namespaces[namespace] = path
 	}
 
 	shutdown() {
@@ -168,7 +173,23 @@ export class StoneEngine extends ViewEngine {
 			return path.join(path.dirname(relativeTo), join, `${template.replace(/\./g, '/')}.stone`)
 		}
 
-		return path.join(this.view.viewPath, `${template.replace(/\./g, '/')}.stone`)
+		const index = template.indexOf('::')
+		let viewPath = null
+
+		if(index === -1) {
+			viewPath = this.view.viewPath
+		} else {
+			const namespace = template.substring(0, index)
+			viewPath = this.namespaces[namespace]
+
+			if(typeof viewPath !== 'string') {
+				throw new Error(`Invalid namespace: ${namespace}`)
+			}
+
+			template = template.substring(index + 2)
+		}
+
+		return path.join(viewPath, `${template.replace(/\./g, '/')}.stone`)
 	}
 
 	writeCache() {
