@@ -20,7 +20,9 @@
     "babel-polyfill": "^6.23.0",
     "fetchit": "^1.0.0",
     "grind-cli": "0.7.0",
-    "grind-framework": "^0.7.1"
+    "grind-framework": "^0.7.1",
+    "grind-stone": "^0.8.0-beta.4",
+    "grind-view": "^0.7.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

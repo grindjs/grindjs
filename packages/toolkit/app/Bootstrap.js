@@ -16,8 +16,10 @@ try {
 }
 
 if(app.inProject) {
+	app.providers.add(require('grind-view').ViewProvider)
 	app.providers.add(require('./Providers/DetectPackagesProvider').DetectPackagesProvider)
 	app.providers.add(require('./Providers/PackageCommandsProvider').PackageCommandsProvider)
+	app.providers.add(require('./Providers/PackageViewsProvider').PackageViewsProvider)
 }
 
 module.exports = app
