@@ -27,12 +27,12 @@ test('scss', async t => {
 
 test('js', async t => {
 	const js = await get('js/test.js')
-	t.is(js, '!function(){document.body.getElementById("test").style.border="none"}();')
+	t.is(js, 'document.body.getElementById("test").style.border="none";')
 })
 
 test('babel', async t => {
 	const js = await get('babel/test.js')
-	t.is(js, '!function e(r,n,t){function o(i,f){if(!n[i]){if(!r[i]){var a="function"==typeof require&&require;if(!f&&a)return a(i,!0);if(u)return u(i,!0);var c=new Error("Cannot find module \'"+i+"\'");throw c.code="MODULE_NOT_FOUND",c}var l=n[i]={exports:{}};r[i][0].call(l.exports,function(e){var n=r[i][1][e];return o(n||e)},l,l.exports,e,r,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}({1:[function(e,r,n){"use strict";function t(e,r){if(!(e instanceof r))throw new TypeError("Cannot call a class as a function")}Object.defineProperty(n,"__esModule",{value:!0});var o=function(){function e(e,r){for(var n=0;n<r.length;n++){var t=r[n];t.enumerable=t.enumerable||!1,t.configurable=!0,"value"in t&&(t.writable=!0),Object.defineProperty(e,t.key,t)}}return function(r,n,t){return n&&e(r.prototype,n),t&&e(r,t),r}}();n.Test=function(){function e(){t(this,e)}return o(e,[{key:"test",value:function(){return document.body.getElementById("test")}}]),e}()},{}]},{},[1]);')
+	t.is(js, '!function u(i,f,a){function c(n,e){if(!f[n]){if(!i[n]){var r="function"==typeof require&&require;if(!e&&r)return r(n,!0);if(l)return l(n,!0);var t=new Error("Cannot find module \'"+n+"\'");throw t.code="MODULE_NOT_FOUND",t}var o=f[n]={exports:{}};i[n][0].call(o.exports,function(e){var r=i[n][1][e];return c(r||e)},o,o.exports,u,i,f,a)}return f[n].exports}for(var l="function"==typeof require&&require,e=0;e<a.length;e++)c(a[e]);return c}({1:[function(e,r,n){"use strict";Object.defineProperty(n,"__esModule",{value:!0});var t=function(){function t(e,r){for(var n=0;n<r.length;n++){var t=r[n];t.enumerable=t.enumerable||!1,t.configurable=!0,"value"in t&&(t.writable=!0),Object.defineProperty(e,t.key,t)}}return function(e,r,n){return r&&t(e.prototype,r),n&&t(e,n),e}}();n.Test=function(){function e(){!function(e,r){if(!(e instanceof r))throw new TypeError("Cannot call a class as a function")}(this,e)}return t(e,[{key:"test",value:function(){return document.body.getElementById("test")}}]),e}()},{}]},{},[1]);')
 })
 
 test('svg', async t => {

@@ -44,7 +44,7 @@ test('js-minify', async t => {
 	const { processor, file, contents } = await make(JavascriptMinifyPostProcessor, 'js/test.js')
 	const js = await processor.process(file, null, contents)
 
-	t.is(js.toString().trim(), '!function(){document.body.getElementById("test").style.border="none"}();')
+	t.is(js.toString().trim(), 'document.body.getElementById("test").style.border="none";')
 })
 
 test('babel-minify', async t => {
