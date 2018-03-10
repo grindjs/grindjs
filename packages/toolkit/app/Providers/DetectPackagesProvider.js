@@ -10,7 +10,7 @@ export async function DetectPackagesProvider(app) {
 	}
 
 	const bootstrap = (await FS.readFile(app.paths.bootstrap)).toString()
-	const packages = [ ]
+	const packages = [ 'grind-cli', 'grind-http' ]
 
 	bootstrap.replace(/require\s*\(\s*["'`](.+?)["'`]\s*\)/g, (_, pkg) => packages.push(pkg))
 	bootstrap.replace(/from\s+["'`](.+?)["'`]/g, (_, pkg) => packages.push(pkg))
