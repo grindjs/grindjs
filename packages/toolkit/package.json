@@ -13,7 +13,7 @@
   ],
   "preferGlobal": true,
   "bin": {
-    "grind": "./command"
+    "grind": "./lib/bin/cli"
   },
   "dependencies": {
     "as-type": "^1.0.0",
@@ -39,7 +39,6 @@
   },
   "scripts": {
     "prepare": "bin/build",
-    "cli": "./command",
     "lint": "bin/lint"
   }
 }

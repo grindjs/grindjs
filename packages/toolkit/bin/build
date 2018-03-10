@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-source ${0%/*}/.init
-
 strip_babel() {
 	cp "$1" "$1-tmp"
 	cat "$1-tmp" | sed "s/require('babel-register')//g" > "$1"
@@ -11,10 +9,17 @@ strip_babel() {
 echo "Cleaning up old build"
 rm -fr lib
 
-echo "Building"
-mkdir -p lib/app lib/boot
-BABEL_TARGET_VERSION=8.7 babel -s inline -d lib/app/ app/ --copy-files
-BABEL_TARGET_VERSION=8.7 babel -s inline -d lib/boot/ boot/ --copy-files
+echo "libing"
+
+mkdir lib lib/app lib/boot
+babel -s inline -d lib/app/ app/
+babel -s inline -d lib/boot/ boot/
+
+echo "Setting up bins"
+cp -R bin lib/bin
+rm lib/bin/build lib/bin/lint
+
 strip_babel lib/boot/Cli.js
+chmod +x lib/bin/*
 
 echo "Done"
