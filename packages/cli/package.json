@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "as-type": "^1.0.0",
-    "chalk": "^2.0.1",
+    "chalk": "^1.0.0",
     "later": "^1.2.0"
   },
   "devDependencies": {
