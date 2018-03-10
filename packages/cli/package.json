@@ -1,6 +1,6 @@
 {
   "name": "grind-cli",
-  "version": "0.8.0-beta.0",
+  "version": "0.8.0-beta.1",
   "description": "CLI provider for Grind",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
@@ -28,10 +28,10 @@
     "eslint": "^3.19.0",
     "eslint-config-grind": "^2.0.4",
     "eslint-plugin-import-auto-name": "^1.0.3",
-    "grind-framework": "^0.7.0"
+    "grind-framework": "^0.8.0-beta.1"
   },
   "peerDependencies": {
-    "grind-framework": "0.8.0-beta.1"
+    "grind-framework": "^0.8.0-beta.1"
   },
   "engines": {
     "node": ">=8.7"
