@@ -66,7 +66,7 @@ export class NewCommand extends Command {
 		if(tag.isNil) {
 			this.comment('Finding latest tag')
 			const tags = await fetch.json(`https://api.github.com/repos/${repository}/tags`, {
-				headers: { 'User-Agent': 'grind/installer' }
+				headers: { 'User-Agent': 'grind/toolkit' }
 			})
 
 			const released = tags.filter(({ name }) => name.match(/^\d+\.\d+\.\d+$/))
