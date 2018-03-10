@@ -3,9 +3,11 @@
 import test from 'ava'
 import './helpers/Grind'
 
-import '../src/Compilers/ScssCompiler'
-import '../src/Compilers/BabelCompiler'
-import '../src/Compilers/RawCompiler'
+import {
+	BabelCompiler,
+	RawCompiler,
+	ScssCompiler
+} from '../src'
 
 function compile(compiler, file, hook = () => { }, ...args) {
 	if(typeof hook !== 'function') {

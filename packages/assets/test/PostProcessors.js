@@ -4,10 +4,12 @@ import { FS } from 'grind-support'
 
 import './helpers/Grind'
 
-import '../src/PostProcessors/CssMinifyPostProcessor'
-import '../src/PostProcessors/CssAutoprefixerPostProcessor'
-import '../src/PostProcessors/JavascriptMinifyPostProcessor'
-import '../src/PostProcessors/SvgOptimizePostProcessor'
+import {
+	CssMinifyPostProcessor,
+	CssAutoprefixerPostProcessor,
+	JavascriptMinifyPostProcessor,
+	SvgOptimizePostProcessor
+} from '../src'
 
 async function make(processor, file, hook = () => { }) {
 	const app = new Grind
