@@ -1,4 +1,5 @@
 class DatabaseStore {
+
 	db = null
 	name = 'database'
 	table = null
