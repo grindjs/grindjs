@@ -16,7 +16,7 @@
     "db"
   ],
   "dependencies": {
-    "knex": ">=0.10 <=1.0"
+    "knex": ">=0.14.4 <=1.0"
   },
   "peerDependencies": {
     "grind-cli": "^0.7.0",
