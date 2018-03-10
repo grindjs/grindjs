@@ -1,4 +1,4 @@
-import { ErrorHandler as BaseErrorHandler } from 'grind-framework'
+import { ErrorHandler as BaseErrorHandler } from 'grind-http'
 import { FS } from 'grind-support'
 import Ouch from 'ouch'
 import path from 'path'

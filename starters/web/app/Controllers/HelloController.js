@@ -1,9 +1,9 @@
-import { Controller } from 'grind-framework'
+import { Controller } from 'grind-http'
 
 export class HelloController extends Controller {
 
 	show(req, res) {
-		res.render('welcome', {
+		return res.render('welcome', {
 			name: 'Hello!'
 		})
 	}
