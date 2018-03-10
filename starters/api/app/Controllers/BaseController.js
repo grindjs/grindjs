@@ -1,4 +1,4 @@
-import { Controller } from 'grind-framework'
+import { Controller } from 'grind-http'
 
 export class BaseController extends Controller {
 
