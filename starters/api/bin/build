@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-source ${0%/*}/.init
-
 strip_babel() {
 	cp "$1" "$1-tmp"
 	cat "$1-tmp" | sed "s/require('babel-register')//g" > "$1"
