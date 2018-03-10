@@ -49,8 +49,8 @@ export class NewCommand extends Command {
 		const repository = `grindjs/example-${type}`
 		const target = this.argument('name')
 
-		if(type !== 'web' && type !== 'api') {
-			throw new AbortError('Invalid template option, only web & api are supported.')
+		if(type !== 'web' && type !== 'api' && type !== 'cli') {
+			throw new AbortError('Invalid template option, only web, api and cli are supported.')
 		}
 
 		const exists = await FS.exists(target)
@@ -90,6 +90,13 @@ export class NewCommand extends Command {
 		const packageJson = JSON.parse(packageContents)
 		packageJson.version = '0.0.1'
 		packageJson.name = path.basename(target)
+
+		if(!packageJson.bin.isNil) {
+			const key = Object.keys(packageJson.bin)[0]
+			packageJson.bin = {
+				[packageJson.name]: packageJson.bin[key]
+			}
+		}
 
 		await this.exec('rm', [ '-fr', '.git' ])
 		await FS.writeFile('package.json', JSON.stringify(packageJson, null, '  '))
