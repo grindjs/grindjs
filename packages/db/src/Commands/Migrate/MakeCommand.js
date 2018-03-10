@@ -9,6 +9,7 @@ function prefix() {
 }
 
 export class MakeCommand extends BaseCommand {
+
 	name = 'make:migration'
 	description = 'Create a migration file'
 

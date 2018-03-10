@@ -3,6 +3,7 @@ import '../BaseCommand'
 import path from 'path'
 
 export class LatestCommand extends BaseCommand {
+
 	name = 'migrate:latest'
 	description = 'Run all migrations that have not yet been run'
 

@@ -3,6 +3,7 @@ import '../BaseCommand'
 import path from 'path'
 
 export class RunCommand extends BaseCommand {
+
 	name = 'db:seed'
 	description = 'Seed the database'
 

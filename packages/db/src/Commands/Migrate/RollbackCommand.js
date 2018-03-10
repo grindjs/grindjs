@@ -3,6 +3,7 @@ import '../BaseCommand'
 import path from 'path'
 
 export class RollbackCommand extends BaseCommand {
+
 	name = 'migrate:rollback'
 	description = 'Rollback the last set of migrations performed'
 

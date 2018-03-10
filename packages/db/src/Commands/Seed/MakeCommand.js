@@ -5,6 +5,7 @@ import { FS } from 'grind-support'
 import path from 'path'
 
 export class MakeCommand extends BaseCommand {
+
 	name = 'make:seed'
 	description = 'Create a database seed file'
 
