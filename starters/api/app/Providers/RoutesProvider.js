@@ -5,7 +5,6 @@ import 'App/Controllers/StatesController'
 import { Swagger } from 'grind-swagger'
 
 export function RoutesProvider(app) {
-
 	app.routes.get('/', (req, res) => {
 		res.redirect(301, '/swagger.json')
 	})
@@ -91,5 +90,4 @@ export function RoutesProvider(app) {
 			swagger: 'Lookup a state by it’s abbreviation.'
 		})
 	})
-
 }

@@ -3,6 +3,7 @@ import 'App/Controllers/BaseController'
 import 'App/Models/CompanyModel'
 
 export class CompaniesController extends BaseController {
+
 	model = CompanyModel
 
 	index(req, res) {

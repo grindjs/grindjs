@@ -3,6 +3,7 @@ import { Command, InputArgument, InputOption } from 'grind-cli'
 import 'App/Models/StateModel'
 
 export class StatesListCommand extends Command {
+
 	// Name of the command
 	name = 'states:list'
 

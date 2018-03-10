@@ -3,6 +3,7 @@ import 'App/Controllers/BaseController'
 import 'App/Models/StateModel'
 
 export class StatesController extends BaseController {
+
 	model = StateModel
 
 	index(req, res) {

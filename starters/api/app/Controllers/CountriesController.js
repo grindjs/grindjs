@@ -3,6 +3,7 @@ import 'App/Controllers/BaseController'
 import 'App/Models/CountryModel'
 
 export class CountriesController extends BaseController {
+
 	model = CountryModel
 
 	index(req, res) {

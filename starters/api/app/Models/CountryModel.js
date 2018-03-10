@@ -3,6 +3,7 @@ import { Model } from 'grind-orm'
 import 'App/Models/StateModel'
 
 export class CountryModel extends Model {
+
 	static tableName = 'countries'
 
 	static jsonSchema = {

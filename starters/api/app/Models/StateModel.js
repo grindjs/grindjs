@@ -4,6 +4,7 @@ import 'App/Models/CountryModel'
 import 'App/Models/CompanyModel'
 
 export class StateModel extends Model {
+
 	static tableName = 'states'
 
 	static jsonSchema = {

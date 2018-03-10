@@ -3,6 +3,7 @@ import { Model } from 'grind-orm'
 import 'App/Models/StateModel'
 
 export class CompanyModel extends Model {
+
 	static tableName = 'companies'
 	static eager = 'locations'
 
