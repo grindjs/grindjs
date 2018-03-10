@@ -11,12 +11,20 @@
 
 Grind Core Frontend is a bundle package to be used to add core frontend Grind dependencies to your project.
 
-Grind Core Frontend includes the following packages:
+Grind Core Frontend includes the following Grind packages:
 
 * [grind-core](https://github.com/grindjs/core)
 * [grind-assets](https://github.com/grindjs/assets)
 * [grind-html](https://github.com/grindjs/html)
+* [grind-stone](https://github.com/grindjs/stone)
 * [grind-view](https://github.com/grindjs/view)
+
+As well as the following packages for middleware:
+
+* [cookie-parser](https://github.com/expressjs/cookie-parser)
+* [express-flash](https://github.com/RGBboy/express-flash)
+* [express-session](https://github.com/expressjs/session)
+* [method-override](https://github.com/expressjs/method-override)
 
 ## Documentation
 

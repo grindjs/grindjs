@@ -1,7 +1,7 @@
 {
   "name": "grind-core-frontend",
-  "version": "0.7.0",
-  "description": "Proxy package to provide frontend Grind dependencies",
+  "version": "0.8.0-beta.1",
+  "description": "Bundle package to provide frontend Grind dependencies",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -17,11 +17,11 @@
     "cookie-parser": "^1.4.3",
     "express-flash": "^0.0.2",
     "express-session": "^1.15.3",
-    "grind-assets": "^0.7.0",
-    "grind-core": "^0.7.0",
-    "grind-html": "^0.7.0",
-    "grind-stone": "^0.7.0",
-    "grind-view": "^0.7.0",
+    "grind-assets": "^0.8.0-beta.2",
+    "grind-core": "^0.8.0-beta.1",
+    "grind-html": "^0.8.0-beta.1",
+    "grind-stone": "^0.8.0-beta.5",
+    "grind-view": "^0.8.0-beta.1",
     "method-override": "^2.3.9"
   }
 }
