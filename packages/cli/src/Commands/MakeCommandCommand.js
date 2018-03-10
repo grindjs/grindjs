@@ -7,6 +7,7 @@ import '../Errors/AbortError'
 const path = require('path')
 
 export class MakeCommandCommand extends Command {
+
 	name = 'make:command'
 	description = 'Create a command class'
 

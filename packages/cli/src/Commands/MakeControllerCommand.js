@@ -6,6 +6,7 @@ import '../StubCompiler'
 const path = require('path')
 
 export class MakeControllerCommand extends Command {
+
 	name = 'make:controller'
 	description = 'Create a controller class'
 

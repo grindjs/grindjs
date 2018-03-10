@@ -26,6 +26,7 @@ function warnLegacyArgumentsOptions() {
 }
 
 export class Command {
+
 	app = null
 	cli = null
 

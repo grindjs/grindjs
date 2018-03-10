@@ -2,6 +2,7 @@ import '../Command'
 import '../Errors/AbortError'
 
 export class WatchCommand extends Command {
+
 	name = 'watch'
 	description = 'Start the HTTP server and monitors for changes'
 

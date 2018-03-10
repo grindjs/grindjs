@@ -2,6 +2,7 @@ import './InputArgument'
 import './InputOption'
 
 export class Input {
+
 	arguments = [ ]
 	options = [ ]
 

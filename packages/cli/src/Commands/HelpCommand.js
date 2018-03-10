@@ -3,6 +3,7 @@ import '../Input/InputOption'
 import '../Input/InputArgument'
 
 export class HelpCommand extends Command {
+
 	command = null
 	options = [ new InputOption('h', InputOption.VALUE_OPTIONAL) ]
 

@@ -4,6 +4,7 @@ import '../Errors/AbortError'
 import '../Input/InputOption'
 
 export class ServeCommand extends Command {
+
 	name = 'serve'
 	description = 'Start the HTTP server'
 

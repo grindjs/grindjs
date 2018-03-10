@@ -5,6 +5,7 @@ const VALUE_OPTIONAL = 'optional'
 const cast = require('as-type')
 
 export class InputOption {
+
 	static VALUE_NONE = VALUE_NONE
 	static VALUE_REQUIRED = VALUE_REQUIRED
 	static VALUE_OPTIONAL = VALUE_OPTIONAL

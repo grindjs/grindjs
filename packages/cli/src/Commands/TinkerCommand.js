@@ -2,6 +2,7 @@ import '../Command'
 const repl = require('repl')
 
 export class TinkerCommand extends Command {
+
 	name = 'tinker'
 	description = 'Starts a REPL within the context of your app'
 

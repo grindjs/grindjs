@@ -3,6 +3,7 @@ import './OutputFormatter'
 import '../Errors/InvocationError'
 
 export class Output {
+
 	app = null
 	formatter = null
 

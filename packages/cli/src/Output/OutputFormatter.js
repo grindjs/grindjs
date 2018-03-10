@@ -3,6 +3,7 @@
 import './OutputFormatterStyle'
 
 export class OutputFormatter {
+
 	decorated = null
 	styles = { }
 	styleStack = [ ]

@@ -4,6 +4,7 @@ import { constructor as Chalk } from 'chalk'
 const chalk = new Chalk({ enabled: true })
 
 export class OutputFormatterStyle {
+
 	foreground = null
 	background = null
 	options = [ ]

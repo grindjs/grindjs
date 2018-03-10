@@ -2,6 +2,7 @@ const VALUE_REQUIRED = 'required'
 const VALUE_OPTIONAL = 'optional'
 
 export class InputArgument {
+
 	static VALUE_REQUIRED = VALUE_REQUIRED
 	static VALUE_OPTIONAL = VALUE_OPTIONAL
 

@@ -13,6 +13,7 @@ import './Output/Output'
 import './Scheduler'
 
 export class Cli {
+
 	app = null
 	commands = [ ]
 	output = null
