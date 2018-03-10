@@ -1,3 +1,5 @@
+/* global document */
+
 export class Test {
 
 	test() {
