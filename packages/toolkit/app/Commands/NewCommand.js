@@ -46,11 +46,17 @@ export class NewCommand extends Command {
 
 	async run() {
 		const type = this.option('template', 'web').trim().toLowerCase()
-		const repository = `grindjs/example-${type}`
 		const target = this.argument('name')
+		let repository = null
 
-		if(type !== 'web' && type !== 'api' && type !== 'cli') {
-			throw new AbortError('Invalid template option, only web, api and cli are supported.')
+		if(type.includes('/')) {
+			repository = type
+		} else {
+			repository = `grindjs/example-${type}`
+
+			if(type !== 'web' && type !== 'api' && type !== 'cli') {
+				throw new AbortError('Invalid template option, only web, api and cli are supported.')
+			}
 		}
 
 		const exists = await FS.exists(target)
