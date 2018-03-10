@@ -1,7 +1,7 @@
 import 'babel-polyfill'
 import './Grind'
 
-import { HttpServer } from 'grind-framework'
+import { HttpServer } from 'grind-http'
 const fetch = require('fetchit')
 
 let port = 0
