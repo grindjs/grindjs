@@ -5,6 +5,7 @@ const JSON5 = require('json5')
 import { Obj, merge } from 'grind-support'
 
 export class Config {
+
 	_repository = null
 
 	constructor(app = null) {
@@ -108,4 +109,5 @@ export class Config {
 			files[name].push(path.join(dir, path.basename(file)))
 		}
 	}
+
 }

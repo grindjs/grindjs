@@ -1,6 +1,6 @@
 import './HttpError'
 
-/* eslint no-redeclare:0 */
+/* eslint-disable padded-blocks */
 export class HttpClientError extends HttpError { }
 export class BadRequestError extends HttpClientError { static representsCode = 400 }
 export class UnauthorizedError extends HttpClientError { static representsCode = 401 }

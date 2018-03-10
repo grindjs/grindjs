@@ -1,6 +1,6 @@
 {
   "name": "grind-framework",
-  "version": "0.8.0-dev.0",
+  "version": "0.8.0-beta.0",
   "description": "An opinionated Node web framework built on Express",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
@@ -10,15 +10,12 @@
     "url": "https://github.com/grindjs/framework.git"
   },
   "keywords": [
-    "express",
     "grindjs",
     "grind-framework",
     "web-framework"
   ],
   "dependencies": {
-    "body-parser": "^1.17.2",
     "chalk": "^1.0.0",
-    "express": "^4.14.1",
     "grind-support": "^0.8.0-alpha.1",
     "json5": "^0.5.1"
   },
@@ -26,12 +23,12 @@
     "ava": "^0.20.0",
     "babel-cli": ">=6.7 <=7.0",
     "babel-eslint": "^6.1.0",
-    "babel-preset-grind": "^0.7.0",
+    "babel-preset-grind": "^0.8.0-beta.1",
     "chokidar": "^1.7.0",
     "compression": "^1.6.2",
     "cookie-parser": "^1.4.3",
     "eslint": "^3.19.0",
-    "eslint-config-grind": "^2.0.0",
+    "eslint-config-grind": "^2.0.4",
     "eslint-plugin-import-auto-name": "^1.0.3",
     "express-flash": "^0.0.2",
     "express-session": "^1.15.3",

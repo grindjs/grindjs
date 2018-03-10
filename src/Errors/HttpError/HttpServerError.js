@@ -1,6 +1,6 @@
 import './HttpError'
 
-/* eslint no-redeclare:0 */
+/* eslint-disable padded-blocks */
 export class HttpServerError extends HttpError { }
 export class InternalServerErrorError extends HttpServerError { static representsCode = 500 }
 export class NotImplementedError extends HttpServerError { static representsCode = 501 }

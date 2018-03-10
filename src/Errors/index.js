@@ -1,15 +1,11 @@
-import './HttpError'
-
-const clientErrors = require('./HttpClientError.js')
-const serverErrors = require('./HttpServerError.js')
-const allErrors = { ...clientErrors, ...serverErrors }
-
-Object.assign(global, allErrors)
+const errors = require('./HttpError/index.js')
+Object.assign(global, errors)
+Object.assign(module.exports, errors)
 
 const codesMapping = { }
 
-for(const name of Object.keys(allErrors)) {
-	const error = allErrors[name]
+for(const name of Object.keys(errors)) {
+	const error = errors[name]
 	const code = error.representsCode
 
 	if(code === 0) {
@@ -22,6 +18,3 @@ for(const name of Object.keys(allErrors)) {
 HttpError.make = (code, message) => {
 	return new codesMapping[code](message)
 }
-
-global.HttpError = HttpError
-export const Errors = HttpError

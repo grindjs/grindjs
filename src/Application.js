@@ -9,18 +9,14 @@ const EventEmitter = require('events')
  * Main Application class for Grind
  */
 export class Application extends EventEmitter {
-	express = null
+
 	_env = null
 
 	config = null
-	errorHandler = null
 	paths = null
-	routes = null
-	url = null
 
 	booted = false
 	booting = false
-	port = 3000
 	providers = null
 
 	/**
@@ -41,14 +37,15 @@ export class Application extends EventEmitter {
 	 * @param  {Class}   options.urlGeneratorClass  Override for UrlGenerator class
 	 * @param  {Class}   options.pathsClass         Override for Paths class
 	 */
-	constructor({
+	constructor(kernelClass, {
 		env,
 		port,
 		routerClass,
 		configClass,
 		errorHandlerClass,
 		urlGeneratorClass,
-		pathsClass
+		pathsClass,
+		...extra
 	} = { }) {
 		super()
 
@@ -59,44 +56,26 @@ export class Application extends EventEmitter {
 
 		this.paths = new pathsClass
 		this.config = new configClass(this)
-		this.providers = new ProviderCollection
+		this.providers = new ProviderCollection(this)
 		this.debug = this.config.get('app.debug', this.env() === 'local')
 		this.on('error', err => Log.error('EventEmitter error', err))
 
-		this.lazy('express', app => {
-			const express = require('express/lib/express.js')()
-			express.disable('etag')
-			express._grind = app
-			return express
+		this.kernel = new kernelClass(this, {
+			port,
+			routerClass,
+			errorHandlerClass,
+			urlGeneratorClass,
+			pathsClass,
+			...extra
 		})
 
-		// Register lazy loaded properties
-		this.lazy('routes', app => {
-			if(routerClass.isNil) {
-				routerClass = require('./Routing/Router.js').Router
-			}
+		if(!this.kernel.as.isNil) {
+			this[this.kernel.as] = this.kernel
+		}
 
-			return app._loadRouting(routerClass)
-		})
-
-		this.lazy('errorHandler', app => {
-			if(errorHandlerClass.isNil) {
-				errorHandlerClass = require('./ErrorHandler.js').ErrorHandler
-			}
-
-			return new errorHandlerClass(app)
-		})
-
-		this.lazy('url', app => {
-			if(urlGeneratorClass.isNil) {
-				urlGeneratorClass = require('./UrlGenerator.js').UrlGenerator
-			}
-
-
-			return new urlGeneratorClass(app)
-		})
-
-		this.lazy('port', () => port || process.env.NODE_PORT || this.config.get('app.port', 3000))
+		for(const provider of this.kernel.providers) {
+			this.providers.add(provider)
+		}
 	}
 
 	/**
@@ -131,34 +110,46 @@ export class Application extends EventEmitter {
 	}
 
 	/**
-	 * Starts the HTTP server
-	 * @return {object} HTTP server instance
+	 * Loads a Kernel Provider
+	 *
+	 * Kernel Providers are a special type of
+	 * provider that get loaded immediately upon
+	 * being added rather than delayed until boot.
+	 *
+	 * @param  function  provider
 	 */
-	async listen(...args) {
-		this.routes // Ensure the router is lazy loaded before we boot
-		await this.boot()
+	loadKernelProvider(provider) {
+		if(typeof provider.shutdown === 'function') {
+			const shutdown = provider.shutdown.bind(provider, this)
 
-		// Register error handler
-		this.express.use((err, req, res, next) => {
-			this.errorHandler.handle(err, req, res, next)
-		})
+			this.once('shutdown', () => {
+				const result = shutdown()
 
-		// Register 404 handler
-		this.express.use((req, res, next) => {
-			this.errorHandler.handle(new NotFoundError, req, res, next)
-		})
+				if(result.isNil || typeof result.then !== 'function') {
+					return
+				}
 
-		this.server = require('http').createServer(this.express)
-
-		// Register upgrade handlers
-		if(Object.keys(this.routes.upgraders).length > 0) {
-			const { UpgradeDispatcher } = require('./Routing/UpgradeDispatcher')
-			this.server.on('upgrade', UpgradeDispatcher.bind(this.routes, this.routes.upgraders))
+				Log.warn('WARNING: Kernel Providers do not support async shutdown functions.')
+				Log.warn('--> App shutdown is not waiting for this provider to finish.')
+				Log.warn(`--> Offending provider: ${provider.name}`)
+			})
 		}
 
-		this.emit('listen', this, this.server)
+		const result = provider(this)
 
-		return this.server.listen(...args)
+		if(result.isNil || typeof result.then !== 'function') {
+			return
+		}
+
+		throw new Error('Kernel Providers can not be async.')
+	}
+
+	/**
+	 * Starts the Kernel
+	 */
+	async start(...args) {
+		await this.boot()
+		return this.kernel.start(...args)
 	}
 
 	/**
@@ -190,34 +181,6 @@ export class Application extends EventEmitter {
 	}
 
 	/**
-	 * Setups up the application to handle routing
-	 *
-	 * @param  {Class}  routerClass Class or subclass of Router
-	 * @return {Object}             Instance of routerClass
-	 */
-	_loadRouting(routerClass) {
-		const { RequestExtension } = require('./Routing/Extensions/RequestExtension.js')
-		const { ResponseExtension } = require('./Routing/Extensions/ResponseExtension.js')
-		const { RouteExtension } = require('./Routing/Extensions/RouteExtension.js')
-
-		RequestExtension()
-		ResponseExtension()
-		RouteExtension()
-
-		const router = new routerClass(this)
-
-		if(this.booted || this.booting) {
-			router.boot()
-		} else {
-			const boot = router.boot.bind(router)
-			boot.priority = 35000
-			this.providers.add(boot)
-		}
-
-		return router
-	}
-
-	/**
 	 * Register a property on the app instance that will be
 	 * populated with the value of `callback` after the first
 	 * time it’s called.
@@ -230,18 +193,7 @@ export class Application extends EventEmitter {
 		lazy(this, name, callback)
 	}
 
-	/**
-	 * Passthrough for express.enable()
-	 */
-	enable(...args) {
-		return this.express.enable(...args)
-	}
-
-	/**
-	 * Passthrough for express.disable()
-	 */
-	disable(...args) {
-		return this.express.disable(...args)
-	}
+	// Pass through properties for the http kernel
+	get errorHandler() { return this.http.errorHandler }
 
 }

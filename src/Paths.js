@@ -2,6 +2,7 @@ const path = require('path')
 const fs = require('fs')
 
 export class Paths {
+
 	_base = null
 	_app = null
 	_config = null

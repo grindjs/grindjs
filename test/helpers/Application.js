@@ -6,6 +6,8 @@ import {
 	Paths as BasePaths
 } from '../../src'
 
+import './TestKernel'
+
 class Paths extends BasePaths {
 
 	constructor() {
@@ -18,7 +20,7 @@ export class Application extends BaseApplication {
 
 	constructor(parameters = { }) {
 		parameters.pathsClass = parameters.pathsClass || Paths
-		super(parameters)
+		super(TestKernel, parameters)
 	}
 
 }
