@@ -1,26 +1,27 @@
-import Grind from 'grind-framework'
+import { Application } from 'grind-framework'
 
 import './Extensions/Paths'
-
 const fs = require('fs')
 
-const app = new Grind({
-	pathsClass: Paths
-})
+export function Bootstrap(kernelClass) {
+	const app = new Application(kernelClass, {
+		pathsClass: Paths
+	})
 
-try {
-	fs.statSync(app.paths.packageInfo) // eslint-disable-line no-sync
-	app.inProject = true
-} catch(err) {
-	app.inProject = false
+	try {
+		fs.statSync(app.paths.packageInfo) // eslint-disable-line no-sync
+		app.inProject = true
+	} catch(err) {
+		app.inProject = false
+	}
+
+	if(app.inProject) {
+		app.providers.add(require('grind-view').ViewProvider)
+		app.providers.add(require('./Providers/DetectPackagesProvider').DetectPackagesProvider)
+		app.providers.add(require('./Providers/PackageCommandsProvider').PackageCommandsProvider)
+		app.providers.add(require('./Providers/PackageViewsProvider').PackageViewsProvider)
+		app.providers.add(require('./Providers/StubGeneratorProvider').StubGeneratorProvider)
+	}
+
+	return app
 }
-
-if(app.inProject) {
-	app.providers.add(require('grind-view').ViewProvider)
-	app.providers.add(require('./Providers/DetectPackagesProvider').DetectPackagesProvider)
-	app.providers.add(require('./Providers/PackageCommandsProvider').PackageCommandsProvider)
-	app.providers.add(require('./Providers/PackageViewsProvider').PackageViewsProvider)
-	app.providers.add(require('./Providers/StubGeneratorProvider').StubGeneratorProvider)
-}
-
-module.exports = app
