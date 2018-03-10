@@ -59,7 +59,7 @@ export class HttpServer {
 		const app = this.bootstrapper()
 		const port = app.port
 
-		const server = await app.listen(port, () => {
+		const server = await app.start(port, () => {
 			if(!worker.isNil) {
 				process.title = `${process.cwd()} [server:${port}]`
 				console.log(chalk.yellow('Worker %d listening on %d'), worker.id, port)

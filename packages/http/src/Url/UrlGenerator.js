@@ -2,6 +2,7 @@ const URL = require('url')
 const Path = require('path')
 
 export class UrlGenerator {
+
 	app = null
 	req = null
 	defaultUrl = null
@@ -9,24 +10,21 @@ export class UrlGenerator {
 	constructor(app, defaultUrl = null) {
 		this.app = app
 
-		if(defaultUrl.isNil) {
-			let defaultUrl = null
-
-			if(this.app.port === 443) {
-				defaultUrl = 'https://localhost'
-			} else if(this.app.port === 80) {
-				defaultUrl = 'http://localhost'
-			} else {
-				defaultUrl = `http://localhost:${this.app.port}`
-			}
-
-			this.defaultUrl = URL.parse(app.config.get('app.url', defaultUrl))
-
-			if(!this.defaultUrl.path.isNil && this.defaultUrl.path !== '' && this.defaultUrl.path !== '/') {
-				throw new Error('`app.url` can not contain a path.')
-			}
-		} else {
+		if(!defaultUrl.isNil) {
 			this.defaultUrl = defaultUrl
+			return
+		} else if(this.app.port === 443) {
+			defaultUrl = 'https://localhost'
+		} else if(this.app.port === 80) {
+			defaultUrl = 'http://localhost'
+		} else {
+			defaultUrl = `http://localhost:${this.app.port}`
+		}
+
+		this.defaultUrl = URL.parse(app.config.get('app.url', defaultUrl))
+
+		if(!this.defaultUrl.path.isNil && this.defaultUrl.path !== '' && this.defaultUrl.path !== '/') {
+			throw new Error('`app.url` can not contain a path.')
 		}
 	}
 

@@ -1,5 +1,6 @@
+import { MissingPackageError } from 'grind-framework'
+
 import '../Session/StoreConfigBuilder'
-import '../Errors/MissingPackageError'
 
 export function SessionMiddlewareBuilder(app) {
 	let session = null

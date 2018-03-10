@@ -1,4 +1,4 @@
-import '../Errors/MissingPackageError'
+import { MissingPackageError } from 'grind-framework'
 
 export function CookieMiddlewareBuilder(app) {
 	let cookieParser = null

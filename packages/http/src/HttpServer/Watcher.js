@@ -5,6 +5,7 @@ const express = require('express/lib/express.js')
 const path = require('path')
 
 export class Watcher {
+
 	httpServer = null
 	lastPort = null
 	dirs = null
@@ -103,7 +104,7 @@ export class Watcher {
 			const port = app.port
 			this.lastPort = port
 
-			server = await app.listen(port, () => {
+			server = await app.start(port, () => {
 				console.log(chalk.yellow('Listening on port %d'), port)
 			})
 

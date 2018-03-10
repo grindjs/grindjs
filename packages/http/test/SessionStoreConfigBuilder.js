@@ -1,15 +1,16 @@
 import test from 'ava'
 import '../src/Session/StoreConfigBuilder'
+import '../src/HttpKernel'
 import './helpers/Application'
 
 test('memory', t => {
-	const config = StoreConfigBuilder('memory', new Application, true)
+	const config = StoreConfigBuilder('memory', new Application(HttpKernel), true)
 
 	t.is(config.store, 'memory')
 })
 
 test('redis', t => {
-	const config = StoreConfigBuilder('redis', new Application, true)
+	const config = StoreConfigBuilder('redis', new Application(HttpKernel), true)
 
 	t.is(config.store, 'connect-redis')
 	t.is(config.options.host, 'localhost')
@@ -18,7 +19,7 @@ test('redis', t => {
 })
 
 test('redis-default', t => {
-	const config = StoreConfigBuilder('redis-default', new Application, true)
+	const config = StoreConfigBuilder('redis-default', new Application(HttpKernel), true)
 
 	t.is(config.store, 'connect-redis')
 	t.is(config.options.host, 'test')
@@ -27,7 +28,7 @@ test('redis-default', t => {
 })
 
 test('redis-auth', t => {
-	const config = StoreConfigBuilder('redis-auth', new Application, true)
+	const config = StoreConfigBuilder('redis-auth', new Application(HttpKernel), true)
 
 	t.is(config.store, 'connect-redis')
 	t.is(config.options.host, 'localhost')
@@ -36,7 +37,7 @@ test('redis-auth', t => {
 })
 
 test('database', t => {
-	const config = StoreConfigBuilder('database', new Application, true)
+	const config = StoreConfigBuilder('database', new Application(HttpKernel), true)
 	const connection = config.options.connection.client.config
 
 	t.is(config.store, 'database')
@@ -45,7 +46,7 @@ test('database', t => {
 })
 
 test('database-default', t => {
-	const app = new Application
+	const app = new Application(HttpKernel)
 	app.providers.add(require('grind-db').DatabaseProvider)
 
 	return app.boot().then(() => {
@@ -59,7 +60,7 @@ test('database-default', t => {
 })
 
 test('database-alt', t => {
-	const config = StoreConfigBuilder('database-alt', new Application, true)
+	const config = StoreConfigBuilder('database-alt', new Application(HttpKernel), true)
 	const connection = config.options.connection.client.config
 
 	t.is(config.store, 'database')

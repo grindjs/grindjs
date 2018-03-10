@@ -6,6 +6,7 @@ import { Inflect } from 'grind-support'
 //
 
 export class ResourceRouteBuilder {
+
 	routes = null
 	resourceDefaults = [ 'index', 'create', 'store', 'show', 'edit', 'update', 'destroy' ]
 	parameters = null

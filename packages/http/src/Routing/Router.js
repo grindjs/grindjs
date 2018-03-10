@@ -1,8 +1,9 @@
 /* eslint-disable max-lines */
+import { MissingPackageError } from 'grind-framework'
+
 import './ResourceRouteBuilder'
 import './RouteLayer'
 
-import '../Errors/MissingPackageError'
 import '../Errors/RoutesLoadError'
 
 import '../Middleware/CompressionMiddlewareBuilder'
@@ -15,6 +16,7 @@ const path = require('path')
 const express = require('express/lib/express.js')
 
 export class Router {
+
 	app = null
 	router = null
 

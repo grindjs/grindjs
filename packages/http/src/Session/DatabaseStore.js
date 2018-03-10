@@ -6,6 +6,7 @@
 import { Store } from 'express-session'
 
 export class DatabaseStore extends Store {
+
 	db = null
 	table = null
 
@@ -187,7 +188,7 @@ export class DatabaseStore extends Store {
 
 	length(callback) {
 		try {
-			return this.db(this.table).count('count(id) as count').first().then(row => {
+			return this.db(this.table).count('id as count').first().then(row => {
 				const count = Number.parseInt(row.count) || 0
 
 				if(callback.isNil) {

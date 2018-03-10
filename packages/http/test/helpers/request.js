@@ -2,6 +2,7 @@ import 'babel-polyfill'
 import rp from 'request-promise-native'
 
 import './Application'
+import '../../src/HttpKernel'
 import '../../src/HttpServer'
 
 let port = 0
@@ -9,7 +10,7 @@ export function makeServer(space, boot) {
 	let app = null
 
 	return (new HttpServer(() => {
-		app = new Application({
+		app = new Application(HttpKernel, {
 			port: 32180 + space + (++port)
 		})
 

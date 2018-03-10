@@ -1,10 +1,12 @@
 require('babel-polyfill')
 const path = require('path')
 
+require('../../src/Errors')
+
 import {
 	Application as BaseApplication,
 	Paths as BasePaths
-} from '../../src'
+} from 'grind-framework'
 
 class Paths extends BasePaths {
 
@@ -16,9 +18,9 @@ class Paths extends BasePaths {
 
 export class Application extends BaseApplication {
 
-	constructor(parameters = { }) {
+	constructor(kernelClass, parameters = { }) {
 		parameters.pathsClass = parameters.pathsClass || Paths
-		super(parameters)
+		super(kernelClass, parameters)
 	}
 
 }

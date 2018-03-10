@@ -1,6 +1,7 @@
-import './Errors/HttpError'
+import { HttpError } from 'grind-framework'
 
 export class Controller {
+
 	app = null
 
 	constructor(app) {

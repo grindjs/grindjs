@@ -1,4 +1,5 @@
 export class RoutesLoadError extends Error {
+
 	cause = null
 
 	constructor(err, message) {

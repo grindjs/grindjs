@@ -1,7 +1,7 @@
 {
-  "name": "grind-framework",
-  "version": "0.8.0-dev.0",
-  "description": "An opinionated Node web framework built on Express",
+  "name": "grind-http",
+  "version": "0.8.0-beta.0",
+  "description": "HTTP kernel for Grind, powered by Express",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
   "main": "lib/index.js",
@@ -10,17 +10,18 @@
     "url": "https://github.com/grindjs/framework.git"
   },
   "keywords": [
-    "express",
     "grindjs",
     "grind-framework",
-    "web-framework"
+    "grind-kernel",
+    "express",
+    "http"
   ],
   "dependencies": {
     "body-parser": "^1.17.2",
-    "chalk": "^1.0.0",
-    "express": "^4.14.1",
-    "grind-support": "^0.8.0-alpha.1",
-    "json5": "^0.5.1"
+    "express": "^4.14.1"
+  },
+  "peerDependencies": {
+    "grind-framework": "^0.8.0-beta.1"
   },
   "devDependencies": {
     "ava": "^0.20.0",
@@ -31,7 +32,7 @@
     "compression": "^1.6.2",
     "cookie-parser": "^1.4.3",
     "eslint": "^3.19.0",
-    "eslint-config-grind": "^2.0.0",
+    "eslint-config-grind": "^2.0.4",
     "eslint-plugin-import-auto-name": "^1.0.3",
     "express-flash": "^0.0.2",
     "express-session": "^1.15.3",
@@ -43,12 +44,15 @@
     "sqlite3": "^3.1.8"
   },
   "engines": {
-    "node": ">=8.2"
+    "node": ">=8.7"
   },
   "scripts": {
     "prepublish": "bin/build",
     "lint": "eslint src",
     "test": "bin/ava --verbose"
+  },
+  "grind": {
+    "providers": []
   },
   "ava": {
     "require": [

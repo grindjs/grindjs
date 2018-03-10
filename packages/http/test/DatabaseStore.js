@@ -8,7 +8,8 @@ import knex from 'knex'
 
 import '../src/Session/DatabaseStore'
 
-global.Log = require('../src/Log.js').Log
+import { Log } from 'grind-framework'
+global.Log = Log
 
 function makeStore() {
 	const db = knex({

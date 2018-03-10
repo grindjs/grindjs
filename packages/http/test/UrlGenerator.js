@@ -1,8 +1,9 @@
 import test from 'ava'
 import './helpers/Application'
+import '../src/HttpKernel'
 
 function url() {
-	const app = new Application({ port: 80 })
+	const app = new Application(HttpKernel, { port: 80 })
 	const handler = (req, res) => res.send(req.path)
 
 	app.routes.get('users', handler).as('users.index')

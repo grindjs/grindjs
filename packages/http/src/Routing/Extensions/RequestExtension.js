@@ -11,5 +11,4 @@ export function RequestExtension() {
 		this.flash('_old_input', this.body)
 		return this
 	}
-
 }

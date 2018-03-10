@@ -64,5 +64,4 @@ export function RouteExtension() {
 		this.grindRouter.nameRoute(name, this)
 		return this
 	}
-
 }
