@@ -1,8 +1,6 @@
 require('babel-polyfill')
 const path = require('path')
 
-require('../../src/Errors')
-
 import {
 	Application as BaseApplication,
 	Paths as BasePaths

@@ -3,7 +3,7 @@ import rp from 'request-promise-native'
 
 import './Application'
 import '../../src/HttpKernel'
-import '../../src/HttpServer'
+import '../../src/HttpServer/HttpServer'
 
 let port = 0
 export function makeServer(space, boot) {
