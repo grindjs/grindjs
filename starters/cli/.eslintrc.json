@@ -1,0 +1,16 @@
+{
+	"parser": "babel-eslint",
+	"plugins": [
+		"import-auto-name"
+	],
+	"env": {
+		"node": true
+	},
+	"extends": "grind",
+	"parserOptions": {
+		"sourceType": "module"
+	},
+	"globals": {
+		"ValidationError": false
+	}
+}

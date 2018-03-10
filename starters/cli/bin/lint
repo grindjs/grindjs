@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+
+const cli = require('eslint/lib/cli')
+process.chdir(require('path').join(__dirname, '..'))
+process.exitCode = cli.execute([ ...process.argv, 'app', 'boot', 'config' ])
