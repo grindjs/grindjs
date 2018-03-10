@@ -763,6 +763,7 @@ function setModel(form, data, object = true) {
 }
 
 class FormBuilderModelStub {
+
 	data = null
 
 	constructor(data = { }) {
