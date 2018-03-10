@@ -22,7 +22,7 @@
     "babel-eslint": "^7.1.1",
     "babel-preset-grind": "^0.8.0-beta.1",
     "eslint": "^3.19.0",
-    "eslint-config-grind": "^2.0.1",
+    "eslint-config-grind": "^2.0.4",
     "eslint-plugin-import-auto-name": "^1.0.3",
     "grind-cli": "^0.7.0",
     "grind-framework": "^0.7.0",
@@ -34,7 +34,7 @@
   },
   "scripts": {
     "prepublish": "bin/build",
-    "lint": "eslint src",
+    "lint": "eslint src test",
     "test": "bin/ava --verbose"
   },
   "ava": {

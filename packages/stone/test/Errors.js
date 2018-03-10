@@ -7,7 +7,7 @@ import '../src/Errors/StoneCompilerError'
 import '../src/Errors/StoneSyntaxError'
 
 function parseErrorFrame(err) {
-	const match = err.stack.match(/([^\(]+?):(\d+):(\d+)/)
+	const match = err.stack.match(/([^(]+?):(\d+):(\d+)/)
 
 	return {
 		file: match[1],
