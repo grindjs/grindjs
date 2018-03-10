@@ -176,7 +176,7 @@ export class ProviderAddCommand extends Command {
 
 		if(!providersAddIndex.isNil) {
 			const nextLine = bootstrap.indexOf('\n', providersAddIndex)
-			bootstrap = `${bootstrap.substring(0, nextLine)}\n${addLines.join('\n')}${bootstrap.substring(nextLine)}`
+			bootstrap = `${bootstrap.substring(0, nextLine)}\n\t${addLines.join('\n\t')}${bootstrap.substring(nextLine)}`
 		} else {
 			throw new Error('Irregular app/Bootstrap.js detected.')
 		}
