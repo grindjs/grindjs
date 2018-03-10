@@ -56,7 +56,9 @@ export class StoneEngine extends ViewEngine {
 			callback(null, template)
 		}
 
-		this.app.express.set('view', StoneExpressView)
+		if(!this.app.express.isNil) {
+			this.app.express.set('view', StoneExpressView)
+		}
 
 		if(this.app.config.get('view.watch', this.app.debug)) {
 			this.watcher = new Watcher(this, this.view.viewPath)
