@@ -20,8 +20,8 @@
     "objection": "^1.0.0"
   },
   "peerDependencies": {
-    "grind-db": "^0.7.0",
-    "grind-framework": "^0.7.0"
+    "grind-db": "^0.8.0-beta.1",
+    "grind-framework": "^0.8.0-beta.1"
   },
   "devDependencies": {
     "ava": "^0.25.0",
@@ -31,9 +31,9 @@
     "eslint": "^3.19.0",
     "eslint-config-grind": "^2.0.4",
     "eslint-plugin-import-auto-name": "^1.0.3",
-    "grind-cli": "^0.7.0",
-    "grind-db": "^0.7.0",
-    "grind-framework": "^0.7.1",
+    "grind-cli": "^0.8.0-beta.1",
+    "grind-db": "^0.8.0-beta.1",
+    "grind-framework": "^0.8.0-beta.1",
     "sqlite": "^2.8.0"
   },
   "engines": {
