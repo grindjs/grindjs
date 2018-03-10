@@ -1,26 +1,31 @@
 import path from 'path'
 
 import {
-	default as BaseGrind,
+	Application,
+	Kernel,
 	Paths as BasePaths
 } from 'grind-framework'
 
 class Paths extends BasePaths {
 
-	constructor(bootstrapper) {
-		super(bootstrapper)
-
-		this._base = path.join(__dirname, '../fixtures')
-		this._config = path.join(this._base, 'config')
+	constructor() {
+		super(path.join(__dirname, '../fixtures'))
 	}
 
 }
 
-export class Grind extends BaseGrind {
+export class TestKernel extends Kernel {
+
+	start() { }
+	shutdown() { }
+
+}
+
+export class Grind extends Application {
 
 	constructor(parameters = { }) {
 		parameters.pathsClass = Paths
-		super(parameters)
+		super(TestKernel, parameters)
 	}
 
 }
