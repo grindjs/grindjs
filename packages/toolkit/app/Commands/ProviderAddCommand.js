@@ -208,7 +208,9 @@ export class ProviderAddCommand extends Command {
 
 	async findProviders(name, packagePath, info, context) {
 		if(!context.provider.isNil) {
-			return context.provider
+			return [ context.provider ]
+		} else if(!context.providers.isNil) {
+			return context.providers
 		}
 
 		const dir = path.dirname(require.resolve(path.join(packagePath)))
