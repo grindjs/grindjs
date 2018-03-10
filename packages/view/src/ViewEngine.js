@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 
 export class ViewEngine {
+
 	app = null
 	view = null
 

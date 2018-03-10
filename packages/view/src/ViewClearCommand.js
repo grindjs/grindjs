@@ -1,6 +1,7 @@
 import { Command } from 'grind-cli'
 
 export class ViewClearCommand extends Command {
+
 	name = 'view:clear'
 	description = 'Clears precompiled view cache'
 
