@@ -1,13 +1,13 @@
-import '../BaseCommand'
-
-import { AbortError, InputArgument, InputOption } from 'grind-cli'
+import { Command, AbortError, InputArgument, InputOption } from 'grind-cli'
 import { FS } from 'grind-support'
-import path from 'path'
 
-export class MakeCommand extends BaseCommand {
+const path = require('path')
+
+export class MakeCommand extends Command {
 
 	name = 'make:seed'
 	description = 'Create a database seed file'
+	seedDirectory = 'database/seeds'
 
 	arguments = [
 		new InputArgument('name', InputArgument.VALUE_OPTIONAL, 'The name of the seed')
@@ -17,7 +17,7 @@ export class MakeCommand extends BaseCommand {
 		new InputOption('table', InputOption.VALUE_OPTIONAL, 'Name of the table to seed')
 	]
 
-	run() {
+	async run() {
 		let tableName = null
 		let name = this.argument('name')
 
@@ -33,28 +33,28 @@ export class MakeCommand extends BaseCommand {
 			throw new AbortError('A seed name must be provided if `--table` isn‘t used.')
 		}
 
-		const seed = this.db.seed
+		const ordinal = await this.nextSeedOrdinal()
+		const filePath = this.app.paths.project(this.seedDirectory, `${ordinal}-${name}.js`)
 
-		return this.nextSeedOrdinal(seed).then(ordinal =>
-			this.generateStub(
-				path.join(__dirname, 'stubs', 'seed.stub'),
-				path.join(seed._absoluteConfigDir(), `${ordinal}-${name}.js`), {
-					StubTable: tableName || 'table_name'
-				}
-			)
-		)
+		await this.app.stubs.generate('grind-db::seed', filePath, {
+			table: tableName || 'table_name'
+		})
+
+		return this.success(`Created ${path.relative(this.app.paths.project(), filePath)}`)
 	}
 
-	nextSeedOrdinal(seed) {
-		return seed._ensureFolder().then(() => FS.readdir(seed._absoluteConfigDir())).then(files => {
-			const ordinal = files.filter(file => file.endsWith('.js')).length + 1
+	async nextSeedOrdinal() {
+		const directory = this.app.paths.project(this.seedDirectory)
+		await FS.mkdirp(directory).catch(() => { })
 
-			if(ordinal < 10) {
-				return `0${ordinal}`
-			}
+		const files = await FS.readdir(directory)
+		const ordinal = files.filter(file => file.endsWith('.js')).length + 1
 
-			return ordinal.toString()
-		})
+		if(ordinal < 10) {
+			return `0${ordinal}`
+		}
+
+		return ordinal.toString()
 	}
 
 }

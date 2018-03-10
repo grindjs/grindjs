@@ -36,5 +36,11 @@
   "scripts": {
     "prepublish": "bin/build",
     "lint": "eslint src"
+  },
+  "grind": {
+    "commands": [
+      "./lib/Commands/Migrate/MakeCommand.js",
+      "./lib/Commands/Seed/MakeCommand.js"
+    ]
   }
 }

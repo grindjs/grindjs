@@ -3,10 +3,8 @@ import './DatabaseBuilder'
 import './Commands/Migrate/CurrentVersionCommand'
 import './Commands/Migrate/LatestCommand'
 import './Commands/Migrate/RollbackCommand'
-import './Commands/Migrate/MakeCommand'
 
-import { RunCommand as SeedRunCommand } from './Commands/Seed/RunCommand'
-import { MakeCommand as SeedMakeCommand } from './Commands/Seed/MakeCommand'
+import './Commands/Seed/RunCommand'
 
 export function DatabaseProvider(app, databaseBuilder = null, configBuilder = null) {
 	databaseBuilder = databaseBuilder || DatabaseBuilder
@@ -20,10 +18,8 @@ export function DatabaseProvider(app, databaseBuilder = null, configBuilder = nu
 		CurrentVersionCommand,
 		LatestCommand,
 		RollbackCommand,
-		MakeCommand,
 
-		SeedRunCommand,
-		SeedMakeCommand
+		RunCommand
 	])
 }
 

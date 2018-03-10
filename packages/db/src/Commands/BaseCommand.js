@@ -1,20 +1,13 @@
-import { Command, StubCompiler } from 'grind-cli'
-import path from 'path'
+import { Command } from 'grind-cli'
 
 export class BaseCommand extends Command {
 
 	db = null
 
-	ready() {
-		return super.ready().then(() => {
-			this.db = this.app.db
-		})
-	}
+	async ready() {
+		await super.ready()
 
-	generateStub(stub, target, context) {
-		return StubCompiler(stub, target, context).then(() => {
-			this.success(`Created ${path.relative(process.cwd(), target)}`)
-		})
+		this.db = this.app.db
 	}
 
 }
