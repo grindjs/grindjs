@@ -1,6 +1,6 @@
 {
   "name": "grind-http",
-  "version": "0.8.0-beta.0",
+  "version": "0.8.0-beta.1",
   "description": "HTTP kernel for Grind, powered by Express",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
@@ -37,8 +37,9 @@
     "express-flash": "^0.0.2",
     "express-session": "^1.15.3",
     "flash": "^1.1.0",
-    "grind-cli": "^0.7.0",
-    "grind-db": "^0.7.0",
+    "grind-cli": "^0.8.0-beta.1",
+    "grind-db": "^0.8.0-beta.1",
+    "grind-framework": "^0.8.0-beta.1",
     "request": "^2.81.0",
     "request-promise-native": "^1.0.4",
     "sqlite3": "^3.1.8"
