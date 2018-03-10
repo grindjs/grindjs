@@ -18,7 +18,7 @@
   "devDependencies": {
     "babel-cli": ">=6.7 <=7.0",
     "babel-eslint": "^6.1.1",
-    "babel-preset-grind": "^0.7.0",
+    "babel-preset-grind": "^0.8.0-beta.1",
     "eslint": "^3.3.1",
     "eslint-config-grind": "^2.0.0",
     "eslint-plugin-import-auto-name": "^1.0.3"
@@ -28,10 +28,10 @@
     "grind-support": "^0.7.0"
   },
   "engines": {
-    "node": ">=6.9"
+    "node": ">=8.7"
   },
   "scripts": {
-    "prepublish": "./.build",
+    "prepublish": "bin/build",
     "lint": "eslint src"
   }
 }
