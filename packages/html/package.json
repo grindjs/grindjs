@@ -1,6 +1,6 @@
 {
   "name": "grind-html",
-  "version": "0.7.1",
+  "version": "0.8.0-beta.1",
   "description": "HTML/Form builders for Grind",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
@@ -40,7 +40,7 @@
     "node": ">=8.7"
   },
   "scripts": {
-    "prepublish": "bin/build",
+    "prepare": "bin/build",
     "lint": "eslint src test",
     "test": "bin/ava --verbose"
   },
