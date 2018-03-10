@@ -1,7 +1,5 @@
 import './Commands/HelpCommand'
 import './Commands/ListCommand'
-import './Commands/MakeCommandCommand'
-import './Commands/MakeControllerCommand'
 import './Commands/ScheduleRunCommand'
 import './Commands/ServeCommand'
 import './Commands/TinkerCommand'
@@ -24,8 +22,6 @@ export class Cli {
 		this.output = new Output(this)
 		this.scheduler = new Scheduler(this)
 
-		this.register(MakeCommandCommand)
-		this.register(MakeControllerCommand)
 		this.register(ScheduleRunCommand)
 		this.register(ServeCommand)
 		this.register(TinkerCommand)

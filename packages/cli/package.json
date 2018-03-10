@@ -40,6 +40,12 @@
     "lint": "eslint src",
     "test": "bin/ava --verbose"
   },
+  "grind": {
+    "commands": [
+      "./lib/Commands/MakeCommandCommand.js"
+    ],
+    "providers": []
+  },
   "ava": {
     "require": [
       "babel-register"

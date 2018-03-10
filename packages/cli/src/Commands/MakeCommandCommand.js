@@ -1,7 +1,6 @@
 import '../Command'
 import '../Input/InputArgument'
 import '../Input/InputOption'
-import '../StubCompiler'
 import '../Errors/AbortError'
 
 const path = require('path')
@@ -24,7 +23,7 @@ export class MakeCommandCommand extends Command {
 		)
 	]
 
-	run() {
+	async run() {
 		let name = this.argument('name')
 		let command = null
 
@@ -46,13 +45,11 @@ export class MakeCommandCommand extends Command {
 			throw new AbortError('A class name must be provided if `--command` isn’t used.')
 		}
 
-		const filePath = this.app.paths.app('Commands', `${name}.js`)
-		return StubCompiler(path.join(__dirname, 'stubs', 'Command.stub'), filePath, {
-			StubName: name,
-			StubCommand: command
-		}).then(() => {
-			this.success(`Created ${path.relative(process.cwd(), filePath)}`)
-		})
+		const filePath = this.app.paths.project(`app/Commands/${name}.js`)
+
+		await this.app.stubs.generate('grind-cli::command', filePath, { name, command })
+
+		return this.success(`Created ${path.relative(this.app.paths.project(), filePath)}`)
 	}
 
 }
