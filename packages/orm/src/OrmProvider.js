@@ -10,8 +10,14 @@ export function OrmProvider(app) {
 	Model.QueryBuilder = QueryBuilder
 	Model.RelatedQueryBuilder = QueryBuilder
 
-	app.errorHandler.shouldntReport.push(ValidationError)
-	app.errorHandler.register(ValidationError, err => {
+	global.ValidationError = ValidationError
+
+	if(app.http.isNil) {
+		return
+	}
+
+	app.http.errorHandler.shouldntReport.push(ValidationError)
+	app.http.errorHandler.register(ValidationError, err => {
 		const violators = Object.keys(err.data || { })
 		return {
 			code: err.statusCode || 400,
@@ -19,8 +25,6 @@ export function OrmProvider(app) {
 			violations: err.data
 		}
 	})
-
-	global.ValidationError = ValidationError
 }
 
 OrmProvider.priority = 40000
