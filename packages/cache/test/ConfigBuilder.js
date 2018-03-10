@@ -14,30 +14,30 @@ test('redis', t => {
 	const config = ConfigBuilder('redis', new Grind, true)
 
 	t.is(config.store, 'cache-manager-redis')
-	t.is(config.options.host, 'localhost')
-	t.is(config.options.port, 6379)
-	t.is(config.options.auth_pass, void 0)
-	t.is(config.options.ttl, 86400)
+	t.is(config.host, 'localhost')
+	t.is(config.port, 6379)
+	t.is(config.auth_pass, void 0)
+	t.is(config.ttl, 86400)
 })
 
 test('redis-default', t => {
 	const config = ConfigBuilder('redis-default', new Grind, true)
 
 	t.is(config.store, 'cache-manager-redis')
-	t.is(config.options.host, 'test')
-	t.is(config.options.port, 6379)
-	t.is(config.options.auth_pass, void 0)
-	t.is(config.options.ttl, 86400)
+	t.is(config.host, 'test')
+	t.is(config.port, 6379)
+	t.is(config.auth_pass, void 0)
+	t.is(config.ttl, 86400)
 })
 
 test('redis-auth', t => {
 	const config = ConfigBuilder('redis-auth', new Grind, true)
 
 	t.is(config.store, 'cache-manager-redis')
-	t.is(config.options.host, 'localhost')
-	t.is(config.options.auth_pass, 'test')
-	t.is(config.options.password, void 0)
-	t.is(config.options.ttl, 86400)
+	t.is(config.host, 'localhost')
+	t.is(config.auth_pass, 'test')
+	t.is(config.password, void 0)
+	t.is(config.ttl, 86400)
 })
 
 test('database', t => {
