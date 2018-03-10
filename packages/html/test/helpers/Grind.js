@@ -2,28 +2,26 @@ import 'babel-polyfill'
 import path from 'path'
 
 import {
-	default as BaseGrind,
+	Application,
 	Paths as BasePaths
 } from 'grind-framework'
 
+import { HttpKernel } from 'grind-http'
 import { ViewProvider } from 'grind-view'
 
 class Paths extends BasePaths {
 
-	constructor(bootstrapper) {
-		super(bootstrapper)
-
-		this._base = path.join(__dirname, '../fixtures')
-		this._config = path.join(this._base, 'config')
+	constructor() {
+		super(path.join(__dirname, '../fixtures'))
 	}
 
 }
 
-export class Grind extends BaseGrind {
+export class Grind extends Application {
 
 	constructor(parameters = { }) {
 		parameters.pathsClass = Paths
-		super(parameters)
+		super(HttpKernel, parameters)
 
 		this.providers.add(ViewProvider)
 	}
