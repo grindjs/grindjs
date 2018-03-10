@@ -1,5 +1,5 @@
 import './Cli'
-import './CliProvider'
+import './CliKernel'
 
 import './Command'
 
@@ -22,11 +22,9 @@ import './Output/OutputFormatterStyle'
 
 import './Runner'
 
-import './StubCompiler'
-
 export {
 	Cli,
-	CliProvider,
+	CliKernel,
 
 	Command,
 
@@ -47,7 +45,5 @@ export {
 	OutputFormatter,
 	OutputFormatterStyle,
 
-	Runner,
-
-	StubCompiler
+	Runner
 }

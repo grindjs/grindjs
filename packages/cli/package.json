@@ -1,6 +1,6 @@
 {
   "name": "grind-cli",
-  "version": "0.7.0",
+  "version": "0.8.0-beta.0",
   "description": "CLI provider for Grind",
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
@@ -12,6 +12,7 @@
   "keywords": [
     "grindjs",
     "grind-framework",
+    "grind-kernel",
     "cli"
   ],
   "dependencies": {
@@ -30,7 +31,7 @@
     "grind-framework": "^0.7.0"
   },
   "peerDependencies": {
-    "grind-framework": "^0.7.0"
+    "grind-framework": "0.8.0-beta.1"
   },
   "engines": {
     "node": ">=8.7"

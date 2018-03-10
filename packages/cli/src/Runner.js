@@ -2,25 +2,18 @@ const path = require('path')
 
 export class Runner {
 
-	bootstrapper = null
 	app = null
+	bootstrapper = null
 
 	constructor(bootstrapper) {
 		this.bootstrapper = bootstrapper
 	}
 
-	async boot() {
+	run() {
 		const app = this.bootstrapper()
-		await app.boot()
-
-		app.cli.runner = this
 		this.app = app
 
-		return app
-	}
-
-	run() {
-		return this.boot().then(app => app.cli.run())
+		return app.start()
 	}
 
 	async watch(command, option, restartHandler) {

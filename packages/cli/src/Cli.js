@@ -1,9 +1,7 @@
 import './Commands/HelpCommand'
 import './Commands/ListCommand'
 import './Commands/ScheduleRunCommand'
-import './Commands/ServeCommand'
 import './Commands/TinkerCommand'
-import './Commands/WatchCommand'
 
 import './Errors/CommandNotFoundError'
 import './Input/Input'
@@ -23,9 +21,7 @@ export class Cli {
 		this.scheduler = new Scheduler(this)
 
 		this.register(ScheduleRunCommand)
-		this.register(ServeCommand)
 		this.register(TinkerCommand)
-		this.register(WatchCommand)
 	}
 
 	run(args = process.argv.slice(2)) {
