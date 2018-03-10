@@ -52,6 +52,9 @@
     "test": "bin/ava --verbose"
   },
   "grind": {
+    "commands": [
+      "./lib/Commands/MakeControllerCommand.js"
+    ],
     "providers": []
   },
   "ava": {

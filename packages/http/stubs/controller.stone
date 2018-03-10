@@ -1,0 +1,9 @@
+import { Controller } from 'grind-http'
+
+export class {{ name }} extends Controller {
+
+	index(req, res) {
+		res.send('Hello!')
+	}
+
+}
