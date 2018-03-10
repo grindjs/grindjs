@@ -30,7 +30,9 @@ export class ViewFactory extends EventEmitter {
 	}
 
 	async bootstrap() {
-		this.app.express.set('views', this.viewPath)
+		if(!this.app.express.isNil) {
+			this.app.express.set('views', this.viewPath)
+		}
 
 		await this.engine.bootstrap()
 
