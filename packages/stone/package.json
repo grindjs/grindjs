@@ -9,12 +9,14 @@
     "acorn": "^5.2.1",
     "acorn5-object-spread": "^4.0.0",
     "astring": "^1.2.0",
-    "chokidar": "^1.7.0",
     "he": "^1.1.1"
   },
   "peerDependencies": {
-    "grind-support": "^0.7.0",
-    "grind-view": "^0.7.1"
+    "grind-support": "^0.8.0-beta.1",
+    "grind-view": "^0.8.0-beta.1"
+  },
+  "optionalDependencies": {
+    "chokidar": "^1.7.0"
   },
   "devDependencies": {
     "ava": "^0.21.0",
@@ -24,9 +26,10 @@
     "eslint": "^3.19.0",
     "eslint-config-grind": "^2.0.4",
     "eslint-plugin-import-auto-name": "^1.0.3",
-    "grind-cli": "^0.7.0",
-    "grind-framework": "^0.7.0",
-    "grind-view": "^0.7.1",
+    "grind-cli": "^0.8.0-beta.1",
+    "grind-framework": "^0.8.0-beta.1",
+    "grind-http": "^0.8.0-beta.1",
+    "grind-view": "^0.8.0-beta.1",
     "recursive-readdir-sync": "^1.0.6"
   },
   "engines": {
