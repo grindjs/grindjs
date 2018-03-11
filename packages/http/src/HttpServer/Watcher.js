@@ -1,4 +1,4 @@
-import '../Errors/MissingPackageError'
+import { MissingPackageError } from 'grind-framework'
 
 const chalk = require('chalk')
 const express = require('express/lib/express.js')
