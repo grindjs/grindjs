@@ -1,6 +1,6 @@
 {
   "name": "grind-core-frontend",
-  "version": "0.8.0-beta.1",
+  "version": "0.8.0-beta.2",
   "description": "Bundle package to provide frontend Grind dependencies",
   "main": "index.js",
   "repository": {
@@ -18,7 +18,7 @@
     "express-flash": "^0.0.2",
     "express-session": "^1.15.3",
     "grind-assets": "^0.8.0-beta.2",
-    "grind-core": "^0.8.0-beta.1",
+    "grind-core": "^0.8.0-beta.2",
     "grind-html": "^0.8.0-beta.1",
     "grind-stone": "^0.8.0-beta.5",
     "grind-view": "^0.8.0-beta.1",
