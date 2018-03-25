@@ -1,6 +1,6 @@
 {
   "name": "grind-core",
-  "version": "0.8.0-beta.1",
+  "version": "0.8.0-beta.2",
   "description": "Proxy package to provide core Grind dependencies",
   "repository": {
     "type": "git",
@@ -16,6 +16,6 @@
     "grind-cache": "^0.8.0-beta.1",
     "grind-cli": "^0.8.0-beta.1",
     "grind-framework": "^0.8.0-beta.1",
-    "grind-http": "^0.8.0-beta.1"
+    "grind-http": "^0.8.0-beta.2"
   }
 }
