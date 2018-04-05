@@ -1,32 +1,12 @@
-import './BaseDriver'
-import { MissingPackageError } from 'grind-framework'
-const url = require('url')
-
-let amqp = null
-
-/**
- * Loads the amqplib package or throws an error
- * if it hasn‘t been added
- */
-function loadPackage() {
-	if(!amqp.isNil) {
-		return
-	}
-
-	try {
-		amqp = require('amqplib')
-	} catch(err) {
-		throw new MissingPackageError('amqplib')
-	}
-}
+import './BaseConnectionDriver'
+import '../Connections/RabbitConnection'
 
 /**
  * RabbitMQ backed Queue Driver
  */
-export class RabbitDriver extends BaseDriver {
-	connection = null
-	channel = null
-	config = null
+export class RabbitDriver extends BaseConnectionDriver {
+
+	connectionClass = RabbitConnection
 
 	constructor(app, {
 		host = 'localhost',
@@ -39,8 +19,6 @@ export class RabbitDriver extends BaseDriver {
 	} = { }) {
 		super(app, options)
 
-		loadPackage()
-
 		this.config = {
 			protocol: 'amqp',
 			hostname: host,
@@ -50,11 +28,6 @@ export class RabbitDriver extends BaseDriver {
 			vhost: virtual_host || virtualHost || '/',
 			...options
 		}
-	}
-
-	async connect() {
-		this.connection = await amqp.connect(this.config)
-		this.channel = await this.connection.createConfirmChannel()
 	}
 
 	async dispatch(job) {
@@ -77,26 +50,26 @@ export class RabbitDriver extends BaseDriver {
 			options.headers['x-delay'] = payload.delay
 		}
 
-		await this.channel.assertQueue(payload.queue)
-		await this.channel.sendToQueue(payload.queue, new Buffer(JSON.stringify(payload)), options)
-		return this.channel.waitForConfirms()
+		const channel = await this.channel()
+		await channel.assertQueue(payload.queue)
+		await channel.sendToQueue(payload.queue, new Buffer(JSON.stringify(payload)), options)
+		return channel.waitForConfirms()
 	}
 
 	async listen(queues, concurrency, jobHandler, errorHandler) {
-		await this.channel.prefetch(concurrency, queues.length > 1)
+		const channel = await this.channel()
+
+		await channel.prefetch(concurrency, queues.length > 1)
 
 		for(const queue of queues) {
-			await this.channel.assertQueue(queue)
+			await channel.assertQueue(queue)
 		}
 
 		const receiver = this._receiveMessage.bind(this, jobHandler, errorHandler)
-		await Promise.all(queues.map(queue => this.channel.consume(queue, receiver)))
+		await Promise.all(queues.map(queue => channel.consume(queue, receiver)))
 
 		return new Promise((resolve, reject) => {
-			this.channel.on('close', resolve)
-			this.channel.on('error', reject)
-			this.connection.on('error', reject)
-			this.connection.on('close', reject)
+			this.connection.on('connection:fatal', reject)
 		})
 	}
 
@@ -112,7 +85,7 @@ export class RabbitDriver extends BaseDriver {
 				await errorHandler(payload, err)
 			}
 		} finally {
-			this.channel.ack(msg)
+			await this.channel().then(channel => channel.ack(msg))
 		}
 	}
 
@@ -149,15 +122,16 @@ export class RabbitDriver extends BaseDriver {
 			options.timestamp = Date.now()
 		}
 
-		return this.channel.publish(msg.fields.exchange, msg.fields.routingKey, msg.content, options)
+		return this.channel().then(channel => channel.publish(
+			msg.fields.exchange,
+			msg.fields.routingKey,
+			msg.content,
+			options
+		))
 	}
 
-	async destroy() {
-		await this.channel.close()
-		this.channel = null
-
-		await this.connection.close()
-		this.connection = null
+	channel() {
+		return this.connection.channel()
 	}
 
 }

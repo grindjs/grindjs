@@ -58,3 +58,28 @@ test('multi dispatch', t => {
 
 	return Listener(t.context.driver, () => ++count < 4).then(() => t.is(count, 4))
 })
+
+test('connection error - reconnect', async t => {
+	const payload = { time: Date.now() }
+	const job = new TestJob({ ...payload })
+
+	await service.forceKill()
+	setTimeout(() => service.start(), 500)
+	await t.context.driver.dispatch(job)
+
+	return Listener(t.context.driver, job => t.deepEqual(job.data.data, payload))
+})
+
+test('connection error - fatal', async t => {
+	const payload = { time: Date.now() }
+	const job = new TestJob({ ...payload })
+
+	await service.forceKill()
+
+	try {
+		await t.context.driver.dispatch(job)
+		t.fail('Should not have dispatched.')
+	} catch(err) {
+		t.is(err.message, 'Unable to reconnect.')
+	}
+})

@@ -1,5 +1,6 @@
 const { promisify } = require('util')
 const execFile = promisify(require('child_process').execFile)
+const chalk = require('chalk')
 
 export class Service {
 
@@ -22,7 +23,7 @@ export class Service {
 	}
 
 	async start() {
-		Log.comment(`${this.service} starting`)
+		this.log(`${this.service} starting`)
 		const { image, port: { host, container } } = this.config
 
 		// Clean up old containers
@@ -38,7 +39,7 @@ export class Service {
 		)
 
 		// Wait for the container to become avaiable
-		Log.comment(`${this.service} waiting`)
+		this.log(`${this.service} waiting`)
 		await this.exec(
 			'run',
 			'--rm',
@@ -47,13 +48,18 @@ export class Service {
 			'dadarek/wait-for-dependencies',
 			`${this.service}:${container}`
 		)
-		Log.comment(`${this.service} started`)
+		this.log(`${this.service} started`)
 	}
 
 	async stop() {
-		Log.comment(`${this.service} stopping`)
+		this.log(`${this.service} stopping`)
 		await this.exec('stop', this._container).catch(() => { })
 		await this.exec('rm', this._container).catch(() => { })
+	}
+
+	forceKill() {
+		this.log(`${this.service} force killing`)
+		return this.exec('exec', this._container, 'bash', '-c', 'kill -9 -1').catch(() => { })
 	}
 
 	get _container() {
@@ -62,6 +68,10 @@ export class Service {
 
 	get _containerWait() {
 		return `grind-wait-for-${this.service}`
+	}
+
+	log(msg, ...args) {
+		Log.info(chalk.gray(msg), ...args)
 	}
 
 	exec(...args) {
