@@ -22,7 +22,7 @@ export class BaseDriver {
 	 * @return Promise Promise that resolves when connected
 	 */
 	connect() {
-		return Promise.reject('Abstract method, subclasses must implement.')
+		return Promise.reject(new Error('Abstract method, subclasses must implement.'))
 	}
 
 	/**
@@ -32,7 +32,7 @@ export class BaseDriver {
 	 * @return Promise    Promise that resolves to the dispatched job id
 	 */
 	dispatch(/* job */) {
-		return Promise.reject('Abstract method, subclasses must implement.')
+		return Promise.reject(new Error('Abstract method, subclasses must implement.'))
 	}
 
 	/**
@@ -57,7 +57,7 @@ export class BaseDriver {
 	 *                               if the queue listens forever
 	 */
 	listen(/* queues, concurrency, jobHandler, errorHandler */) {
-		return Promise.reject('Abstract method, subclasses must implement.')
+		return Promise.reject(new Error('Abstract method, subclasses must implement.'))
 	}
 
 	/**
@@ -67,7 +67,7 @@ export class BaseDriver {
 	 * @return Promise<string> Status of the job
 	 */
 	status(/* jobId */) {
-		return Promise.reject('Abstract method, subclasses must implement.')
+		return Promise.reject(new Error('Abstract method, subclasses must implement.'))
 	}
 
 	/**
