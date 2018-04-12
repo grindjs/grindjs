@@ -110,7 +110,7 @@ export class BaseConnection extends EventEmitter {
 	destroy() {
 		this.destroyed = true
 		this.emit('connection:fatal', new Error('Connection destroyed.'))
-		this.close()
+		return Promise.resolve(this.close())
 	}
 
 }
