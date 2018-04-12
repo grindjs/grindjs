@@ -64,14 +64,18 @@ export class RabbitConnection extends BaseConnection {
 	}
 
 	close() {
-		if(!this._channel.isNil) {
-			this._channel.close().catch(err => Log.error('Error closing channel', err))
-			this._channel = null
-		}
+		try {
+			if(!this._channel.isNil) {
+				Promise.resolve(this._channel.close()).catch(err => Log.error('Error closing channel', err))
+				this._channel = null
+			}
 
-		if(this._connection.isNil) {
-			this._connection.close().catch(err => Log.error('Error closing connection', err))
-			this._connection = null
+			if(this._connection.isNil) {
+				Promise.resolve(this._connection.close()).catch(err => Log.error('Error closing connection', err))
+				this._connection = null
+			}
+		} catch(err) {
+			Log.error('Error closing rabbit', err)
 		}
 
 		this.emit('close')
