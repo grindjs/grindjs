@@ -75,6 +75,32 @@ export class StoneRuntime {
 		return output
 	}
 
+	stackRender(context, name) {
+		if(context.$stacks.isNil) {
+			return ''
+		}
+
+		const stack = context.$stacks[name]
+
+		if(stack.isNil) {
+			return ''
+		}
+
+		delete context.$stacks
+
+		return stack.join('')
+	}
+
+	stackPush(context, stack, value) {
+		context.$stacks = context.$stacks || { }
+		{ (context.$stacks[stack] = context.$stacks[stack] || [ ]).push(value) }
+	}
+
+	stackPrepend(context, stack, value) {
+		context.$stacks = context.$stacks || { }
+		{ (context.$stacks[stack] = context.$stacks[stack] || [ ]).unshift(value) }
+	}
+
 	get compiler() {
 		return this.engine.compiler
 	}

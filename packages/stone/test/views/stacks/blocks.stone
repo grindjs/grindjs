@@ -1,0 +1,5 @@
+@push('stack', 'hello')
+@push('stack')
+	<strong>Block</strong>
+@endpush
+@stack('stack')

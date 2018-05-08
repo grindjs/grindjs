@@ -1,0 +1,4 @@
+@prepend('stack', 'a')
+@prepend('stack', 'b')
+@prepend('stack', 'c')
+@stack('stack')

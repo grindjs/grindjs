@@ -1,0 +1,4 @@
+@push('stack', 'a')
+@push('stack', 'b')
+@push('stack', 'c')
+@stack('stack')

@@ -96,6 +96,7 @@ for(const [ name, func ] of Object.entries({
 	...require('./Compiler/Loops'),
 	...require('./Compiler/Macros'),
 	...require('./Compiler/Outputs'),
+	...require('./Compiler/Stacks'),
 })) {
 	Compiler.prototype[name] = func
 }
