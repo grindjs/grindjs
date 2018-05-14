@@ -1,0 +1,18 @@
+@hasstack('stack')
+	@stack('stack')
+@else
+	This stack does not exist.
+@endhasstack
+
+@unlesshasstack('stack2')
+	@push('stack2', 'Grind Framework')
+@endunlesshasstack
+
+@stack('stack2')
+@push('stack3', 'Grind')
+
+@unlesshasstack('stack3')
+	@push('stack3', 'Grind Framework')
+@endunlesshasstack
+
+@stack('stack3')
