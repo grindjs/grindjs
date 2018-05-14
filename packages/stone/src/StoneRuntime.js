@@ -101,6 +101,15 @@ export class StoneRuntime {
 		{ (context.$stacks[stack] = context.$stacks[stack] || [ ]).unshift(value) }
 	}
 
+	stackExists(context, stack) {
+		if(context.$stacks.isNil) {
+			return false
+		}
+
+		const values = context.$stacks[stack]
+		return Array.isArray(values) && values.length > 0
+	}
+
 	get compiler() {
 		return this.engine.compiler
 	}

@@ -6,6 +6,24 @@ export function compileStack(context, name) {
 	return `output += _.$stone.stackRender(_, ${name})`
 }
 
+export function compileHasstack(context, name) {
+	context.validateSyntax(name)
+	return `if(_.$stone.stackExists(_, ${name})) {`
+}
+
+export function compileUnlesshasstack(context, name) {
+	context.validateSyntax(name)
+	return `if(!_.$stone.stackExists(_, ${name})) {`
+}
+
+export function compileEndhasstack(context) {
+	return this.compileEnd(context)
+}
+
+export function compileEndunlesshasstack(context) {
+	return this.compileEnd(context)
+}
+
 export function _compileStackOperation(context, operation, args) {
 	const compile = `_compile${operation[0].toUpperCase()}${operation.substring(1)}`
 	args = context.parseArguments(args)
