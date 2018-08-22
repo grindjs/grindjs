@@ -155,7 +155,7 @@ export class Command {
 		// If the input options length isn’t the same as the
 		// defined option length, iterate through and make sure
 		// all the required options are satisfied
-		if(this.compiledValues.options.length !== options.length) {
+		if(Object.keys(this.compiledValues.options).length !== Object.keys(options).length) {
 			for(const option of Object.values(options)) {
 				if(option.mode === InputOption.VALUE_NONE) {
 					continue
