@@ -70,7 +70,7 @@ export class RabbitConnection extends BaseConnection {
 				this._channel = null
 			}
 
-			if(this._connection.isNil) {
+			if(!this._connection.isNil) {
 				Promise.resolve(this._connection.close()).catch(err => Log.error('Error closing connection', err))
 				this._connection = null
 			}
