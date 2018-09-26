@@ -80,7 +80,7 @@ export class Command {
 		return Promise.resolve()
 	}
 
-	execute(input) {
+	_prepare(input) {
 		this.compiledValues.arguments = { }
 		this.compiledValues.options = { }
 
@@ -174,6 +174,10 @@ export class Command {
 				this.compiledValues.options[option.name] = option
 			}
 		}
+	}
+
+	execute(input) {
+		this._prepare(input)
 
 		return this.ready().then(() => this.run())
 	}
