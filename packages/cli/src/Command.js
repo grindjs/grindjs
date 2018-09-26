@@ -59,7 +59,7 @@ export class Command {
 	}
 
 	containsArgument(name) {
-		const value = this.compiledValues.arguments[name]
+		const { value } = this.compiledValues.arguments[name] || { }
 		return !value.isNil
 	}
 
@@ -68,7 +68,7 @@ export class Command {
 	}
 
 	containsOption(name) {
-		const value = this.compiledValues.options[name]
+		const { value } = this.compiledValues.options[name] || { }
 		return !value.isNil
 	}
 
@@ -118,14 +118,16 @@ export class Command {
 		// all the required arguments are satisfied
 		if(this.compiledValues.arguments.length !== arguments.length) {
 			for(const argument of args) {
-				if(argument.mode !== InputArgument.VALUE_REQUIRED) {
+				const arg = this.compiledValues.arguments[argument.name]
+
+				if(!arg.isNil) {
 					continue
 				}
 
-				const arg = this.compiledValues.arguments[argument.name]
-
-				if(arg.isNil) {
+				if(argument.mode === InputArgument.VALUE_REQUIRED) {
 					throw new MissingArgumentError(argument.name)
+				} else if(!argument.value.isNil) {
+					this.compiledValues.arguments[argument.name] = argument
 				}
 			}
 		}
