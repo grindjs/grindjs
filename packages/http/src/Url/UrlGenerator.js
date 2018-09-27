@@ -145,7 +145,7 @@ export class UrlGenerator {
 		url.protocol = this.getProtocol(req, secure)
 		url.host = this.getHost(req)
 
-		return URL.format(url)
+		return this.format(req, url)
 	}
 
 	/**
@@ -190,6 +190,10 @@ export class UrlGenerator {
 		}
 
 		return req.get('Host')
+	}
+
+	format(req, url) {
+		return URL.format(url)
 	}
 
 }
