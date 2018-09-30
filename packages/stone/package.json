@@ -19,10 +19,13 @@
     "chokidar": "^1.7.0"
   },
   "devDependencies": {
-    "ava": "^0.21.0",
-    "babel-cli": ">=6.7 <=7.0",
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "ava": "^1.0.0-beta.8",
     "babel-eslint": "^7.1.1",
-    "babel-preset-grind": "^0.8.0-beta.1",
+    "babel-preset-grind": "^0.8.0-beta.3",
     "eslint": "^3.19.0",
     "eslint-config-grind": "^2.0.4",
     "eslint-plugin-import-auto-name": "^1.0.3",
@@ -42,8 +45,8 @@
   },
   "ava": {
     "require": [
-      "babel-register"
-    ],
-    "babel": "inherit"
+      "@babel/register",
+      "@babel/polyfill"
+    ]
   }
 }
