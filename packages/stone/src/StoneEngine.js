@@ -103,23 +103,28 @@ export class StoneEngine extends ViewEngine {
 		this.compiler.directives[name] = extension
 	}
 
-	tag(name, template = null) {
+	tag(name, template = null, namespace = null) {
 		if(template.isNil) {
 			if(name.endsWith('.*')) {
 				const base = name.substring(0, name.length - 2)
+				const pathname = path.join(this.view.viewPath, base.replace(/\./g, '/'))
 
 				// eslint-disable-next-line no-sync
-				const templates = fs.readdirSync(path.join(this.view.viewPath, base.replace(/\./g, '/')))
+				const templates = fs.readdirSync(pathname)
 
 				for(const template of templates) {
 					const extname = path.extname(template)
 					const name = path.basename(template, extname)
 
-					if(extname !== '.stone') {
-						continue
+					if(extname === '.stone') {
+						this.tag(`${base}.${name}`, null, namespace)
+					} else if(
+						// eslint-disable-next-line no-sync
+						fs.lstatSync(path.join(pathname, template)).isDirectory()
+					) {
+						const templateNamespace = namespace.isNil ? template : `${namespace}:${template}`
+						this.tag(`${base}.${template}.*`, null, templateNamespace)
 					}
-
-					this.tag(`${base}.${name}`)
 				}
 
 				return
@@ -127,6 +132,10 @@ export class StoneEngine extends ViewEngine {
 
 			template = name
 			name = template.split(/\./).pop().replace(/^_/g, '')
+		}
+
+		if(!namespace.isNil) {
+			name = `${namespace}:${name}`
 		}
 
 		this.compiler.tags[name] = template
