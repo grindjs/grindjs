@@ -1,6 +1,6 @@
 import './PostProcessor'
 
-import { FS } from 'grind-support'
+import { FS, merge } from 'grind-support'
 import { MissingPackageError } from 'grind-framework'
 
 const optional = require('optional')
@@ -10,15 +10,18 @@ export class JavascriptMinifyPostProcessor extends PostProcessor {
 
 	supportedExtensions = [ 'js' ]
 	options = { }
-	uglify = null
+	uglify
+	uglifyPackage
+	hasCheckedUglifyVersion = false
 
 	constructor(app, shouldOptimize, sourceMaps) {
 		super(app, shouldOptimize, sourceMaps)
 
 		this.options = { ...app.config.get('assets.post_processors.js.minify', { }) }
-		this.uglify = optional(this.options.package || 'uglify-js')
+		this.uglifyPackage = this.options.package || 'uglify-js'
 		delete this.options.package
 
+		this.uglify = optional(this.uglifyPackage)
 
 		if(typeof this.options.enabled === 'boolean') {
 			this.shouldOptimize = this.options.enabled
@@ -31,8 +34,19 @@ export class JavascriptMinifyPostProcessor extends PostProcessor {
 		}
 
 		if(this.uglify.isNil) {
-			Log.error((new MissingPackageError('uglify-es', 'dev')).message, 'Unable to minify.')
+			Log.error((new MissingPackageError(this.uglifyPackage, 'dev')).message, 'Unable to minify.')
 			return Promise.resolve(contents)
+		}
+
+		if(!this.hasCheckedUglifyVersion) {
+			const [ version ] = require(`${this.uglifyPackage}/package.json`).version.split(/\./)
+
+			if(version < 3) {
+				Log.error((new MissingPackageError(`${this.uglifyPackage}@>=3`, 'dev')).message, `Unable to minify, the version of ${this.uglifyPackage} installed is too old.`)
+				return Promise.resolve(contents)
+			}
+
+			this.hasCheckedUglifyVersion = true
 		}
 
 		const useSourceMap = this.sourceMaps === 'auto'
@@ -47,42 +61,23 @@ export class JavascriptMinifyPostProcessor extends PostProcessor {
 		}
 
 		return new Promise((resolve, reject) => {
-			let result = null
 			const targetPathMap = `${targetPath}.map`
+			let result = null
 
 			try {
-				const options = Object.assign({ }, this.options, {
-					fromString: true,
-					inSourceMap: sourceMap,
+				const options = merge(this.options, {
+					sourceMap: {
+						content: sourceMap
+					}
 				})
 
-				if(useSourceMap) {
-					if(inlineSourceMap) {
-						options.sourceMapInline = true
-					} else {
-						options.outSourceMap = true
-					}
+				if(useSourceMap && inlineSourceMap) {
+					options.sourceMap.url = 'inline'
 				}
 
 				result = this.uglify.minify(contents.toString(), options)
 
-				if(!result.error.isNil && result.error.message.indexOf('fromString') >= 0) {
-					// Uglify 3.x
-					delete options.fromString
-					delete options.inSourceMap
-					options.sourceMap = {
-						content: sourceMap
-					}
-
-					if(options.sourceMapInline) {
-						options.sourceMap.url = 'inline'
-					}
-
-					delete options.sourceMapInline
-					delete options.outSourceMap
-
-					result = this.uglify.minify(contents.toString(), options)
-				} else if(!result.error.isNil) {
+				if(!result.error.isNil) {
 					throw result.error
 				}
 			} catch(err) {
