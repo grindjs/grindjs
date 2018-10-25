@@ -44,7 +44,7 @@ function watch(app) {
 function inject(app) {
 	const script = '/_livereload.js'
 
-	if(global._assetsUsePrepackagedLiveReload) {
+	if(global._assetsUsePrepackagedLiveReload !== false) {
 		app.routes.static(script, path.join(__dirname, '../../../dist/livereload.min.js'))
 	} else {
 		app.routes.get(script, (req, res) => {
