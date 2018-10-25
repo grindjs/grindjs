@@ -1,9 +1,8 @@
 import './PostProcessor'
+import '../Support/optional'
 
 import { FS, merge } from 'grind-support'
-import { MissingPackageError } from 'grind-framework'
 
-const optional = require('optional')
 const INLINE_SOURCE_MAP_REGEX = /\/\/[@#]\s+sourceMappingURL=data:application\/json(?:;charset[:=][^;]+)?;base64,(.*)\n/
 
 export class JavascriptMinifyPostProcessor extends PostProcessor {
@@ -11,17 +10,13 @@ export class JavascriptMinifyPostProcessor extends PostProcessor {
 	supportedExtensions = [ 'js' ]
 	options = { }
 	uglify
-	uglifyPackage
-	hasCheckedUglifyVersion = false
 
 	constructor(app, shouldOptimize, sourceMaps) {
 		super(app, shouldOptimize, sourceMaps)
 
 		this.options = { ...app.config.get('assets.post_processors.js.minify', { }) }
-		this.uglifyPackage = this.options.package || 'uglify-js'
+		this.uglify = optional(this.options.package || 'uglify-js', '>=3.0.0')
 		delete this.options.package
-
-		this.uglify = optional(this.uglifyPackage)
 
 		if(typeof this.options.enabled === 'boolean') {
 			this.shouldOptimize = this.options.enabled
@@ -33,20 +28,8 @@ export class JavascriptMinifyPostProcessor extends PostProcessor {
 			return Promise.resolve(contents)
 		}
 
-		if(this.uglify.isNil) {
-			Log.error((new MissingPackageError(this.uglifyPackage, 'dev')).message, 'Unable to minify.')
+		if(!this.uglify.resolve()) {
 			return Promise.resolve(contents)
-		}
-
-		if(!this.hasCheckedUglifyVersion) {
-			const [ version ] = require(`${this.uglifyPackage}/package.json`).version.split(/\./)
-
-			if(version < 3) {
-				Log.error((new MissingPackageError(`${this.uglifyPackage}@>=3`, 'dev')).message, `Unable to minify, the version of ${this.uglifyPackage} installed is too old.`)
-				return Promise.resolve(contents)
-			}
-
-			this.hasCheckedUglifyVersion = true
 		}
 
 		const useSourceMap = this.sourceMaps === 'auto'
@@ -75,7 +58,7 @@ export class JavascriptMinifyPostProcessor extends PostProcessor {
 					options.sourceMap.url = 'inline'
 				}
 
-				result = this.uglify.minify(contents.toString(), options)
+				result = this.uglify.pkg.minify(contents.toString(), options)
 
 				if(!result.error.isNil) {
 					throw result.error

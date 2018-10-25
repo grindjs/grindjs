@@ -1,10 +1,8 @@
 import './Stage'
-import { MissingPackageError } from 'grind-framework'
+import '../../Support/optional'
 
-const optional = require('optional')
-
-const rollup = optional('rollup')
-const rollupBabel = optional('rollup-plugin-babel')
+const rollup = optional('rollup', '>=0.66.0')
+const rollupBabel = optional('rollup-plugin-babel', '>=4.0.0')
 
 export class RollupStage extends Stage {
 
@@ -23,20 +21,20 @@ export class RollupStage extends Stage {
 	}
 
 	async compile(pathname, stream = null) {
-		if(rollup.isNil) {
-			throw new MissingPackageError('rollup', 'dev')
-		} else if(this.handleBabel && rollupBabel.isNil) {
-			throw new MissingPackageError('rollup-plugin-babel', 'dev')
+		rollup.assert()
+
+		if(this.handleBabel) {
+			rollupBabel.assert()
 		}
 
 		if(!stream.isNil) {
 			throw new Error('Preprocessed stream not supported')
 		}
 
-		const bundle = await rollup.rollup({
+		const bundle = await rollup.pkg.rollup({
 			...this.options,
 			input: pathname,
-			plugins: this.handleBabel ? [ rollupBabel(this.babel) ] : [ ]
+			plugins: this.handleBabel ? [ rollupBabel.pkg(this.babel) ] : [ ]
 		})
 
 		const { code, map } = await bundle.generate({

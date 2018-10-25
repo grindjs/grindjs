@@ -1,11 +1,10 @@
 import './Compiler'
+import '../Support/optional'
 
-import { MissingPackageError } from 'grind-framework'
 import { FS } from 'grind-support'
 
 const path = require('path')
-const optional = require('optional')
-const sass = optional('node-sass')
+const sass = optional('node-sass', '>=4.9.0')
 
 export class ScssCompiler extends Compiler {
 
@@ -26,14 +25,12 @@ export class ScssCompiler extends Compiler {
 	}
 
 	async compile(pathname, context) {
-		if(sass.isNil) {
-			return Promise.reject(new MissingPackageError('node-sass', 'dev'))
-		}
+		sass.assert()
 
 		const imports = await this.getLiveReloadImports(pathname)
 
 		return new Promise((resolve, reject) => {
-			sass.render(Object.assign({ }, this.options, {
+			sass.pkg.render(Object.assign({ }, this.options, {
 				file: pathname,
 				outputStyle: context || 'nested'
 			}), (err, result) => {

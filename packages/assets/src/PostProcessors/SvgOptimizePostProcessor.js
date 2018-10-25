@@ -1,9 +1,9 @@
 import './PostProcessor'
+import '../Support/optional'
 
 import { MissingPackageError } from 'grind-framework'
 
-const optional = require('optional')
-const SVGO = optional('svgo')
+const SVGO = optional('svgo', '>=1.1.0')
 
 export class SvgOptimizePostProcessor extends PostProcessor {
 
@@ -25,12 +25,11 @@ export class SvgOptimizePostProcessor extends PostProcessor {
 			return Promise.resolve(contents)
 		}
 
-		if(SVGO.isNil) {
-			Log.error((new MissingPackageError('svgo', 'dev')).message, 'Unable to minify.')
+		if(!SVGO.resolve()) {
 			return Promise.resolve(contents)
 		}
 
-		return (new SVGO(this.options)).optimize(contents).then(result => {
+		return (new SVGO.pkg(this.options)).optimize(contents).then(result => {
 			if(result.isNil) {
 				const error = new Error('Unknown error optimizing SVG')
 				error.file = sourcePath

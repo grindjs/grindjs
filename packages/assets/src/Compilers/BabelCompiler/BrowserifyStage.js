@@ -1,11 +1,10 @@
 import './Stage'
-import { MissingPackageError } from 'grind-framework'
+import '../../Support/optional'
 
 const path = require('path')
-const optional = require('optional')
 
-const Browserify = optional('browserify')
-const Babelify = optional('babelify')
+const Browserify = optional('browserify', '>=16.2.0')
+const Babelify = optional('babelify', '>=10.0.0')
 
 export class BrowserifyStage extends Stage {
 
@@ -24,15 +23,13 @@ export class BrowserifyStage extends Stage {
 	}
 
 	compile(pathname, stream = null) {
-		if(Browserify.isNil) {
-			return Promise.reject(new MissingPackageError('browserify', 'dev'))
-		}
+		Browserify.assert()
 
 		if(this.handleBabel && Babelify.isNil) {
-			return Promise.reject(new MissingPackageError('babelify', 'dev'))
+			Babelify.assert()
 		}
 
-		const browserify = Browserify({
+		const browserify = Browserify.pkg({
 			...this.options,
 			basedir: path.dirname(pathname)
 		})
