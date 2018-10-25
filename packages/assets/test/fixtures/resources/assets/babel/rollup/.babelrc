@@ -1,9 +1,10 @@
 {
-	"presets": [
-		[
-			"es2015", {
-				"modules": false
-			}
-		]
+	"plugins": [
+		[ "@babel/plugin-proposal-object-rest-spread", { "useBuiltIns": true } ],
+		"@babel/plugin-transform-classes",
+		"@babel/plugin-proposal-class-properties",
+		"@babel/plugin-transform-block-scoping",
+		"@babel/plugin-transform-template-literals",
+		"@babel/plugin-transform-arrow-functions"
 	]
 }

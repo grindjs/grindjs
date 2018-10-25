@@ -1,5 +1,4 @@
 /* eslint-disable max-len */
-
 import test from 'ava'
 import './helpers/Grind'
 
@@ -30,10 +29,45 @@ test('scss', async t => {
 test('babel', async t => {
 	let js = await compile(BabelCompiler, 'babel/test.js')
 
-	// Strip linebreaks to avoid needing to include a multiline string
-	js = js.toString().trim().replace(/\s*\n\s*/g, ';').replace(/;+/g, ';')
+	js = js.toString()
 
-	t.is(js, '(function(){function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module \'"+o+"\'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s}return e})()({1:[function(require,module,exports){;\'use strict\';Object.defineProperty(exports, "__esModule", {;value: true;});var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };/* global document */;var Test = exports.Test = function () {;function Test() {;_classCallCheck(this, Test);};_createClass(Test, [{;key: \'test\',;value: function test() {;return document.body.getElementById(\'test\');};}]);return Test;}();},{}]},{},[1]);')
+	t.is(js.trim(), `
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Test = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/* global document */
+var Test =
+/*#__PURE__*/
+function () {
+  function Test() {
+    _classCallCheck(this, Test);
+  }
+
+  _createClass(Test, [{
+    key: "test",
+    value: function test() {
+      return document.body.getElementById('test');
+    }
+  }]);
+
+  return Test;
+}();
+
+exports.Test = Test;
+
+},{}]},{},[1]);
+`.trim())
 })
 
 test('rollup', async t => {
@@ -42,18 +76,38 @@ test('rollup', async t => {
 		app.config.set('assets.compilers.babel.browserify.enabled', false)
 	})
 
-	t.is(js, '\'use strict\';\n\nvar testing = true;\n\nvar i = Object.freeze({\n\ttesting: testing\n});\n\nconsole.log(\'testing\', i);\n')
+	t.is(js.toString().trim(), `
+'use strict';
+
+var testing = true;
+
+var i = /*#__PURE__*/Object.freeze({
+	testing: testing
+});
+
+console.log('testing', i);
+`.trim())
 })
 
 test('rollup+browserify', async t => {
-	let js = await compile(BabelCompiler, 'babel/rollup/main.js', app => {
+	const js = await compile(BabelCompiler, 'babel/rollup/main.js', app => {
 		app.config.set('assets.compilers.babel.rollup.enabled', true)
 	})
 
-	// Strip linebreaks to avoid needing to include a multiline string
-	js = js.toString().trim().replace(/\s*\n\s*/g, ';').replace(/;+/g, ';')
+	t.is(js.toString().trim(), `
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+'use strict';
 
-	t.is(js, '(function(){function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module \'"+o+"\'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s}return e})()({1:[function(require,module,exports){;\'use strict\';var testing = true;var i = Object.freeze({;testing: testing;});console.log(\'testing\', i);},{}]},{},[1]);')
+var testing = true;
+
+var i = /*#__PURE__*/Object.freeze({
+	testing: testing
+});
+
+console.log('testing', i);
+
+},{}]},{},[1]);
+`.trim())
 })
 
 test('raw', async t => {

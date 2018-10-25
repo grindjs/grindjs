@@ -1,15 +1,11 @@
 {
-	"presets": [
-		[
-			"es2015",
-			{
-				"modules": false
-			}
-		]
-	],
 	"plugins": [
-		"babel-plugin-transform-isnil",
-		"babel-plugin-import-auto-name",
-		"transform-object-rest-spread"
+		[ "@babel/plugin-proposal-object-rest-spread", { "useBuiltIns": true } ],
+		"@babel/plugin-proposal-class-properties",
+		"@babel/plugin-transform-block-scoping",
+		"@babel/plugin-transform-template-literals",
+		"@babel/plugin-transform-arrow-functions",
+		"@shnhrrsn/babel-plugin-transform-isnil",
+		"babel-plugin-import-auto-name"
 	]
 }

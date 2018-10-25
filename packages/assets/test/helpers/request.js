@@ -1,4 +1,3 @@
-import 'babel-polyfill'
 import './Grind'
 
 import { HttpServer } from 'grind-http'

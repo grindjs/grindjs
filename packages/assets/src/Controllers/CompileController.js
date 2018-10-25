@@ -131,7 +131,7 @@ export class CompileController {
 			res.header('Content-Type', 'text/plain')
 
 			const body = this._buildErrorString(err)
-			Log.error('Asset compilation error', body)
+			Log.error('Asset compilation error', body, err)
 			res.send(`/*\n${body}\n*/`)
 		})
 	}

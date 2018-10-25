@@ -1,12 +1,11 @@
-import 'babel-polyfill'
-import path from 'path'
-
 import {
 	Application,
 	Paths as BasePaths
 } from 'grind-framework'
 
 import { HttpKernel } from 'grind-http'
+
+const path = require('path')
 
 class Paths extends BasePaths {
 
