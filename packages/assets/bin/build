@@ -4,7 +4,7 @@ set -eo pipefail
 rm -fr lib dist && mkdir -p lib dist
 
 echo "Building"
-BABEL_TARGET_VERSION=8.9 babel -s inline -d lib/ src/ --copy-files
+BABEL_TARGET_VERSION=10.13 babel -s inline -d lib/ src/ --copy-files
 
 echo "Building LiveReload Client"
 rollup -c src/LiveReload/Client/.rolluprc.js

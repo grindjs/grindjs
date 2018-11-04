@@ -57,7 +57,7 @@
     "grind-framework": "^0.8.0-beta.1"
   },
   "engines": {
-    "node": ">=8.9"
+    "node": ">=10.13"
   },
   "scripts": {
     "prepare": "bin/build",
