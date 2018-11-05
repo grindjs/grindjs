@@ -49,5 +49,31 @@
       "babel-register"
     ],
     "babel": "inherit"
+  },
+  "babel": {
+    "presets": [
+      [
+        "grind",
+        {
+          "import-auto-name": {
+            "autoresolve": true
+          }
+        }
+      ]
+    ]
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "plugins": [
+      "import-auto-name"
+    ],
+    "env": {
+      "es6": true,
+      "node": true
+    },
+    "extends": "grind",
+    "parserOptions": {
+      "sourceType": "module"
+    }
   }
 }
