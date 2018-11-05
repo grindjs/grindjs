@@ -21,13 +21,15 @@
     "later": "^1.2.0"
   },
   "devDependencies": {
-    "ava": "^0.21.0",
-    "babel-cli": ">=6.7 <=7.0",
-    "babel-eslint": "^6.0.5",
-    "babel-preset-grind": "^0.8.0-beta.1",
-    "eslint": "^3.19.0",
-    "eslint-config-grind": "^2.0.4",
-    "eslint-plugin-import-auto-name": "^1.0.3",
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/register": "^7.0.0",
+    "ava": "^1.0.0-rc.1",
+    "babel-eslint": "^10.0.1",
+    "babel-preset-grind": "^0.8.0-beta.3",
+    "eslint": "^5.8.0",
+    "eslint-config-grind": "^2.1.5",
+    "eslint-plugin-import-auto-name": "^1.1.0",
     "grind-framework": "^0.8.0-beta.1"
   },
   "peerDependencies": {
@@ -49,9 +51,8 @@
   },
   "ava": {
     "require": [
-      "babel-register"
-    ],
-    "babel": "inherit"
+      "@babel/register"
+    ]
   },
   "babel": {
     "presets": [

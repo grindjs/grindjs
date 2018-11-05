@@ -6,7 +6,7 @@ import '../src/Input/Input'
 import '../src/Input/InputOption'
 import '../src/Input/InputArgument'
 
-test.test('arguments:required', t => {
+test('arguments:required', t => {
 	const command = new Command
 	command.arguments = [
 		new InputArgument('arg', InputArgument.VALUE_REQUIRED),
@@ -24,7 +24,7 @@ test.test('arguments:required', t => {
 	t.is(command.argument('arg'), 'value')
 })
 
-test.test('arguments:optional', t => {
+test('arguments:optional', t => {
 	const command = new Command
 	command.arguments = [
 		new InputArgument('arg', InputArgument.VALUE_OPTIONAL),
@@ -38,7 +38,7 @@ test.test('arguments:optional', t => {
 	t.is(command.argument('arg'), 'value')
 })
 
-test.test('arguments:default', t => {
+test('arguments:default', t => {
 	const command = new Command
 	command.arguments = [
 		new InputArgument('arg', InputArgument.VALUE_OPTIONAL, null, 'def')
@@ -51,7 +51,7 @@ test.test('arguments:default', t => {
 	t.is(command.argument('arg'), 'value')
 })
 
-test.test('arguments:fallback', t => {
+test('arguments:fallback', t => {
 	const command = new Command
 	command.arguments = [
 		new InputArgument('arg', InputArgument.VALUE_OPTIONAL)
@@ -66,7 +66,7 @@ test.test('arguments:fallback', t => {
 	t.is(command.argument('arg', 'fall'), 'value')
 })
 
-test.test('options:optional', t => {
+test('options:optional', t => {
 	const command = new Command
 	command.options = [
 		new InputOption('opt', InputOption.VALUE_OPTIONAL),
@@ -79,7 +79,7 @@ test.test('options:optional', t => {
 	t.true(command.containsOption('opt'))
 })
 
-test.test('options:default', t => {
+test('options:default', t => {
 	const command = new Command
 	command.options = [
 		new InputOption('opt', InputOption.VALUE_OPTIONAL, null, 5)
@@ -92,7 +92,7 @@ test.test('options:default', t => {
 	t.is(command.option('opt'), '10')
 })
 
-test.test('options:fallback', t => {
+test('options:fallback', t => {
 	const command = new Command
 	command.options = [
 		new InputOption('opt', InputOption.VALUE_OPTIONAL)
@@ -107,7 +107,7 @@ test.test('options:fallback', t => {
 	t.is(command.option('opt', 5), '10')
 })
 
-test.test('options:flag', t => {
+test('options:flag', t => {
 	const command = new Command
 	command.options = [
 		new InputOption('opt', InputOption.VALUE_NONE)
