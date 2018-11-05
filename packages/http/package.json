@@ -17,7 +17,7 @@
     "http"
   ],
   "dependencies": {
-    "body-parser": "^1.17.2",
+    "body-parser": "^1.18.3",
     "express": "^4.14.1"
   },
   "peerDependencies": {
@@ -30,21 +30,21 @@
     "ava": "^1.0.0-rc.1",
     "babel-eslint": "^10.0.1",
     "babel-preset-grind": "^0.8.0-beta.3",
-    "chokidar": "^1.7.0",
-    "compression": "^1.6.2",
+    "chokidar": "^2.0.4",
+    "compression": "^1.7.3",
     "cookie-parser": "^1.4.3",
     "eslint": "^5.8.0",
     "eslint-config-grind": "^2.1.5",
     "eslint-plugin-import-auto-name": "^1.1.0",
     "express-flash": "^0.0.2",
-    "express-session": "^1.15.3",
+    "express-session": "^1.15.6",
     "flash": "^1.1.0",
     "grind-cli": "^0.8.0-beta.1",
     "grind-db": "^0.8.0-beta.1",
     "grind-framework": "^0.8.0-beta.1",
-    "request": "^2.81.0",
-    "request-promise-native": "^1.0.4",
-    "sqlite3": "^3.1.8"
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.5",
+    "sqlite3": "^4.0.3"
   },
   "engines": {
     "node": ">=8.7"
