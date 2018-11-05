@@ -33,16 +33,16 @@ export class Model extends ObjectionModel {
 		return this.constructor.app()
 	}
 
-	static findById(id) {
-		return this.query().findById(id)
+	static findById(id, trx = null) {
+		return this.query(trx).findById(id)
 	}
 
-	static findByIdOrFail(id) {
-		return this.findById(id).orFail()
+	static findByIdOrFail(id, trx = null) {
+		return this.findById(id, trx).orFail()
 	}
 
-	static findByRouteParameter(value) {
-		return this.findById(value)
+	static findByRouteParameter(value, trx = null) {
+		return this.findById(value, trx)
 	}
 
 	static routeBind(name, description) {
@@ -137,16 +137,16 @@ export class Model extends ObjectionModel {
 		}
 	}
 
-	$sync(relation, ids) {
-		return (new RelationSynchronizer(this, relation)).sync(ids)
+	$sync(relation, ids, trx = null) {
+		return (new RelationSynchronizer(this, relation)).sync(ids, trx)
 	}
 
-	$relate(relation, ids) {
-		return (new RelationSynchronizer(this, relation)).relate(ids)
+	$relate(relation, ids, trx = null) {
+		return (new RelationSynchronizer(this, relation)).relate(ids, trx)
 	}
 
-	$unrelate(relation, ids) {
-		return (new RelationSynchronizer(this, relation)).unrelate(ids)
+	$unrelate(relation, ids, trx = null) {
+		return (new RelationSynchronizer(this, relation)).unrelate(ids, trx)
 	}
 
 	$parseDatabaseJson(json) {

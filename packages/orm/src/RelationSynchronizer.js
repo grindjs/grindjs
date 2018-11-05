@@ -24,51 +24,51 @@ export class RelationSynchronizer {
 		}
 	}
 
-	sync(ids) {
-		return this._relate(ids, true)
+	sync(ids, trx = null) {
+		return this._relate(ids, true, trx)
 	}
 
-	relate(ids) {
-		return this._relate(ids, false)
+	relate(ids, trx = null) {
+		return this._relate(ids, false, trx)
 	}
 
-	_relate(ids, replace) {
+	_relate(ids, replace, trx = null) {
 		ids = this._parseIds(ids)
 
-		return this.relatedClass.query().whereIn(this.relatedColumn, ids).then(related => {
+		return this.relatedClass.query(trx).whereIn(this.relatedColumn, ids).then(related => {
 			if(related.isNil || related.length !== ids.length) {
 				const plural = ids.length !== 1 ? 's' : ''
 				throw new BadRequestError(`Invalid id${plural}`)
 			}
 		})
-		.then(() => this.model.$relatedQuery(this.relation.name))
+		.then(() => this.model.$relatedQuery(this.relation.name, trx))
 		.then(models => models.map(model => model.id))
 		.then(existing => {
 			const additional = ids.filter(id => existing.indexOf(id) === -1)
-			const promises = [ this._relateIds(additional) ]
+			const promises = [ this._relateIds(additional, trx) ]
 
 			if(replace) {
 				promises.push(this._unrelateIds(
 					existing.filter(id => ids.indexOf(id) === -1)
-				))
+				), trx)
 			}
 
 			return Promise.all(promises)
 		})
 	}
 
-	unrelate(ids) {
-		return this._unrelateIds(this._parseIds(ids))
+	unrelate(ids, trx = null) {
+		return this._unrelateIds(this._parseIds(ids), trx)
 	}
 
-	_relateIds(ids) {
+	_relateIds(ids, trx = null) {
 		return Promise.all(ids.map(id =>
-			this.model.$relatedQuery(this.relation.name).relate(id)
+			this.model.$relatedQuery(this.relation.name, trx).relate(id)
 		))
 	}
 
-	_unrelateIds(ids) {
-		return this.model.$relatedQuery(this.relation.name).unrelate()
+	_unrelateIds(ids, trx = null) {
+		return this.model.$relatedQuery(this.relation.name, trx).unrelate()
 		.whereIn(`${this.relatedClass.tableName}.${this.relatedColumn}`, ids)
 	}
 
