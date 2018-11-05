@@ -39,7 +39,7 @@
     "sqlite3": "^4.0.3"
   },
   "engines": {
-    "node": ">=8.7"
+    "node": ">=10.13"
   },
   "scripts": {
     "lint": "eslint src test",
