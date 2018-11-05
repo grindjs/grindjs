@@ -1,4 +1,3 @@
-import 'babel-polyfill'
 import rp from 'request-promise-native'
 
 import './Application'

@@ -36,67 +36,67 @@ function makeStore() {
 	})).then(() => new DatabaseStore({ connection: db }))
 }
 
-test('initial clear', function*(t) {
-	const store = yield makeStore()
+test('initial clear', async t => {
+	const store = await makeStore()
 
-	t.is(yield store.clear(), 1)
-	t.is(yield store.length(), 0)
+	t.is(await store.clear(), 1)
+	t.is(await store.length(), 0)
 })
 
-test('set then clear', function*(t) {
-	const store = yield makeStore()
+test('set then clear', async t => {
+	const store = await makeStore()
 
-	yield store.set('1092348234', {
+	await store.set('1092348234', {
 		name: 'InsertThenClear',
 		cookie: {
 			maxAge: 1000
 		}
 	})
 
-	t.is(yield store.clear(), 2)
-	t.is(yield store.length(), 0)
+	t.is(await store.clear(), 2)
+	t.is(await store.length(), 0)
 })
 
-test('double clear', function*(t) {
-	const store = yield makeStore()
+test('double clear', async t => {
+	const store = await makeStore()
 
-	yield store.clear()
-	t.is(yield store.clear(), 0)
-	t.is(yield store.length(), 0)
+	await store.clear()
+	t.is(await store.clear(), 0)
+	t.is(await store.length(), 0)
 })
 
-test('destroy', function*(t) {
-	const store = yield makeStore()
+test('destroy', async t => {
+	const store = await makeStore()
 
-	yield store.set('555666777', {
+	await store.set('555666777', {
 		name: 'Rob Dobilina',
 		cookie: {
 			maxAge: 1000
 		}
 	})
-	t.is(yield store.length(), 2)
-	t.is(yield store.destroy('555666777'), 1)
+	t.is(await store.length(), 2)
+	t.is(await store.destroy('555666777'), 1)
 
-	t.is(yield store.length(), 1)
+	t.is(await store.length(), 1)
 })
 
-test('set', function*(t) {
-	const store = yield makeStore()
+test('set', async t => {
+	const store = await makeStore()
 
-	yield store.set('1111222233334444', {
+	await store.set('1111222233334444', {
 		name: 'sample name',
 		cookie: {
 			maxAge: 20000
 		}
 	})
 
-	t.is(yield store.length(), 1)
+	t.is(await store.length(), 1)
 })
 
-test('retrieve', function*(t) {
-	const store = yield makeStore()
+test('retrieve', async t => {
+	const store = await makeStore()
 
-	t.deepEqual(yield store.get('1111222233334444'), {
+	t.deepEqual(await store.get('1111222233334444'), {
 		name: 'sample name',
 		cookie: {
 			maxAge: 20000
@@ -104,30 +104,30 @@ test('retrieve', function*(t) {
 	})
 })
 
-test('unknown session', function*(t) {
-	const store = yield makeStore()
+test('unknown session', async t => {
+	const store = await makeStore()
 
-	t.is(yield store.get('hope-and-change'), null)
+	t.is(await store.get('hope-and-change'), null)
 })
 
-test('only one session should exist', function*(t) {
-	const store = yield makeStore()
+test('only one session should exist', async t => {
+	const store = await makeStore()
 
-	t.is(yield store.length(), 1)
+	t.is(await store.length(), 1)
 })
 
-test('touch', function*(t) {
-	const store = yield makeStore()
+test('touch', async t => {
+	const store = await makeStore()
 
-	yield store.clear()
-	yield store.set('11112222333344445555', {
+	await store.clear()
+	await store.set('11112222333344445555', {
 		name: 'sample name',
 		cookie: {
 			maxAge: 20000
 		}
 	})
 
-	yield store.touch('11112222333344445555', {
+	await store.touch('11112222333344445555', {
 		name: 'sample name',
 		cookie: {
 			maxAge: 20000,
@@ -135,28 +135,28 @@ test('touch', function*(t) {
 		}
 	})
 
-	t.is(yield store.length(), 1)
+	t.is(await store.length(), 1)
 })
 
-test('clear expired sessions', function*(t) {
-	const store = yield makeStore()
+test('clear expired sessions', async t => {
+	const store = await makeStore()
 
-	yield store.set('11112222333344445555', {
+	await store.set('11112222333344445555', {
 		name: 'sample name',
 		cookie: {
 			expires: new Date(Date.now() - 3600000)
 		}
 	})
 
-	t.is(yield store.length(), 2)
-	t.is(yield store.clearExpiredSessions(), 1)
-	t.is(yield store.length(), 1)
+	t.is(await store.length(), 2)
+	t.is(await store.clearExpiredSessions(), 1)
+	t.is(await store.length(), 1)
 })
 
-test('expired sessions at interval', function*(t) {
-	const store = yield makeStore()
+test('expired sessions at interval', async t => {
+	const store = await makeStore()
 
-	yield store.set('11112222333344445555', {
+	await store.set('11112222333344445555', {
 		name: 'sample name',
 		cookie: {
 			expires: new Date(Date.now() - 3600000)
@@ -165,9 +165,9 @@ test('expired sessions at interval', function*(t) {
 
 	store.setExpirationInterval(100)
 
-	t.is(yield store.length(), 2)
-	yield new Promise(resolve => setTimeout(resolve, 110))
-	t.is(yield store.length(), 1)
+	t.is(await store.length(), 2)
+	await new Promise(resolve => setTimeout(resolve, 110))
+	t.is(await store.length(), 1)
 
 	store.clearExpirationInterval()
 })

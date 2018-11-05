@@ -1,6 +1,7 @@
 const Layer = require('express/lib/router/layer.js')
 
 export class RouteLayer extends Layer {
+
 	_layer = null
 
 	constructor(route, layer, middleware, options) {
