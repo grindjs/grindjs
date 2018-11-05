@@ -1,5 +1,3 @@
-require('babel-polyfill')
-
 import './Grind'
 import { DatabaseProvider } from 'grind-db'
 import { OrmProvider } from '../../src'

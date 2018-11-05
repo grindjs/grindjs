@@ -1,3 +1,4 @@
+/* eslint max-lines: [ 'error', { max: 400 } ] */
 import { Model as ObjectionModel } from 'objection'
 
 import './Inflect'

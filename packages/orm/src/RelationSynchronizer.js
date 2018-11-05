@@ -69,7 +69,7 @@ export class RelationSynchronizer {
 
 	_unrelateIds(ids) {
 		return this.model.$relatedQuery(this.relation.name).unrelate()
-			.whereIn(`${this.relatedClass.tableName}.${this.relatedColumn}`, ids)
+		.whereIn(`${this.relatedClass.tableName}.${this.relatedColumn}`, ids)
 	}
 
 	_parseIds(ids) {
