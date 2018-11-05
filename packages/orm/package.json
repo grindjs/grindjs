@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "as-type": "^1.0.0",
-    "objection": "^1.0.0"
+    "objection": "^1.4.0"
   },
   "peerDependencies": {
     "grind-db": "^0.8.0-beta.1",
@@ -36,7 +36,7 @@
     "grind-cli": "^0.8.0-beta.1",
     "grind-db": "^0.8.0-beta.1",
     "grind-framework": "^0.8.0-beta.1",
-    "sqlite": "^2.8.0"
+    "sqlite3": "^4.0.3"
   },
   "engines": {
     "node": ">=8.7"
