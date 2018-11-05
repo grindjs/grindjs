@@ -47,10 +47,10 @@
     "sqlite3": "^4.0.3"
   },
   "engines": {
-    "node": ">=8.7"
+    "node": ">=10.13"
   },
   "scripts": {
-    "prepublish": "bin/build",
+    "prepack": "bin/build",
     "lint": "eslint src",
     "test": "bin/ava --verbose"
   },
