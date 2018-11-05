@@ -2,4 +2,4 @@
 
 rm -fr lib && mkdir -p lib/
 
-BABEL_TARGET_VERSION=8.7 babel -s inline -d lib/ src/ --copy-files
+BABEL_TARGET_VERSION=10.13 babel -s inline -d lib/ src/ --copy-files
