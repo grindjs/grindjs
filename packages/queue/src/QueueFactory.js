@@ -7,6 +7,7 @@ import './Drivers/FaktoryDriver'
 import './Drivers/RabbitDriver'
 
 export class QueueFactory {
+
 	app = null
 	connections = { }
 	jobs = { }

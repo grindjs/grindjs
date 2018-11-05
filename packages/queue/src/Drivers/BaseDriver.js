@@ -2,6 +2,7 @@
  * Base class all drivers must extend
  */
 export class BaseDriver {
+
 	app = null
 	state = null
 	retryDelay = 90000

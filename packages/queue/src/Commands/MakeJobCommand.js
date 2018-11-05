@@ -4,6 +4,7 @@ import { Inflect } from 'grind-support'
 import Path from 'path'
 
 export class MakeJobCommand extends Command {
+
 	name = 'make:job'
 	description = 'Create a job class'
 

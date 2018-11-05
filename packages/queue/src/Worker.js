@@ -1,4 +1,5 @@
 export class Worker {
+
 	connection = null
 
 	constructor(connection) {

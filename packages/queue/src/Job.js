@@ -1,4 +1,5 @@
 export class Job {
+
 	static jobName = null
 
 	static queue = null

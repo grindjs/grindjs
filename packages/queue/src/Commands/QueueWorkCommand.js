@@ -2,6 +2,7 @@ import { Command, InputArgument, InputOption } from 'grind-cli'
 import '../Worker'
 
 export class QueueWorkCommand extends Command {
+
 	name = 'queue:work'
 	description = 'Process jobs in the queue'
 

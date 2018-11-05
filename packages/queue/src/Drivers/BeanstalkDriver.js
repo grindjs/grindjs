@@ -5,6 +5,7 @@ import '../Support/Beanstalk'
  * Beanstalkd backed Queue Driver
  */
 export class BeanstalkDriver extends BaseDriver {
+
 	client = null
 
 	constructor(app, config) {
