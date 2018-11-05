@@ -1,7 +1,8 @@
 import { Job } from 'grind-queue'
 
-export class StubName extends Job {
-	static jobName = 'StubType'
+export class {{ name }} extends Job {
+
+	static jobName = '{{ type }}'
 
 	constructor() {
 		super()

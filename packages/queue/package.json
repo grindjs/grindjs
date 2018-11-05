@@ -19,8 +19,8 @@
     "faktory"
   ],
   "peerDependencies": {
-    "grind-cli": "^0.7.0",
-    "grind-framework": "^0.7.1"
+    "grind-cli": "^0.8.0-beta.4",
+    "grind-framework": "^0.8.0-beta.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
@@ -35,8 +35,8 @@
     "eslint-plugin-import-auto-name": "^1.1.0",
     "faktory-worker": "^0.6.3",
     "fivebeans": "^1.5.0",
-    "grind-cli": "^0.7.0",
-    "grind-framework": "^0.7.1"
+    "grind-cli": "^0.8.0-beta.4",
+    "grind-framework": "^0.8.0-beta.1"
   },
   "engines": {
     "node": ">=10.13"
@@ -45,6 +45,9 @@
     "prepack": "bin/build",
     "lint": "eslint src",
     "test": "ava --verbose"
+  },
+  "grind": {
+    "command": "lib/Commands/MakeJobCommand.js"
   },
   "ava": {
     "require": [

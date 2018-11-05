@@ -1,7 +1,7 @@
-import { AbortError, Command, InputArgument, InputOption, StubCompiler } from 'grind-cli'
+import { AbortError, Command, InputArgument, InputOption } from 'grind-cli'
 import { Inflect } from 'grind-support'
 
-import Path from 'path'
+const path = require('path')
 
 export class MakeJobCommand extends Command {
 
@@ -16,7 +16,7 @@ export class MakeJobCommand extends Command {
 		new InputOption('type', InputOption.VALUE_OPTIONAL, 'Name of the type of job to create')
 	]
 
-	run() {
+	async run() {
 		let name = this.argument('name', '').trim()
 		let type = this.option('type', '').trim()
 
@@ -46,13 +46,14 @@ export class MakeJobCommand extends Command {
 			name += 'Job'
 		}
 
-		const filePath = this.app.paths.app('Jobs', `${name}.js`)
-		return StubCompiler(Path.join(__dirname, 'stubs', 'Job.stub'), filePath, {
-			StubName: name,
-			StubType: type
-		}).then(() => {
-			this.success(`Created ${Path.relative(process.cwd(), filePath)}`)
+		const filePath = this.app.paths.project(`app/Jobs/${name}.js`)
+
+		await this.app.stubs.generate('grind-queue::job', filePath, {
+			name,
+			type,
 		})
+
+		return this.success(`Created ${path.relative(this.app.paths.project(), filePath)}`)
 	}
 
 }
