@@ -144,7 +144,7 @@ export class PublishCommand extends BaseCommand {
 		await FS.mkdirp(path.dirname(file))
 
 		if(!(contents instanceof Buffer)) {
-			contents = new Buffer(contents)
+			contents = Buffer.from(contents)
 		}
 
 		contents = await this.postProcess(asset, file, contents)
@@ -182,7 +182,7 @@ export class PublishCommand extends BaseCommand {
 			contents = await postProcessor.process(asset.path, file, contents)
 
 			if(!(contents instanceof Buffer)) {
-				contents = new Buffer(contents)
+				contents = Buffer.from(contents)
 			}
 		}
 

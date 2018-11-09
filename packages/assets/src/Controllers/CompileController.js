@@ -59,7 +59,7 @@ export class CompileController {
 
 			let result = await asset.compile().then(result => {
 				if(!(result instanceof Buffer)) {
-					return new Buffer(result)
+					return Buffer.from(result)
 				}
 
 				return result
@@ -74,12 +74,12 @@ export class CompileController {
 					result = await postProcessor.process(asset.path, null, result)
 
 					if(!(result instanceof Buffer)) {
-						result = new Buffer(result)
+						result = Buffer.from(result)
 					}
 				}
 			}
 
-			return new Buffer(result)
+			return Buffer.from(result)
 		}
 
 		let promise = null

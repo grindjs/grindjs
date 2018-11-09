@@ -38,7 +38,7 @@ export class JavascriptMinifyPostProcessor extends PostProcessor {
 
 		if(useSourceMap) {
 			contents = contents.toString().replace(INLINE_SOURCE_MAP_REGEX, (_, map) => {
-				sourceMap = JSON.parse((new Buffer(map, 'base64')).toString())
+				sourceMap = JSON.parse((Buffer.from(map, 'base64')).toString())
 				return ''
 			})
 		}
