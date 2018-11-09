@@ -13,7 +13,7 @@ export class RawCompiler extends Compiler {
 	constructor(app, ...args) {
 		super(app, ...args)
 
-		this.assets = app.paths.base('resources/assets')
+		this.assets = app.paths.base(app.config.get('assets.paths.source'))
 		this.extensions = app.config.get('assets.compilers.raw.extensions')
 
 		for(const directory of app.config.get('assets.compilers.raw.directories', [ ])) {

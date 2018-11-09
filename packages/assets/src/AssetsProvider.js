@@ -69,6 +69,12 @@ export function AssetsProvider(app, parameters = { }) {
 	config = expandMacros(config, macros)
 	app.config.set('assets', config)
 
+	const publishPath = app.paths.base(app.config.get('assets.paths.publish'), '/')
+
+	if(!publishPath.startsWith(app.paths.public('/'))) {
+		throw new Error('`assets.paths.publish` must be contained within the public path.')
+	}
+
 	const shouldOptimize = typeof config.should_optimize === 'boolean' ? config.should_optimize : !app.debug
 	const liveReload = config.live_reload === true
 	const sourceMaps = config.source_maps === 'auto' ? 'auto' : false

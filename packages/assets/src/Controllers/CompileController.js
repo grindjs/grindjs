@@ -11,13 +11,13 @@ export class CompileController {
 	app = null
 	factory = null
 	local = null
-	resources = null
+	sourcePath = null
 
 	constructor(app, factory) {
 		this.app = app
 		this.factory = factory
 		this.local = app.env() === 'local'
-		this.resources = app.paths.base('resources')
+		this.sourcePath = app.paths.base(app.config.get('assets.paths.source'))
 
 		if(app.cache.isNil) {
 			Log.error('WARNING: grind-cache not detected, assets will be recompiled every time they’re loaded.')
@@ -29,7 +29,7 @@ export class CompileController {
 			throw new NotFoundError()
 		}
 
-		const pathname = path.join(this.resources, req.path)
+		const pathname = path.join(this.sourcePath, path.relative('/assets', req.path))
 		const exists = await FS.exists(pathname)
 
 		if(!exists) {

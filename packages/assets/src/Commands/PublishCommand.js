@@ -12,9 +12,6 @@ export class PublishCommand extends BaseCommand {
 	name = 'assets:publish'
 	description = 'Compies and publishes all assets'
 
-	resourcesPath = null
-	assetsPath = null
-	publishPath = null
 	assets = { }
 	oldAssets = { }
 	factory = null
@@ -25,16 +22,12 @@ export class PublishCommand extends BaseCommand {
 	]
 
 	ready() {
-		return super.ready().then(result => {
-			this.factory = this.app.assets
-			return result
-		})
+		this.factory = this.app.assets
+
+		return super.ready()
 	}
 
 	async run() {
-		this.resourcesPath = this.app.paths.base('resources')
-		this.assetsPath = path.join(this.resourcesPath, 'assets')
-		this.publishPath = this.app.paths.public()
 		this.oldAssets = await this.loadOldAssets()
 
 		if(this.oldAssets.isNil) {
@@ -44,6 +37,8 @@ export class PublishCommand extends BaseCommand {
 		if(this.containsOption('published-base-url')) {
 			this.publishedBaseUrl = this.option('published-base-url').replace(/\/$/g, '')
 			this.assets.__base_url = `${this.publishedBaseUrl}/`
+		} else {
+			this.publishedBaseUrl = path.relative(this.app.paths.public('/'), this.publishPath)
 		}
 
 		if(!this.oldAssets.__base_url.isNil) {
@@ -62,7 +57,7 @@ export class PublishCommand extends BaseCommand {
 	}
 
 	async compile() {
-		const assets = await this.findAssets(this.assetsPath)
+		const assets = await this.findAssets(this.sourcePath)
 
 		for(const asset of assets) {
 			let content = null
@@ -88,7 +83,7 @@ export class PublishCommand extends BaseCommand {
 				throw new Error(message)
 			}
 
-			let storePath = path.relative(this.assetsPath, asset.path)
+			let storePath = path.relative(this.sourcePath, asset.path)
 			storePath = path.join(asset.type, storePath.substr(storePath.indexOf('/')))
 
 			let name = path.basename(storePath, path.extname(storePath))
@@ -107,7 +102,7 @@ export class PublishCommand extends BaseCommand {
 	async findAssets(pathname) {
 		const files = await FS.recursiveReaddir(pathname)
 		const ignoreFiles = files.filter(file => path.basename(file) === '.assetsignore')
-		const ignoreRules = Ignore().add([ '**/_*', '**/.*' ])
+		const ignoreRules = Ignore().add([ '**/_*', '**/.*', path.join(path.relative(this.sourcePath, this.publishPath), '/') ])
 
 		for(const ignoreFile of ignoreFiles) {
 			const content = await FS.readFile(ignoreFile).then(content => content.toString())
@@ -161,7 +156,7 @@ export class PublishCommand extends BaseCommand {
 			await FS.touch(file, lastModified)
 		}
 
-		const src = path.relative(this.resourcesPath, asset.path)
+		const src = path.relative(this.sourcePath, asset.path)
 		const dest = path.relative(this.publishPath, file)
 
 		if(this.publishedBaseUrl !== null) {

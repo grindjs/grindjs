@@ -11,6 +11,23 @@
 	"should_optimize": null,
 
 	/**
+		Configure the path locations for assets to use
+	 */
+	"paths": {
+
+		/**
+			Where assets should look for assets to compile
+		 */
+		"source": "resources/assets",
+
+		/**
+			Where assets should publish compiled assets to
+		 */
+		"publish": "public"
+
+	},
+
+	/**
 		Whether or not the browser should update when local assets
 		are changed.  Do not use in production.
 	*/
