@@ -100,8 +100,7 @@
 
 			"rollup": {
 				"enabled": false,
-				"babel": { },
-				"output": { },
+				"output": { }
 			}
 
 		}
