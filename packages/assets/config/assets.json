@@ -109,8 +109,8 @@
 				"roundingPrecision": 14
 			},
 
-			"autoprefix": {
-				"enabled": true
+			"postcss": {
+				"autoprefixer": true
 			}
 		},
 

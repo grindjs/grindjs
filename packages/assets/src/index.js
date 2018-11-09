@@ -9,8 +9,8 @@ export { ScssCompiler } from './Compilers/ScssCompiler.js'
 
 export { PostProcessor } from './PostProcessors/PostProcessor.js'
 export { JavascriptMinifyPostProcessor } from './PostProcessors/JavascriptMinifyPostProcessor.js'
-export { CssAutoprefixerPostProcessor } from './PostProcessors/CssAutoprefixerPostProcessor.js'
 export { CssMinifyPostProcessor } from './PostProcessors/CssMinifyPostProcessor.js'
+export { CssPostCssPostProcessor } from './PostProcessors/CssPostCssPostProcessor.js'
 export { SvgOptimizePostProcessor } from './PostProcessors/SvgOptimizePostProcessor.js'
 
 export { AssetContainer } from './View/AssetContainer.js'

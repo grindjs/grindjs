@@ -6,7 +6,7 @@ import './helpers/Grind'
 
 import {
 	CssMinifyPostProcessor,
-	CssAutoprefixerPostProcessor,
+	CssPostCssPostProcessor,
 	JavascriptMinifyPostProcessor,
 	SvgOptimizePostProcessor
 } from '../src'
@@ -22,7 +22,7 @@ async function make(processor, file, hook = () => { }) {
 		app,
 		file,
 		contents: (await FS.readFile(file)).toString(),
-		processor: new processor(app, app.config.get('assets.should_optimize'))
+		processor: new processor(app, app.config.get('assets.should_optimize'), app.config.get('assets.source_maps'))
 	}
 }
 
@@ -33,8 +33,8 @@ test('css-minify', async t => {
 	t.is(css.toString().trim(), 'body{margin:0;padding:0;background:#fff}strong{font-weight:900}')
 })
 
-test('css-autoprefix', async t => {
-	const { processor, file, contents } = await make(CssAutoprefixerPostProcessor, 'css/test-autoprefix.css')
+test('css-postcss', async t => {
+	const { processor, file, contents } = await make(CssPostCssPostProcessor, 'css/test-autoprefix.css')
 	const css = await processor.process(file, null, contents)
 
 	t.is(css.toString().trim(), 'div { -webkit-transform: scale(0.5, 0.5); transform: scale(0.5, 0.5); }')
