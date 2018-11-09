@@ -29,6 +29,12 @@ export class RollupStage extends Stage {
 
 			if(plugin === 'rollup-plugin-babel') {
 				this.plugins.push([ rollupBabel, config ])
+			} else if(plugin[0] === '~') {
+				const name = `Rollup${plugin[1].toUpperCase()}${plugin.substring(2)}Plugin`
+				this.plugins.push([ require(`../../Rollup/${name}`)[name], {
+					grind: app,
+					...(!config.isNil && typeof config === 'object' ? config : { })
+				} ])
 			} else {
 				this.plugins.push([ optional(plugin), config ])
 			}
