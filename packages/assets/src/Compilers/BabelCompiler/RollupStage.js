@@ -7,17 +7,32 @@ const rollupBabel = optional('rollup-plugin-babel', '>=4.0.0')
 export class RollupStage extends Stage {
 
 	static configName = 'rollup'
+	plugins = [ ]
 	options = null
-	babel = null
 	output = null
 
-	constructor(sourceMaps, { enabled = false, babel = { }, output = { }, ...options } = { }) {
+	constructor(sourceMaps, { enabled = false, output = { }, plugins = { }, ...options } = { }) {
 		super(sourceMaps)
 
 		this.options = options
-		this.babel = babel
 		this.output = output
 		this.enabled = enabled
+
+		if(plugins['rollup-plugin-babel'].isNil) {
+			plugins['rollup-plugin-babel'] = true
+		}
+
+		for(const [ plugin, config ] of Object.entries(plugins)) {
+			if(config === false) {
+				continue
+			}
+
+			if(plugin === 'rollup-plugin-babel') {
+				this.plugins.push([ rollupBabel, config ])
+			} else {
+				this.plugins.push([ optional(plugin), config ])
+			}
+		}
 	}
 
 	async compile(pathname, stream = null) {
@@ -31,20 +46,44 @@ export class RollupStage extends Stage {
 			throw new Error('Preprocessed stream not supported')
 		}
 
-		const bundle = await rollup.pkg.rollup({
-			...this.options,
-			input: pathname,
-			plugins: this.handleBabel ? [ rollupBabel.pkg(this.babel) ] : [ ]
-		})
+		const plugins = [ ]
 
-		const { code, map } = await bundle.generate({
-			format: 'cjs',
-			sourcemap: this.sourceMaps === 'auto',
-			...this.output
-		})
+		for(const [ plugin, config ] of this.plugins) {
+			if(plugin.name === 'rollup-plugin-babel' && !this.handleBabel) {
+				continue
+			}
 
-		const inlineMap = !map.isNil ? `\n//# sourceMappingURL=${map.toUrl()}\n` : null
-		return `${code}${inlineMap || ''}`
+			plugin.assert()
+
+			if(!config.isNil && typeof config === 'object') {
+				plugins.push(plugin.pkg(config))
+			} else {
+				plugins.push(plugin.pkg({ }))
+			}
+		}
+
+		try {
+			const bundle = await rollup.pkg.rollup({
+				...this.options,
+				input: pathname,
+				plugins
+			})
+
+			const { code, map } = await bundle.generate({
+				format: 'cjs',
+				sourcemap: this.sourceMaps === 'auto',
+				...this.output
+			})
+
+			const inlineMap = !map.isNil ? `\n//# sourceMappingURL=${map.toUrl()}\n` : null
+			return `${code}${inlineMap || ''}`
+		} catch(err) {
+			const loc = err.loc || { }
+			err.file = loc.file || pathname
+			err.line = loc.line
+			err.column = loc.column
+			throw err
+		}
 	}
 
 }
