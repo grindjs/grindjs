@@ -1,6 +1,12 @@
 {
 
 	/**
+		Specify a built in preset for assets to use.
+		Currently supported values are null and “react”
+	 */
+	"preset": null,
+
+	/**
 		Optimizations are turned on by default when app.debug is false
 		and turned off by default when it’s set to true.  To override
 		this, explicity set the value below to true or false.

@@ -55,7 +55,14 @@ function expandMacros(config, macros) {
 }
 
 export function AssetsProvider(app, parameters = { }) {
+	const preset = app.config.get('assets.preset')
+
+	if(!preset.isNil) {
+		app.config.loadDefault('assets', path.join(__dirname, `../config/presets/${preset}.json`))
+	}
+
 	app.config.loadDefault('assets', path.join(__dirname, '../config/assets.json'))
+
 	let config = Object.assign({ }, app.config.get('assets'))
 
 	const macros = [

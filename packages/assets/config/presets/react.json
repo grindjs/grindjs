@@ -1,0 +1,31 @@
+{
+
+	"paths": {
+
+		"source": "public",
+
+		"publish": "public/dist"
+
+	},
+
+	"top_level": true,
+
+	"compilers": {
+
+		"babel": {
+
+			"allow_vanilla_js": false,
+
+			"browserify": {
+				"enabled": false
+			},
+
+			"rollup": {
+				"enabled": true,
+			}
+
+		}
+
+	}
+
+}
