@@ -78,14 +78,19 @@
 		},
 
 		"babel": {
+
+			"allow_vanilla_js": true,
+
 			"browserify": {
 				"enabled": true
 			},
+
 			"rollup": {
 				"enabled": false,
 				"babel": { },
 				"output": { },
 			}
+
 		}
 
 	},
