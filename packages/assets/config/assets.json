@@ -28,6 +28,13 @@
 	},
 
 	/**
+		Whether or not assets will exist in the top level
+		If top level assets are turned on, direcotires like js,
+		css, and will not be used when publishing assets.
+	 */
+	"top_level": false,
+
+	/**
 		Whether or not the browser should update when local assets
 		are changed.  Do not use in production.
 	*/

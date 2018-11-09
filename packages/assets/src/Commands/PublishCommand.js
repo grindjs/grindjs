@@ -16,6 +16,7 @@ export class PublishCommand extends BaseCommand {
 	oldAssets = { }
 	factory = null
 	publishedBaseUrl = null
+	topLevel = false
 
 	options = [
 		new InputOption('published-base-url', InputOption.VALUE_OPTIONAL, 'Specify the base URL for published assets.'),
@@ -23,6 +24,7 @@ export class PublishCommand extends BaseCommand {
 
 	ready() {
 		this.factory = this.app.assets
+		this.topLevel = this.app.config.get('assets.top_level') === true
 
 		return super.ready()
 	}
@@ -84,7 +86,10 @@ export class PublishCommand extends BaseCommand {
 			}
 
 			let storePath = path.relative(this.sourcePath, asset.path)
-			storePath = path.join(asset.type, storePath.substr(storePath.indexOf('/')))
+
+			if(!this.topLevel) {
+				storePath = path.join(asset.type, storePath.substr(storePath.indexOf('/')))
+			}
 
 			let name = path.basename(storePath, path.extname(storePath))
 
