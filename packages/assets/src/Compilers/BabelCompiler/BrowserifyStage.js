@@ -11,8 +11,8 @@ export class BrowserifyStage extends Stage {
 	static configName = 'browserify'
 	options = null
 
-	constructor(sourceMaps, { enabled = true, ...options } = { }) {
-		super(sourceMaps)
+	constructor(app, sourceMaps, { enabled = true, ...options } = { }) {
+		super(app, sourceMaps)
 
 		this.browserifyOptions = {
 			debug: this.sourceMaps === 'auto',

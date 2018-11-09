@@ -11,8 +11,8 @@ export class RollupStage extends Stage {
 	options = null
 	output = null
 
-	constructor(sourceMaps, { enabled = false, output = { }, plugins = { }, ...options } = { }) {
-		super(sourceMaps)
+	constructor(app, sourceMaps, { enabled = false, output = { }, plugins = { }, ...options } = { }) {
+		super(app, sourceMaps)
 
 		this.options = options
 		this.output = output

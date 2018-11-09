@@ -29,7 +29,7 @@ export class BabelCompiler extends Compiler {
 		const stages = [ ]
 
 		for(const stage of this.constructor.stages) {
-			stages.push(new stage(this.sourceMaps, app.config.get(`assets.compilers.babel.${stage.configName}`, { })))
+			stages.push(new stage(app, this.sourceMaps, app.config.get(`assets.compilers.babel.${stage.configName}`, { })))
 		}
 
 		this.stages = stages.filter(({ enabled }) => enabled)
