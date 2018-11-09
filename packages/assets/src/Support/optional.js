@@ -6,6 +6,7 @@ const semver = require('semver')
 export function optional(pkgName, version = null) {
 	return {
 		pkg: null,
+		name: pkgName,
 		resolved: null,
 
 		assert() {
