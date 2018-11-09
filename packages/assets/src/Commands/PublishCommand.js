@@ -162,13 +162,13 @@ export class PublishCommand extends BaseCommand {
 		}
 
 		const src = path.relative(this.sourcePath, asset.path)
-		const dest = path.relative(this.publishPath, file)
+		let dest = path.relative(this.publishPath, file)
 
 		if(this.publishedBaseUrl !== null) {
-			this.assets[src] = `${this.publishedBaseUrl}/${dest}`
-		} else {
-			this.assets[src] = dest
+			dest = `${this.publishedBaseUrl}/${dest}`
 		}
+
+		this.assets[src] = dest
 
 		if(this.oldAssets[src] === dest) {
 			delete this.oldAssets[src]
