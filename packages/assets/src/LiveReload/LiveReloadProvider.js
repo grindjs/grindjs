@@ -18,21 +18,20 @@ export function LiveReloadProvider(app) {
 }
 
 function watch(app) {
-	const resources = app.paths.base('resources')
-	const assets = app.paths.base('resources/assets')
+	const assets = app.paths.base(app.config.get('assets.paths.source'))
 	app.assets.watcher = require('chokidar').watch(assets)
 
 	app.assets.watcher.on('ready', () => {
-		app.assets.watcher.on('all', (type, path) => {
+		app.assets.watcher.on('all', (type, asset) => {
 			try {
-				path = path.substring(resources.length)
+				asset = path.relative(assets, asset)
 
 				for(const client of app.assets.liveReload.clients) {
 					if(client.readyState !== ws.OPEN) {
 						continue
 					}
 
-					client.send(path)
+					client.send(asset)
 				}
 			} catch(err) {
 				Log.error('Error notifying clients', err)
