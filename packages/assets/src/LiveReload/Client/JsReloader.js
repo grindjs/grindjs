@@ -7,7 +7,7 @@ function reload(pathname) {
 		const script = scripts[i]
 		const src = origininize(script.src)
 
-		if(src !== pathname && this.findImports(script).indexOf(pathname) === -1) {
+		if(src.indexOf(pathname) === -1 && this.findImports(script).indexOf(pathname) === -1) {
 			continue
 		}
 

@@ -8,7 +8,7 @@ function reload(pathname) {
 		const stylesheet = stylesheets[i]
 		const href = origininize(stylesheet.href)
 
-		if(href !== pathname && this.findImports(stylesheet).indexOf(pathname) === -1) {
+		if(href.indexOf(pathname) === -1 && this.findImports(stylesheet).indexOf(pathname) === -1) {
 			continue
 		}
 
