@@ -1,5 +1,8 @@
 import './Compiler'
 
+import './BabelCompiler'
+import './ScssCompiler'
+
 import { FS } from 'grind-support'
 const path = require('path')
 
@@ -31,8 +34,22 @@ export class RawCompiler extends Compiler {
 		}
 	}
 
-	compile(pathname) {
-		return FS.readFile(pathname)
+	async compile(pathname) {
+		const result = await FS.readFile(pathname)
+
+		if(!this.liveReload) {
+			return result
+		}
+
+		const extname = path.extname(pathname).toLowerCase()
+
+		if(extname === '.css') {
+			return result.toString() + ScssCompiler.buildLiveReloadInjection(this.app, pathname)
+		} else if(extname === '.js') {
+			return result.toString() + BabelCompiler.buildLiveReloadInjection(this.app, pathname)
+		}
+
+		return result
 	}
 
 	supports(pathname) {

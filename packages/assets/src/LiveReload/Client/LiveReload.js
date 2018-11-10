@@ -1,5 +1,4 @@
 import { CssReloader } from './CssReloader'
-import { ScssReloader } from './ScssReloader'
 import { JsReloader } from './JsReloader'
 
 function LiveReload() {
@@ -13,11 +12,9 @@ function LiveReload() {
 	let socket = connect()
 
 	function onAssetChanged(pathname) {
-		if(/(scss|sass)$/i.test(pathname)) {
-			ScssReloader(pathname)
-		} else if(/css$/i.test(pathname)) {
+		if(/(css|sass|less|stylus|styl)$/i.test(pathname)) {
 			CssReloader(pathname)
-		} else if(/js$/i.test(pathname)) {
+		} else if(/(js|jsx)$/i.test(pathname)) {
 			JsReloader(pathname)
 		}
 	}

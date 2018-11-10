@@ -27,7 +27,7 @@ export class ScssCompiler extends Compiler {
 	async compile(pathname, context) {
 		sass.assert()
 
-		const imports = await this.getLiveReloadImports(pathname)
+		const liveReload = await this.getLiveReloadImports(pathname)
 
 		return new Promise((resolve, reject) => {
 			sass.pkg.render(Object.assign({ }, this.options, {
@@ -38,19 +38,14 @@ export class ScssCompiler extends Compiler {
 					return reject(err)
 				}
 
-				if(!this.liveReload || imports.length === 0) {
+				if(!this.liveReload) {
 					return resolve(result.css)
 				}
 
-				let css = result.css.toString()
-
-				if(imports.length > 0) {
-					css += '\n#__liveReloadImports{background-image:'
-					css += `url(${imports.join('),url(')})`
-					css += '}'
-				}
-
-				resolve(css)
+				return resolve(
+					result.css.toString()
+					+ this.constructor.buildLiveReloadInjection(this.app, pathname, liveReload)
+				)
 			})
 		})
 	}
@@ -104,6 +99,17 @@ export class ScssCompiler extends Compiler {
 				break
 			}
 		}
+	}
+
+	static buildLiveReloadInjection(app, pathname, files = [ ]) {
+		const relative = path.relative(app.paths.base(), pathname)
+		files.unshift(relative)
+
+		let css = '\n\n#__liveReloadModule {'
+		css += `content: ${JSON.stringify(JSON.stringify(files))};`
+		css += '}'
+
+		return css
 	}
 
 	mime() {

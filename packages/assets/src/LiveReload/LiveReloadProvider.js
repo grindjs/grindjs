@@ -18,13 +18,14 @@ export function LiveReloadProvider(app) {
 }
 
 function watch(app) {
-	const assets = app.paths.base(app.config.get('assets.paths.source'))
+	const base = app.paths.base()
+	const assets = path.join(base, app.config.get('assets.paths.source'))
 	app.assets.watcher = require('chokidar').watch(assets)
 
 	app.assets.watcher.on('ready', () => {
 		app.assets.watcher.on('all', (type, asset) => {
 			try {
-				asset = path.relative(assets, asset)
+				asset = path.relative(base, asset)
 
 				for(const client of app.assets.liveReload.clients) {
 					if(client.readyState !== ws.OPEN) {

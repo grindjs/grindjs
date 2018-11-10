@@ -50,7 +50,7 @@ export class BabelCompiler extends Compiler {
 	}
 
 	async compile(pathname) {
-		const imports = await this.getLiveReloadImports(pathname)
+		const files = await this.getLiveReloadImports(pathname)
 		let contents = null
 
 		for(const stage of this.stages) {
@@ -66,20 +66,13 @@ export class BabelCompiler extends Compiler {
 			contents = await stage.compile(pathname, stream)
 		}
 
-		if(!this.liveReload || imports.length === 0) {
+		if(!this.liveReload || files.length === 0) {
 			return contents
 		}
 
-		const resources = this.app.paths.base('resources')
-		if(pathname.startsWith(resources)) {
-			pathname = pathname.substring(resources.length)
-		}
-
 		contents = contents.toString()
-		contents += '// LIVE_RELOAD_START\n'
-		contents += 'window.__liveReloadImports = window.__liveReloadImports || { }\n'
-		contents += `window.__liveReloadImports['${pathname}'] = ${JSON.stringify(imports)}\n`
-		contents += '// LIVE_RELOAD_END\n'
+		contents += this.constructor.buildLiveReloadInjection(this.app, pathname, files)
+
 		return contents
 	}
 
@@ -131,6 +124,19 @@ export class BabelCompiler extends Compiler {
 				break
 			}
 		}
+	}
+
+	static buildLiveReloadInjection(app, pathname, files = [ ]) {
+		const relative = path.relative(app.paths.base(), pathname)
+		files.unshift(relative)
+
+		let js = '\n\n(function() {\n'
+		js += `document.currentScript.setAttribute("data-live-reload-module", "${relative}");\n`
+		js += 'window.__liveReloadModules = window.__liveReloadModules || { };\n'
+		js += `window.__liveReloadModules["${relative}"] = ${JSON.stringify(files)};\n`
+		js += '})();\n'
+
+		return js
 	}
 
 	mime() {

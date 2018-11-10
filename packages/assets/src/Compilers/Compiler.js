@@ -45,22 +45,22 @@ export class Compiler {
 		})
 	}
 
-	async getLiveReloadImports(pathname, resources = null) {
+	async getLiveReloadImports(pathname, sourcePath = null) {
 		const imports = [ ]
 
 		if(this.liveReload) {
-			if(resources.isNil) {
-				resources = this.app.paths.base('resources')
+			if(sourcePath.isNil) {
+				sourcePath = this.app.paths.base(this.app.config.get('assets.paths.source'))
 			}
 
 			await this.enumerateImports(pathname, async i => {
-				if(!i.startsWith(resources)) {
+				if(!i.startsWith(sourcePath)) {
 					return
 				}
 
 				imports.push(
-					i.substring(resources.length),
-					...(await this.getLiveReloadImports(i, resources))
+					path.relative(this.app.paths.base(), i),
+					...(await this.getLiveReloadImports(i, sourcePath))
 				)
 			})
 		}

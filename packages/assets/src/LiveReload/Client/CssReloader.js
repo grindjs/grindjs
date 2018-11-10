@@ -1,29 +1,21 @@
-import { origininize, cacheBust } from './Reloader'
+import './cacheBust'
 
-function reload(pathname) {
-	const stylesheets = this.getStylesheets()
+export function CssReloader(pathname) {
 	const reload = [ ]
 
-	for(let i = 0, length = stylesheets.length; i < length; i++) {
-		const stylesheet = stylesheets[i]
-		const href = origininize(stylesheet.href)
+	for(let i = 0, length = document.styleSheets.length; i < length; i++) {
+		const sheet = document.styleSheets[i]
 
-		if(href.indexOf(pathname) === -1 && this.findImports(stylesheet).indexOf(pathname) === -1) {
+		if(findFiles(sheet).indexOf(pathname) === -1) {
 			continue
 		}
 
-		reload.push(stylesheet)
+		reload.push(sheet)
 	}
 
 	for(let j = 0, length2 = reload.length; j < length2; j++) {
-		const link = reload[j]
-		const replacement = document.createElement('link')
-
-		for(let k = 0, length3 = link.attributes.length; k < length3; k++) {
-			const attribute = link.attributes[k]
-			replacement.setAttribute(attribute.name, attribute.value)
-		}
-
+		const link = reload[j].ownerNode
+		const replacement = link.cloneNode()
 		replacement.href = cacheBust(replacement.href)
 
 		replacement.addEventListener('load', () => {
@@ -38,45 +30,18 @@ function reload(pathname) {
 	}
 }
 
-export const helpers = {
+function findFiles(stylesheet) {
+	const rules = stylesheet.cssRules || [ ]
 
-	findImports: function(/* href */) {
-		return [ ]
-	},
+	for(let i = rules.length - 1; i >= 0; i--) {
+		const rule = rules[i]
 
-	getStylesheets: function() {
-		const results = [ ]
-		const links = document.getElementsByTagName('link')
-
-		for(let i = 0, length = links.length; i < length; i++) {
-			const link = links[i]
-
-			if(!link.hasAttribute('rel') || !/^stylesheet$/i.test(link.getAttribute('rel'))) {
-				continue
-			}
-
-			results.push(link)
+		if(rule.selectorText !== '#__liveReloadModule') {
+			continue
 		}
 
-		return results
-	},
-
-	getRules: function(stylesheet) {
-		const href = stylesheet.href || stylesheet
-
-		for(let i = 0, length = document.styleSheets.length; i < length; i++) {
-			const sheet = document.styleSheets[i]
-
-			if(sheet.href !== href) {
-				continue
-			}
-
-			return sheet.cssRules || sheet.rules || [ ]
-		}
-
-		return [ ]
+		return JSON.parse(JSON.parse(rule.style.content))
 	}
 
+	return [ ]
 }
-
-export const CssReloader = reload.bind(helpers)

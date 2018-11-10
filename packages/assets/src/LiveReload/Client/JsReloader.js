@@ -1,13 +1,13 @@
-import { origininize } from './Reloader'
+const attributeName = 'data-live-reload-module'
 
-function reload(pathname) {
-	const scripts = this.getScripts()
+export function JsReloader(pathname) {
+	const scripts = getScripts()
 
 	for(let i = 0, length = scripts.length; i < length; i++) {
 		const script = scripts[i]
-		const src = origininize(script.src)
+		const moduleName = script.getAttribute(attributeName)
 
-		if(src.indexOf(pathname) === -1 && this.findImports(script).indexOf(pathname) === -1) {
+		if(findFiles(moduleName).indexOf(pathname) === -1) {
 			continue
 		}
 
@@ -16,29 +16,23 @@ function reload(pathname) {
 	}
 }
 
-export const helpers = {
-
-	findImports: function(src) {
-		return (window.__liveReloadImports || { })[origininize(src.src || src)] || [ ]
-	},
-
-	getScripts: function() {
-		const results = [ ]
-		const scripts = document.getElementsByTagName('script')
-
-		for(let i = 0, length = scripts.length; i < length; i++) {
-			const script = scripts[i]
-
-			if(!script.hasAttribute('src')) {
-				continue
-			}
-
-			results.push(script)
-		}
-
-		return results
-	}
-
+function findFiles(name) {
+	return (window.__liveReloadModules || { })[name] || [ ]
 }
 
-export const JsReloader = reload.bind(helpers)
+function getScripts() {
+	const results = [ ]
+	const scripts = document.getElementsByTagName('script')
+
+	for(let i = 0, length = scripts.length; i < length; i++) {
+		const script = scripts[i]
+
+		if(!script.hasAttribute(attributeName)) {
+			continue
+		}
+
+		results.push(script)
+	}
+
+	return results
+}
