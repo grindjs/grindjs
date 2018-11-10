@@ -7,17 +7,27 @@ export class RawCompiler extends Compiler {
 
 	wantsHashSuffixOnPublish = false
 	directories = [ ]
-	extensions = null
+	mimes = null
 	assets = null
 
 	constructor(app, ...args) {
 		super(app, ...args)
 
 		this.assets = app.paths.base(app.config.get('assets.paths.source'))
-		this.extensions = app.config.get('assets.compilers.raw.extensions')
+		this.mimes = app.config.get('assets.compilers.raw.mimes')
+		this.shouldProcessJs = app.config.get('assets.babel.allow_vanilla_js')
+		this.topLevel = app.config.get('assets.top_level')
 
-		for(const directory of app.config.get('assets.compilers.raw.directories', [ ])) {
-			this.directories.push(path.join(this.assets, directory, '/'))
+		if(this.topLevel) {
+			this.supportedExtensions = Object.keys(this.mimes)
+
+			if(!this.shouldProcessJs) {
+				this.supportedExtensions = this.supportedExtensions.filter(ext => ext !== 'js')
+			}
+		} else {
+			for(const directory of app.config.get('assets.compilers.raw.directories', [ ])) {
+				this.directories.push(path.join(this.assets, directory, '/'))
+			}
 		}
 	}
 
@@ -26,10 +36,14 @@ export class RawCompiler extends Compiler {
 	}
 
 	supports(pathname) {
+		if(this.topLevel) {
+			return super.supports(pathname)
+		}
+
 		const ext = path.extname(pathname).toLowerCase().substring(1)
 
 		for(const directory of this.directories) {
-			if(pathname.indexOf(directory) === 0 && typeof this.extensions[ext] === 'string') {
+			if(pathname.indexOf(directory) === 0 && typeof this.mimes[ext] === 'string') {
 				return true
 			}
 		}
@@ -39,7 +53,7 @@ export class RawCompiler extends Compiler {
 
 	mime(asset) {
 		const ext = path.extname(asset.path).toLowerCase().substring(1)
-		return this.extensions[ext] || 'text/plain'
+		return this.mimes[ext] || 'text/plain'
 	}
 
 	type(asset) {

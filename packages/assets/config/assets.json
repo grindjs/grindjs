@@ -67,13 +67,28 @@
 		},
 
 		/**
-			When compiling, extensions in these dirs will be copied
-			over as is without any compiling, however they‘re still
-			subject to post processing.
+			Raw files are copied/served over as-is without any
+			compiling, however they‘re still subject to post
+			processing.
 		*/
 		"raw": {
+			/**
+				When assets.top_level is set to false, only
+				files within these directories will be considered
+			 */
 			"directories": [ "js", "css", "img", "fonts", "font" ],
-			"extensions": {
+
+			/**
+				When assets.top_level is set to true, any files
+				with these extensions will be considered, except
+				for `js` unless assets.babel.allow_vanilla_js is
+				set to true.
+
+				The mime types will also be used in development
+				mode when serving on the fly to send the correct
+				type to the browser.
+			 */
+			"mimes": {
 				"css": "text/css",
 				"js": "application/javascript",
 				"eot": "application/vnd.ms-fontobject",
