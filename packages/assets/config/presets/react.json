@@ -25,7 +25,8 @@
 				"plugins": {
 					"rollup-plugin-node-resolve": {
 						"jsnext": true,
-						"browser": true
+						"browser": true,
+						"preferBuiltins": false
 					},
 					"rollup-plugin-commonjs": {
 						"include": "node_modules/**",
