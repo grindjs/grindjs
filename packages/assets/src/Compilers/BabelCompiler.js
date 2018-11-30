@@ -108,6 +108,7 @@ export class BabelCompiler extends Compiler {
 			if(ext.indexOf(this.supportedExtensions) === -1) {
 				for(const ext of this.supportedExtensions) {
 					files.push(`${importPath}.${ext}`)
+					files.push(`${importPath}/index.${ext}`)
 				}
 			} else {
 				files.push(importPath)
