@@ -86,7 +86,7 @@ export class BabelCompiler extends Compiler {
 		const contents = await FS.readFile(pathname)
 		const importPaths = [ ]
 
-		contents.toString().replace(/import\s*\{[^}]+\}\s*from\s*((["'`]).+?(\2))/igm, (_, importPath) => {
+		contents.toString().replace(/(?:import|export)\s*(?:\{[^}]+\}|[\w\s*]+)\s*from\s*((["'`]).+?(\2))/igm, (_, importPath) => {
 			importPaths.push(importPath)
 		})
 
