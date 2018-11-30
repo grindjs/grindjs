@@ -55,7 +55,7 @@ FS.mkdirs = FS.mkdirp
 // ----------------------------
 FS.exists = pathname => {
 	return FS.stat(pathname).then(() => true).catch(err => {
-		if(err.code !== 'ENOENT') {
+		if(err.code !== 'ENOENT' && err.code !== 'ENOTDIR') {
 			throw err
 		}
 
