@@ -33,6 +33,7 @@ export class RollupStage extends Stage {
 				const name = `Rollup${plugin[1].toUpperCase()}${plugin.substring(2)}Plugin`
 				this.plugins.push([ require(`../../Rollup/${name}`)[name], {
 					grind: app,
+					req: true,
 					...(!config.isNil && typeof config === 'object' ? config : { })
 				} ])
 			} else {
@@ -41,7 +42,7 @@ export class RollupStage extends Stage {
 		}
 	}
 
-	async compile(pathname, stream = null) {
+	async compile(pathname, stream = null, req = null) {
 		rollup.assert()
 
 		if(this.handleBabel) {
@@ -62,6 +63,10 @@ export class RollupStage extends Stage {
 			plugin.assert()
 
 			if(!config.isNil && typeof config === 'object') {
+				if(config.req === true) {
+					config.req = req
+				}
+
 				plugins.push(plugin.pkg(config))
 			} else {
 				plugins.push(plugin.pkg({ }))

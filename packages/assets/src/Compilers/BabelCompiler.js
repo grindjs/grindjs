@@ -49,7 +49,7 @@ export class BabelCompiler extends Compiler {
 		return pathname.includes('babel') || pathname.includes('LiveReload')
 	}
 
-	async compile(pathname) {
+	async compile(pathname, context, req) {
 		const files = await this.getLiveReloadImports(pathname)
 		let contents = null
 
@@ -63,7 +63,7 @@ export class BabelCompiler extends Compiler {
 				stream.push(null)
 			}
 
-			contents = await stage.compile(pathname, stream)
+			contents = await stage.compile(pathname, stream, req)
 		}
 
 		if(!this.liveReload || files.length === 0) {

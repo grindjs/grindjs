@@ -22,7 +22,7 @@ export class Compiler {
 	}
 
 	// eslint-disable-next-line no-unused-vars
-	compile(pathname, context = null) {
+	compile(pathname, context = null, req = null) {
 		return Promise.reject('Abstract method, subclasses must implement.')
 	}
 

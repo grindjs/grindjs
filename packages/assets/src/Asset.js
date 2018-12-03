@@ -8,8 +8,8 @@ export class Asset {
 		this.compiler = compiler
 	}
 
-	compile(context = null) {
-		return this.compiler.compile(this.path, context)
+	compile(context = null, req = null) {
+		return this.compiler.compile(this.path, context, req)
 	}
 
 	lastModified(newest = 0) {

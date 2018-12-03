@@ -57,7 +57,7 @@ export class CompileController {
 		const compile = async () => {
 			res.header('X-Cached', 'false')
 
-			let result = await asset.compile().then(result => {
+			let result = await asset.compile(null, req).then(result => {
 				if(!(result instanceof Buffer)) {
 					return Buffer.from(result)
 				}

@@ -12,7 +12,7 @@ export class Stage {
 		this.app = app
 	}
 
-	compile(/* pathname, stream = null */) {
+	compile(/* pathname, stream = null, req = null */) {
 
 	}
 

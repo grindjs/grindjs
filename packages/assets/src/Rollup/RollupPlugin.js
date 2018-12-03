@@ -28,7 +28,7 @@ export class RollupPlugin {
 		}
 
 		id = path.relative(this.config.grind.config.get('assets.paths.source'), id)
-		return this.transformPath(this.config.grind.assets.publishedPath(id))
+		return this.transformPath(this.config.grind.assets.publishedPath(id, this.config.req))
 	}
 
 	transformPath(/* file */) {
