@@ -11,6 +11,7 @@ export class ScssCompiler extends Compiler {
 	supportedExtensions = [ 'scss', 'sass' ]
 	options = { }
 	priority = 1000
+	kind = 'style'
 
 	constructor(app, ...args) {
 		super(app, ...args)

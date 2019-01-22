@@ -4,6 +4,7 @@ const path = require('path')
 export class Compiler {
 
 	app = null
+	kind = null
 	priority = 0
 	supportedExtensions = [ ]
 	wantsHashSuffixOnPublish = true

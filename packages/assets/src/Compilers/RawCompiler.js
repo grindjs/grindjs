@@ -12,6 +12,7 @@ export class RawCompiler extends Compiler {
 	directories = [ ]
 	mimes = null
 	assets = null
+	kind = 'raw'
 
 	constructor(app, ...args) {
 		super(app, ...args)
