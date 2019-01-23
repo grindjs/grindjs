@@ -40,7 +40,7 @@ export class PublishCommand extends BaseCommand {
 			this.publishedBaseUrl = this.option('published-base-url').replace(/\/$/g, '')
 			this.assets.__base_url = `${this.publishedBaseUrl}/`
 		} else {
-			this.publishedBaseUrl = path.relative(this.app.paths.public('/'), this.publishPath)
+			this.publishedBaseUrl = path.join('/', path.relative(this.app.paths.public('/'), this.publishPath))
 		}
 
 		if(!this.oldAssets.__base_url.isNil) {

@@ -76,22 +76,17 @@ export class AssetFactory {
 		}
 	}
 
-	publishedPath(pathname, req, secure = null) {
-		if(pathname.indexOf('assets/') !== 0) {
-			pathname = path.join('assets', pathname)
-		}
-
-		const publishedPath = this.published[pathname]
-
-		if(!publishedPath.isNil) {
-			pathname = publishedPath
-		}
-
+	normalizePath(pathname) {
 		if(pathname.indexOf('://') !== -1) {
 			return pathname
 		}
 
-		return this.app.url.make(pathname, null, req, secure)
+		return pathname.replace(/^(\/)?(assets\/)?/, '')
+	}
+
+	publishedPath(pathname) {
+		pathname = this.normalizePath(pathname)
+		return this.published[pathname] || path.join('/assets', pathname)
 	}
 
 }
