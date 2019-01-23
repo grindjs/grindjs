@@ -36,6 +36,8 @@ export class PublishCommand extends BaseCommand {
 			this.oldAssets = { }
 		}
 
+		this.factory.published = { }
+
 		if(this.containsOption('published-base-url')) {
 			this.publishedBaseUrl = this.option('published-base-url').replace(/\/$/g, '')
 			this.assets.__base_url = `${this.publishedBaseUrl}/`
@@ -138,7 +140,7 @@ export class PublishCommand extends BaseCommand {
 			}
 
 			return true
-		}).map(file => this.factory.make(file))
+		}).map(file => this.factory.make(file)).sort((a, b) => b.compareKind(a))
 	}
 
 	loadOldAssets() {
@@ -162,13 +164,9 @@ export class PublishCommand extends BaseCommand {
 		}
 
 		const src = path.relative(this.sourcePath, asset.path)
-		let dest = path.relative(this.publishPath, file)
-
-		if(this.publishedBaseUrl !== null) {
-			dest = `${this.publishedBaseUrl}/${dest}`
-		}
-
+		const dest = `${this.publishedBaseUrl}/${path.relative(this.publishPath, file)}`
 		this.assets[src] = dest
+		this.factory.published[src] = dest
 
 		if(this.oldAssets[src] === dest) {
 			delete this.oldAssets[src]
