@@ -31,7 +31,7 @@ export class BrowserifyStage extends Stage {
 
 		const browserify = Browserify.pkg({
 			...this.options,
-			basedir: path.dirname(pathname)
+			basedir: this.app.paths.base()
 		})
 
 		if(this.handleBabel) {
