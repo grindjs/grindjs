@@ -41,11 +41,13 @@ export class PublishCommand extends BaseCommand {
 		const publishedBaseUrl = this.option('published-base-url', this.app.config.get('assets.publish.base_url'))
 
 		if(typeof publishedBaseUrl === 'string' && publishedBaseUrl.length > 0) {
-			this.publishedBaseUrl = publishedBaseUrl.replace(/\/$/g, '')
+			this.publishedBaseUrl = publishedBaseUrl
 			this.assets.__base_url = `${this.publishedBaseUrl}/`
 		} else {
 			this.publishedBaseUrl = path.join('/', path.relative(this.app.paths.public('/'), this.publishPath))
 		}
+
+		this.publishedBaseUrl = this.publishedBaseUrl.replace(/\/$/g, '')
 
 		if(!this.oldAssets.__base_url.isNil) {
 			const length = this.oldAssets.__base_url.length
