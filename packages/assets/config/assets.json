@@ -7,6 +7,20 @@
 	"preset": null,
 
 	/**
+		Default settings for the publish command, overridable via cli options
+	 */
+	"publish": {
+
+		/**
+			Specify a base url to use when publishing, this should be used when
+			assets are served via a CDN.  If null, Grind will point to the
+			assets through your app.
+		 */
+		"base_url": null
+
+	},
+
+	/**
 		Optimizations are turned on by default when app.debug is false
 		and turned off by default when it’s set to true.  To override
 		this, explicity set the value below to true or false.

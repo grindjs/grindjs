@@ -38,8 +38,10 @@ export class PublishCommand extends BaseCommand {
 
 		this.factory.published = { }
 
-		if(this.containsOption('published-base-url')) {
-			this.publishedBaseUrl = this.option('published-base-url').replace(/\/$/g, '')
+		const publishedBaseUrl = this.option('published-base-url', this.app.config.get('assets.publish.base_url'))
+
+		if(typeof publishedBaseUrl === 'string' && publishedBaseUrl.length > 0) {
+			this.publishedBaseUrl = publishedBaseUrl.replace(/\/$/g, '')
 			this.assets.__base_url = `${this.publishedBaseUrl}/`
 		} else {
 			this.publishedBaseUrl = path.join('/', path.relative(this.app.paths.public('/'), this.publishPath))
