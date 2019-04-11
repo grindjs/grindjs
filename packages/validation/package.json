@@ -20,7 +20,7 @@
     "joi": "^10.6.0"
   },
   "peerDependencies": {
-    "grind-framework": "^0.7.0"
+    "grind-framework": "^0.8.0-beta.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.3",
@@ -31,7 +31,7 @@
     "eslint": "^5.16.0",
     "eslint-config-grind": "^2.3.0",
     "eslint-plugin-import-auto-name": "^1.1.0",
-    "grind-framework": "^0.7.0"
+    "grind-framework": "^0.8.0-beta.1"
   },
   "engines": {
     "node": ">=8.7"
