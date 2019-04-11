@@ -1,5 +1,3 @@
-import './ValidationProvider'
-import './ValidationError'
-import './Validator'
-
-export { ValidationProvider, ValidationError, Validator }
+export { ValidationProvider } from './ValidationProvider'
+export { ValidationError } from './ValidationError'
+export { Validator } from './Validator'

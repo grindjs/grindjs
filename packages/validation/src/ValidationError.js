@@ -1,4 +1,5 @@
 export class ValidationError extends Error {
+
 	errors = { }
 
 	constructor(joiError, data) {

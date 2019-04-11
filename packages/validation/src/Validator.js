@@ -2,8 +2,9 @@ import Joi from 'joi'
 import './ValidationError'
 
 export class Validator {
-	app = null
-	options = null
+
+	app
+	options
 	extensions = [ ]
 	_joi = null
 

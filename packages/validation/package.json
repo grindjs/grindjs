@@ -23,27 +23,53 @@
     "grind-framework": "^0.7.0"
   },
   "devDependencies": {
-    "ava": "^0.21.0",
-    "babel-cli": ">=6.7 <=7.0",
-    "babel-eslint": "^6.1.1",
-    "babel-preset-grind": "^0.7.0",
-    "eslint": "^3.3.1",
-    "eslint-config-grind": "^2.0.0",
-    "eslint-plugin-import-auto-name": "^1.0.3",
+    "@babel/cli": "^7.4.3",
+    "@babel/register": "^7.4.0",
+    "ava": "^1.4.1",
+    "babel-eslint": "^10.0.1",
+    "babel-preset-grind": "^0.8.0-beta.4",
+    "eslint": "^5.16.0",
+    "eslint-config-grind": "^2.3.0",
+    "eslint-plugin-import-auto-name": "^1.1.0",
     "grind-framework": "^0.7.0"
   },
   "engines": {
     "node": ">=8.7"
   },
   "scripts": {
-    "prepublish": "bin/build",
-    "lint": "eslint src",
+    "prepare": "bin/build",
+    "lint": "eslint src test",
     "test": "bin/ava --verbose"
   },
   "ava": {
     "require": [
-      "babel-register"
+      "@babel/register"
+    ]
+  },
+  "babel": {
+    "presets": [
+      [
+        "grind",
+        {
+          "import-auto-name": {
+            "autoresolve": true
+          }
+        }
+      ]
+    ]
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "plugins": [
+      "import-auto-name"
     ],
-    "babel": "inherit"
+    "env": {
+      "es6": true,
+      "node": true
+    },
+    "extends": "grind",
+    "parserOptions": {
+      "sourceType": "module"
+    }
   }
 }
