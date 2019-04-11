@@ -25,14 +25,14 @@ test('custom-mesage', async t => {
 		}), {
 			language: {
 				any: {
-					empty: 'The {{key}} field is not allowed to be empty.',
+					empty: 'field is not allowed to be empty.',
 				}
 			}
 		})
 
 		t.fail('Validation passed when it should have failed')
 	} catch(err) {
-		t.is(err.errors.username[0].message, 'The username field is not allowed to be empty.')
+		t.is(err.errors.username[0].message, '"username" field is not allowed to be empty.')
 	}
 })
 
