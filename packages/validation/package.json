@@ -33,7 +33,7 @@
     "grind-framework": "^0.7.0"
   },
   "engines": {
-    "node": ">=6.9"
+    "node": ">=8.7"
   },
   "scripts": {
     "prepublish": "bin/build",
