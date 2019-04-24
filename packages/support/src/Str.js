@@ -16,7 +16,7 @@ export class Str {
 			ascii = ascii.toLowerCase()
 		}
 
-		return ascii.replace(/[^\x00-\x7F]/g, '')
+		return ascii.replace(/[^\x00-\x7F]/g, '') // eslint-disable-line no-control-regex
 	}
 
 	static slug(str, { charmap = null, separator = '-', lower = true } = { }) {
