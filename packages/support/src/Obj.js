@@ -54,6 +54,25 @@ export class Obj {
 		}
 	}
 
+	static delete(object, keyPath) {
+		const keys = keyPath.split('.')
+		const last = keys.pop()
+
+		if(keys.length > 0) {
+			for(const key of keys) {
+				if(object.isNil) {
+					continue
+				}
+
+				object = object[key]
+			}
+		}
+
+		if(object) {
+			delete object[last]
+		}
+	}
+
 	static filter(object, callback) {
 		object = object || { }
 		const filtered = { }

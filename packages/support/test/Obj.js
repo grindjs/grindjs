@@ -42,6 +42,21 @@ test('Obj.set', t => {
 	t.is(obj.app.debug, true)
 })
 
+test('Obj.delete', t => {
+	const obj = { app: { debug: true } }
+	Obj.delete(obj, 'app.debug')
+
+	t.false('debug' in obj.app)
+	t.deepEqual({ app: { } }, obj)
+})
+
+test('Obj.delete non-existent path', t => {
+	const obj = { }
+	Obj.delete(obj, 'app.debug')
+
+	t.deepEqual({ }, obj)
+})
+
 test('Obj.filter', t => {
 	const obj = { a: 'a', b: 'b', c: 'c' }
 	const filtered = { a: 'a', c: 'c' }
