@@ -1,8 +1,8 @@
 import './Stage'
 import '../../Support/optional'
 
-const rollup = optional('rollup', '>=0.66.0')
-const rollupBabel = optional('rollup-plugin-babel', '>=4.0.0')
+const rollup = optional('rollup', '>=1.0.0')
+const rollupBabel = optional('rollup-plugin-babel', '>=4.3.0')
 
 export class RollupStage extends Stage {
 
@@ -80,11 +80,17 @@ export class RollupStage extends Stage {
 				plugins
 			})
 
-			const { code, map } = await bundle.generate({
+			const { output } = await bundle.generate({
 				format: 'cjs',
 				sourcemap: this.sourceMaps === 'auto',
 				...this.output
 			})
+
+			if(!Array.isArray(output) || output.length !== 1 || output[0].isEntry !== true) {
+				throw new Error('Unsupported file')
+			}
+
+			const [ { map, code } ] = output
 
 			const inlineMap = !map.isNil ? `\n//# sourceMappingURL=${map.toUrl()}\n` : null
 			return `${code}${inlineMap || ''}`
