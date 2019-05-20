@@ -81,3 +81,40 @@ test('Obj.except', t => {
 	t.deepEqual(Obj.except(obj, [ 'a' ]), except)
 	t.deepEqual(Obj.except(obj, [ 'd' ]), obj)
 })
+
+test('Obj.keyBy single', t => {
+	const items = [
+		{ type: 'a', value: '123' },
+		{ type: 'b', value: '456' },
+		{ type: 'c', value: '789' },
+	]
+
+	t.deepEqual(Obj.keyBy(items, 'type', true), {
+		a: { type: 'a', value: '123' },
+		b: { type: 'b', value: '456' },
+		c: { type: 'c', value: '789' },
+	})
+
+	items.push({ type: 'a', value: '012' })
+
+	t.deepEqual(Obj.keyBy(items, 'type', true), {
+		a: { type: 'a', value: '012' },
+		b: { type: 'b', value: '456' },
+		c: { type: 'c', value: '789' },
+	})
+})
+
+test('Obj.keyBy multiple', t => {
+	const items = [
+		{ type: 'a', value: '123' },
+		{ type: 'b', value: '456' },
+		{ type: 'c', value: '789' },
+		{ type: 'a', value: '012' }
+	]
+
+	t.deepEqual(Obj.keyBy(items, 'type', false), {
+		a: [ { type: 'a', value: '123' }, { type: 'a', value: '012' } ],
+		b: [ { type: 'b', value: '456' } ],
+		c: [ { type: 'c', value: '789' } ],
+	})
+})

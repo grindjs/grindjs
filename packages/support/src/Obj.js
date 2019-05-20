@@ -98,4 +98,32 @@ export class Obj {
 		return this.filter(object, key => !keys.has(key))
 	}
 
+	static keyBy(items, field, hasSingleValue = true) {
+		const object = { }
+
+		for(const result of items) {
+			const key = result[field]
+
+			if(key.isNil) {
+				continue
+			}
+
+			if(hasSingleValue) {
+				object[key] = result
+				continue
+			}
+
+			let values = object[key]
+
+			if(!Array.isArray(values)) {
+				values = [ ]
+				object[key] = values
+			}
+
+			values.push(result)
+		}
+
+		return object
+	}
+
 }
