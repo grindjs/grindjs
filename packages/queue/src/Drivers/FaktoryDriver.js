@@ -44,7 +44,7 @@ export class FaktoryDriver extends BaseDriver {
 	}
 
 	connect() {
-		this.client = new Client(this.config)
+		this.client = new Client(this.config.connection)
 		return this.client.connect()
 	}
 

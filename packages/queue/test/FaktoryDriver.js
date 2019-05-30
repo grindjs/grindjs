@@ -13,8 +13,10 @@ const service = new Service(test, 'faktory', {
 
 test.beforeEach(t => {
 	t.context.driver = new FaktoryDriver(null, {
-		host: 'localhost',
-		port: service.port
+		connection: {
+			host: 'localhost',
+			port: service.port
+		}
 	})
 
 	return t.context.driver.connect()

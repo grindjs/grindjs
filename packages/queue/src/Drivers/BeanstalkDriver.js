@@ -11,7 +11,7 @@ export class BeanstalkDriver extends BaseDriver {
 	constructor(app, config) {
 		super(app, config)
 
-		this.client = new Beanstalk(config.host, config.port)
+		this.client = new Beanstalk(config.connection.host, config.connection.port)
 	}
 
 	connect() {

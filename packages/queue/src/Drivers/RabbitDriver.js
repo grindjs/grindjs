@@ -9,10 +9,12 @@ export class RabbitDriver extends BaseConnectionDriver {
 	connectionClass = RabbitConnection
 
 	constructor(app, {
-		host = 'localhost',
-		port = 5672,
-		user,
-		password,
+		connection: {
+			host = 'localhost',
+			port = 5672,
+			user,
+			password,
+		} = { },
 		virtual_host,
 		virtualHost,
 		...options

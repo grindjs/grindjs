@@ -1,15 +1,33 @@
 {
 
-	"default": "redis",
+	"default": "beanstalk",
 
 	"connections": {
 
-		"redis": {
-			"prefix": "q", // Default prefix for the Queue
+		"rabbit": {
+			"driver": "rabbit",
 			"connection": {
-				"host": "127.0.0.1",
-				"port": 6379,
-				"auth": null
+				"host": "localhost",
+				"port": 5672,
+				"user": null,
+				"password": null
+			},
+			"virtualHost": "/"
+		},
+
+		"beanstalk": {
+			"driver": "beanstalk",
+			"connection": {
+				"host": "localhost",
+				"port": 11300
+			}
+		},
+
+		"faktory": {
+			"driver": "faktory",
+			"connection": {
+				"host": "localhost",
+				"port": 7419
 			}
 		}
 
