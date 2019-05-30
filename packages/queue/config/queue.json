@@ -1,8 +1,14 @@
 {
 
-	"default": "beanstalk",
+	"default": "redis",
 
 	"connections": {
+
+		"redis": {
+			"driver": "redis",
+			"connection": null, // Uses the default connection in redis.json
+			"namespace": null // By default, uses name from the app’s package.json or grind if missing
+		},
 
 		"rabbit": {
 			"driver": "rabbit",
