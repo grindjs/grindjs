@@ -63,7 +63,7 @@ export class QueueFactory {
 			throw new Error(`Unsupported queue driver: ${config.driver}`)
 		}
 
-		config.connection = config.config || { }
+		config.connection = config.connection || { }
 		connection = this.make(driverClass, config)
 
 		if(!name.isNil) {
