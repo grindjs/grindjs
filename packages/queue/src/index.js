@@ -1,30 +1,16 @@
-import './Job'
+export { Job } from './Job'
 
-import './Queue'
-import './QueueFactory'
-import './QueueProvider'
+export { Queue } from './Queue'
+export { QueueFactory } from './QueueFactory'
+export { QueueProvider } from './QueueProvider'
 
-import './Commands/MakeJobCommand'
-import './Commands/QueueWorkCommand'
+// Commands
+export { MakeJobCommand } from './Commands/MakeJobCommand'
+export { QueueWorkCommand } from './Commands/QueueWorkCommand'
 
-import './Drivers/BaseDriver'
-import './Drivers/BeanstalkDriver'
-import './Drivers/FaktoryDriver'
-import './Drivers/RabbitDriver'
-
-export {
-	Job,
-	Queue,
-	QueueFactory,
-	QueueProvider,
-
-	// Drivers
-	BaseDriver,
-	BeanstalkDriver,
-	FaktoryDriver,
-	RabbitDriver,
-
-	// Commands
-	QueueWorkCommand,
-	MakeJobCommand
-}
+// Drivers
+export { BaseDriver } from './Drivers/BaseDriver'
+export { BeanstalkDriver } from './Drivers/BeanstalkDriver'
+export { FaktoryDriver } from './Drivers/FaktoryDriver'
+export { RabbitDriver } from './Drivers/RabbitDriver'
+export { RedisDriver } from './Drivers/RedisDriver'
