@@ -24,3 +24,7 @@ test('environment cascading nesting', t => {
 test('.env', t => {
 	t.is(config().get('app.port', 0), 3001)
 })
+
+test('.env dot notation', t => {
+	t.is(config().get('app.public-port', 0), 3002)
+})

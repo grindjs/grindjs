@@ -83,12 +83,18 @@ export class Config {
 			return
 		}
 
+		const primitives = new Set([ 'bigint', 'boolean', 'number', 'string', 'undefined' ])
+
 		for(const file of files['.env']) {
 			// eslint-disable-next-line no-sync
 			const config = JSON5.parse(fs.readFileSync(file))
 
-			for(const group in config) {
-				this._repository[group] = merge(this._repository[group] || { }, config[group])
+			for(const [ key, value ] of Object.entries(config)) {
+				if(primitives.has(typeof value) || value === null || key.indexOf('.') >= 0) {
+					this.set(key, value)
+				} else {
+					this._repository[key] = merge(this._repository[key] || { }, value)
+				}
 			}
 		}
 	}
