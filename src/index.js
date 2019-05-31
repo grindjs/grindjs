@@ -1,5 +1,5 @@
-import './Application'
-import './Log'
+import { Application } from './Application'
+import { Log } from './Log'
 
 export { Application, Log }
 export default Application

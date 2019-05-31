@@ -1,4 +1,3 @@
-require('babel-polyfill')
 const path = require('path')
 
 import {

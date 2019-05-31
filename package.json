@@ -20,16 +20,18 @@
     "json5": "^0.5.1"
   },
   "devDependencies": {
-    "ava": "^0.20.0",
-    "babel-cli": ">=6.7 <=7.0",
-    "babel-eslint": "^6.1.0",
-    "babel-preset-grind": "^0.8.0-beta.1",
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/register": "^7.4.4",
+    "ava": "^1.4.1",
+    "babel-eslint": "^10.0.1",
+    "babel-preset-grind": "^0.8.0-beta.4",
     "chokidar": "^1.7.0",
     "compression": "^1.6.2",
     "cookie-parser": "^1.4.3",
-    "eslint": "^3.19.0",
-    "eslint-config-grind": "^2.0.4",
-    "eslint-plugin-import-auto-name": "^1.0.3",
+    "eslint": "^5.16.0",
+    "eslint-config-grind": "^2.3.0",
+    "eslint-plugin-import-auto-name": "^1.1.0",
     "express-flash": "^0.0.2",
     "express-session": "^1.15.3",
     "flash": "^1.1.0",
@@ -37,20 +39,19 @@
     "grind-db": "^0.7.0",
     "request": "^2.81.0",
     "request-promise-native": "^1.0.4",
-    "sqlite3": "^3.1.8"
+    "sqlite3": "^4.0.8"
   },
   "engines": {
     "node": ">=8.2"
   },
   "scripts": {
-    "prepublish": "bin/build",
-    "lint": "eslint src",
+    "prepack": "bin/build",
+    "lint": "eslint src test",
     "test": "bin/ava --verbose"
   },
   "ava": {
     "require": [
-      "babel-register"
-    ],
-    "babel": "inherit"
+      "@babel/register"
+    ]
   }
 }
