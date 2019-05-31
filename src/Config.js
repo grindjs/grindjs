@@ -79,16 +79,27 @@ export class Config {
 			}
 		}
 
-		if(!files['.env']) {
+		const env = [ ]
+
+		if(Array.isArray(files['.env']) && files['.env'].length > 0) {
+			for(const file of files['.env']) {
+				// eslint-disable-next-line no-sync
+				env.push(JSON5.parse(fs.readFileSync(file)))
+			}
+		}
+
+		if(typeof process.env.APP_CONFIG === 'string') {
+			// eslint-disable-next-line no-sync
+			env.push(JSON5.parse(process.env.APP_CONFIG))
+		}
+
+		if(env.length === 0) {
 			return
 		}
 
 		const primitives = new Set([ 'bigint', 'boolean', 'number', 'string', 'undefined' ])
 
-		for(const file of files['.env']) {
-			// eslint-disable-next-line no-sync
-			const config = JSON5.parse(fs.readFileSync(file))
-
+		for(const config of env) {
 			for(const [ key, value ] of Object.entries(config)) {
 				if(primitives.has(typeof value) || value === null || key.indexOf('.') >= 0) {
 					this.set(key, value)
