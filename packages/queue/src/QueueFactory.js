@@ -9,7 +9,8 @@ import './Drivers/RedisDriver'
 
 export class QueueFactory {
 
-	app = null
+	app
+	queueClass
 	connections = { }
 	jobs = { }
 	drivers = {
@@ -22,8 +23,9 @@ export class QueueFactory {
 		amqp: RabbitDriver
 	}
 
-	constructor(app) {
+	constructor(app, { queueClass } = { }) {
 		this.app = app
+		this.queueClass = queueClass || Queue
 	}
 
 	dispatch(job, connection = null) {
@@ -74,7 +76,7 @@ export class QueueFactory {
 	}
 
 	make(driverClass, config) {
-		return new Queue(this.app, this, new driverClass(this.app, config))
+		return new this.queueClass(this.app, this, new driverClass(this.app, config))
 	}
 
 	registerDriver(name, driverClass) {

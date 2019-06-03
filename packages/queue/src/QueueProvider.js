@@ -2,9 +2,9 @@ import './QueueFactory'
 
 import './Commands/QueueWorkCommand'
 
-export function QueueProvider(app, classes = { }) {
-	const factoryClass = classes.factoryClass || QueueFactory
-	app.queue = new factoryClass(app)
+export function QueueProvider(app, { factoryClass, queueClass, ...classes } = { }) {
+	factoryClass = factoryClass || QueueFactory
+	app.queue = new factoryClass(app, { queueClass })
 
 	if(app.cli.isNil) {
 		return
