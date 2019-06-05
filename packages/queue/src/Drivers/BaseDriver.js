@@ -93,6 +93,116 @@ export class BaseDriver {
 	}
 
 	/**
+	 * Handle execution and errors for a payload
+	 *
+	 * @param  Object context Context to execute payload in
+	 * @param  Object payload Payload to execute
+	 * @return Promise
+	 */
+	async receivePayload(context, payload) {
+		const job = await context.makeJob(payload)
+
+		try {
+			await context.execute(job)
+
+			try {
+				await this.success(context, job, payload)
+			} catch(err) {
+				Log.error(`${this.constructor.name} error when calling success: ${err.message}`, err)
+			}
+		} catch(err) {
+			try {
+				await this.retryOrRethrow(context, payload, err)
+			} catch(err2) {
+				try {
+					await this.fatal(context, job, payload, err)
+				} catch(err3) {
+					Log.error(`${this.constructor.name} error when calling fatal: ${err.message}`, err)
+				}
+
+				await context.handleError(job, err)
+			}
+		}
+	}
+
+	/**
+	 * Retries the payload if possible, otherwises rethrows the error
+	 *
+	 * @param  Object context Context to execute payload in
+	 * @param  Object payload Payload for the job
+	 * @param  Job job Instantiated job class for the payload
+	 * @param  Error error Error while evaluating the payload
+	 * @return Promise
+	 */
+	retryOrRethrow(context, payload, job, error) {
+		const tries = Number(payload.tries) || 1
+
+		if(tries <= 1) {
+			throw error
+		}
+
+		const tryCount = Number(payload.try) || 1
+
+		if(tryCount >= tries) {
+			throw error
+		}
+
+		const timeout = Number(payload.timeout) || 0
+
+		if(timeout > 0) {
+			const at = Number(payload.at) || 0
+
+			if(at > 0 && (Date.now() + timeout) > at) {
+				throw error
+			}
+		}
+
+		const delay = payload.retry_delay || payload.delay
+		const at = delay.isNil ? null : (new Date(Date.now() + delay))
+		payload.try = tryCount + 1
+
+		return this.retry(context, payload, job, at)
+	}
+
+	/**
+	 * Handle success for the payload
+	 *
+	 * @param  Object context Context to execute payload in
+	 * @param  Object payload Payload for the job
+	 * @param  Job job Instantiated job class for the payload
+	 * @return Promise
+	 */
+	success(/* context, payload, job */) {
+		return Promise.resolve()
+	}
+
+	/**
+	 * Retry the payload at the specified time
+	 *
+	 * @param  Object context Context to execute payload in
+	 * @param  Object payload Payload for the job
+	 * @param  Job job Instantiated job class for the payload
+	 * @param  Date at When to retry the job at
+	 * @return Promise
+	 */
+	retry(/* context, payload, job, at */) {
+		return Promise.reject(new Error('Abstract method, subclasses must implement.'))
+	}
+
+	/**
+	 * Handle fatal error for the payload
+	 *
+	 * @param  Object context Context to execute payload in
+	 * @param  Object payload Payload for the job
+	 * @param  Job job Instantiated job class for the payload
+	 * @param  Error error Error while evaluating the payload
+	 * @return Promise
+	 */
+	fatal(/* context, payload, job, error */) {
+		return Promise.resolve()
+	}
+
+	/**
 	 * Handle an error
 	 * Default implementation returns a rejected promise
 	 *

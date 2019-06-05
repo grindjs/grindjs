@@ -62,3 +62,14 @@ test('retry dispatch', async t => {
 		}
 	})
 })
+
+test('multi dispatch', t => {
+	let count = 0
+
+	setTimeout(() => t.context.driver.dispatch(new TestJob({ id: 1 })), 50)
+	setTimeout(() => t.context.driver.dispatch(new TestJob({ id: 2 })), 100)
+	setTimeout(() => t.context.driver.dispatch(new TestJob({ id: 3 })), 200)
+	setTimeout(() => t.context.driver.dispatch(new TestJob({ id: 4 })), 400)
+
+	return Listener(t.context.driver, () => ++count < 4).then(() => t.is(count, 4))
+})

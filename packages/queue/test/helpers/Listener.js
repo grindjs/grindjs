@@ -1,14 +1,13 @@
 import './TestJob'
 
-export function Listener(queue, callback, canFail = false) {
+export function Listener(queue, callback, canFail = false, queueName = TestJob.queue) {
 	return new Promise(async (resolve, reject) => {
 		const timeout = setTimeout(() => reject(new Error('Execution timed out')), 10000)
 
 		try {
-			await queue.listen(
-				[ TestJob.queue ],
-				1,
-				async job => {
+			await queue.listen([ queueName ], 1, {
+				makeJob: payload => payload,
+				execute: async job => {
 					if(await callback(job) === true) {
 						return
 					}
@@ -16,7 +15,7 @@ export function Listener(queue, callback, canFail = false) {
 					clearTimeout(timeout)
 					return resolve()
 				},
-				(job, err) => {
+				handleError: (job, err) => {
 					if(canFail) {
 						return
 					}
@@ -24,7 +23,7 @@ export function Listener(queue, callback, canFail = false) {
 					clearTimeout(timeout)
 					reject(err)
 				}
-			)
+			})
 		} catch(err) {
 			clearTimeout(timeout)
 			reject(err)

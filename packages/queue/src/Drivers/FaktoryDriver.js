@@ -49,13 +49,13 @@ export class FaktoryDriver extends BaseDriver {
 		return this._push(payload, at)
 	}
 
-	async listen(queues, concurrency, jobHandler, errorHandler) {
+	async listen(queues, concurrency, context) {
 		this.manager = new Manager({
 			...this.config,
 			queues,
 			concurrency,
 			registry: {
-				'grind-job': this._receiveMessage.bind(this, jobHandler, errorHandler)
+				'grind-job': this.receivePayload.bind(this, context)
 			}
 		})
 
@@ -65,45 +65,7 @@ export class FaktoryDriver extends BaseDriver {
 		return new Promise(() => { })
 	}
 
-	async _receiveMessage(jobHandler, errorHandler, payload) {
-		try {
-			await jobHandler(payload)
-		} catch(err) {
-			try {
-				await this._retryMessageOrRethrow(payload, err)
-			} catch(err2) {
-				await errorHandler(payload, err)
-			}
-		}
-	}
-
-	async _retryMessageOrRethrow(payload, err) {
-		const tries = Number(payload.tries) || 1
-
-		if(tries <= 1) {
-			throw err
-		}
-
-		const tryCount = Number(payload.try) || 1
-
-		if(tryCount >= tries) {
-			throw err
-		}
-
-		const timeout = Number(payload.timeout) || 0
-
-		if(timeout > 0) {
-			const at = Number(payload.at) || 0
-
-			if(at > 0 && (Date.now() + timeout) > at) {
-				throw err
-			}
-		}
-
-		const delay = payload.retry_delay || payload.delay
-		const at = delay.isNil ? null : (new Date(Date.now() + delay))
-		payload.try = tryCount + 1
-
+	retry(context, payload, at) {
 		return this._push(payload, at)
 	}
 

@@ -74,17 +74,17 @@ export class RedisDriver extends BaseDriver {
 		return this._add(this.buildPayload(job))
 	}
 
-	listen(queues, concurrency, jobHandler, errorHandler) {
+	listen(queues, concurrency, context) {
 		const listeners = [ ]
 
 		for(let i = 0; i < concurrency; i++) {
-			listeners.push(this._listen(queues, jobHandler, errorHandler))
+			listeners.push(this._listen(queues, context))
 		}
 
 		return Promise.all(listeners)
 	}
 
-	async _listen(queues, jobHandler, errorHandler) {
+	async _listen(queues, context) {
 		const client = this.client.duplicate()
 		this.clients.push(client)
 
@@ -109,7 +109,7 @@ export class RedisDriver extends BaseDriver {
 						}
 
 						try {
-							await this._receiveMessage(jobHandler, errorHandler, JSON.parse(message))
+							await this.receivePayload(context, JSON.parse(message))
 							resolve()
 						} catch(err) {
 							reject(err)
@@ -120,45 +120,16 @@ export class RedisDriver extends BaseDriver {
 		}
 	}
 
-	async _receiveMessage(jobHandler, errorHandler, payload) {
-		try {
-			await jobHandler(payload)
-		} catch(err) {
-			try {
-				await this._retryMessageOrRethrow(payload, err)
-			} catch(err2) {
-				this.client.del(payload.id, () => { })
-				await errorHandler(payload, err)
-			}
-		}
+	success(context, payload) {
+		this.client.del(payload.id, () => { })
 	}
 
-	async _retryMessageOrRethrow(payload, err) {
-		const tries = Number(payload.tries) || 1
-
-		if(tries <= 1) {
-			throw err
-		}
-
-		const tryCount = Number(payload.try) || 1
-
-		if(tryCount >= tries) {
-			throw err
-		}
-
-		const timeout = Number(payload.timeout) || 0
-
-		if(timeout > 0) {
-			const at = Number(payload.at) || 0
-
-			if(at > 0 && (Date.now() + timeout) > at) {
-				throw err
-			}
-		}
-
-		payload.try = tryCount + 1
-
+	retry(context, payload) {
 		return this._add(payload)
+	}
+
+	fatal(context, payload) {
+		this.client.del(payload.id, () => { })
 	}
 
 	_add(payload) {

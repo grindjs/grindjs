@@ -58,32 +58,32 @@ export class Queue {
 
 		await this.connect()
 
-		return this.driver.listen(queues, concurrency, payload => {
-			let result = null
-
-			try {
+		return this.driver.listen(queues, concurrency, {
+			makeJob: payload => {
 				const jobClass = this.factory.jobs[payload.name]
 
 				if(jobClass.isNil) {
 					throw new Error('Invalid job name', payload.name)
 				}
 
-				result = jobClass.fromJson(payload.data).$handle(this.app, this)
-			} catch(err) {
+				return jobClass.fromJson(payload.data)
+			},
+
+			execute: async job => {
 				try {
-					return this.handleError(err)
-				} catch(err2) {
-					Log.error('Error handling error', err2)
-					return Promise.reject(err)
+					return await job.$handle(this.app, this)
+				} catch(err) {
+					try {
+						return await this.handleError(err)
+					} catch(err2) {
+						Log.error('Error handling error', err2)
+						throw err
+					}
 				}
-			}
+			},
 
-			if(result.isNil || typeof result.then !== 'function') {
-				return Promise.resolve()
-			}
-
-			return result.catch(err => this.handleError(err))
-		}, this.logError.bind(this))
+			handleError: this.logError.bind(this)
+		})
 	}
 
 	status(jobId) {

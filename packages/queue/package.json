@@ -37,7 +37,8 @@
     "fivebeans": "^1.5.0",
     "grind-cli": "^0.8.0-beta.4",
     "grind-framework": "^0.8.0-beta.1",
-    "redis": "^2.8.0"
+    "redis": "^2.8.0",
+    "uuid": "^3.3.2"
   },
   "engines": {
     "node": ">=10.13"
@@ -51,6 +52,9 @@
     "command": "lib/Commands/MakeJobCommand.js"
   },
   "ava": {
+		"helpers": [
+			"test/**/helpers/**/*"
+		],
     "require": [
       "@babel/register"
     ]

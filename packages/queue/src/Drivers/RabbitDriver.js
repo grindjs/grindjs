@@ -15,7 +15,7 @@ export class RabbitDriver extends BaseConnectionDriver {
 			user,
 			password,
 		} = { },
-		virtual_host,
+		virtual_host: virtualHostUnderscore,
 		virtualHost,
 		...options
 	} = { }) {
@@ -27,7 +27,7 @@ export class RabbitDriver extends BaseConnectionDriver {
 			port: port,
 			username: user,
 			password: password,
-			vhost: virtual_host || virtualHost || '/',
+			vhost: virtualHostUnderscore || virtualHost || '/',
 			...options
 		}
 	}
@@ -58,7 +58,7 @@ export class RabbitDriver extends BaseConnectionDriver {
 		return channel.waitForConfirms()
 	}
 
-	async listen(queues, concurrency, jobHandler, errorHandler) {
+	async listen(queues, concurrency, context) {
 		const channel = await this.channel()
 
 		await channel.prefetch(concurrency, queues.length > 1)
@@ -67,7 +67,7 @@ export class RabbitDriver extends BaseConnectionDriver {
 			await channel.assertQueue(queue)
 		}
 
-		const receiver = this._receiveMessage.bind(this, jobHandler, errorHandler)
+		const receiver = this.receivePayload.bind(this, context)
 		await Promise.all(queues.map(queue => channel.consume(queue, receiver)))
 
 		return new Promise((resolve, reject) => {
@@ -75,37 +75,37 @@ export class RabbitDriver extends BaseConnectionDriver {
 		})
 	}
 
-	async _receiveMessage(jobHandler, errorHandler, msg) {
+	async receivePayload(context, msg) {
 		const payload = JSON.parse(msg.content)
 
 		try {
-			await jobHandler(payload)
+			await super.receivePayload({
+				...context,
+				rabbit: { msg }
+			}, payload)
 		} catch(err) {
-			try {
-				await this._retryMessageOrRethrow(msg, payload, err)
-			} catch(err2) {
-				await errorHandler(payload, err)
-			}
+			throw err
 		} finally {
 			const channel = await this.channel()
 			await channel.ack(msg)
 		}
 	}
 
-	async _retryMessageOrRethrow(msg, payload, err) {
+	async retryOrRethrow(context, payload, job, error) {
 		const tries = Number.parseInt(payload.tries) || 1
 
 		if(tries <= 1) {
-			throw err
+			throw error
 		}
 
+		const { msg } = context.rabbit
 		const options = { ...msg.properties }
 		options.headers = options.headers || { }
 
 		const tryCount = Number.parseInt(options.headers['x-try']) || 1
 
 		if(tryCount >= tries) {
-			throw err
+			throw error
 		} else {
 			options.headers['x-try'] = tryCount + 1
 			options.headers['x-delay'] = Number.parseInt(options.headers['x-retry-delay']) || 0
@@ -118,7 +118,7 @@ export class RabbitDriver extends BaseConnectionDriver {
 			expiration -= Date.now() - timestamp
 
 			if(expiration <= 0) {
-				throw err
+				throw error
 			}
 
 			options.expiration = expiration
