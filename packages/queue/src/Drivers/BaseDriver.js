@@ -120,7 +120,7 @@ export class BaseDriver {
 					Log.error(`${this.constructor.name} error when calling fatal: ${err.message}`, err)
 				}
 
-				await context.handleError(job, err)
+				await context.handleError(job, payload, err)
 			}
 		}
 	}

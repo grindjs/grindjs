@@ -15,7 +15,7 @@ export function Listener(queue, callback, canFail = false, queueName = TestJob.q
 					clearTimeout(timeout)
 					return resolve()
 				},
-				handleError: (job, err) => {
+				handleError: (job, payload, err) => {
 					if(canFail) {
 						return
 					}

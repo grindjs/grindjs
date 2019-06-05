@@ -71,7 +71,13 @@ export class Queue {
 
 			execute: async job => {
 				try {
-					return await job.$handle(this.app, this)
+					await job.$handle(this.app, this)
+
+					try {
+						await job.$success(this.app, this)
+					} catch(err) {
+						Log.error(`${job.constructor.name} error when calling success: ${err.message}`, err)
+					}
 				} catch(err) {
 					try {
 						return await this.handleError(err)
@@ -82,7 +88,15 @@ export class Queue {
 				}
 			},
 
-			handleError: this.logError.bind(this)
+			handleError: async (job, payload, err) => {
+				try {
+					await job.$fatal(this.app, this, err)
+				} catch(err) {
+					Log.error(`${job.constructor.name} error when calling fatal: ${err.message}`, err)
+				}
+
+				return this.logError(payload, err)
+			}
 		})
 	}
 
