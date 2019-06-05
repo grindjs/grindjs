@@ -4,24 +4,6 @@ let FivebeansClient = null
 let FivebeansWorker = null
 
 /**
- * Loads the fivebeans package or throws an error
- * if it hasn‘t been added
- */
-function loadPackage() {
-	if(!FivebeansClient.isNil) {
-		return
-	}
-
-	try {
-		const Fivebeans = require('fivebeans')
-		FivebeansClient = Fivebeans.client
-		FivebeansWorker = Fivebeans.worker
-	} catch(err) {
-		throw new MissingPackageError('fivebeans')
-	}
-}
-
-/**
  * Wrapper around Fivebeans to provide a
  * promise based interface + simplifies a few ops
  */
@@ -153,4 +135,22 @@ export class Beanstalk {
 		return Promise.resolve()
 	}
 
+}
+
+/**
+ * Loads the fivebeans package or throws an error
+ * if it hasn‘t been added
+ */
+function loadPackage() {
+	if(!FivebeansClient.isNil) {
+		return
+	}
+
+	try {
+		const Fivebeans = require('fivebeans')
+		FivebeansClient = Fivebeans.client
+		FivebeansWorker = Fivebeans.worker
+	} catch(err) {
+		throw new MissingPackageError('fivebeans')
+	}
 }

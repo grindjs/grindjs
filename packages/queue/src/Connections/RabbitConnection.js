@@ -4,22 +4,6 @@ import { MissingPackageError } from 'grind-framework'
 
 let amqp = null
 
-/**
- * Loads the amqplib package or throws an error
- * if it hasn‘t been added
- */
-function loadPackage() {
-	if(!amqp.isNil) {
-		return
-	}
-
-	try {
-		amqp = require('amqplib')
-	} catch(err) {
-		throw new MissingPackageError('amqplib')
-	}
-}
-
 export class RabbitConnection extends BaseConnection {
 
 	_connection = null
@@ -81,4 +65,20 @@ export class RabbitConnection extends BaseConnection {
 		this.emit('close')
 	}
 
+}
+
+/**
+ * Loads the amqplib package or throws an error
+ * if it hasn‘t been added
+ */
+function loadPackage() {
+	if(!amqp.isNil) {
+		return
+	}
+
+	try {
+		amqp = require('amqplib')
+	} catch(err) {
+		throw new MissingPackageError('amqplib')
+	}
 }

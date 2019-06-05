@@ -5,28 +5,6 @@ let Client = null
 let Manager = null
 
 /**
- * Loads the faktory-client + faktory-worker packages
- * or throws an error if they haven’t been added
- */
-function loadPackage() {
-	if(!Client.isNil) {
-		return
-	}
-
-	try {
-		Manager = require('faktory-worker/lib/manager')
-	} catch(err) {
-		throw new MissingPackageError('faktory-worker')
-	}
-
-	try {
-		Client = require('faktory-client')
-	} catch(err) {
-		throw new MissingPackageError('faktory-worker')
-	}
-}
-
-/**
  * Faktory backed Queue Driver
  */
 export class FaktoryDriver extends BaseDriver {
@@ -151,4 +129,26 @@ export class FaktoryDriver extends BaseDriver {
 		}
 	}
 
+}
+
+/**
+ * Loads the faktory-client + faktory-worker packages
+ * or throws an error if they haven’t been added
+ */
+function loadPackage() {
+	if(!Client.isNil) {
+		return
+	}
+
+	try {
+		Manager = require('faktory-worker/lib/manager')
+	} catch(err) {
+		throw new MissingPackageError('faktory-worker')
+	}
+
+	try {
+		Client = require('faktory-client')
+	} catch(err) {
+		throw new MissingPackageError('faktory-worker')
+	}
 }

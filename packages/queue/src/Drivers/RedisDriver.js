@@ -6,25 +6,7 @@ let redis = null
 let uuid = null
 
 /**
- * Loads the redis/uuid packages or throws an error
- * if they haven’t been added
- */
-function loadPackage() {
-	try {
-		redis = require('redis')
-	} catch(err) {
-		throw new MissingPackageError('redis')
-	}
-
-	try {
-		uuid = require('uuid/v4')
-	} catch(err) {
-		throw new MissingPackageError('uuid')
-	}
-}
-
-/**
- * Redis/Bee backed Queue Driver
+ * Redis backed Queue Driver
  */
 export class RedisDriver extends BaseDriver {
 
@@ -213,4 +195,22 @@ export class RedisDriver extends BaseDriver {
 		return Promise.resolve()
 	}
 
+}
+
+/**
+ * Loads the redis/uuid packages or throws an error
+ * if they haven’t been added
+ */
+function loadPackage() {
+	try {
+		redis = require('redis')
+	} catch(err) {
+		throw new MissingPackageError('redis')
+	}
+
+	try {
+		uuid = require('uuid/v4')
+	} catch(err) {
+		throw new MissingPackageError('uuid')
+	}
 }
