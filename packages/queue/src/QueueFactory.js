@@ -3,7 +3,7 @@ import './Queue'
 
 import './Drivers/BaseDriver'
 import './Drivers/BeanstalkDriver'
-import './Drivers/FaktoryDriver'
+// import './Drivers/FaktoryDriver'
 import './Drivers/RabbitDriver'
 import './Drivers/RedisDriver'
 
@@ -16,7 +16,7 @@ export class QueueFactory {
 	drivers = {
 		beanstalk: BeanstalkDriver,
 		beanstalkd: BeanstalkDriver,
-		faktory: FaktoryDriver,
+		// faktory: FaktoryDriver,
 		rabbit: RabbitDriver,
 		rabbitmq: RabbitDriver,
 		redis: RedisDriver,

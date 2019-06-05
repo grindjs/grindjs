@@ -55,6 +55,10 @@
 		"helpers": [
 			"test/**/helpers/**/*"
 		],
+		"files": [
+			"test/**/*",
+			"!test/FaktoryDriver.js"
+		],
     "require": [
       "@babel/register"
     ]
