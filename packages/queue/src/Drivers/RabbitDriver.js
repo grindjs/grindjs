@@ -87,7 +87,8 @@ export class RabbitDriver extends BaseConnectionDriver {
 				await errorHandler(payload, err)
 			}
 		} finally {
-			await this.channel().then(channel => channel.ack(msg))
+			const channel = await this.channel()
+			await channel.ack(msg)
 		}
 	}
 
@@ -124,12 +125,14 @@ export class RabbitDriver extends BaseConnectionDriver {
 			options.timestamp = Date.now()
 		}
 
-		return this.channel().then(channel => channel.publish(
+		const channel = await this.channel()
+
+		return channel.publish(
 			msg.fields.exchange,
 			msg.fields.routingKey,
 			msg.content,
 			options
-		))
+		)
 	}
 
 	channel() {

@@ -6,8 +6,10 @@ export class Worker {
 		this.connection = connection
 	}
 
-	work(queues, concurrency = 1) {
-		return this.connection.willListen().then(() => this.connection.listen(queues, concurrency))
+	async work(queues, concurrency = 1) {
+		await this.connection.willListen()
+
+		return this.connection.listen(queues, concurrency)
 	}
 
 }

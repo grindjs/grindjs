@@ -42,15 +42,20 @@ export class BeanstalkDriver extends BaseDriver {
 	}
 
 	_listen(queues, jobHandler, errorHandler) {
-		return this.client.watch(queues, 'grind-job', (job, jobId, callback) => {
-			jobHandler(job).then(() => callback('success')).catch(err => {
-				const tries = Number.parseInt(job.tries) || 1
+		return this.client.watch(queues, 'grind-job', async (job, jobId, callback) => {
+			try {
+				await jobHandler(job)
+				await callback('success')
+			} catch(err) {
+				try {
+					const tries = Number.parseInt(job.tries) || 1
 
-				if(tries <= 1) {
-					throw err
-				}
+					if(tries <= 1) {
+						throw err
+					}
 
-				return this.client.statsJob(jobId).then(stats => {
+					const stats = await this.client.statsJob(jobId)
+
 					if(job.timeout > 0 && stats.age >= job.timeout) {
 						throw err
 					}
@@ -63,12 +68,12 @@ export class BeanstalkDriver extends BaseDriver {
 						delete job.retry_delay
 					}
 
-					callback('release', job.retry_delay)
-				})
-			}).catch(err => {
-				errorHandler(job, err)
-				callback('success')
-			})
+					await callback('release', job.retry_delay)
+				} catch(err2) {
+					errorHandler(job, err2)
+					callback('success')
+				}
+			}
 		})
 	}
 

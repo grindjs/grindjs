@@ -13,7 +13,7 @@ export class Queue {
 		this.driver = driver
 	}
 
-	connect() {
+	async connect() {
 		if(this.driver.state === 'connected') {
 			return Promise.resolve()
 		} else if(this.driver.state === 'connecting') {
@@ -27,32 +27,38 @@ export class Queue {
 		this._connectEmitter = new EventEmitter
 		this._connectEmitter.on('error', err => Log.error('_connectEmitter error', err))
 
-		return this.driver.connect().catch(err => {
+		try {
+			await this.driver.connect()
+		} catch(err) {
 			this.driver.state = 'error'
 			this._connectEmitter.emit('failed', err)
 			throw err
-		}).then(() => {
-			this.driver.state = 'connected'
-			this._connectEmitter.emit('connected')
-		})
+		}
+
+		this.driver.state = 'connected'
+		this._connectEmitter.emit('connected')
 	}
 
-	dispatch(job) {
-		return this.connect().then(() => this.driver.dispatch(job))
+	async dispatch(job) {
+		await this.connect()
+
+		return this.driver.dispatch(job)
 	}
 
 	willListen() {
 		return this.driver.willListen()
 	}
 
-	listen(queues, concurrency) {
+	async listen(queues, concurrency) {
 		if(typeof queues === 'string') {
 			queues = [ queues ]
 		} else if(queues.isNil) {
 			queues = [ this.driver.queue ]
 		}
 
-		return this.connect().then(() => this.driver.listen(queues, concurrency, payload => {
+		await this.connect()
+
+		return this.driver.listen(queues, concurrency, payload => {
 			let result = null
 
 			try {
@@ -77,7 +83,7 @@ export class Queue {
 			}
 
 			return result.catch(err => this.handleError(err))
-		}, this.logError.bind(this)))
+		}, this.logError.bind(this))
 	}
 
 	status(jobId) {
@@ -92,10 +98,10 @@ export class Queue {
 		Log.error(`Job failed: ${payload.name}`, err)
 	}
 
-	destroy() {
-		return this.driver.destroy().then(() => {
-			this.driver.state = 'destroyed'
-		})
+	async destroy() {
+		await this.driver.destroy()
+
+		this.driver.state = 'destroyed'
 	}
 
 }
