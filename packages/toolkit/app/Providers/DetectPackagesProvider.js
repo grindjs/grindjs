@@ -10,12 +10,19 @@ export async function DetectPackagesProvider(app) {
 	}
 
 	const bootstrap = (await FS.readFile(app.paths.bootstrap)).toString()
-	const packages = [ 'grind-cli', 'grind-http' ]
+	const info = require(app.paths.packageInfo)
+	const packages = new Set([
+		'grind-cli',
+		'grind-http',
+		...Object.keys(info.dependencies || { }),
+		...Object.keys(info.devDependencies || { }),
+		...((info.grind || { }).packages || [ ]),
+	])
 
-	bootstrap.replace(/require\s*\(\s*["'`](.+?)["'`]\s*\)/g, (_, pkg) => packages.push(pkg))
-	bootstrap.replace(/from\s+["'`](.+?)["'`]/g, (_, pkg) => packages.push(pkg))
+	bootstrap.replace(/require\s*\(\s*["'`](.+?)["'`]\s*\)/g, (_, pkg) => packages.add(pkg))
+	bootstrap.replace(/from\s+["'`](.+?)["'`]/g, (_, pkg) => packages.add(pkg))
 
-	return Promise.all(packages.filter(pkg => !/^[./]/.test(pkg)).map(async pkg => {
+	return Promise.all(Array.from(packages).filter(pkg => !/^[./]/.test(pkg)).map(async pkg => {
 		const packagePath = app.paths.packages(pkg.includes('/') ? path.dirname(pkg) : pkg)
 		const packageInfoPath = path.join(packagePath, 'package.json')
 
