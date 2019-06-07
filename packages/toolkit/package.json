@@ -17,20 +17,20 @@
   },
   "dependencies": {
     "as-type": "^1.0.0",
-    "babel-polyfill": "^6.23.0",
-    "fetchit": "^1.0.0",
-    "grind-cli": "^0.8.0-beta.1",
-    "grind-framework": "^0.8.0-beta.1",
-    "grind-stone": "^0.8.0-beta.6",
+    "fetchit": "^2.1.0",
+    "grind-cli": "^0.8.0-beta.4",
+    "grind-framework": "^0.8.0-beta.2",
+    "grind-stone": "^0.8.0-beta.9",
     "grind-view": "^0.8.0-beta.2"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-eslint": "^6.1.1",
-    "babel-preset-grind": "^0.8.0-beta.1",
-    "babel-register": "^6.24.1",
-    "eslint": "^3.19.0",
-    "eslint-config-grind": "^2.0.4",
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/register": "^7.4.4",
+    "babel-eslint": "^10.0.1",
+    "babel-preset-grind": "^0.8.0-beta.4",
+    "eslint": "^5.16.0",
+    "eslint-config-grind": "^2.3.0",
     "eslint-plugin-import-auto-name": "^1.0.3"
   },
   "engines": {
@@ -38,7 +38,34 @@
     "npm": ">=3.0"
   },
   "scripts": {
-    "prepare": "bin/build",
-    "lint": "bin/lint"
+    "prepack": "bin/build",
+    "lint": "eslint app boot"
+  },
+  "babel": {
+    "presets": [
+      [
+        "grind", {
+          "import-auto-name": {
+            "autoresolve": true
+          }
+        }
+      ]
+    ]
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "plugins": [
+      "import-auto-name"
+    ],
+    "env": {
+      "node": true
+    },
+    "extends": "grind",
+    "parserOptions": {
+      "sourceType": "module"
+    },
+    "globals": {
+      "ValidationError": false
+    }
   }
 }

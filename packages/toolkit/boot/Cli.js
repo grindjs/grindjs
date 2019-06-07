@@ -2,8 +2,7 @@
 // WARNING: This file is *NOT* processed through babel
 //
 
-require('babel-register')
-require('babel-polyfill')
+require('@babel/register')
 require('grind-framework')
 
 const { CliKernel, Runner } = require('grind-cli')

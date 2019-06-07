@@ -9,15 +9,14 @@ strip_babel() {
 echo "Cleaning up old build"
 rm -fr lib
 
-echo "libing"
-
+echo "Building"
 mkdir lib lib/app lib/boot
 babel -s inline -d lib/app/ app/
 babel -s inline -d lib/boot/ boot/
 
 echo "Setting up bins"
 cp -R bin lib/bin
-rm lib/bin/build lib/bin/lint
+rm lib/bin/build
 
 strip_babel lib/boot/Cli.js
 chmod +x lib/bin/*
