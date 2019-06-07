@@ -2,7 +2,7 @@
 
 strip_babel() {
 	cp "$1" "$1-tmp"
-	cat "$1-tmp" | sed "s/require('babel-register')//g" > "$1"
+	cat "$1-tmp" | sed "s/require('@babel\/register')//g" > "$1"
 	rm "$1-tmp"
 }
 
