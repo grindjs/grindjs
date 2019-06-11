@@ -30,7 +30,7 @@ export class Config {
 
 	loadDefault(group, file) {
 		// eslint-disable-next-line no-sync
-		const config = JSON5.parse(fs.readFileSync(file))
+		const config = this._loadConfigFile(file)
 		const existing = this._repository[group] || { }
 		this._repository[group] = merge(merge({ }, config), existing)
 	}
@@ -73,8 +73,7 @@ export class Config {
 			}
 
 			for(const file of files[group]) {
-				// eslint-disable-next-line no-sync
-				const config = JSON5.parse(fs.readFileSync(file))
+				const config = this._loadConfigFile(file)
 				this._repository[group] = merge(this._repository[group] || { }, config)
 			}
 		}
@@ -84,7 +83,7 @@ export class Config {
 		if(Array.isArray(files['.env']) && files['.env'].length > 0) {
 			for(const file of files['.env']) {
 				// eslint-disable-next-line no-sync
-				env.push(JSON5.parse(fs.readFileSync(file)))
+				env.push(this._loadConfigFile(file))
 			}
 		}
 
@@ -113,11 +112,12 @@ export class Config {
 	_populateConfigFiles(files, dir) {
 		// eslint-disable-next-line no-sync
 		for(const file of fs.readdirSync(dir)) {
-			if(path.extname(file) !== '.json') {
+			const extname = path.extname(file)
+			if(extname !== '.json' && extname !== '.js') {
 				continue
 			}
 
-			const name = path.basename(file, '.json')
+			const name = path.basename(file, extname)
 
 			if(!files[name]) {
 				files[name] = [ ]
@@ -125,6 +125,31 @@ export class Config {
 
 			files[name].push(path.join(dir, path.basename(file)))
 		}
+	}
+
+	_loadConfigFile(file) {
+		const extname = path.extname(file)
+
+		if(extname === '.json') {
+			// eslint-disable-next-line no-sync
+			return JSON5.parse(fs.readFileSync(file))
+		} else if(extname !== '.js') {
+			throw new Error(`Unsupported config file extension: ${extname}`)
+		}
+
+		const { default: config } = require(file) || { }
+
+		if(config.isNil) {
+			throw new Error(`Config files must contain a default export: ${file}`)
+		}
+
+		if(typeof config === 'function') {
+			return config()
+		} else if(typeof config === 'object') {
+			return config
+		}
+
+		throw new Error(`Invalid config file export for default: ${file}`)
 	}
 
 }

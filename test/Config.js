@@ -13,16 +13,40 @@ test('simple', t => {
 	t.is(config().get('app.debug', false), true)
 })
 
+test('simple - func', t => {
+	t.is(config().get('app-func.debug', false), true)
+})
+
+test('simple - object', t => {
+	t.is(config().get('app-func.debug', false), true)
+})
+
 test('nesting', t => {
 	t.is(config().get('app.nested.c.true', false), true)
+})
+
+test('nesting - func', t => {
+	t.is(config().get('app-func.nested.c.true', false), true)
+})
+
+test('nesting - object', t => {
+	t.is(config().get('app-object.nested.c.true', false), true)
 })
 
 test('environment cascading', t => {
 	t.is(config('production').get('app.debug', true), false)
 })
 
+test('environment cascading - func', t => {
+	t.is(config('staging').get('app.debug', true), false)
+})
+
 test('environment cascading nesting', t => {
 	t.is(config('production').get('app.nested.c.true', true), false)
+})
+
+test('environment cascading nesting - func', t => {
+	t.is(config('staging').get('app.nested.c.true', true), false)
 })
 
 test('.env', t => {
