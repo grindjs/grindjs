@@ -7,6 +7,8 @@ export class Job {
 	static retryDelay = null
 	static timeout = null
 
+	$result = null
+
 	$options = {
 		id: null,
 		queue: null,

@@ -97,7 +97,9 @@ export class Queue {
 						Log.error(`${job.constructor.name} error when calling success: ${err.message}`, err)
 					}
 
-					await this.updateJobState(job, 'done')
+					await this.updateJobState(job, 'done', {
+						result: job.$result
+					})
 				} catch(err) {
 					await this.updateJobState(job, 'waiting')
 
@@ -111,7 +113,9 @@ export class Queue {
 			},
 
 			handleError: async (job, payload, err) => {
-				await this.updateJobState(job, 'failed')
+				await this.updateJobState(job, 'failed', {
+					result: job.$result
+				})
 
 				try {
 					await job.$fatal(this.app, this, err)
@@ -152,9 +156,9 @@ export class Queue {
 		this.driver.state = 'destroyed'
 	}
 
-	async updateJobState(job, state) {
+	async updateJobState(job, state, context = { }) {
 		try {
-			await job.$updateState(this.app, state)
+			await job.$updateState(this.app, state, context)
 		} catch(err) {
 			Log.error(`${job.constructor.name} stateful update error`, err)
 		}

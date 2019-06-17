@@ -99,6 +99,25 @@ test('running', async t => {
 	t.is('number', typeof status.lastActivity)
 })
 
+test('results', async t => {
+	const { queue } = t.context
+	const payload = { time: Date.now() }
+	const job = new TestJob({ result: payload })
+	job.$queue(t.context.queueName)
+
+	const id = await queue.dispatch(job)
+
+	queue.get().listen(t.context.queueName, 1)
+	await (new Promise(resolve => setTimeout(resolve, 500)))
+
+	const status = await queue.status(id)
+
+	t.is('done', status.state)
+	t.is(id, status.id)
+	t.is('number', typeof status.lastActivity)
+	t.deepEqual(payload, status.result)
+})
+
 test('controller/missing', async t => {
 	t.context.app.config.set('app.port', null)
 	const server = t.context.app.http.start()
@@ -126,4 +145,27 @@ test('controller/waiting', async t => {
 	t.is('waiting', status.state)
 	t.is(id, status.id)
 	t.is('number', typeof status.lastActivity)
+})
+
+test('controller/results', async t => {
+	const { queue, app } = t.context
+	app.config.set('app.port', null)
+
+	const server = t.context.app.http.start()
+	const { port } = server.address()
+
+	const payload = { time: Date.now() }
+	const job = new TestJob({ result: payload })
+	job.$queue(t.context.queueName)
+
+	const id = await queue.dispatch(job)
+
+	queue.get().listen(t.context.queueName, 1)
+	await (new Promise(resolve => setTimeout(resolve, 500)))
+
+	const status = await fetch.json(`http://localhost:${port}/queue/${id}`)
+	t.is('done', status.state)
+	t.is(id, status.id)
+	t.is('number', typeof status.lastActivity)
+	t.deepEqual(payload, status.result)
 })
