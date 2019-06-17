@@ -97,6 +97,12 @@ export class Queue {
 						Log.error(`${job.constructor.name} error when calling success: ${err.message}`, err)
 					}
 
+					try {
+						await job.$finally(this.app, this)
+					} catch(err) {
+						Log.error(`${job.constructor.name} error when calling finally: ${err.message}`, err)
+					}
+
 					await this.updateJobState(job, 'done', {
 						result: job.$result
 					})
@@ -121,6 +127,12 @@ export class Queue {
 					await job.$fatal(this.app, this, err)
 				} catch(err) {
 					Log.error(`${job.constructor.name} error when calling fatal: ${err.message}`, err)
+				}
+
+				try {
+					await job.$finally(this.app, this)
+				} catch(err) {
+					Log.error(`${job.constructor.name} error when calling finally: ${err.message}`, err)
 				}
 
 				return this.logError(payload, err)

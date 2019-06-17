@@ -58,6 +58,11 @@ export class Job {
 		//
 	}
 
+	// eslint-disable-next-line no-unused-vars
+	$finally(app, queue) {
+
+	}
+
 	$queue(value) {
 		this.$options.queue = value
 		return this
