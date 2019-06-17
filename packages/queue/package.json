@@ -18,6 +18,9 @@
     "queue",
     "faktory"
   ],
+  "dependencies": {
+    "uuid": "^3.3.2"
+  },
   "peerDependencies": {
     "grind-cli": "^0.8.0-beta.4",
     "grind-framework": "^0.8.0-beta.1"
@@ -34,11 +37,13 @@
     "eslint-config-grind": "^2.1.5",
     "eslint-plugin-import-auto-name": "^1.1.0",
     "faktory-worker": "^0.6.3",
+    "fetchit": "^2.1.0",
     "fivebeans": "^1.5.0",
+    "grind-cache": "^0.7.1",
     "grind-cli": "^0.8.0-beta.4",
-    "grind-framework": "^0.8.0-beta.1",
-    "redis": "^2.8.0",
-    "uuid": "^3.3.2"
+    "grind-framework": "^0.8.0-beta.4",
+    "grind-http": "^0.8.0-beta.1",
+    "redis": "^2.8.0"
   },
   "engines": {
     "node": ">=10.13"

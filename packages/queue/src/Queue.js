@@ -1,16 +1,21 @@
 const EventEmitter = require('events')
+const uuid = require('uuid/v4')
+
+import './Job'
 
 export class Queue {
 
-	driver = null
-	app = null
-	factory = null
+	app
+	factory
+	driver
+	stateful
 	_connectEmitter = null
 
-	constructor(app, factory, driver) {
+	constructor(app, factory, driver, stateful) {
 		this.app = app
 		this.factory = factory
 		this.driver = driver
+		this.stateful = stateful
 	}
 
 	async connect() {
@@ -42,7 +47,16 @@ export class Queue {
 	async dispatch(job) {
 		await this.connect()
 
-		return this.driver.dispatch(job)
+		let id = null
+
+		if(this.stateful) {
+			id = uuid()
+		}
+
+		await this.driver.dispatch(job, id)
+		await this.updateJobState(job, 'waiting')
+
+		return id
 	}
 
 	willListen() {
@@ -66,11 +80,15 @@ export class Queue {
 					throw new Error('Invalid job name', payload.name)
 				}
 
-				return jobClass.fromJson(payload.data)
+				const job = jobClass.fromJson(payload.data)
+				job.$id = payload.id
+
+				return job
 			},
 
 			execute: async job => {
 				try {
+					await this.updateJobState(job, 'running')
 					await job.$handle(this.app, this)
 
 					try {
@@ -78,7 +96,11 @@ export class Queue {
 					} catch(err) {
 						Log.error(`${job.constructor.name} error when calling success: ${err.message}`, err)
 					}
+
+					await this.updateJobState(job, 'done')
 				} catch(err) {
+					await this.updateJobState(job, 'waiting')
+
 					try {
 						return await this.handleError(err)
 					} catch(err2) {
@@ -89,6 +111,8 @@ export class Queue {
 			},
 
 			handleError: async (job, payload, err) => {
+				await this.updateJobState(job, 'failed')
+
 				try {
 					await job.$fatal(this.app, this, err)
 				} catch(err) {
@@ -101,7 +125,17 @@ export class Queue {
 	}
 
 	status(jobId) {
-		return this.driver.status(jobId)
+		if(!this.stateful) {
+			throw new Error('`grind-queue` is not configured to be stateful')
+		}
+
+		return this.app.cache.get(Job.stateKey(jobId)).then(result => {
+			if(result.isNil) {
+				return { state: 'missing' }
+			}
+
+			return result
+		})
 	}
 
 	handleError(err) {
@@ -116,6 +150,14 @@ export class Queue {
 		await this.driver.destroy()
 
 		this.driver.state = 'destroyed'
+	}
+
+	async updateJobState(job, state) {
+		try {
+			await job.$updateState(this.app, state)
+		} catch(err) {
+			Log.error(`${job.constructor.name} stateful update error`, err)
+		}
 	}
 
 }

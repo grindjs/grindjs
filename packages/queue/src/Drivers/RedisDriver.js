@@ -44,8 +44,8 @@ export class RedisDriver extends BaseDriver {
 		return Promise.resolve()
 	}
 
-	dispatch(job) {
-		return this._add(this.buildPayload(job))
+	dispatch(job, id) {
+		return this._add(this.buildPayload(job, id))
 	}
 
 	listen(queues, concurrency, context) {

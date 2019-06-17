@@ -36,12 +36,12 @@ export class FaktoryDriver extends BaseDriver {
 		)
 	}
 
-	async dispatch(job) {
+	async dispatch(job, id) {
 		if(!this.isAlive) {
 			await this.connect()
 		}
 
-		const payload = this.buildPayload(job)
+		const payload = this.buildPayload(job, id)
 		const at = payload.delay.isNil ? null : (new Date(Date.now() + payload.delay))
 		payload.try = 1
 		payload.queued_at = (at || new Date).getTime()

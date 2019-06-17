@@ -1,9 +1,13 @@
 import { CliKernel } from 'grind-cli'
+import { CacheProvider } from 'grind-cache'
 
 import {
 	Application as BaseApplication,
 	Paths as BasePaths
 } from 'grind-framework'
+
+import '../../src/QueueProvider'
+import './TestJob'
 
 const path = require('path')
 
@@ -17,10 +21,15 @@ class Paths extends BasePaths {
 
 export class Application extends BaseApplication {
 
-	constructor() {
-		super(CliKernel, {
+	constructor(kernel = CliKernel) {
+		super(kernel, {
 			pathsClass: Paths
 		})
+
+		CacheProvider(this)
+		QueueProvider(this)
+
+		this.queue.register(TestJob)
 	}
 
 }

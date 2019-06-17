@@ -2,6 +2,33 @@
 
 	"default": "redis",
 
+	/**
+	 * If stateful.enabled is set to true, all dispatched jobs
+	 * will be assigned a unique ID that will be returned.
+	 *
+	 * Interested consumers can check the state of a job
+	 * by making a GET request to `/queue/:id`
+	 *
+	 * `grind-cache` is required as the backend to store
+	 * state.
+	 */
+	"stateful": {
+		/**
+		 * Whether or not job state should be tracked
+		 */
+		"enabled": true,
+
+		/**
+		 * Route prefix for the stateful REST API
+		 */
+		"route": "/queue",
+
+		/**
+		 * How long job results should be stored for
+		 */
+		"ttl": 86400
+	},
+
 	"connections": {
 
 		"redis": {

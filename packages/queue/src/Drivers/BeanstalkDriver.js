@@ -20,8 +20,8 @@ export class BeanstalkDriver extends BaseDriver {
 		return this.client.connect()
 	}
 
-	async dispatch(job) {
-		const payload = this.buildPayload(job)
+	async dispatch(job, id) {
+		const payload = this.buildPayload(job, id)
 
 		await this.client.use(payload.queue)
 

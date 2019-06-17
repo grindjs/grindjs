@@ -32,8 +32,8 @@ export class RabbitDriver extends BaseConnectionDriver {
 		}
 	}
 
-	async dispatch(job) {
-		const payload = this.buildPayload(job)
+	async dispatch(job, id) {
+		const payload = this.buildPayload(job, id)
 		const options = {
 			timestamp: Date.now(),
 			type: payload.name,

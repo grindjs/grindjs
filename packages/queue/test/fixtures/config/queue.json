@@ -2,6 +2,10 @@
 
 	"default": "redis",
 
+	"stateful": {
+		"enabled": true
+	},
+
 	"connections": {
 
 		"redis": {

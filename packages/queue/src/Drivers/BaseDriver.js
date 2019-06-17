@@ -30,9 +30,10 @@ export class BaseDriver {
 	 * Dispatches a job
 	 *
 	 * @param  Job job Job to dispatch
+	 * @param  String id ID of the job
 	 * @return Promise    Promise that resolves to the dispatched job id
 	 */
-	dispatch(/* job */) {
+	dispatch(/* job, id */) {
 		return Promise.reject(new Error('Abstract method, subclasses must implement.'))
 	}
 
@@ -62,26 +63,19 @@ export class BaseDriver {
 	}
 
 	/**
-	 * Checks the status of a job
-	 *
-	 * @param  mixed jobId     ID of a job previously dispatched on the queue
-	 * @return Promise<string> Status of the job
-	 */
-	status(/* jobId */) {
-		return Promise.reject(new Error('Abstract method, subclasses must implement.'))
-	}
-
-	/**
 	 * Builds the payload for a job
 	 *
 	 * @param  Job job Instance of a job to create a payload for
+	 * @param  String id ID of the job
 	 * @return object  Raw object that can be serialized and stored
 	 */
-	buildPayload(job) {
+	buildPayload(job, id) {
 		const options = job.$options
 		const defaults = job.constructor
+		job.$id = id
 
 		return {
+			id: id,
 			name: job.constructor.jobName,
 			data: job.$toJson(),
 			queue: options.queue || defaults.queue || this.queue,

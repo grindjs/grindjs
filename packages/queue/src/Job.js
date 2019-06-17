@@ -8,6 +8,7 @@ export class Job {
 	static timeout = null
 
 	$options = {
+		id: null,
 		queue: null,
 		delay: null,
 		tries: null,
@@ -18,6 +19,31 @@ export class Job {
 	// eslint-disable-next-line no-unused-vars
 	$handle(app, queue) {
 		//
+	}
+
+	$touch(app, state = 'running') {
+		return this.$updateState(app, state)
+	}
+
+	$updateState(app, state, context = { }) {
+		if(!app.queue.stateful || typeof this.$id !== 'string') {
+			return Promise.resolve()
+		}
+
+		if(app.cache.isNil) {
+			Log.warning('WARNING: `grind-cache` must be loaded to use stateful jobs')
+			return Promise.resolve()
+		}
+
+		// Using Job over this.constructor to prevent overriding of stateKey
+		return app.cache.set(Job.stateKey(this.$id), {
+			state,
+			...context,
+			lastActivity: Date.now(),
+			id: this.$id
+		}, {
+			ttl: app.queue.statefulTtl
+		})
 	}
 
 	// eslint-disable-next-line no-unused-vars
@@ -75,6 +101,10 @@ export class Job {
 
 	static fromJson(json) {
 		return Object.assign(Object.create(this.prototype), json)
+	}
+
+	static stateKey(id) {
+		return `grind-queue:job:${id}`
 	}
 
 }

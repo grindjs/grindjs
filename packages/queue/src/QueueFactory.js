@@ -11,6 +11,7 @@ export class QueueFactory {
 
 	app
 	queueClass
+	stateful
 	connections = { }
 	jobs = { }
 	drivers = {
@@ -26,6 +27,8 @@ export class QueueFactory {
 	constructor(app, { queueClass } = { }) {
 		this.app = app
 		this.queueClass = queueClass || Queue
+		this.stateful = app.config.get('queue.stateful.enabled', false)
+		this.statefulTtl = app.config.get('queue.stateful.ttl', 86400)
 	}
 
 	dispatch(job, connection = null) {
@@ -76,7 +79,7 @@ export class QueueFactory {
 	}
 
 	make(driverClass, config) {
-		return new this.queueClass(this.app, this, new driverClass(this.app, config))
+		return new this.queueClass(this.app, this, new driverClass(this.app, config), this.stateful)
 	}
 
 	registerDriver(name, driverClass) {
