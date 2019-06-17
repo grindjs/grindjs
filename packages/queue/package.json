@@ -52,13 +52,13 @@
     "command": "lib/Commands/MakeJobCommand.js"
   },
   "ava": {
-		"helpers": [
-			"test/**/helpers/**/*"
-		],
-		"files": [
-			"test/**/*",
-			"!test/FaktoryDriver.js"
-		],
+    "helpers": [
+      "test/**/helpers/**/*"
+    ],
+    "files": [
+      "test/**/*",
+      "!test/FaktoryDriver.js"
+    ],
     "require": [
       "@babel/register"
     ]

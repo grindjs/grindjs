@@ -1,0 +1,27 @@
+{
+
+	"default": "redis",
+
+	"connections": {
+
+		"redis": {
+			"driver": "redis",
+			"connection": {
+				"host": "localhost",
+				"port": 6379,
+			}
+		},
+
+		"redis-default": {
+			"driver": "redis",
+			"connection": null
+		},
+
+		"redis-auth": {
+			"driver": "redis",
+			"connection": "auth"
+		}
+
+	}
+
+}

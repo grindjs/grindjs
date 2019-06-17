@@ -1,0 +1,18 @@
+{
+
+	"default": "redis",
+
+	"connections": {
+
+		"redis": {
+			"host": "test",
+			"port": 6000
+		},
+
+		"auth": {
+			"password": "test"
+		}
+
+	}
+
+}
