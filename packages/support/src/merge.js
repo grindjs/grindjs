@@ -1,6 +1,6 @@
 export function merge(a, b) {
-	const typeA = Array.isArray(a) ? 'array' : typeof a
-	const typeB = Array.isArray(b) ? 'array' : typeof b
+	const typeA = Array.isArray(a) ? 'array' : (a === null ? 'null' : typeof a)
+	const typeB = Array.isArray(b) ? 'array' : (b === null ? 'null' : typeof b)
 
 	if(typeA !== typeB || typeA === 'undefined') {
 		return b

@@ -8,7 +8,8 @@ const lhs = {
 		b: 'b',
 		c: {
 			true: true
-		}
+		},
+		d: null
 	},
 	array: [ 'a', 'b' ]
 }
@@ -18,6 +19,9 @@ const rhs = {
 	nested: {
 		c: {
 			true: false
+		},
+		d: {
+			true: true
 		}
 	},
 	array: [ 'c' ]
@@ -31,6 +35,7 @@ test('simple', t => {
 test('nested', t => {
 	const merged = merge(lhs, rhs)
 	t.is(merged.nested.c.true, false)
+	t.is(merged.nested.d.true, true)
 })
 
 test('arrays', t => {
