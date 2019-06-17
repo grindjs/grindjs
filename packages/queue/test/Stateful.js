@@ -50,7 +50,7 @@ test('finished', async t => {
 
 	const id = await queue.dispatch(job)
 	let status = await queue.status(id)
-	t.deepEqual('waiting', status.state)
+	t.is('waiting', status.state)
 
 	queue.get().listen(t.context.queueName, 1)
 	await (new Promise(resolve => setTimeout(resolve, 500)))
@@ -69,7 +69,7 @@ test('failed', async t => {
 
 	const id = await queue.dispatch(job)
 	let status = await queue.status(id)
-	t.deepEqual('waiting', status.state)
+	t.is('waiting', status.state)
 
 	queue.get().listen(t.context.queueName, 1)
 	await (new Promise(resolve => setTimeout(resolve, 500)))
@@ -88,7 +88,7 @@ test('running', async t => {
 
 	const id = await queue.dispatch(job)
 	let status = await queue.status(id)
-	t.deepEqual('waiting', status.state)
+	t.is('waiting', status.state)
 
 	queue.get().listen(t.context.queueName, 1)
 	await (new Promise(resolve => setTimeout(resolve, 100)))
