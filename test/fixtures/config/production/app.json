@@ -5,6 +5,9 @@
 	"nested": {
 		"c": {
 			"true": false
+		},
+		"d": {
+			"true": true
 		}
 	}
 

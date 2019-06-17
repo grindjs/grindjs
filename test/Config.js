@@ -43,6 +43,7 @@ test('environment cascading - func', t => {
 
 test('environment cascading nesting', t => {
 	t.is(config('production').get('app.nested.c.true', true), false)
+	t.is(config('production').get('app.nested.d.true', false), true)
 })
 
 test('environment cascading nesting - func', t => {
