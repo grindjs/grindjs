@@ -8,13 +8,17 @@ $link-color: $accent-color;
 $link-color-hover: darken($link-color, 5%);
 $link-color-active: darken($link-color, 10%);
 
-$font-weight-ultra-light: 100;
+$font-weight-thin: 100;
+$font-weight-ultra-light: 200;
 $font-weight-light: 300;
 $font-weight-normal: 400;
 $font-weight-medium: 500;
-$font-weight-bold: 600;
+$font-weight-semi-bold: 500;
+$font-weight-bold: 700;
+$font-weight-extra-bold: 800;
+$font-weight-black: 900;
 
-$font-family-sans-serif: 'BentonSans', sans-serif;
+$font-family-sans-serif: 'Source Sans Pro', sans-serif;
 
 $transition-duration: 0.2s;
 $transition-timing-function: ease-in-out;
