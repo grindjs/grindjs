@@ -1,5 +1,5 @@
 {
-	"presets": [ "es2015", "stage-1" ],
+	"presets": [ "@babel/env" ],
 	"plugins": [
 		"babel-plugin-transform-isnil"
 	]

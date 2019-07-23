@@ -2,34 +2,71 @@
   "name": "grind-example-web",
   "version": "0.8.0-beta.2",
   "private": true,
+  "scripts": {
+    "build": "bin/build",
+    "lint": "eslint app boot resources/assets/babel"
+  },
   "dependencies": {
-    "grind-core-frontend": "^0.8.0-beta.2",
+    "grind-core-frontend": "^0.8.0-beta.3",
     "grind-db": "^0.8.0-beta.1",
-    "grind-orm": "^0.8.0-beta.1",
-    "sqlite3": "^3.1.8"
+    "grind-orm": "^0.8.0-beta.3",
+    "sqlite3": "^4.0.9"
   },
   "devDependencies": {
-    "autoprefixer": "^7.1.2",
-    "babel-cli": "^6.24.0",
-    "babel-eslint": "^7.2.1",
-    "babel-plugin-module-resolver": "^2.5.0",
-    "babel-preset-es2015": "^6.24.0",
-    "babel-preset-grind": "^0.8.0-beta.1",
-    "babel-preset-stage-1": "^6.22.0",
-    "babel-register": "^6.24.1",
-    "babelify": "^7.3.0",
-    "browserify": "^14.4.0",
-    "clean-css": "^4.1.7",
-    "eslint": "^3.18.0",
-    "eslint-config-grind": "^2.0.4",
-    "eslint-plugin-import-auto-name": "^1.0.3",
-    "node-sass": "^4.5.3",
-    "normalize.css": "^7.0.0",
-    "ouch": "^1.0.0",
-    "svgo": "^0.7.2",
-    "uglify-js": "^3.0.25"
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/register": "^7.5.5",
+    "autoprefixer": "^9.6.1",
+    "babel-eslint": "^10.0.2",
+    "babel-plugin-module-resolver": "^3.2.0",
+    "babel-plugin-transform-isnil": "^1.0.1",
+    "babel-preset-grind": "^0.8.0-beta.4",
+    "babelify": "^10.0.0",
+    "browserify": "^16.3.0",
+    "clean-css": "^4.2.1",
+    "eslint": "^6.1.0",
+    "eslint-config-grind": "^2.3.0",
+    "eslint-plugin-import-auto-name": "^1.1.0",
+    "node-sass": "^4.12.0",
+    "normalize.css": "^8.0.1",
+    "ouch": "^2.0.0",
+    "svgo": "^1.3.0",
+    "uglify-js": "^3.6.0"
   },
   "engines": {
-    "node": ">=6.9"
+    "node": ">=10.0"
+  },
+  "babel": {
+    "presets": [
+      "grind"
+    ],
+    "plugins": [
+      [
+        "module-resolver",
+        {
+          "alias": {
+            "App": "./app",
+            "Boot": "./boot"
+          }
+        }
+      ]
+    ]
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "plugins": [
+      "import-auto-name"
+    ],
+    "env": {
+      "node": true
+    },
+    "extends": "grind",
+    "parserOptions": {
+      "sourceType": "module"
+    },
+    "globals": {
+      "ValidationError": false
+    }
   }
 }
