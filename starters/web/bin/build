@@ -1,26 +1,59 @@
-#!/usr/bin/env bash
+#!/usr/bin/env node
+/* eslint-disable no-sync */
 
-strip_babel() {
-	cp "$1" "$1-tmp"
-	cat "$1-tmp" | sed "s/require('babel-register')//g" > "$1"
-	rm "$1-tmp"
+const { execFileSync } = require('child_process')
+const fs = require('fs')
+const path = require('path')
+
+console.log('Cleaning up old build')
+rmdirsSync(relativePathname('build'))
+
+console.log('Building')
+fs.mkdirSync(relativePathname('build/app'), { recursive: true })
+fs.mkdirSync(relativePathname('build/boot'))
+babelCompileSync(relativePathname('app'), relativePathname('build/app'))
+babelCompileSync(relativePathname('boot'), relativePathname('build/boot'))
+
+console.log('Setting up bins')
+fs.mkdirSync('build/bin')
+fs.copyFileSync('bin/cli', 'build/bin/cli')
+
+console.log('Finalizing boot files')
+stripBabelSync(relativePathname('build/boot/Cli.js'))
+stripBabelSync(relativePathname('build/boot/Http.js'))
+
+console.log('Finished')
+
+function stripBabelSync(file) {
+	let content = fs.readFileSync(file).toString()
+	content = content.replace(/require\('@babel\/register'\)/g, '')
+	return fs.writeFileSync(file, content)
 }
 
-echo "Cleaning up old build"
-rm -fr build
+function babelCompileSync(input, output) {
+	return execFileSync('node', [
+		require.resolve('@babel/cli/lib/babel'),
+		'--copy-files',
+		'--source-maps', 'inline',
+		'--out-dir', output,
+		input
+	])
+}
 
-echo "Building"
+function rmdirsSync(pathname) {
+	if(!fs.existsSync(pathname)) {
+		return
+	} else if(!fs.lstatSync(pathname).isDirectory()) {
+		return fs.unlinkSync(pathname)
+	}
 
-mkdir build build/app build/boot
-babel -s inline -d build/app/ app/
-babel -s inline -d build/boot/ boot/
+	for(const child of fs.readdirSync(pathname)) {
+		rmdirsSync(path.join(pathname, child))
+	}
 
-echo "Setting up bins"
-cp -R bin build/bin
-rm build/bin/build build/bin/lint
+	fs.rmdirSync(pathname)
+}
 
-strip_babel build/boot/Cli.js
-strip_babel build/boot/Http.js
-chmod +x build/bin/* build/bin/.init
-
-echo "Done"
+function relativePathname(pathname) {
+	return path.join(__dirname, '../', pathname)
+}
