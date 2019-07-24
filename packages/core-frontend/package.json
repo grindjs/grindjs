@@ -14,14 +14,14 @@
   "author": "Shaun Harrison (@shnhrrsn)",
   "license": "MIT",
   "dependencies": {
-    "cookie-parser": "^1.4.3",
+    "cookie-parser": "^1.4.4",
     "express-flash": "^0.0.2",
-    "express-session": "^1.15.3",
-    "grind-assets": "^0.8.0-beta.2",
-    "grind-core": "^0.8.0-beta.2",
+    "express-session": "^1.16.2",
+    "grind-assets": "^0.8.0-beta.11",
+    "grind-core": "^0.8.0-beta.3",
     "grind-html": "^0.8.0-beta.1",
-    "grind-stone": "^0.8.0-beta.5",
-    "grind-view": "^0.8.0-beta.1",
-    "method-override": "^2.3.9"
+    "grind-stone": "^0.8.0-beta.9",
+    "grind-view": "^0.8.0-beta.2",
+    "method-override": "^3.0.0"
   }
 }
