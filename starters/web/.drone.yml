@@ -1,29 +1,45 @@
 ---
 kind: pipeline
-name: pipeline
+name: node12
 
 steps:
 
-  - name: node12
-    image: mhart/alpine-node:12
-    commands:
-      - yarn install
-      - yarn lint-js
-      - yarn lint-scss
-    depends_on:
-      - clone
+  - name: install
+    image: &image mhart/alpine-node:12
+    commands: [ yarn install ]
 
-  - name: node10
-    image: mhart/alpine-node:10
-    commands:
-      - yarn install
-      - yarn lint-js
-      - yarn lint-scss
-    depends_on:
-      - clone
+  - name: lint-js
+    image: *image
+    commands: [ yarn lint-js ]
+    depends_on: [ install ]
+
+  - name: lint-scss
+    image: *image
+    commands: [ yarn lint-scss ]
+    depends_on: [ install ]
+
+---
+kind: pipeline
+name: node10
+
+steps:
+
+  - name: install
+    image: &image mhart/alpine-node:10
+    commands: [ yarn install ]
+
+  - name: lint-js
+    image: *image
+    commands: [ yarn lint-js ]
+    depends_on: [ install ]
+
+  - name: lint-scss
+    image: *image
+    commands: [ yarn lint-scss ]
+    depends_on: [ install ]
 
 ---
 kind: signature
-hmac: a99df4241c8cbf630aa4941ed22712019474c707b2f62c0581b64885e971f1ae
+hmac: 8e479fbe0613edc06347480210571766979f468a943792839ed73ccdc859388f
 
 ...
