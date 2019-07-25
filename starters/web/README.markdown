@@ -1,9 +1,9 @@
-<p align="center"><a href="https://grind.rocks"><img src="https://s3.amazonaws.com/assets.grind.rocks/docs/img/grind-template-web.svg" alt="Grind Template Web" /></a></p>
+<p align="center"><a href="https://grind.rocks"><img src="https://assets.grind.rocks/docs/img/grind-template-web.svg" alt="Grind Template Web" /></a></p>
 
 <p align="center">
 <a href="https://cloud.drone.io/grindjs/example-web"><img src="https://cloud.drone.io/api/badges/grindjs/example-web/status.svg" alt="Build Status"></a>
 <a href="https://github.com/grindjs/example-web"><img src="https://img.shields.io/github/tag/grindjs/example-web.svg" alt="Latest Version"></a>
-<a href="https:/grind.chat"><img src="https://grind.chat/badge.svg" alt="Slack"></a>
+<a href="https://chat.grind.rocks"><img src="https://chat.grind.rocks/badge.svg" alt="Slack"></a>
 <a href="https://github.com/grindjs/example-web"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"></a>
 </p>
 
