@@ -24,8 +24,7 @@
 				"enabled": true,
 				"plugins": {
 					"rollup-plugin-node-resolve": {
-						"jsnext": true,
-						"browser": true,
+						"mainFields": [ "main", "module", "browser", "jsnext:main" ],
 						"preferBuiltins": false
 					},
 					"rollup-plugin-commonjs": {
