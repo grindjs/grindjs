@@ -1,0 +1,30 @@
+{
+
+	"default": "memory",
+
+	"stores": {
+
+		"memory": {
+			"driver": "memory"
+		},
+
+		"database": {
+			"driver": "database",
+			"connection": null
+		},
+
+		"redis": {
+			"driver": "redis",
+			"connection": null,
+			"ttl": 86400
+		}
+
+	},
+
+	"cookie": {
+		"name": "grind-session"
+	},
+
+	"flash": true
+
+}

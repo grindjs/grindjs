@@ -1,0 +1,36 @@
+p, ul, ol {
+	margin: 0;
+
+	font-size: 13px;
+	font-weight: $font-weight-normal;
+	line-height: 26px;
+}
+
+li + li {
+	margin-top: 2px;
+}
+
+%heading {
+	margin: 0 0 20px;
+
+	font-weight: $font-weight-bold;
+	color: $color-heading;
+
+	&:first-child {
+		margin-top: 0;
+	}
+}
+
+h1 {
+	@extend %heading;
+
+	margin-top: 60px;
+	font-size: 20px;
+}
+
+h2 {
+	@extend %heading;
+
+	margin-top: 50px;
+	font-size: 17px;
+}

@@ -1,0 +1,23 @@
+@import 'App/Styles/Common';
+
+pre, code {
+	margin: 0;
+	font-family: 'Fira Code', monospace;
+}
+
+.code {
+	padding: 30px;
+	color: $code-color-base;
+}
+
+	.code-keyword {
+		color: $code-color-keyword;
+	}
+
+	.code-func, .code-param, .code-object {
+		color: $code-color-func;
+	}
+
+	.code-string {
+		color: $code-color-string;
+	}

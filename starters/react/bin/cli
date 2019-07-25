@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+const path = require('path')
+
+try {
+	const nodeRoot = require.resolve('grind-framework').replace(/node_modules\/.+?$/, 'node_modules')
+	process.env.BASE_PATH = path.dirname(nodeRoot)
+	process.env.WORKING_DIR = process.cwd()
+	process.chdir(process.env.BASE_PATH)
+} catch(err) {
+	process.stderr.write('ERROR: Node packages do not appear to be installed.\n')
+	process.exit(1)
+}
+
+const command = process.argv[2]
+let bootFile = null
+
+if((command === 'watch' || command === 'serve') && !process.argv.includes('--help')) {
+	bootFile = '../boot/Http.js'
+
+	if(command === 'watch') {
+		process.argv.push('--watch=app,config')
+	}
+} else {
+	bootFile = '../boot/Cli.js'
+	process.env.IN_CLI = 'true'
+	process.env.CLI_BIN = process.argv[1]
+}
+
+require(process.argv[1] = path.join(__dirname, bootFile))

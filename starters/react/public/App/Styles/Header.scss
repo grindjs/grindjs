@@ -1,0 +1,46 @@
+$header-padding-top: 100px;
+
+.header {
+	display: block;
+	width: 100%;
+}
+
+	.header-container {
+		position: relative;
+		height: $header-height;
+		padding: 0 15px;
+
+		font-weight: $font-weight-medium;
+		line-height: $header-height;
+	}
+
+	.header-logo, .header-link {
+		text-decoration: none;
+	}
+
+	.header-logo {
+		position: relative;
+		z-index: 1;
+
+		margin-right: 50px;
+		vertical-align: middle;
+	}
+
+	.header-links {
+		position: relative;
+		z-index: 1;
+
+		display: inline-block;
+		vertical-align: middle;
+	}
+
+		.header-link {
+			display: inline-block;
+
+			font-size: 15px;
+			color: $header-color-link;
+
+			& + & {
+				margin-left: 20px;
+			}
+		}

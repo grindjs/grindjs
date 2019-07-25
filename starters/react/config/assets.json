@@ -1,0 +1,16 @@
+{
+
+	"preset": "react",
+
+	"compilers": {
+
+		"scss": {
+			"includePaths": [
+				"{{ node_modules }}/normalize.css",
+				"{{ node_modules }}/../public"
+			]
+		}
+
+	}
+
+}

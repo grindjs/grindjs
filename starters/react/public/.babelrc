@@ -1,0 +1,18 @@
+{
+	"presets": [
+		[ "@babel/env", { "modules": false } ]
+	],
+	"plugins": [
+		"@shnhrrsn/babel-plugin-transform-isnil",
+		"babel-plugin-import-auto-name",
+		"@babel/transform-react-jsx",
+		[
+			"module-resolver", {
+				"alias": {
+					"App": "./public/App",
+					"Public": "./public"
+				}
+			}
+		]
+	]
+}

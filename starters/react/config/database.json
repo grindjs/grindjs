@@ -1,0 +1,24 @@
+{
+
+	"default": "sqlite3",
+
+	"connections": {
+
+		"mysql": {
+			"driver": "mysql",
+			"host": "localhost",
+			"database": "app-db-name",
+			"user": "app-user",
+			"password": "app-password",
+			"charset": "utf8"
+		},
+
+		"sqlite3": {
+			"driver": "sqlite3",
+			"filename": "./database/database.sqlite",
+			"useNullAsDefault": true
+		}
+
+	}
+
+}

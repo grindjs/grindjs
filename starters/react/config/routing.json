@@ -1,0 +1,15 @@
+{
+
+	"body_parsers": {
+		"default": [ "json", "form" ],
+		"options": {
+			"json": { },
+			"form": {
+				"extended": true
+			}
+		}
+	},
+
+	"middleware": [ "cookie", "session", "method-override" ]
+
+}

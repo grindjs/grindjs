@@ -1,0 +1,53 @@
+@import './Styles/Common';
+@import 'normalize';
+
+* {
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	box-sizing: border-box;
+}
+
+html, body {
+	background: $body-color-background;
+}
+
+body {
+	min-width: 1070px;
+	padding: 0;
+
+	font-family: $font-family-sans-serif;
+	font-size: $body-font-size;
+	line-height: $body-line-height;
+	color: $body-color-foreground;
+}
+
+a {
+	color: $color-link;
+	text-decoration: none;
+	transition: color $transition-timing;
+
+	&:hover { color: $color-link-hover; }
+	&:active { color: $color-link-hover; }
+}
+
+.brand-logo  {
+	display: inline-block;
+	width: 39px;
+	height: 52px;
+
+	font-size: 1px;
+	color: transparent;
+
+	background: transparent url(../Static/img/logo.svg) no-repeat center center;
+	filter: drop-shadow(0 1px 10px rgba(#000, 0.1));
+}
+
+.container {
+	width: 810px;
+	margin: 0 auto;
+}
+
+@import './Styles/Typography';
+@import './Styles/Buttons';
+@import './Styles/Header';
+@import './Styles/Footer';

@@ -1,0 +1,33 @@
+{
+	"parser": "babel-eslint",
+	"env": {
+		"es6": true,
+		"browser": true
+	},
+	"extends": [ "grind", "plugin:react/recommended" ],
+	"parserOptions": {
+		"sourceType": "module"
+	},
+	"plugins": [
+		"react"
+	],
+	"globals": {
+		"App": true,
+		"React": true,
+		"ReactConductor": true,
+		"ReactDOM": true,
+		"classNames": true
+	},
+	"rules": {
+		"react/prop-types": 0,
+		"react/jsx-no-undef": [ 2, { "allowGlobals": true } ],
+		"react/jsx-curly-spacing": [ "error", { "when": "never", "children": true } ],
+		"react/jsx-tag-spacing": [ "error" ],
+		"rest-spread-spacing": [ "error", "never" ]
+	},
+	"settings": {
+		"react": {
+			"version": "16.8.6"
+		}
+	}
+}
