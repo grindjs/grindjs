@@ -6,7 +6,7 @@ steps:
 
   - name: install
     image: &image mhart/alpine-node:12
-    commands: [ yarn install --ignore-scripts ]
+    commands: [ yarn install ]
 
   - name: lint
     image: *image
@@ -26,7 +26,7 @@ steps:
 
   - name: install
     image: &image mhart/alpine-node:10
-    commands: [ yarn install --ignore-scripts ]
+    commands: [ yarn install ]
 
   - name: lint
     image: *image

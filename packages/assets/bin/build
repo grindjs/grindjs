@@ -3,7 +3,7 @@
 
 const { execFileSync } = require('child_process')
 const fs = require('fs')
-const path = require('path')
+const rimraf = require('rimraf')
 
 const nodeSync = (...args) => execFileSync('node', args)
 const babel = require.resolve('@babel/cli/lib/babel')
@@ -11,8 +11,8 @@ const rollup = require.resolve('rollup/bin/rollup')
 const uglifyjs = require.resolve('uglify-js/bin/uglifyjs')
 
 console.log('Cleaning up old build')
-rmdirsSync('lib')
-rmdirsSync('dist')
+rimraf.sync('lib')
+rimraf.sync('dist')
 
 // Build Package view Babel
 console.log('Building')
@@ -32,18 +32,3 @@ nodeSync(uglifyjs, '--compress', '-o', 'dist/livereload.min.js', '--', 'dist/liv
 
 // Done!
 console.log('Finished')
-
-// Helpers
-function rmdirsSync(pathname) {
-	if(!fs.existsSync(pathname)) {
-		return
-	} else if(!fs.lstatSync(pathname).isDirectory()) {
-		return fs.unlinkSync(pathname)
-	}
-
-	for(const child of fs.readdirSync(pathname)) {
-		rmdirsSync(path.join(pathname, child))
-	}
-
-	fs.rmdirSync(pathname)
-}
