@@ -1,0 +1,45 @@
+---
+kind: pipeline
+name: node12
+
+steps:
+
+  - name: install
+    image: &image mhart/alpine-node:12
+    commands: [ yarn install --ignore-scripts ]
+
+  - name: lint
+    image: *image
+    commands: [ yarn lint ]
+    depends_on: [ install ]
+
+  - name: test
+    image: *image
+    commands: [ yarn test --color ]
+    depends_on: [ install ]
+
+---
+kind: pipeline
+name: node10
+
+steps:
+
+  - name: install
+    image: &image mhart/alpine-node:10
+    commands: [ yarn install --ignore-scripts ]
+
+  - name: lint
+    image: *image
+    commands: [ yarn lint ]
+    depends_on: [ install ]
+
+  - name: test
+    image: *image
+    commands: [ yarn test --color ]
+    depends_on: [ install ]
+
+---
+kind: signature
+hmac: aba187ab778b7d5fed83c1aa0892fce3fd163f0b42fa93f7e49aa63f5c7db73c
+
+...
