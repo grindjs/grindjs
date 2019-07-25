@@ -1,11 +1,49 @@
-#!/usr/bin/env bash
-set -eo pipefail
+#!/usr/bin/env node
+/* eslint-disable no-sync */
 
-rm -fr lib dist && mkdir -p lib dist
+const { execFileSync } = require('child_process')
+const fs = require('fs')
+const path = require('path')
 
-echo "Building"
-BABEL_TARGET_VERSION=10.13 babel -s inline -d lib/ src/ --copy-files
+const nodeSync = (...args) => execFileSync('node', args)
+const babel = require.resolve('@babel/cli/lib/babel')
+const rollup = require.resolve('rollup/bin/rollup')
+const uglifyjs = require.resolve('uglify-js/bin/uglifyjs')
 
-echo "Building LiveReload Client"
-rollup -c src/LiveReload/Client/.rolluprc.js
-uglifyjs --compress -o dist/livereload.min.js -- dist/livereload.js
+console.log('Cleaning up old build')
+rmdirsSync('lib')
+rmdirsSync('dist')
+
+// Build Package view Babel
+console.log('Building')
+fs.mkdirSync('lib')
+nodeSync(babel,
+	'--copy-files',
+	'--source-maps', 'inline',
+	'--out-dir', 'lib',
+	'src'
+)
+
+// Build LiveReload via Rollup
+console.log('Building LiveReload Client')
+fs.mkdirSync('dist')
+nodeSync(rollup, '-c', 'src/LiveReload/Client/.rolluprc.js')
+nodeSync(uglifyjs, '--compress', '-o', 'dist/livereload.min.js', '--', 'dist/livereload.js')
+
+// Done!
+console.log('Finished')
+
+// Helpers
+function rmdirsSync(pathname) {
+	if(!fs.existsSync(pathname)) {
+		return
+	} else if(!fs.lstatSync(pathname).isDirectory()) {
+		return fs.unlinkSync(pathname)
+	}
+
+	for(const child of fs.readdirSync(pathname)) {
+		rmdirsSync(path.join(pathname, child))
+	}
+
+	fs.rmdirSync(pathname)
+}
