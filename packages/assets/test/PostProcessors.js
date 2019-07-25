@@ -37,7 +37,7 @@ test('css-postcss', async t => {
 	const { processor, file, contents } = await make(CssPostCssPostProcessor, 'css/test-autoprefix.css')
 	const css = await processor.process(file, null, contents)
 
-	t.is(css.toString().trim(), 'div { -webkit-transform: scale(0.5, 0.5); transform: scale(0.5, 0.5); }')
+	t.is(css.toString().trim(), '::-webkit-input-placeholder { color: gray; }\n::-moz-placeholder { color: gray; }\n:-ms-input-placeholder { color: gray; }\n::-ms-input-placeholder { color: gray; }\n::placeholder { color: gray; }')
 })
 
 test('js-minify', async t => {
