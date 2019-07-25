@@ -10,11 +10,11 @@ li + li {
 	margin-top: 2px;
 }
 
-%header {
+%heading {
 	margin: 0 0 20px;
 
 	font-weight: $font-weight-bold;
-	color: #1d1c1f;
+	color: $color-heading;
 
 	&:first-child {
 		margin-top: 0;
@@ -22,14 +22,14 @@ li + li {
 }
 
 h1 {
-	@extend %header;
+	@extend %heading;
 
 	margin-top: 60px;
 	font-size: 20px;
 }
 
 h2 {
-	@extend %header;
+	@extend %heading;
 
 	margin-top: 50px;
 	font-size: 17px;

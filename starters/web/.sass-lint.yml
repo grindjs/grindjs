@@ -1,8 +1,9 @@
 files:
-  include: '**/*.scss'
+  include: 'resources/assets/scss/**/*.scss'
 options:
   formatter: stylish
   merge-default-rules: false
+  config-file: .sass-lint/property-sort-order.yml
 rules:
   border-zero: 1
   brace-style:
@@ -25,7 +26,7 @@ rules:
     - include: true
   force-attribute-nesting: 1
   force-element-nesting: 1
-  force-pseudo-nesting: 1
+  force-pseudo-nesting: 0
   function-name-format:
     - 1
     - allow-leading-underscore: true
@@ -42,7 +43,9 @@ rules:
   indentation:
     - 0
     - size: 4
-  leading-zero: true
+  leading-zero:
+    - 1
+    - include: true
   mixin-name-format:
     - 1
     - allow-leading-underscore: true
@@ -51,8 +54,10 @@ rules:
   nesting-depth:
     - 1
     - max-depth: 3
-  no-color-keywords: 0
-  no-color-literals: 0
+  no-color-keywords: 1
+  no-color-literals:
+    - 1
+    - allow-rgba: true
   no-css-comments: 1
   no-debug: 1
   no-duplicate-properties: 1
@@ -62,7 +67,7 @@ rules:
   no-mergeable-selectors: 1
   no-misspelled-properties:
     - 1
-    - extra-properties: []
+    - extra-properties: [ ]
   no-qualifying-elements:
     - 1
     - allow-element-with-attribute: false
@@ -74,10 +79,6 @@ rules:
   placeholder-name-format:
     - 1
     - convention: hyphenatedlowercase
-  property-sort-order:
-    - 1
-    - ignore-custom-properties: true
-      order: recess
   quotes:
     - 1
     - style: single

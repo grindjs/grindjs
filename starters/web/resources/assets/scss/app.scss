@@ -8,7 +8,7 @@
 }
 
 html, body {
-	background: $body-background-color;
+	background: $body-color-background;
 }
 
 body {
@@ -18,16 +18,16 @@ body {
 	font-family: $font-family-sans-serif;
 	font-size: $body-font-size;
 	line-height: $body-line-height;
-	color: $body-text-color;
+	color: $body-color-foreground;
 }
 
 a {
-	color: $link-color;
+	color: $color-link;
 	text-decoration: none;
 	transition: color $transition-timing;
 
-	&:hover { color: $link-color-hover; }
-	&:active { color: $link-color-hover; }
+	&:hover { color: $color-link-hover; }
+	&:active { color: $color-link-hover; }
 }
 
 .brand-logo  {

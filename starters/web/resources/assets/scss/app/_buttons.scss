@@ -8,20 +8,20 @@
 	font-size: 15px;
 	font-weight: $font-weight-medium;
 	line-height: 36px;
-	color: #fff;
+	color: $color-white;
 	cursor: pointer;
 
-	background-image: linear-gradient(-180deg, #4c82ff 0%, #3b70ed 100%);
+	background-image: linear-gradient(-180deg, $button-color-primary-start 0%, $button-color-primary-end 100%);
 	border-radius: 6px;
-	box-shadow: 0 1px 2px 0 rgba(#000, 0.15);
+	box-shadow: 0 1px 2px 0 rgba($color-black, 0.15);
 
 	&:hover, &:active {
-		color: #fff;
+		color: $color-white;
 	}
 }
 
 	.btn-info {
-		background-image: linear-gradient(-180deg, #5c5c68 0%, #494851 100%);
+		background-image: linear-gradient(-180deg, $button-color-secondary-start 0%, $button-color-secondary-end 100%);
 	}
 
 	.btn-icon {

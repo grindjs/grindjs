@@ -1,12 +1,19 @@
 $body-font-size: 16px;
 $body-line-height: 1.428571429;
-$body-text-color: #4b4a4f;
-$body-background-color: #fff;
 
-$accent-color: #3a70f4;
-$link-color: $accent-color;
-$link-color-hover: darken($link-color, 5%);
-$link-color-active: darken($link-color, 10%);
+$color-white: #fff;
+$color-black: #000;
+
+$body-color-foreground: #4b4a4f;
+$body-color-background: $color-white;
+
+$color-secondary: #3a70f4;
+$color-heading: #1d1c1f;
+$color-muted: #8f8e98;
+
+$color-link: $color-secondary;
+$color-link-hover: darken($color-link, 5%);
+$color-link-active: darken($color-link, 10%);
 
 $font-weight-thin: 100;
 $font-weight-ultra-light: 200;
@@ -26,8 +33,27 @@ $transition-timing: $transition-duration $transition-timing-function;
 
 $header-height: 112px;
 $header-z-index: 10000;
-$header-background-color: rgba($body-background-color, 0.8);
+$header-color-link: #494850;
 
 $footer-height: 208px;
 $footer-z-index: $header-z-index - 1;
-$footer-background-color: rgba($body-background-color, 0.8);
+$footer-color-link: $header-color-link;
+$footer-color-foreground: #aeb3bf;
+$footer-color-border: rgba($footer-color-foreground, 0.15);
+
+$button-color-primary-start: #4c82ff;
+$button-color-primary-end: #3b70ed;
+$button-color-secondary-start: #5c5c68;
+$button-color-secondary-end: #494851;
+
+$code-color-base: #555;
+$code-color-keyword: #5520ff;
+$code-color-func: #5d99ff;
+$code-color-string: #00d8ff;
+
+$toolbar-color-background-start: #e5e5e5;
+$toolbar-color-background-end: #d8d8d8;
+
+$toolbar-color-button-red: #ff6058;
+$toolbar-color-button-yellow: #ffc02f;
+$toolbar-color-button-green: #28ca41;

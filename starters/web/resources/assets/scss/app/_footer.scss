@@ -25,7 +25,7 @@
 		padding-top: 34px;
 		margin-top: -14px;
 
-		border-top: 1px solid rgba(#aeb2bf, 0.15);
+		border-top: 1px solid $footer-color-border;
 	}
 
 	.footer-links {
@@ -37,7 +37,7 @@
 			display: inline-block;
 
 			font-size: 15px;
-			color: #494850;
+			color: $footer-color-link;
 
 			& + & {
 				margin-left: 20px;
@@ -51,5 +51,5 @@
 
 		font-size: 11px;
 		line-height: 18px;
-		color: #aeb3bf;
+		color: $footer-color-foreground;
 	}

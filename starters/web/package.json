@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "build": "bin/build",
-    "lint": "eslint app boot resources/assets/babel"
+    "lint-js": "eslint app boot resources/assets/babel",
+    "lint-scss": "sass-lint --verbose --max-warnings=0 --no-exit"
   },
   "dependencies": {
     "grind-core-frontend": "^0.8.0-beta.3",
@@ -31,6 +32,7 @@
     "node-sass": "^4.12.0",
     "normalize.css": "^8.0.1",
     "ouch": "^2.0.0",
+    "sass-lint": "^1.13.1",
     "svgo": "^1.3.0",
     "uglify-js": "^3.6.0",
     "ws": "^7.1.1"

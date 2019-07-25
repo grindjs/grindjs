@@ -38,7 +38,7 @@ $header-padding-top: 100px;
 			display: inline-block;
 
 			font-size: 15px;
-			color: #494850;
+			color: $header-color-link;
 
 			& + & {
 				margin-left: 20px;

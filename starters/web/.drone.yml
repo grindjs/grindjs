@@ -8,16 +8,22 @@ steps:
     image: mhart/alpine-node:12
     commands:
       - yarn install
-      - yarn lint
+      - yarn lint-js
+      - yarn lint-scss
+    depends_on:
+      - clone
 
   - name: node10
     image: mhart/alpine-node:10
     commands:
       - yarn install
-      - yarn lint
+      - yarn lint-js
+      - yarn lint-scss
+    depends_on:
+      - clone
 
 ---
 kind: signature
-hmac: 5594aac86b34494084f2b8acd3a7bf13c659f86c72bccd4ea149089f32d5059b
+hmac: a99df4241c8cbf630aa4941ed22712019474c707b2f62c0581b64885e971f1ae
 
 ...

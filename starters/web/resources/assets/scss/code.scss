@@ -7,17 +7,17 @@ pre, code {
 
 .code {
 	padding: 30px;
-	color: #555;
+	color: $code-color-base;
 }
 
 	.code-keyword {
-		color: #5520ff;
+		color: $code-color-keyword;
 	}
 
 	.code-func, .code-param, .code-object {
-		color: #5d99ff;
+		color: $code-color-func;
 	}
 
 	.code-string {
-		color: #00d8ff;
+		color: $code-color-string;
 	}
