@@ -9,6 +9,7 @@ export class AssetContainer {
 
 	_styles = [ ]
 	_scripts = [ ]
+	_internalScripts = [ ]
 
 	constructor(req, res, factory, view) {
 		this.req = req
@@ -116,7 +117,7 @@ export class AssetContainer {
 			case 'script':
 			case 'scripts':
 			case 'js':
-				return this.view.toHtmlString(this._scripts.reverse().map(script => this.makeScript(script)).join(''))
+				return this.view.toHtmlString(this._internalScripts.concat(this._scripts.reverse()).map(script => this.makeScript(script)).join(''))
 		}
 
 		Log.error('Unsupported render type', type)
@@ -135,7 +136,19 @@ export class AssetContainer {
 	}
 
 	makeScript(script) {
-		return `<script src="${script}"></script>\n`
+		let attributes = ''
+
+		if(typeof script !== 'string') {
+			for(const [ key, value ] of Object.entries(script)) {
+				if(key === 'src') {
+					script = value
+				} else {
+					attributes += ` ${key}="${value}"`
+				}
+			}
+		}
+
+		return `<script src="${script}"${attributes}></script>\n`
 	}
 
 }
