@@ -8,6 +8,7 @@ export function Socket() {
 	let attemptsReset = null
 	let pending = false
 	let socket = connect()
+	let firstConnect = true
 
 	function connect() {
 		const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws'
