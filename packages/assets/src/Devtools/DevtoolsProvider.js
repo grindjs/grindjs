@@ -9,8 +9,8 @@ try {
 	throw new MissingPackageError('ws', 'dev')
 }
 
-export function LiveReloadProvider(app) {
-	app.assets.liveReload = app.routes.upgrade('_livereload')
+export function DevtoolsProvider(app) {
+	app.assets.websocket = app.routes.upgrade('@assets/socket')
 	app.on('shutdown', shutdown)
 
 	watch(app)
@@ -27,12 +27,12 @@ function watch(app) {
 			try {
 				asset = path.relative(base, asset)
 
-				for(const client of app.assets.liveReload.clients) {
+				for(const client of app.assets.websocket.clients) {
 					if(client.readyState !== ws.OPEN) {
 						continue
 					}
 
-					client.send(asset)
+					client.send(JSON.stringify({ type: 'change', asset }))
 				}
 			} catch(err) {
 				Log.error('Error notifying clients', err)
@@ -42,13 +42,13 @@ function watch(app) {
 }
 
 function inject(app) {
-	const script = '/_livereload.js'
+	const script = '/@assets/devtools.js'
 
 	if(global._assetsUsePrepackagedLiveReload !== false) {
-		app.routes.static(script, path.join(__dirname, '../../dist/livereload.min.js'))
+		app.routes.static(script, path.join(__dirname, '../../dist/devtools.min.js'))
 	} else {
 		app.routes.get(script, (req, res) => {
-			return app.assets.controller._serve(req, res, app.assets.make(path.join(__dirname, 'Client/LiveReload.js')))
+			return app.assets.controller._serve(req, res, app.assets.make(path.join(__dirname, 'Browser/Devtools.js')))
 		})
 	}
 
@@ -59,9 +59,9 @@ function inject(app) {
 }
 
 function shutdown(app) {
-	if(!app.assets.liveReload.isNil) {
-		app.assets.liveReload.close()
-		app.assets.liveReload = null
+	if(!app.assets.websocket.isNil) {
+		app.assets.websocket.close()
+		app.assets.websocket = null
 	}
 
 	if(!app.assets.watcher.isNil) {

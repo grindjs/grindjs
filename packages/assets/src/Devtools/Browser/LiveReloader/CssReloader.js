@@ -1,4 +1,4 @@
-import './cacheBust'
+import '../Support/cacheBust'
 
 export function CssReloader(pathname) {
 	const reload = [ ]

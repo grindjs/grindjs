@@ -1,27 +1,17 @@
-import { CssReloader } from './CssReloader'
-import { JsReloader } from './JsReloader'
-
-function LiveReload() {
+export function Socket() {
 	if(!window.WebSocket) {
 		throw new Error('This browser does not support websockets, live reload will not work.')
 	}
 
+	const listeners = { }
 	let attempts = 0
 	let attemptsReset = null
 	let pending = false
 	let socket = connect()
 
-	function onAssetChanged(pathname) {
-		if(/(css|sass|less|stylus|styl)$/i.test(pathname)) {
-			CssReloader(pathname)
-		} else if(/(js|jsx)$/i.test(pathname)) {
-			JsReloader(pathname)
-		}
-	}
-
 	function connect() {
 		const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws'
-		const socket = new WebSocket(`${protocol}://${window.location.host}/_livereload`)
+		const socket = new WebSocket(`${protocol}://${window.location.host}/@assets/socket`)
 
 		socket.onopen = () => {
 			if(attemptsReset) {
@@ -37,7 +27,8 @@ function LiveReload() {
 		socket.onerror = _reconnect.bind(null, 'error')
 
 		socket.onmessage = message => {
-			onAssetChanged(message.data)
+			message = JSON.parse(message.data)
+			{ (listeners[message.type] || [ ]).forEach(listener => listener(message.asset)) }
 		}
 
 		return socket
@@ -67,6 +58,14 @@ function LiveReload() {
 			socket = connect()
 		}, delay)
 	}
-}
 
-LiveReload()
+	return {
+		on: (event, callback) => {
+			if(!Array.isArray(listeners[event])) {
+				listeners[event] = [ ]
+			}
+
+			listeners[event].push(callback)
+		}
+	}
+}

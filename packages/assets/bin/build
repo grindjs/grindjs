@@ -24,11 +24,11 @@ nodeSync(babel,
 	'src'
 )
 
-// Build LiveReload via Rollup
-console.log('Building LiveReload Client')
+// Build Devtools via Rollup
+console.log('Building Devtools Package')
 fs.mkdirSync('dist')
-nodeSync(rollup, '-c', 'src/LiveReload/Client/.rolluprc.js')
-nodeSync(uglifyjs, '--compress', '-o', 'dist/livereload.min.js', '--', 'dist/livereload.js')
+nodeSync(rollup, '-c', 'src/Devtools/Browser/.rolluprc.js')
+nodeSync(uglifyjs, '--compress', '-o', 'dist/devtools.min.js', '--', 'dist/devtools.js')
 
 // Done!
 console.log('Finished')

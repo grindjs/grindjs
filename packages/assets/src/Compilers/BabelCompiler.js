@@ -47,7 +47,7 @@ export class BabelCompiler extends Compiler {
 			return true
 		}
 
-		return pathname.includes('babel') || pathname.includes('LiveReload')
+		return pathname.includes('babel') || pathname.includes('Devtools')
 	}
 
 	async compile(pathname, context, req) {

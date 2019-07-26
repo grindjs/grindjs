@@ -160,7 +160,7 @@ export function AssetsProvider(app, parameters = { }) {
 			throw new Error('grind-asset’s live reload functionality must be used with grind-view.')
 		}
 
-		require('./LiveReload/LiveReloadProvider').LiveReloadProvider(app)
+		require('./Devtools/DevtoolsProvider').DevtoolsProvider(app)
 	}
 }
 
