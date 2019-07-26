@@ -89,6 +89,23 @@ console.log('testing', i);
 `.trim())
 })
 
+test('rollup/process.env.NODE_ENV', async t => {
+	const js = await compile(BabelCompiler, 'babel/rollup/env.js', app => {
+		app.config.set('assets.compilers.babel.browserify.enabled', false),
+		app.config.set('assets.compilers.babel.rollup.enabled', true)
+		app.config.set('assets.compilers.babel.rollup.plugins', { })
+		app.config.set('assets.compilers.babel.rollup.plugins.rollup-plugin-replace', { })
+	})
+
+	t.is(js.toString().trim(), `
+'use strict';
+
+{
+  console.log('test env');
+}
+`.trim())
+})
+
 test('rollup+browserify', async t => {
 	const js = await compile(BabelCompiler, 'babel/rollup/main.js', app => {
 		app.config.set('assets.compilers.babel.rollup.enabled', true)

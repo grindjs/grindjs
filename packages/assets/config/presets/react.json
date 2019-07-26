@@ -23,6 +23,9 @@
 			"rollup": {
 				"enabled": true,
 				"plugins": {
+					"rollup-plugin-replace": {
+						"process.env.NODE_ENV": null
+					},
 					"rollup-plugin-node-resolve": {
 						"mainFields": [ "main", "module", "browser", "jsnext:main" ],
 						"preferBuiltins": false

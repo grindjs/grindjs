@@ -37,6 +37,10 @@ export class RollupStage extends Stage {
 					...(!config.isNil && typeof config === 'object' ? config : { })
 				} ])
 			} else {
+				if(plugin === 'rollup-plugin-replace' && config['process.env.NODE_ENV'].isNil) {
+					config['process.env.NODE_ENV'] = JSON.stringify(process.env.ROLLUP_ENV || process.env.BABEL_ENV || process.env.NODE_ENV)
+				}
+
 				this.plugins.push([ optional(plugin), config ])
 			}
 		}
