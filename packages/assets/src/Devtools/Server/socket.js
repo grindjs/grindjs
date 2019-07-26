@@ -13,6 +13,10 @@ export function socket(app) {
 
 	app.assets.websocket.replayLog = [ ]
 	app.assets.websocket.sendAll = sendAll.bind(null, app.assets.websocket)
+
+	app.assets.websocket.on('connection', client => {
+		client.on('message', handleMessage.bind(null, app.assets.websocket, client))
+	})
 }
 
 function sendAll(wss, data, shouldReplayAfterConnect) {
@@ -30,5 +34,21 @@ function sendAll(wss, data, shouldReplayAfterConnect) {
 		}
 
 		client.send(data)
+	}
+}
+
+function handleMessage(wss, client, message) {
+	message = JSON.parse(message)
+
+	if(message.type !== 'init') {
+		return
+	}
+
+	for(const replay of wss.replayLog) {
+		if(replay.ts < message.since) {
+			continue
+		}
+
+		client.send(JSON.stringify(replay.data))
 	}
 }

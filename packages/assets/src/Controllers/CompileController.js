@@ -130,6 +130,15 @@ export class CompileController {
 
 			const body = this._buildErrorString(err)
 			Log.error('Asset compilation error', body, err)
+
+			if(!this.app.assets.websocket.isNil) {
+				this.app.assets.websocket.sendAll({
+					type: 'error',
+					asset: path.relative(this.app.paths.base(), asset.path),
+					error: body
+				}, true)
+			}
+
 			res.send(`/*\n${body}\n*/`)
 		})
 	}

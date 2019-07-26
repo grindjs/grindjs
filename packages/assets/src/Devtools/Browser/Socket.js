@@ -1,4 +1,4 @@
-export function Socket() {
+export function Socket(referenceScript) {
 	if(!window.WebSocket) {
 		throw new Error('This browser does not support websockets, live reload will not work.')
 	}
@@ -19,9 +19,15 @@ export function Socket() {
 				clearTimeout(attemptsReset)
 			}
 
+			if(firstConnect && !referenceScript.isNil && referenceScript.hasAttribute('data-since')) {
+				socket.send(JSON.stringify({ type: 'init', since: Number(referenceScript.getAttribute('data-since')) }))
+			}
+
 			attemptsReset = setTimeout(() => {
 				attempts = 1
 			}, 1000)
+
+			firstConnect = false
 		}
 
 		socket.onclose = _reconnect.bind(null, 'close')
@@ -29,7 +35,7 @@ export function Socket() {
 
 		socket.onmessage = message => {
 			message = JSON.parse(message.data)
-			{ (listeners[message.type] || [ ]).forEach(listener => listener(message.asset)) }
+			{ (listeners[message.type] || [ ]).forEach(listener => listener(message.asset, message)) }
 		}
 
 		return socket

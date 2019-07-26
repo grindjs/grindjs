@@ -12,7 +12,7 @@ export function inject(app) {
 	}
 
 	app.routes.use((req, res, next) => {
-		res.locals._assetContainer._scripts.push({
+		res.locals._assetContainer._internalScripts.push({
 			src: script,
 			['data-since']: Date.now()
 		})
