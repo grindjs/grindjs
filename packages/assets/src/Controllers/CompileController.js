@@ -3,6 +3,7 @@ import { FS } from 'grind-support'
 const path = require('path')
 const crypto = require('crypto')
 const dateFormat = require('dateformat')
+const stripAnsi = require('strip-ansi')
 
 const HTTP_DATE_FORMAT = 'ddd, dd mmm yyyy HH:MM:ss Z'
 
@@ -128,41 +129,19 @@ export class CompileController {
 			res.status(500)
 			res.header('Content-Type', 'text/plain')
 
-			const body = this._buildErrorString(err)
-			Log.error('Asset compilation error', body, err)
+			Log.error('Asset compilation error', err.message, err)
 
 			if(!this.app.assets.websocket.isNil) {
 				this.app.assets.websocket.sendAll({
 					type: 'error',
 					asset: path.relative(this.app.paths.base(), asset.path),
-					error: body
+					assetType: asset.kind,
+					error: err.message
 				}, true)
 			}
 
-			res.send(`/*\n${body}\n*/`)
+			res.send(`/*\n${stripAnsi(err.message)}\n*/`)
 		})
-	}
-
-	_buildErrorString(err) {
-		let body = ''
-
-		if(!err.file.isNil) {
-			body += err.file
-
-			if(err.line) {
-				body += `:${err.line}`
-
-				if(err.column) {
-					body += `:${err.column}`
-				}
-			}
-
-			body += '\n\t'
-		}
-
-		body += err.message
-
-		return body
 	}
 
 }

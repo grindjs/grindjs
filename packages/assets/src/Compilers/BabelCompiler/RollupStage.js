@@ -1,4 +1,6 @@
 import './Stage'
+
+import '../../Errors/makeSyntaxError'
 import '../../Support/optional'
 
 const rollup = optional('rollup', '>=1.0.0')
@@ -99,11 +101,23 @@ export class RollupStage extends Stage {
 			const inlineMap = !map.isNil ? `\n//# sourceMappingURL=${map.toUrl()}\n` : null
 			return `${code}${inlineMap || ''}`
 		} catch(err) {
+			if(!(err instanceof SyntaxError)) {
+				throw err
+			}
+
+			let message = err.message
+			message = err.message.split(/\n/)[0]
+			message = message.substring(message.indexOf(':') + 1).trim()
+
 			const loc = err.loc || { }
-			err.file = loc.file || pathname
-			err.line = loc.line
-			err.column = loc.column
-			throw err
+
+			throw await makeSyntaxError(this.app, {
+				message,
+				fileName: err.id || loc.file || loc.fileName || pathname,
+				lineNumber: loc.line,
+				columnNumber: loc.column,
+				causedBy: err
+			})
 		}
 	}
 

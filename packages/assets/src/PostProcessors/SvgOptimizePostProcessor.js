@@ -1,7 +1,7 @@
 import './PostProcessor'
-import '../Support/optional'
 
-import { MissingPackageError } from 'grind-framework'
+import '../Errors/makeSyntaxError'
+import '../Support/optional'
 
 const SVGO = optional('svgo', '>=1.1.0')
 
@@ -37,21 +37,35 @@ export class SvgOptimizePostProcessor extends PostProcessor {
 			}
 
 			if(!result.error.isNil) {
-				const error = new Error('Error optimizing SVG')
-				error.file = sourcePath
-
-				error.message = result.error.replace(/Line:\s*([0-9]+)\s*/, (_, line) => {
-					error.line = line
-					return ''
-				}).replace(/Column:\s*([0-9]+)\s*/, (_, column) => {
-					error.column = column
-					return ''
-				})
-
-				throw error
+				throw new Error(result.error)
 			}
 
 			return result.data
+		}).catch(error => {
+			if(typeof error === 'string') {
+				error = new Error(error)
+			}
+
+			if(typeof error.file !== 'string') {
+				error.file = sourcePath
+			}
+
+			error.message = error.message.replace(/^Line:\s*([0-9]+)\s*$/m, (_, line) => {
+				error.line = Number(line)
+
+				if(contents.toString().trim().startsWith('<?')) {
+					error.line++
+				}
+
+				return ''
+			}).replace(/^Column:\s*([0-9]+)\s*$/m, (_, column) => {
+				error.column = Number(column)
+				return ''
+			}).replace(/^Char:\s*.+?$/m, '').trim()
+
+			return makeSyntaxError(this.app, {
+				causedBy: error
+			}).catch(() => { throw error }).then(error => { throw error })
 		})
 	}
 

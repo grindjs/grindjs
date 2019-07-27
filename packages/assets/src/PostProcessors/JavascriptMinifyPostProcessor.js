@@ -1,4 +1,6 @@
 import './PostProcessor'
+
+import '../Errors/makeSyntaxError'
 import '../Support/optional'
 
 import { FS, merge } from 'grind-support'
@@ -65,8 +67,10 @@ export class JavascriptMinifyPostProcessor extends PostProcessor {
 				}
 			} catch(err) {
 				err.file = sourcePath
+				delete err.filename
+
 				err.column = err.col
-				return reject(err)
+				return makeSyntaxError(this.app, { causedBy: err }).catch(reject).then(reject)
 			}
 
 			if(result.map.isNil || inlineSourceMap || !useSourceMap) {

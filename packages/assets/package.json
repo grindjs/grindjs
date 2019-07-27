@@ -18,10 +18,12 @@
     "babel"
   ],
   "dependencies": {
+    "@babel/code-frame": "^7.5.5",
     "dateformat": "^3.0.3",
     "ignore": "^5.1.2",
     "optional": "^0.1.4",
-    "semver": "^6.3.0"
+    "semver": "^6.3.0",
+    "strip-ansi": "^5.2.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
@@ -68,11 +70,9 @@
   },
   "ava": {
     "files": [
-      "test/**/*.js"
-    ],
-    "helpers": [
-      "test/fixtures/**/*",
-      "test/helpers/**/*"
+      "test/**/*.js",
+      "!test/fixtures/**/*.js",
+      "!test/helpers/**/*.js"
     ],
     "require": [
       "@babel/register"

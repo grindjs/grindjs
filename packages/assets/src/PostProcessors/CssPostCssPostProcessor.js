@@ -1,4 +1,6 @@
 import './PostProcessor'
+
+import '../Errors/makeSyntaxError'
 import '../Support/optional'
 
 const PostCSS = optional('postcss', '>=7.0.0')
@@ -49,9 +51,15 @@ export class CssPostCssPostProcessor extends PostProcessor {
 			map: this.sourceMaps === false ? false : {
 				inline: true
 			}
-		}).then(result => result.css).catch(err => {
-			err.file = sourcePath
-			throw err
+		}).then(result => result.css).catch(async err => {
+			if(typeof err.file !== 'string') {
+				err.file = (err.input || { }).file || sourcePath
+			}
+
+			throw await makeSyntaxError(this.app, {
+				message: err.reason || err.message,
+				causedBy: err
+			})
 		})
 	}
 

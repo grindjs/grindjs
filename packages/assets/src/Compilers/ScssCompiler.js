@@ -1,4 +1,6 @@
 import './Compiler'
+import '../Errors/makeSyntaxError'
+
 import '../Support/optional'
 
 import { FS } from 'grind-support'
@@ -36,7 +38,11 @@ export class ScssCompiler extends Compiler {
 				outputStyle: context || 'nested'
 			}), (err, result) => {
 				if(!err.isNil) {
-					return reject(err)
+					if(typeof err.file !== 'string') {
+						return reject(err)
+					}
+
+					return makeSyntaxError(this.app, { causedBy: err }).catch(reject).then(reject)
 				}
 
 				if(!this.liveReload) {
