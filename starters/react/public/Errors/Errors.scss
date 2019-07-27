@@ -1,0 +1,43 @@
+@import 'App/Styles/Common';
+
+$error-stack-color-foreground: $color-white;
+$error-stack-color-background: #ea7945;
+
+.error-wrapper {
+	display: flex;
+	align-items: center;
+	min-height: 100vh;
+}
+
+.error {
+	display: block;
+	width: 100%;
+	padding: 30px;
+
+	text-align: center;
+}
+
+	.error-heading {
+		font-size: 50px;
+		font-weight: $font-weight-bold;
+		line-height: 1.1em;
+	}
+
+	.error-message {
+		font-size: 24px;
+		font-weight: $font-weight-normal;
+	}
+
+	.error-stack {
+		display: block;
+		max-width: 85%;
+		padding: 30px;
+		margin: 30px auto 0;
+		overflow: auto;
+
+		color: $error-stack-color-foreground;
+		text-align: left;
+
+		background: $error-stack-color-background;
+		border-radius: 10px;
+	}

@@ -1,9 +1,9 @@
-import './MasterLayout'
+import './RoutingLayout'
 import './PrimaryLayout/Header'
 import './PrimaryLayout/Footer'
 
 export function PrimaryLayout(props) {
-	return <MasterLayout
+	return <RoutingLayout
 		contentBefore={<Header />}
 		contentAfter={<Footer />}
 		{...props}

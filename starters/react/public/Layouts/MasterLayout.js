@@ -1,11 +1,7 @@
-const { Switch } = ReactConductor
-
-export function MasterLayout({ routes, contentBefore, contentAfter, ...props } = { }) {
+export function MasterLayout({ contentBefore, contentAfter, children } = { }) {
 	return <div className="container">
 		{contentBefore}
-		<div className="content">
-			<Switch routes={routes} {...props} />
-		</div>
+		<div className="content">{children}</div>
 		{contentAfter}
 	</div>
 }

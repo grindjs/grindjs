@@ -3,9 +3,10 @@
 		[ "@babel/env", { "modules": false } ]
 	],
 	"plugins": [
+		"@babel/plugin-proposal-class-properties",
+		"@babel/transform-react-jsx",
 		"@shnhrrsn/babel-plugin-transform-isnil",
 		"babel-plugin-import-auto-name",
-		"@babel/transform-react-jsx",
 		[
 			"module-resolver", {
 				"alias": {
