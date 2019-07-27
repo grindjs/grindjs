@@ -1,25 +1,12 @@
 /* eslint-disable max-len */
 import test from 'ava'
-import './helpers/Grind'
+import './helpers/compile'
 
 import {
 	BabelCompiler,
 	RawCompiler,
 	ScssCompiler
 } from '../src'
-
-function compile(compiler, file, hook = () => { }, ...args) {
-	if(typeof hook !== 'function') {
-		args.unshift(hook)
-		hook = () => { }
-	}
-
-	const app = new Grind
-	app.config.loadDefault('assets', app.paths.base('../../config/assets.json'))
-	hook(app)
-
-	return (new compiler(app)).compile(app.paths.base('resources/assets', file), ...args)
-}
 
 test('scss', async t => {
 	const scss = await compile(ScssCompiler, 'scss/test.scss', 'compressed')
