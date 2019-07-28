@@ -1,0 +1,70 @@
+{
+  "name": "grind-react-dev",
+  "version": "0.8.0-beta.0",
+  "description": "Utility package for development with Grind and React",
+  "author": "Shaun Harrison (@shnhrrsn)",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "browser": "dist/react-dev.min.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grindjs/react-dev.git"
+  },
+  "scripts": {
+    "prepare": "bin/build",
+    "lint": "eslint src"
+  },
+  "dependencies": {
+    "react-dev-utils": "^9.0.1",
+    "react-error-overlay": "^5.1.6"
+  },
+  "peerDependencies": {
+    "grind-assets": "^0.8.0-beta.14",
+    "grind-framework": "^0.8.0-beta.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "babel-eslint": "^10.0.2",
+    "babel-preset-grind": "^0.8.0-beta.4",
+    "eslint": "^6.1.0",
+    "eslint-config-grind": "^2.3.0",
+    "eslint-plugin-import-auto-name": "^1.1.0",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.17.0",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.0.1",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-replace": "^2.2.0",
+    "uglify-es": "^3.3.9"
+  },
+  "engines": {
+    "node": ">=10.13"
+  },
+  "babel": {
+    "presets": [
+      [
+        "grind",
+        {
+          "import-auto-name": {
+            "autoresolve": true
+          }
+        }
+      ]
+    ]
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "plugins": [
+      "import-auto-name"
+    ],
+    "env": {
+      "es6": true,
+      "node": true
+    },
+    "extends": "grind",
+    "parserOptions": {
+      "sourceType": "module"
+    }
+  }
+}

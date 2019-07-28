@@ -1,0 +1,34 @@
+#!/usr/bin/env node
+/* eslint-disable no-sync */
+
+const { execFileSync } = require('child_process')
+const fs = require('fs')
+const rimraf = require('rimraf')
+
+const nodeSync = (...args) => execFileSync('node', args)
+const babel = require.resolve('@babel/cli/lib/babel')
+const rollup = require.resolve('rollup/bin/rollup')
+const uglifyjs = require.resolve('uglify-es/bin/uglifyjs')
+
+console.log('Cleaning up old build')
+rimraf.sync('lib')
+rimraf.sync('dist')
+
+// Build Package view Babel
+console.log('Building')
+fs.mkdirSync('lib')
+nodeSync(babel,
+	'--copy-files',
+	'--source-maps', 'inline',
+	'--out-dir', 'lib',
+	'src/Server'
+)
+
+// Build Dev via Rollup
+console.log('Building Dev Package')
+fs.mkdirSync('dist')
+nodeSync(rollup, '-c', 'src/Browser/.rolluprc.js')
+nodeSync(uglifyjs, '--compress', '-o', 'dist/react-dev.min.js', '--', 'dist/react-dev.js')
+
+// Done!
+console.log('Finished')

@@ -1,0 +1,35 @@
+---
+kind: pipeline
+name: node12
+
+steps:
+
+  - name: install
+    image: &image mhart/alpine-node:12
+    commands: [ yarn install ]
+
+  - name: lint
+    image: *image
+    commands: [ yarn lint ]
+    depends_on: [ install ]
+
+---
+kind: pipeline
+name: node10
+
+steps:
+
+  - name: install
+    image: &image mhart/alpine-node:10
+    commands: [ yarn install ]
+
+  - name: lint
+    image: *image
+    commands: [ yarn lint ]
+    depends_on: [ install ]
+
+---
+kind: signature
+hmac: a3e167464fa53225c28e5d0beccca755b99cfbad165ceefef3e806e76258c544
+
+...

@@ -1,0 +1,6 @@
+{
+	"plugins": [
+		"@shnhrrsn/babel-plugin-transform-isnil",
+		"babel-plugin-import-auto-name"
+	]
+}
