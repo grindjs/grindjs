@@ -1,0 +1,5 @@
+# These files have intentionally broken syntax
+# to test errors, so they need to be excluded from
+# eslint to avoid parser errors
+test/fixtures/**/errors/*.js
+test/fixtures/resources/assets/js/error.js
