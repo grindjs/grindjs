@@ -1,9 +1,9 @@
-<p align="center"><a href="https://grind.rocks"><img src="https://s3.amazonaws.com/assets.grind.rocks/docs/img/grind-core-frontend.svg" alt="Grind Core Frontend" /></a></p>
+<p align="center"><a href="https://grind.rocks"><img src="https://assets.grind.rocks/docs/img/grind-core-frontend.svg" alt="Grind Core Frontend" /></a></p>
 
 <p align="center">
 <a href="https://www.npmjs.com/package/grind-core-frontend"><img src="https://img.shields.io/npm/dt/grind-core-frontend.svg" alt="Total Downloads"></a>
 <a href="https://www.npmjs.com/package/grind-core-frontend"><img src="https://img.shields.io/npm/v/grind-core-frontend.svg" alt="Latest Version"></a>
-<a href="https:/grind.chat"><img src="https://grind.chat/badge.svg" alt="Slack"></a>
+<a href="https://chat.grind.rocks"><img src="https://chat.grind.rocks/badge.svg" alt="Slack"></a>
 <a href="https://www.npmjs.com/package/grind-core-frontend"><img src="https://img.shields.io/npm/l/grind-core-frontend.svg" alt="License"></a>
 </p>
 
