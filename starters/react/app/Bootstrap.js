@@ -20,6 +20,11 @@ export function Bootstrap(kernelClass) {
 	app.providers.add(OrmProvider)
 	app.providers.add(ViewProvider)
 
+	// Debug providers
+	if(app.debug) {
+		app.providers.add(require('grind-react-dev').ReactDevProvider)
+	}
+
 	// App providers
 	app.providers.add(RoutesProvider)
 
