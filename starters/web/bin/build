@@ -4,34 +4,18 @@
 const { execFileSync } = require('child_process')
 const fs = require('fs')
 const path = require('path')
+process.chdir(path.join(__dirname, '../'))
 
-console.log('Cleaning up old build')
-rmdirsSync(relativePathname('build'))
+console.log('Cleaning up any previous builds')
+require('rimraf').sync('build')
 
 console.log('Building')
-fs.mkdirSync(relativePathname('build/app'), { recursive: true })
-fs.mkdirSync(relativePathname('build/boot'))
-babelCompileSync(relativePathname('app'), relativePathname('build/app'))
-babelCompileSync(relativePathname('boot'), relativePathname('build/boot'))
-
-console.log('Setting up bins')
-fs.mkdirSync('build/bin')
-fs.copyFileSync('bin/cli', 'build/bin/cli')
-
-console.log('Finalizing boot files')
-stripBabelSync(relativePathname('build/boot/Cli.js'))
-stripBabelSync(relativePathname('build/boot/Http.js'))
-
-console.log('Finished')
-
-function stripBabelSync(file) {
-	let content = fs.readFileSync(file).toString()
-	content = content.replace(/require\('@babel\/register'\)/g, '')
-	return fs.writeFileSync(file, content)
-}
-
-function babelCompileSync(input, output) {
-	return execFileSync('node', [
+for(const [ input, output ] of Object.entries({
+	app: 'build/app',
+	boot: 'build/boot',
+})) {
+	fs.mkdirSync(output, { recursive: true })
+	execFileSync('node', [
 		require.resolve('@babel/cli/lib/babel'),
 		'--copy-files',
 		'--source-maps', 'inline',
@@ -40,20 +24,15 @@ function babelCompileSync(input, output) {
 	])
 }
 
-function rmdirsSync(pathname) {
-	if(!fs.existsSync(pathname)) {
-		return
-	} else if(!fs.lstatSync(pathname).isDirectory()) {
-		return fs.unlinkSync(pathname)
-	}
+console.log('Setting up bins')
+fs.mkdirSync('build/bin')
+fs.copyFileSync('bin/cli', 'build/bin/cli')
 
-	for(const child of fs.readdirSync(pathname)) {
-		rmdirsSync(path.join(pathname, child))
-	}
-
-	fs.rmdirSync(pathname)
+console.log('Finalizing boot files')
+for(const file of [ 'build/boot/Cli.js', 'build/boot/Http.js' ]) {
+	let content = fs.readFileSync(file).toString()
+	content = content.replace(/require\('@babel\/register'\)/g, '')
+	fs.writeFileSync(file, content)
 }
 
-function relativePathname(pathname) {
-	return path.join(__dirname, '../', pathname)
-}
+console.log('Finished')
