@@ -1,4 +1,4 @@
-<p align="center"><a href="https://grind.rocks"><img src="https://s3.amazonaws.com/assets.grind.rocks/docs/img/grind-docs.svg" alt="Grind Framework" /></a></p>
+<p align="center"><a href="https://grind.rocks"><img src="https://assets.grind.rocks/docs/img/grind-docs.svg" alt="Grind Framework" /></a></p>
 
 # Grind Documentation
 This is the main documentation for Grind and powers [grind.rocks/docs](https://grind.rocks/docs)

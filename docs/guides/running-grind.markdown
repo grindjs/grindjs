@@ -23,7 +23,7 @@ By hot-reloading code, Grind is able to apply changes rapidly and get out of you
 
 ### What happens if there’s an error during restart?
 Since `watch` is tightly integrated with Grind itself, if something goes wrong during startup such as a syntax error, it’s able to start a temporary HTTP server on the same port and bring you the error right in your browser:
-![](https://s3.amazonaws.com/assets.grind.rocks/docs/img/example-error.png)
+![](https://assets.grind.rocks/docs/img/example-error.png)
 
 > {note} Unfortunately `watch` is only able to surface errors in browsers during a _restart_ and not initial startup.  This is due to not knowing what port to start up on during initial boot.  Once it’s successfully booted the first time, it remembers the port and is able to server errors on it should something go wrong.
 
