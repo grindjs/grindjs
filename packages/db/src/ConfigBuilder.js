@@ -53,6 +53,10 @@ export function ConfigBuilder(connection, app) {
 
 			connection.connection += connection.host || 'localhost'
 
+			if(!connection.port.isNil) {
+				connection.connection += `:${connection.port}`
+			}
+
 			if(!connection.db.isNil) {
 				connection.connection += `/${connection.db}`
 			} else if(!connection.database.isNil) {
