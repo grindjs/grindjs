@@ -4,17 +4,17 @@
 
 ## Using Grind Installer
 Once you have the Grind Installer [installed](installation#installing-grinds-installer), it's easy to setup a new project.  Just run the following command:
+
 ```shell
 grind new project-name
 ```
 
-> {tip} **tl;dr API Projects** When running the previous command, it defaults to setting up a web project.  If you’re going to be building an API, you should run `grind new project-name --template=api` to avoid installing unwanted dependencies that may slow your project down.
-
 ### CLI options
 The `grind` command provides a couple of different options for you when setting up a new project.  You can run `grind new --help` for full details, here’s a quick list of options:
 
-* `--template=[web|api]`
+* `--template=[web|react|api]`
 	* `web` is the default option, so there’s no need to pass it explicitly.  A web project includes a fully functional example site built on Grind, and includes dependencies for asset compilation and optimization, template rendering and HTML helpers.
+	* `react` is similar to the web template but for React!  A React project includes a fully functional example site built on Grind and React, and includes dependencies for asset compilation and optimization.
 	* `api` should be used if you’re building, well, an API.  The API project will be barebones with enough to get you started, but not too much that it starts slowing you down.
 * `--skip-packages`
 	* By default `grind new` will run `yarn install` or `npm install` for you, if you’d prefer to run it yourself and save time during project creation, you can pass this option.
@@ -27,6 +27,7 @@ The `grind` command provides a couple of different options for you when setting 
 If you’re prefer not to install Grind’s installer, you can quickly clone one of Grind’s example repositories to get started:
 
 * [https://github.com/grindjs/example-web](https://github.com/grindjs/example-web)
+* [https://github.com/grindjs/example-react](https://github.com/grindjs/example-react)
 * [https://github.com/grindjs/example-api](https://github.com/grindjs/example-api)
 
 ```shell
