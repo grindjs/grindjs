@@ -187,30 +187,6 @@ When this view renders, it will load look something like this:
 </html>
 ```
 
-### Nunjucks
-
-All the references Stone directives mentioned above can also be used as Nunjucks tags:
-
-```njk
-<!DOCTYPE html>
-<html>
-	<head>
-		{% asset 'render', 'styles' %}
-	</head>
-	<body>
-		{% asset 'render', 'scripts' %}
-	</body>
-</html>
-```
-
-```njk
-{% extends 'layout.master' %}
-
-{% babel 'welcome' %}
-{% scss 'welcome' %}
-```
-
-
 ## Deployments
 During your deploy process, you should run `bin/cli assets:publish`.  This will precompile all assets and move them into the `public/` directory.
 

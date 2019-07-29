@@ -91,7 +91,7 @@ The resources directory is where all of your frontend code should go, from templ
 
 The `assets` directory is powered by the [Assets provider](assets).  This is where all of your images, stylesheets and client side scripts will be stored.  Be sure to read up on [Assets](assets) for a full breakdown on how this works.
 
-The `views` directories is where you should store your [nunjucks](http://mozilla.github.io/nunjucks/) templates. The [View provider](templates) will look for all of your views here.
+The `views` directories is where you should store your [Stone](stone) templates. The [View provider](templates) will look for all of your views here.
 
 ### Public Directory
 
