@@ -1,6 +1,6 @@
 import '../BaseCommand'
 
-import path from 'path'
+const path = require('path')
 
 export class RunCommand extends BaseCommand {
 
@@ -17,10 +17,8 @@ export class RunCommand extends BaseCommand {
 			const s = log.length === 1 ? '' : 's'
 			this.success(`Ran ${log.length} seed file${s}:`)
 
-			const absolute = this.db.seed._absoluteConfigDir()
-
 			for(const file of log) {
-				this.success(`  - ${path.relative(absolute, file) }`)
+				this.success(`  - ${path.basename(file) }`)
 			}
 		})
 	}

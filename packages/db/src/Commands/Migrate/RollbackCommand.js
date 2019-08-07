@@ -1,6 +1,6 @@
 import '../BaseCommand'
 
-import path from 'path'
+const path = require('path')
 
 export class RollbackCommand extends BaseCommand {
 
@@ -17,10 +17,8 @@ export class RollbackCommand extends BaseCommand {
 			const s = log.length === 1 ? '' : 's'
 			this.success(`Batch ${batchNo}; Rolled back ${log.length} migration${s}:`)
 
-			const absolute = this.db.migrate._absoluteConfigDir()
-
 			for(const file of log) {
-				this.success(`  - ${path.relative(absolute, file) }`)
+				this.success(`  - ${path.basename(file) }`)
 			}
 		})
 	}
