@@ -1,9 +1,3 @@
-import './ConfigBuilder'
-import './DatabaseBuilder'
-import './DatabaseProvider'
-
-export {
-	ConfigBuilder,
-	DatabaseBuilder,
-	DatabaseProvider
-}
+export { ConfigBuilder } from './ConfigBuilder'
+export { DatabaseBuilder } from './DatabaseBuilder'
+export { DatabaseProvider } from './DatabaseProvider'

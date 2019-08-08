@@ -1,5 +1,25 @@
-#!/usr/bin/env bash
+#!/usr/bin/env node
+/* eslint-disable no-sync */
 
-rm -fr lib && mkdir -p lib/
+const { execFileSync } = require('child_process')
+const fs = require('fs')
+const rimraf = require('rimraf')
 
-BABEL_TARGET_VERSION=8.7 babel -s inline -d lib/ src/ --copy-files
+const nodeSync = (...args) => execFileSync('node', args)
+const babel = require.resolve('@babel/cli/lib/babel')
+
+console.log('Cleaning up old build')
+rimraf.sync('lib')
+
+// Build Package via Babel
+console.log('Building')
+fs.mkdirSync('lib')
+nodeSync(babel,
+	'--copy-files',
+	'--source-maps', 'inline',
+	'--out-dir', 'lib',
+	'src'
+)
+
+// Done!
+console.log('Finished')
