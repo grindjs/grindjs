@@ -7,20 +7,20 @@ export class RollbackCommand extends BaseCommand {
 	name = 'migrate:rollback'
 	description = 'Rollback the last set of migrations performed'
 
-	run() {
-		return this.db.migrate.rollback().spread((batchNo, log) => {
-			if(log.length === 0) {
-				this.warn('Already at the base migration')
-				return
-			}
+	async run() {
+		const [ batchNo, log ] = await this.db.migrate.rollback()
 
-			const s = log.length === 1 ? '' : 's'
-			this.success(`Batch ${batchNo}; Rolled back ${log.length} migration${s}:`)
+		if(log.length === 0) {
+			this.warn('Already at the base migration')
+			return
+		}
 
-			for(const file of log) {
-				this.success(`  - ${path.basename(file) }`)
-			}
-		})
+		const s = log.length === 1 ? '' : 's'
+		this.success(`Batch ${batchNo}; Rolled back ${log.length} migration${s}:`)
+
+		for(const file of log) {
+			this.success(`  - ${path.basename(file)}`)
+		}
 	}
 
 }
