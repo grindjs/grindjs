@@ -1,6 +1,10 @@
 {
-  "packages": [
-    "packages/*"
-  ],
-  "version": "0.0.0"
+	"version": "0.8.0-beta.14",
+	"npmClient": "yarn",
+	"command": {
+		"publish": {
+			"ignoreChanges": ["*.md", "*.markdown"]
+		}
+	},
+	"packages": ["packages/*"]
 }

@@ -1,0 +1,19 @@
+{
+	"name": "grindjs",
+	"description": "An opinionated Node web framework built on Express",
+	"author": "Shaun Harrison (@shnhrrsn)",
+	"version": "0.8.0-beta.14",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/grindjs/grindjs.git"
+	},
+	"keywords": [
+		"grindjs",
+		"grind-framework",
+		"web-framework"
+	],
+	"devDependencies": {
+		"lerna": "^3.20.2"
+	}
+}
