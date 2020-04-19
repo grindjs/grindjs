@@ -19,43 +19,13 @@
   "author": "Shaun Harrison (@shnhrrsn)",
   "main": "lib/index.js",
   "scripts": {
-    "prepack": "bin/build",
-    "test": "ava --verbose"
-  },
-  "babel": {
-    "presets": [
-      [
-        "grind",
-        {
-          "import-auto-name": {
-            "autoresolve": true
-          }
-        }
-      ]
-    ]
-  },
-  "ava": {
-    "files": [
-      "test/**/*",
-      "!test/FaktoryDriver.js"
-    ],
-    "helpers": [
-      "test/**/helpers/**/*"
-    ],
-    "require": [
-      "@babel/register"
-    ]
+    "prepack": "bin/build"
   },
   "dependencies": {
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.1.2",
-    "@babel/core": "^7.1.2",
-    "@babel/register": "^7.0.0",
     "amqplib": "^0.5.1",
-    "ava": "^2.0.0",
-    "babel-preset-grind": "^0.8.0-beta.3",
     "faktory-worker": "^0.6.3",
     "fetchit": "^2.1.0",
     "fivebeans": "^1.5.0",

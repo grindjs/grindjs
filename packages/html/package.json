@@ -15,14 +15,7 @@
   "author": "Shaun Harrison (@shnhrrsn)",
   "main": "lib/index.js",
   "scripts": {
-    "prepare": "bin/build",
-    "test": "bin/ava --verbose"
-  },
-  "ava": {
-    "babel": "inherit",
-    "require": [
-      "babel-register"
-    ]
+    "prepare": "bin/build"
   },
   "dependencies": {
     "as-type": "^1.0",
@@ -30,9 +23,6 @@
     "he": "^1.1.1"
   },
   "devDependencies": {
-    "ava": "^0.25.0",
-    "babel-cli": ">=6.7 <=7.0",
-    "babel-preset-grind": "^0.8.0-beta.1",
     "grind-cli": "^0.8.0-beta.1",
     "grind-framework": "^0.8.0-beta.1",
     "grind-http": "^0.8.0-beta.1",

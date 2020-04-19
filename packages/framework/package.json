@@ -15,25 +15,12 @@
   "author": "Shaun Harrison (@shnhrrsn)",
   "main": "lib/index.js",
   "scripts": {
-    "prepack": "bin/build",
-    "test": "bin/ava --verbose"
-  },
-  "ava": {
-    "require": [
-      "@babel/register"
-    ]
+    "prepack": "bin/build"
   },
   "dependencies": {
     "chalk": "^2.4.2",
     "grind-support": "^0.8.0-beta.5",
     "json5": "^2.1.0"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.5",
-    "@babel/register": "^7.4.4",
-    "ava": "^1.4.1",
-    "babel-preset-grind": "^0.8.0-beta.4"
   },
   "engines": {
     "node": ">=8.2"

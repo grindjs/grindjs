@@ -18,30 +18,7 @@
   "author": "Shaun Harrison (@shnhrrsn)",
   "main": "lib/index.js",
   "scripts": {
-    "prepare": "bin/build",
-    "test": "bin/ava --verbose"
-  },
-  "babel": {
-    "presets": [
-      [
-        "grind",
-        {
-          "import-auto-name": {
-            "autoresolve": true
-          }
-        }
-      ]
-    ]
-  },
-  "ava": {
-    "files": [
-      "test/**/*.js",
-      "!test/fixtures/**/*.js",
-      "!test/helpers/**/*.js"
-    ],
-    "require": [
-      "@babel/register"
-    ]
+    "prepare": "bin/build"
   },
   "dependencies": {
     "@babel/code-frame": "^7.5.5",
@@ -52,17 +29,12 @@
     "strip-ansi": "^5.2.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
     "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
     "@babel/plugin-transform-arrow-functions": "^7.2.0",
     "@babel/plugin-transform-block-scoping": "^7.5.5",
     "@babel/plugin-transform-classes": "^7.5.5",
     "@babel/plugin-transform-template-literals": "^7.4.4",
-    "@babel/register": "^7.5.5",
     "autoprefixer": "^9.6.1",
-    "ava": "^2.2.0",
-    "babel-preset-grind": "^0.8.0-beta.4",
     "babelify": "^10.0.0",
     "browserify": "^16.3.0",
     "clean-css": "^4.2.1",

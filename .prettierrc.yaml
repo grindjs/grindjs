@@ -10,6 +10,7 @@ useTabs: false
 overrides:
   - files:
       - '**/*.js'
+      - '**/*.cjs'
     options:
       tabWidth: 4
       useTabs: true

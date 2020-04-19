@@ -16,36 +16,13 @@
   "author": "Shaun Harrison (@shnhrrsn)",
   "main": "lib/index.js",
   "scripts": {
-    "prepare": "bin/build",
-    "test": "bin/ava --verbose"
-  },
-  "babel": {
-    "presets": [
-      [
-        "grind",
-        {
-          "import-auto-name": {
-            "autoresolve": true
-          }
-        }
-      ]
-    ]
-  },
-  "ava": {
-    "require": [
-      "@babel/register"
-    ]
+    "prepare": "bin/build"
   },
   "dependencies": {
     "as-type": "^1.0.0",
     "objection": "^1.4.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.1.2",
-    "@babel/core": "^7.1.2",
-    "@babel/register": "^7.0.0",
-    "ava": "^1.0.0-rc.1",
-    "babel-preset-grind": "^0.8.0-beta.3",
     "grind-cli": "^0.8.0-beta.1",
     "grind-db": "^0.8.0-beta.1",
     "grind-framework": "^0.8.0-beta.1",

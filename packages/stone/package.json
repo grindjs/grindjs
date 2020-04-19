@@ -6,14 +6,7 @@
   "author": "Shaun Harrison",
   "main": "lib/index.js",
   "scripts": {
-    "prepublish": "bin/build",
-    "test": "bin/ava --verbose"
-  },
-  "ava": {
-    "require": [
-      "@babel/register",
-      "@babel/polyfill"
-    ]
+    "prepublish": "bin/build"
   },
   "dependencies": {
     "acorn": "^5.7.0",
@@ -22,12 +15,6 @@
     "he": "^1.2.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.1.2",
-    "@babel/core": "^7.1.2",
-    "@babel/polyfill": "^7.0.0",
-    "@babel/register": "^7.0.0",
-    "ava": "^1.0.0-beta.8",
-    "babel-preset-grind": "^0.8.0-beta.3",
     "grind-cli": "^0.8.0-beta.1",
     "grind-framework": "^0.8.0-beta.1",
     "grind-http": "^0.8.0-beta.1",

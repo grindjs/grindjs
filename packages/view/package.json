@@ -18,10 +18,6 @@
   "scripts": {
     "prepublish": "bin/build"
   },
-  "devDependencies": {
-    "babel-cli": ">=6.7 <=7.0",
-    "babel-preset-grind": "^0.8.0-beta.1"
-  },
   "peerDependencies": {
     "grind-framework": "^0.8.0-beta.1"
   },

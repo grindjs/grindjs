@@ -11,10 +11,6 @@
   "dependencies": {
     "zone.js": "^0.8.17"
   },
-  "devDependencies": {
-    "babel-cli": ">=6.7 <=7.0",
-    "babel-preset-grind": "^0.7.0"
-  },
   "peerDependencies": {
     "grind-stone": "^0.7.2",
     "grind-support": "^0.7.0"

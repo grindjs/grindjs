@@ -1,5 +1,6 @@
 .DS_Store
-lib/*
-node_modules/*
-npm-debug.log
+lib/
+node_modules/
+npm-*.log
 yarn.lock
+lerna-*.log

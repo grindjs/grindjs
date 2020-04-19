@@ -13,26 +13,11 @@
   "scripts": {
     "prepare": "bin/build"
   },
-  "babel": {
-    "presets": [
-      [
-        "grind",
-        {
-          "import-auto-name": {
-            "autoresolve": true
-          }
-        }
-      ]
-    ]
-  },
   "dependencies": {
     "react-dev-utils": "^9.0.1",
     "react-error-overlay": "^5.1.6"
   },
   "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
-    "babel-preset-grind": "^0.8.0-beta.4",
     "rimraf": "^2.6.3",
     "rollup": "^1.17.0",
     "rollup-plugin-babel": "^4.3.3",

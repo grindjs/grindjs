@@ -21,12 +21,7 @@
   "dependencies": {
     "knex": ">=0.19.0 <=1.0"
   },
-  "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
-    "@babel/register": "^7.5.5",
-    "babel-preset-grind": "^0.8.0-beta.4"
-  },
+  "devDependencies": {},
   "peerDependencies": {
     "grind-cli": "^0.8.0-beta.1",
     "grind-framework": "^0.8.0-beta.1"
