@@ -1,7 +1,7 @@
 <p align="center"><a href="https://grind.rocks"><img src="https://s3.amazonaws.com/assets.grind.rocks/docs/img/grind-nunjucks.svg" alt="Grind Nunjucks" /></a></p>
 
 <p align="center">
-<a href="https://travis-ci.org/grindjs/nunjucks"><img src="https://img.shields.io/travis/grindjs/nunjucks.svg" alt="Build Status"></a>
+<a href="https://github.com/grindjs/grindjs/actions?query=workflow%3Anunjucks"><img src="https://github.com/grindjs/grindjs/workflows/nunjucks/badge.svg" alt="Build Status"></a>
 <a href="https://www.npmjs.com/package/grind-nunjucks"><img src="https://img.shields.io/npm/dt/grind-nunjucks.svg" alt="Total Downloads"></a>
 <a href="https://www.npmjs.com/package/grind-nunjucks"><img src="https://img.shields.io/npm/v/grind-nunjucks.svg" alt="Latest Version"></a>
 <a href="https:/grind.chat"><img src="https://grind.chat/badge.svg" alt="Slack"></a>

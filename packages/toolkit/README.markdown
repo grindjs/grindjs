@@ -1,7 +1,7 @@
 <p align="center"><a href="https://grind.rocks"><img src="https://s3.amazonaws.com/assets.grind.rocks/docs/img/grind-toolkit.svg" alt="Grind Toolkit" /></a></p>
 
 <p align="center">
-<a href="https://travis-ci.org/grindjs/toolkit"><img src="https://img.shields.io/travis/grindjs/toolkit.svg" alt="Build Status"></a>
+<a href="https://github.com/grindjs/grindjs/actions?query=workflow%3Atoolkit"><img src="https://github.com/grindjs/grindjs/workflows/toolkit/badge.svg" alt="Build Status"></a>
 <a href="https://www.npmjs.com/package/grind-toolkit"><img src="https://img.shields.io/npm/dt/grind-toolkit.svg" alt="Total Downloads"></a>
 <a href="https://www.npmjs.com/package/grind-toolkit"><img src="https://img.shields.io/npm/v/grind-toolkit.svg" alt="Latest Version"></a>
 <a href="https:/grind.chat"><img src="https://grind.chat/badge.svg" alt="Slack"></a>
@@ -21,6 +21,7 @@ npm install -g grind-toolkit
 ```
 
 ### yarn
+
 ```bash
 yarn install -g grind-toolkit
 ```

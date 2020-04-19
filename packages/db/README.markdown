@@ -1,7 +1,7 @@
 <p align="center"><a href="https://grind.rocks"><img src="https://assets.grind.rocks/docs/img/grind-db.svg" alt="Grind Database" /></a></p>
 
 <p align="center">
-<a href="https://travis-ci.org/grindjs/db"><img src="https://img.shields.io/travis/grindjs/db.svg" alt="Build Status"></a>
+<a href="https://github.com/grindjs/grindjs/actions?query=workflow%3Adb"><img src="https://github.com/grindjs/grindjs/workflows/db/badge.svg" alt="Build Status"></a>
 <a href="https://www.npmjs.com/package/grind-db"><img src="https://img.shields.io/npm/dt/grind-db.svg" alt="Total Downloads"></a>
 <a href="https://www.npmjs.com/package/grind-db"><img src="https://img.shields.io/npm/v/grind-db.svg" alt="Latest Version"></a>
 <a href="https://chat.grind.rocks/"><img src="https://chat.grind.rocks/badge.svg" alt="Slack"></a>
@@ -10,7 +10,7 @@
 
 # Grind Database
 
-Grind Database is a thin wrapper around [knex.js](http://knexjs.org/) for simple integration with [Grind](https://github.com/grindjs/framework).  Once setup, you’ll have easy access to your database via `app.db`.
+Grind Database is a thin wrapper around [knex.js](http://knexjs.org/) for simple integration with [Grind](https://github.com/grindjs/framework). Once setup, you’ll have easy access to your database via `app.db`.
 
 ## Documentation
 

@@ -1,7 +1,7 @@
 <p align="center"><a href="https://grind.rocks"><img src="https://s3.amazonaws.com/assets.grind.rocks/docs/img/grind-orm.svg" alt="Grind ORM" /></a></p>
 
 <p align="center">
-<a href="https://travis-ci.org/grindjs/orm"><img src="https://img.shields.io/travis/grindjs/orm.svg" alt="Build Status"></a>
+<a href="https://github.com/grindjs/grindjs/actions?query=workflow%3Aorm"><img src="https://github.com/grindjs/grindjs/workflows/orm/badge.svg" alt="Build Status"></a>
 <a href="https://www.npmjs.com/package/grind-orm"><img src="https://img.shields.io/npm/dt/grind-orm.svg" alt="Total Downloads"></a>
 <a href="https://www.npmjs.com/package/grind-orm"><img src="https://img.shields.io/npm/v/grind-orm.svg" alt="Latest Version"></a>
 <a href="https:/grind.chat"><img src="https://grind.chat/badge.svg" alt="Slack"></a>
