@@ -14,8 +14,8 @@
   "author": "Shaun Harrison (@shnhrrsn)",
   "dependencies": {
     "grind-cache": "^0.8.0-beta.1",
-    "grind-cli": "^0.8.0-beta.4",
+    "grind-cli": "^0.8.0-beta.3",
     "grind-framework": "^0.8.0-beta.4",
-    "grind-http": "^0.8.0-beta.5"
+    "grind-http": "^0.8.0-beta.4"
   }
 }

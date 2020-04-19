@@ -20,7 +20,7 @@
     "prepublish": "./.build"
   },
   "dependencies": {
-    "nunjucks": "^2.0"
+    "nunjucks": "^3.2.1"
   },
   "devDependencies": {},
   "peerDependencies": {

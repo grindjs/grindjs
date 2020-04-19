@@ -33,6 +33,7 @@
     "lerna": "^3.20.2",
     "lint-staged": "^10.1.5",
     "prettier": "^2.0.4",
-    "prettier-plugin-packagejson": "^2.2.1"
+    "prettier-plugin-packagejson": "^2.2.1",
+    "update-versions": "^2.4.6"
   }
 }

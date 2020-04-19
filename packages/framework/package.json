@@ -18,9 +18,9 @@
     "prepack": "bin/build"
   },
   "dependencies": {
-    "chalk": "^2.4.2",
-    "grind-support": "^0.8.0-beta.5",
-    "json5": "^2.1.0"
+    "chalk": "^4.0.0",
+    "grind-support": "^0.8.0-beta.6",
+    "json5": "^2.1.3"
   },
   "engines": {
     "node": ">=8.2"

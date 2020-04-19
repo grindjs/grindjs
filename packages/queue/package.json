@@ -22,18 +22,18 @@
     "prepack": "bin/build"
   },
   "dependencies": {
-    "uuid": "^3.3.2"
+    "uuid": "^7.0.3"
   },
   "devDependencies": {
-    "amqplib": "^0.5.1",
-    "faktory-worker": "^0.6.3",
+    "amqplib": "^0.5.5",
+    "faktory-worker": "^3.3.2",
     "fetchit": "^2.1.0",
     "fivebeans": "^1.5.0",
-    "grind-cache": "^0.7.1",
-    "grind-cli": "^0.8.0-beta.4",
+    "grind-cache": "^0.8.0-beta.1",
+    "grind-cli": "^0.8.0-beta.3",
     "grind-framework": "^0.8.0-beta.4",
-    "grind-http": "^0.8.0-beta.1",
-    "redis": "^2.8.0"
+    "grind-http": "^0.8.0-beta.4",
+    "redis": "^3.0.2"
   },
   "peerDependencies": {
     "grind-cli": "^0.8.0-beta.4",

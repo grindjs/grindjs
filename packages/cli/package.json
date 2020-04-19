@@ -20,11 +20,11 @@
   },
   "dependencies": {
     "as-type": "^1.0.0",
-    "chalk": "^1.0.0",
+    "chalk": "^4.0.0",
     "later": "^1.2.0"
   },
   "devDependencies": {
-    "grind-framework": "^0.8.0-beta.1"
+    "grind-framework": "^0.8.0-beta.4"
   },
   "peerDependencies": {
     "grind-framework": "^0.8.0-beta.1"

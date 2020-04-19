@@ -9,7 +9,7 @@
     "prepare": "bin/build"
   },
   "dependencies": {
-    "zone.js": "^0.8.17"
+    "zone.js": "^0.10.3"
   },
   "peerDependencies": {
     "grind-stone": "^0.7.2",

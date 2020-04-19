@@ -9,16 +9,16 @@
     "prepublish": "bin/build"
   },
   "dependencies": {
-    "acorn": "^5.7.0",
+    "acorn": "^7.1.1",
     "acorn5-object-spread": "^5.1.2",
-    "astring": "^1.3.1",
+    "astring": "^1.4.3",
     "he": "^1.2.0"
   },
   "devDependencies": {
-    "grind-cli": "^0.8.0-beta.1",
-    "grind-framework": "^0.8.0-beta.1",
-    "grind-http": "^0.8.0-beta.1",
-    "grind-view": "^0.8.0-beta.1",
+    "grind-cli": "^0.8.0-beta.3",
+    "grind-framework": "^0.8.0-beta.4",
+    "grind-http": "^0.8.0-beta.4",
+    "grind-view": "^0.8.0-beta.2",
     "recursive-readdir-sync": "^1.0.6"
   },
   "peerDependencies": {

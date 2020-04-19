@@ -18,9 +18,9 @@
     "prepublish": "bin/build"
   },
   "devDependencies": {
-    "grind-framework": "^0.7.0",
-    "request": "^2.81.0",
-    "request-promise-native": "^1.0.4"
+    "grind-framework": "^0.8.0-beta.4",
+    "request": "^2.88.2",
+    "request-promise-native": "^1.0.8"
   },
   "peerDependencies": {
     "grind-framework": "^0.7.0"

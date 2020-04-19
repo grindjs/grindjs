@@ -18,16 +18,16 @@
     "prepare": "bin/build"
   },
   "dependencies": {
-    "as-type": "^1.0",
-    "dateformat": "^2.0.0",
-    "he": "^1.1.1"
+    "as-type": "^1.0.0",
+    "dateformat": "^3.0.3",
+    "he": "^1.2.0"
   },
   "devDependencies": {
-    "grind-cli": "^0.8.0-beta.1",
-    "grind-framework": "^0.8.0-beta.1",
-    "grind-http": "^0.8.0-beta.1",
-    "grind-stone": "^0.8.0-beta.5",
-    "grind-view": "^0.8.0-beta.1"
+    "grind-cli": "^0.8.0-beta.3",
+    "grind-framework": "^0.8.0-beta.4",
+    "grind-http": "^0.8.0-beta.4",
+    "grind-stone": "^0.8.0-beta.9",
+    "grind-view": "^0.8.0-beta.2"
   },
   "peerDependencies": {
     "grind-framework": "^0.8.0-beta.1"

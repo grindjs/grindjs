@@ -14,14 +14,14 @@
     "prepare": "bin/build"
   },
   "dependencies": {
-    "react-dev-utils": "^9.0.1",
-    "react-error-overlay": "^5.1.6"
+    "react-dev-utils": "^10.2.1",
+    "react-error-overlay": "^6.0.7"
   },
   "devDependencies": {
-    "rimraf": "^2.6.3",
-    "rollup": "^1.17.0",
-    "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-commonjs": "^10.0.1",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.6.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-replace": "^2.2.0",
     "uglify-es": "^3.3.9"

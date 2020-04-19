@@ -19,7 +19,7 @@
     "prepack": "bin/build"
   },
   "dependencies": {
-    "knex": ">=0.19.0 <=1.0"
+    "knex": "^0.21.0"
   },
   "devDependencies": {},
   "peerDependencies": {

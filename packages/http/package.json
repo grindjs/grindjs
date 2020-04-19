@@ -20,22 +20,22 @@
     "prepack": "bin/build"
   },
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "express": "^4.14.1"
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
   },
   "devDependencies": {
-    "chokidar": "^2.0.4",
-    "compression": "^1.7.3",
-    "cookie-parser": "^1.4.3",
+    "chokidar": "^3.3.1",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.5",
     "express-flash": "^0.0.2",
-    "express-session": "^1.15.6",
+    "express-session": "^1.17.1",
     "flash": "^1.1.0",
-    "grind-cli": "^0.8.0-beta.1",
-    "grind-db": "^0.8.0-beta.1",
-    "grind-framework": "^0.8.0-beta.1",
-    "request": "^2.88.0",
-    "request-promise-native": "^1.0.5",
-    "sqlite3": "^4.0.3"
+    "grind-cli": "^0.8.0-beta.3",
+    "grind-db": "^0.8.0-beta.4",
+    "grind-framework": "^0.8.0-beta.4",
+    "request": "^2.88.2",
+    "request-promise-native": "^1.0.8",
+    "sqlite3": "^4.1.1"
   },
   "peerDependencies": {
     "grind-framework": "^0.8.0-beta.1"

@@ -20,8 +20,8 @@
   "dependencies": {
     "as-type": "^1.0.0",
     "fetchit": "^2.1.0",
-    "grind-cli": "^0.8.0-beta.4",
-    "grind-framework": "^0.8.0-beta.2",
+    "grind-cli": "^0.8.0-beta.3",
+    "grind-framework": "^0.8.0-beta.4",
     "grind-stone": "^0.8.0-beta.9",
     "grind-view": "^0.8.0-beta.2"
   },
