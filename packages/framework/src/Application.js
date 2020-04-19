@@ -9,7 +9,6 @@ const EventEmitter = require('events')
  * Main Application class for Grind
  */
 export class Application extends EventEmitter {
-
 	_env = null
 
 	config = null
@@ -37,16 +36,19 @@ export class Application extends EventEmitter {
 	 * @param  {Class}   options.urlGeneratorClass  Override for UrlGenerator class
 	 * @param  {Class}   options.pathsClass         Override for Paths class
 	 */
-	constructor(kernelClass, {
-		env,
-		port,
-		routerClass,
-		configClass,
-		errorHandlerClass,
-		urlGeneratorClass,
-		pathsClass,
-		...extra
-	} = { }) {
+	constructor(
+		kernelClass,
+		{
+			env,
+			port,
+			routerClass,
+			configClass,
+			errorHandlerClass,
+			urlGeneratorClass,
+			pathsClass,
+			...extra
+		} = {},
+	) {
 		super()
 
 		this._env = env
@@ -54,7 +56,7 @@ export class Application extends EventEmitter {
 		configClass = configClass || Config
 		pathsClass = pathsClass || Paths
 
-		this.paths = new pathsClass
+		this.paths = new pathsClass()
 		this.config = new configClass(this)
 		this.providers = new ProviderCollection(this)
 		this.debug = this.config.get('app.debug', this.env() === 'local')
@@ -66,14 +68,14 @@ export class Application extends EventEmitter {
 			errorHandlerClass,
 			urlGeneratorClass,
 			pathsClass,
-			...extra
+			...extra,
 		})
 
-		if(!this.kernel.as.isNil) {
+		if (!this.kernel.as.isNil) {
 			this[this.kernel.as] = this.kernel
 		}
 
-		for(const provider of this.kernel.providers) {
+		for (const provider of this.kernel.providers) {
 			this.providers.add(provider)
 		}
 	}
@@ -92,14 +94,14 @@ export class Application extends EventEmitter {
 	 * @return {Promise}
 	 */
 	async boot() {
-		if(this.booted) {
+		if (this.booted) {
 			return
 		}
 
 		this.booting = true
-		this.providers.sort((a, b) => a.priority > b.priority ? -1 : 1)
+		this.providers.sort((a, b) => (a.priority > b.priority ? -1 : 1))
 
-		for(const provider of this.providers) {
+		for (const provider of this.providers) {
 			await provider(this)
 		}
 
@@ -119,13 +121,13 @@ export class Application extends EventEmitter {
 	 * @param  function  provider
 	 */
 	loadKernelProvider(provider) {
-		if(typeof provider.shutdown === 'function') {
+		if (typeof provider.shutdown === 'function') {
 			const shutdown = provider.shutdown.bind(provider, this)
 
 			this.once('shutdown', () => {
 				const result = shutdown()
 
-				if(result.isNil || typeof result.then !== 'function') {
+				if (result.isNil || typeof result.then !== 'function') {
 					return
 				}
 
@@ -137,7 +139,7 @@ export class Application extends EventEmitter {
 
 		const result = provider(this)
 
-		if(result.isNil || typeof result.then !== 'function') {
+		if (result.isNil || typeof result.then !== 'function') {
 			return
 		}
 
@@ -159,18 +161,18 @@ export class Application extends EventEmitter {
 	 * @return {Promise}
 	 */
 	async shutdown() {
-		if(!this.booted) {
+		if (!this.booted) {
 			return
 		}
 
-		for(const provider of this.providers) {
-			if(typeof provider.shutdown !== 'function') {
+		for (const provider of this.providers) {
+			if (typeof provider.shutdown !== 'function') {
 				continue
 			}
 
 			try {
 				await provider.shutdown(this)
-			} catch(e) {
+			} catch (e) {
 				Log.error(`Error while shutting ${provider.name} down`, e)
 			}
 		}
@@ -194,6 +196,7 @@ export class Application extends EventEmitter {
 	}
 
 	// Pass through properties for the http kernel
-	get errorHandler() { return this.http.errorHandler }
-
+	get errorHandler() {
+		return this.http.errorHandler
+	}
 }

@@ -6,61 +6,65 @@ import '../Support/optional'
 const PostCSS = optional('postcss', '>=7.0.0')
 
 export class CssPostCssPostProcessor extends PostProcessor {
-
 	priority = 100
-	supportedExtensions = [ 'css' ]
-	plugins = [ ]
-	options = { }
+	supportedExtensions = ['css']
+	plugins = []
+	options = {}
 
 	constructor(app, shouldOptimize, sourceMaps) {
 		super(app, shouldOptimize, sourceMaps)
 
-		const plugins = app.config.get('assets.post_processors.css.postcss', { })
+		const plugins = app.config.get('assets.post_processors.css.postcss', {})
 
-		for(const [ plugin, config ] of Object.entries(plugins)) {
-			if(config === false) {
+		for (const [plugin, config] of Object.entries(plugins)) {
+			if (config === false) {
 				continue
 			}
 
-			this.plugins.push([ optional(plugin), config ])
+			this.plugins.push([optional(plugin), config])
 		}
 	}
 
 	process(sourcePath, targetPath, contents) {
-		if(this.plugins.length === 0 || !PostCSS.resolve()) {
+		if (this.plugins.length === 0 || !PostCSS.resolve()) {
 			return Promise.resolve(contents)
 		}
 
-		const plugins = [ ]
+		const plugins = []
 
-		for(const [ plugin, config ] of this.plugins) {
-			if(!plugin.resolve()) {
+		for (const [plugin, config] of this.plugins) {
+			if (!plugin.resolve()) {
 				continue
 			}
 
-			if(!config.isNil && typeof config === 'object') {
+			if (!config.isNil && typeof config === 'object') {
 				plugins.push(plugin.pkg(config))
 			} else {
 				plugins.push(plugin.pkg)
 			}
 		}
 
-		return PostCSS.pkg(plugins).process(contents, {
-			from: sourcePath,
-			to: targetPath,
-			map: this.sourceMaps === false ? false : {
-				inline: true
-			}
-		}).then(result => result.css).catch(async err => {
-			if(typeof err.file !== 'string') {
-				err.file = (err.input || { }).file || sourcePath
-			}
-
-			throw await makeSyntaxError(this.app, {
-				message: err.reason || err.message,
-				causedBy: err
+		return PostCSS.pkg(plugins)
+			.process(contents, {
+				from: sourcePath,
+				to: targetPath,
+				map:
+					this.sourceMaps === false
+						? false
+						: {
+								inline: true,
+						  },
 			})
-		})
-	}
+			.then(result => result.css)
+			.catch(async err => {
+				if (typeof err.file !== 'string') {
+					err.file = (err.input || {}).file || sourcePath
+				}
 
+				throw await makeSyntaxError(this.app, {
+					message: err.reason || err.message,
+					causedBy: err,
+				})
+			})
+	}
 }

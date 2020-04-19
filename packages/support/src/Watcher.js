@@ -6,7 +6,6 @@ const path = require('path')
  * when watched files are changed
  */
 export class Watcher {
-
 	/**
 	 * Array of paths to watch
 	 * @type string
@@ -32,9 +31,10 @@ export class Watcher {
 	 * @param  [string]  paths  Directories to watch
 	 */
 	constructor(paths) {
-		if(typeof paths === 'string') {
-			paths = [ paths ]
-		} if(paths.length === 1 && Array.isArray(paths[0])) {
+		if (typeof paths === 'string') {
+			paths = [paths]
+		}
+		if (paths.length === 1 && Array.isArray(paths[0])) {
 			paths = paths[0]
 		}
 
@@ -50,7 +50,7 @@ export class Watcher {
 
 		await new Promise((resolve, reject) => {
 			watcher.on('ready', err => {
-				if(!err.isNil) {
+				if (!err.isNil) {
 					return reject(err)
 				}
 
@@ -59,15 +59,13 @@ export class Watcher {
 		})
 
 		watcher.on('all', () => {
-			if(this._restarting) {
+			if (this._restarting) {
 				return
 			}
 
-			files:
-			for(const file of Object.keys(require.cache)) {
-				paths:
-				for(const dir of this.paths) {
-					if(file.indexOf(dir) !== 0) {
+			files: for (const file of Object.keys(require.cache)) {
+				paths: for (const dir of this.paths) {
+					if (file.indexOf(dir) !== 0) {
 						continue paths
 					}
 
@@ -79,7 +77,10 @@ export class Watcher {
 			return this._restart()
 		})
 
-		console.log(chalk.yellow('Watching %s'), this.paths.map(dir => path.relative(process.cwd(), dir)))
+		console.log(
+			chalk.yellow('Watching %s'),
+			this.paths.map(dir => path.relative(process.cwd(), dir)),
+		)
 
 		return this._restart()
 	}
@@ -93,5 +94,4 @@ export class Watcher {
 		await this.restart()
 		this._restarting = false
 	}
-
 }

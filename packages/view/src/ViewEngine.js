@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 
 export class ViewEngine {
-
 	app = null
 	view = null
 
@@ -49,5 +48,4 @@ export class ViewEngine {
 	isHtmlString(html) {
 		throw new Error('Subclasses must implement.')
 	}
-
 }

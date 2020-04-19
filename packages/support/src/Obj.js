@@ -1,30 +1,29 @@
 export class Obj {
-
 	static get(object, keyPath, fallback) {
-		if(arguments.length < 3) {
+		if (arguments.length < 3) {
 			fallback = null
 		}
 
-		if(object.isNil) {
+		if (object.isNil) {
 			return fallback
 		}
 
 		const keys = keyPath.split('.')
 		let value = object[keys.shift()]
 
-		if(value.isNil) {
+		if (value.isNil) {
 			return fallback
 		}
 
-		for(const key of keys) {
-			if(value.isNil) {
+		for (const key of keys) {
+			if (value.isNil) {
 				continue
 			}
 
 			value = value[key]
 		}
 
-		if(value.isNil) {
+		if (value.isNil) {
 			return fallback
 		}
 
@@ -39,9 +38,9 @@ export class Obj {
 		const keys = keyPath.split('.')
 		const last = keys.pop()
 
-		if(keys.length > 0) {
-			for(const key of keys) {
-				if(object.isNil) {
+		if (keys.length > 0) {
+			for (const key of keys) {
+				if (object.isNil) {
 					continue
 				}
 
@@ -49,7 +48,7 @@ export class Obj {
 			}
 		}
 
-		if(object) {
+		if (object) {
 			object[last] = value
 		}
 	}
@@ -58,9 +57,9 @@ export class Obj {
 		const keys = keyPath.split('.')
 		const last = keys.pop()
 
-		if(keys.length > 0) {
-			for(const key of keys) {
-				if(object.isNil) {
+		if (keys.length > 0) {
+			for (const key of keys) {
+				if (object.isNil) {
 					continue
 				}
 
@@ -68,17 +67,17 @@ export class Obj {
 			}
 		}
 
-		if(object) {
+		if (object) {
 			delete object[last]
 		}
 	}
 
 	static filter(object, callback) {
-		object = object || { }
-		const filtered = { }
+		object = object || {}
+		const filtered = {}
 
-		for(const [ key, value ] of Object.entries(object)) {
-			if(!callback(key, value)) {
+		for (const [key, value] of Object.entries(object)) {
+			if (!callback(key, value)) {
 				continue
 			}
 
@@ -99,24 +98,24 @@ export class Obj {
 	}
 
 	static keyBy(items, field, hasSingleValue = true) {
-		const object = { }
+		const object = {}
 
-		for(const result of items) {
+		for (const result of items) {
 			const key = result[field]
 
-			if(key.isNil) {
+			if (key.isNil) {
 				continue
 			}
 
-			if(hasSingleValue) {
+			if (hasSingleValue) {
 				object[key] = result
 				continue
 			}
 
 			let values = object[key]
 
-			if(!Array.isArray(values)) {
-				values = [ ]
+			if (!Array.isArray(values)) {
+				values = []
 				object[key] = values
 			}
 
@@ -125,5 +124,4 @@ export class Obj {
 
 		return object
 	}
-
 }

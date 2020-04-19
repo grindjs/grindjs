@@ -2,7 +2,6 @@ const { createFilter } = require('rollup-pluginutils')
 const path = require('path')
 
 export class RollupPlugin {
-
 	config
 
 	constructor(options) {
@@ -19,11 +18,11 @@ export class RollupPlugin {
 	}
 
 	load = id => {
-		if(!this.filter(id)) {
+		if (!this.filter(id)) {
 			return null
 		}
 
-		if(!this.extensions.has(path.extname(id).toLowerCase().substring(1))) {
+		if (!this.extensions.has(path.extname(id).toLowerCase().substring(1))) {
 			return null
 		}
 
@@ -42,5 +41,4 @@ export class RollupPlugin {
 	get name() {
 		return this.constructor.name
 	}
-
 }

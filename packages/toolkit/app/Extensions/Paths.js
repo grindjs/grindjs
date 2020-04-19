@@ -3,7 +3,6 @@ import { Paths as BasePaths } from 'grind-framework'
 const path = require('path')
 
 export class Paths extends BasePaths {
-
 	_project = null
 	_packages = null
 	_packageInfo = null
@@ -33,5 +32,4 @@ export class Paths extends BasePaths {
 	get bootstrap() {
 		return this._bootstrap
 	}
-
 }

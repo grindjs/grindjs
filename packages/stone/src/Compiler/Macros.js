@@ -8,7 +8,7 @@ export function compileMacro(context, args) {
 
 	let code = `_[${name}] = function(${args}) {`
 	code += '\n_ = Object.assign({ }, _);'
-	code += '\nlet output = \'\';'
+	code += "\nlet output = '';"
 
 	return code
 }

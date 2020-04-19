@@ -25,7 +25,7 @@ function server(connection) {
 		app.routes.get('old-input', (req, res) => res.send(req.flash('_old_input')[0]))
 	}
 
-	if(connection !== void 0) {
+	if (connection !== void 0) {
 		boot.before = app => {
 			app.config.set('session.default', connection)
 		}
@@ -38,100 +38,112 @@ function makeTest(connection, builder, callback) {
 	return async t => {
 		const s = await server(connection)
 
-		if(!callback.isNil) {
+		if (!callback.isNil) {
 			await callback(s)
 		}
 
 		try {
 			await builder(t, s)
-		} catch(err) {
+		} catch (err) {
 			throw err
 		} finally {
 			await s.shutdown()
 		}
 	}
-
 }
 
 function performTest(connection, callback) {
-	return makeTest(connection, async (t, s) => {
-		const payload = {
-			number: 1,
-			letter: 'a',
-			boolean: true
-		}
+	return makeTest(
+		connection,
+		async (t, s) => {
+			const payload = {
+				number: 1,
+				letter: 'a',
+				boolean: true,
+			}
 
-		await s.request('set', {
-			json: true,
-			method: 'post',
-			body: payload,
-			jar: true
-		})
+			await s.request('set', {
+				json: true,
+				method: 'post',
+				body: payload,
+				jar: true,
+			})
 
-		const response = await s.request('get', {
-			json: true,
-			jar: true
-		})
+			const response = await s.request('get', {
+				json: true,
+				jar: true,
+			})
 
-		t.deepEqual(response.body, payload)
-	}, callback)
+			t.deepEqual(response.body, payload)
+		},
+		callback,
+	)
 }
 
 test('memory', performTest())
-test('database', performTest('database', app => {
-	return app.routes.middleware.session.__store.db.schema.createTable('sessions', table => {
-		table.string('id').unique()
-		table.text('data')
-		table.datetime('expires_at')
-	})
-}))
+test(
+	'database',
+	performTest('database', app => {
+		return app.routes.middleware.session.__store.db.schema.createTable('sessions', table => {
+			table.string('id').unique()
+			table.text('data')
+			table.datetime('expires_at')
+		})
+	}),
+)
 
-test('flash', makeTest('memory', async (t, s) => {
-	const payload = { test: true }
+test(
+	'flash',
+	makeTest('memory', async (t, s) => {
+		const payload = { test: true }
 
-	await s.request('flash', {
-		json: true,
-		method: 'post',
-		body: payload,
-		jar: true
-	})
+		await s.request('flash', {
+			json: true,
+			method: 'post',
+			body: payload,
+			jar: true,
+		})
 
-	let response = await s.request('flash', {
-		json: true,
-		jar: true
-	})
+		let response = await s.request('flash', {
+			json: true,
+			jar: true,
+		})
 
-	t.deepEqual(response.body, [ payload ])
+		t.deepEqual(response.body, [payload])
 
-	response = await s.request('flash', {
-		json: true,
-		jar: true
-	})
+		response = await s.request('flash', {
+			json: true,
+			jar: true,
+		})
 
-	t.deepEqual(response.body, [ ])
-}))
+		t.deepEqual(response.body, [])
+	}),
+)
 
-test('old-input', makeTest('memory', async (t, s) => {
-	const payload = { test: true }
+test(
+	'old-input',
+	makeTest('memory', async (t, s) => {
+		const payload = { test: true }
 
-	await s.request('old-input', {
-		json: true,
-		method: 'post',
-		body: payload,
-		jar: true
-	})
+		await s.request('old-input', {
+			json: true,
+			method: 'post',
+			body: payload,
+			jar: true,
+		})
 
-	let response = await s.request('old-input', {
-		json: true,
-		jar: true
-	})
+		let response = await s.request('old-input', {
+			json: true,
+			jar: true,
+		})
 
-	t.deepEqual(response.body, payload)
+		t.deepEqual(response.body, payload)
 
-	response = await s.request('old-input', {
-		json: true,
-		jar: true
-	})
+		response = await s.request('old-input', {
+			json: true,
+			jar: true,
+		})
 
-	t.deepEqual(response.body, void 0)
-}))
+		t.deepEqual(response.body, void 0)
+	}),
+)

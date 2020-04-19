@@ -1,5 +1,4 @@
 export class Container {
-
 	/**
 	 * Name of this container
 	 * @type string
@@ -46,5 +45,4 @@ export class Container {
 	render(/* devbar, context */) {
 		throw new Error('Subclasses must implement')
 	}
-
 }

@@ -4,11 +4,10 @@ import './StoneTemplate'
 const fs = require('fs')
 
 export class Compiler {
-
 	engine = null
-	directives = { }
-	tags = { }
-	compiled = { }
+	directives = {}
+	tags = {}
+	compiled = {}
 
 	constructor(engine) {
 		this.engine = engine
@@ -18,7 +17,7 @@ export class Compiler {
 	compile(template, force = null) {
 		let compiled = force || this.disableCache ? null : this.compiled[template]
 
-		if(typeof compiled === 'function') {
+		if (typeof compiled === 'function') {
 			return compiled
 		}
 
@@ -30,7 +29,7 @@ export class Compiler {
 	}
 
 	compileString(contents, shouldEval = true, file = null) {
-		if(!file.isNil) {
+		if (!file.isNil) {
 			this.engine.view.emit('compile:start', file)
 		}
 
@@ -38,24 +37,24 @@ export class Compiler {
 
 		try {
 			template.compile()
-		} catch(err) {
-			if(!err._hasTemplate) {
+		} catch (err) {
+			if (!err._hasTemplate) {
 				err._hasTemplate = true
 				err.file = file
 
-				if(file) {
+				if (file) {
 					err.message += ` in template ${file}.`
 				}
 			}
 
 			throw err
 		} finally {
-			if(!file.isNil) {
+			if (!file.isNil) {
 				this.engine.view.emit('compile:end', file)
 			}
 		}
 
-		if(!shouldEval) {
+		if (!shouldEval) {
 			return template.toString()
 		}
 
@@ -63,18 +62,18 @@ export class Compiler {
 	}
 
 	compileDirective(context, name, args) {
-		if(name === 'directive') {
+		if (name === 'directive') {
 			// Avoid infinite loop
 			return null
 		}
 
-		if(typeof this.directives[name] === 'function') {
+		if (typeof this.directives[name] === 'function') {
 			return this.directives[name](context, args)
 		}
 
 		const method = `compile${name[0].toUpperCase()}${name.substring(1)}`
 
-		if(typeof this[method] !== 'function') {
+		if (typeof this[method] !== 'function') {
 			throw new StoneCompilerError(context, `@${name} is not a valid Stone directive.`)
 		}
 
@@ -84,11 +83,10 @@ export class Compiler {
 	compileEnd() {
 		return '}'
 	}
-
 }
 
 // Load in the rest of the compilers
-for(const [ name, func ] of Object.entries({
+for (const [name, func] of Object.entries({
 	...require('./Compiler/Assignments'),
 	...require('./Compiler/Components'),
 	...require('./Compiler/Conditionals'),

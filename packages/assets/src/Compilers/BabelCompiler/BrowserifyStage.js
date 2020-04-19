@@ -7,16 +7,15 @@ const Browserify = optional('browserify', '>=16.2.0')
 const Babelify = optional('babelify', '>=10.0.0')
 
 export class BrowserifyStage extends Stage {
-
 	static configName = 'browserify'
 	options = null
 
-	constructor(app, sourceMaps, { enabled = true, ...options } = { }) {
+	constructor(app, sourceMaps, { enabled = true, ...options } = {}) {
 		super(app, sourceMaps)
 
 		this.browserifyOptions = {
 			debug: this.sourceMaps === 'auto',
-			...options
+			...options,
 		}
 
 		this.enabled = enabled
@@ -25,16 +24,16 @@ export class BrowserifyStage extends Stage {
 	compile(pathname, stream = null) {
 		Browserify.assert()
 
-		if(this.handleBabel && Babelify.isNil) {
+		if (this.handleBabel && Babelify.isNil) {
 			Babelify.assert()
 		}
 
 		const browserify = Browserify.pkg({
 			...this.options,
-			basedir: this.app.paths.base()
+			basedir: this.app.paths.base(),
 		})
 
-		if(this.handleBabel) {
+		if (this.handleBabel) {
 			browserify.transform('babelify')
 		}
 
@@ -42,8 +41,8 @@ export class BrowserifyStage extends Stage {
 
 		return new Promise((resolve, reject) => {
 			browserify.bundle((err, contents) => {
-				if(!err.isNil) {
-					if(!(err instanceof SyntaxError)) {
+				if (!err.isNil) {
+					if (!(err instanceof SyntaxError)) {
 						return reject(err)
 					}
 
@@ -51,19 +50,20 @@ export class BrowserifyStage extends Stage {
 					message = err.message.split(/\n/)[0]
 					message = message.substring(message.indexOf(':') + 1).trim()
 
-					const loc = err.loc || { }
+					const loc = err.loc || {}
 
 					return makeSyntaxError(this.app, {
 						message,
 						lineNumber: loc.line,
 						columnNumber: loc.column,
-						causedBy: err
-					}).catch(reject).then(reject)
+						causedBy: err,
+					})
+						.catch(reject)
+						.then(reject)
 				}
 
 				resolve(contents)
 			})
 		})
 	}
-
 }

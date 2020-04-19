@@ -13,7 +13,7 @@ export function contextualize(code) {
 
 	try {
 		tree = AST.parse(code)
-	} catch(err) {
+	} catch (err) {
 		err._code = code
 		throw err
 	}
@@ -29,10 +29,10 @@ export function contextualize(code) {
 				'Array',
 				'String',
 				'global',
-				'process'
+				'process',
 			]),
-			end: Number.MAX_VALUE
-		}
+			end: Number.MAX_VALUE,
+		},
 	]
 
 	let scope = scopes[0]
@@ -54,7 +54,7 @@ export function contextualize(code) {
 		ArrowFunctionExpression: node => {
 			scope = pushScope(scopes, node)
 
-			for(const parameter of node.params) {
+			for (const parameter of node.params) {
 				scopeVariable(scope, parameter)
 			}
 		},
@@ -62,23 +62,23 @@ export function contextualize(code) {
 		FunctionExpression: node => {
 			scope = pushScope(scopes, node)
 
-			for(const parameter of node.params) {
+			for (const parameter of node.params) {
 				scopeVariable(scope, parameter)
 			}
 		},
 
 		AssignmentExpression: node => {
-			if(node.left.name.isNil) {
+			if (node.left.name.isNil) {
 				return
 			}
 
-			if(node.left.name.substring(0, 13) !== '__auto_scope_') {
+			if (node.left.name.substring(0, 13) !== '__auto_scope_') {
 				return
 			}
 
 			node.left.name = node.left.name.substring(13)
 
-			if(!scope.locals.has(node.left.name)) {
+			if (!scope.locals.has(node.left.name)) {
 				node.left.name = `_.${node.left.name}`
 			}
 		},
@@ -90,17 +90,17 @@ export function contextualize(code) {
 		},
 
 		ObjectExpression: node => {
-			for(const property of node.properties) {
-				if(property.shorthand !== true) {
+			for (const property of node.properties) {
+				if (property.shorthand !== true) {
 					continue
 				}
 
 				property.shorthand = false
-				property.key = new property.key.constructor({ options: { } })
+				property.key = new property.key.constructor({ options: {} })
 				property.key.shouldntContextualize = true
 				Object.assign(property.key, property.value)
 
-				if(property.key.name.startsWith('_.')) {
+				if (property.key.name.startsWith('_.')) {
 					property.key.name = property.key.name.substring(2)
 				}
 			}
@@ -111,18 +111,18 @@ export function contextualize(code) {
 		},
 
 		Identifier: node => {
-			if(node.name.substring(0, 13) === '__auto_scope_') {
+			if (node.name.substring(0, 13) === '__auto_scope_') {
 				node.name = node.name.substring(13)
 			}
 
 			scope = checkScope(scopes, node)
 
-			if(node.shouldntContextualize || scope.locals.has(node.name)) {
+			if (node.shouldntContextualize || scope.locals.has(node.name)) {
 				return
 			}
 
 			node.name = `_.${node.name}`
-		}
+		},
 	})
 
 	return AST.stringify(tree)
@@ -152,7 +152,7 @@ function scopeVariable(scope, node) {
 function checkScope(scopes, fromNode) {
 	let scope = scopes[scopes.length - 1]
 
-	while(fromNode.start >= scope.end && scopes.length > 1) {
+	while (fromNode.start >= scope.end && scopes.length > 1) {
 		scopes.pop()
 		scope = scopes[scopes.length - 1]
 	}
@@ -173,7 +173,7 @@ function pushScope(scopes, node) {
 	const scope = {
 		locals: new Set(scopes[scopes.length - 1].locals),
 		node: node,
-		end: node.end
+		end: node.end,
 	}
 
 	scopes.push(scope)

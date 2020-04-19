@@ -1,9 +1,8 @@
 export class RoutesLoadError extends Error {
-
 	cause = null
 
 	constructor(err, message) {
-		if(typeof err === 'string') {
+		if (typeof err === 'string') {
 			message = err
 			err = null
 		}
@@ -13,5 +12,4 @@ export class RoutesLoadError extends Error {
 		this.name = this.constructor.name
 		this.cause = err
 	}
-
 }

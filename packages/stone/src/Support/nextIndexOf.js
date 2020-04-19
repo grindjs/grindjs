@@ -9,21 +9,21 @@
 export function nextIndexOf(string, set, fromIndex) {
 	let index = null
 
-	for(const character of set) {
+	for (const character of set) {
 		const characterIndex = string.indexOf(character, fromIndex)
 
-		if(characterIndex === -1) {
+		if (characterIndex === -1) {
 			continue
 		}
 
-		if(index === null) {
+		if (index === null) {
 			index = characterIndex
 		}
 
 		index = Math.min(index, characterIndex)
 	}
 
-	if(index === null) {
+	if (index === null) {
 		return -1
 	}
 

@@ -8,7 +8,6 @@ let Manager = null
  * Faktory backed Queue Driver
  */
 export class FaktoryDriver extends BaseDriver {
-
 	connection = null
 	channel = null
 	uri = null
@@ -26,25 +25,24 @@ export class FaktoryDriver extends BaseDriver {
 		return this.client.connect()
 	}
 
-
 	get isAlive() {
 		return (
-			!this.client.isNil
-			&& !this.client.socket.isNil
-			&& !this.client.socket.destroyed
-			&& this.client.connected
+			!this.client.isNil &&
+			!this.client.socket.isNil &&
+			!this.client.socket.destroyed &&
+			this.client.connected
 		)
 	}
 
 	async dispatch(job, id) {
-		if(!this.isAlive) {
+		if (!this.isAlive) {
 			await this.connect()
 		}
 
 		const payload = this.buildPayload(job, id)
-		const at = payload.delay.isNil ? null : (new Date(Date.now() + payload.delay))
+		const at = payload.delay.isNil ? null : new Date(Date.now() + payload.delay)
 		payload.try = 1
-		payload.queued_at = (at || new Date).getTime()
+		payload.queued_at = (at || new Date()).getTime()
 
 		return this._push(payload, at)
 	}
@@ -55,14 +53,14 @@ export class FaktoryDriver extends BaseDriver {
 			queues,
 			concurrency,
 			registry: {
-				'grind-job': this.receivePayload.bind(this, context)
-			}
+				'grind-job': this.receivePayload.bind(this, context),
+			},
 		})
 
-		this.manager.trapSignals = () => { }
+		this.manager.trapSignals = () => {}
 		this.manager.run()
 
-		return new Promise(() => { })
+		return new Promise(() => {})
 	}
 
 	retry(context, payload, at) {
@@ -75,22 +73,21 @@ export class FaktoryDriver extends BaseDriver {
 			queue: payload.queue,
 			retry: 0,
 			at: at === null ? null : at.toISOString(),
-			args: [ payload ]
+			args: [payload],
 		})
 	}
 
 	async destroy() {
-		if(!this.manager.isNil) {
+		if (!this.manager.isNil) {
 			await this.manager.stop()
 			this.manager = null
 		}
 
-		if(!this.client.isNil) {
+		if (!this.client.isNil) {
 			await this.client.close()
 			this.client = null
 		}
 	}
-
 }
 
 /**
@@ -98,19 +95,19 @@ export class FaktoryDriver extends BaseDriver {
  * or throws an error if they haven’t been added
  */
 function loadPackage() {
-	if(!Client.isNil) {
+	if (!Client.isNil) {
 		return
 	}
 
 	try {
 		Manager = require('faktory-worker/lib/manager')
-	} catch(err) {
+	} catch (err) {
 		throw new MissingPackageError('faktory-worker')
 	}
 
 	try {
 		Client = require('faktory-client')
-	} catch(err) {
+	} catch (err) {
 		throw new MissingPackageError('faktory-worker')
 	}
 }

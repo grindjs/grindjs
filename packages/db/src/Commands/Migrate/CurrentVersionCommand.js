@@ -1,7 +1,6 @@
 import '../BaseCommand'
 
 export class CurrentVersionCommand extends BaseCommand {
-
 	name = 'migrate:current-version'
 	description = 'View the current version for the migration'
 
@@ -10,5 +9,4 @@ export class CurrentVersionCommand extends BaseCommand {
 			this.comment(`Current Version: ${version}`)
 		})
 	}
-
 }

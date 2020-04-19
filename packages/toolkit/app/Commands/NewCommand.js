@@ -7,26 +7,20 @@ const path = require('path')
 const fetch = require('fetchit')
 
 export class NewCommand extends Command {
-
 	name = 'new'
 	description = 'Create a new Grind application'
-	arguments = [ 'name' ]
+	arguments = ['name']
 
 	arguments = [
 		new InputArgument(
 			'name',
 			InputArgument.VALUE_OPTIONAL,
-			'The name of the project to create'
-		)
+			'The name of the project to create',
+		),
 	]
 
 	options = [
-		new InputOption(
-			'template',
-			InputOption.VALUE_OPTIONAL,
-			'API or Web.',
-			'web'
-		),
+		new InputOption('template', InputOption.VALUE_OPTIONAL, 'API or Web.', 'web'),
 		new InputOption(
 			'tag',
 			InputOption.VALUE_OPTIONAL,
@@ -35,13 +29,13 @@ export class NewCommand extends Command {
 		new InputOption(
 			'skip-packages',
 			InputOption.VALUE_NONE,
-			'If present, packages will not be installed.'
+			'If present, packages will not be installed.',
 		),
 		new InputOption(
 			'prefer-npm',
 			InputOption.VALUE_NONE,
-			'yarn will be used by default if it’s installed.  Pass this to use npm.'
-		)
+			'yarn will be used by default if it’s installed.  Pass this to use npm.',
+		),
 	]
 
 	async run() {
@@ -49,19 +43,21 @@ export class NewCommand extends Command {
 		const target = this.argument('name')
 		let repository = null
 
-		if(type.includes('/')) {
+		if (type.includes('/')) {
 			repository = type
 		} else {
 			repository = `grindjs/example-${type}`
 
-			if(type !== 'web' && type !== 'api' && type !== 'cli') {
-				throw new AbortError('Invalid template option, only web, api and cli are supported.')
+			if (type !== 'web' && type !== 'api' && type !== 'cli') {
+				throw new AbortError(
+					'Invalid template option, only web, api and cli are supported.',
+				)
 			}
 		}
 
 		const exists = await FS.exists(target)
 
-		if(exists) {
+		if (exists) {
 			throw new AbortError('Target directory already exists')
 		}
 
@@ -69,10 +65,10 @@ export class NewCommand extends Command {
 
 		let tag = this.option('tag')
 
-		if(tag.isNil) {
+		if (tag.isNil) {
 			this.comment('Finding latest tag')
 			const tags = await fetch.json(`https://api.github.com/repos/${repository}/tags`, {
-				headers: { 'User-Agent': 'grind/toolkit' }
+				headers: { 'User-Agent': 'grind/toolkit' },
 			})
 
 			const released = tags.filter(({ name }) => name.match(/^\d+\.\d+\.\d+$/))
@@ -84,10 +80,12 @@ export class NewCommand extends Command {
 		this.comment(`Cloning ${repository}@${tag}`)
 		await this.exec('git', [
 			'clone',
-			'--depth', '1',
-			'--branch', tag,
+			'--depth',
+			'1',
+			'--branch',
+			tag,
 			`https://github.com/${repository}.git`,
-			target
+			target,
 		])
 
 		process.chdir(target)
@@ -97,27 +95,29 @@ export class NewCommand extends Command {
 		packageJson.version = '0.0.1'
 		packageJson.name = path.basename(target)
 
-		if(!packageJson.bin.isNil) {
+		if (!packageJson.bin.isNil) {
 			const key = Object.keys(packageJson.bin)[0]
 			packageJson.bin = {
-				[packageJson.name]: packageJson.bin[key]
+				[packageJson.name]: packageJson.bin[key],
 			}
 		}
 
-		await this.exec('rm', [ '-fr', '.git' ])
+		await this.exec('rm', ['-fr', '.git'])
 		await FS.writeFile('package.json', JSON.stringify(packageJson, null, '  '))
 
-		if(!this.option('skip-packages')) {
+		if (!this.option('skip-packages')) {
 			Log.comment('Installing Packages')
 
-			const hasYarn = !this.option('prefer-npm') && await this.execFile('bash', [
-				'type', 'yarn'
-			]).then(() => true).catch(() => false)
+			const hasYarn =
+				!this.option('prefer-npm') &&
+				(await this.execFile('bash', ['type', 'yarn'])
+					.then(() => true)
+					.catch(() => false))
 
-			if(hasYarn) {
-				await this.exec('yarn', [ 'install' ])
+			if (hasYarn) {
+				await this.exec('yarn', ['install'])
 			} else {
-				await this.exec('npm', [ 'install' ])
+				await this.exec('npm', ['install'])
 			}
 		}
 
@@ -127,7 +127,7 @@ export class NewCommand extends Command {
 	execFile(command, args) {
 		return new Promise((resolve, reject) => {
 			execFile(command, args, (err, stdout, stderr) => {
-				if(err) {
+				if (err) {
 					err.stdout = stdout
 					err.stderr = stderr
 					return reject(err)
@@ -135,7 +135,7 @@ export class NewCommand extends Command {
 
 				resolve({
 					stdout: stdout,
-					stderr: stderr
+					stderr: stderr,
 				})
 			})
 		})
@@ -153,5 +153,4 @@ export class NewCommand extends Command {
 		const contents = await FS.readFile(pathname)
 		await FS.writeFile(pathname, callback(contents))
 	}
-
 }

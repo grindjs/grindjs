@@ -1,7 +1,7 @@
 const { promisify } = require('util')
 const fs = require('fs')
 
-export const FS = { }
+export const FS = {}
 
 // Standard fs
 // ----------------------------
@@ -10,7 +10,9 @@ FS.rename = promisify(fs.rename)
 FS.ftruncate = promisify(fs.ftruncate)
 FS.chown = promisify(fs.chown)
 FS.fchown = promisify(fs.fchown)
-if(fs.lchown) { FS.lchown = promisify(fs.lchown) }
+if (fs.lchown) {
+	FS.lchown = promisify(fs.lchown)
+}
 FS.chmod = promisify(fs.chmod)
 FS.fchmod = promisify(fs.fchmod)
 FS.stat = promisify(fs.stat)
@@ -40,8 +42,8 @@ FS.truncate = promisify(fs.truncate)
 // mkdirp
 // ----------------------------
 let mkdirp = null
-FS.mkdirp = function(...args) {
-	if(mkdirp !== null) {
+FS.mkdirp = function (...args) {
+	if (mkdirp !== null) {
 		return mkdirp(...args)
 	}
 
@@ -54,13 +56,15 @@ FS.mkdirs = FS.mkdirp
 // exists
 // ----------------------------
 FS.exists = pathname => {
-	return FS.stat(pathname).then(() => true).catch(err => {
-		if(err.code !== 'ENOENT' && err.code !== 'ENOTDIR') {
-			throw err
-		}
+	return FS.stat(pathname)
+		.then(() => true)
+		.catch(err => {
+			if (err.code !== 'ENOENT' && err.code !== 'ENOTDIR') {
+				throw err
+			}
 
-		return false
-	})
+			return false
+		})
 }
 
 // touch
@@ -69,29 +73,33 @@ FS.touch = (path, time) => {
 	time = time || Date.now()
 	let fd = null
 
-	return FS.open(path, 'r').then(fdd => {
-		fd = fdd
-	}).then(() => {
-		return FS.futimes(fd, time, time)
-	}).catch(err => {
-		if(!fd.isNil) {
-			return FS.close(fd).then(() => {
-				fd = null
-				throw err
-			})
-		}
+	return FS.open(path, 'r')
+		.then(fdd => {
+			fd = fdd
+		})
+		.then(() => {
+			return FS.futimes(fd, time, time)
+		})
+		.catch(err => {
+			if (!fd.isNil) {
+				return FS.close(fd).then(() => {
+					fd = null
+					throw err
+				})
+			}
 
-		throw err
-	}).then(result => {
-		if(!fd.isNil) {
-			return FS.close(fd).then(() => {
-				fd = null
-				return result
-			})
-		}
+			throw err
+		})
+		.then(result => {
+			if (!fd.isNil) {
+				return FS.close(fd).then(() => {
+					fd = null
+					return result
+				})
+			}
 
-		return result
-	})
+			return result
+		})
 }
 
 // recursiveReaddir
@@ -101,7 +109,7 @@ FS.recursiveReaddir = pathname => {
 
 	return new Promise((resolve, reject) => {
 		recursiveReaddir(pathname, (err, result) => {
-			if(!err.isNil) {
+			if (!err.isNil) {
 				return reject(err)
 			}
 

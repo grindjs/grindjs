@@ -2,11 +2,7 @@
 import test from 'ava'
 import './helpers/compile'
 
-import {
-	BabelCompiler,
-	RawCompiler,
-	ScssCompiler
-} from '../src'
+import { BabelCompiler, RawCompiler, ScssCompiler } from '../src'
 
 test('scss', async t => {
 	const scss = await compile(ScssCompiler, 'scss/test.scss', 'compressed')
@@ -18,7 +14,9 @@ test('babel', async t => {
 
 	js = js.toString()
 
-	t.is(js.trim(), `
+	t.is(
+		js.trim(),
+		`
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
 
@@ -54,7 +52,8 @@ function () {
 exports.Test = Test;
 
 },{}]},{},[1]);
-`.trim())
+`.trim(),
+	)
 })
 
 test('rollup', async t => {
@@ -63,7 +62,9 @@ test('rollup', async t => {
 		app.config.set('assets.compilers.babel.browserify.enabled', false)
 	})
 
-	t.is(js.toString().trim(), `
+	t.is(
+		js.toString().trim(),
+		`
 'use strict';
 
 var testing = true;
@@ -73,24 +74,28 @@ var i = /*#__PURE__*/Object.freeze({
 });
 
 console.log('testing', i);
-`.trim())
+`.trim(),
+	)
 })
 
 test('rollup/process.env.NODE_ENV', async t => {
 	const js = await compile(BabelCompiler, 'babel/rollup/env.js', app => {
 		app.config.set('assets.compilers.babel.browserify.enabled', false),
-		app.config.set('assets.compilers.babel.rollup.enabled', true)
-		app.config.set('assets.compilers.babel.rollup.plugins', { })
-		app.config.set('assets.compilers.babel.rollup.plugins.rollup-plugin-replace', { })
+			app.config.set('assets.compilers.babel.rollup.enabled', true)
+		app.config.set('assets.compilers.babel.rollup.plugins', {})
+		app.config.set('assets.compilers.babel.rollup.plugins.rollup-plugin-replace', {})
 	})
 
-	t.is(js.toString().trim(), `
+	t.is(
+		js.toString().trim(),
+		`
 'use strict';
 
 {
   console.log('test env');
 }
-`.trim())
+`.trim(),
+	)
 })
 
 test('rollup+browserify', async t => {
@@ -98,7 +103,9 @@ test('rollup+browserify', async t => {
 		app.config.set('assets.compilers.babel.rollup.enabled', true)
 	})
 
-	t.is(js.toString().trim(), `
+	t.is(
+		js.toString().trim(),
+		`
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 'use strict';
 
@@ -111,7 +118,8 @@ var i = /*#__PURE__*/Object.freeze({
 console.log('testing', i);
 
 },{}]},{},[1]);
-`.trim())
+`.trim(),
+	)
 })
 
 test('raw', async t => {

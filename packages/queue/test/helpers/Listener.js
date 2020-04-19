@@ -5,10 +5,10 @@ export function Listener(queue, callback, canFail = false, queueName = TestJob.q
 		const timeout = setTimeout(() => reject(new Error('Execution timed out')), 10000)
 
 		try {
-			await queue.listen([ queueName ], 1, {
+			await queue.listen([queueName], 1, {
 				makeJob: payload => payload,
 				execute: async job => {
-					if(await callback(job) === true) {
+					if ((await callback(job)) === true) {
 						return
 					}
 
@@ -16,15 +16,15 @@ export function Listener(queue, callback, canFail = false, queueName = TestJob.q
 					return resolve()
 				},
 				handleError: (job, payload, err) => {
-					if(canFail) {
+					if (canFail) {
 						return
 					}
 
 					clearTimeout(timeout)
 					reject(err)
-				}
+				},
 			})
-		} catch(err) {
+		} catch (err) {
 			clearTimeout(timeout)
 			reject(err)
 		}

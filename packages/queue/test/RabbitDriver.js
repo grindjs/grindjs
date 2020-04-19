@@ -10,7 +10,7 @@ const uuid = require('uuid/v4')
 
 const service = new Service(test, 'rabbitmq', {
 	image: 'rabbitmq:3.7-alpine',
-	port: 5672
+	port: 5672,
 })
 
 test.beforeEach(t => {
@@ -18,8 +18,8 @@ test.beforeEach(t => {
 	t.context.driver = new RabbitDriver(null, {
 		connection: {
 			host: 'localhost',
-			port: service.port
-		}
+			port: service.port,
+		},
 	})
 
 	return t.context.driver.connect()
@@ -33,7 +33,12 @@ test('dispatch', async t => {
 
 	await t.context.driver.dispatch(job)
 
-	return Listener(t.context.driver, job => t.deepEqual(job.data.data, payload), false, t.context.queue)
+	return Listener(
+		t.context.driver,
+		job => t.deepEqual(job.data.data, payload),
+		false,
+		t.context.queue,
+	)
 })
 
 test('retry dispatch', async t => {
@@ -43,14 +48,19 @@ test('retry dispatch', async t => {
 
 	await t.context.driver.dispatch(job.$tries(2))
 
-	return Listener(t.context.driver, job => {
-		t.is(job.tries, 2)
-		t.deepEqual(job.data.data, payload)
+	return Listener(
+		t.context.driver,
+		job => {
+			t.is(job.tries, 2)
+			t.deepEqual(job.data.data, payload)
 
-		if(++tries === 1 || tries > 2) {
-			throw new Error
-		}
-	}, false, t.context.queue)
+			if (++tries === 1 || tries > 2) {
+				throw new Error()
+			}
+		},
+		false,
+		t.context.queue,
+	)
 })
 
 test('multi dispatch', t => {
@@ -61,7 +71,9 @@ test('multi dispatch', t => {
 	setTimeout(() => t.context.driver.dispatch(new TestJob({ id: 3 }).$queue(t.context.queue)), 200)
 	setTimeout(() => t.context.driver.dispatch(new TestJob({ id: 4 }).$queue(t.context.queue)), 400)
 
-	return Listener(t.context.driver, () => ++count < 4, false, t.context.queue).then(() => t.is(count, 4))
+	return Listener(t.context.driver, () => ++count < 4, false, t.context.queue).then(() =>
+		t.is(count, 4),
+	)
 })
 
 test('connection error - reconnect', async t => {
@@ -72,7 +84,12 @@ test('connection error - reconnect', async t => {
 	setTimeout(() => service.start(), 500)
 	await t.context.driver.dispatch(job)
 
-	return Listener(t.context.driver, job => t.deepEqual(job.data.data, payload), false, t.context.queue)
+	return Listener(
+		t.context.driver,
+		job => t.deepEqual(job.data.data, payload),
+		false,
+		t.context.queue,
+	)
 })
 
 test('connection error - fatal', async t => {
@@ -84,7 +101,7 @@ test('connection error - fatal', async t => {
 	try {
 		await t.context.driver.dispatch(job)
 		t.fail('Should not have dispatched.')
-	} catch(err) {
+	} catch (err) {
 		t.is(err.message, 'Unable to reconnect.')
 	}
 })

@@ -16,10 +16,10 @@ export function lazy(target, name, callback) {
 
 			Object.defineProperty(target, name, {
 				value: value,
-				writeable: false
+				writeable: false,
 			})
 
 			return value
-		}
+		},
 	})
 }

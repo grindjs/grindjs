@@ -1,7 +1,6 @@
 const EventEmitter = require('events')
 
 export class BaseConnection extends EventEmitter {
-
 	isConnected = false
 	attempts = 0
 	attemptsReset = null
@@ -9,10 +8,7 @@ export class BaseConnection extends EventEmitter {
 	reconnectDelayInterval = null
 	destroyed = false
 
-	constructor({
-		maxReconnectAttempts = 10,
-		reconnectDelayInterval = 100
-	} = { }) {
+	constructor({ maxReconnectAttempts = 10, reconnectDelayInterval = 100 } = {}) {
 		super()
 
 		this.maxReconnectAttempts = maxReconnectAttempts
@@ -25,7 +21,7 @@ export class BaseConnection extends EventEmitter {
 			this.isConnected = true
 			this.emit('connection:open', ...args)
 
-			if(!this.attemptsReset.isNil) {
+			if (!this.attemptsReset.isNil) {
 				clearTimeout(this.attemptsReset)
 			}
 
@@ -55,11 +51,11 @@ export class BaseConnection extends EventEmitter {
 	}
 
 	perform(callback) {
-		if(this.destroyed) {
+		if (this.destroyed) {
 			return Promise.reject(new Error(`${this.constructor.name} has already been destroyed.`))
 		}
 
-		if(this.isConnected) {
+		if (this.isConnected) {
 			return Promise.resolve(callback(this))
 		}
 
@@ -70,7 +66,7 @@ export class BaseConnection extends EventEmitter {
 
 				try {
 					resolve(callback(this))
-				} catch(err) {
+				} catch (err) {
 					reject(err)
 				}
 			})
@@ -78,14 +74,14 @@ export class BaseConnection extends EventEmitter {
 	}
 
 	_reconnect() {
-		if(this.destroyed) {
+		if (this.destroyed) {
 			return
 		}
 
 		const { name } = this.constructor
 		const { attempts, maxReconnectAttempts: max } = this
 
-		if(max > 0 && attempts >= max) {
+		if (max > 0 && attempts >= max) {
 			Log.error(`${name} reached max reconnection attempts, aborting.`)
 			this.emit('connection:fatal', new Error('Unable to reconnect.'))
 			return
@@ -93,10 +89,12 @@ export class BaseConnection extends EventEmitter {
 
 		this.isConnected = false
 
-		const delay = Math.min(30, (Math.pow(2, attempts) - 1)) * this.reconnectDelayInterval
-		Log.info(`${name} interrupted, attempt ${attempts + 1} of ${max} to reconnect after ${delay}ms`)
+		const delay = Math.min(30, Math.pow(2, attempts) - 1) * this.reconnectDelayInterval
+		Log.info(
+			`${name} interrupted, attempt ${attempts + 1} of ${max} to reconnect after ${delay}ms`,
+		)
 
-		if(!this.attemptsReset.isNil) {
+		if (!this.attemptsReset.isNil) {
 			clearTimeout(this.attemptsReset)
 			this.attemptsReset = null
 		}
@@ -112,5 +110,4 @@ export class BaseConnection extends EventEmitter {
 		this.emit('connection:fatal', new Error('Connection destroyed.'))
 		return Promise.resolve(this.close())
 	}
-
 }

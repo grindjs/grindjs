@@ -8,20 +8,23 @@ import '../src/Drivers/RedisDriver'
 
 const service = new Service(test, 'redis', {
 	image: 'redis:5.0.5-alpine',
-	port: 6379
+	port: 6379,
 })
 
 test.beforeEach(t => {
-	t.context.driver = new RedisDriver({
-		paths: {
-			package: require.resolve('../package.json')
-		}
-	}, {
-		connection: {
-			host: 'localhost',
-			port: service.port
-		}
-	})
+	t.context.driver = new RedisDriver(
+		{
+			paths: {
+				package: require.resolve('../package.json'),
+			},
+		},
+		{
+			connection: {
+				host: 'localhost',
+				port: service.port,
+			},
+		},
+	)
 
 	return t.context.driver.connect()
 })
@@ -48,8 +51,8 @@ test('retry dispatch', async t => {
 		t.is(job.tries, 2)
 		t.deepEqual(job.data.data, payload)
 
-		if(++tries === 1 || tries > 2) {
-			throw new Error
+		if (++tries === 1 || tries > 2) {
+			throw new Error()
 		}
 	})
 })
@@ -70,7 +73,7 @@ test('resiliency', async t => {
 
 	await t.context.driver.dispatch(new TestJob({ id: 1 }))
 
-	for(const client of [ t.context.driver.client, ...t.context.driver.clients ]) {
+	for (const client of [t.context.driver.client, ...t.context.driver.clients]) {
 		client.stream.destroy()
 	}
 

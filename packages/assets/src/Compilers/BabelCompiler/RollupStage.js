@@ -7,43 +7,47 @@ const rollup = optional('rollup', '>=1.0.0')
 const rollupBabel = optional('rollup-plugin-babel', '>=4.3.0')
 
 export class RollupStage extends Stage {
-
 	static configName = 'rollup'
-	plugins = [ ]
+	plugins = []
 	options = null
 	output = null
 
-	constructor(app, sourceMaps, { enabled = false, output = { }, plugins = { }, ...options } = { }) {
+	constructor(app, sourceMaps, { enabled = false, output = {}, plugins = {}, ...options } = {}) {
 		super(app, sourceMaps)
 
 		this.options = options
 		this.output = output
 		this.enabled = enabled
 
-		if(plugins['rollup-plugin-babel'].isNil) {
+		if (plugins['rollup-plugin-babel'].isNil) {
 			plugins['rollup-plugin-babel'] = true
 		}
 
-		for(const [ plugin, config ] of Object.entries(plugins)) {
-			if(config === false) {
+		for (const [plugin, config] of Object.entries(plugins)) {
+			if (config === false) {
 				continue
 			}
 
-			if(plugin === 'rollup-plugin-babel') {
-				this.plugins.push([ rollupBabel, config ])
-			} else if(plugin[0] === '~') {
+			if (plugin === 'rollup-plugin-babel') {
+				this.plugins.push([rollupBabel, config])
+			} else if (plugin[0] === '~') {
 				const name = `Rollup${plugin[1].toUpperCase()}${plugin.substring(2)}Plugin`
-				this.plugins.push([ require(`../../Rollup/${name}`)[name], {
-					grind: app,
-					req: true,
-					...(!config.isNil && typeof config === 'object' ? config : { })
-				} ])
+				this.plugins.push([
+					require(`../../Rollup/${name}`)[name],
+					{
+						grind: app,
+						req: true,
+						...(!config.isNil && typeof config === 'object' ? config : {}),
+					},
+				])
 			} else {
-				if(plugin === 'rollup-plugin-replace' && config['process.env.NODE_ENV'].isNil) {
-					config['process.env.NODE_ENV'] = JSON.stringify(process.env.ROLLUP_ENV || process.env.BABEL_ENV || process.env.NODE_ENV)
+				if (plugin === 'rollup-plugin-replace' && config['process.env.NODE_ENV'].isNil) {
+					config['process.env.NODE_ENV'] = JSON.stringify(
+						process.env.ROLLUP_ENV || process.env.BABEL_ENV || process.env.NODE_ENV,
+					)
 				}
 
-				this.plugins.push([ optional(plugin), config ])
+				this.plugins.push([optional(plugin), config])
 			}
 		}
 	}
@@ -51,31 +55,31 @@ export class RollupStage extends Stage {
 	async compile(pathname, stream = null, req = null) {
 		rollup.assert()
 
-		if(this.handleBabel) {
+		if (this.handleBabel) {
 			rollupBabel.assert()
 		}
 
-		if(!stream.isNil) {
+		if (!stream.isNil) {
 			throw new Error('Preprocessed stream not supported')
 		}
 
-		const plugins = [ ]
+		const plugins = []
 
-		for(const [ plugin, config ] of this.plugins) {
-			if(plugin.name === 'rollup-plugin-babel' && !this.handleBabel) {
+		for (const [plugin, config] of this.plugins) {
+			if (plugin.name === 'rollup-plugin-babel' && !this.handleBabel) {
 				continue
 			}
 
 			plugin.assert()
 
-			if(!config.isNil && typeof config === 'object') {
-				if(config.req === true) {
+			if (!config.isNil && typeof config === 'object') {
+				if (config.req === true) {
 					config.req = req
 				}
 
 				plugins.push(plugin.pkg(config))
 			} else {
-				plugins.push(plugin.pkg({ }))
+				plugins.push(plugin.pkg({}))
 			}
 		}
 
@@ -83,25 +87,25 @@ export class RollupStage extends Stage {
 			const bundle = await rollup.pkg.rollup({
 				...this.options,
 				input: pathname,
-				plugins
+				plugins,
 			})
 
 			const { output } = await bundle.generate({
 				format: 'cjs',
 				sourcemap: this.sourceMaps === 'auto',
-				...this.output
+				...this.output,
 			})
 
-			if(!Array.isArray(output) || output.length !== 1 || output[0].isEntry !== true) {
+			if (!Array.isArray(output) || output.length !== 1 || output[0].isEntry !== true) {
 				throw new Error('Unsupported file')
 			}
 
-			const [ { map, code } ] = output
+			const [{ map, code }] = output
 
 			const inlineMap = !map.isNil ? `\n//# sourceMappingURL=${map.toUrl()}\n` : null
 			return `${code}${inlineMap || ''}`
-		} catch(err) {
-			if(!(err instanceof SyntaxError)) {
+		} catch (err) {
+			if (!(err instanceof SyntaxError)) {
 				throw err
 			}
 
@@ -109,16 +113,15 @@ export class RollupStage extends Stage {
 			message = err.message.split(/\n/)[0]
 			message = message.substring(message.indexOf(':') + 1).trim()
 
-			const loc = err.loc || { }
+			const loc = err.loc || {}
 
 			throw await makeSyntaxError(this.app, {
 				message,
 				fileName: err.id || loc.file || loc.fileName || pathname,
 				lineNumber: loc.line,
 				columnNumber: loc.column,
-				causedBy: err
+				causedBy: err,
 			})
 		}
 	}
-
 }

@@ -5,9 +5,9 @@ export function CompressionMiddlewareBuilder(app) {
 
 	try {
 		compression = require('compression')
-	} catch(err) {
+	} catch (err) {
 		throw new MissingPackageError('compression')
 	}
 
-	return compression({ ...app.config.get('compression', { }) })
+	return compression({ ...app.config.get('compression', {}) })
 }

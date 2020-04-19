@@ -2,7 +2,6 @@ const path = require('path')
 const fs = require('fs')
 
 export class Paths {
-
 	_base = null
 	_app = null
 	_config = null
@@ -44,7 +43,7 @@ export class Paths {
 	}
 
 	_join(rootPath, ...args) {
-		if(args.length > 0) {
+		if (args.length > 0) {
 			args.unshift(rootPath)
 			return path.join(...args)
 		}
@@ -53,29 +52,32 @@ export class Paths {
 	}
 
 	findBase() {
-		if(!process.env.APP_BASE.isNil) {
+		if (!process.env.APP_BASE.isNil) {
 			return process.env.APP_BASE
 		}
 
 		const test = /\/pm2|mocha|ava|forever\//i
 		let parent = module
 
-		while(!parent.parent.isNil && !test.test(parent.parent.filename)) {
+		while (!parent.parent.isNil && !test.test(parent.parent.filename)) {
 			parent = parent.parent
 		}
 
 		let dirname = path.dirname(parent.filename)
 
 		// eslint-disable-next-line no-sync
-		while(dirname !== '/' && dirname !== '.' && !fs.existsSync(path.join(dirname, 'package.json'))) {
+		while (
+			dirname !== '/' &&
+			dirname !== '.' &&
+			!fs.existsSync(path.join(dirname, 'package.json'))
+		) {
 			dirname = path.dirname(dirname)
 		}
 
-		if(dirname === '/' || dirname === '.') {
+		if (dirname === '/' || dirname === '.') {
 			throw new Error('Could not find base path.')
 		}
 
 		return dirname
 	}
-
 }

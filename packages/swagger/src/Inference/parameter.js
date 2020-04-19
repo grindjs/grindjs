@@ -1,11 +1,11 @@
 import '../Swagger'
 
 export function parameter(parameter, method) {
-	if(parameter.required.isNil) {
+	if (parameter.required.isNil) {
 		parameter.required = method !== 'get'
 	}
 
-	if(parameter.in.isNil) {
+	if (parameter.in.isNil) {
 		parameter.in = method === 'get' ? 'query' : 'body'
 	}
 

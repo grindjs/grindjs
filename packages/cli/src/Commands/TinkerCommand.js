@@ -2,14 +2,13 @@ import '../Command'
 const repl = require('repl')
 
 export class TinkerCommand extends Command {
-
 	name = 'tinker'
 	description = 'Starts a REPL within the context of your app'
 
 	run() {
 		return new Promise(resolve => {
 			const r = repl.start({
-				prompt: '> '
+				prompt: '> ',
 			})
 
 			this._setup(r)
@@ -28,18 +27,18 @@ export class TinkerCommand extends Command {
 		const _eval = r.eval
 		return (cmd, context, filename, callback) => {
 			_eval.call(r, cmd, context, filename, async (err, result) => {
-				if(!err.isNil) {
+				if (!err.isNil) {
 					return callback(err, result)
 				}
 
-				if(result.isNil || typeof result.then !== 'function') {
+				if (result.isNil || typeof result.then !== 'function') {
 					return callback(err, result)
 				}
 
 				try {
 					const resolved = await result
 					result = resolved
-				} catch(e) {
+				} catch (e) {
 					err = e
 				}
 
@@ -47,5 +46,4 @@ export class TinkerCommand extends Command {
 			})
 		}
 	}
-
 }

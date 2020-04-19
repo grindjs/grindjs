@@ -1,7 +1,6 @@
 import { Command } from 'grind-cli'
 
 export class BaseCommand extends Command {
-
 	db = null
 
 	async ready() {
@@ -9,5 +8,4 @@ export class BaseCommand extends Command {
 
 		this.db = this.app.db
 	}
-
 }

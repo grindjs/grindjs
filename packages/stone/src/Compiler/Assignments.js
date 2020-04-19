@@ -11,7 +11,7 @@ import '../Support/nextIndexOf'
  * @return {string} Code to set the context variable
  */
 export function compileSet(context, args) {
-	if(args.indexOf(',') === -1) {
+	if (args.indexOf(',') === -1) {
 		// If there’s no commas, this is a simple raw code block
 		return context.validateSyntax(`${args};`)
 	}
@@ -24,11 +24,11 @@ export function compileSet(context, args) {
 		'[': 0,
 		'(': 0,
 		'{': 0,
-		first: true
+		'first': true,
 	}
 
 	const openCount = () => {
-		if(open.first) {
+		if (open.first) {
 			delete open.first
 			return -1
 		}
@@ -36,13 +36,13 @@ export function compileSet(context, args) {
 		return Object.values(open).reduce((a, b) => a + b, 0)
 	}
 
-	const set = [ '(', ')', '{', '}', '[', ']', ',' ]
+	const set = ['(', ')', '{', '}', '[', ']', ',']
 	let index = 0
 
-	while(openCount() !== 0 && (index = nextIndexOf(args, set, index)) >= 0) {
+	while (openCount() !== 0 && (index = nextIndexOf(args, set, index)) >= 0) {
 		const character = args.substring(index, index + 1)
 
-		switch(character) {
+		switch (character) {
 			case '(':
 				open['(']++
 				break
@@ -67,7 +67,7 @@ export function compileSet(context, args) {
 
 		index++
 
-		if(character === ',' && openCount() === 0) {
+		if (character === ',' && openCount() === 0) {
 			break
 		}
 	}
@@ -75,18 +75,18 @@ export function compileSet(context, args) {
 	const lhs = args.substring(0, index).trim().replace(/,$/, '')
 	const rhs = args.substring(index).trim().replace(/^,/, '')
 
-	if(rhs.length === 0) {
+	if (rhs.length === 0) {
 		return context.validateSyntax(`${lhs};`)
 	}
 
 	// If var type has been explicitly defined, we’ll
 	// pass through directly and scope locally
-	if(lhs.startsWith('const ') || lhs.startsWith('let ')) {
+	if (lhs.startsWith('const ') || lhs.startsWith('let ')) {
 		return context.validateSyntax(`${lhs} = ${rhs};`)
 	}
 
 	// Otherwise, scoping is assumed to be on the context var
-	if(lhs[0] !== '{' && lhs[0] !== '[') {
+	if (lhs[0] !== '{' && lhs[0] !== '[') {
 		// If we‘re not destructuring, we can assign it directly
 		// and bail out early.
 		//
@@ -105,25 +105,27 @@ export function compileSet(context, args) {
 
 	try {
 		tree = AST.parse(code)
-	} catch(err) {
-		if(err instanceof SyntaxError) {
+	} catch (err) {
+		if (err instanceof SyntaxError) {
 			throw new StoneSyntaxError(context, err, context.state.index)
 		}
 
 		throw err
 	}
 
-	const extracted = [ ]
+	const extracted = []
 
-	if(tree.body.length > 1 || tree.body[0].type !== 'VariableDeclaration')  {
+	if (tree.body.length > 1 || tree.body[0].type !== 'VariableDeclaration') {
 		throw new StoneCompilerError(context, 'Unexpected variable assignment.')
 	}
 
-	for(const declaration of tree.body[0].declarations) {
+	for (const declaration of tree.body[0].declarations) {
 		AST.walkVariables(declaration.id, node => extracted.push(node.name))
 	}
 
-	return `Object.assign(_, (function() {\n\t${code}\n\treturn { ${extracted.join(', ')} };\n})());`
+	return `Object.assign(_, (function() {\n\t${code}\n\treturn { ${extracted.join(
+		', ',
+	)} };\n})());`
 }
 
 /**

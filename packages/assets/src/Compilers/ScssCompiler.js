@@ -9,18 +9,21 @@ const path = require('path')
 const sass = optional('node-sass', '>=4.9.0')
 
 export class ScssCompiler extends Compiler {
-
-	supportedExtensions = [ 'scss', 'sass' ]
-	options = { }
+	supportedExtensions = ['scss', 'sass']
+	options = {}
 	priority = 1000
 	kind = 'style'
 
 	constructor(app, ...args) {
 		super(app, ...args)
 
-		this.options = app.config.get('assets.compilers.scss', { })
+		this.options = app.config.get('assets.compilers.scss', {})
 
-		if(this.options.sourceMap.isNil && this.options.sourceMapEmbed.isNil && this.options.sourceMapContents.isNil) {
+		if (
+			this.options.sourceMap.isNil &&
+			this.options.sourceMapEmbed.isNil &&
+			this.options.sourceMapContents.isNil
+		) {
 			this.options.sourceMap = this.sourceMaps === 'auto'
 			this.options.sourceMapEmbed = this.sourceMaps === 'auto'
 			this.options.sourceMapContents = this.sourceMaps === 'auto'
@@ -33,60 +36,73 @@ export class ScssCompiler extends Compiler {
 		const liveReload = await this.getLiveReloadImports(pathname)
 
 		return new Promise((resolve, reject) => {
-			sass.pkg.render(Object.assign({ }, this.options, {
-				file: pathname,
-				outputStyle: context || 'nested'
-			}), (err, result) => {
-				if(!err.isNil) {
-					if(typeof err.file !== 'string') {
-						return reject(err)
+			sass.pkg.render(
+				Object.assign({}, this.options, {
+					file: pathname,
+					outputStyle: context || 'nested',
+				}),
+				(err, result) => {
+					if (!err.isNil) {
+						if (typeof err.file !== 'string') {
+							return reject(err)
+						}
+
+						return makeSyntaxError(this.app, { causedBy: err })
+							.catch(reject)
+							.then(reject)
 					}
 
-					return makeSyntaxError(this.app, { causedBy: err }).catch(reject).then(reject)
-				}
+					if (!this.liveReload) {
+						return resolve(result.css)
+					}
 
-				if(!this.liveReload) {
-					return resolve(result.css)
-				}
-
-				return resolve(
-					result.css.toString()
-					+ this.constructor.buildLiveReloadInjection(this.app, pathname, liveReload)
-				)
-			})
+					return resolve(
+						result.css.toString() +
+							this.constructor.buildLiveReloadInjection(
+								this.app,
+								pathname,
+								liveReload,
+							),
+					)
+				},
+			)
 		})
 	}
 
 	async enumerateImports(pathname, callback) {
 		const exists = await FS.exists(pathname)
 
-		if(!exists) {
+		if (!exists) {
 			return
 		}
 
 		const contents = await FS.readFile(pathname)
-		const importPaths = [ ]
+		const importPaths = []
 
-		contents.toString().replace(/@import\s?([^\s]+);/ig, (_, importPath) => {
+		contents.toString().replace(/@import\s?([^\s]+);/gi, (_, importPath) => {
 			importPaths.push(importPath)
 		})
 
-		for(let importPath of importPaths) {
+		for (let importPath of importPaths) {
 			const dirname = path.dirname(pathname)
 			importPath = importPath.replace(/("|'|url|\(|\))/g, '').trim()
 			let partial = null
 
-			if(importPath.indexOf('/') >= 0) {
-				partial = path.join(dirname, path.dirname(importPath), `_${path.basename(importPath)}`)
+			if (importPath.indexOf('/') >= 0) {
+				partial = path.join(
+					dirname,
+					path.dirname(importPath),
+					`_${path.basename(importPath)}`,
+				)
 			} else {
 				partial = path.join(dirname, `_${importPath}`)
 			}
 
 			importPath = path.join(dirname, importPath)
 			const ext = path.extname(importPath)
-			const files = [ ]
+			const files = []
 
-			if(ext !== '.scss' && ext !== '.sass') {
+			if (ext !== '.scss' && ext !== '.sass') {
 				files.push(`${importPath}.scss`)
 				files.push(`${partial}.scss`)
 				files.push(`${importPath}.sass`)
@@ -95,10 +111,10 @@ export class ScssCompiler extends Compiler {
 				files.push(importPath)
 			}
 
-			for(const file of files) {
+			for (const file of files) {
 				const exists = await FS.exists(file)
 
-				if(!exists) {
+				if (!exists) {
 					continue
 				}
 
@@ -108,7 +124,7 @@ export class ScssCompiler extends Compiler {
 		}
 	}
 
-	static buildLiveReloadInjection(app, pathname, files = [ ]) {
+	static buildLiveReloadInjection(app, pathname, files = []) {
 		const relative = path.relative(app.paths.base(), pathname)
 		files.unshift(relative)
 
@@ -130,5 +146,4 @@ export class ScssCompiler extends Compiler {
 	extension() {
 		return 'css'
 	}
-
 }

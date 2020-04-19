@@ -14,15 +14,15 @@ test('withoutEager', async t => {
 test('orFail', async t => {
 	try {
 		await t.context.UserModel.query().where('id', 1).orFail()
-	} catch(err) {
+	} catch (err) {
 		t.fail(`Should not have thrown an error: ${err}`)
 	}
 
 	try {
 		await t.context.UserModel.query().where('id', Date.now()).orFail()
 		t.fail('Should have thrown an error')
-	} catch(err) {
-		if(err instanceof ModelNotFoundError) {
+	} catch (err) {
+		if (err instanceof ModelNotFoundError) {
 			return t.pass()
 		}
 
@@ -44,11 +44,15 @@ test('paginate', async t => {
 })
 
 test('paginate - param', async t => {
-	const users = await t.context.UserModel.query().paginate({ params: { p: 10 } }, 1, { param: 'p' })
+	const users = await t.context.UserModel.query().paginate({ params: { p: 10 } }, 1, {
+		param: 'p',
+	})
 	t.is(users.page, 10)
 })
 
 test('paginate - query', async t => {
-	const users = await t.context.UserModel.query().paginate({ query: { p: 10 } }, 1, { query: 'p' })
+	const users = await t.context.UserModel.query().paginate({ query: { p: 10 } }, 1, {
+		query: 'p',
+	})
 	t.is(users.page, 10)
 })

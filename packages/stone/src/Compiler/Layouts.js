@@ -2,7 +2,7 @@ import '../AST'
 import '../Errors/StoneCompilerError'
 
 export function compileExtends(context, args) {
-	if(context.isLayout === true) {
+	if (context.isLayout === true) {
 		throw new StoneCompilerError(context, '@extends may only be called once per view.')
 	}
 
@@ -13,7 +13,7 @@ export function compileExtends(context, args) {
 
 	let code = `const __extendsLayout = ${AST.stringify(args[0])};`
 
-	if(context.hasLayoutContext) {
+	if (context.hasLayoutContext) {
 		code += `\nconst __extendsContext = ${AST.stringify(args[1])};`
 	}
 
@@ -23,20 +23,20 @@ export function compileExtends(context, args) {
 export function compileSection(context, args) {
 	args = context.parseArguments(args)
 
-	if(args.length === 1) {
+	if (args.length === 1) {
 		args = AST.stringify(args[0])
 		context.sections.push(args)
-		return this._compileSection(context, args, 'function() {\nlet output = \'\';')
+		return this._compileSection(context, args, "function() {\nlet output = '';")
 	}
 
-	if(args.length !== 2) {
+	if (args.length !== 2) {
 		throw new StoneCompilerError(context, 'Invalid section block')
 	}
 
 	return this._compileSection(
 		context,
 		AST.stringify(args[0]),
-		`function() { return escape(${AST.stringify(args[1])}); });`
+		`function() { return escape(${AST.stringify(args[1])}); });`,
 	)
 }
 
@@ -72,7 +72,7 @@ export function compileShow(context) {
 export function compileYield(context, section) {
 	let code = ''
 
-	if(section.indexOf(',') >= 0) {
+	if (section.indexOf(',') >= 0) {
 		const sectionName = section.split(/,/)[0]
 		code = `${this.compileSection(context, section)}\n`
 		section = sectionName

@@ -1,9 +1,17 @@
 export class NunjucksExtension {
-
 	tags = [
 		'asset',
-		'style', 'css', 'sass', 'scss', 'styl', 'stylus', 'less',
-		'script', 'js', 'babel', 'coffee'
+		'style',
+		'css',
+		'sass',
+		'scss',
+		'styl',
+		'stylus',
+		'less',
+		'script',
+		'js',
+		'babel',
+		'coffee',
 	]
 
 	parse(parser, nodes) {
@@ -15,17 +23,17 @@ export class NunjucksExtension {
 	}
 
 	asset(context, type, value) {
-		if(context.ctx._assetContainer.isNil) {
+		if (context.ctx._assetContainer.isNil) {
 			Log.error('Missing asset container, ignoring asset tag.')
 			return
 		}
 
-		if(value.isNil) {
+		if (value.isNil) {
 			value = type
 			type = null
 		}
 
-		if(type !== 'render') {
+		if (type !== 'render') {
 			context.ctx._assetContainer.append(type, value)
 		} else {
 			return context.ctx._assetContainer.render(value)
@@ -75,5 +83,4 @@ export class NunjucksExtension {
 	coffee(context, value) {
 		return this.asset(context, 'coffee', value)
 	}
-
 }

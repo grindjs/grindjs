@@ -24,52 +24,50 @@ function expandMacros(config, macros) {
 	const isArray = Array.isArray(config)
 	let reindex = false
 
-	for(const key of Object.keys(config)) {
+	for (const key of Object.keys(config)) {
 		const value = config[key]
 
-		if(typeof value === 'object' && value !== null) {
+		if (typeof value === 'object' && value !== null) {
 			config[key] = expandMacros(value, macros)
 			continue
-		} else if(typeof value !== 'string') {
+		} else if (typeof value !== 'string') {
 			continue
 		}
 
-		for(const macro of macros) {
+		for (const macro of macros) {
 			const pattern = macro[0]
 			const replacement = macro[1]
 
-			if(!replacement.isNil) {
+			if (!replacement.isNil) {
 				config[key] = value.replace(pattern, replacement)
-			} else if(value.match(pattern)) {
+			} else if (value.match(pattern)) {
 				reindex = isArray
 				delete config[key]
 			}
 		}
 	}
 
-	if(reindex) {
+	if (reindex) {
 		config = Array.from(config).filter(value => value.isNil === false)
 	}
 
 	return config
 }
 
-export function AssetsProvider(app, parameters = { }) {
+export function AssetsProvider(app, parameters = {}) {
 	const preset = app.config.get('assets.preset')
 
-	if(!preset.isNil) {
+	if (!preset.isNil) {
 		app.config.loadDefault('assets', path.join(__dirname, `../config/presets/${preset}.json`))
 	}
 
 	app.config.loadDefault('assets', path.join(__dirname, '../config/assets.json'))
 
-	let config = Object.assign({ }, app.config.get('assets'))
+	let config = Object.assign({}, app.config.get('assets'))
 
-	const macros = [
-		[ 'node_modules', config.node_modules || app.paths.base('node_modules') ]
-	]
+	const macros = [['node_modules', config.node_modules || app.paths.base('node_modules')]]
 
-	for(const macro of macros) {
+	for (const macro of macros) {
 		macro[0] = new RegExp(`\\{\\{\\s*${macro[0]}\\s*\\}\\}`, 'g')
 	}
 
@@ -78,11 +76,12 @@ export function AssetsProvider(app, parameters = { }) {
 
 	const publishPath = app.paths.base(app.config.get('assets.paths.publish'), '/')
 
-	if(!publishPath.startsWith(app.paths.public('/'))) {
+	if (!publishPath.startsWith(app.paths.public('/'))) {
 		throw new Error('`assets.paths.publish` must be contained within the public path.')
 	}
 
-	const shouldOptimize = typeof config.should_optimize === 'boolean' ? config.should_optimize : !app.debug
+	const shouldOptimize =
+		typeof config.should_optimize === 'boolean' ? config.should_optimize : !app.debug
 	const liveReload = config.live_reload === true
 	const sourceMaps = config.source_maps === 'auto' ? 'auto' : false
 	const factory = new AssetFactory(app, shouldOptimize, sourceMaps, liveReload)
@@ -109,35 +108,35 @@ export function AssetsProvider(app, parameters = { }) {
 		routes.get(':type/:a?/:b?/:c?/:d?/:e?', 'compile')
 	})
 
-	const dirs = new Set
-	const published = app.config.get('assets-published', { })
-	for(const src of Object.keys(published)) {
+	const dirs = new Set()
+	const published = app.config.get('assets-published', {})
+	for (const src of Object.keys(published)) {
 		dirs.add(published[src].replace(/^\//, '').split(/\//)[0])
 	}
 
 	app.routes.group(routes => {
 		routes.use(cors)
 
-		for(const dir of dirs) {
+		for (const dir of dirs) {
 			routes.static(dir, dir, {
 				lastModified: true,
-				maxAge: 864000000
+				maxAge: 864000000,
 			})
 		}
 	})
 
-	if(!app.cli.isNil) {
+	if (!app.cli.isNil) {
 		app.cli.register(PublishCommand)
 		app.cli.register(UnpublishCommand)
 	}
 
 	let hasAssetContainer = false
 
-	if(!app.view.isNil) {
-		if(app.view.engineName === 'nunjucks') {
+	if (!app.view.isNil) {
+		if (app.view.engineName === 'nunjucks') {
 			const nunjucksExtensionClass = parameters.nunjucksExtensionClass || NunjucksExtension
-			app.view.extend('AssetExtension', new nunjucksExtensionClass)
-		} else if(app.view.engineName === 'stone') {
+			app.view.extend('AssetExtension', new nunjucksExtensionClass())
+		} else if (app.view.engineName === 'stone') {
 			const stoneExtensionClass = parameters.stoneExtensionClass || StoneExtension
 			stoneExtensionClass.extend(app.view)
 		} else {
@@ -155,8 +154,8 @@ export function AssetsProvider(app, parameters = { }) {
 		})
 	}
 
-	if(liveReload) {
-		if(!hasAssetContainer) {
+	if (liveReload) {
+		if (!hasAssetContainer) {
 			throw new Error('grind-asset’s live reload functionality must be used with grind-view.')
 		}
 

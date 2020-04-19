@@ -2,11 +2,10 @@ import './Container'
 import '../Support/Time'
 
 export class TimelineContainer extends Container {
-
 	/**
 	 * Timeline object to track time/timeEnd
 	 */
-	timeline = { }
+	timeline = {}
 
 	/**
 	 * @inheritdoc
@@ -28,7 +27,7 @@ export class TimelineContainer extends Container {
 	time(label, message = null) {
 		this.timeline[label] = {
 			start: process.hrtime(),
-			message: message
+			message: message,
 		}
 	}
 
@@ -41,7 +40,7 @@ export class TimelineContainer extends Container {
 	timeEnd(label) {
 		const timing = this.timeline[label]
 
-		if(timing === void 0 || timing.duration !== void 0) {
+		if (timing === void 0 || timing.duration !== void 0) {
 			return
 		}
 
@@ -52,22 +51,23 @@ export class TimelineContainer extends Container {
 	 * @inheritdoc
 	 */
 	render(devbar, context) {
-		const timeline = Object.entries(this.timeline).map(([ label, item ]) => {
-			if(!item.duration) {
-				return null
-			}
+		const timeline = Object.entries(this.timeline)
+			.map(([label, item]) => {
+				if (!item.duration) {
+					return null
+				}
 
-			item.duration = Time.flatten(item.duration)
+				item.duration = Time.flatten(item.duration)
 
-			return {
-				label: item.message || label,
-				start: Time.flatten(item.start),
-				duration: item.duration,
-				durationInMs: Time.toMillis(item.duration)
-			}
-		}).filter(item => item !== null)
+				return {
+					label: item.message || label,
+					start: Time.flatten(item.start),
+					duration: item.duration,
+					durationInMs: Time.toMillis(item.duration),
+				}
+			})
+			.filter(item => item !== null)
 
 		return devbar.renderView('containers/timeline.stone', { ...context, timeline })
 	}
-
 }

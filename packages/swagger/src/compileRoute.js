@@ -9,19 +9,19 @@ export function compileRoute(route, app) {
 	let routePath = route.path
 	let method = route.methods
 
-	if(typeof method === 'object') {
+	if (typeof method === 'object') {
 		method = Object.keys(method)[0]
 	} else {
 		method = null
 	}
 
-	if(docs.isNil || routePath.isNil || method.isNil) {
+	if (docs.isNil || routePath.isNil || method.isNil) {
 		return null
 	}
 
 	method = method.toLowerCase()
 
-	if(typeof docs === 'string') {
+	if (typeof docs === 'string') {
 		docs = { description: docs }
 	}
 
@@ -35,23 +35,23 @@ export function compileRoute(route, app) {
 	routePath = inferRoute(routePath, app, docs.parameters)
 
 	// Infer all parameters
-	for(const parameter of docs.parameters) {
+	for (const parameter of docs.parameters) {
 		inferParameter(parameter, method)
 	}
 
-	if(docs.parameters.length === 0) {
+	if (docs.parameters.length === 0) {
 		delete docs.parameters
 	}
 
-	if(!docs.use.isNil) {
+	if (!docs.use.isNil) {
 		delete docs.use
 	}
 
-	if(docs.responses.isNil) {
+	if (docs.responses.isNil) {
 		docs.responses = {
 			default: {
-				description: docs.description || ''
-			}
+				description: docs.description || '',
+			},
 		}
 	}
 

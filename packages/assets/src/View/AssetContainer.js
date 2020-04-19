@@ -1,15 +1,14 @@
 const path = require('path')
 
 export class AssetContainer {
-
 	req = null
 	res = null
 	factory = null
 	view = null
 
-	_styles = [ ]
-	_scripts = [ ]
-	_internalScripts = [ ]
+	_styles = []
+	_scripts = []
+	_internalScripts = []
 
 	constructor(req, res, factory, view) {
 		this.req = req
@@ -19,11 +18,11 @@ export class AssetContainer {
 	}
 
 	append(type, asset) {
-		if(type.isNil) {
+		if (type.isNil) {
 			return this.infer(asset)
 		}
 
-		if(typeof this[type] !== 'function') {
+		if (typeof this[type] !== 'function') {
 			Log.error('Invalid asset type', type)
 			return
 		}
@@ -32,7 +31,7 @@ export class AssetContainer {
 	}
 
 	infer(asset) {
-		switch(path.extname(asset).toLowerCase()) {
+		switch (path.extname(asset).toLowerCase()) {
 			case '.css':
 			case '.scss':
 			case '.less':
@@ -93,7 +92,7 @@ export class AssetContainer {
 	_expand(asset, dir, extension, type) {
 		asset = path.join(dir, asset)
 
-		if(asset.indexOf('.') === -1) {
+		if (asset.indexOf('.') === -1) {
 			asset += `.${extension}`
 		}
 
@@ -109,22 +108,32 @@ export class AssetContainer {
 	}
 
 	render(type) {
-		switch(type.toLowerCase()) {
+		switch (type.toLowerCase()) {
 			case 'style':
 			case 'styles':
 			case 'css':
-				return this.view.toHtmlString(this._styles.reverse().map(style => this.makeStyle(style)).join(''))
+				return this.view.toHtmlString(
+					this._styles
+						.reverse()
+						.map(style => this.makeStyle(style))
+						.join(''),
+				)
 			case 'script':
 			case 'scripts':
 			case 'js':
-				return this.view.toHtmlString(this._internalScripts.concat(this._scripts.reverse()).map(script => this.makeScript(script)).join(''))
+				return this.view.toHtmlString(
+					this._internalScripts
+						.concat(this._scripts.reverse())
+						.map(script => this.makeScript(script))
+						.join(''),
+				)
 		}
 
 		Log.error('Unsupported render type', type)
 	}
 
 	makeUrl(asset) {
-		if(asset.indexOf('://') > 0) {
+		if (asset.indexOf('://') > 0) {
 			return asset
 		}
 
@@ -138,9 +147,9 @@ export class AssetContainer {
 	makeScript(script) {
 		let attributes = ''
 
-		if(typeof script !== 'string') {
-			for(const [ key, value ] of Object.entries(script)) {
-				if(key === 'src') {
+		if (typeof script !== 'string') {
+			for (const [key, value] of Object.entries(script)) {
+				if (key === 'src') {
 					script = value
 				} else {
 					attributes += ` ${key}="${value}"`
@@ -150,5 +159,4 @@ export class AssetContainer {
 
 		return `<script src="${script}"${attributes}></script>\n`
 	}
-
 }

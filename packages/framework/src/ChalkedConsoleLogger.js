@@ -2,7 +2,6 @@ import { constructor as Chalk } from 'chalk'
 const chalk = new Chalk({ enabled: true })
 
 export class ChalkedConsoleLogger {
-
 	info(...message) {
 		console.log(...message)
 	}
@@ -26,5 +25,4 @@ export class ChalkedConsoleLogger {
 		message[0] = chalk.green(message[0])
 		console.log(...message)
 	}
-
 }

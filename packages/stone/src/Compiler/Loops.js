@@ -2,22 +2,25 @@ import '../AST'
 import '../Errors/StoneSyntaxError'
 
 export function compileFor(context, args) {
-	context.loopStack = context.loopStack || [ ]
+	context.loopStack = context.loopStack || []
 
 	args = `for(${args}) {`
 	let tree = null
 
 	try {
 		tree = AST.parse(`${args} }`)
-	} catch(err) {
-		if(err instanceof SyntaxError) {
+	} catch (err) {
+		if (err instanceof SyntaxError) {
 			throw new StoneSyntaxError(context, err, context.state.index)
 		}
 
 		throw err
 	}
 
-	if(tree.body.length > 1 || (tree.body[0].type !== 'ForInStatement' && tree.body[0].type !== 'ForOfStatement'))  {
+	if (
+		tree.body.length > 1 ||
+		(tree.body[0].type !== 'ForInStatement' && tree.body[0].type !== 'ForOfStatement')
+	) {
 		context.loopStack.push(false)
 		return args
 	}
@@ -26,14 +29,14 @@ export function compileFor(context, args) {
 	const lhs = AST.stringify(node.left).trim().replace(/;$/, '')
 	let rhs = AST.stringify(node.right).trim().replace(/;$/, '')
 
-	if(node.type === 'ForInStatement') {
+	if (node.type === 'ForInStatement') {
 		rhs = `new StoneLoop(Object.keys(${rhs}))`
 	} else {
 		rhs = `new StoneLoop(${rhs})`
 	}
 
 	context.loops = context.loops || 0
-	context.loopVariableStack = context.loopVariableStack || [ ]
+	context.loopVariableStack = context.loopVariableStack || []
 
 	const loopVariable = `__loop${context.loops++}`
 	context.loopVariableStack.push(loopVariable)
@@ -42,8 +45,10 @@ export function compileFor(context, args) {
 	let code = `const ${loopVariable} = ${rhs};\n`
 	code += `${loopVariable}.depth = ${context.loopVariableStack.length};\n`
 
-	if(context.loopStack.length > 1) {
-		code += `${loopVariable}.parent = ${context.loopVariableStack[context.loopVariableStack.length - 2]};\n`
+	if (context.loopStack.length > 1) {
+		code += `${loopVariable}.parent = ${
+			context.loopVariableStack[context.loopVariableStack.length - 2]
+		};\n`
 	}
 
 	code += `for(${lhs} of ${loopVariable}) {\n`
@@ -59,7 +64,7 @@ export function compileForeach(context, args) {
 }
 
 export function compileEndfor(context) {
-	if(context.loopStack.pop()) {
+	if (context.loopStack.pop()) {
 		context.loopVariableStack.pop()
 	}
 
@@ -81,7 +86,7 @@ export function compileEndforeach(context) {
  * @return {string}           Code to continue
  */
 export function compileContinue(context, condition) {
-	if(condition.isNil) {
+	if (condition.isNil) {
 		return 'continue;'
 	}
 
@@ -98,7 +103,7 @@ export function compileContinue(context, condition) {
  * @return {string}           Code to break
  */
 export function compileBreak(context, condition) {
-	if(condition.isNil) {
+	if (condition.isNil) {
 		return 'break;'
 	}
 

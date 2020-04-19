@@ -7,29 +7,29 @@ export class Swagger {
 	static host = null
 	static schemes = null
 	static basePath = '/'
-	static consumes = [ ]
-	static produces = [ 'application/json' ]
+	static consumes = []
+	static produces = ['application/json']
 
 	static typeMappings = {
-		integer: [ 'limit', 'offset', 'page' ],
-		boolean: [ ],
-		string: [ ]
+		integer: ['limit', 'offset', 'page'],
+		boolean: [],
+		string: [],
 	}
 
 	static shared = {
-		parameters: { },
-		groups: { },
-		learned: { }
+		parameters: {},
+		groups: {},
+		learned: {},
 	}
 
 	static expandSingleParameter(name, docs) {
-		if(typeof docs === 'string') {
+		if (typeof docs === 'string') {
 			docs = { [name]: docs }
 		}
 
-		docs = expandParameters([ docs ])[0]
+		docs = expandParameters([docs])[0]
 
-		if(docs.name.isNil) {
+		if (docs.name.isNil) {
 			docs.name = name
 		}
 
@@ -51,18 +51,18 @@ export class Swagger {
 	static infer(name, docs) {
 		const learned = Swagger.shared.learned[name]
 
-		if(!learned.isNil) {
-			Object.assign(docs, Object.assign({ }, learned, docs))
+		if (!learned.isNil) {
+			Object.assign(docs, Object.assign({}, learned, docs))
 		}
 
-		if(docs.type.isNil) {
-			if(docs.name.startsWith('has_') || docs.name.startsWith('is_')) {
+		if (docs.type.isNil) {
+			if (docs.name.startsWith('has_') || docs.name.startsWith('is_')) {
 				docs.type = 'boolean'
-			} else if(docs.name.endsWith('_id') || docs.name === 'id') {
+			} else if (docs.name.endsWith('_id') || docs.name === 'id') {
 				docs.type = 'integer'
 			} else {
-				for(const type of Object.keys(this.typeMappings)) {
-					if(this.typeMappings[type].indexOf(docs.name) === -1) {
+				for (const type of Object.keys(this.typeMappings)) {
+					if (this.typeMappings[type].indexOf(docs.name) === -1) {
 						continue
 					}
 
@@ -70,7 +70,7 @@ export class Swagger {
 					break
 				}
 
-				if(docs.type.isNil) {
+				if (docs.type.isNil) {
 					docs.type = 'string'
 				}
 			}
@@ -78,37 +78,36 @@ export class Swagger {
 	}
 
 	static applyParameters(names, docs) {
-		names = names || [ ]
+		names = names || []
 
-		if(typeof names === 'string') {
-			names = [ names ]
+		if (typeof names === 'string') {
+			names = [names]
 		}
 
-		for(const name of names) {
+		for (const name of names) {
 			let sharedParameters = null
 
 			// typeof undefined pending https://github.com/MaxMEllon/babel-plugin-transform-isNil/issues/3
 
-			if(typeof Swagger.shared.groups[name] !== 'undefined') {
+			if (typeof Swagger.shared.groups[name] !== 'undefined') {
 				sharedParameters = Swagger.shared.groups[name]
-			} else if(typeof Swagger.shared.parameters[name].isNil !== 'undefined') {
-				sharedParameters = [ Swagger.shared.parameters[name] ]
+			} else if (typeof Swagger.shared.parameters[name].isNil !== 'undefined') {
+				sharedParameters = [Swagger.shared.parameters[name]]
 			}
 
-			if(sharedParameters.isNil) {
+			if (sharedParameters.isNil) {
 				continue
 			}
 
-			for(const sharedParameter of sharedParameters) {
+			for (const sharedParameter of sharedParameters) {
 				const parameter = findParameter(docs, sharedParameter.name)
 
-				if(parameter.isNil) {
-					docs.push(Object.assign({ }, sharedParameter))
+				if (parameter.isNil) {
+					docs.push(Object.assign({}, sharedParameter))
 				} else {
-					Object.assign(parameter, Object.assign({ }, sharedParameter, parameter))
+					Object.assign(parameter, Object.assign({}, sharedParameter, parameter))
 				}
 			}
 		}
 	}
-
 }

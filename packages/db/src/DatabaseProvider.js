@@ -10,17 +10,11 @@ export function DatabaseProvider(app, databaseBuilder = null, configBuilder = nu
 	databaseBuilder = databaseBuilder || DatabaseBuilder
 	app.db = databaseBuilder(app.config.get('database.default'), app, configBuilder)
 
-	if(app.cli.isNil) {
+	if (app.cli.isNil) {
 		return
 	}
 
-	app.cli.register([
-		CurrentVersionCommand,
-		LatestCommand,
-		RollbackCommand,
-
-		RunCommand
-	])
+	app.cli.register([CurrentVersionCommand, LatestCommand, RollbackCommand, RunCommand])
 }
 
 DatabaseProvider.shutdown = app => app.db.destroy()

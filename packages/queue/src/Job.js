@@ -1,5 +1,4 @@
 export class Job {
-
 	static jobName = null
 
 	static queue = null
@@ -15,7 +14,7 @@ export class Job {
 		delay: null,
 		tries: null,
 		retryDelay: null,
-		timeout: null
+		timeout: null,
 	}
 
 	// eslint-disable-next-line no-unused-vars
@@ -27,25 +26,29 @@ export class Job {
 		return this.$updateState(app, state)
 	}
 
-	$updateState(app, state, context = { }) {
-		if(!app.queue.stateful || typeof this.$id !== 'string') {
+	$updateState(app, state, context = {}) {
+		if (!app.queue.stateful || typeof this.$id !== 'string') {
 			return Promise.resolve()
 		}
 
-		if(app.cache.isNil) {
+		if (app.cache.isNil) {
 			Log.warning('WARNING: `grind-cache` must be loaded to use stateful jobs')
 			return Promise.resolve()
 		}
 
 		// Using Job over this.constructor to prevent overriding of stateKey
-		return app.cache.set(Job.stateKey(this.$id), {
-			state,
-			...context,
-			lastActivity: Date.now(),
-			id: this.$id
-		}, {
-			ttl: app.queue.statefulTtl
-		})
+		return app.cache.set(
+			Job.stateKey(this.$id),
+			{
+				state,
+				...context,
+				lastActivity: Date.now(),
+				id: this.$id,
+			},
+			{
+				ttl: app.queue.statefulTtl,
+			},
+		)
 	}
 
 	// eslint-disable-next-line no-unused-vars
@@ -59,9 +62,7 @@ export class Job {
 	}
 
 	// eslint-disable-next-line no-unused-vars
-	$finally(app, queue) {
-
-	}
+	$finally(app, queue) {}
 
 	$queue(value) {
 		this.$options.queue = value
@@ -93,10 +94,10 @@ export class Job {
 	}
 
 	$toJson() {
-		const json = Object.assign({ }, this)
+		const json = Object.assign({}, this)
 
-		for(const key of Object.keys(json)) {
-			if(key.substring(0, 1) !== '$') {
+		for (const key of Object.keys(json)) {
+			if (key.substring(0, 1) !== '$') {
 				continue
 			}
 
@@ -113,5 +114,4 @@ export class Job {
 	static stateKey(id) {
 		return `grind-queue:job:${id}`
 	}
-
 }

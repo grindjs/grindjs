@@ -3,7 +3,6 @@ import { Kernel } from 'grind-framework'
 import './Cli'
 
 export class CliKernel extends Kernel {
-
 	static type = 'cli'
 
 	constructor(app, options) {
@@ -16,7 +15,7 @@ export class CliKernel extends Kernel {
 		try {
 			// If we have grind-http, load it’s standard commands
 			HttpCommandsProvider = require('grind-http').CommandsProvider
-		} catch(err) {
+		} catch (err) {
 			return
 		}
 
@@ -33,9 +32,8 @@ export class CliKernel extends Kernel {
 			// to provide routing/url which are likely expected
 			// by any app that has grind-http added.
 			return require('grind-http').standardProviders
-		} catch(err) {
-			return [ ]
+		} catch (err) {
+			return []
 		}
 	}
-
 }

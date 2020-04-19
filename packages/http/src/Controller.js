@@ -1,7 +1,6 @@
 import { HttpError } from 'grind-framework'
 
 export class Controller {
-
 	app = null
 
 	constructor(app) {
@@ -11,11 +10,10 @@ export class Controller {
 	abort(code, message, next) {
 		const error = HttpError.make(code, message)
 
-		if(next.isNil) {
+		if (next.isNil) {
 			throw error
 		}
 
 		next(error)
 	}
-
 }

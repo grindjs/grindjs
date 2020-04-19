@@ -3,7 +3,6 @@ import cast from 'as-type'
 import { Obj } from 'grind-support'
 
 export class FormBuilder {
-
 	/**
 	 * The app instance.
 	 */
@@ -50,28 +49,28 @@ export class FormBuilder {
 	 *
 	 * @var array
 	 */
-	labels = [ ]
+	labels = []
 
 	/**
 	 * The reserved form open attributes.
 	 *
 	 * @var array
 	 */
-	reserved = [ 'method', 'url', 'route', 'action', 'files' ]
+	reserved = ['method', 'url', 'route', 'action', 'files']
 
 	/**
 	 * The form methods that should be spoofed, in uppercase.
 	 *
 	 * @var array
 	 */
-	spoofedMethods = [ 'DELETE', 'PATCH', 'PUT' ]
+	spoofedMethods = ['DELETE', 'PATCH', 'PUT']
 
 	/**
 	 * The types of inputs to not fill values on by default.
 	 *
 	 * @var array
 	 */
-	skipValueTypes = [ 'file', 'password', 'checkbox', 'radio' ]
+	skipValueTypes = ['file', 'password', 'checkbox', 'radio']
 
 	/**
 	 * Create a new form builder instance.
@@ -101,10 +100,10 @@ export class FormBuilder {
 		cloned.req = req
 		cloned.res = res
 
-		if(typeof req.flash === 'function') {
+		if (typeof req.flash === 'function') {
 			const oldInput = req.flash('_old_input')
 
-			if(!oldInput.isNil && oldInput.length > 0) {
+			if (!oldInput.isNil && oldInput.length > 0) {
 				cloned._oldInput = oldInput[0]
 			}
 		}
@@ -119,7 +118,7 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	open(options = { }) {
+	open(options = {}) {
 		const method = (options.method || 'POST').toUpperCase()
 
 		// We need to extract the proper method from the attributes. If the method is
@@ -128,14 +127,14 @@ export class FormBuilder {
 		const attributes = {
 			method: this._getMethod(method),
 			action: this._getAction(options),
-			['accept-charset']: 'UTF-8'
+			['accept-charset']: 'UTF-8',
 		}
 
 		// If the HTTP method is in this list of spoofed methods, we will attach the
 		// method spoofer hidden input to the form. This allows us to use regular
 		// form to initiate PUT and DELETE requests in addition to the typical.
-		if(this.spoofedMethods.indexOf(method) >= 0) {
-			if(attributes.action.indexOf('?') >= 0) {
+		if (this.spoofedMethods.indexOf(method) >= 0) {
+			if (attributes.action.indexOf('?') >= 0) {
 				attributes.action += `&_method=${method}`
 			} else {
 				attributes.action += `?_method=${method}`
@@ -146,19 +145,19 @@ export class FormBuilder {
 		// CSRF token to the form if it’s available.
 		let append = ''
 
-		if(method !== 'GET') {
+		if (method !== 'GET') {
 			append = this.token()
 		}
 
-		if(!options.files.isNil) {
+		if (!options.files.isNil) {
 			options.enctype = 'multipart/form-data'
 		}
 
 		// Finally we're ready to create the final form HTML field. We will attribute
 		// format the array of attributes. We will also add on the appendage which
 		// is used to spoof requests for this PUT, PATCH, etc. methods on forms.
-		for(const key of Object.keys(options)) {
-			if(this.reserved.indexOf(key) >= 0) {
+		for (const key of Object.keys(options)) {
+			if (this.reserved.indexOf(key) >= 0) {
 				continue
 			}
 
@@ -181,7 +180,7 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	model(model, options = { }) {
+	model(model, options = {}) {
 		this._model = model
 
 		return this.open(options)
@@ -204,7 +203,7 @@ export class FormBuilder {
 	 * @return string
 	 */
 	close() {
-		this.labels = [ ]
+		this.labels = []
 		this._model = null
 
 		return this.toHtmlString('</form>')
@@ -221,8 +220,8 @@ export class FormBuilder {
 	token() {
 		let token = this.csrfToken
 
-		if(token.isNil || token.length) {
-			if(typeof this.req.csrfToken !== 'function') {
+		if (token.isNil || token.length) {
+			if (typeof this.req.csrfToken !== 'function') {
 				return ''
 			}
 
@@ -242,14 +241,14 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	label(name, value = null, options = { }, escapeHtml = true) {
+	label(name, value = null, options = {}, escapeHtml = true) {
 		this.labels.push(name)
 
 		options = this.html.attributes(options)
 
 		value = this._formatLabel(name, value)
 
-		if(escapeHtml) {
+		if (escapeHtml) {
 			value = this.html.entities(value)
 		}
 
@@ -265,7 +264,7 @@ export class FormBuilder {
 	 * @return string
 	 */
 	_formatLabel(name, value) {
-		if(!value.isNil) {
+		if (!value.isNil) {
 			return value
 		}
 
@@ -282,8 +281,8 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	input(type, name, value = null, options = { }) {
-		if(options.name.isNil) {
+	input(type, name, value = null, options = {}) {
+		if (options.name.isNil) {
 			options.name = name
 		}
 
@@ -292,7 +291,7 @@ export class FormBuilder {
 		// in the model instance if one is set. Otherwise we will just use empty.
 		const id = this.getIdAttribute(name, options)
 
-		if(this.skipValueTypes.indexOf(type) === -1) {
+		if (this.skipValueTypes.indexOf(type) === -1) {
 			value = this.getValueAttribute(name, value)
 		}
 
@@ -313,7 +312,7 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	text(name, value = null, options = { }) {
+	text(name, value = null, options = {}) {
 		return this.input('text', name, value, options)
 	}
 
@@ -325,7 +324,7 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	password(name, options = { }) {
+	password(name, options = {}) {
 		return this.input('password', name, '', options)
 	}
 
@@ -338,7 +337,7 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	hidden(name, value = null, options = { }) {
+	hidden(name, value = null, options = {}) {
 		return this.input('hidden', name, value, options)
 	}
 
@@ -351,7 +350,7 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	email(name, value = null, options = { }) {
+	email(name, value = null, options = {}) {
 		return this.input('email', name, value, options)
 	}
 
@@ -364,7 +363,7 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	tel(name, value = null, options = { }) {
+	tel(name, value = null, options = {}) {
 		return this.input('tel', name, value, options)
 	}
 
@@ -377,7 +376,7 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	number(name, value = null, options = { }) {
+	number(name, value = null, options = {}) {
 		return this.input('number', name, value, options)
 	}
 
@@ -390,8 +389,8 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	date(name, value = null, options = { }) {
-		if(value instanceof Date) {
+	date(name, value = null, options = {}) {
+		if (value instanceof Date) {
 			value = dateFormat(value, 'yyyy-mm-dd')
 		}
 
@@ -407,8 +406,8 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	datetime(name, value = null, options = { }) {
-		if(value instanceof Date) {
+	datetime(name, value = null, options = {}) {
+		if (value instanceof Date) {
 			value = value.toISOString()
 		}
 
@@ -424,7 +423,7 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	time(name, value = null, options = { }) {
+	time(name, value = null, options = {}) {
 		return this.input('time', name, value, options)
 	}
 
@@ -437,7 +436,7 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	url(name, value = null, options = { }) {
+	url(name, value = null, options = {}) {
 		return this.input('url', name, value, options)
 	}
 
@@ -449,7 +448,7 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	file(name, options = { }) {
+	file(name, options = {}) {
 		return this.input('file', name, null, options)
 	}
 
@@ -462,8 +461,8 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	textarea(name, value = null, options = { }) {
-		if(options.name.isNil) {
+	textarea(name, value = null, options = {}) {
+		if (options.name.isNil) {
 			options.name = name
 		}
 
@@ -492,7 +491,7 @@ export class FormBuilder {
 	 * @return array
 	 */
 	_setTextAreaSize(options) {
-		if(!options.size.isNil) {
+		if (!options.size.isNil) {
 			return this._setQuickTextAreaSize(options)
 		}
 
@@ -502,7 +501,7 @@ export class FormBuilder {
 		const cols = options.cols || 50
 		const rows = options.rows || 10
 
-		return Object.assign({ }, options, { cols, rows })
+		return Object.assign({}, options, { cols, rows })
 	}
 
 	/**
@@ -515,9 +514,9 @@ export class FormBuilder {
 	_setQuickTextAreaSize(options) {
 		const segments = options.size.split(/x/)
 
-		return Object.assign({ }, options, {
+		return Object.assign({}, options, {
 			cols: segments[0],
-			rows: segments[1]
+			rows: segments[1],
 		})
 	}
 
@@ -531,7 +530,7 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	select(name, list = [ ], selected = null, options = { }) {
+	select(name, list = [], selected = null, options = {}) {
 		// When building a select box the "value" attribute is really the selected one
 		// so we will use that when checking the model or session for a value which
 		// should provide a convenient method of re-populating the forms on post.
@@ -539,21 +538,21 @@ export class FormBuilder {
 
 		options.id = this.getIdAttribute(name, options)
 
-		if(options.name.isNil) {
+		if (options.name.isNil) {
 			options.name = name
 		}
 
 		// We will simply loop through the options and build an HTML value for each of
 		// them until we have an array of HTML declarations. Then we will join them
 		// all together into one single HTML element that can be put on the form.
-		const html = [ ]
+		const html = []
 
-		if(!options.placeholder.isNil) {
+		if (!options.placeholder.isNil) {
 			html.push(this._placeholderOption(options.placeholder, selected))
 			delete options.placeholder
 		}
 
-		for(const [ key, value ] of Object.entries(list)) {
+		for (const [key, value] of Object.entries(list)) {
 			html.push(this.getSelectOption(value, key, selected))
 		}
 
@@ -578,10 +577,10 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	selectRange(name, begin, end, selected = null, options = { }) {
-		const range = { }
+	selectRange(name, begin, end, selected = null, options = {}) {
+		const range = {}
 
-		for(let i = begin; i <= end; i++) {
+		for (let i = begin; i <= end; i++) {
 			range[i] = i
 		}
 
@@ -613,10 +612,10 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	selectMonth(name, selected = null, options = { }, format = 'mmmm') {
-		const months = { }
+	selectMonth(name, selected = null, options = {}, format = 'mmmm') {
+		const months = {}
 
-		for(let month = 1; month <= 12; month++) {
+		for (let month = 1; month <= 12; month++) {
 			months[month] = dateFormat(new Date(0, month - 1), format)
 		}
 
@@ -633,7 +632,7 @@ export class FormBuilder {
 	 * @return SafeString
 	 */
 	getSelectOption(display, value, selected) {
-		if(Array.isArray(display) || typeof display === 'object') {
+		if (Array.isArray(display) || typeof display === 'object') {
 			return this._optionGroup(display, value, selected)
 		}
 
@@ -650,13 +649,15 @@ export class FormBuilder {
 	 * @return SafeString
 	 */
 	_optionGroup(list, label, selected) {
-		const html = [ ]
+		const html = []
 
-		for(const [ key, value ] of Object.entries(list)) {
+		for (const [key, value] of Object.entries(list)) {
 			html.push(this._option(value, key, selected))
 		}
 
-		return this.toHtmlString(`<optgroup label="${this.html.entities(label)}">${html.join('')}</optgroup>`)
+		return this.toHtmlString(
+			`<optgroup label="${this.html.entities(label)}">${html.join('')}</optgroup>`,
+		)
 	}
 
 	/**
@@ -673,7 +674,9 @@ export class FormBuilder {
 
 		const options = { value, selected }
 
-		return this.toHtmlString(`<option${this.html.attributes(options)}>${this.html.entities(display)}</option>`)
+		return this.toHtmlString(
+			`<option${this.html.attributes(options)}>${this.html.entities(display)}</option>`,
+		)
 	}
 
 	/**
@@ -689,7 +692,9 @@ export class FormBuilder {
 
 		const options = { selected, value: '' }
 
-		return this.toHtmlString(`<option${this.html.attributes(options)}>${this.html.entities(display)}</option>`)
+		return this.toHtmlString(
+			`<option${this.html.attributes(options)}>${this.html.entities(display)}</option>`,
+		)
 	}
 
 	/**
@@ -701,18 +706,18 @@ export class FormBuilder {
 	 * @return null|string
 	 */
 	_getSelectedValue(value, selected) {
-		if(Array.isArray(selected)) {
+		if (Array.isArray(selected)) {
 			return selected.indexOf(value) >= 0 ? 'selected' : null
 		}
 
 		const hasValue = !value.isNil
 		const hasSelected = !selected.isNil
 
-		if(!hasValue && !hasSelected) {
+		if (!hasValue && !hasSelected) {
 			return 'selected'
-		} else if(!hasValue) {
+		} else if (!hasValue) {
 			return null
-		} else if(!hasSelected) {
+		} else if (!hasSelected) {
 			return null
 		}
 
@@ -729,7 +734,7 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	checkbox(name, value = 1, checked = null, options = { }) {
+	checkbox(name, value = 1, checked = null, options = {}) {
 		return this._checkable('checkbox', name, value, checked, options)
 	}
 
@@ -743,8 +748,8 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	radio(name, value = null, checked = null, options = { }) {
-		if(value.isNil) {
+	radio(name, value = null, checked = null, options = {}) {
+		if (value.isNil) {
 			value = name
 		}
 
@@ -765,7 +770,7 @@ export class FormBuilder {
 	_checkable(type, name, value, checked, options) {
 		checked = this._getCheckedState(type, name, value, checked)
 
-		if(checked) {
+		if (checked) {
 			options.checked = 'checked'
 		}
 
@@ -783,7 +788,7 @@ export class FormBuilder {
 	 * @return bool
 	 */
 	_getCheckedState(type, name, value, checked) {
-		switch(type) {
+		switch (type) {
 			case 'checkbox':
 				return this._getCheckboxCheckedState(name, value, checked)
 
@@ -805,21 +810,21 @@ export class FormBuilder {
 	 * @return bool
 	 */
 	_getCheckboxCheckedState(name, value, checked) {
-		if(!this.oldInputIsEmpty()) {
+		if (!this.oldInputIsEmpty()) {
 			const oldValue = this.old(name)
 
-			if(oldValue.isNil) {
+			if (oldValue.isNil) {
 				return false
 			}
 		}
 
-		if(this._missingOldAndModel(name)) {
+		if (this._missingOldAndModel(name)) {
 			return checked
 		}
 
 		const posted = this.getValueAttribute(name, checked)
 
-		if(Array.isArray(posted)) {
+		if (Array.isArray(posted)) {
 			return posted.map(v => v.toString()).indexOf(value.toString()) >= 0
 		}
 
@@ -836,7 +841,7 @@ export class FormBuilder {
 	 * @return bool
 	 */
 	_getRadioCheckedState(name, value, checked) {
-		if(this._missingOldAndModel(name)) {
+		if (this._missingOldAndModel(name)) {
 			return checked
 		}
 
@@ -853,11 +858,11 @@ export class FormBuilder {
 	_missingOldAndModel(name) {
 		const oldValue = this.old(name)
 
-		if(!oldValue.isNil) {
+		if (!oldValue.isNil) {
 			return false
 		}
 
-		if(this._model.isNil) {
+		if (this._model.isNil) {
 			return true
 		}
 
@@ -873,7 +878,7 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	reset(value, attributes = [ ]) {
+	reset(value, attributes = []) {
 		return this.input('reset', null, value, attributes)
 	}
 
@@ -887,7 +892,7 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	image(url, name = null, attributes = [ ], secure = null) {
+	image(url, name = null, attributes = [], secure = null) {
 		attributes.src = this.app.url.make(url, null, this.req, secure)
 
 		return this.input('image', name, null, attributes)
@@ -902,7 +907,7 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	color(name, value = null, options = { }) {
+	color(name, value = null, options = {}) {
 		return this.input('color', name, value, options)
 	}
 
@@ -914,7 +919,7 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	submit(value = null, options = { }) {
+	submit(value = null, options = {}) {
 		return this.input('submit', null, value, options)
 	}
 
@@ -926,8 +931,8 @@ export class FormBuilder {
 	 *
 	 * @return SafeString
 	 */
-	button(value = null, options = { }) {
-		if(options.type.isNil) {
+	button(value = null, options = {}) {
+		if (options.type.isNil) {
 			options.type = 'button'
 		}
 
@@ -958,15 +963,15 @@ export class FormBuilder {
 		// We will also check for a "route" or "action" parameter on the array so that
 		// developers can easily specify a route or controller action when creating
 		// a form providing a convenient interface for creating the form actions.
-		if(!options.url.isNil) {
+		if (!options.url.isNil) {
 			return this._getUrlAction(options.url)
 		}
 
-		if(!options.route.isNil) {
+		if (!options.route.isNil) {
 			return this._getRouteAction(options.route)
 		}
 
-		if(this.req.isNil) {
+		if (this.req.isNil) {
 			return null
 		}
 
@@ -981,7 +986,7 @@ export class FormBuilder {
 	 * @return string
 	 */
 	_getUrlAction(options) {
-		if(typeof options !== 'string') {
+		if (typeof options !== 'string') {
 			return this.app.url.make(options[0], options.slice(1), this.req)
 		}
 
@@ -996,7 +1001,7 @@ export class FormBuilder {
 	 * @return string
 	 */
 	_getRouteAction(options) {
-		if(typeof options !== 'string') {
+		if (typeof options !== 'string') {
 			return this.app.url.route(options[0], options.slice(1), this.req)
 		}
 
@@ -1012,11 +1017,11 @@ export class FormBuilder {
 	 * @return string
 	 */
 	getIdAttribute(name, attributes) {
-		if(!attributes.id.isNil) {
+		if (!attributes.id.isNil) {
 			return attributes.id
 		}
 
-		if(this.labels.indexOf(name) >= 0) {
+		if (this.labels.indexOf(name) >= 0) {
 			return name
 		}
 
@@ -1032,23 +1037,23 @@ export class FormBuilder {
 	 * @return mixed
 	 */
 	getValueAttribute(name, value = null) {
-		if(name.isNil) {
+		if (name.isNil) {
 			return value
 		}
 
-		if(name !== '_method') {
+		if (name !== '_method') {
 			const oldValue = this.old(name)
 
-			if(!oldValue.isNil) {
+			if (!oldValue.isNil) {
 				return oldValue
 			}
 		}
 
-		if(!value.isNil) {
+		if (!value.isNil) {
 			return value
 		}
 
-		if(!this._model.isNil) {
+		if (!this._model.isNil) {
 			return this._getModelValueAttribute(name)
 		}
 
@@ -1065,7 +1070,7 @@ export class FormBuilder {
 	_getModelValueAttribute(name) {
 		const key = this._transformKey(name)
 
-		if(typeof this._model.getFormValue === 'function') {
+		if (typeof this._model.getFormValue === 'function') {
 			return this._model.getFormValue(key)
 		}
 
@@ -1080,7 +1085,7 @@ export class FormBuilder {
 	 * @return mixed
 	 */
 	old(name) {
-		if(this.oldInputIsEmpty()) {
+		if (this.oldInputIsEmpty()) {
 			return null
 		}
 
@@ -1121,5 +1126,4 @@ export class FormBuilder {
 	toHtmlString(html) {
 		return this.html.toHtmlString(html)
 	}
-
 }

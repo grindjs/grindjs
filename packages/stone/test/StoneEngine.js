@@ -14,7 +14,7 @@ test('namespace', async t => {
 	try {
 		engine.resolve('null::at')
 		t.fail('Error should have been thrown')
-	} catch(err) {
+	} catch (err) {
 		t.is(err.message, 'Invalid namespace: null')
 	}
 })

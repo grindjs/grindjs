@@ -6,14 +6,14 @@ export async function ViewProvider(app) {
 	app.view = new ViewFactory(app)
 	await app.view.bootstrap()
 
-	if(!app.routes.isNil) {
+	if (!app.routes.isNil) {
 		app.routes.use((req, res, next) => {
 			res.locals.url = app.url.clone(req)
 			next()
 		})
 	}
 
-	if(!app.cli.isNil) {
+	if (!app.cli.isNil) {
 		app.cli.register(ViewCacheCommand)
 		app.cli.register(ViewClearCommand)
 	}

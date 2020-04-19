@@ -9,15 +9,11 @@ import './Containers/MessagesContainer'
 import './Containers/TimelineContainer'
 
 export {
-
 	Devbar,
 	DevbarProvider,
-
 	DatabaseCollector,
 	EventCollectorBuilder,
-
 	Container,
 	MessagesContainer,
-	TimelineContainer
-
+	TimelineContainer,
 }

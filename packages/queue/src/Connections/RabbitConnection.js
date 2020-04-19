@@ -5,7 +5,6 @@ import { MissingPackageError } from 'grind-framework'
 let amqp = null
 
 export class RabbitConnection extends BaseConnection {
-
 	_connection = null
 	_channel = null
 	config = null
@@ -18,11 +17,13 @@ export class RabbitConnection extends BaseConnection {
 	}
 
 	open() {
-		this._open().then(() => {
-			this.emit('open')
-		}).catch(err => {
-			this.emit('error', err)
-		})
+		this._open()
+			.then(() => {
+				this.emit('open')
+			})
+			.catch(err => {
+				this.emit('error', err)
+			})
 	}
 
 	async _open() {
@@ -34,7 +35,7 @@ export class RabbitConnection extends BaseConnection {
 			this._channel.on('close', this.emit.bind(this, 'close'))
 			this._connection.on('error', this.emit.bind(this, 'error'))
 			this._connection.on('close', this.emit.bind(this, 'close'))
-		} catch(err) {
+		} catch (err) {
 			throw err
 		}
 	}
@@ -49,22 +50,25 @@ export class RabbitConnection extends BaseConnection {
 
 	close() {
 		try {
-			if(!this._channel.isNil) {
-				Promise.resolve(this._channel.close()).catch(err => Log.error('Error closing channel', err))
+			if (!this._channel.isNil) {
+				Promise.resolve(this._channel.close()).catch(err =>
+					Log.error('Error closing channel', err),
+				)
 				this._channel = null
 			}
 
-			if(!this._connection.isNil) {
-				Promise.resolve(this._connection.close()).catch(err => Log.error('Error closing connection', err))
+			if (!this._connection.isNil) {
+				Promise.resolve(this._connection.close()).catch(err =>
+					Log.error('Error closing connection', err),
+				)
 				this._connection = null
 			}
-		} catch(err) {
+		} catch (err) {
 			Log.error('Error closing rabbit', err)
 		}
 
 		this.emit('close')
 	}
-
 }
 
 /**
@@ -72,13 +76,13 @@ export class RabbitConnection extends BaseConnection {
  * if it hasn‘t been added
  */
 function loadPackage() {
-	if(!amqp.isNil) {
+	if (!amqp.isNil) {
 		return
 	}
 
 	try {
 		amqp = require('amqplib')
-	} catch(err) {
+	} catch (err) {
 		throw new MissingPackageError('amqplib')
 	}
 }

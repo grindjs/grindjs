@@ -4,7 +4,6 @@ const uuid = require('uuid/v4')
 import './Job'
 
 export class Queue {
-
 	app
 	factory
 	driver
@@ -19,9 +18,9 @@ export class Queue {
 	}
 
 	async connect() {
-		if(this.driver.state === 'connected') {
+		if (this.driver.state === 'connected') {
 			return Promise.resolve()
-		} else if(this.driver.state === 'connecting') {
+		} else if (this.driver.state === 'connecting') {
 			return new Promise((resolve, reject) => {
 				this._connectEmitter.once('connected', resolve)
 				this._connectEmitter.once('failed', reject)
@@ -29,12 +28,12 @@ export class Queue {
 		}
 
 		this.driver.state = 'connecting'
-		this._connectEmitter = new EventEmitter
+		this._connectEmitter = new EventEmitter()
 		this._connectEmitter.on('error', err => Log.error('_connectEmitter error', err))
 
 		try {
 			await this.driver.connect()
-		} catch(err) {
+		} catch (err) {
 			this.driver.state = 'error'
 			this._connectEmitter.emit('failed', err)
 			throw err
@@ -49,7 +48,7 @@ export class Queue {
 
 		let id = null
 
-		if(this.stateful) {
+		if (this.stateful) {
 			id = uuid()
 		}
 
@@ -64,10 +63,10 @@ export class Queue {
 	}
 
 	async listen(queues, concurrency) {
-		if(typeof queues === 'string') {
-			queues = [ queues ]
-		} else if(queues.isNil) {
-			queues = [ this.driver.queue ]
+		if (typeof queues === 'string') {
+			queues = [queues]
+		} else if (queues.isNil) {
+			queues = [this.driver.queue]
 		}
 
 		await this.connect()
@@ -76,7 +75,7 @@ export class Queue {
 			makeJob: payload => {
 				const jobClass = this.factory.jobs[payload.name]
 
-				if(jobClass.isNil) {
+				if (jobClass.isNil) {
 					throw new Error('Invalid job name', payload.name)
 				}
 
@@ -93,25 +92,31 @@ export class Queue {
 
 					try {
 						await job.$success(this.app, this)
-					} catch(err) {
-						Log.error(`${job.constructor.name} error when calling success: ${err.message}`, err)
+					} catch (err) {
+						Log.error(
+							`${job.constructor.name} error when calling success: ${err.message}`,
+							err,
+						)
 					}
 
 					try {
 						await job.$finally(this.app, this)
-					} catch(err) {
-						Log.error(`${job.constructor.name} error when calling finally: ${err.message}`, err)
+					} catch (err) {
+						Log.error(
+							`${job.constructor.name} error when calling finally: ${err.message}`,
+							err,
+						)
 					}
 
 					await this.updateJobState(job, 'done', {
-						result: job.$result
+						result: job.$result,
 					})
-				} catch(err) {
+				} catch (err) {
 					await this.updateJobState(job, 'waiting')
 
 					try {
 						return await this.handleError(err)
-					} catch(err2) {
+					} catch (err2) {
 						Log.error('Error handling error', err2)
 						throw err
 					}
@@ -120,33 +125,39 @@ export class Queue {
 
 			handleError: async (job, payload, err) => {
 				await this.updateJobState(job, 'failed', {
-					result: job.$result
+					result: job.$result,
 				})
 
 				try {
 					await job.$fatal(this.app, this, err)
-				} catch(err) {
-					Log.error(`${job.constructor.name} error when calling fatal: ${err.message}`, err)
+				} catch (err) {
+					Log.error(
+						`${job.constructor.name} error when calling fatal: ${err.message}`,
+						err,
+					)
 				}
 
 				try {
 					await job.$finally(this.app, this)
-				} catch(err) {
-					Log.error(`${job.constructor.name} error when calling finally: ${err.message}`, err)
+				} catch (err) {
+					Log.error(
+						`${job.constructor.name} error when calling finally: ${err.message}`,
+						err,
+					)
 				}
 
 				return this.logError(payload, err)
-			}
+			},
 		})
 	}
 
 	status(jobId) {
-		if(!this.stateful) {
+		if (!this.stateful) {
 			throw new Error('`grind-queue` is not configured to be stateful')
 		}
 
 		return this.app.cache.get(Job.stateKey(jobId)).then(result => {
-			if(result.isNil) {
+			if (result.isNil) {
 				return { state: 'missing' }
 			}
 
@@ -168,12 +179,11 @@ export class Queue {
 		this.driver.state = 'destroyed'
 	}
 
-	async updateJobState(job, state, context = { }) {
+	async updateJobState(job, state, context = {}) {
 		try {
 			await job.$updateState(this.app, state, context)
-		} catch(err) {
+		} catch (err) {
 			Log.error(`${job.constructor.name} stateful update error`, err)
 		}
 	}
-
 }

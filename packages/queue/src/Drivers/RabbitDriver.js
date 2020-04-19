@@ -5,20 +5,17 @@ import '../Connections/RabbitConnection'
  * RabbitMQ backed Queue Driver
  */
 export class RabbitDriver extends BaseConnectionDriver {
-
 	connectionClass = RabbitConnection
 
-	constructor(app, {
-		connection: {
-			host = 'localhost',
-			port = 5672,
-			user,
-			password,
-		} = { },
-		virtual_host: virtualHostUnderscore,
-		virtualHost,
-		...options
-	} = { }) {
+	constructor(
+		app,
+		{
+			connection: { host = 'localhost', port = 5672, user, password } = {},
+			virtual_host: virtualHostUnderscore,
+			virtualHost,
+			...options
+		} = {},
+	) {
 		super(app, options)
 
 		this.config = {
@@ -28,7 +25,7 @@ export class RabbitDriver extends BaseConnectionDriver {
 			username: user,
 			password: password,
 			vhost: virtualHostUnderscore || virtualHost || '/',
-			...options
+			...options,
 		}
 	}
 
@@ -40,15 +37,15 @@ export class RabbitDriver extends BaseConnectionDriver {
 			contentType: 'application/json',
 			headers: {
 				'x-try': 1,
-				'x-retry-delay': payload.retry_delay
-			}
+				'x-retry-delay': payload.retry_delay,
+			},
 		}
 
-		if(payload.timeout > 0) {
+		if (payload.timeout > 0) {
 			options.expiration = payload.timeout
 		}
 
-		if(payload.delay > 0) {
+		if (payload.delay > 0) {
 			options.headers['x-delay'] = payload.delay
 		}
 
@@ -63,7 +60,7 @@ export class RabbitDriver extends BaseConnectionDriver {
 
 		await channel.prefetch(concurrency, queues.length > 1)
 
-		for(const queue of queues) {
+		for (const queue of queues) {
 			await channel.assertQueue(queue)
 		}
 
@@ -79,11 +76,14 @@ export class RabbitDriver extends BaseConnectionDriver {
 		const payload = JSON.parse(msg.content)
 
 		try {
-			await super.receivePayload({
-				...context,
-				rabbit: { msg }
-			}, payload)
-		} catch(err) {
+			await super.receivePayload(
+				{
+					...context,
+					rabbit: { msg },
+				},
+				payload,
+			)
+		} catch (err) {
 			throw err
 		} finally {
 			const channel = await this.channel()
@@ -94,17 +94,17 @@ export class RabbitDriver extends BaseConnectionDriver {
 	async retryOrRethrow(context, payload, job, error) {
 		const tries = Number.parseInt(payload.tries) || 1
 
-		if(tries <= 1) {
+		if (tries <= 1) {
 			throw error
 		}
 
 		const { msg } = context.rabbit
 		const options = { ...msg.properties }
-		options.headers = options.headers || { }
+		options.headers = options.headers || {}
 
 		const tryCount = Number.parseInt(options.headers['x-try']) || 1
 
-		if(tryCount >= tries) {
+		if (tryCount >= tries) {
 			throw error
 		} else {
 			options.headers['x-try'] = tryCount + 1
@@ -114,10 +114,10 @@ export class RabbitDriver extends BaseConnectionDriver {
 		let expiration = Number.parseInt(options.expiration) || 0
 		const timestamp = Number.parseInt(options.timestamp)
 
-		if(expiration > 0) {
+		if (expiration > 0) {
 			expiration -= Date.now() - timestamp
 
-			if(expiration <= 0) {
+			if (expiration <= 0) {
 				throw error
 			}
 
@@ -127,16 +127,10 @@ export class RabbitDriver extends BaseConnectionDriver {
 
 		const channel = await this.channel()
 
-		return channel.publish(
-			msg.fields.exchange,
-			msg.fields.routingKey,
-			msg.content,
-			options
-		)
+		return channel.publish(msg.fields.exchange, msg.fields.routingKey, msg.content, options)
 	}
 
 	channel() {
 		return this.connection.channel()
 	}
-
 }

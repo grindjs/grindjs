@@ -1,10 +1,9 @@
 const path = require('path')
 
 export class PostProcessor {
-
 	app = null
 	priority = 0
-	supportedExtensions = [ ]
+	supportedExtensions = []
 	shouldOptimize = false
 	sourceMaps = false
 
@@ -23,5 +22,4 @@ export class PostProcessor {
 	process(sourcePath, targetPath, contents) {
 		return Promise.reject('Abstract method, subclasses must implement.')
 	}
-
 }

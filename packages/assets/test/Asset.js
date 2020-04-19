@@ -5,7 +5,7 @@ import './helpers/Grind'
 import { AssetFactory, BabelCompiler, RawCompiler, ScssCompiler } from '../src'
 
 function make(file) {
-	const app = new Grind
+	const app = new Grind()
 	app.config.loadDefault('assets', app.paths.base('../../config/assets.json'))
 
 	const factory = new AssetFactory(app)

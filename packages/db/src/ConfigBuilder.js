@@ -1,9 +1,9 @@
 export function ConfigBuilder(connection, app) {
-	if(typeof connection === 'string') {
+	if (typeof connection === 'string') {
 		connection = app.config.get(`database.connections.${connection}`)
 	}
 
-	if(connection.isNil) {
+	if (connection.isNil) {
 		return
 	}
 
@@ -19,32 +19,32 @@ export function ConfigBuilder(connection, app) {
 	const useNullAsDefault = connection.useNullAsDefault || null
 	delete connection.useNullAsDefault
 
-	let config = { }
+	let config = {}
 
-	if(!driver.isNil) {
+	if (!driver.isNil) {
 		config.client = driver
 	}
 
-	if(!dialect.isNil) {
+	if (!dialect.isNil) {
 		config.dialect = dialect
 	}
 
-	if(!pool.isNil) {
+	if (!pool.isNil) {
 		config.pool = pool
 	}
 
-	if(!useNullAsDefault.isNil) {
+	if (!useNullAsDefault.isNil) {
 		config.useNullAsDefault = useNullAsDefault
 	}
 
-	if(config.client === 'pg' || config.client === 'postgres' || config.client === 'postgresql') {
-		if(connection.connection.isNil) {
+	if (config.client === 'pg' || config.client === 'postgres' || config.client === 'postgresql') {
+		if (connection.connection.isNil) {
 			connection.connection = 'postgres://'
 
-			if(!connection.user.isNil) {
+			if (!connection.user.isNil) {
 				connection.connection += connection.user
 
-				if(!connection.password.isNil) {
+				if (!connection.password.isNil) {
 					connection.connection += `:${connection.password}`
 				}
 
@@ -53,28 +53,28 @@ export function ConfigBuilder(connection, app) {
 
 			connection.connection += connection.host || 'localhost'
 
-			if(!connection.port.isNil) {
+			if (!connection.port.isNil) {
 				connection.connection += `:${connection.port}`
 			}
 
-			if(!connection.db.isNil) {
+			if (!connection.db.isNil) {
 				connection.connection += `/${connection.db}`
-			} else if(!connection.database.isNil) {
+			} else if (!connection.database.isNil) {
 				connection.connection += `/${connection.database}`
 			}
 		}
 
-		config = Object.assign({ }, config, connection)
+		config = Object.assign({}, config, connection)
 	} else {
 		config.connection = connection
 	}
 
 	config.seeds = {
-		directory: app.paths.base('database', 'seeds')
+		directory: app.paths.base('database', 'seeds'),
 	}
 
 	config.migrations = {
-		directory: app.paths.base('database', 'migrations')
+		directory: app.paths.base('database', 'migrations'),
 	}
 
 	return config

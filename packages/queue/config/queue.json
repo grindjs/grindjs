@@ -1,69 +1,65 @@
 {
+  "default": "redis",
 
-	"default": "redis",
+  /**
+   * If stateful.enabled is set to true, all dispatched jobs
+   * will be assigned a unique ID that will be returned.
+   *
+   * Interested consumers can check the state of a job
+   * by making a GET request to `/queue/:id`
+   *
+   * `grind-cache` is required as the backend to store
+   * state.
+   */
+  "stateful": {
+    /**
+     * Whether or not job state should be tracked
+     */
+    "enabled": true,
 
-	/**
-	 * If stateful.enabled is set to true, all dispatched jobs
-	 * will be assigned a unique ID that will be returned.
-	 *
-	 * Interested consumers can check the state of a job
-	 * by making a GET request to `/queue/:id`
-	 *
-	 * `grind-cache` is required as the backend to store
-	 * state.
-	 */
-	"stateful": {
-		/**
-		 * Whether or not job state should be tracked
-		 */
-		"enabled": true,
+    /**
+     * Route prefix for the stateful REST API
+     */
+    "route": "/queue",
 
-		/**
-		 * Route prefix for the stateful REST API
-		 */
-		"route": "/queue",
+    /**
+     * How long job results should be stored for
+     */
+    "ttl": 86400
+  },
 
-		/**
-		 * How long job results should be stored for
-		 */
-		"ttl": 86400
-	},
+  "connections": {
+    "redis": {
+      "driver": "redis",
+      "connection": null, // Uses the default connection in redis.json
+      "namespace": null // By default, uses name from the app’s package.json or grind if missing
+    },
 
-	"connections": {
+    "rabbit": {
+      "driver": "rabbit",
+      "connection": {
+        "host": "localhost",
+        "port": 5672,
+        "user": null,
+        "password": null
+      },
+      "virtualHost": "/"
+    },
 
-		"redis": {
-			"driver": "redis",
-			"connection": null, // Uses the default connection in redis.json
-			"namespace": null // By default, uses name from the app’s package.json or grind if missing
-		},
+    "beanstalk": {
+      "driver": "beanstalk",
+      "connection": {
+        "host": "localhost",
+        "port": 11300
+      }
+    },
 
-		"rabbit": {
-			"driver": "rabbit",
-			"connection": {
-				"host": "localhost",
-				"port": 5672,
-				"user": null,
-				"password": null
-			},
-			"virtualHost": "/"
-		},
-
-		"beanstalk": {
-			"driver": "beanstalk",
-			"connection": {
-				"host": "localhost",
-				"port": 11300
-			}
-		},
-
-		"faktory": {
-			"driver": "faktory",
-			"connection": {
-				"host": "localhost",
-				"port": 7419
-			}
-		}
-
-	}
-
+    "faktory": {
+      "driver": "faktory",
+      "connection": {
+        "host": "localhost",
+        "port": 7419
+      }
+    }
+  }
 }

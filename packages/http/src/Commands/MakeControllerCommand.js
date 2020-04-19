@@ -3,21 +3,14 @@ import { Command, InputArgument, InputOption } from 'grind-cli'
 const path = require('path')
 
 export class MakeControllerCommand extends Command {
-
 	name = 'make:controller'
 	description = 'Create a controller class'
 
 	arguments = [
-		new InputArgument('name', InputArgument.VALUE_REQUIRED, 'The name of the controller.')
+		new InputArgument('name', InputArgument.VALUE_REQUIRED, 'The name of the controller.'),
 	]
 
-	options = [
-		new InputOption(
-			'resource',
-			InputOption.VALUE_NONE,
-			'Create a resource controller'
-		)
-	]
+	options = [new InputOption('resource', InputOption.VALUE_NONE, 'Create a resource controller')]
 
 	async run() {
 		const name = this.argument('name')
@@ -28,5 +21,4 @@ export class MakeControllerCommand extends Command {
 
 		return this.success(`Created ${path.relative(this.app.paths.project(), filePath)}`)
 	}
-
 }

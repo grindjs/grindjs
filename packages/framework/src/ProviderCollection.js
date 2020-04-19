@@ -1,21 +1,20 @@
 export class ProviderCollection {
-
 	app = null
 	nextPriority = 0
-	storage = [ ]
+	storage = []
 
 	constructor(app) {
 		this.app = app
 	}
 
 	add(...providers) {
-		const push = [ ]
+		const push = []
 
-		for(const provider of providers) {
-			if(provider.priority === Infinity) {
+		for (const provider of providers) {
+			if (provider.priority === Infinity) {
 				this.app.loadKernelProvider(provider)
 				continue
-			} else if(provider.priority.isNil) {
+			} else if (provider.priority.isNil) {
 				provider.priority = this.nextPriority--
 			}
 
@@ -25,7 +24,7 @@ export class ProviderCollection {
 		this.storage.push(...push)
 	}
 
-	sort(func = (a, b) => a.priority > b.priority ? 1 : -1) {
+	sort(func = (a, b) => (a.priority > b.priority ? 1 : -1)) {
 		this.storage.sort(func)
 	}
 
@@ -33,8 +32,7 @@ export class ProviderCollection {
 		const iterator = this.storage[Symbol.iterator]()
 
 		return {
-			next: () => iterator.next()
+			next: () => iterator.next(),
 		}
 	}
-
 }

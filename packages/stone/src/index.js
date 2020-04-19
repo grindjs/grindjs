@@ -5,11 +5,4 @@ import './StoneEngine'
 import './Errors/StoneError'
 import './Errors/StoneCompilerError'
 
-export {
-	Compiler,
-	HtmlString,
-	StoneEngine,
-
-	StoneError,
-	StoneCompilerError
-}
+export { Compiler, HtmlString, StoneEngine, StoneError, StoneCompilerError }

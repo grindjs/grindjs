@@ -1,7 +1,7 @@
 export function cacheBust(url) {
 	url = url.replace(/(\?|&)?__ts=\d+/g, '')
 
-	if(url.indexOf('?') >= 0) {
+	if (url.indexOf('?') >= 0) {
 		url += '&'
 	} else {
 		url += '?'

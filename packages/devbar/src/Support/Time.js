@@ -1,5 +1,4 @@
 export const Time = {
-
 	/**
 	 * Alias for process.hrtime
 	 */
@@ -9,7 +8,7 @@ export const Time = {
 	 * Converts hrtime tuple to microseconds
 	 */
 	flatten(time) {
-		return (time[0] * 1000000) + (time[1] / 1000)
+		return time[0] * 1000000 + time[1] / 1000
 	},
 
 	/**
@@ -17,6 +16,5 @@ export const Time = {
 	 */
 	toMillis(time) {
 		return Math.round(time) / 1000.0
-	}
-
+	},
 }

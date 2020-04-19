@@ -4,11 +4,11 @@ import '../src/SchedulerJob'
 test.cb('timeout', t => {
 	t.plan(1)
 
-	const job = new SchedulerJob
+	const job = new SchedulerJob()
 	job.cli = {
 		output: {
-			writeln: () => { }
-		}
+			writeln: () => {},
+		},
 	}
 
 	job.withTimeout(100)
@@ -20,17 +20,16 @@ test.cb('timeout', t => {
 
 	job.executeCommand({
 		spawn: () => {
-			const promise = new Promise(() => { })
+			const promise = new Promise(() => {})
 			promise.childProcess = {
 				kill: () => {
 					clearTimeout(timeout)
 					t.pass()
 					t.end()
-				}
+				},
 			}
 
 			return promise
-		}
+		},
 	})
-
 })

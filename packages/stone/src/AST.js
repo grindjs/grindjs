@@ -3,19 +3,18 @@ const base = require('acorn/dist/walk').base
 const astring = require('astring')
 
 export class AST {
-
 	static parse(string) {
 		return acorn.parse(string, {
 			ecmaVersion: 9,
 			plugins: {
-				objectSpread: true
-			}
+				objectSpread: true,
+			},
 		})
 	}
 
 	static walk(node, visitors) {
-		(function c(node, st, override) {
-			if(node.isNil) {
+		;(function c(node, st, override) {
+			if (node.isNil) {
 				// This happens during RestElement, unsure why.
 				return
 			}
@@ -23,7 +22,7 @@ export class AST {
 			const type = override || node.type
 			const found = visitors[type]
 
-			if(found) {
+			if (found) {
 				found(node, st)
 			}
 
@@ -32,19 +31,19 @@ export class AST {
 	}
 
 	static walkVariables(node, callback) {
-		if(node.type === 'ArrayPattern') {
-			for(const element of node.elements) {
+		if (node.type === 'ArrayPattern') {
+			for (const element of node.elements) {
 				this.walkVariables(element, callback)
 			}
-		} else if(node.type === 'ObjectPattern') {
-			for(const property of node.properties) {
-				if(property.type === 'RestElement') {
+		} else if (node.type === 'ObjectPattern') {
+			for (const property of node.properties) {
+				if (property.type === 'RestElement') {
 					callback(property.argument)
 				} else {
 					this.walkVariables(property.value, callback)
 				}
 			}
-		} else if(node.type === 'AssignmentPattern') {
+		} else if (node.type === 'AssignmentPattern') {
 			this.walkVariables(node.left, callback)
 		} else {
 			callback(node)
@@ -56,7 +55,7 @@ export class AST {
 			generator: {
 				...astring.baseGenerator,
 				Property(node, state) {
-					if(node.type === 'SpreadElement') {
+					if (node.type === 'SpreadElement') {
 						state.write('...(')
 						this[node.argument.type](node.argument, state)
 						state.write(')')
@@ -64,9 +63,8 @@ export class AST {
 					}
 
 					return astring.baseGenerator.Property.call(this, node, state)
-				}
-			}
+				},
+			},
 		})
 	}
-
 }

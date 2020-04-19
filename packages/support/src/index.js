@@ -1,7 +1,7 @@
 import './lazy'
 
 module.exports = {
-	lazy
+	lazy,
 }
 
 lazy(module.exports, 'FS', () => require('./FS.js').FS)

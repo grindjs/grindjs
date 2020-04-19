@@ -1,22 +1,24 @@
 export class StoneExtension {
-
 	static extend(view) {
 		view.extend('asset', (context, args) => this.asset(args))
 
-		for(const directive of [ 'style', 'css', 'sass', 'scss', 'styl', 'stylus', 'less' ]) {
+		for (const directive of ['style', 'css', 'sass', 'scss', 'styl', 'stylus', 'less']) {
 			view.extend(directive, (context, args) => this.append(`'${directive}', ${args}`))
 		}
 
-		for(const directive of [ 'script', 'js', 'babel', 'coffee' ]) {
+		for (const directive of ['script', 'js', 'babel', 'coffee']) {
 			view.extend(directive, (context, args) => this.append(`'${directive}', ${args}`))
 		}
 	}
 
 	static asset(rawArgs) {
-		const args = rawArgs.trim().split(/,/, 2).map(value => value.trim())
+		const args = rawArgs
+			.trim()
+			.split(/,/, 2)
+			.map(value => value.trim())
 		const type = args[0].toLowerCase()
 
-		if(type === '\'render\'' || type === '"render"' || type === '`render`') {
+		if (type === "'render'" || type === '"render"' || type === '`render`') {
 			return this.render(args[1])
 		}
 
@@ -30,5 +32,4 @@ export class StoneExtension {
 	static render(type) {
 		return `output += _assetContainer.render(${type});`
 	}
-
 }

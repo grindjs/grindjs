@@ -1,24 +1,24 @@
 export function merge(a, b) {
-	const typeA = Array.isArray(a) ? 'array' : (a === null ? 'null' : typeof a)
-	const typeB = Array.isArray(b) ? 'array' : (b === null ? 'null' : typeof b)
+	const typeA = Array.isArray(a) ? 'array' : a === null ? 'null' : typeof a
+	const typeB = Array.isArray(b) ? 'array' : b === null ? 'null' : typeof b
 
-	if(typeA !== typeB || typeA === 'undefined') {
+	if (typeA !== typeB || typeA === 'undefined') {
 		return b
 	}
 
-	if(typeB === 'undefined') {
+	if (typeB === 'undefined') {
 		return a
 	}
 
-	if(typeA === 'object') {
+	if (typeA === 'object') {
 		const merged = { ...a }
 
-		for(const k of Object.keys(b)) {
+		for (const k of Object.keys(b)) {
 			merged[k] = merge(a[k], b[k])
 		}
 
 		return merged
-	} else if(typeA === 'array') {
+	} else if (typeA === 'array') {
 		return a.concat(b)
 	}
 

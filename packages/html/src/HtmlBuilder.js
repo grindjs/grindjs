@@ -2,7 +2,6 @@ const he = require('he')
 const EOL = '\n'
 
 export class HtmlBuilder {
-
 	/**
 	 * The app instance.
 	 */
@@ -52,12 +51,12 @@ export class HtmlBuilder {
 	 * @return string
 	 */
 	entities(value, force) {
-		if(this._isHtmlString(value) && force !== true) {
+		if (this._isHtmlString(value) && force !== true) {
 			return value
 		}
 
 		return he.encode(value.toString(), {
-			useNamedReferences: true
+			useNamedReferences: true,
 		})
 	}
 
@@ -81,7 +80,7 @@ export class HtmlBuilder {
 	 *
 	 * @return SafeString
 	 */
-	script(url, attributes = { }, secure = null) {
+	script(url, attributes = {}, secure = null) {
 		attributes.src = this.app.url.make(url, null, this.req, secure)
 
 		return this.toHtmlString(`<script${this.attributes(attributes)}></script>${EOL}`)
@@ -96,14 +95,14 @@ export class HtmlBuilder {
 	 *
 	 * @return SafeString
 	 */
-	style(url, attributes =  { }, secure = null) {
+	style(url, attributes = {}, secure = null) {
 		const defaults = {
 			media: 'all',
 			type: 'text/css',
-			rel: 'stylesheet'
+			rel: 'stylesheet',
 		}
 
-		attributes = Object.assign({ }, defaults, attributes)
+		attributes = Object.assign({}, defaults, attributes)
 		attributes.href = this.app.url.make(url, null, this.req, secure)
 
 		return this.toHtmlString(`<link${this.attributes(attributes)} />${EOL}`)
@@ -119,7 +118,7 @@ export class HtmlBuilder {
 	 *
 	 * @return SafeString
 	 */
-	image(url, alt = null, attributes = { }, secure = null) {
+	image(url, alt = null, attributes = {}, secure = null) {
 		url = this.app.url.make(url, null, this.req, secure)
 		attributes.alt = alt
 
@@ -135,13 +134,13 @@ export class HtmlBuilder {
 	 *
 	 * @return SafeString
 	 */
-	favicon(url, attributes = { }, secure = null) {
+	favicon(url, attributes = {}, secure = null) {
 		const defaults = {
 			rel: 'shortcut icon',
-			type: 'image/x-icon'
+			type: 'image/x-icon',
 		}
 
-		attributes = Object.assign({ }, defaults, attributes)
+		attributes = Object.assign({}, defaults, attributes)
 		attributes.href = this.app.url.make(url, null, this.req, secure)
 
 		return this.toHtmlString(`<link${this.attributes(attributes)} />${EOL}`)
@@ -158,16 +157,16 @@ export class HtmlBuilder {
 	 *
 	 * @return SafeString
 	 */
-	link(url, title = null, attributes = { }, secure = null, escape = true) {
-		if(url.substring(0, 1) !== '#') {
+	link(url, title = null, attributes = {}, secure = null, escape = true) {
+		if (url.substring(0, 1) !== '#') {
 			url = this.app.url.make(url, null, this.req, secure)
 		}
 
-		if(title.isNil || title === false) {
+		if (title.isNil || title === false) {
 			title = url
 		}
 
-		if(escape) {
+		if (escape) {
 			title = this.entities(title)
 		}
 
@@ -183,10 +182,9 @@ export class HtmlBuilder {
 	 *
 	 * @return SafeString
 	 */
-	secureLink(url, title = null, attributes = { }) {
+	secureLink(url, title = null, attributes = {}) {
 		return this.link(url, title, attributes, true)
 	}
-
 
 	/**
 	 * Generate a HTML link to a named route.
@@ -199,7 +197,7 @@ export class HtmlBuilder {
 	 *
 	 * @return SafeString
 	 */
-	linkRoute(name, title = null, parameters = { }, attributes = { }, secure = null) {
+	linkRoute(name, title = null, parameters = {}, attributes = {}, secure = null) {
 		return this.link(this.app.url.route(name, parameters, this.req, secure), title, attributes)
 	}
 
@@ -213,12 +211,12 @@ export class HtmlBuilder {
 	 *
 	 * @return SafeString
 	 */
-	mailto(email, title = null, attributes = { }, escape = true) {
+	mailto(email, title = null, attributes = {}, escape = true) {
 		email = this.email(email)
 
 		title = title || email
 
-		if(escape) {
+		if (escape) {
 			title = this.entities(title)
 		}
 
@@ -257,7 +255,7 @@ export class HtmlBuilder {
 	 *
 	 * @return SafeString|string
 	 */
-	ol(list, attributes = { }) {
+	ol(list, attributes = {}) {
 		return this._listing('ol', list, attributes)
 	}
 
@@ -269,7 +267,7 @@ export class HtmlBuilder {
 	 *
 	 * @return SafeString|string
 	 */
-	ul(list, attributes = { }) {
+	ul(list, attributes = {}) {
 		return this._listing('ul', list, attributes)
 	}
 
@@ -281,21 +279,21 @@ export class HtmlBuilder {
 	 *
 	 * @return SafeString
 	 */
-	dl(list, attributes = { }) {
+	dl(list, attributes = {}) {
 		attributes = this.attributes(attributes)
 
 		let html = `<dl${attributes}>`
 
-		for(const key of Object.keys(list)) {
+		for (const key of Object.keys(list)) {
 			let values = list[key]
 
-			if(!Array.isArray(values)) {
-				values = [ values ]
+			if (!Array.isArray(values)) {
+				values = [values]
 			}
 
 			html += `<dt>${key}</dt>`
 
-			for(const value of values) {
+			for (const value of values) {
 				html += `<dd>${value}</dd>`
 			}
 		}
@@ -314,24 +312,24 @@ export class HtmlBuilder {
 	 *
 	 * @return SafeString|string
 	 */
-	_listing(type, list, attributes = { }) {
+	_listing(type, list, attributes = {}) {
 		let html = ''
 
-		if(list.isNil || list.length === 0) {
+		if (list.isNil || list.length === 0) {
 			return html
 		}
 
 		// Essentially we will just spin through the list and build the list of the HTML
 		// elements from the array. We will also handled nested lists in case that is
 		// present in the array. Then we will build out the final listing elements.
-		if(Array.isArray(list)) {
+		if (Array.isArray(list)) {
 			const length = list.length
 
-			for(let i = 0; i < length; i++) {
+			for (let i = 0; i < length; i++) {
 				html += this._listingElement(i, type, list[i])
 			}
 		} else {
-			for(const [ key, value ] of Object.entries(list)) {
+			for (const [key, value] of Object.entries(list)) {
 				html += this._listingElement(key, type, value)
 			}
 		}
@@ -351,7 +349,7 @@ export class HtmlBuilder {
 	 * @return string
 	 */
 	_listingElement(key, type, value) {
-		if(Array.isArray(value)) {
+		if (Array.isArray(value)) {
 			return this._nestedListing(key, type, value)
 		} else {
 			return `<li>${this.entities(value)}</li>`
@@ -368,7 +366,7 @@ export class HtmlBuilder {
 	 * @return string
 	 */
 	_nestedListing(key, type, value) {
-		if(typeof key === 'number') {
+		if (typeof key === 'number') {
 			return this._listing(type, value)
 		} else {
 			return `<li>${key}${this._listing(type, value)}</li>`
@@ -383,20 +381,20 @@ export class HtmlBuilder {
 	 * @return string
 	 */
 	attributes(attributes) {
-		if(attributes.isNil) {
+		if (attributes.isNil) {
 			return ''
 		}
 
-		const html = [ ]
+		const html = []
 
-		if(typeof attributes === 'string') {
+		if (typeof attributes === 'string') {
 			attributes = { [attributes]: null }
 		}
 
-		for(const key of Object.keys(attributes)) {
+		for (const key of Object.keys(attributes)) {
 			const element = this.attributeElement(key, attributes[key])
 
-			if(!element.isNil) {
+			if (!element.isNil) {
 				html.push(element)
 			}
 		}
@@ -416,11 +414,11 @@ export class HtmlBuilder {
 		// For numeric keys we will assume that the key and the value are the same
 		// as this will convert HTML attributes such as "required" to a correct
 		// form like required="required" instead of using incorrect numerics.
-		if(typeof key === 'number') {
+		if (typeof key === 'number') {
 			key = value
 		}
 
-		if(value.isNil) {
+		if (value.isNil) {
 			return null
 		}
 
@@ -436,9 +434,9 @@ export class HtmlBuilder {
 	 *
 	 * @return SafeString
 	 */
-	meta(name, content, attributes = { }) {
+	meta(name, content, attributes = {}) {
 		const defaults = { name, content }
-		attributes = Object.assign({ }, defaults, attributes)
+		attributes = Object.assign({}, defaults, attributes)
 
 		return this.toHtmlString(`<meta${this.attributes(attributes)} />${EOL}`)
 	}
@@ -452,10 +450,12 @@ export class HtmlBuilder {
 	 *
 	 * @return SafeString
 	 */
-	tag(tag, content, attributes = { }) {
+	tag(tag, content, attributes = {}) {
 		content = Array.isArray(content) ? content.join(EOL) : content
 		const html = this.toHtmlString(content)
-		return this.toHtmlString(`<${tag}${this.attributes(attributes)}>${EOL}${html}${EOL}</${tag}>${EOL}`)
+		return this.toHtmlString(
+			`<${tag}${this.attributes(attributes)}>${EOL}${html}${EOL}</${tag}>${EOL}`,
+		)
 	}
 
 	/**
@@ -472,5 +472,4 @@ export class HtmlBuilder {
 	_isHtmlString(html) {
 		return this.app.view.isHtmlString(html)
 	}
-
 }

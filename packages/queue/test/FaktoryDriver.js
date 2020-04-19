@@ -8,15 +8,15 @@ import '../src/Drivers/FaktoryDriver'
 
 const service = new Service(test, 'faktory', {
 	image: 'contribsys/faktory',
-	port: 7419
+	port: 7419,
 })
 
 test.beforeEach(t => {
 	t.context.driver = new FaktoryDriver(null, {
 		connection: {
 			host: 'localhost',
-			port: service.port
-		}
+			port: service.port,
+		},
 	})
 
 	return t.context.driver.connect()
@@ -61,8 +61,8 @@ test('retry dispatch', async t => {
 		t.is(job.tries, 2)
 		t.deepEqual(job.data.data, payload)
 
-		if(++tries === 1 || tries > 2) {
-			throw new Error
+		if (++tries === 1 || tries > 2) {
+			throw new Error()
 		}
 	})
 })

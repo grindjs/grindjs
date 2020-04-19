@@ -7,9 +7,8 @@ import { FS } from 'grind-support'
 const path = require('path')
 
 export class RawCompiler extends Compiler {
-
 	wantsHashSuffixOnPublish = false
-	directories = [ ]
+	directories = []
 	mimes = null
 	assets = null
 	kind = 'raw'
@@ -22,14 +21,14 @@ export class RawCompiler extends Compiler {
 		this.shouldProcessJs = app.config.get('assets.babel.allow_vanilla_js')
 		this.topLevel = app.config.get('assets.top_level')
 
-		if(this.topLevel) {
+		if (this.topLevel) {
 			this.supportedExtensions = Object.keys(this.mimes)
 
-			if(!this.shouldProcessJs) {
+			if (!this.shouldProcessJs) {
 				this.supportedExtensions = this.supportedExtensions.filter(ext => ext !== 'js')
 			}
 		} else {
-			for(const directory of app.config.get('assets.compilers.raw.directories', [ ])) {
+			for (const directory of app.config.get('assets.compilers.raw.directories', [])) {
 				this.directories.push(path.join(this.assets, directory, '/'))
 			}
 		}
@@ -38,15 +37,15 @@ export class RawCompiler extends Compiler {
 	async compile(pathname) {
 		const result = await FS.readFile(pathname)
 
-		if(!this.liveReload) {
+		if (!this.liveReload) {
 			return result
 		}
 
 		const extname = path.extname(pathname).toLowerCase()
 
-		if(extname === '.css') {
+		if (extname === '.css') {
 			return result.toString() + ScssCompiler.buildLiveReloadInjection(this.app, pathname)
-		} else if(extname === '.js') {
+		} else if (extname === '.js') {
 			return result.toString() + BabelCompiler.buildLiveReloadInjection(this.app, pathname)
 		}
 
@@ -54,14 +53,14 @@ export class RawCompiler extends Compiler {
 	}
 
 	supports(pathname) {
-		if(this.topLevel) {
+		if (this.topLevel) {
 			return super.supports(pathname)
 		}
 
 		const ext = path.extname(pathname).toLowerCase().substring(1)
 
-		for(const directory of this.directories) {
-			if(pathname.indexOf(directory) === 0 && typeof this.mimes[ext] === 'string') {
+		for (const directory of this.directories) {
+			if (pathname.indexOf(directory) === 0 && typeof this.mimes[ext] === 'string') {
 				return true
 			}
 		}
@@ -75,8 +74,8 @@ export class RawCompiler extends Compiler {
 	}
 
 	type(asset) {
-		for(const directory of this.directories) {
-			if(asset.path.indexOf(directory) === 0) {
+		for (const directory of this.directories) {
+			if (asset.path.indexOf(directory) === 0) {
 				return path.basename(directory)
 			}
 		}
@@ -87,5 +86,4 @@ export class RawCompiler extends Compiler {
 	extension(asset) {
 		return path.extname(asset.path).substring(1)
 	}
-
 }

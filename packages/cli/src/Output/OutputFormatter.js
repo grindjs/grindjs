@@ -3,21 +3,20 @@
 import './OutputFormatterStyle'
 
 export class OutputFormatter {
-
 	decorated = null
-	styles = { }
-	styleStack = [ ]
+	styles = {}
+	styleStack = []
 
-	constructor(decorated = true, styles = { }) {
+	constructor(decorated = true, styles = {}) {
 		this.decorated = decorated
 
 		this.setStyle('error', new OutputFormatterStyle('white', 'red'))
-		this.setStyle('info', new OutputFormatterStyle)
+		this.setStyle('info', new OutputFormatterStyle())
 		this.setStyle('comment', new OutputFormatterStyle('blue'))
 		this.setStyle('warn', new OutputFormatterStyle('yellow'))
 		this.setStyle('success', new OutputFormatterStyle('green'))
 		this.setStyle('question', new OutputFormatterStyle('magenta'))
-		this.setStyle('questionDefaultValue', new OutputFormatterStyle(null, null, [ 'dim' ]))
+		this.setStyle('questionDefaultValue', new OutputFormatterStyle(null, null, ['dim']))
 
 		this.setStyle('blue', new OutputFormatterStyle('blue'))
 		this.setStyle('cyan', new OutputFormatterStyle('cyan'))
@@ -33,7 +32,7 @@ export class OutputFormatter {
 		this.setStyle('groupItemHelp', new OutputFormatterStyle())
 		this.setStyle('groupItemValue', new OutputFormatterStyle('yellow'))
 
-		for(const [ name, style ] in Object.entries(styles)) {
+		for (const [name, style] in Object.entries(styles)) {
 			this.setStyle(name, style)
 		}
 	}
@@ -61,41 +60,44 @@ export class OutputFormatter {
 		let output = ''
 		const tagRegex = '[a-z][a-z0-9_=-]*'
 
-		message.replace(new RegExp(`<((${tagRegex})|/(${tagRegex})?)>`, 'ig'), ($0, $1, $2, $3, index) => {
-			if(index !== 0 && message[index - 1] === '\\') {
-				return
-			}
+		message.replace(
+			new RegExp(`<((${tagRegex})|/(${tagRegex})?)>`, 'ig'),
+			($0, $1, $2, $3, index) => {
+				if (index !== 0 && message[index - 1] === '\\') {
+					return
+				}
 
-			// add the text up to the next tag
-			output += this._applyCurrentStyle(message.substring(offset, index))
-			offset = index + $0.length
+				// add the text up to the next tag
+				output += this._applyCurrentStyle(message.substring(offset, index))
+				offset = index + $0.length
 
-			// opening tag?
-			const open = $1.substring(0, 1) !== '/'
-			let tag = null
+				// opening tag?
+				const open = $1.substring(0, 1) !== '/'
+				let tag = null
 
-			if(open) {
-				tag = $2
-			} else {
-				tag = $3 || ''
-			}
+				if (open) {
+					tag = $2
+				} else {
+					tag = $3 || ''
+				}
 
-			if(!open && tag.length === 0) {
-				// </>
-				this.styleStack.pop()
-				return
-			}
+				if (!open && tag.length === 0) {
+					// </>
+					this.styleStack.pop()
+					return
+				}
 
-			const style = this._createStyleFromString(tag)
+				const style = this._createStyleFromString(tag)
 
-			if(!style) {
-				output += this._applyCurrentStyle($1)
-			} else if(open) {
-				this.styleStack.push(style)
-			} else {
-				this.styleStack.pop(style)
-			}
-		})
+				if (!style) {
+					output += this._applyCurrentStyle($1)
+				} else if (open) {
+					this.styleStack.push(style)
+				} else {
+					this.styleStack.pop(style)
+				}
+			},
+		)
 
 		output += this._applyCurrentStyle(message.substring(offset))
 		return output.replace(/\\</g, '<')
@@ -106,7 +108,7 @@ export class OutputFormatter {
 	}
 
 	_applyCurrentStyle(text) {
-		if(this.styleStack.length === 0) {
+		if (this.styleStack.length === 0) {
 			return text
 		}
 
@@ -114,11 +116,10 @@ export class OutputFormatter {
 	}
 
 	_applyStyle(text, style) {
-		if(this.decorated && text.length > 0) {
+		if (this.decorated && text.length > 0) {
 			return style.apply(text)
 		}
 
 		return text
 	}
-
 }

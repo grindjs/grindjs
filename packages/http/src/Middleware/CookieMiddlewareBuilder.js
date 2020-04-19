@@ -5,11 +5,11 @@ export function CookieMiddlewareBuilder(app) {
 
 	try {
 		cookieParser = require('cookie-parser')
-	} catch(err) {
+	} catch (err) {
 		throw new MissingPackageError('cookie-parser')
 	}
 
-	const config = { ...app.config.get('cookie', { }) }
+	const config = { ...app.config.get('cookie', {}) }
 	const secret = config.secret || null
 	delete config.secret
 

@@ -1,5 +1,4 @@
 export class Watcher {
-
 	engine = null
 	watcher = null
 
@@ -19,5 +18,4 @@ export class Watcher {
 	stop() {
 		return Promise.resolve(this.watcher.close())
 	}
-
 }

@@ -5,7 +5,6 @@ import '../Support/Beanstalk'
  * Beanstalkd backed Queue Driver
  */
 export class BeanstalkDriver extends BaseDriver {
-
 	client = null
 	listenClient = null
 
@@ -33,9 +32,9 @@ export class BeanstalkDriver extends BaseDriver {
 	async listen(queues, concurrency, context) {
 		await this.listenClient.connect()
 
-		const listeners = [ ]
+		const listeners = []
 
-		for(let i = 0; i < concurrency; i++) {
+		for (let i = 0; i < concurrency; i++) {
 			listeners.push(this._listen(queues, context))
 		}
 
@@ -44,14 +43,17 @@ export class BeanstalkDriver extends BaseDriver {
 
 	_listen(queues, context) {
 		return this.listenClient.watch(queues, 'grind-job', async (job, jobId, callback) => {
-			this.receivePayload({
-				...context,
-				beanstalk: {
-					job,
-					jobId,
-					callback
-				}
-			}, job)
+			this.receivePayload(
+				{
+					...context,
+					beanstalk: {
+						job,
+						jobId,
+						callback,
+					},
+				},
+				job,
+			)
 		})
 	}
 
@@ -76,10 +78,6 @@ export class BeanstalkDriver extends BaseDriver {
 	}
 
 	destroy() {
-		return Promise.all([
-			this.client.end(),
-			this.listenClient.end()
-		])
+		return Promise.all([this.client.end(), this.listenClient.end()])
 	}
-
 }

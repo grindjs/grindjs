@@ -1,7 +1,6 @@
 import '../Command'
 
 export class ScheduleRunCommand extends Command {
-
 	name = 'schedule:run'
 	description = 'Starts the schedule daemon and executes commands as scheduled.'
 
@@ -10,5 +9,4 @@ export class ScheduleRunCommand extends Command {
 
 		return this.cli.scheduler.start()
 	}
-
 }

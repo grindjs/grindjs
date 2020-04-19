@@ -2,7 +2,7 @@ import { serial as test } from 'ava'
 import './helpers/Application'
 
 function config(env = 'local') {
-	return (new Application({ env })).config
+	return new Application({ env }).config
 }
 
 test.beforeEach(() => {
@@ -61,8 +61,8 @@ test('.env dot notation', t => {
 test('APP_CONFIG', t => {
 	process.env.APP_CONFIG = JSON.stringify({
 		app: {
-			port: 12345
-		}
+			port: 12345,
+		},
 	})
 
 	t.is(config().get('app.port', 0), 12345)
@@ -70,7 +70,7 @@ test('APP_CONFIG', t => {
 
 test('APP_CONFIG dot notation', t => {
 	process.env.APP_CONFIG = JSON.stringify({
-		'app.port': 54321
+		'app.port': 54321,
 	})
 
 	t.is(config().get('app.port', 0), 54321)

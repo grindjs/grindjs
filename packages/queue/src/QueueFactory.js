@@ -8,12 +8,11 @@ import './Drivers/RabbitDriver'
 import './Drivers/RedisDriver'
 
 export class QueueFactory {
-
 	app
 	queueClass
 	stateful
-	connections = { }
-	jobs = { }
+	connections = {}
+	jobs = {}
 	drivers = {
 		beanstalk: BeanstalkDriver,
 		beanstalkd: BeanstalkDriver,
@@ -21,10 +20,10 @@ export class QueueFactory {
 		rabbit: RabbitDriver,
 		rabbitmq: RabbitDriver,
 		redis: RedisDriver,
-		amqp: RabbitDriver
+		amqp: RabbitDriver,
 	}
 
-	constructor(app, { queueClass } = { }) {
+	constructor(app, { queueClass } = {}) {
 		this.app = app
 		this.queueClass = queueClass || Queue
 		this.stateful = app.config.get('queue.stateful.enabled', false)
@@ -42,14 +41,14 @@ export class QueueFactory {
 	get(connection) {
 		let name = null
 
-		if(connection.isNil) {
+		if (connection.isNil) {
 			connection = this.app.config.get('queue.default')
 		}
 
-		if(typeof connection === 'string') {
+		if (typeof connection === 'string') {
 			const q = this.connections[connection]
 
-			if(!q.isNil) {
+			if (!q.isNil) {
 				return q
 			}
 
@@ -57,21 +56,21 @@ export class QueueFactory {
 			connection = this.app.config.get(`queue.connections.${name}`)
 		}
 
-		if(connection.isNil || typeof connection !== 'object') {
+		if (connection.isNil || typeof connection !== 'object') {
 			throw new Error('Invalid config')
 		}
 
 		const config = { ...connection }
 		const driverClass = this.drivers[config.driver]
 
-		if(driverClass.isNil) {
+		if (driverClass.isNil) {
 			throw new Error(`Unsupported queue driver: ${config.driver}`)
 		}
 
-		config.connection = config.connection || { }
+		config.connection = config.connection || {}
 		connection = this.make(driverClass, config)
 
-		if(!name.isNil) {
+		if (!name.isNil) {
 			this.connections[name] = connection
 		}
 
@@ -83,7 +82,7 @@ export class QueueFactory {
 	}
 
 	registerDriver(name, driverClass) {
-		if(!(driverClass.prototype instanceof BaseDriver)) {
+		if (!(driverClass.prototype instanceof BaseDriver)) {
 			throw new Error('All queue driver classes must inherit from BaseDriver')
 		}
 
@@ -91,9 +90,9 @@ export class QueueFactory {
 	}
 
 	register(jobClass) {
-		if(!(jobClass.prototype instanceof Job)) {
+		if (!(jobClass.prototype instanceof Job)) {
 			throw new Error('All job classes must inherit from Job')
-		} else if(jobClass.jobName.isNil) {
+		} else if (jobClass.jobName.isNil) {
 			throw new Error('Invalid Job, must have jobName set.')
 		}
 
@@ -103,5 +102,4 @@ export class QueueFactory {
 	destroy() {
 		return Promise.all(Object.values(this.connections).map(connection => connection.destroy()))
 	}
-
 }

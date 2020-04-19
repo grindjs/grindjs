@@ -16,24 +16,29 @@ function makeStore() {
 		client: 'sqlite3',
 		useNullAsDefault: true,
 		connection: {
-			filename: ':memory:'
-		}
+			filename: ':memory:',
+		},
 	})
 
-	return db.schema.createTable('sessions', table => {
-		table.string('id').unique()
-		table.text('data')
-		table.datetime('expires_at')
-	}).then(() => db('sessions').insert({
-		id: '1111222233334444',
-		data: JSON.stringify({
-			name: 'sample name',
-			cookie: {
-				maxAge: 20000
-			}
-		}),
-		expires_at: new Date(Date.now() + 3600000)
-	})).then(() => new DatabaseStore({ connection: db }))
+	return db.schema
+		.createTable('sessions', table => {
+			table.string('id').unique()
+			table.text('data')
+			table.datetime('expires_at')
+		})
+		.then(() =>
+			db('sessions').insert({
+				id: '1111222233334444',
+				data: JSON.stringify({
+					name: 'sample name',
+					cookie: {
+						maxAge: 20000,
+					},
+				}),
+				expires_at: new Date(Date.now() + 3600000),
+			}),
+		)
+		.then(() => new DatabaseStore({ connection: db }))
 }
 
 test('initial clear', async t => {
@@ -49,8 +54,8 @@ test('set then clear', async t => {
 	await store.set('1092348234', {
 		name: 'InsertThenClear',
 		cookie: {
-			maxAge: 1000
-		}
+			maxAge: 1000,
+		},
 	})
 
 	t.is(await store.clear(), 2)
@@ -71,8 +76,8 @@ test('destroy', async t => {
 	await store.set('555666777', {
 		name: 'Rob Dobilina',
 		cookie: {
-			maxAge: 1000
-		}
+			maxAge: 1000,
+		},
 	})
 	t.is(await store.length(), 2)
 	t.is(await store.destroy('555666777'), 1)
@@ -86,8 +91,8 @@ test('set', async t => {
 	await store.set('1111222233334444', {
 		name: 'sample name',
 		cookie: {
-			maxAge: 20000
-		}
+			maxAge: 20000,
+		},
 	})
 
 	t.is(await store.length(), 1)
@@ -99,8 +104,8 @@ test('retrieve', async t => {
 	t.deepEqual(await store.get('1111222233334444'), {
 		name: 'sample name',
 		cookie: {
-			maxAge: 20000
-		}
+			maxAge: 20000,
+		},
 	})
 })
 
@@ -123,16 +128,16 @@ test('touch', async t => {
 	await store.set('11112222333344445555', {
 		name: 'sample name',
 		cookie: {
-			maxAge: 20000
-		}
+			maxAge: 20000,
+		},
 	})
 
 	await store.touch('11112222333344445555', {
 		name: 'sample name',
 		cookie: {
 			maxAge: 20000,
-			expires: new Date
-		}
+			expires: new Date(),
+		},
 	})
 
 	t.is(await store.length(), 1)
@@ -144,8 +149,8 @@ test('clear expired sessions', async t => {
 	await store.set('11112222333344445555', {
 		name: 'sample name',
 		cookie: {
-			expires: new Date(Date.now() - 3600000)
-		}
+			expires: new Date(Date.now() - 3600000),
+		},
 	})
 
 	t.is(await store.length(), 2)
@@ -159,8 +164,8 @@ test('expired sessions at interval', async t => {
 	await store.set('11112222333344445555', {
 		name: 'sample name',
 		cookie: {
-			expires: new Date(Date.now() - 3600000)
-		}
+			expires: new Date(Date.now() - 3600000),
+		},
 	})
 
 	store.setExpirationInterval(100)

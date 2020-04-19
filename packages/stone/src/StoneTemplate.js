@@ -11,21 +11,20 @@ import './Support/convertTaggedComponents'
 const vm = require('vm')
 
 export class StoneTemplate {
-
 	compiler = null
 
 	state = {
 		file: null,
 		contents: null,
 		lines: null,
-		index: 0
+		index: 0,
 	}
 
 	isLayout = false
 	hasLayoutContext = false
-	sections = [ ]
+	sections = []
 
-	expressions = [ ]
+	expressions = []
 	spaceless = 0
 
 	_template = null
@@ -46,7 +45,7 @@ export class StoneTemplate {
 				start: index,
 				end: index + length,
 				code: line,
-				subsring: contents.substring(index, index + length)
+				subsring: contents.substring(index, index + length),
 			}
 
 			index = range.end
@@ -68,15 +67,15 @@ export class StoneTemplate {
 
 		// If there’s anything left in `contents` after parsing is done
 		// append is as an output string
-		if(contents.trim().length > 0) {
+		if (contents.trim().length > 0) {
 			this.addOutputExpression(this.state.index, contents)
 		}
 
 		let code = ''
 
 		// Loop through the expressions and add the code
-		for(const { type, contents } of this.expressions) {
-			if(type !== 'code') {
+		for (const { type, contents } of this.expressions) {
+			if (type !== 'code') {
 				throw new Error('Unsupported type')
 			}
 
@@ -88,12 +87,12 @@ export class StoneTemplate {
 		// * For templates that extend a layout, it’s calling the parent layout
 		let returns = null
 
-		if(!this.isLayout) {
+		if (!this.isLayout) {
 			returns = 'output'
 		} else {
 			let context = '_'
 
-			if(this.hasLayoutContext) {
+			if (this.hasLayoutContext) {
 				// If `@extends` was called with a second context
 				// parameter, we assign those values over the
 				// current context
@@ -114,7 +113,7 @@ export class StoneTemplate {
 		// properties on the template function
 		let wrapped = `(function() { const t = ${contextualized};`
 
-		if(this.isLayout) {
+		if (this.isLayout) {
 			wrapped += 't.isLayout = true;'
 		}
 
@@ -135,40 +134,40 @@ export class StoneTemplate {
 	advance(contents, index) {
 		// Find the next @ index (indicating a directive) that occurs
 		// outside of an output block
-		const set = [ '@', '{{', '{!!' ]
+		const set = ['@', '{{', '{!!']
 		let startIndex = index
 
-		while(startIndex >= 0 && startIndex + 1 < contents.length) {
+		while (startIndex >= 0 && startIndex + 1 < contents.length) {
 			startIndex = nextIndexOf(contents, set, startIndex)
 
 			// Break if we’ve found an @ char or if we’re at
 			// the end of the road
-			if(startIndex === -1 || contents[startIndex] !== '{') {
+			if (startIndex === -1 || contents[startIndex] !== '{') {
 				break
 			}
 
-			if(contents[startIndex + 1] === '{') {
+			if (contents[startIndex + 1] === '{') {
 				startIndex = nextClosingIndexOf(contents, '{{', '}}', startIndex)
 			} else {
 				startIndex = nextClosingIndexOf(contents, '{!!', '!!}', startIndex)
 			}
 		}
 
-		if(startIndex === -1) {
+		if (startIndex === -1) {
 			// If we haven’t matched anything, we can bail out
 			return index
 		}
 
 		const match = contents.substring(startIndex).match(/@(\w+)([ \t]*\()?\n*/)
 
-		if(!match) {
+		if (!match) {
 			return index
 		}
 
 		match.index += startIndex
 		this.state.index = index
 
-		if(match.index > index) {
+		if (match.index > index) {
 			// If the match starts after 0, it means there’s
 			// output to display
 			let string = contents.substring(index, match.index)
@@ -176,8 +175,8 @@ export class StoneTemplate {
 			// Only add the output if the string isn’t
 			// blank to avoid unnecessary whitespace before
 			// a directive
-			if(string.trim().length > 0) {
-				if(this.spaceless > 0) {
+			if (string.trim().length > 0) {
+				if (this.spaceless > 0) {
 					string = string.replace(/>\s+</g, '><').trim()
 				}
 
@@ -191,17 +190,17 @@ export class StoneTemplate {
 		let args = null
 		let nextIndex = match.index + match[0].length
 
-		if(match[2]) {
+		if (match[2]) {
 			let openCount = -1
 			let startIndex = index
 			let lastIndex = index
 
-			while(openCount !== 0 && (index = nextIndexOf(contents, [ '(', ')' ], index)) >= 0) {
+			while (openCount !== 0 && (index = nextIndexOf(contents, ['(', ')'], index)) >= 0) {
 				const parenthesis = contents.substring(index, index + 1)
 
-				if(parenthesis === ')') {
+				if (parenthesis === ')') {
 					openCount--
-				} else if(openCount === -1) {
+				} else if (openCount === -1) {
 					startIndex = index
 					openCount = 1
 				} else {
@@ -218,15 +217,15 @@ export class StoneTemplate {
 
 		const result = this.compiler.compileDirective(this, match[1].toLowerCase(), args)
 
-		if(!result.isNil) {
+		if (!result.isNil) {
 			this.expressions.push({
 				type: 'code',
 				contents: result,
-				index: match.index
+				index: match.index,
 			})
 		}
 
-		if(contents[nextIndex] === '\n') {
+		if (contents[nextIndex] === '\n') {
 			nextIndex++
 		}
 
@@ -245,7 +244,7 @@ export class StoneTemplate {
 		this.expressions.push({
 			type: 'code',
 			contents: `output += ${this.finalizeOutput(index, output)}\n`,
-			index: index
+			index: index,
 		})
 	}
 
@@ -259,7 +258,7 @@ export class StoneTemplate {
 	 * @return {string}             Finalized output
 	 */
 	finalizeOutput(sourceIndex, output) {
-		const placeholders = { }
+		const placeholders = {}
 		let placeholderOrdinal = 0
 
 		// Store raw blocks
@@ -295,7 +294,7 @@ export class StoneTemplate {
 		output = output.replace(/[\t]/g, '\\t')
 
 		// Restore placeholders
-		for(const [ placeholder, content ] of Object.entries(placeholders)) {
+		for (const [placeholder, content] of Object.entries(placeholders)) {
 			// Content is returned as a function to avoid any processing
 			// See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace#Specifying_a_string_as_a_parameter
 			output = output.replace(placeholder, () => content)
@@ -308,18 +307,18 @@ export class StoneTemplate {
 		let min = 0
 		let max = this.state.lines.length
 
-		while(min < max) {
+		while (min < max) {
 			const mid = min + ((max - min) >> 1)
 			const { start, end } = this.state.lines[mid]
 
-			if(position < start) {
+			if (position < start) {
 				max = mid
-			} else if(position >= end) {
+			} else if (position >= end) {
 				min = mid + 1
 			} else {
 				return {
 					line: mid + 1,
-					column: (position - start) + 1
+					column: position - start + 1,
 				}
 			}
 		}
@@ -338,8 +337,8 @@ export class StoneTemplate {
 	validateSyntax(code, position) {
 		try {
 			AST.parse(code)
-		} catch(err) {
-			if(err instanceof SyntaxError) {
+		} catch (err) {
+			if (err instanceof SyntaxError) {
 				throw new StoneSyntaxError(this, err, position || this.state.index)
 			}
 
@@ -354,21 +353,21 @@ export class StoneTemplate {
 
 		try {
 			tree = AST.parse(`args(${args})`)
-		} catch(err) {
-			if(err instanceof SyntaxError) {
+		} catch (err) {
+			if (err instanceof SyntaxError) {
 				throw new StoneSyntaxError(this, err, index)
 			}
 
 			throw err
 		}
 
-		if(
-			tree.body.length > 1
-			|| tree.body[0].type !== 'ExpressionStatement'
-			|| tree.body[0].expression.type !== 'CallExpression'
-			|| !Array.isArray(tree.body[0].expression.arguments)
-			|| tree.body[0].expression.arguments.length < 1
-		)  {
+		if (
+			tree.body.length > 1 ||
+			tree.body[0].type !== 'ExpressionStatement' ||
+			tree.body[0].expression.type !== 'CallExpression' ||
+			!Array.isArray(tree.body[0].expression.arguments) ||
+			tree.body[0].expression.arguments.length < 1
+		) {
 			throw new StoneCompilerError(this, 'Unexpected arguments.')
 		}
 
@@ -376,7 +375,7 @@ export class StoneTemplate {
 	}
 
 	toString() {
-		if(typeof this._template !== 'string') {
+		if (typeof this._template !== 'string') {
 			throw new Error('Templates must be compiled first.')
 		}
 
@@ -387,5 +386,4 @@ export class StoneTemplate {
 		const script = new vm.Script(`(${this.toString()})`, { filename: this.state.file })
 		return script.runInNewContext()
 	}
-
 }

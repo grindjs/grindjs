@@ -2,8 +2,7 @@ import './Container'
 import '../Support/Time'
 
 export class MessagesContainer extends Container {
-
-	messages = [ ]
+	messages = []
 
 	/**
 	 * @inheritdoc
@@ -18,8 +17,8 @@ export class MessagesContainer extends Container {
 	 *                         property and a start or duration property
 	 */
 	add(message) {
-		if(typeof message === 'object') {
-			if(message.duration.isNil && !message.start.isNil) {
+		if (typeof message === 'object') {
+			if (message.duration.isNil && !message.start.isNil) {
 				message.duration = Time.get(message.start)
 			}
 
@@ -36,5 +35,4 @@ export class MessagesContainer extends Container {
 	render(devbar) {
 		return devbar.renderView('containers/messages.stone', { messages: this.messages })
 	}
-
 }

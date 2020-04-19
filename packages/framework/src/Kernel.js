@@ -1,9 +1,8 @@
 export class Kernel {
-
 	app = null
 	as = null
 
-	constructor(app, options = { }) {
+	constructor(app, options = {}) {
 		this.app = app
 		this.options = options
 	}
@@ -17,7 +16,6 @@ export class Kernel {
 	}
 
 	get providers() {
-		return [ ]
+		return []
 	}
-
 }

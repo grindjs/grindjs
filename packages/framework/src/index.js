@@ -14,6 +14,6 @@ export { Paths } from './Paths'
 // Exporting Grind alias for legacy purposes
 export const Grind = Application
 
-if(global.Log.isNil) {
+if (global.Log.isNil) {
 	global.Log = Log
 }

@@ -14,7 +14,7 @@ export function optional(pkgName, version = null) {
 		},
 
 		resolve(isFatal = false) {
-			if(typeof this.resolved === 'boolean') {
+			if (typeof this.resolved === 'boolean') {
 				return this.resolved
 			}
 
@@ -22,21 +22,21 @@ export function optional(pkgName, version = null) {
 			this.resolved = !this.pkg.isNil
 			let errorPkgName = pkgName
 
-			if(this.resolved && !version.isNil) {
+			if (this.resolved && !version.isNil) {
 				this.resolved = semver.satisfies(
 					require(`${pkgName}/package.json`).version,
-					version
+					version,
 				)
 
-				if(!this.resolved) {
+				if (!this.resolved) {
 					errorPkgName += `@${version}`
 				}
 			}
 
-			if(!this.resolved) {
+			if (!this.resolved) {
 				const error = new MissingPackageError(errorPkgName, 'dev')
 
-				if(isFatal) {
+				if (isFatal) {
 					throw error
 				}
 
@@ -44,6 +44,6 @@ export function optional(pkgName, version = null) {
 			}
 
 			return this.resolved
-		}
+		},
 	}
 }

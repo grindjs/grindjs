@@ -18,5 +18,5 @@ test.beforeEach(async t => {
 test.afterEach.always(t => t.context.app.shutdown())
 
 module.exports = {
-	test: test.serial
+	test: test.serial,
 }

@@ -6,8 +6,8 @@ function wait(time) {
 }
 
 function makeApp(provider) {
-	const app = new Application
-	app.providers.storage = [ ]
+	const app = new Application()
+	app.providers.storage = []
 	app.providers.add(provider)
 	return app
 }
@@ -38,7 +38,7 @@ test('boot async', async t => {
 test('shutdown', async t => {
 	let shutdown = false
 
-	function TestProvider() { }
+	function TestProvider() {}
 	TestProvider.shutdown = () => {
 		shutdown = true
 	}
@@ -52,7 +52,7 @@ test('shutdown', async t => {
 test('shutdown async', async t => {
 	let shutdown = false
 
-	function TestProvider() { }
+	function TestProvider() {}
 	TestProvider.shutdown = async () => {
 		await wait(100)
 		shutdown = true

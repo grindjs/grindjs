@@ -2,7 +2,6 @@ import { MissingPackageError } from 'grind-framework'
 const EventEmitter = require('events')
 
 export class ViewFactory extends EventEmitter {
-
 	app = null
 	viewPath = null
 	engine = null
@@ -10,7 +9,7 @@ export class ViewFactory extends EventEmitter {
 
 	static engines = {
 		stone: (...args) => ViewFactory.loadEngine('grind-stone', 'StoneEngine', ...args),
-		nunjucks: (...args) => ViewFactory.loadEngine('grind-nunjucks', 'NunjucksEngine', ...args)
+		nunjucks: (...args) => ViewFactory.loadEngine('grind-nunjucks', 'NunjucksEngine', ...args),
 	}
 
 	constructor(app) {
@@ -21,7 +20,7 @@ export class ViewFactory extends EventEmitter {
 		this.engineName = app.config.get('view.engine', 'stone')
 		const makeEngine = ViewFactory.engines[this.engineName]
 
-		if(makeEngine.isNil) {
+		if (makeEngine.isNil) {
 			throw new Error(`View engine unavailable: ${this.engineName}`)
 		}
 
@@ -30,7 +29,7 @@ export class ViewFactory extends EventEmitter {
 	}
 
 	async bootstrap() {
-		if(!this.app.express.isNil) {
+		if (!this.app.express.isNil) {
 			this.app.express.set('views', this.viewPath)
 		}
 
@@ -87,8 +86,8 @@ export class ViewFactory extends EventEmitter {
 
 		try {
 			engine = require(module)[className]
-		} catch(err) {
-			if(err.code !== 'MODULE_NOT_FOUND') {
+		} catch (err) {
+			if (err.code !== 'MODULE_NOT_FOUND') {
 				throw err
 			}
 
@@ -97,5 +96,4 @@ export class ViewFactory extends EventEmitter {
 
 		return new engine(...args)
 	}
-
 }

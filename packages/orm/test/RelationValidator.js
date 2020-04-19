@@ -5,12 +5,12 @@ test('validate missing', async t => {
 	try {
 		await t.context.UserAvatarModel.query().insert({
 			user_id: Date.now(),
-			url: 'test'
+			url: 'test',
 		})
 
 		t.fail('Error should have been thrown.')
-	} catch(err) {
-		if(!(err instanceof ValidationError)) {
+	} catch (err) {
+		if (!(err instanceof ValidationError)) {
 			throw err
 		}
 
@@ -21,7 +21,7 @@ test('validate missing', async t => {
 test('validate existing', async t => {
 	await t.context.UserAvatarModel.query().insert({
 		user_id: 1,
-		url: 'test'
+		url: 'test',
 	})
 
 	t.pass()
@@ -31,7 +31,7 @@ test('validate within transaction', async t => {
 	await transaction(t.context.app.db, async trx => {
 		await t.context.UserAvatarModel.query(trx).insert({
 			user_id: 1,
-			url: 'test'
+			url: 'test',
 		})
 	})
 

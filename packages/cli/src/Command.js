@@ -15,34 +15,37 @@ const ChildProcess = require('child_process')
 let hasWarnedLegacyArgumentsOptions = false
 
 function warnLegacyArgumentsOptions() {
-	if(hasWarnedLegacyArgumentsOptions) {
+	if (hasWarnedLegacyArgumentsOptions) {
 		return
 	}
 
 	hasWarnedLegacyArgumentsOptions = true
-	Log.error('WARNING: The arguments/options structure being used is deprecated in 0.6 and will be removed in 0.8.')
-	Log.error('--> For information on how to update your commands, visit https://grind.rocks/docs/guides/cli')
+	Log.error(
+		'WARNING: The arguments/options structure being used is deprecated in 0.6 and will be removed in 0.8.',
+	)
+	Log.error(
+		'--> For information on how to update your commands, visit https://grind.rocks/docs/guides/cli',
+	)
 	Log.error('')
 }
 
 export class Command {
-
 	app = null
 	cli = null
 
 	name = null
 	description = null
-	arguments = [ ]
-	options = [ ]
+	arguments = []
+	options = []
 
 	defaultOptions = [
 		new InputOption('help', InputOption.VALUE_NONE, 'Display this help message'),
-		new InputOption('no-ansi', InputOption.VALUE_NONE, 'Disable ANSI output')
+		new InputOption('no-ansi', InputOption.VALUE_NONE, 'Disable ANSI output'),
 	]
 
 	compiledValues = {
-		arguments: { },
-		options: { }
+		arguments: {},
+		options: {},
 	}
 
 	constructor(app, cli) {
@@ -55,20 +58,20 @@ export class Command {
 	}
 
 	argument(name, fallback = null) {
-		return (this.compiledValues.arguments[name] || { }).value || fallback
+		return (this.compiledValues.arguments[name] || {}).value || fallback
 	}
 
 	containsArgument(name) {
-		const { value } = this.compiledValues.arguments[name] || { }
+		const { value } = this.compiledValues.arguments[name] || {}
 		return !value.isNil
 	}
 
 	option(name, fallback = null) {
-		return (this.compiledValues.options[name] || { }).value || fallback
+		return (this.compiledValues.options[name] || {}).value || fallback
 	}
 
 	containsOption(name) {
-		const { value } = this.compiledValues.options[name] || { }
+		const { value } = this.compiledValues.options[name] || {}
 		return !value.isNil
 	}
 
@@ -81,17 +84,17 @@ export class Command {
 	}
 
 	_prepare(input) {
-		this.compiledValues.arguments = { }
-		this.compiledValues.options = { }
+		this.compiledValues.arguments = {}
+		this.compiledValues.options = {}
 
 		const args = this._arguments()
-		const options = { }
+		const options = {}
 
-		for(const option of this._options()) {
+		for (const option of this._options()) {
 			options[option.name] = option
 		}
 
-		for(const option of this.defaultOptions) {
+		for (const option of this.defaultOptions) {
 			options[option.name] = option
 		}
 
@@ -99,13 +102,13 @@ export class Command {
 		// number of defined arguments
 		const argumentsLength = input.arguments.length
 
-		if(argumentsLength - 1 > args.length) {
-			throw new TooManyArgumentsError
+		if (argumentsLength - 1 > args.length) {
+			throw new TooManyArgumentsError()
 		}
 
 		// Iterate through input arguments and match them to
 		// to the defined arguments
-		for(let i = 1; i < argumentsLength; i++) {
+		for (let i = 1; i < argumentsLength; i++) {
 			input.arguments[i].name = args[i - 1].name
 			input.arguments[i].mode = args[i - 1].mode
 			input.arguments[i].help = args[i - 1].help
@@ -116,17 +119,17 @@ export class Command {
 		// If the input argument length isn’t the same as the
 		// defined argument length, iterate through and make sure
 		// all the required arguments are satisfied
-		if(this.compiledValues.arguments.length !== arguments.length) {
-			for(const argument of args) {
+		if (this.compiledValues.arguments.length !== arguments.length) {
+			for (const argument of args) {
 				const arg = this.compiledValues.arguments[argument.name]
 
-				if(!arg.isNil) {
+				if (!arg.isNil) {
 					continue
 				}
 
-				if(argument.mode === InputArgument.VALUE_REQUIRED) {
+				if (argument.mode === InputArgument.VALUE_REQUIRED) {
 					throw new MissingArgumentError(argument.name)
-				} else if(!argument.value.isNil) {
+				} else if (!argument.value.isNil) {
 					this.compiledValues.arguments[argument.name] = argument
 				}
 			}
@@ -134,15 +137,15 @@ export class Command {
 
 		// Iterate through input options and match them to
 		// the defined options
-		for(const option of input.options) {
+		for (const option of input.options) {
 			const definedOption = options[option.name]
 
-			if(definedOption.isNil) {
+			if (definedOption.isNil) {
 				throw new InvalidOptionError(option.name)
 			}
 
-			if(definedOption.mode === InputOption.VALUE_NONE) {
-				if(!option.value.isNil && typeof option.value !== 'boolean') {
+			if (definedOption.mode === InputOption.VALUE_NONE) {
+				if (!option.value.isNil && typeof option.value !== 'boolean') {
 					throw new InvalidOptionValueError(option.name)
 				}
 			}
@@ -157,19 +160,19 @@ export class Command {
 		// If the input options length isn’t the same as the
 		// defined option length, iterate through and make sure
 		// all the required options are satisfied
-		if(Object.keys(this.compiledValues.options).length !== Object.keys(options).length) {
-			for(const option of Object.values(options)) {
-				if(option.mode === InputOption.VALUE_NONE) {
+		if (Object.keys(this.compiledValues.options).length !== Object.keys(options).length) {
+			for (const option of Object.values(options)) {
+				if (option.mode === InputOption.VALUE_NONE) {
 					continue
 				}
 
 				const compiledOption = this.compiledValues.options[option.name]
 
-				if(!compiledOption.isNil) {
+				if (!compiledOption.isNil) {
 					continue
 				}
 
-				if(option.mode === InputOption.VALUE_REQUIRED) {
+				if (option.mode === InputOption.VALUE_REQUIRED) {
 					throw new MissingOptionError(option.name)
 				}
 
@@ -185,12 +188,12 @@ export class Command {
 	}
 
 	_arguments() {
-		if(this.arguments.isNil) {
-			return [ ]
+		if (this.arguments.isNil) {
+			return []
 		}
 
 		return this.arguments.map(value => {
-			if(typeof value !== 'string') {
+			if (typeof value !== 'string') {
 				return value
 			}
 
@@ -201,29 +204,29 @@ export class Command {
 
 			return new InputArgument(
 				name,
-				optional ? InputArgument.VALUE_OPTIONAL : InputArgument.VALUE_REQUIRED
+				optional ? InputArgument.VALUE_OPTIONAL : InputArgument.VALUE_REQUIRED,
 			)
 		})
 	}
 
 	_options() {
-		if(this.options.isNil) {
-			return [ ]
+		if (this.options.isNil) {
+			return []
 		}
 
-		if(Array.isArray(this.options)) {
+		if (Array.isArray(this.options)) {
 			return this.options
 		}
 
-		const options = [ ]
+		const options = []
 
 		warnLegacyArgumentsOptions()
 
-		for(const [ name, value ] of Object.entries(this.options)) {
+		for (const [name, value] of Object.entries(this.options)) {
 			let help = value
 			let mode = InputOption.VALUE_NONE
 
-			if(Array.isArray(value)) {
+			if (Array.isArray(value)) {
 				help = value[0]
 				mode = InputOption.VALUE_REQUIRED
 			}
@@ -237,20 +240,20 @@ export class Command {
 	execAsChildProcess(args = null, options = null) {
 		options = {
 			env: process.env,
-			...(options || { })
+			...(options || {}),
 		}
 
-		if(args.isNil) {
-			args = [ ]
+		if (args.isNil) {
+			args = []
 		} else {
-			args = [ ].concat(...args)
+			args = [].concat(...args)
 		}
 
 		args.unshift(this.name)
 
 		return new Promise((resolve, reject) => {
 			ChildProcess.execFile(process.env.CLI_BIN, args, options, (err, stdout) => {
-				if(!err.isNil) {
+				if (!err.isNil) {
 					return reject(err)
 				}
 
@@ -263,13 +266,13 @@ export class Command {
 		options = {
 			env: process.env,
 			stdio: 'inherit',
-			...(options || { })
+			...(options || {}),
 		}
 
-		if(args.isNil) {
-			args = [ ]
+		if (args.isNil) {
+			args = []
 		} else {
-			args = [ ].concat(...args)
+			args = [].concat(...args)
 		}
 
 		args.unshift(this.name)
@@ -313,14 +316,14 @@ export class Command {
 	ask(question, defaultAnswer = null) {
 		let prompt = `<question>${question}</question> `
 
-		if(!defaultAnswer.isNil) {
+		if (!defaultAnswer.isNil) {
 			prompt = `${prompt}<questionDefaultValue>[${defaultAnswer}]</questionDefaultValue> `
 		}
 
 		return new Promise(resolve => {
 			const iface = readline.createInterface({
 				input: process.stdin,
-				output: process.stdout
+				output: process.stdout,
 			})
 
 			iface.question(this.output.formatter.format(prompt), answer => {
@@ -332,12 +335,11 @@ export class Command {
 
 	confirm(question, defaultAnswer = true) {
 		return this.ask(question, defaultAnswer ? 'yes' : 'no').then(answer => {
-			if(answer.length === 0) {
+			if (answer.length === 0) {
 				answer = defaultAnswer
 			}
 
 			return cast.boolean(answer)
 		})
 	}
-
 }

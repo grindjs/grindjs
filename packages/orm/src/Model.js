@@ -9,20 +9,19 @@ import './RelationValidator'
 const as = require('as-type')
 
 export class Model extends ObjectionModel {
-
 	static descriptiveName = null
 	static eager = null
 	static eagerFilters = null
 	static useTimestamps = true
 	static createdAt = 'created_at'
 	static updatedAt = 'updated_at'
-	static dates = [ ]
+	static dates = []
 	static useIdSafeUpdates = false
 
 	static $$app = null
 
 	static app(app) {
-		if(!app.isNil) {
+		if (!app.isNil) {
 			this.$$app = app
 		} else {
 			return this.$$app
@@ -48,24 +47,28 @@ export class Model extends ObjectionModel {
 	static routeBind(name, description) {
 		description = description || `${name} Value`
 
-		this.app().routes.bind(name, (value, resolve, reject) => {
-			this.findByRouteParameter(value).then(row => {
-				if(row.isNil) {
-					reject(new ModelNotFoundError(this))
-					return
-				}
+		this.app().routes.bind(
+			name,
+			(value, resolve, reject) => {
+				this.findByRouteParameter(value).then(row => {
+					if (row.isNil) {
+						reject(new ModelNotFoundError(this))
+						return
+					}
 
-				resolve(row)
-			})
-		}, { swagger: { name, description } })
+					resolve(row)
+				})
+			},
+			{ swagger: { name, description } },
+		)
 	}
 
 	static buildRelations() {
-		return { }
+		return {}
 	}
 
 	static getRelations() {
-		if(this.relationMappings.isNil) {
+		if (this.relationMappings.isNil) {
 			this.relationMappings = this.buildRelations()
 		}
 
@@ -83,7 +86,7 @@ export class Model extends ObjectionModel {
 	static _hasOneOrMany(relation, modelClass, foreignKey = null, localKey = null) {
 		foreignKey = foreignKey || Inflect.foreignKey(this.name)
 
-		if(localKey.isNil) {
+		if (localKey.isNil) {
 			localKey = this._getFullIdColumn()
 		} else {
 			localKey = `${this.tableName}.${localKey}`
@@ -94,15 +97,15 @@ export class Model extends ObjectionModel {
 			modelClass: modelClass,
 			join: {
 				from: `${modelClass.tableName}.${foreignKey}`,
-				to: localKey
-			}
+				to: localKey,
+			},
 		}
 	}
 
 	static belongsTo(modelClass, foreignKey = null, otherKey = null) {
 		foreignKey = foreignKey || Inflect.foreignKey(modelClass.name)
 
-		if(otherKey.isNil) {
+		if (otherKey.isNil) {
 			otherKey = modelClass._getFullIdColumn()
 		} else {
 			otherKey = `${modelClass.tableName}.${otherKey}`
@@ -113,13 +116,13 @@ export class Model extends ObjectionModel {
 			modelClass: modelClass,
 			join: {
 				from: `${this.tableName}.${foreignKey}`,
-				to: otherKey
-			}
+				to: otherKey,
+			},
 		}
 	}
 
 	static belongsToMany(modelClass, tableName = null, foreignKey = null, otherKey = null) {
-		tableName = tableName || [ this.tableName, modelClass.tableName ].sort().join('_')
+		tableName = tableName || [this.tableName, modelClass.tableName].sort().join('_')
 		foreignKey = foreignKey || Inflect.foreignKey(modelClass.name)
 		otherKey = otherKey || Inflect.foreignKey(this.name)
 
@@ -130,30 +133,30 @@ export class Model extends ObjectionModel {
 				from: this._getFullIdColumn(),
 				through: {
 					from: `${tableName}.${otherKey}`,
-					to: `${tableName}.${foreignKey}`
+					to: `${tableName}.${foreignKey}`,
 				},
-				to: modelClass._getFullIdColumn()
-			}
+				to: modelClass._getFullIdColumn(),
+			},
 		}
 	}
 
 	$sync(relation, ids, trx = null) {
-		return (new RelationSynchronizer(this, relation)).sync(ids, trx)
+		return new RelationSynchronizer(this, relation).sync(ids, trx)
 	}
 
 	$relate(relation, ids, trx = null) {
-		return (new RelationSynchronizer(this, relation)).relate(ids, trx)
+		return new RelationSynchronizer(this, relation).relate(ids, trx)
 	}
 
 	$unrelate(relation, ids, trx = null) {
-		return (new RelationSynchronizer(this, relation)).unrelate(ids, trx)
+		return new RelationSynchronizer(this, relation).unrelate(ids, trx)
 	}
 
 	$parseDatabaseJson(json) {
 		json = super.$parseDatabaseJson(json)
 
-		for(const date of this.constructor.getDates()) {
-			if(json[date].isNil) {
+		for (const date of this.constructor.getDates()) {
+			if (json[date].isNil) {
 				continue
 			}
 
@@ -162,16 +165,16 @@ export class Model extends ObjectionModel {
 
 		const schema = this.constructor.jsonSchema
 
-		if(schema.isNil || schema.properties.isNil) {
+		if (schema.isNil || schema.properties.isNil) {
 			return json
 		}
 
-		for(const field of Object.keys(schema.properties)) {
-			if(json[field].isNil) {
+		for (const field of Object.keys(schema.properties)) {
+			if (json[field].isNil) {
 				continue
 			}
 
-			if(Number.isNaN(json[field])) {
+			if (Number.isNaN(json[field])) {
 				json[field] = null
 				continue
 			}
@@ -179,14 +182,18 @@ export class Model extends ObjectionModel {
 			const property = schema.properties[field]
 
 			// Boolean values can be converted to JSON as "0"/"1", convert back to boolean
-			if(property.type === 'boolean') {
+			if (property.type === 'boolean') {
 				json[field] = as.boolean(json[field])
 			}
 
 			// Number values can be converted to JSON as strings, convert back to numbers
-			if(property.type === 'number' || property.type === 'float' || property.type === 'double') {
+			if (
+				property.type === 'number' ||
+				property.type === 'float' ||
+				property.type === 'double'
+			) {
 				json[field] = as.float(json[field])
-			} else if(property.type === 'integer') {
+			} else if (property.type === 'integer') {
 				json[field] = as.integer(json[field])
 			}
 		}
@@ -197,8 +204,8 @@ export class Model extends ObjectionModel {
 	$formatDatabaseJson(json) {
 		json = super.$formatDatabaseJson(json)
 
-		for(const date of this.constructor.getDates()) {
-			if(json[date].isNil) {
+		for (const date of this.constructor.getDates()) {
+			if (json[date].isNil) {
 				continue
 			}
 
@@ -209,12 +216,12 @@ export class Model extends ObjectionModel {
 	}
 
 	$beforeValidate(jsonSchema, json, opt) {
-		const properties = jsonSchema.properties || { }
+		const properties = jsonSchema.properties || {}
 
-		for(const field of Object.keys(properties)) {
+		for (const field of Object.keys(properties)) {
 			const value = json[field]
 
-			if(value.isNil) {
+			if (value.isNil) {
 				continue
 			}
 
@@ -222,25 +229,25 @@ export class Model extends ObjectionModel {
 			let fieldType = property.type
 			let allowsNull = false
 
-			if(!property.anyOf.isNil) {
+			if (!property.anyOf.isNil) {
 				fieldType = property.anyOf.map(type => type.type)
 			}
 
-			if(Array.isArray(fieldType) && fieldType.length > 1) {
+			if (Array.isArray(fieldType) && fieldType.length > 1) {
 				allowsNull = fieldType.indexOf('null') >= 0
 				fieldType = fieldType.filter(type => type !== 'null')[0]
 			}
 
-			if(allowsNull && typeof value === 'string' && value.length === 0) {
+			if (allowsNull && typeof value === 'string' && value.length === 0) {
 				json[field] = null
 				continue
 			}
 
-			if(fieldType === 'boolean') {
+			if (fieldType === 'boolean') {
 				json[field] = as.boolean(json[field])
-			} else if(fieldType === 'integer') {
+			} else if (fieldType === 'integer') {
 				json[field] = as.integer(json[field])
-			} else if(fieldType === 'number' || fieldType === 'float' || fieldType === 'double') {
+			} else if (fieldType === 'number' || fieldType === 'float' || fieldType === 'double') {
 				json[field] = as.float(json[field])
 			}
 		}
@@ -250,11 +257,11 @@ export class Model extends ObjectionModel {
 
 	$beforeSave(inserting, queryContext) {
 		return new Promise(resolve => {
-			if(this.constructor.useTimestamps) {
-				const now = new Date
+			if (this.constructor.useTimestamps) {
+				const now = new Date()
 				this[this.constructor.updatedAt] = now
 
-				if(inserting) {
+				if (inserting) {
 					this[this.constructor.createdAt] = now
 				}
 			}
@@ -268,13 +275,13 @@ export class Model extends ObjectionModel {
 	}
 
 	$beforeUpdate(...args) {
-		if(this.constructor.useIdSafeUpdates) {
+		if (this.constructor.useIdSafeUpdates) {
 			const cols = this.constructor.getIdColumnArray()
 
-			if(cols.length === 1) {
+			if (cols.length === 1) {
 				delete this[cols[0]]
 			} else {
-				for(let i = 0, l = cols.length; i < l; i++) {
+				for (let i = 0, l = cols.length; i < l; i++) {
 					delete this[cols[i]]
 				}
 			}
@@ -288,7 +295,7 @@ export class Model extends ObjectionModel {
 		// however the relation builder uses it, so we’ll restore
 		// the functionality privately
 
-		if(Array.isArray(this.idColumn)) {
+		if (Array.isArray(this.idColumn)) {
 			return this.idColumn.map(col => `${this.tableName}.${col}`)
 		}
 
@@ -296,8 +303,8 @@ export class Model extends ObjectionModel {
 	}
 
 	static getDates() {
-		if(this.useTimestamps) {
-			return [ ...this.dates, this.createdAt, this.updatedAt ]
+		if (this.useTimestamps) {
+			return [...this.dates, this.createdAt, this.updatedAt]
 		}
 
 		return this.dates
@@ -308,7 +315,7 @@ export class Model extends ObjectionModel {
 	}
 
 	static asDatabaseDate(value) {
-		if(value instanceof Date) {
+		if (value instanceof Date) {
 			return value
 		}
 
@@ -316,12 +323,11 @@ export class Model extends ObjectionModel {
 	}
 
 	static describe() {
-		if(!this.descriptiveName.isNil) {
+		if (!this.descriptiveName.isNil) {
 			return this.descriptiveName
 		}
 
 		const name = Inflect.singularize(this.tableName)
 		return name.charAt(0).toUpperCase() + name.substring(1)
 	}
-
 }

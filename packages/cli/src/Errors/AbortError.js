@@ -1,5 +1,3 @@
 import './InvocationError'
 
-export class AbortError extends InvocationError {
-
-}
+export class AbortError extends InvocationError {}

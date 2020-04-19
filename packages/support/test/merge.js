@@ -7,24 +7,24 @@ const lhs = {
 		a: 'a',
 		b: 'b',
 		c: {
-			true: true
+			true: true,
 		},
-		d: null
+		d: null,
 	},
-	array: [ 'a', 'b' ]
+	array: ['a', 'b'],
 }
 
 const rhs = {
 	debug: false,
 	nested: {
 		c: {
-			true: false
+			true: false,
 		},
 		d: {
-			true: true
-		}
+			true: true,
+		},
 	},
-	array: [ 'c' ]
+	array: ['c'],
 }
 
 test('simple', t => {

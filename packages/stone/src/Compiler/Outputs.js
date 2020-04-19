@@ -29,7 +29,7 @@ export function compileSpaceless(context) {
 export function compileEndspaceless(context) {
 	context.spaceless--
 
-	if(context.spaceless < 0) {
+	if (context.spaceless < 0) {
 		throw new StoneCompilerError(context, 'Unbalanced calls to @endspaceless')
 	}
 }

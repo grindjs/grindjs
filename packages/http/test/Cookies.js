@@ -2,25 +2,29 @@ import test from 'ava'
 import './helpers/request'
 
 function get(path, options) {
-	return request(-5, app => {
-		app.routes.get('/read', (req, res) => {
-			res.send(req.cookies)
-		})
+	return request(
+		-5,
+		app => {
+			app.routes.get('/read', (req, res) => {
+				res.send(req.cookies)
+			})
 
-		app.routes.get('/write', (req, res) => {
-			res.cookie('test', 'test')
-			res.send('1')
-		})
-
-	}, path, options)
+			app.routes.get('/write', (req, res) => {
+				res.cookie('test', 'test')
+				res.send('1')
+			})
+		},
+		path,
+		options,
+	)
 }
 
 test('read', t => {
 	return get('read', {
 		headers: {
-			Cookie: 'test=test'
+			Cookie: 'test=test',
 		},
-		json: true
+		json: true,
 	}).then(response => {
 		t.deepEqual(response.body, { test: 'test' })
 	})

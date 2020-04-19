@@ -1,5 +1,4 @@
 export class HttpError extends Error {
-
 	static representsCode = 0
 	code = 0
 
@@ -15,7 +14,9 @@ export class HttpError extends Error {
 	}
 
 	static defaultMessage() {
-		return this.name.replace(/Error$/, '').replace(/([A-Z])/g, ' $1').trim()
+		return this.name
+			.replace(/Error$/, '')
+			.replace(/([A-Z])/g, ' $1')
+			.trim()
 	}
-
 }

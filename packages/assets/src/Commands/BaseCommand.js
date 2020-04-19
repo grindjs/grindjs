@@ -4,7 +4,6 @@ import { FS } from 'grind-support'
 const path = require('path')
 
 export class BaseCommand extends Command {
-
 	sourcePath = null
 	publishPath = null
 
@@ -20,17 +19,16 @@ export class BaseCommand extends Command {
 		const mapPath = `${assetPath}.map`
 
 		const hasMap = await FS.exists(mapPath)
-		const promises = [ FS.unlink(assetPath) ]
+		const promises = [FS.unlink(assetPath)]
 
-		if(hasMap) {
+		if (hasMap) {
 			promises.push(FS.unlink(mapPath))
 		}
 
 		try {
 			return await Promise.all(promises)
-		} catch(err) {
+		} catch (err) {
 			Log.comment('Unable to remove', asset, err.message)
 		}
 	}
-
 }

@@ -1,9 +1,9 @@
 export function ConfigBuilder(store, app, returnStoreName = false) {
-	if(typeof store === 'string') {
+	if (typeof store === 'string') {
 		store = app.config.get(`cache.stores.${store}`)
 	}
 
-	if(store.isNil) {
+	if (store.isNil) {
 		return null
 	} else {
 		store = { ...store }
@@ -13,20 +13,20 @@ export function ConfigBuilder(store, app, returnStoreName = false) {
 	delete store.driver
 
 	const result = {
-		options: { ...expandStoreConfig(app, driver, store) }
+		options: { ...expandStoreConfig(app, driver, store) },
 	}
 
-	if(result.options.flat === true) {
+	if (result.options.flat === true) {
 		Object.assign(result, result.options)
 		delete result.options
 		delete result.flat
 	}
 
-	if(returnStoreName) {
+	if (returnStoreName) {
 		result.store = driver
-	} else if(driver === 'database') {
+	} else if (driver === 'database') {
 		result.store = require('./DatabaseStore')
-	} else if(driver.isNil) {
+	} else if (driver.isNil) {
 		result.store = 'memory'
 	} else {
 		result.store = require(driver)
@@ -36,11 +36,11 @@ export function ConfigBuilder(store, app, returnStoreName = false) {
 }
 
 export function expandDriverAlias(alias) {
-	if(alias.isNil) {
+	if (alias.isNil) {
 		return null
 	}
 
-	switch(alias.toLowerCase()) {
+	switch (alias.toLowerCase()) {
 		case 'db':
 		case 'database':
 			return 'database'
@@ -72,14 +72,14 @@ export function expandDriverAlias(alias) {
 }
 
 export function expandStoreConfig(app, driver, config) {
-	switch(driver) {
+	switch (driver) {
 		case 'cache-manager-redis':
 			return expandRedisStoreConfig(app, driver, config)
 		case 'database':
 			return expandDatabaseStoreConfig(app, driver, config)
 	}
 
-	if(!config.path.isNil) {
+	if (!config.path.isNil) {
 		config.path = app.paths.base(config.path)
 	}
 
@@ -87,38 +87,38 @@ export function expandStoreConfig(app, driver, config) {
 }
 
 function expandRedisStoreConfig(app, driver, config) {
-	if(config.connection === void 0) {
+	if (config.connection === void 0) {
 		return config
 	}
 
 	let connection = config.connection
 	delete config.connection
 
-	if(connection === null) {
+	if (connection === null) {
 		connection = app.config.get('redis.default', null)
 	}
 
-	if(typeof connection === 'string') {
+	if (typeof connection === 'string') {
 		connection = app.config.get(`redis.connections.${connection}`)
 	}
 
-	if(connection.isNil) {
+	if (connection.isNil) {
 		return config
 	}
 
 	config = { ...config, ...connection, flat: true }
 	delete config.driver
 
-	if(config.password !== void 0 && config.auth_pass === void 0) {
+	if (config.password !== void 0 && config.auth_pass === void 0) {
 		config.auth_pass = config.password
 		delete config.password
 	}
 
-	if(config.host === void 0) {
+	if (config.host === void 0) {
 		config.host = 'localhost'
 	}
 
-	if(config.port === void 0) {
+	if (config.port === void 0) {
 		config.port = 6379
 	}
 
@@ -126,21 +126,21 @@ function expandRedisStoreConfig(app, driver, config) {
 }
 
 function expandDatabaseStoreConfig(app, driver, config) {
-	if(config.connection === void 0) {
+	if (config.connection === void 0) {
 		return config
 	}
 
 	let connection = config.connection
 	delete config.connection
 
-	if(connection === null) {
+	if (connection === null) {
 		connection = app.db
 	} else {
-		if(typeof connection === 'string') {
+		if (typeof connection === 'string') {
 			connection = app.config.get(`database.connections.${connection}`)
 		}
 
-		if(typeof connection === 'object') {
+		if (typeof connection === 'object') {
 			const DatabaseBuilder = require('grind-db').DatabaseBuilder
 			connection = DatabaseBuilder(connection, app)
 		} else {
@@ -148,7 +148,7 @@ function expandDatabaseStoreConfig(app, driver, config) {
 		}
 	}
 
-	if(connection.isNil) {
+	if (connection.isNil) {
 		return config
 	}
 

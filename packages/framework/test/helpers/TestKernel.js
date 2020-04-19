@@ -1,7 +1,6 @@
 import '../../src/Kernel'
 
 export class TestKernel extends Kernel {
-
 	start() {
 		// Do nothing
 	}
@@ -9,5 +8,4 @@ export class TestKernel extends Kernel {
 	shutdown() {
 		// Do nothing
 	}
-
 }

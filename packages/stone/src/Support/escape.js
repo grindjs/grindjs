@@ -10,15 +10,15 @@ const he = require('he')
  * @return {string}      Escaped string
  */
 export function escape(value) {
-	if(value.isNil) {
+	if (value.isNil) {
 		return ''
 	}
 
-	if(value instanceof HtmlString) {
+	if (value instanceof HtmlString) {
 		return value.toString()
 	}
 
 	return he.encode(value.toString(), {
-		useNamedReferences: true
+		useNamedReferences: true,
 	})
 }

@@ -28,20 +28,16 @@ export function _compileStackOperation(context, operation, args) {
 	const compile = `_compile${operation[0].toUpperCase()}${operation.substring(1)}`
 	args = context.parseArguments(args)
 
-	if(args.length === 1) {
+	if (args.length === 1) {
 		args = AST.stringify(args[0])
-		return this[compile](context, args, '(function() {\nlet output = \'\';')
+		return this[compile](context, args, "(function() {\nlet output = '';")
 	}
 
-	if(args.length !== 2) {
+	if (args.length !== 2) {
 		throw new StoneCompilerError(context, `Invalid ${operation} block`)
 	}
 
-	return this[compile](
-		context,
-		AST.stringify(args[0]),
-		`escape(${AST.stringify(args[1])}));`
-	)
+	return this[compile](context, AST.stringify(args[0]), `escape(${AST.stringify(args[1])}));`)
 }
 
 export function compilePush(context, args) {

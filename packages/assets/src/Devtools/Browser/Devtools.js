@@ -2,7 +2,7 @@ import { Socket } from './Socket'
 import { LiveReloader } from './LiveReloader/LiveReloader'
 
 const context = {
-	errors: { }
+	errors: {},
 }
 
 context.socket = Socket(document.currentScript)

@@ -2,7 +2,7 @@ import './EventCollectorBuilder'
 import '../Containers/TimelineContainer'
 
 export function DatabaseCollector(app, devbar) {
-	if(app.db.isNil || app.db.client.isNil) {
+	if (app.db.isNil || app.db.client.isNil) {
 		return
 	}
 

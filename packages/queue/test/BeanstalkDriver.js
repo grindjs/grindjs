@@ -8,15 +8,15 @@ import '../src/Drivers/BeanstalkDriver'
 
 const service = new Service(test, 'beanstalk', {
 	image: 'kusmierz/beanstalkd',
-	port: 11300
+	port: 11300,
 })
 
 test.beforeEach(t => {
 	t.context.driver = new BeanstalkDriver(null, {
 		connection: {
 			host: 'localhost',
-			port: service.port
-		}
+			port: service.port,
+		},
 	})
 
 	return t.context.driver.connect()
@@ -57,8 +57,8 @@ test('retry dispatch', async t => {
 		t.is(job.tries, 2)
 		t.deepEqual(job.data.data, payload)
 
-		if(++tries === 1 || tries > 2) {
-			throw new Error
+		if (++tries === 1 || tries > 2) {
+			throw new Error()
 		}
 	})
 })

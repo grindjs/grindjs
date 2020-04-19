@@ -1,7 +1,6 @@
 const path = require('path')
 
 export class StoneError extends Error {
-
 	constructor(context, message) {
 		super(message)
 
@@ -17,5 +16,4 @@ export class StoneError extends Error {
 			return `${$1}at ${templateName}.render (${this.file}:${line}:${column})\n${$0}`
 		})
 	}
-
 }

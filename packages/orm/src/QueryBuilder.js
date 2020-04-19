@@ -3,8 +3,7 @@ import { QueryBuilder as BaseQueryBuilder } from 'objection'
 import './ModelNotFoundError'
 
 export class QueryBuilder extends BaseQueryBuilder {
-
-	static registeredFilters = { }
+	static registeredFilters = {}
 
 	_allowEager = true
 
@@ -19,10 +18,10 @@ export class QueryBuilder extends BaseQueryBuilder {
 		this.eager(modelClass.eager, filters)
 	}
 
-	paginate(req, perPage = 25, { query, param } = { }) {
+	paginate(req, perPage = 25, { query, param } = {}) {
 		let page = 1
 
-		if(!param.isNil) {
+		if (!param.isNil) {
 			page = Number.parseInt(req.params[param]) || 1
 		} else {
 			page = Number.parseInt(req.query[query || 'page']) || 1
@@ -46,7 +45,7 @@ export class QueryBuilder extends BaseQueryBuilder {
 
 	orFail() {
 		return this.runAfter(result => {
-			if(
+			if (
 				result.isNil ||
 				(Array.isArray(result) && result.length === 0) ||
 				(Array.isArray(result.results) && result.results.length === 0)
@@ -61,18 +60,18 @@ export class QueryBuilder extends BaseQueryBuilder {
 	withoutEager() {
 		this._allowEager = false
 		this._eagerExpression = null
-		this._eagerFilterExpressions = [ ]
+		this._eagerFilterExpressions = []
 
 		return this
 	}
 
 	eager(exp, filters) {
-		if(!this._allowEager) {
+		if (!this._allowEager) {
 			return this
 		}
 
-		if(typeof exp === 'string') {
-			filters = Object.assign({ }, this.constructor.registeredFilters, filters || { })
+		if (typeof exp === 'string') {
+			filters = Object.assign({}, this.constructor.registeredFilters, filters || {})
 		}
 
 		return super.eager(exp, filters)
@@ -83,5 +82,4 @@ export class QueryBuilder extends BaseQueryBuilder {
 		builder._allowEager = this._allowEager
 		return builder
 	}
-
 }

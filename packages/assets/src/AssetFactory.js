@@ -5,19 +5,23 @@ import './PostProcessors/PostProcessor'
 const path = require('path')
 
 export class AssetFactory {
-
 	app = null
 	published = null
 	shouldOptimizeDefault = null
 	sourceMapsDefault = false
 	liveReload = false
 
-	_compilers = [ ]
-	_postProcessors = [ ]
+	_compilers = []
+	_postProcessors = []
 
-	constructor(app, shouldOptimizeDefault = false, sourceMapsDefault = 'auto', liveReload = false) {
+	constructor(
+		app,
+		shouldOptimizeDefault = false,
+		sourceMapsDefault = 'auto',
+		liveReload = false,
+	) {
 		this.app = app
-		this.published = app.config.get('assets-published', { })
+		this.published = app.config.get('assets-published', {})
 		this.shouldOptimizeDefault = shouldOptimizeDefault
 		this.sourceMapsDefault = sourceMapsDefault
 		this.liveReload = liveReload
@@ -28,34 +32,38 @@ export class AssetFactory {
 	}
 
 	registerCompiler(compiler) {
-		if(typeof compiler === 'function') {
+		if (typeof compiler === 'function') {
 			compiler = new compiler(this.app, this.sourceMapsDefault, this.liveReload)
 		}
 
-		if(!(compiler instanceof Compiler)) {
+		if (!(compiler instanceof Compiler)) {
 			throw new Error('Compilers must extend Compiler')
 		}
 
 		this._compilers.push(compiler)
-		this._compilers.sort((a, b) => a.priority > b.priority ? -1 : 1)
+		this._compilers.sort((a, b) => (a.priority > b.priority ? -1 : 1))
 	}
 
 	registerPostProcessor(postProcessor) {
-		if(typeof postProcessor === 'function') {
-			postProcessor = new postProcessor(this.app, this.shouldOptimizeDefault, this.sourceMapsDefault)
+		if (typeof postProcessor === 'function') {
+			postProcessor = new postProcessor(
+				this.app,
+				this.shouldOptimizeDefault,
+				this.sourceMapsDefault,
+			)
 		}
 
-		if(!(postProcessor instanceof PostProcessor)) {
+		if (!(postProcessor instanceof PostProcessor)) {
 			throw new Error('PostProcessors must extend PostProcessor')
 		}
 
 		this._postProcessors.push(postProcessor)
-		this._postProcessors.sort((a, b) => a.priority > b.priority ? -1 : 1)
+		this._postProcessors.sort((a, b) => (a.priority > b.priority ? -1 : 1))
 	}
 
 	getCompilerFromPath(path) {
-		for(const compiler of this._compilers) {
-			if(compiler.supports(path)) {
+		for (const compiler of this._compilers) {
+			if (compiler.supports(path)) {
 				return compiler
 			}
 		}
@@ -71,13 +79,13 @@ export class AssetFactory {
 		try {
 			this.getCompilerFromPath(path)
 			return true
-		} catch(e) {
+		} catch (e) {
 			return false
 		}
 	}
 
 	normalizePath(pathname) {
-		if(pathname.indexOf('://') !== -1) {
+		if (pathname.indexOf('://') !== -1) {
 			return pathname
 		}
 
@@ -88,5 +96,4 @@ export class AssetFactory {
 		pathname = this.normalizePath(pathname)
 		return this.published[pathname] || path.join('/assets', pathname)
 	}
-
 }

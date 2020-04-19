@@ -6,16 +6,15 @@
 import { Store } from 'express-session'
 
 export class DatabaseStore extends Store {
-
 	db = null
 	table = null
 
 	constructor({ app, connection, table, ...options }) {
 		super(options)
 
-		if(connection.isNil) {
+		if (connection.isNil) {
 			this.db = app.db
-		} else if(typeof connection === 'string') {
+		} else if (typeof connection === 'string') {
 			this.db = require('grind-db').DatabaseBuilder(connection, app)
 		} else {
 			this.db = connection
@@ -25,7 +24,7 @@ export class DatabaseStore extends Store {
 		this.options = {
 			checkExpirationInterval: 900000,
 			expiration: 86400000,
-			...options
+			...options,
 		}
 
 		this.setExpirationInterval()
@@ -33,35 +32,40 @@ export class DatabaseStore extends Store {
 
 	get(sessionId, callback) {
 		try {
-			return this.db(this.table).select('data').where({ id: sessionId }).first().then(row => {
-				let session = null
+			return this.db(this.table)
+				.select('data')
+				.where({ id: sessionId })
+				.first()
+				.then(row => {
+					let session = null
 
-				try {
-					session = row.isNil ? null : JSON.parse(row.data)
-				} catch(err) {
-					const error = new Error(`Failed to parse data for session: ${sessionId}`)
+					try {
+						session = row.isNil ? null : JSON.parse(row.data)
+					} catch (err) {
+						const error = new Error(`Failed to parse data for session: ${sessionId}`)
 
-					if(!callback.isNil) {
-						return callback(error)
+						if (!callback.isNil) {
+							return callback(error)
+						}
+
+						throw error
 					}
 
-					throw error
-				}
+					if (!callback.isNil) {
+						return callback(null, session)
+					}
 
-				if(!callback.isNil) {
-					return callback(null, session)
-				}
+					return session
+				})
+				.catch(err => {
+					if (callback.isNil) {
+						throw err
+					}
 
-				return session
-			}).catch(err => {
-				if(callback.isNil) {
-					throw err
-				}
-
-				callback(err)
-			})
-		} catch(err) {
-			if(callback.isNil) {
+					callback(err)
+				})
+		} catch (err) {
+			if (callback.isNil) {
 				throw err
 			}
 
@@ -73,19 +77,19 @@ export class DatabaseStore extends Store {
 		try {
 			let expires = null
 
-			if(data.cookie) {
-				if(data.cookie.expires) {
+			if (data.cookie) {
+				if (data.cookie.expires) {
 					expires = data.cookie.expires
-				} else if(data.cookie._expires) {
+				} else if (data.cookie._expires) {
 					expires = data.cookie._expires
 				}
 			}
 
-			if(!expires) {
+			if (!expires) {
 				expires = Date.now() + this.options.expiration
 			}
 
-			if(!(expires instanceof Date)) {
+			if (!(expires instanceof Date)) {
 				expires = new Date(expires)
 			}
 
@@ -93,24 +97,28 @@ export class DatabaseStore extends Store {
 			const row = {
 				id: sessionId,
 				data: JSON.stringify(data),
-				expires_at: expires
+				expires_at: expires,
 			}
 
-			return this.db(this.table).insert(row).catch(() => {
-				return this.db(this.table).where({ id: sessionId }).update(row)
-			}).then(() => {
-				if(!callback.isNil) {
-					return callback()
-				}
-			}).catch(err => {
-				if(!callback.isNil) {
-					return callback(err)
-				}
+			return this.db(this.table)
+				.insert(row)
+				.catch(() => {
+					return this.db(this.table).where({ id: sessionId }).update(row)
+				})
+				.then(() => {
+					if (!callback.isNil) {
+						return callback()
+					}
+				})
+				.catch(err => {
+					if (!callback.isNil) {
+						return callback(err)
+					}
 
-				throw err
-			})
-		} catch(err) {
-			if(callback.isNil) {
+					throw err
+				})
+		} catch (err) {
+			if (callback.isNil) {
 				throw err
 			}
 
@@ -122,37 +130,41 @@ export class DatabaseStore extends Store {
 		try {
 			let expires = null
 
-			if(data.cookie) {
-				if(data.cookie.expires) {
+			if (data.cookie) {
+				if (data.cookie.expires) {
 					expires = data.cookie.expires
-				} else if(data.cookie._expires) {
+				} else if (data.cookie._expires) {
 					expires = data.cookie._expires
 				}
 			}
 
-			if(!expires) {
+			if (!expires) {
 				expires = Date.now() + this.options.expiration
 			}
 
-			if(!(expires instanceof Date)) {
+			if (!(expires instanceof Date)) {
 				expires = new Date(expires)
 			}
 
-			return this.db(this.table).where({ id: sessionId }).update({ expires_at: expires }).then(() => {
-				if(callback.isNil) {
-					return
-				}
+			return this.db(this.table)
+				.where({ id: sessionId })
+				.update({ expires_at: expires })
+				.then(() => {
+					if (callback.isNil) {
+						return
+					}
 
-				return callback()
-			}).catch(err => {
-				if(!callback.isNil) {
-					return callback(err)
-				}
+					return callback()
+				})
+				.catch(err => {
+					if (!callback.isNil) {
+						return callback(err)
+					}
 
-				throw err
-			})
-		} catch(err) {
-			if(callback.isNil) {
+					throw err
+				})
+		} catch (err) {
+			if (callback.isNil) {
 				throw err
 			}
 
@@ -162,23 +174,27 @@ export class DatabaseStore extends Store {
 
 	destroy(sessionId, callback) {
 		try {
-			return this.db(this.table).where({ id: sessionId }).delete().then(count => {
-				count = Number.parseInt(count) || 0
+			return this.db(this.table)
+				.where({ id: sessionId })
+				.delete()
+				.then(count => {
+					count = Number.parseInt(count) || 0
 
-				if(callback.isNil) {
-					return count
-				}
+					if (callback.isNil) {
+						return count
+					}
 
-				return callback(null, count)
-			}).catch(err => {
-				if(!callback.isNil) {
-					return callback(err)
-				}
+					return callback(null, count)
+				})
+				.catch(err => {
+					if (!callback.isNil) {
+						return callback(err)
+					}
 
-				throw err
-			})
-		} catch(err) {
-			if(callback.isNil) {
+					throw err
+				})
+		} catch (err) {
+			if (callback.isNil) {
 				throw err
 			}
 
@@ -188,23 +204,27 @@ export class DatabaseStore extends Store {
 
 	length(callback) {
 		try {
-			return this.db(this.table).count('id as count').first().then(row => {
-				const count = Number.parseInt(row.count) || 0
+			return this.db(this.table)
+				.count('id as count')
+				.first()
+				.then(row => {
+					const count = Number.parseInt(row.count) || 0
 
-				if(callback.isNil) {
-					return count
-				}
+					if (callback.isNil) {
+						return count
+					}
 
-				return callback(null, count)
-			}).catch(err => {
-				if(!callback.isNil) {
-					return callback(err)
-				}
+					return callback(null, count)
+				})
+				.catch(err => {
+					if (!callback.isNil) {
+						return callback(err)
+					}
 
-				throw err
-			})
-		} catch(err) {
-			if(callback.isNil) {
+					throw err
+				})
+		} catch (err) {
+			if (callback.isNil) {
 				throw err
 			}
 
@@ -214,23 +234,26 @@ export class DatabaseStore extends Store {
 
 	clear(callback) {
 		try {
-			return this.db(this.table).delete().then(count => {
-				count = Number.parseInt(count) || 0
+			return this.db(this.table)
+				.delete()
+				.then(count => {
+					count = Number.parseInt(count) || 0
 
-				if(callback.isNil) {
-					return count
-				}
+					if (callback.isNil) {
+						return count
+					}
 
-				return callback(null, count)
-			}).catch(err => {
-				if(!callback.isNil) {
-					return callback(err)
-				}
+					return callback(null, count)
+				})
+				.catch(err => {
+					if (!callback.isNil) {
+						return callback(err)
+					}
 
-				throw err
-			})
-		} catch(err) {
-			if(callback.isNil) {
+					throw err
+				})
+		} catch (err) {
+			if (callback.isNil) {
 				throw err
 			}
 
@@ -240,23 +263,27 @@ export class DatabaseStore extends Store {
 
 	clearExpiredSessions(callback) {
 		try {
-			return this.db(this.table).where('expires_at', '<', new Date).delete().then(count => {
-				count = Number.parseInt(count) || 0
+			return this.db(this.table)
+				.where('expires_at', '<', new Date())
+				.delete()
+				.then(count => {
+					count = Number.parseInt(count) || 0
 
-				if(callback.isNil) {
-					return count
-				}
+					if (callback.isNil) {
+						return count
+					}
 
-				return callback(null, count)
-			}).catch(err => {
-				if(!callback.isNil) {
-					return callback(err)
-				}
+					return callback(null, count)
+				})
+				.catch(err => {
+					if (!callback.isNil) {
+						return callback(err)
+					}
 
-				throw err
-			})
-		} catch(err) {
-			if(callback.isNil) {
+					throw err
+				})
+		} catch (err) {
+			if (callback.isNil) {
 				throw err
 			}
 
@@ -279,11 +306,10 @@ export class DatabaseStore extends Store {
 	close(callback) {
 		this.clearExpirationInterval()
 
-		if(callback.isNil) {
+		if (callback.isNil) {
 			return
 		}
 
 		return callback(null)
 	}
-
 }

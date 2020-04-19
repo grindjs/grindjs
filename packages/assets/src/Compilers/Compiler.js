@@ -2,11 +2,10 @@ import { FS } from 'grind-support'
 const path = require('path')
 
 export class Compiler {
-
 	app = null
 	kind = null
 	priority = 0
-	supportedExtensions = [ ]
+	supportedExtensions = []
 	wantsHashSuffixOnPublish = true
 	sourceMaps = 'auto'
 	liveReload = false
@@ -28,40 +27,42 @@ export class Compiler {
 	}
 
 	lastModified(pathname, newest = 0) {
-		return FS.stat(pathname).then(stats => {
-			const timestamp = (new Date(stats.mtime)).getTime() / 1000.0
-			newest = Math.max(newest, timestamp)
+		return FS.stat(pathname)
+			.then(stats => {
+				const timestamp = new Date(stats.mtime).getTime() / 1000.0
+				newest = Math.max(newest, timestamp)
 
-			return this.enumerateImports(pathname,
-				pathname => this.lastModified(pathname, newest).then(timestamp => {
-					newest = Math.max(newest, timestamp)
-				})
-			).then(() => newest)
-		}).catch(err => {
-			if(err.code === 'ENOENT') {
-				return newest
-			}
+				return this.enumerateImports(pathname, pathname =>
+					this.lastModified(pathname, newest).then(timestamp => {
+						newest = Math.max(newest, timestamp)
+					}),
+				).then(() => newest)
+			})
+			.catch(err => {
+				if (err.code === 'ENOENT') {
+					return newest
+				}
 
-			throw err
-		})
+				throw err
+			})
 	}
 
 	async getLiveReloadImports(pathname, sourcePath = null) {
-		const imports = [ ]
+		const imports = []
 
-		if(this.liveReload) {
-			if(sourcePath.isNil) {
+		if (this.liveReload) {
+			if (sourcePath.isNil) {
 				sourcePath = this.app.paths.base(this.app.config.get('assets.paths.source'))
 			}
 
 			await this.enumerateImports(pathname, async i => {
-				if(!i.startsWith(sourcePath)) {
+				if (!i.startsWith(sourcePath)) {
 					return
 				}
 
 				imports.push(
 					path.relative(this.app.paths.base(), i),
-					...(await this.getLiveReloadImports(i, sourcePath))
+					...(await this.getLiveReloadImports(i, sourcePath)),
 				)
 			})
 		}
@@ -77,9 +78,14 @@ export class Compiler {
 	}
 
 	/* eslint-disable no-unused-vars */
-	mime(asset) { throw new Error('Abstract method, subclasses must implement.') }
-	type(asset) { throw new Error('Abstract method, subclasses must implement.') }
-	extension(asset) { throw new Error('Abstract method, subclasses must implement.') }
+	mime(asset) {
+		throw new Error('Abstract method, subclasses must implement.')
+	}
+	type(asset) {
+		throw new Error('Abstract method, subclasses must implement.')
+	}
+	extension(asset) {
+		throw new Error('Abstract method, subclasses must implement.')
+	}
 	/* eslint-enable no-unused-vars */
-
 }

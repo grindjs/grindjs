@@ -1,8 +1,7 @@
 export class ErrorHandler {
-
 	app = null
-	processors = [ ]
-	shouldntReport = [ ]
+	processors = []
+	shouldntReport = []
 
 	constructor(app) {
 		this.app = app
@@ -10,13 +9,13 @@ export class ErrorHandler {
 		this.shouldntReport.push(HttpError)
 		this.register(HttpError, err => ({
 			code: err.status || 500,
-			error: err.message
+			error: err.message,
 		}))
 	}
 
 	register(errorClass, processor) {
-		for(const entry of this.processors) {
-			if(entry.errorClass !== errorClass) {
+		for (const entry of this.processors) {
+			if (entry.errorClass !== errorClass) {
 				continue
 			}
 
@@ -28,15 +27,15 @@ export class ErrorHandler {
 	}
 
 	handle(err, req, res, next) {
-		if(res.headersSent) {
+		if (res.headersSent) {
 			return next(err)
 		}
 
-		const info = { }
+		const info = {}
 		let processor = null
 
-		for(const entry of this.processors) {
-			if(!(err instanceof entry.errorClass)) {
+		for (const entry of this.processors) {
+			if (!(err instanceof entry.errorClass)) {
 				continue
 			}
 
@@ -44,16 +43,16 @@ export class ErrorHandler {
 			break
 		}
 
-		if(!processor.isNil) {
+		if (!processor.isNil) {
 			try {
 				const result = processor(err, req, res)
 
-				if(res.headersSent) {
+				if (res.headersSent) {
 					return
 				}
 
 				Object.assign(info, result)
-			} catch(err2) {
+			} catch (err2) {
 				err = err2
 				this._internalProcessor(info, err)
 			}
@@ -61,15 +60,15 @@ export class ErrorHandler {
 			this._internalProcessor(info, err)
 		}
 
-		if(info.code.isNil) {
+		if (info.code.isNil) {
 			info.code = 500
 		}
 
-		if(info.error.isNil) {
+		if (info.error.isNil) {
 			info.error = 'Internal server error'
 		}
 
-		if(this.app.debug) {
+		if (this.app.debug) {
 			info.stack = err.stack.split(/\n+/)
 		}
 
@@ -80,7 +79,7 @@ export class ErrorHandler {
 	_internalProcessor(info, err) {
 		info.code = err.status
 
-		if(this.app.debug) {
+		if (this.app.debug) {
 			info.error = err.message || info.error
 		}
 	}
@@ -99,7 +98,7 @@ export class ErrorHandler {
 	}
 
 	renderView(req, res, err, info, view) {
-		if(this.app.view.isNil) {
+		if (this.app.view.isNil) {
 			Log.error('Unable to render view, `grind-view` is not loaded.')
 			return this.renderJson(req, res, err, info)
 		}
@@ -112,5 +111,4 @@ export class ErrorHandler {
 		res.status(info.code)
 		res.send(info)
 	}
-
 }

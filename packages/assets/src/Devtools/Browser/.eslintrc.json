@@ -1,11 +1,11 @@
 {
-	"parser": "babel-eslint",
-	"env": {
-		"browser": true
-	},
-	"extends": "grind",
-	"parserOptions": {
-		"sourceType": "module",
-		"ecmaVersion": 2018
-	}
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true
+  },
+  "extends": "grind",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2018
+  }
 }

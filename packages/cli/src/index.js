@@ -25,9 +25,7 @@ import './Runner'
 export {
 	Cli,
 	CliKernel,
-
 	Command,
-
 	AbortError,
 	CommandNotFoundError,
 	InvalidOptionError,
@@ -36,14 +34,11 @@ export {
 	MissingArgumentError,
 	MissingOptionError,
 	TooManyArgumentsError,
-
 	Input,
 	InputArgument,
 	InputOption,
-
 	Output,
 	OutputFormatter,
 	OutputFormatterStyle,
-
-	Runner
+	Runner,
 }

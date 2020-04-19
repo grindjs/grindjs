@@ -1,5 +1,4 @@
 export class StoneLoop {
-
 	target
 	iterator
 	_index
@@ -15,7 +14,7 @@ export class StoneLoop {
 			next: () => {
 				this._index++
 				return this.iterator.next()
-			}
+			},
 		}
 	}
 
@@ -50,5 +49,4 @@ export class StoneLoop {
 	get remaining() {
 		return this.length - this._index
 	}
-
 }

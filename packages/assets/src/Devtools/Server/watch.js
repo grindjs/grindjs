@@ -10,7 +10,7 @@ export function watch(app) {
 			try {
 				asset = path.relative(base, asset)
 				app.assets.websocket.sendAll({ type: 'change', asset })
-			} catch(err) {
+			} catch (err) {
 				Log.error('Error notifying clients', err)
 			}
 		})

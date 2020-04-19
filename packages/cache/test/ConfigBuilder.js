@@ -3,7 +3,7 @@ import { ConfigBuilder } from '../src/ConfigBuilder'
 import { Grind } from './helpers/Grind'
 
 test('memory', t => {
-	const config = ConfigBuilder('memory', new Grind, true)
+	const config = ConfigBuilder('memory', new Grind(), true)
 
 	t.is(config.store, null)
 	t.is(config.options.max, 10000)
@@ -11,7 +11,7 @@ test('memory', t => {
 })
 
 test('redis', t => {
-	const config = ConfigBuilder('redis', new Grind, true)
+	const config = ConfigBuilder('redis', new Grind(), true)
 
 	t.is(config.store, 'cache-manager-redis')
 	t.is(config.host, 'localhost')
@@ -21,7 +21,7 @@ test('redis', t => {
 })
 
 test('redis-default', t => {
-	const config = ConfigBuilder('redis-default', new Grind, true)
+	const config = ConfigBuilder('redis-default', new Grind(), true)
 
 	t.is(config.store, 'cache-manager-redis')
 	t.is(config.host, 'test')
@@ -31,7 +31,7 @@ test('redis-default', t => {
 })
 
 test('redis-auth', t => {
-	const config = ConfigBuilder('redis-auth', new Grind, true)
+	const config = ConfigBuilder('redis-auth', new Grind(), true)
 
 	t.is(config.store, 'cache-manager-redis')
 	t.is(config.host, 'localhost')
@@ -41,7 +41,7 @@ test('redis-auth', t => {
 })
 
 test('database', t => {
-	const config = ConfigBuilder('database', new Grind, true)
+	const config = ConfigBuilder('database', new Grind(), true)
 	const connection = config.options.connection.client.config
 
 	t.is(config.store, 'database')
@@ -51,7 +51,7 @@ test('database', t => {
 })
 
 test('database-default', t => {
-	const app = new Grind
+	const app = new Grind()
 	app.providers.add(require('grind-db').DatabaseProvider)
 
 	return app.boot().then(() => {
@@ -66,7 +66,7 @@ test('database-default', t => {
 })
 
 test('database-alt', t => {
-	const config = ConfigBuilder('database-alt', new Grind, true)
+	const config = ConfigBuilder('database-alt', new Grind(), true)
 	const connection = config.options.connection.client.config
 
 	t.is(config.store, 'database')

@@ -1,8 +1,7 @@
 import './ChalkedConsoleLogger'
 
 export class Log {
-
-	static logger = new ChalkedConsoleLogger
+	static logger = new ChalkedConsoleLogger()
 
 	static info(...message) {
 		Log.logger.info(...message)
@@ -24,24 +23,23 @@ export class Log {
 		Log.logger.success(...message)
 	}
 
-	static deprecated(name, { version, obsoleted, rename } = { }) {
+	static deprecated(name, { version, obsoleted, rename } = {}) {
 		let message = `WARNING: ${name} has been deprecated`
 
-		if((version || '').length > 0) {
+		if ((version || '').length > 0) {
 			message += ` as of ${version}`
 		}
 
-		if((obsoleted || '').length > 0) {
+		if ((obsoleted || '').length > 0) {
 			message += ` and will be removed in ${obsoleted}`
 		}
 
 		message += '.'
 
-		if((rename || '').length > 0) {
+		if ((rename || '').length > 0) {
 			message += ` Use ${rename} instead.`
 		}
 
 		this.warn(message)
 	}
-
 }

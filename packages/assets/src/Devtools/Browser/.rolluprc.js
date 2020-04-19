@@ -5,7 +5,7 @@ export default {
 	input: path.join(__dirname, 'Devtools.js'),
 	output: {
 		file: path.join(__dirname, '../../../dist/devtools.js'),
-		format: 'cjs'
+		format: 'cjs',
 	},
-	plugins: [ babel() ]
+	plugins: [babel()],
 }

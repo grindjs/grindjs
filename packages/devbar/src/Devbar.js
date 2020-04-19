@@ -6,7 +6,6 @@ import './Containers/MessagesContainer'
 import './Support/Time'
 
 export class Devbar extends EventEmitter {
-
 	/**
 	 * The app instance.
 	 */
@@ -41,19 +40,19 @@ export class Devbar extends EventEmitter {
 	 * Context items that appear on the right side
 	 * of the devbar
 	 */
-	context = [ ]
+	context = []
 
 	/**
 	 * Collectors are called when the devbar starts
 	 */
-	collectors = [ ]
+	collectors = []
 
 	/**
 	 * Containers are groups of messages that appear
 	 * on the devbar
 	 */
 	containers = {
-		timeline: new TimelineContainer('Timeline')
+		timeline: new TimelineContainer('Timeline'),
 	}
 
 	/**
@@ -83,8 +82,8 @@ export class Devbar extends EventEmitter {
 		const cloned = new this.constructor(this.app, this.viewPath)
 		cloned.req = req
 		cloned.res = res
-		cloned.context = [ ...this.context ]
-		cloned.collectors = [ ...this.collectors ]
+		cloned.context = [...this.context]
+		cloned.collectors = [...this.collectors]
 		return cloned
 	}
 
@@ -128,7 +127,7 @@ export class Devbar extends EventEmitter {
 	add(container, message) {
 		let messages = this.containers[container]
 
-		if(messages.isNil) {
+		if (messages.isNil) {
 			messages = new MessagesContainer(container)
 			this.containers[container] = messages
 		}
@@ -159,20 +158,20 @@ export class Devbar extends EventEmitter {
 	 * @param  {Function} next
 	 */
 	start(next) {
-		if(this.req.isNil || this.res.isNil) {
+		if (this.req.isNil || this.res.isNil) {
 			Log.error('Unable to start devbar, missing req/res')
 			return next()
 		}
 
 		const render = this.res.render
-		this.res.render = function(...args) {
+		this.res.render = function (...args) {
 			this.devbar.timeEnd('request')
 			this.devbar.time('render')
 			return render.call(this, ...args)
 		}
 
 		const send = this.res.send
-		this.res.send = function(body) {
+		this.res.send = function (body) {
 			const devbar = this.devbar
 
 			try {
@@ -184,20 +183,20 @@ export class Devbar extends EventEmitter {
 
 				const app = devbar.app
 				body = inject(app, body, devbar, start, duration)
-			} catch(err) {
+			} catch (err) {
 				Log.error('Failed to render devbar', err)
 			}
 
 			try {
 				devbar.emit('finish')
-			} catch(err) {
+			} catch (err) {
 				Log.error('Error emitting devbar finish event', err)
 			}
 
 			return send.call(this, body)
 		}
 
-		for(const collector of this.collectors) {
+		for (const collector of this.collectors) {
 			collector(this.app, this)
 		}
 
@@ -226,15 +225,14 @@ export class Devbar extends EventEmitter {
 	 * Get the current devbar from the Zone
 	 */
 	static get current() {
-		const zone = (global.Zone || { }).current
+		const zone = (global.Zone || {}).current
 
-		if(zone.isNil) {
+		if (zone.isNil) {
 			return null
 		}
 
 		return zone.get('devbar')
 	}
-
 }
 
 /**
@@ -243,7 +241,7 @@ export class Devbar extends EventEmitter {
 function inject(app, body, devbar, start, duration) {
 	let index = null
 
-	if(typeof body !== 'string' || (index = body.indexOf('</body>')) === -1) {
+	if (typeof body !== 'string' || (index = body.indexOf('</body>')) === -1) {
 		return body
 	}
 
@@ -252,7 +250,7 @@ function inject(app, body, devbar, start, duration) {
 		start: Time.flatten(start),
 		duration: Time.flatten(duration),
 		context: devbar.context,
-		containers: Object.values(devbar.containers)
+		containers: Object.values(devbar.containers),
 	})
 
 	return body.substring(0, index) + html + body.substring(index)

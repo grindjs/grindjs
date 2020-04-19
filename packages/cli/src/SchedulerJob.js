@@ -1,7 +1,6 @@
 const later = require('later')
 
 export class SchedulerJob {
-
 	driver = null
 	scheduler = null
 	cli = null
@@ -22,15 +21,15 @@ export class SchedulerJob {
 
 	start() {
 		this.driver.setInterval(() => {
-			if(this.isRunning && !this.allowOverlapping) {
+			if (this.isRunning && !this.allowOverlapping) {
 				return false
 			}
 
 			this.isRunning = true
 			let promise = null
 
-			if(this.type === 'closure') {
-				if(!this.timeout.isNil) {
+			if (this.type === 'closure') {
+				if (!this.timeout.isNil) {
 					this._warn('WARNING: Scheduled job timeouts can not be used with closures.')
 				}
 
@@ -38,9 +37,9 @@ export class SchedulerJob {
 			} else {
 				let command = null
 
-				if(this.type === 'className') {
+				if (this.type === 'className') {
 					command = new this.options.className(this.cli.app, this.cli)
-				} else if(this.type === 'name') {
+				} else if (this.type === 'name') {
 					command = this.cli.commands.find(command => command.name === this.options.name)
 				} else {
 					return false
@@ -58,18 +57,18 @@ export class SchedulerJob {
 	executeCommand(command, args) {
 		let description = command.name
 
-		if(Array.isArray(args) && args.length > 0) {
+		if (Array.isArray(args) && args.length > 0) {
 			description += ` [${args.join(', ')}]`
 		}
 
 		const promise = command.spawn(args)
 		let timeout = null
 
-		if(!this.timeout.isNil) {
+		if (!this.timeout.isNil) {
 			const childProcess = promise.childProcess
 			timeout = setTimeout(() => {
 				this._warn(
-					`${description} exceeded it’s execution timeout of ${this.timeout}ms and is being terminated.`
+					`${description} exceeded it’s execution timeout of ${this.timeout}ms and is being terminated.`,
 				)
 
 				childProcess.kill()
@@ -77,11 +76,11 @@ export class SchedulerJob {
 		}
 
 		return promise.then(code => {
-			if(!timeout.isNil) {
+			if (!timeout.isNil) {
 				clearTimeout(timeout)
 			}
 
-			if(code !== 0) {
+			if (code !== 0) {
 				this._warn(`${description} failed with code: ${code}`)
 			}
 
@@ -177,7 +176,7 @@ export class SchedulerJob {
 	withTimeout(timeout) {
 		this.timeout = Number.parseInt(timeout) || null
 
-		if(!this.timeout.isNil && this.timeout <= 0) {
+		if (!this.timeout.isNil && this.timeout <= 0) {
 			this.timeout = null
 		}
 
@@ -190,13 +189,13 @@ export class SchedulerJob {
 	}
 
 	nextOccurence() {
-		if(!this.schedule) {
+		if (!this.schedule) {
 			return null
 		}
 
 		const schedule = this.driver.schedule(this.schedule).next(1)
 
-		if(schedule) {
+		if (schedule) {
 			return schedule
 		}
 
@@ -206,5 +205,4 @@ export class SchedulerJob {
 	_warn(message) {
 		return this.cli.output.writeln(`<warn>${message}</warn>`)
 	}
-
 }

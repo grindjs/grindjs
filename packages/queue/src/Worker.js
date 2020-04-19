@@ -1,5 +1,4 @@
 export class Worker {
-
 	connection = null
 
 	constructor(connection) {
@@ -11,5 +10,4 @@ export class Worker {
 
 		return this.connection.listen(queues, concurrency)
 	}
-
 }

@@ -12,17 +12,17 @@ export function OrmProvider(app) {
 
 	global.ValidationError = ValidationError
 
-	if(app.http.isNil) {
+	if (app.http.isNil) {
 		return
 	}
 
 	app.http.errorHandler.shouldntReport.push(ValidationError)
 	app.http.errorHandler.register(ValidationError, err => {
-		const violators = Object.keys(err.data || { })
+		const violators = Object.keys(err.data || {})
 		return {
 			code: err.statusCode || 400,
 			error: violators.length === 1 ? err.data[violators] : 'Validation error',
-			violations: err.data
+			violations: err.data,
 		}
 	})
 }

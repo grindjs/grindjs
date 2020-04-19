@@ -1,8 +1,7 @@
 import './RollupPlugin'
 
 export class RollupCssPlugin extends RollupPlugin {
-
-	extensions = new Set([ 'css' ])
+	extensions = new Set(['css'])
 
 	transformPath(file) {
 		return `
@@ -15,5 +14,4 @@ const head = document.head || document.getElementsByTagName('head')[0]
 head.appendChild(link)
 `.trim()
 	}
-
 }

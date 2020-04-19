@@ -12,20 +12,19 @@ let uuid = null
  * Redis backed Queue Driver
  */
 export class RedisDriver extends BaseDriver {
-
 	client = null
-	clients = [ ]
+	clients = []
 	destroyed = false
 
-	constructor(app, { connection, namespace, ...options } = { }) {
+	constructor(app, { connection, namespace, ...options } = {}) {
 		super(app, options)
 
 		loadPackage()
 
-		if(typeof namespace !== 'string') {
+		if (typeof namespace !== 'string') {
 			const info = require(this.app.paths.package)
 
-			if(info.name.isNil) {
+			if (info.name.isNil) {
 				namespace = 'grind'
 			} else {
 				namespace = Str.slug(info.name)
@@ -34,7 +33,7 @@ export class RedisDriver extends BaseDriver {
 
 		this.client = redis.createClient({
 			...buildRedisConfig(app, connection),
-			options
+			options,
 		})
 
 		this.namespace = namespace
@@ -49,9 +48,9 @@ export class RedisDriver extends BaseDriver {
 	}
 
 	listen(queues, concurrency, context) {
-		const listeners = [ ]
+		const listeners = []
 
-		for(let i = 0; i < concurrency; i++) {
+		for (let i = 0; i < concurrency; i++) {
 			listeners.push(this._listen(queues, context))
 		}
 
@@ -62,40 +61,44 @@ export class RedisDriver extends BaseDriver {
 		const client = this.client.duplicate()
 		this.clients.push(client)
 
-		while(!this.destroyed) {
+		while (!this.destroyed) {
 			await new Promise((resolve, reject) => {
-				client.blpop(...queues.map(queue => `${this.namespace}:${queue}`), 0, (err, result) => {
-					if(!err.isNil) {
-						if(this.destroyed) {
-							return resolve()
-						}
-
-						return reject(err)
-					}
-
-					client.get(result[1], async (err, message) => {
-						if(!err.isNil) {
-							if(this.destroyed) {
+				client.blpop(
+					...queues.map(queue => `${this.namespace}:${queue}`),
+					0,
+					(err, result) => {
+						if (!err.isNil) {
+							if (this.destroyed) {
 								return resolve()
 							}
 
 							return reject(err)
 						}
 
-						try {
-							await this.receivePayload(context, JSON.parse(message))
-							resolve()
-						} catch(err) {
-							reject(err)
-						}
-					})
-				})
+						client.get(result[1], async (err, message) => {
+							if (!err.isNil) {
+								if (this.destroyed) {
+									return resolve()
+								}
+
+								return reject(err)
+							}
+
+							try {
+								await this.receivePayload(context, JSON.parse(message))
+								resolve()
+							} catch (err) {
+								reject(err)
+							}
+						})
+					},
+				)
 			})
 		}
 	}
 
 	success(context, payload) {
-		this.client.del(payload.id, () => { })
+		this.client.del(payload.id, () => {})
 	}
 
 	retry(context, payload) {
@@ -103,43 +106,48 @@ export class RedisDriver extends BaseDriver {
 	}
 
 	fatal(context, payload) {
-		this.client.del(payload.id, () => { })
+		this.client.del(payload.id, () => {})
 	}
 
 	_add(payload) {
 		const queue = `${this.namespace}:${payload.queue}`
 
-		if(typeof payload.id !== 'string') {
+		if (typeof payload.id !== 'string') {
 			payload.id = `${queue}:${uuid()}`
 		}
 
 		return new Promise((resolve, reject) => {
-			this.client.set(payload.id, JSON.stringify(payload), 'PX', payload.timeout || 86400000 * 180, err => {
-				if(!err.isNil) {
-					return reject(err)
-				}
-
-				this.client.lpush(queue, payload.id, err => {
-					if(!err.isNil) {
+			this.client.set(
+				payload.id,
+				JSON.stringify(payload),
+				'PX',
+				payload.timeout || 86400000 * 180,
+				err => {
+					if (!err.isNil) {
 						return reject(err)
 					}
 
-					return resolve(true)
-				})
-			})
+					this.client.lpush(queue, payload.id, err => {
+						if (!err.isNil) {
+							return reject(err)
+						}
+
+						return resolve(true)
+					})
+				},
+			)
 		})
 	}
 
 	destroy() {
 		this.destroyed = true
 
-		for(const client of [ this.client, ...this.clients ]) {
+		for (const client of [this.client, ...this.clients]) {
 			client.end(true)
 		}
 
 		return Promise.resolve()
 	}
-
 }
 
 /**
@@ -149,13 +157,13 @@ export class RedisDriver extends BaseDriver {
 function loadPackage() {
 	try {
 		redis = require('redis')
-	} catch(err) {
+	} catch (err) {
 		throw new MissingPackageError('redis')
 	}
 
 	try {
 		uuid = require('uuid/v4')
-	} catch(err) {
+	} catch (err) {
 		throw new MissingPackageError('uuid')
 	}
 }

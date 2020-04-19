@@ -6,9 +6,12 @@ const path = require('path')
 const crypto = require('crypto')
 const fs = require('fs')
 
-export async function makeApp(boot = () => { }) {
-	const app = new Grind
-	const dbPath = path.join(__dirname, `../fixtures/database/database-${crypto.randomBytes(4).toString('hex')}.sqlite`)
+export async function makeApp(boot = () => {}) {
+	const app = new Grind()
+	const dbPath = path.join(
+		__dirname,
+		`../fixtures/database/database-${crypto.randomBytes(4).toString('hex')}.sqlite`,
+	)
 
 	app.config.set('database.connections.sqlite.filename', dbPath)
 
@@ -25,7 +28,7 @@ export async function makeApp(boot = () => { }) {
 		try {
 			// eslint-disable-next-line no-sync
 			fs.unlinkSync(dbPath)
-		} catch(err) {
+		} catch (err) {
 			Log.error('Unable to remove test db', err)
 		}
 	})

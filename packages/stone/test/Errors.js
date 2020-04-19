@@ -11,7 +11,7 @@ function parseErrorFrame(err) {
 	return {
 		file: match[1],
 		line: Number.parseInt(match[2]),
-		column: Number.parseInt(match[3])
+		column: Number.parseInt(match[3]),
 	}
 }
 
@@ -22,8 +22,8 @@ test('invalid-directive', async t => {
 	try {
 		await app.view.engine.render(template, app.config.get('view.data'))
 		t.fail('Test should have thrown an error.')
-	} catch(err) {
-		if(!(err instanceof StoneCompilerError)) {
+	} catch (err) {
+		if (!(err instanceof StoneCompilerError)) {
 			throw err
 		}
 
@@ -41,8 +41,8 @@ test('syntax-error', async t => {
 	try {
 		await app.view.engine.render(template, app.config.get('view.data'))
 		t.fail('Test should have thrown an error.')
-	} catch(err) {
-		if(!(err instanceof StoneSyntaxError)) {
+	} catch (err) {
+		if (!(err instanceof StoneSyntaxError)) {
 			throw err
 		}
 

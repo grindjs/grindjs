@@ -13,18 +13,17 @@ const path = require('path')
 const fs = require('fs')
 
 export class StoneEngine extends ViewEngine {
-
 	cacheManager = null
 	compiler = null
 	watcher = null
 	runtime = null
-	namespaces = { }
+	namespaces = {}
 
 	context = {
 		escape: escape,
 		HtmlString: HtmlString,
 		StoneLoop: StoneLoop,
-		stringify: JSON.stringify
+		stringify: JSON.stringify,
 	}
 
 	constructor(app, view) {
@@ -44,32 +43,32 @@ export class StoneEngine extends ViewEngine {
 			this.path = name
 		}
 
-		StoneExpressView.prototype.render = function(context, callback) {
+		StoneExpressView.prototype.render = function (context, callback) {
 			let template = null
 
 			try {
 				template = engine._render(this.template, context)
-			} catch(err) {
+			} catch (err) {
 				return callback(err)
 			}
 
 			callback(null, template)
 		}
 
-		if(!this.app.express.isNil) {
+		if (!this.app.express.isNil) {
 			this.app.express.set('view', StoneExpressView)
 		}
 
-		if(this.app.config.get('view.watch', this.app.debug)) {
+		if (this.app.config.get('view.watch', this.app.debug)) {
 			this.watcher = new Watcher(this, this.view.viewPath)
 			this.watcher.start()
 		}
 
 		const tags = this.app.config.get('view.tags')
 
-		if(!tags.isNil) {
-			for(const [ key, value ] of Object.entries(tags)) {
-				if(value === '*') {
+		if (!tags.isNil) {
+			for (const [key, value] of Object.entries(tags)) {
+				if (value === '*') {
 					this.tag(`${key}.*`)
 					continue
 				}
@@ -78,7 +77,7 @@ export class StoneEngine extends ViewEngine {
 			}
 		}
 
-		if(await this.cacheManager.exists()) {
+		if (await this.cacheManager.exists()) {
 			await this.cacheManager.load()
 		}
 	}
@@ -88,7 +87,7 @@ export class StoneEngine extends ViewEngine {
 	}
 
 	shutdown() {
-		if(this.watcher.isNil) {
+		if (this.watcher.isNil) {
 			return
 		}
 
@@ -104,25 +103,27 @@ export class StoneEngine extends ViewEngine {
 	}
 
 	tag(name, template = null, namespace = null) {
-		if(template.isNil) {
-			if(name.endsWith('.*')) {
+		if (template.isNil) {
+			if (name.endsWith('.*')) {
 				const base = name.substring(0, name.length - 2)
 				const pathname = path.join(this.view.viewPath, base.replace(/\./g, '/'))
 
 				// eslint-disable-next-line no-sync
 				const templates = fs.readdirSync(pathname)
 
-				for(const template of templates) {
+				for (const template of templates) {
 					const extname = path.extname(template)
 					const name = path.basename(template, extname)
 
-					if(extname === '.stone') {
+					if (extname === '.stone') {
 						this.tag(`${base}.${name}`, null, namespace)
-					} else if(
+					} else if (
 						// eslint-disable-next-line no-sync
 						fs.lstatSync(path.join(pathname, template)).isDirectory()
 					) {
-						const templateNamespace = namespace.isNil ? template : `${namespace}:${template}`
+						const templateNamespace = namespace.isNil
+							? template
+							: `${namespace}:${template}`
 						this.tag(`${base}.${template}.*`, null, templateNamespace)
 					}
 				}
@@ -134,7 +135,7 @@ export class StoneEngine extends ViewEngine {
 			name = template.split(/\./).pop().replace(/^_/g, '')
 		}
 
-		if(!namespace.isNil) {
+		if (!namespace.isNil) {
 			name = `${namespace}:${name}`
 		}
 
@@ -165,35 +166,39 @@ export class StoneEngine extends ViewEngine {
 			...context,
 			$stone: this.runtime,
 			$engine: this,
-			$compiler: this.compiler
+			$compiler: this.compiler,
 		})
 	}
 
 	resolve(template, relativeTo = null) {
-		if(template.substring(0, 1) === '.' && typeof relativeTo === 'string') {
+		if (template.substring(0, 1) === '.' && typeof relativeTo === 'string') {
 			let join = ''
 
 			template = template.replace(/^(\.+)/, (_, dots) => {
-				if(dots.length !== 1) {
+				if (dots.length !== 1) {
 					join = '../'.repeat(dots.length - 1)
 				}
 
 				return ''
 			})
 
-			return path.join(path.dirname(relativeTo), join, `${template.replace(/\./g, '/')}.stone`)
+			return path.join(
+				path.dirname(relativeTo),
+				join,
+				`${template.replace(/\./g, '/')}.stone`,
+			)
 		}
 
 		const index = template.indexOf('::')
 		let viewPath = null
 
-		if(index === -1) {
+		if (index === -1) {
 			viewPath = this.view.viewPath
 		} else {
 			const namespace = template.substring(0, index)
 			viewPath = this.namespaces[namespace]
 
-			if(typeof viewPath !== 'string') {
+			if (typeof viewPath !== 'string') {
 				throw new Error(`Invalid namespace: ${namespace}`)
 			}
 
@@ -218,5 +223,4 @@ export class StoneEngine extends ViewEngine {
 	isHtmlString(html) {
 		return html instanceof HtmlString
 	}
-
 }

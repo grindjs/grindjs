@@ -3,7 +3,6 @@ import { Watcher as BaseWatcher } from 'grind-support'
 const chalk = require('chalk')
 
 export class Watcher extends BaseWatcher {
-
 	runner = null
 	hasBooted = false
 
@@ -12,7 +11,7 @@ export class Watcher extends BaseWatcher {
 
 		this.runner = runner
 		this.restart = async () => {
-			if(!this.hasBooted) {
+			if (!this.hasBooted) {
 				this.hasBooted = true
 				return
 			}
@@ -22,7 +21,7 @@ export class Watcher extends BaseWatcher {
 			this.runner.app = null
 			oldApp.runner = null
 
-			if(typeof restartHandler === 'function') {
+			if (typeof restartHandler === 'function') {
 				restartHandler(oldApp)
 			}
 
@@ -37,5 +36,4 @@ export class Watcher extends BaseWatcher {
 	watch() {
 		return super.watch().then(() => this.runner)
 	}
-
 }

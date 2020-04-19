@@ -5,7 +5,7 @@ export function MethodOverrideMiddlewareBuilder() {
 
 	try {
 		methodOverride = require('method-override')
-	} catch(err) {
+	} catch (err) {
 		throw new MissingPackageError('method-override')
 	}
 

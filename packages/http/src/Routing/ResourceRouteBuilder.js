@@ -6,12 +6,11 @@ import { Inflect } from 'grind-support'
 //
 
 export class ResourceRouteBuilder {
-
 	routes = null
-	resourceDefaults = [ 'index', 'create', 'store', 'show', 'edit', 'update', 'destroy' ]
+	resourceDefaults = ['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']
 	parameters = null
 
-	static parameterMap = [ ]
+	static parameterMap = []
 	static singularParameters = true
 	static verbs = {
 		create: 'create',
@@ -22,20 +21,20 @@ export class ResourceRouteBuilder {
 		this.routes = routes
 	}
 
-	buildRoutes(name, controller, options = { }, callback = null) {
-		if(typeof options === 'function') {
+	buildRoutes(name, controller, options = {}, callback = null) {
+		if (typeof options === 'function') {
 			callback = options
-			options = { }
+			options = {}
 		}
 
-		if(!options.parameters.isNil && !this.parameters.isNil) {
+		if (!options.parameters.isNil && !this.parameters.isNil) {
 			this.parameters = options.parameters
 		}
 
 		// If the resource name contains a slash, we will assume the developer wishes to
 		// register these resource routes with a prefix so we will set that up out of
 		// the box so they don't have to mess with it. Otherwise, we will continue.
-		if(name.indexOf('/') >= 0) {
+		if (name.indexOf('/') >= 0) {
 			return this._prefixedResource(name, controller, options, callback)
 		}
 
@@ -45,24 +44,27 @@ export class ResourceRouteBuilder {
 		const segments = name.split(/\./)
 		const base = this.getResourceWildcard(segments[segments.length - 1])
 
-		return this.routes.group({
-			controller,
-			prefix: this.getResourceUri(name),
-			before: options.before,
-			after: options.after
-		}, routes => {
-			if(typeof callback === 'function') {
-				callback(routes, controller)
-			}
+		return this.routes.group(
+			{
+				controller,
+				prefix: this.getResourceUri(name),
+				before: options.before,
+				after: options.after,
+			},
+			routes => {
+				if (typeof callback === 'function') {
+					callback(routes, controller)
+				}
 
-			for(const m of this._getResourceMethods(this.resourceDefaults, options)) {
-				const method = `_addResource${m.substring(0, 1).toUpperCase()}${m.substring(1)}`
-				this[method](name, base, controller, options)
-			}
-		})
+				for (const m of this._getResourceMethods(this.resourceDefaults, options)) {
+					const method = `_addResource${m.substring(0, 1).toUpperCase()}${m.substring(1)}`
+					this[method](name, base, controller, options)
+				}
+			},
+		)
 	}
 
-	_prefixedResource(name, controller, options = { }, callback = null) {
+	_prefixedResource(name, controller, options = {}, callback = null) {
 		const { name: segment, prefix } = this._getResourcePrefix(name)
 
 		// We need to extract the base resource from the resource name. Nested resources
@@ -83,14 +85,14 @@ export class ResourceRouteBuilder {
 
 		return {
 			name: segments[segments.length - 1],
-			prefix
+			prefix,
 		}
 	}
 
 	_getResourceMethods(defaults, options) {
-		if(!options.only.isNil) {
+		if (!options.only.isNil) {
 			return defaults.filter(method => options.only.indexOf(method) >= 0)
-		} else if(!options.except.isNil) {
+		} else if (!options.except.isNil) {
 			return defaults.filter(method => options.except.indexOf(method) === -1)
 		}
 
@@ -100,7 +102,7 @@ export class ResourceRouteBuilder {
 	_addResourceIndex(name, base, controller, options) {
 		const action = this._getResourceAction(name, controller, 'index', options)
 
-		if(typeof controller[action.method] !== 'function') {
+		if (typeof controller[action.method] !== 'function') {
 			return null
 		}
 
@@ -110,7 +112,7 @@ export class ResourceRouteBuilder {
 	_addResourceCreate(name, base, controller, options) {
 		const action = this._getResourceAction(name, controller, 'create', options)
 
-		if(typeof controller[action.method] !== 'function') {
+		if (typeof controller[action.method] !== 'function') {
 			return null
 		}
 
@@ -120,7 +122,7 @@ export class ResourceRouteBuilder {
 	_addResourceStore(name, base, controller, options) {
 		const action = this._getResourceAction(name, controller, 'store', options)
 
-		if(typeof controller[action.method] !== 'function') {
+		if (typeof controller[action.method] !== 'function') {
 			return null
 		}
 
@@ -130,7 +132,7 @@ export class ResourceRouteBuilder {
 	_addResourceShow(name, base, controller, options) {
 		const action = this._getResourceAction(name, controller, 'show', options)
 
-		if(typeof controller[action.method] !== 'function') {
+		if (typeof controller[action.method] !== 'function') {
 			return null
 		}
 
@@ -140,7 +142,7 @@ export class ResourceRouteBuilder {
 	_addResourceEdit(name, base, controller, options) {
 		const action = this._getResourceAction(name, controller, 'edit', options)
 
-		if(typeof controller[action.method] !== 'function') {
+		if (typeof controller[action.method] !== 'function') {
 			return null
 		}
 
@@ -150,17 +152,17 @@ export class ResourceRouteBuilder {
 	_addResourceUpdate(name, base, controller, options) {
 		const action = this._getResourceAction(name, controller, 'update', options)
 
-		if(typeof controller[action.method] !== 'function') {
+		if (typeof controller[action.method] !== 'function') {
 			return null
 		}
 
-		return this.routes.match([ 'put', 'patch' ], `:${base}`, action)
+		return this.routes.match(['put', 'patch'], `:${base}`, action)
 	}
 
 	_addResourceDestroy(name, base, controller, options) {
 		const action = this._getResourceAction(name, controller, 'destroy', options)
 
-		if(typeof controller[action.method] !== 'function') {
+		if (typeof controller[action.method] !== 'function') {
 			return null
 		}
 
@@ -168,7 +170,7 @@ export class ResourceRouteBuilder {
 	}
 
 	getResourceUri(resource) {
-		if(resource.indexOf('.') === -1) {
+		if (resource.indexOf('.') === -1) {
 			return resource
 		}
 
@@ -189,11 +191,14 @@ export class ResourceRouteBuilder {
 	}
 
 	getResourceWildcard(value) {
-		if(!this.parameters.isNil && !this.parameters.isNil[value]) {
+		if (!this.parameters.isNil && !this.parameters.isNil[value]) {
 			value = this.parameters[value]
-		} else if(!this.constructor.parameterMap.isNil && !this.constructor.parameterMap[value].isNil) {
+		} else if (
+			!this.constructor.parameterMap.isNil &&
+			!this.constructor.parameterMap[value].isNil
+		) {
 			value = this.constructor.parameterMap[value]
-		} else if(this.parameters === 'singular' || this.constructor.singularParameters) {
+		} else if (this.parameters === 'singular' || this.constructor.singularParameters) {
 			value = Inflect.singularize(value)
 		}
 
@@ -203,7 +208,7 @@ export class ResourceRouteBuilder {
 	_getResourceAction(resource, controller, method, options) {
 		return {
 			as: this._getResourceRouteName(resource, method, options),
-			method: method
+			method: method,
 		}
 	}
 
@@ -213,10 +218,10 @@ export class ResourceRouteBuilder {
 		// If the names array has been provided to us we will check for an entry in the
 		// array first. We will also check for the specific method within this array
 		// so the names may be specified on a more "granular" level using methods.
-		if(!options.names.isNil) {
-			if(typeof options.names === 'string') {
+		if (!options.names.isNil) {
+			if (typeof options.names === 'string') {
 				name = options.names
-			} else if(!options.names[method].isNil) {
+			} else if (!options.names[method].isNil) {
 				return options.names[method]
 			}
 		}
@@ -233,19 +238,18 @@ export class ResourceRouteBuilder {
 	}
 
 	static getParameters() {
-		return [ ...this.parameterMap ]
+		return [...this.parameterMap]
 	}
 
-	static setParameters(parameters = [ ]) {
-		this.parameterMap = [ ...parameters ]
+	static setParameters(parameters = []) {
+		this.parameterMap = [...parameters]
 	}
 
-	static verbs(verbs = { }) {
-		if(Object.keys(verbs).length === 0) {
+	static verbs(verbs = {}) {
+		if (Object.keys(verbs).length === 0) {
 			return { ...this.verbs }
 		}
 
 		this.verbs = { ...this.verbs, ...verbs }
 	}
-
 }

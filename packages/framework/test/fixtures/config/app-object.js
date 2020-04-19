@@ -6,9 +6,9 @@ const config = {
 		a: 'a',
 		b: 'b',
 		c: {
-			true: true
-		}
-	}
+			true: true,
+		},
+	},
 }
 
 export default config

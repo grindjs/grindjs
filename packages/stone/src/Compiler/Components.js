@@ -7,13 +7,13 @@ export function compileComponent(context, args) {
 	let code = 'output += (function() {'
 	code += `\nconst __componentView = ${AST.stringify(args[0])};`
 
-	if(args.length > 1) {
+	if (args.length > 1) {
 		code += `\nconst __componentContext = ${AST.stringify(args[1])};`
 	} else {
 		code += '\nconst __componentContext = { };'
 	}
 
-	code += '\nlet output = \'\';'
+	code += "\nlet output = '';"
 
 	return code
 }
@@ -26,11 +26,11 @@ export function compileEndcomponent() {
 export function compileSlot(context, args) {
 	args = context.parseArguments(args)
 
-	if(args.length === 1) {
+	if (args.length === 1) {
 		return `__componentContext[${AST.stringify(args[0])}] = (function() {\nlet output = '';`
 	}
 
-	if(args.length !== 2) {
+	if (args.length !== 2) {
 		throw new StoneCompilerError(context, 'Invalid slot')
 	}
 

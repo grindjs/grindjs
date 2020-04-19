@@ -8,18 +8,21 @@ const path = require('path')
 const Ignore = require('ignore')
 
 export class PublishCommand extends BaseCommand {
-
 	name = 'assets:publish'
 	description = 'Compies and publishes all assets'
 
-	assets = { }
-	oldAssets = { }
+	assets = {}
+	oldAssets = {}
 	factory = null
 	publishedBaseUrl = null
 	topLevel = false
 
 	options = [
-		new InputOption('published-base-url', InputOption.VALUE_OPTIONAL, 'Specify the base URL for published assets.'),
+		new InputOption(
+			'published-base-url',
+			InputOption.VALUE_OPTIONAL,
+			'Specify the base URL for published assets.',
+		),
 	]
 
 	ready() {
@@ -32,28 +35,34 @@ export class PublishCommand extends BaseCommand {
 	async run() {
 		this.oldAssets = await this.loadOldAssets()
 
-		if(this.oldAssets.isNil) {
-			this.oldAssets = { }
+		if (this.oldAssets.isNil) {
+			this.oldAssets = {}
 		}
 
-		this.factory.published = { }
+		this.factory.published = {}
 
-		const publishedBaseUrl = this.option('published-base-url', this.app.config.get('assets.publish.base_url'))
+		const publishedBaseUrl = this.option(
+			'published-base-url',
+			this.app.config.get('assets.publish.base_url'),
+		)
 
-		if(typeof publishedBaseUrl === 'string' && publishedBaseUrl.length > 0) {
+		if (typeof publishedBaseUrl === 'string' && publishedBaseUrl.length > 0) {
 			this.publishedBaseUrl = publishedBaseUrl
 			this.assets.__base_url = `${this.publishedBaseUrl}/`
 		} else {
-			this.publishedBaseUrl = path.join('/', path.relative(this.app.paths.public('/'), this.publishPath))
+			this.publishedBaseUrl = path.join(
+				'/',
+				path.relative(this.app.paths.public('/'), this.publishPath),
+			)
 		}
 
 		this.publishedBaseUrl = this.publishedBaseUrl.replace(/\/$/g, '')
 
-		if(!this.oldAssets.__base_url.isNil) {
+		if (!this.oldAssets.__base_url.isNil) {
 			const length = this.oldAssets.__base_url.length
 			delete this.oldAssets.__base_url
 
-			for(const key of Object.keys(this.oldAssets)) {
+			for (const key of Object.keys(this.oldAssets)) {
 				this.oldAssets[key] = this.oldAssets[key].substring(length)
 			}
 		}
@@ -67,24 +76,24 @@ export class PublishCommand extends BaseCommand {
 	async compile() {
 		const assets = await this.findAssets(this.sourcePath)
 
-		for(const asset of assets) {
+		for (const asset of assets) {
 			let content = null
 
 			try {
 				this.comment('Compiling', path.relative(this.app.paths.base(), asset.path))
 				content = await asset.compile()
-			} catch(err) {
+			} catch (err) {
 				let message = err.message || 'Unknown error'
 
-				if(!err.file.isNil) {
+				if (!err.file.isNil) {
 					message += `\n --> File: ${err.file}`
 				}
 
-				if(!err.line.isNil) {
+				if (!err.line.isNil) {
 					message += `\n --> Line: ${err.line}`
 				}
 
-				if(!err.column.isNil) {
+				if (!err.column.isNil) {
 					message += `\n --> Column: ${err.column}`
 				}
 
@@ -93,58 +102,75 @@ export class PublishCommand extends BaseCommand {
 
 			let storePath = path.relative(this.sourcePath, asset.path)
 
-			if(!this.topLevel) {
+			if (!this.topLevel) {
 				storePath = path.join(asset.type, storePath.substr(storePath.indexOf('/')))
 			}
 
 			let name = path.basename(storePath, path.extname(storePath))
 
-			if(asset.compiler.wantsHashSuffixOnPublish) {
+			if (asset.compiler.wantsHashSuffixOnPublish) {
 				const sha1 = crypto.createHash('md5')
 				sha1.update(content)
 				name += `-${sha1.digest('hex').substring(0, 8)}`
 			}
 
 			name += `.${asset.extension}`
-			await this.storeAsset(asset, path.join(this.publishPath, path.dirname(storePath), name), content)
+			await this.storeAsset(
+				asset,
+				path.join(this.publishPath, path.dirname(storePath), name),
+				content,
+			)
 		}
 	}
 
 	async findAssets(pathname) {
 		const files = await FS.recursiveReaddir(pathname)
 		const ignoreFiles = files.filter(file => path.basename(file) === '.assetsignore')
-		const ignoreRules = Ignore().add([ '**/_*', '**/.*', path.join(path.relative(this.sourcePath, this.publishPath), '/') ])
+		const ignoreRules = Ignore().add([
+			'**/_*',
+			'**/.*',
+			path.join(path.relative(this.sourcePath, this.publishPath), '/'),
+		])
 
-		for(const ignoreFile of ignoreFiles) {
+		for (const ignoreFile of ignoreFiles) {
 			const content = await FS.readFile(ignoreFile).then(content => content.toString())
 			const dirname = path.relative(pathname, path.dirname(ignoreFile))
 
-			const rules = content.split(/[\n\r]+/).filter(line => {
-				line = line.trim()
-				return line.length > 0 && line.substring(0, 1) !== '#'
-			}).map(line => {
-				if(line.substring(0, 1) === '!') {
-					return `!${path.join(dirname, line.substring(1))}`
-				}
+			const rules = content
+				.split(/[\n\r]+/)
+				.filter(line => {
+					line = line.trim()
+					return line.length > 0 && line.substring(0, 1) !== '#'
+				})
+				.map(line => {
+					if (line.substring(0, 1) === '!') {
+						return `!${path.join(dirname, line.substring(1))}`
+					}
 
-				return path.join(dirname, line)
-			})
+					return path.join(dirname, line)
+				})
 
 			ignoreRules.add(rules)
 		}
 
-		return files.filter(file => {
-			if(ignoreRules.filter([ path.relative(pathname, file) ]).length !== 1) {
-				return false
-			}
+		return files
+			.filter(file => {
+				if (ignoreRules.filter([path.relative(pathname, file)]).length !== 1) {
+					return false
+				}
 
-			if(!this.factory.isPathSupported(file)) {
-				this.comment('Skipping unsupported asset', path.relative(this.app.paths.base(), file))
-				return false
-			}
+				if (!this.factory.isPathSupported(file)) {
+					this.comment(
+						'Skipping unsupported asset',
+						path.relative(this.app.paths.base(), file),
+					)
+					return false
+				}
 
-			return true
-		}).map(file => this.factory.make(file)).sort((a, b) => b.compareKind(a))
+				return true
+			})
+			.map(file => this.factory.make(file))
+			.sort((a, b) => b.compareKind(a))
 	}
 
 	loadOldAssets() {
@@ -154,7 +180,7 @@ export class PublishCommand extends BaseCommand {
 	async storeAsset(asset, file, contents) {
 		await FS.mkdirp(path.dirname(file))
 
-		if(!(contents instanceof Buffer)) {
+		if (!(contents instanceof Buffer)) {
 			contents = Buffer.from(contents)
 		}
 
@@ -163,7 +189,7 @@ export class PublishCommand extends BaseCommand {
 		await FS.writeFile(file, contents)
 		const lastModified = await asset.lastModified()
 
-		if(!lastModified.isNil) {
+		if (!lastModified.isNil) {
 			await FS.touch(file, lastModified)
 		}
 
@@ -172,7 +198,7 @@ export class PublishCommand extends BaseCommand {
 		this.assets[src] = dest
 		this.factory.published[src] = dest
 
-		if(this.oldAssets[src] === dest) {
+		if (this.oldAssets[src] === dest) {
 			delete this.oldAssets[src]
 		}
 	}
@@ -180,15 +206,18 @@ export class PublishCommand extends BaseCommand {
 	async postProcess(asset, file, contents) {
 		const postProcessors = this.factory.getPostProcessorsFromPath(file)
 
-		if(postProcessors.length === 0) {
+		if (postProcessors.length === 0) {
 			return contents
 		}
 
-		for(const postProcessor of postProcessors) {
-			this.comment(`Applying ${postProcessor.constructor.name}`, path.relative(this.app.paths.base(), asset.path))
+		for (const postProcessor of postProcessors) {
+			this.comment(
+				`Applying ${postProcessor.constructor.name}`,
+				path.relative(this.app.paths.base(), asset.path),
+			)
 			contents = await postProcessor.process(asset.path, file, contents)
 
-			if(!(contents instanceof Buffer)) {
+			if (!(contents instanceof Buffer)) {
 				contents = Buffer.from(contents)
 			}
 		}
@@ -197,7 +226,7 @@ export class PublishCommand extends BaseCommand {
 	}
 
 	async removeAssets(assets) {
-		for(const key of Object.keys(assets)) {
+		for (const key of Object.keys(assets)) {
 			await this.removeAsset(assets[key])
 		}
 	}
@@ -205,8 +234,7 @@ export class PublishCommand extends BaseCommand {
 	async writeConfig(config) {
 		await FS.writeFile(
 			this.app.paths.config('assets-published.json'),
-			JSON.stringify(config, null, ' ')
+			JSON.stringify(config, null, ' '),
 		)
 	}
-
 }

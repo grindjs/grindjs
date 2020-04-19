@@ -7,7 +7,6 @@ const { RequestExtension } = require('./Routing/Extensions/RequestExtension.js')
 const { ResponseExtension } = require('./Routing/Extensions/ResponseExtension.js')
 
 export class HttpKernel extends Kernel {
-
 	static type = 'http'
 	as = 'http'
 
@@ -31,19 +30,21 @@ export class HttpKernel extends Kernel {
 
 		// Register 404 handler
 		this.app.express.use((req, res, next) => {
-			this.errorHandler.handle(new NotFoundError, req, res, next)
+			this.errorHandler.handle(new NotFoundError(), req, res, next)
 		})
 
 		this.app.server = require('http').createServer(this.app.express)
 
 		// Register upgrade handlers
-		if(Object.keys(this.app.routes.upgraders).length > 0) {
-			this.app.server.on('upgrade', UpgradeDispatcher.bind(this.app.routes, this.app.routes.upgraders))
+		if (Object.keys(this.app.routes.upgraders).length > 0) {
+			this.app.server.on(
+				'upgrade',
+				UpgradeDispatcher.bind(this.app.routes, this.app.routes.upgraders),
+			)
 		}
 
 		this.app.emit('listen', this.app, this.app.server)
 
 		return this.app.server.listen(...args)
 	}
-
 }

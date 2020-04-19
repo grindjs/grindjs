@@ -17,32 +17,34 @@ export class NunjucksEngine extends ViewEngine {
 	}
 
 	async bootstrap() {
-		const loaders = [ ]
+		const loaders = []
 
-		if(await FS.exists(this.compiledViewPath)) {
+		if (await FS.exists(this.compiledViewPath)) {
 			try {
 				const templates = require(this.compiledViewPath)
 
-				if(!templates.isNil && !templates.templates.isNil) {
+				if (!templates.isNil && !templates.templates.isNil) {
 					loaders.push(new Nunjucks.PrecompiledLoader(templates.templates))
 				}
-			} catch(err) {
+			} catch (err) {
 				Log.error('Unable to load compiled views', err)
 			}
 		}
 
-		loaders.push(new Nunjucks.FileSystemLoader(this.view.viewPath, {
-			dev: this.app.debug,
-			watch: this.app.config.get('view.watch', this.app.debug),
-			noCache: this.app.config.get('view.disable_cache', false)
-		}))
+		loaders.push(
+			new Nunjucks.FileSystemLoader(this.view.viewPath, {
+				dev: this.app.debug,
+				watch: this.app.config.get('view.watch', this.app.debug),
+				noCache: this.app.config.get('view.disable_cache', false),
+			}),
+		)
 
 		this.nunjucks = new ViewEnvironment(loaders, {
 			dev: this.app.debug,
 			autoescape: this.app.config.get('view.autoescape', true),
 			trimBlocks: this.app.config.get('view.trim_blocks', false),
 			lstripBlocks: this.app.config.get('view.lstrip_blocks', false),
-			throwOnUndefined: this.app.config.get('view.throw_on_undefined', false)
+			throwOnUndefined: this.app.config.get('view.throw_on_undefined', false),
 		})
 		this.nunjucks.express(this.app.express)
 		this.app.express.set('view engine', 'njk')
@@ -65,7 +67,7 @@ export class NunjucksEngine extends ViewEngine {
 	render(name, context) {
 		return new Promise((resolve, reject) => {
 			this.nunjucks.render(name, context, (err, result) => {
-				if(!err.isNil) {
+				if (!err.isNil) {
 					return reject(err)
 				}
 
@@ -77,23 +79,23 @@ export class NunjucksEngine extends ViewEngine {
 	async writeCache() {
 		const result = Nunjucks.precompile(this.view.viewPath, {
 			env: this.nunjucks,
-			include: [ /\.njk$/ ],
+			include: [/\.njk$/],
 			wrapper: templates => {
 				let out = 'const templates = { };\nmodule.exports.templates = templates;\n\n'
 
-				for(const template of templates) {
+				for (const template of templates) {
 					const name = JSON.stringify(template.name)
 
 					out += `templates[${name}] = (function() {${template.template}})();`
 				}
 
 				return out
-			}
+			},
 		})
 
 		const dir = path.dirname(this.compiledViewPath)
 
-		if(!(await FS.exists(dir))) {
+		if (!(await FS.exists(dir))) {
 			await FS.mkdirp(dir)
 			await FS.writeFile(path.join(dir, '.gitignore'), '*\n!.gitignore\n')
 		}
@@ -102,7 +104,7 @@ export class NunjucksEngine extends ViewEngine {
 	}
 
 	async clearCache() {
-		if(await FS.exists(this.compiledViewPath)) {
+		if (await FS.exists(this.compiledViewPath)) {
 			await FS.unlink(this.compiledViewPath)
 		}
 	}
@@ -114,5 +116,4 @@ export class NunjucksEngine extends ViewEngine {
 	isHtmlString(html) {
 		return html instanceof Nunjucks.runtime.SafeString
 	}
-
 }

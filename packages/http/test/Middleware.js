@@ -2,43 +2,47 @@ import test from 'ava'
 import './helpers/request'
 
 function get(path) {
-	return request(0, app => {
-		const handler = (req, res) => res.send(req.path)
+	return request(
+		0,
+		app => {
+			const handler = (req, res) => res.send(req.path)
 
-		app.routes.get('none', handler)
+			app.routes.get('none', handler)
 
-		app.routes.use((req, res, next) => {
-			res.set('X-Middleware-A', 'true')
-			next()
-		})
-
-		app.routes.get('global', handler)
-
-		app.routes.group(routes => {
-			routes.use((req, res, next) => {
-				res.set('X-Middleware-B', 'true')
+			app.routes.use((req, res, next) => {
+				res.set('X-Middleware-A', 'true')
 				next()
 			})
 
-			routes.get('group', handler)
-
-			routes.bind('segment', value => Promise.resolve(`${value}-true`))
-			routes.get('group/:segment', (req, res) => res.send(req.params.segment))
+			app.routes.get('global', handler)
 
 			app.routes.group(routes => {
 				routes.use((req, res, next) => {
-					res.set('X-Middleware-C', 'true')
+					res.set('X-Middleware-B', 'true')
 					next()
 				})
 
-				routes.get('cascading', handler)
+				routes.get('group', handler)
+
+				routes.bind('segment', value => Promise.resolve(`${value}-true`))
+				routes.get('group/:segment', (req, res) => res.send(req.params.segment))
+
+				app.routes.group(routes => {
+					routes.use((req, res, next) => {
+						res.set('X-Middleware-C', 'true')
+						next()
+					})
+
+					routes.get('cascading', handler)
+				})
+
+				routes.get('cascading-scoped', handler)
 			})
 
-			routes.get('cascading-scoped', handler)
-		})
-
-		app.routes.get('scoping', handler)
-	}, path)
+			app.routes.get('scoping', handler)
+		},
+		path,
+	)
 }
 
 test('none', t => {
@@ -68,10 +72,7 @@ test('group segment', t => {
 })
 
 test('cascading', t => {
-	return Promise.all([
-		get('cascading'),
-		get('cascading-scoped')
-	]).then(responses => {
+	return Promise.all([get('cascading'), get('cascading-scoped')]).then(responses => {
 		t.is(responses[0].headers['x-middleware-a'], 'true')
 		t.is(responses[1].headers['x-middleware-a'], 'true')
 

@@ -9,9 +9,14 @@ export default {
 	input: path.join(__dirname, 'index.js'),
 	output: {
 		file: path.join(__dirname, '../../dist/react-dev.js'),
-		format: 'cjs'
+		format: 'cjs',
 	},
-	plugins: [ babel(), nodeResolve(), cjs(), replace({
-		'process.env.NODE_ENV': JSON.stringify('development')
-	}) ]
+	plugins: [
+		babel(),
+		nodeResolve(),
+		cjs(),
+		replace({
+			'process.env.NODE_ENV': JSON.stringify('development'),
+		}),
+	],
 }

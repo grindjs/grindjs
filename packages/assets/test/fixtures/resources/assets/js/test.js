@@ -1,6 +1,6 @@
 /* global document */
 
-(function() {
+;(function () {
 	function findTheTestElement() {
 		return document.body.getElementById('test')
 	}

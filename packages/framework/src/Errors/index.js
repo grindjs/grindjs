@@ -2,13 +2,13 @@ const errors = require('./HttpError/index.js')
 Object.assign(global, errors)
 Object.assign(module.exports, errors)
 
-const codesMapping = { }
+const codesMapping = {}
 
-for(const name of Object.keys(errors)) {
+for (const name of Object.keys(errors)) {
 	const error = errors[name]
 	const code = error.representsCode
 
-	if(code === 0) {
+	if (code === 0) {
 		continue
 	}
 

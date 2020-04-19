@@ -1,9 +1,9 @@
 export function Socket(referenceScript) {
-	if(!window.WebSocket) {
+	if (!window.WebSocket) {
 		throw new Error('This browser does not support websockets, live reload will not work.')
 	}
 
-	const listeners = { }
+	const listeners = {}
 	let attempts = 0
 	let attemptsReset = null
 	let pending = false
@@ -15,12 +15,21 @@ export function Socket(referenceScript) {
 		const socket = new WebSocket(`${protocol}://${window.location.host}/@assets/socket`)
 
 		socket.onopen = () => {
-			if(attemptsReset) {
+			if (attemptsReset) {
 				clearTimeout(attemptsReset)
 			}
 
-			if(firstConnect && !referenceScript.isNil && referenceScript.hasAttribute('data-since')) {
-				socket.send(JSON.stringify({ type: 'init', since: Number(referenceScript.getAttribute('data-since')) }))
+			if (
+				firstConnect &&
+				!referenceScript.isNil &&
+				referenceScript.hasAttribute('data-since')
+			) {
+				socket.send(
+					JSON.stringify({
+						type: 'init',
+						since: Number(referenceScript.getAttribute('data-since')),
+					}),
+				)
 			}
 
 			attemptsReset = setTimeout(() => {
@@ -35,26 +44,30 @@ export function Socket(referenceScript) {
 
 		socket.onmessage = message => {
 			message = JSON.parse(message.data)
-			{ (listeners[message.type] || [ ]).forEach(listener => listener(message.asset, message)) }
+			{
+				;(listeners[message.type] || []).forEach(listener =>
+					listener(message.asset, message),
+				)
+			}
 		}
 
 		return socket
 	}
 
 	function _reconnect() {
-		if(socket.readyState === WebSocket.OPEN) {
+		if (socket.readyState === WebSocket.OPEN) {
 			return
 		}
 
-		if(pending) {
+		if (pending) {
 			return
 		} else {
 			pending = true
 		}
 
-		const delay = Math.min(30, (Math.pow(2, attempts) - 1)) * 1000
+		const delay = Math.min(30, Math.pow(2, attempts) - 1) * 1000
 
-		if(attemptsReset) {
+		if (attemptsReset) {
 			clearTimeout(attemptsReset)
 			attemptsReset = null
 		}
@@ -68,11 +81,11 @@ export function Socket(referenceScript) {
 
 	return {
 		on: (event, callback) => {
-			if(!Array.isArray(listeners[event])) {
-				listeners[event] = [ ]
+			if (!Array.isArray(listeners[event])) {
+				listeners[event] = []
 			}
 
 			listeners[event].push(callback)
-		}
+		},
 	}
 }

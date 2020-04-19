@@ -1,7 +1,6 @@
 import { Command } from 'grind-cli'
 
 export class ViewCacheCommand extends Command {
-
 	name = 'view:cache'
 	description = 'Precompiles and caches all views'
 
@@ -10,5 +9,4 @@ export class ViewCacheCommand extends Command {
 
 		Log.success('Done')
 	}
-
 }

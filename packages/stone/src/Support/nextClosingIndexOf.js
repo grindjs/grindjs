@@ -10,20 +10,20 @@ import './nextIndexOf'
  * @return {number}               Index of the close sequence or -1
  */
 export function nextClosingIndexOf(string, openSequence, closeSequence, fromIndex) {
-	if(openSequence.length !== closeSequence.length) {
+	if (openSequence.length !== closeSequence.length) {
 		throw new TypeError('The opening and closing sequences must be the same length.')
 	}
 
-	const sequences = [ openSequence, closeSequence ]
+	const sequences = [openSequence, closeSequence]
 	const sequenceLength = openSequence.length
 	let openCount = -1
 
-	while(openCount !== 0 && (fromIndex = nextIndexOf(string, sequences, fromIndex)) >= 0) {
+	while (openCount !== 0 && (fromIndex = nextIndexOf(string, sequences, fromIndex)) >= 0) {
 		const sequence = string.substring(fromIndex, fromIndex + sequenceLength)
 
-		if(sequence === closeSequence) {
+		if (sequence === closeSequence) {
 			openCount--
-		} else if(openCount === -1) {
+		} else if (openCount === -1) {
 			openCount = 1
 		} else {
 			openCount++

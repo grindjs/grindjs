@@ -2,7 +2,6 @@
  * Base class all drivers must extend
  */
 export class BaseDriver {
-
 	app = null
 	state = null
 	retryDelay = 90000
@@ -12,7 +11,7 @@ export class BaseDriver {
 		this.app = app
 		this.queue = config.queue || 'default'
 
-		if(config.retry_delay) {
+		if (config.retry_delay) {
 			this.retryDelay = Number.parseInt(config.retry_delay)
 		}
 	}
@@ -82,7 +81,8 @@ export class BaseDriver {
 			delay: options.delay || defaults.delay || 0,
 			timeout: options.timeout || defaults.timeout || 0,
 			tries: Math.max(1, Number.parseInt(options.tries || defaults.tries) || 1),
-			retry_delay: options.retryDelay || defaults.retryDelay || this.retryDelay || options.delay || 0
+			retry_delay:
+				options.retryDelay || defaults.retryDelay || this.retryDelay || options.delay || 0,
 		}
 	}
 
@@ -101,17 +101,23 @@ export class BaseDriver {
 
 			try {
 				await this.success(context, job, payload)
-			} catch(err) {
-				Log.error(`${this.constructor.name} error when calling success: ${err.message}`, err)
+			} catch (err) {
+				Log.error(
+					`${this.constructor.name} error when calling success: ${err.message}`,
+					err,
+				)
 			}
-		} catch(err) {
+		} catch (err) {
 			try {
 				await this.retryOrRethrow(context, payload, err)
-			} catch(err2) {
+			} catch (err2) {
 				try {
 					await this.fatal(context, job, payload, err)
-				} catch(err3) {
-					Log.error(`${this.constructor.name} error when calling fatal: ${err.message}`, err)
+				} catch (err3) {
+					Log.error(
+						`${this.constructor.name} error when calling fatal: ${err.message}`,
+						err,
+					)
 				}
 
 				await context.handleError(job, payload, err)
@@ -131,28 +137,28 @@ export class BaseDriver {
 	retryOrRethrow(context, payload, job, error) {
 		const tries = Number(payload.tries) || 1
 
-		if(tries <= 1) {
+		if (tries <= 1) {
 			throw error
 		}
 
 		const tryCount = Number(payload.try) || 1
 
-		if(tryCount >= tries) {
+		if (tryCount >= tries) {
 			throw error
 		}
 
 		const timeout = Number(payload.timeout) || 0
 
-		if(timeout > 0) {
+		if (timeout > 0) {
 			const at = Number(payload.at) || 0
 
-			if(at > 0 && (Date.now() + timeout) > at) {
+			if (at > 0 && Date.now() + timeout > at) {
 				throw error
 			}
 		}
 
 		const delay = payload.retry_delay || payload.delay
-		const at = delay.isNil ? null : (new Date(Date.now() + delay))
+		const at = delay.isNil ? null : new Date(Date.now() + delay)
 		payload.try = tryCount + 1
 
 		return this.retry(context, payload, job, at)
@@ -214,5 +220,4 @@ export class BaseDriver {
 	destroy() {
 		return Promise.resolve()
 	}
-
 }

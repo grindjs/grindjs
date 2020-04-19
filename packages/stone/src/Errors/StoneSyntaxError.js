@@ -1,7 +1,6 @@
 import './StoneError'
 
 export class StoneSyntaxError extends StoneError {
-
 	constructor(context, err, position) {
 		const { line: sourceLine, column: sourceColumn } = context.findLineColumn(position)
 
@@ -14,5 +13,4 @@ export class StoneSyntaxError extends StoneError {
 
 		this._fixStack(context, position)
 	}
-
 }

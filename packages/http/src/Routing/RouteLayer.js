@@ -1,7 +1,6 @@
 const Layer = require('express/lib/router/layer.js')
 
 export class RouteLayer extends Layer {
-
 	_layer = null
 
 	constructor(route, layer, middleware, options) {
@@ -15,13 +14,13 @@ export class RouteLayer extends Layer {
 			next()
 
 			function next(err) {
-				if(err) {
+				if (err) {
 					return done(err)
 				}
 
 				const handle = middleware[idx++]
 
-				if(!handle) {
+				if (!handle) {
 					return done()
 				}
 
@@ -35,19 +34,22 @@ export class RouteLayer extends Layer {
 	}
 
 	get params() {
-		const params = this._layer.params || { }
+		const params = this._layer.params || {}
 		params.__middlewareWorkaround = true
 		return params
 	}
 
-	set params(value) { /* Ignore */ }
+	set params(value) {
+		/* Ignore */
+	}
 
 	get keys() {
-		const keys = (this._layer.keys || [ ]).slice()
+		const keys = (this._layer.keys || []).slice()
 		keys.unshift({ name: '__middlewareWorkaround' })
 		return keys
 	}
 
-	set keys(value) { /* Ignore */ }
-
+	set keys(value) {
+		/* Ignore */
+	}
 }

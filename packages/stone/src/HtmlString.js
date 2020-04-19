@@ -1,5 +1,4 @@
 export class HtmlString {
-
 	html = null
 
 	constructor(html) {
@@ -9,5 +8,4 @@ export class HtmlString {
 	toString() {
 		return this.html
 	}
-
 }

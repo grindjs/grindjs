@@ -4,11 +4,14 @@ import '../src/Support/buildRedisConfig'
 import './helpers/Application'
 
 test.beforeEach(t => {
-	t.context.app = new Application
+	t.context.app = new Application()
 })
 
 test('redis', t => {
-	const config = buildRedisConfig(t.context.app, t.context.app.config.get('queue.connections.redis').connection)
+	const config = buildRedisConfig(
+		t.context.app,
+		t.context.app.config.get('queue.connections.redis').connection,
+	)
 
 	t.is(config.host, 'localhost')
 	t.is(config.port, 6379)
@@ -16,7 +19,10 @@ test('redis', t => {
 })
 
 test('redis-default', t => {
-	const config = buildRedisConfig(t.context.app, t.context.app.config.get('queue.connections.redis-default').connection)
+	const config = buildRedisConfig(
+		t.context.app,
+		t.context.app.config.get('queue.connections.redis-default').connection,
+	)
 
 	t.is(config.host, 'test')
 	t.is(config.port, 6000)
@@ -24,7 +30,10 @@ test('redis-default', t => {
 })
 
 test('redis-auth', t => {
-	const config = buildRedisConfig(t.context.app, t.context.app.config.get('queue.connections.redis-auth').connection)
+	const config = buildRedisConfig(
+		t.context.app,
+		t.context.app.config.get('queue.connections.redis-auth').connection,
+	)
 
 	t.is(config.host, 'localhost')
 	t.is(config.port, 6379)

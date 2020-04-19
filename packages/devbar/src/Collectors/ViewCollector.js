@@ -3,13 +3,17 @@ import './EventCollectorBuilder'
 const path = require('path')
 
 export function ViewCollector(app, devbar) {
-	if(app.view.isNil) {
+	if (app.view.isNil) {
 		return
 	}
 
 	const events = EventCollectorBuilder(app, devbar, app.view)
 	const views = app.paths.base('resources/views')
-	const cleanTemplate = template => path.relative(views, template).replace(/\//g, '.').replace(/^\.+|\.stone$/g, '')
+	const cleanTemplate = template =>
+		path
+			.relative(views, template)
+			.replace(/\//g, '.')
+			.replace(/^\.+|\.stone$/g, '')
 
 	events.on('compile:start', (devbar, template) => {
 		devbar.time(`compile-${template}`, `Compile ${cleanTemplate(template)}`)

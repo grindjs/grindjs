@@ -5,24 +5,26 @@ let hasCheckedForYarn = false
 let hasYarn = false
 
 export class MissingPackageError extends Error {
-
 	constructor(pkg, type = null, why = null) {
-		if(!hasCheckedForYarn) {
+		if (!hasCheckedForYarn) {
 			hasCheckedForYarn = true
 
 			try {
 				// eslint-disable-next-line no-sync
-				fs.accessSync(path.join(process.env.BASE_PATH || process.cwd(), 'yarn.lock'), 'R_OK')
+				fs.accessSync(
+					path.join(process.env.BASE_PATH || process.cwd(), 'yarn.lock'),
+					'R_OK',
+				)
 				hasYarn = true
-			} catch(err) {
+			} catch (err) {
 				hasYarn = false
 			}
 		}
 
 		let command = null
 
-		if(hasYarn) {
-			if(type.isNil) {
+		if (hasYarn) {
+			if (type.isNil) {
 				type = ''
 			} else {
 				type = ` --${type}`
@@ -30,7 +32,7 @@ export class MissingPackageError extends Error {
 
 			command = `yarn add${type} ${pkg}`
 		} else {
-			if(type.isNil) {
+			if (type.isNil) {
 				type = ''
 			} else {
 				type = `-${type}`
@@ -41,7 +43,7 @@ export class MissingPackageError extends Error {
 
 		let message = `${pkg} missing, please run \`${command}\``
 
-		if(typeof why === 'string') {
+		if (typeof why === 'string') {
 			message += `: ${why}`
 		}
 
@@ -49,5 +51,4 @@ export class MissingPackageError extends Error {
 
 		this.name = this.constructor.name
 	}
-
 }

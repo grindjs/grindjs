@@ -9,7 +9,7 @@ const uuid = require('uuid/v4')
 const fetch = require('fetchit')
 const service = new Service(test, 'redis', {
 	image: 'redis:5.0.5-alpine',
-	port: 6379
+	port: 6379,
 })
 
 test.beforeEach(t => {
@@ -53,7 +53,7 @@ test('finished', async t => {
 	t.is('waiting', status.state)
 
 	queue.get().listen(t.context.queueName, 1)
-	await (new Promise(resolve => setTimeout(resolve, 500)))
+	await new Promise(resolve => setTimeout(resolve, 500))
 
 	status = await queue.status(id)
 	t.is('done', status.state)
@@ -72,7 +72,7 @@ test('failed', async t => {
 	t.is('waiting', status.state)
 
 	queue.get().listen(t.context.queueName, 1)
-	await (new Promise(resolve => setTimeout(resolve, 500)))
+	await new Promise(resolve => setTimeout(resolve, 500))
 
 	status = await queue.status(id)
 	t.is('failed', status.state)
@@ -91,7 +91,7 @@ test('running', async t => {
 	t.is('waiting', status.state)
 
 	queue.get().listen(t.context.queueName, 1)
-	await (new Promise(resolve => setTimeout(resolve, 100)))
+	await new Promise(resolve => setTimeout(resolve, 100))
 
 	status = await queue.status(id)
 	t.is('running', status.state)
@@ -108,7 +108,7 @@ test('results', async t => {
 	const id = await queue.dispatch(job)
 
 	queue.get().listen(t.context.queueName, 1)
-	await (new Promise(resolve => setTimeout(resolve, 500)))
+	await new Promise(resolve => setTimeout(resolve, 500))
 
 	const status = await queue.status(id)
 
@@ -126,7 +126,7 @@ test('controller/missing', async t => {
 	try {
 		await fetch.json(`http://localhost:${port}/queue/non-existent`)
 		t.fail()
-	} catch(err) {
+	} catch (err) {
 		t.is(404, err.statusCode)
 		t.deepEqual({ state: 'missing' }, err.json)
 	}
@@ -161,7 +161,7 @@ test('controller/results', async t => {
 	const id = await queue.dispatch(job)
 
 	queue.get().listen(t.context.queueName, 1)
-	await (new Promise(resolve => setTimeout(resolve, 500)))
+	await new Promise(resolve => setTimeout(resolve, 500))
 
 	const status = await fetch.json(`http://localhost:${port}/queue/${id}`)
 	t.is('done', status.state)

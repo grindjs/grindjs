@@ -11,7 +11,7 @@ export function HtmlProvider(app, htmlBuilderClass, formBuilderClass) {
 	app.html = html
 	app.form = form
 
-	if(!app.view.isNil) {
+	if (!app.view.isNil) {
 		app.routes.use((req, res, next) => {
 			res.locals.html = html.clone(req, res)
 			res.locals.form = form.clone(req, res, res.locals.html)

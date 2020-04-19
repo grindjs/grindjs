@@ -5,7 +5,7 @@ import './helpers/Grind'
 import { AssetFactory, BabelCompiler, RawCompiler, ScssCompiler } from '../src'
 
 function make() {
-	const app = new Grind
+	const app = new Grind()
 	app.config.loadDefault('assets', app.paths.base('../../config/assets.json'))
 
 	const factory = new AssetFactory(app)
@@ -34,7 +34,7 @@ test('publishedPath', t => {
 	t.is(factory.publishedPath('/scss/test.scss'), '/assets/scss/test.scss')
 
 	factory.published = {
-		'scss/test.scss': publishedPath
+		'scss/test.scss': publishedPath,
 	}
 
 	t.is(factory.publishedPath('scss/test.scss'), publishedPath)

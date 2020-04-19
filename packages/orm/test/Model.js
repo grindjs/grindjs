@@ -12,8 +12,8 @@ test('findByIdOrFail', async t => {
 
 	try {
 		t.context.UserModel.findByIdOrFail(Date.now())
-	} catch(err) {
-		if(err instanceof ModelNotFoundError) {
+	} catch (err) {
+		if (err instanceof ModelNotFoundError) {
 			return t.pass()
 		}
 

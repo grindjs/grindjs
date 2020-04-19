@@ -1,5 +1,4 @@
 export class Stage {
-
 	static configName = null
 
 	app = null
@@ -12,8 +11,5 @@ export class Stage {
 		this.app = app
 	}
 
-	compile(/* pathname, stream = null, req = null */) {
-
-	}
-
+	compile(/* pathname, stream = null, req = null */) {}
 }

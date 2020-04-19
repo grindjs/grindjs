@@ -6,6 +6,6 @@ export async function seed(db) {
 		user_id: 1,
 		url: 'https://grind.rocks/img/logo.svg',
 		created_at: db.fn.now(),
-		updated_at: db.fn.now()
+		updated_at: db.fn.now(),
 	})
 }

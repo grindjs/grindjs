@@ -2,7 +2,6 @@ const URL = require('url')
 const Path = require('path')
 
 export class UrlGenerator {
-
 	app = null
 	req = null
 	defaultUrl = null
@@ -10,12 +9,12 @@ export class UrlGenerator {
 	constructor(app, defaultUrl = null) {
 		this.app = app
 
-		if(!defaultUrl.isNil) {
+		if (!defaultUrl.isNil) {
 			this.defaultUrl = defaultUrl
 			return
-		} else if(this.app.port === 443) {
+		} else if (this.app.port === 443) {
 			defaultUrl = 'https://localhost'
-		} else if(this.app.port === 80) {
+		} else if (this.app.port === 80) {
 			defaultUrl = 'http://localhost'
 		} else {
 			defaultUrl = `http://localhost:${this.app.port}`
@@ -23,7 +22,11 @@ export class UrlGenerator {
 
 		this.defaultUrl = URL.parse(app.config.get('app.url', defaultUrl))
 
-		if(!this.defaultUrl.path.isNil && this.defaultUrl.path !== '' && this.defaultUrl.path !== '/') {
+		if (
+			!this.defaultUrl.path.isNil &&
+			this.defaultUrl.path !== '' &&
+			this.defaultUrl.path !== '/'
+		) {
 			throw new Error('`app.url` can not contain a path.')
 		}
 	}
@@ -54,49 +57,54 @@ export class UrlGenerator {
 	route(name, parameters, req, secure) {
 		const route = this.app.routes.namedRoutes[name]
 
-		if(route.isNil) {
+		if (route.isNil) {
 			throw new Error(`Undefined route name: ${name}`)
 		}
 
-		if(!Array.isArray(parameters)) {
-			parameters = [ parameters ]
+		if (!Array.isArray(parameters)) {
+			parameters = [parameters]
 		}
 
 		const numberOfParameters = parameters.length
 		let isObject = false
 
-		if(numberOfParameters === 1 && typeof parameters[0] === 'object') {
+		if (numberOfParameters === 1 && typeof parameters[0] === 'object') {
 			isObject = true
 			parameters = parameters[0]
 		}
 
-		if(isObject) {
+		if (isObject) {
 			parameters = { ...parameters }
 		}
 
 		let index = 0
 		const path = route.path.replace(/:([a-z0-0_-]+)(?:\(([^)]+)\))?(\?)?/g, (_, name) => {
-			if(isObject) {
+			if (isObject) {
 				const value = parameters[name] || ''
 				delete parameters[name]
 				return value
 			}
 
-			if(numberOfParameters < index) {
+			if (numberOfParameters < index) {
 				return ''
 			}
 
 			return parameters[index++] || ''
 		})
 
-		if(!isObject) {
+		if (!isObject) {
 			parameters = null
 		}
 
-		return this.make({
-			pathname: path,
-			query: { }
-		}, parameters, req, secure)
+		return this.make(
+			{
+				pathname: path,
+				query: {},
+			},
+			parameters,
+			req,
+			secure,
+		)
 	}
 
 	/**
@@ -109,21 +117,21 @@ export class UrlGenerator {
 	 * @return {string}
 	 */
 	make(url, query, req, secure = null) {
-		if(req === true || req === false) {
+		if (req === true || req === false) {
 			secure = req
 			req = null
 		}
 
-		if(req.isNil) {
+		if (req.isNil) {
 			req = this.req
 		}
 
-		if(typeof url === 'string') {
-			if(url.indexOf('://') > 0 || url.indexOf('//') === 0) {
+		if (typeof url === 'string') {
+			if (url.indexOf('://') > 0 || url.indexOf('//') === 0) {
 				return url
 			}
 
-			if(url.indexOf('#') >= 0 || url.indexOf('?') >= 0) {
+			if (url.indexOf('#') >= 0 || url.indexOf('?') >= 0) {
 				url = URL.parse(url, true)
 				delete url.path
 				delete url.href
@@ -133,8 +141,8 @@ export class UrlGenerator {
 			}
 		}
 
-		if(!query.isNil) {
-			if(url.query.isNil) {
+		if (!query.isNil) {
+			if (url.query.isNil) {
 				url.query = query
 			} else {
 				url.query = { ...url.query, ...query }
@@ -156,10 +164,10 @@ export class UrlGenerator {
 	 * @param  {boolean|null} secure Whether or not to force https, null uses default behavior
 	 * @return {string}
 	 */
-	current(query = { }, req, secure = null) {
+	current(query = {}, req, secure = null) {
 		req = req || this.req
 
-		if(req.isNil) {
+		if (req.isNil) {
 			throw new Error('`current` requires a request object')
 		}
 
@@ -167,17 +175,17 @@ export class UrlGenerator {
 	}
 
 	getProtocol(req = null, secure = null) {
-		if(secure === true) {
+		if (secure === true) {
 			return 'https:'
-		} else if(secure === false) {
+		} else if (secure === false) {
 			return 'http:'
 		}
 
-		if(req.isNil) {
+		if (req.isNil) {
 			return this.defaultUrl.protocol || 'http:'
 		}
 
-		if(req.secure) {
+		if (req.secure) {
 			return 'https:'
 		}
 
@@ -185,7 +193,7 @@ export class UrlGenerator {
 	}
 
 	getHost(req = null) {
-		if(req.isNil) {
+		if (req.isNil) {
 			return this.defaultUrl.host || 'localhost'
 		}
 
@@ -195,5 +203,4 @@ export class UrlGenerator {
 	format(req, url) {
 		return URL.format(url)
 	}
-
 }

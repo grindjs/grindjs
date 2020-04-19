@@ -1,5 +1,4 @@
 export class Asset {
-
 	compiler = null
 	path = null
 
@@ -19,7 +18,7 @@ export class Asset {
 	compareKind(other) {
 		const delta = this.kindPriority - other.kindPriority
 
-		if(delta !== 0) {
+		if (delta !== 0) {
 			return delta < 0 ? -1 : 1
 		}
 
@@ -43,7 +42,7 @@ export class Asset {
 	}
 
 	get kindPriority() {
-		switch(this.compiler.kind) {
+		switch (this.compiler.kind) {
 			case 'script':
 				return -1
 			case 'style':
@@ -54,5 +53,4 @@ export class Asset {
 				return 0
 		}
 	}
-
 }

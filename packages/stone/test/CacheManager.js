@@ -9,13 +9,13 @@ const compiledPath = path.join(__dirname, 'fixtures/storage/views/compiled.js')
 function makeApp() {
 	return baseMakeApp(app => {
 		app.config.set('view.path', '../views/output')
-		app.config.set('view.tags', { })
+		app.config.set('view.tags', {})
 		app.config.set('view.ignore-compiled', false)
 	})
 }
 
 function clearCache() {
-	return FS.unlink(compiledPath).catch(() => { })
+	return FS.unlink(compiledPath).catch(() => {})
 }
 
 test('write-cache', async t => {
@@ -30,29 +30,29 @@ test('read-cache', async t => {
 	t.is(await app.view.engine.cacheManager.exists(), true)
 	t.is(
 		typeof app.view.engine.compiler.compiled[path.join(app.view.viewPath, 'simple.stone')],
-		'function'
+		'function',
 	)
 })
 
 test('test-cache', async t => {
 	const localCompiledPath = path.join(path.dirname(compiledPath), 'compiled-test.js')
-	await FS.writeFile(localCompiledPath, `
+	await FS.writeFile(
+		localCompiledPath,
+		`
 module.exports.cache = {
 	'test-cache.stone': function template(_) {
 		return \`Hello \${_.escape(_.title)}!\`;
 	}
-}`)
+}`,
+	)
 
 	const app = await makeApp()
-	app.view.engine.compiler.compiled = { }
+	app.view.engine.compiler.compiled = {}
 	app.view.engine.cacheManager.compiledViewPath = localCompiledPath
 	t.is(await app.view.engine.cacheManager.exists(), true)
 	await app.view.engine.cacheManager.load()
 
-	t.is(
-		(await app.view.render('test-cache', app.config.get('view.data'))),
-		'Hello Grind!'
-	)
+	t.is(await app.view.render('test-cache', app.config.get('view.data')), 'Hello Grind!')
 
 	await FS.unlink(localCompiledPath)
 })

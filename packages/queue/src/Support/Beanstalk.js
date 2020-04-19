@@ -8,7 +8,6 @@ let FivebeansWorker = null
  * promise based interface + simplifies a few ops
  */
 export class Beanstalk {
-
 	constructor(...config) {
 		loadPackage()
 
@@ -32,7 +31,7 @@ export class Beanstalk {
 	use(tube) {
 		return new Promise((resolve, reject) => {
 			this.client.use(tube, err => {
-				if(!err.isNil) {
+				if (!err.isNil) {
 					return reject(err)
 				}
 
@@ -43,23 +42,29 @@ export class Beanstalk {
 
 	put(priority, delay, ttr, type, payload) {
 		return new Promise((resolve, reject) => {
-			this.client.put(priority, delay, ttr, JSON.stringify({
-				type: type,
-				payload: JSON.stringify(payload)
-			}), (err, jobId) => {
-				if(!err.isNil) {
-					return reject(err)
-				}
+			this.client.put(
+				priority,
+				delay,
+				ttr,
+				JSON.stringify({
+					type: type,
+					payload: JSON.stringify(payload),
+				}),
+				(err, jobId) => {
+					if (!err.isNil) {
+						return reject(err)
+					}
 
-				return resolve(jobId)
-			})
+					return resolve(jobId)
+				},
+			)
 		})
 	}
 
 	statsJob(jobId) {
 		return new Promise((resolve, reject) => {
 			this.client.stats_job(jobId, (err, stats) => {
-				if(!err.isNil) {
+				if (!err.isNil) {
 					return reject(err)
 				}
 
@@ -71,8 +76,8 @@ export class Beanstalk {
 	watch(tubes, type, handler) {
 		let worker = null
 
-		if(typeof tubes === 'string') {
-			tubes = [ tubes ]
+		if (typeof tubes === 'string') {
+			tubes = [tubes]
 		}
 
 		worker = new FivebeansWorker({
@@ -80,9 +85,9 @@ export class Beanstalk {
 				[type]: {
 					work: (payload, callback) => {
 						handler(JSON.parse(payload), worker.currentJob, callback)
-					}
-				}
-			}
+					},
+				},
+			},
 		})
 
 		// fivebeans’s worker class creates it’s
@@ -103,18 +108,18 @@ export class Beanstalk {
 
 		return new Promise((resolve, reject) => {
 			worker.watch(tubes, err => {
-				if(!err.isNil) {
+				if (!err.isNil) {
 					return reject(err)
 				}
 
-				if(tubes.includes('default')) {
+				if (tubes.includes('default')) {
 					worker.emit('started')
 					worker.emit('next')
 					return
 				}
 
-				worker.ignore([ 'default' ], err => {
-					if(!err.isNil) {
+				worker.ignore(['default'], err => {
+					if (!err.isNil) {
 						return reject(err)
 					}
 
@@ -128,13 +133,12 @@ export class Beanstalk {
 	end() {
 		try {
 			this.client.end()
-		} catch(err) {
+		} catch (err) {
 			return Promise.reject(err)
 		}
 
 		return Promise.resolve()
 	}
-
 }
 
 /**
@@ -142,7 +146,7 @@ export class Beanstalk {
  * if it hasn‘t been added
  */
 function loadPackage() {
-	if(!FivebeansClient.isNil) {
+	if (!FivebeansClient.isNil) {
 		return
 	}
 
@@ -150,7 +154,7 @@ function loadPackage() {
 		const Fivebeans = require('fivebeans')
 		FivebeansClient = Fivebeans.client
 		FivebeansWorker = Fivebeans.worker
-	} catch(err) {
+	} catch (err) {
 		throw new MissingPackageError('fivebeans')
 	}
 }
