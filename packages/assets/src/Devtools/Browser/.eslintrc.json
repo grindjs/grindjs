@@ -1,11 +1,15 @@
 {
+  "plugins": ["eslint-plugin-import-auto-name", "prettier"],
   "parser": "babel-eslint",
+  "rules": {
+    "prettier/prettier": "error"
+  },
   "env": {
     "browser": true
   },
-  "extends": "grind",
   "parserOptions": {
-    "sourceType": "module",
-    "ecmaVersion": 2018
-  }
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "extends": ["plugin:prettier/recommended"]
 }

@@ -19,7 +19,6 @@ jobs:
       - name: Yarn Install
         run: yarn install
       - run: |
-          cd packages/cache
-          yarn install
-          yarn eslint
-          yarn ava
+          pushd packages/cache && yarn install && popd
+          yarn lerna exec --scope cache -- eslint src
+          yarn lerna exec --scope cache -- ava
