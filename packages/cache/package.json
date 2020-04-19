@@ -17,7 +17,6 @@
   "author": "Shaun Harrison (@shnhrrsn)",
   "main": "lib/index.js",
   "scripts": {
-    "lint": "eslint src test",
     "prepublish": "bin/build",
     "test": "bin/ava --verbose"
   },
@@ -33,11 +32,7 @@
   "devDependencies": {
     "ava": "^0.21.0",
     "babel-cli": ">=6.7 <=7.0",
-    "babel-eslint": "^7.0.0",
     "babel-preset-grind": "^0.8.0-beta.1",
-    "eslint": "^3.19.0",
-    "eslint-config-grind": "^2.0.4",
-    "eslint-plugin-import-auto-name": "^1.0.3",
     "grind-cli": "^0.8.0-beta.1",
     "grind-db": "^0.8.0-beta.1",
     "grind-framework": "^0.8.0-beta.1",

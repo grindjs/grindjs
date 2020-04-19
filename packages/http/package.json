@@ -17,7 +17,6 @@
   "author": "Shaun Harrison (@shnhrrsn)",
   "main": "lib/index.js",
   "scripts": {
-    "lint": "eslint src",
     "prepack": "bin/build",
     "test": "bin/ava --verbose"
   },
@@ -33,19 +32,6 @@
       ]
     ]
   },
-  "eslintConfig": {
-    "env": {
-      "node": true
-    },
-    "parser": "babel-eslint",
-    "parserOptions": {
-      "sourceType": "module"
-    },
-    "plugins": [
-      "import-auto-name"
-    ],
-    "extends": "grind"
-  },
   "ava": {
     "require": [
       "@babel/register"
@@ -60,14 +46,10 @@
     "@babel/core": "^7.1.2",
     "@babel/register": "^7.0.0",
     "ava": "^1.0.0-rc.1",
-    "babel-eslint": "^10.0.1",
     "babel-preset-grind": "^0.8.0-beta.3",
     "chokidar": "^2.0.4",
     "compression": "^1.7.3",
     "cookie-parser": "^1.4.3",
-    "eslint": "^5.8.0",
-    "eslint-config-grind": "^2.1.5",
-    "eslint-plugin-import-auto-name": "^1.1.0",
     "express-flash": "^0.0.2",
     "express-session": "^1.15.6",
     "flash": "^1.1.0",

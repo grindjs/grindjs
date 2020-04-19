@@ -15,7 +15,6 @@
   "author": "Shaun Harrison (@shnhrrsn)",
   "main": "lib/index.js",
   "scripts": {
-    "lint": "eslint src test",
     "prepack": "bin/build",
     "test": "bin/ava --verbose"
   },
@@ -34,11 +33,7 @@
     "@babel/core": "^7.4.5",
     "@babel/register": "^7.4.4",
     "ava": "^1.4.1",
-    "babel-eslint": "^10.0.1",
-    "babel-preset-grind": "^0.8.0-beta.4",
-    "eslint": "^5.16.0",
-    "eslint-config-grind": "^2.3.0",
-    "eslint-plugin-import-auto-name": "^1.1.0"
+    "babel-preset-grind": "^0.8.0-beta.4"
   },
   "engines": {
     "node": ">=8.2"
