@@ -13,11 +13,6 @@
   },
   "license": "MIT",
   "author": "Shaun Harrison (@shnhrrsn)",
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
