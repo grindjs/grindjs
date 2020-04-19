@@ -2,13 +2,6 @@
   "name": "grind-nunjucks",
   "version": "0.7.0",
   "description": "Integrates Nunjucks with Grind‘s View system",
-  "author": "Shaun Harrison (@shnhrrsn)",
-  "license": "MIT",
-  "main": "lib/index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/grindjs/nunjucks.git"
-  },
   "keywords": [
     "grindjs",
     "grind-framework",
@@ -16,6 +9,17 @@
     "nunjucks",
     "templates"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grindjs/nunjucks.git"
+  },
+  "license": "MIT",
+  "author": "Shaun Harrison (@shnhrrsn)",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint src",
+    "prepublish": "./.build"
+  },
   "dependencies": {
     "nunjucks": "^2.0"
   },
@@ -33,9 +37,5 @@
   },
   "engines": {
     "node": ">=6.9"
-  },
-  "scripts": {
-    "prepublish": "./.build",
-    "lint": "eslint src"
   }
 }

@@ -2,13 +2,6 @@
   "name": "grind-validation",
   "version": "0.8.0-beta.1",
   "description": "Validation for Grind, powered by Joi",
-  "author": "Shaun Harrison (@shnhrrsn)",
-  "license": "MIT",
-  "main": "lib/index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/grindjs/validation.git"
-  },
   "keywords": [
     "grindjs",
     "grind-framework",
@@ -16,35 +9,17 @@
     "validator",
     "joi"
   ],
-  "dependencies": {
-    "joi": "^14.3.1"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grindjs/validation.git"
   },
-  "peerDependencies": {
-    "grind-framework": "^0.8.0-beta.1"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.4.3",
-    "@babel/register": "^7.4.0",
-    "ava": "^1.4.1",
-    "babel-eslint": "^10.0.1",
-    "babel-preset-grind": "^0.8.0-beta.4",
-    "eslint": "^5.16.0",
-    "eslint-config-grind": "^2.3.0",
-    "eslint-plugin-import-auto-name": "^1.1.0",
-    "grind-framework": "^0.8.0-beta.1"
-  },
-  "engines": {
-    "node": ">=8.7"
-  },
+  "license": "MIT",
+  "author": "Shaun Harrison (@shnhrrsn)",
+  "main": "lib/index.js",
   "scripts": {
-    "prepare": "bin/build",
     "lint": "eslint src test",
+    "prepare": "bin/build",
     "test": "bin/ava --verbose"
-  },
-  "ava": {
-    "require": [
-      "@babel/register"
-    ]
   },
   "babel": {
     "presets": [
@@ -59,17 +34,42 @@
     ]
   },
   "eslintConfig": {
-    "parser": "babel-eslint",
-    "plugins": [
-      "import-auto-name"
-    ],
     "env": {
       "es6": true,
       "node": true
     },
-    "extends": "grind",
+    "parser": "babel-eslint",
     "parserOptions": {
       "sourceType": "module"
-    }
+    },
+    "plugins": [
+      "import-auto-name"
+    ],
+    "extends": "grind"
+  },
+  "ava": {
+    "require": [
+      "@babel/register"
+    ]
+  },
+  "dependencies": {
+    "joi": "^14.3.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/register": "^7.4.0",
+    "ava": "^1.4.1",
+    "babel-eslint": "^10.0.1",
+    "babel-preset-grind": "^0.8.0-beta.4",
+    "eslint": "^5.16.0",
+    "eslint-config-grind": "^2.3.0",
+    "eslint-plugin-import-auto-name": "^1.1.0",
+    "grind-framework": "^0.8.0-beta.1"
+  },
+  "peerDependencies": {
+    "grind-framework": "^0.8.0-beta.1"
+  },
+  "engines": {
+    "node": ">=8.7"
   }
 }

@@ -2,19 +2,23 @@
   "name": "grind-view",
   "version": "0.8.0-beta.2",
   "description": "View provider for Grind, powered by Nunjucks",
-  "author": "Shaun Harrison (@shnhrrsn)",
-  "license": "MIT",
-  "main": "lib/index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/grindjs/view.git"
-  },
   "keywords": [
     "grindjs",
     "grind-framework",
     "grind-view",
     "templates"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grindjs/view.git"
+  },
+  "license": "MIT",
+  "author": "Shaun Harrison (@shnhrrsn)",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint src",
+    "prepublish": "bin/build"
+  },
   "devDependencies": {
     "babel-cli": ">=6.7 <=7.0",
     "babel-eslint": "^6.1.1",
@@ -28,9 +32,5 @@
   },
   "engines": {
     "node": ">=8.7"
-  },
-  "scripts": {
-    "prepublish": "bin/build",
-    "lint": "eslint src"
   }
 }

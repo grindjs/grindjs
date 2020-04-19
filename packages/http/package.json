@@ -2,13 +2,6 @@
   "name": "grind-http",
   "version": "0.8.0-beta.4",
   "description": "HTTP kernel for Grind, powered by Express",
-  "author": "Shaun Harrison (@shnhrrsn)",
-  "license": "MIT",
-  "main": "lib/index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/grindjs/framework.git"
-  },
   "keywords": [
     "grindjs",
     "grind-framework",
@@ -16,12 +9,51 @@
     "express",
     "http"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grindjs/framework.git"
+  },
+  "license": "MIT",
+  "author": "Shaun Harrison (@shnhrrsn)",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint src",
+    "prepack": "bin/build",
+    "test": "bin/ava --verbose"
+  },
+  "babel": {
+    "presets": [
+      [
+        "grind",
+        {
+          "import-auto-name": {
+            "autoresolve": true
+          }
+        }
+      ]
+    ]
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "sourceType": "module"
+    },
+    "plugins": [
+      "import-auto-name"
+    ],
+    "extends": "grind"
+  },
+  "ava": {
+    "require": [
+      "@babel/register"
+    ]
+  },
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.14.1"
-  },
-  "peerDependencies": {
-    "grind-framework": "^0.8.0-beta.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
@@ -46,48 +78,16 @@
     "request-promise-native": "^1.0.5",
     "sqlite3": "^4.0.3"
   },
+  "peerDependencies": {
+    "grind-framework": "^0.8.0-beta.1"
+  },
   "engines": {
     "node": ">=10.13"
-  },
-  "scripts": {
-    "prepack": "bin/build",
-    "lint": "eslint src",
-    "test": "bin/ava --verbose"
   },
   "grind": {
     "commands": [
       "./lib/Commands/MakeControllerCommand.js"
     ],
     "providers": []
-  },
-  "ava": {
-    "require": [
-      "@babel/register"
-    ]
-  },
-  "babel": {
-    "presets": [
-      [
-        "grind",
-        {
-          "import-auto-name": {
-            "autoresolve": true
-          }
-        }
-      ]
-    ]
-  },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "plugins": [
-      "import-auto-name"
-    ],
-    "env": {
-      "node": true
-    },
-    "extends": "grind",
-    "parserOptions": {
-      "sourceType": "module"
-    }
   }
 }

@@ -2,25 +2,33 @@
   "name": "grind-html",
   "version": "0.8.0-beta.1",
   "description": "HTML/Form builders for Grind",
-  "author": "Shaun Harrison (@shnhrrsn)",
-  "license": "MIT",
-  "main": "lib/index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/grindjs/html.git"
-  },
   "keywords": [
     "grindjs",
     "grind-framework",
     "html"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grindjs/html.git"
+  },
+  "license": "MIT",
+  "author": "Shaun Harrison (@shnhrrsn)",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint src test",
+    "prepare": "bin/build",
+    "test": "bin/ava --verbose"
+  },
+  "ava": {
+    "babel": "inherit",
+    "require": [
+      "babel-register"
+    ]
+  },
   "dependencies": {
     "as-type": "^1.0",
     "dateformat": "^2.0.0",
     "he": "^1.1.1"
-  },
-  "peerDependencies": {
-    "grind-framework": "^0.8.0-beta.1"
   },
   "devDependencies": {
     "ava": "^0.25.0",
@@ -36,18 +44,10 @@
     "grind-stone": "^0.8.0-beta.5",
     "grind-view": "^0.8.0-beta.1"
   },
+  "peerDependencies": {
+    "grind-framework": "^0.8.0-beta.1"
+  },
   "engines": {
     "node": ">=8.7"
-  },
-  "scripts": {
-    "prepare": "bin/build",
-    "lint": "eslint src test",
-    "test": "bin/ava --verbose"
-  },
-  "ava": {
-    "require": [
-      "babel-register"
-    ],
-    "babel": "inherit"
   }
 }

@@ -2,15 +2,15 @@
   "name": "grind-devbar",
   "version": "0.8.0-beta.3",
   "description": "Toolbar that provides insights and instrumentations during development of Grind apps.",
-  "main": "lib/index.js",
-  "author": "Shaun Harrison",
   "license": "MIT",
+  "author": "Shaun Harrison",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint src",
+    "prepare": "bin/build"
+  },
   "dependencies": {
     "zone.js": "^0.8.17"
-  },
-  "peerDependencies": {
-    "grind-stone": "^0.7.2",
-    "grind-support": "^0.7.0"
   },
   "devDependencies": {
     "babel-cli": ">=6.7 <=7.0",
@@ -20,11 +20,11 @@
     "eslint-config-grind": "^2.0.0",
     "eslint-plugin-import-auto-name": "^1.0.3"
   },
+  "peerDependencies": {
+    "grind-stone": "^0.7.2",
+    "grind-support": "^0.7.0"
+  },
   "engines": {
     "node": ">=8.4"
-  },
-  "scripts": {
-    "prepare": "bin/build",
-    "lint": "eslint src"
   }
 }

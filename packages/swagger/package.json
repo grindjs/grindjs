@@ -2,18 +2,29 @@
   "name": "grind-swagger",
   "version": "0.7.0",
   "description": "Swagger provider for Grind",
-  "author": "Shaun Harrison (@shnhrrsn)",
-  "license": "MIT",
-  "main": "lib/index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/grindjs/swagger.git"
-  },
   "keywords": [
     "grindjs",
     "grind-framework",
     "swagger"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grindjs/swagger.git"
+  },
+  "license": "MIT",
+  "author": "Shaun Harrison (@shnhrrsn)",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint src",
+    "prepublish": "bin/build",
+    "test": "bin/ava --verbose"
+  },
+  "ava": {
+    "babel": "inherit",
+    "require": [
+      "babel-register"
+    ]
+  },
   "devDependencies": {
     "ava": "^0.21.0",
     "babel-cli": ">=6.7 <=7.0",
@@ -31,16 +42,5 @@
   },
   "engines": {
     "node": ">=6.9"
-  },
-  "scripts": {
-    "prepublish": "bin/build",
-    "lint": "eslint src",
-    "test": "bin/ava --verbose"
-  },
-  "ava": {
-    "require": [
-      "babel-register"
-    ],
-    "babel": "inherit"
   }
 }

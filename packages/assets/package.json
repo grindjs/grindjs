@@ -2,13 +2,6 @@
   "name": "grind-assets",
   "version": "0.8.0-beta.14",
   "description": "Asset management for Grind",
-  "author": "Shaun Harrison (@shnhrrsn)",
-  "license": "MIT",
-  "main": "lib/index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/grindjs/assets.git"
-  },
   "keywords": [
     "grindjs",
     "grind-framework",
@@ -17,6 +10,54 @@
     "scss",
     "babel"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grindjs/assets.git"
+  },
+  "license": "MIT",
+  "author": "Shaun Harrison (@shnhrrsn)",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint src test",
+    "prepare": "bin/build",
+    "test": "bin/ava --verbose"
+  },
+  "babel": {
+    "presets": [
+      [
+        "grind",
+        {
+          "import-auto-name": {
+            "autoresolve": true
+          }
+        }
+      ]
+    ]
+  },
+  "eslintConfig": {
+    "env": {
+      "es6": true,
+      "node": true
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "sourceType": "module"
+    },
+    "plugins": [
+      "import-auto-name"
+    ],
+    "extends": "grind"
+  },
+  "ava": {
+    "files": [
+      "test/**/*.js",
+      "!test/fixtures/**/*.js",
+      "!test/helpers/**/*.js"
+    ],
+    "require": [
+      "@babel/register"
+    ]
+  },
   "dependencies": {
     "@babel/code-frame": "^7.5.5",
     "dateformat": "^3.0.3",
@@ -62,46 +103,5 @@
   },
   "engines": {
     "node": ">=10.13"
-  },
-  "scripts": {
-    "prepare": "bin/build",
-    "lint": "eslint src test",
-    "test": "bin/ava --verbose"
-  },
-  "ava": {
-    "files": [
-      "test/**/*.js",
-      "!test/fixtures/**/*.js",
-      "!test/helpers/**/*.js"
-    ],
-    "require": [
-      "@babel/register"
-    ]
-  },
-  "babel": {
-    "presets": [
-      [
-        "grind",
-        {
-          "import-auto-name": {
-            "autoresolve": true
-          }
-        }
-      ]
-    ]
-  },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "plugins": [
-      "import-auto-name"
-    ],
-    "env": {
-      "es6": true,
-      "node": true
-    },
-    "extends": "grind",
-    "parserOptions": {
-      "sourceType": "module"
-    }
   }
 }

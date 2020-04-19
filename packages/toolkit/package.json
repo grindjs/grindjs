@@ -1,19 +1,50 @@
 {
   "name": "grind-toolkit",
-  "description": "CLI Tookit for Grind",
   "version": "0.8.0-beta.8",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/grindjs/toolkit.git"
-  },
+  "description": "CLI Tookit for Grind",
   "keywords": [
     "grindjs",
     "grind-framework"
   ],
-  "preferGlobal": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grindjs/toolkit.git"
+  },
+  "license": "MIT",
   "bin": {
     "grind": "./lib/bin/cli"
+  },
+  "scripts": {
+    "lint": "eslint app boot",
+    "prepack": "bin/build"
+  },
+  "babel": {
+    "presets": [
+      [
+        "grind",
+        {
+          "import-auto-name": {
+            "autoresolve": true
+          }
+        }
+      ]
+    ]
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "sourceType": "module"
+    },
+    "plugins": [
+      "import-auto-name"
+    ],
+    "extends": "grind",
+    "globals": {
+      "ValidationError": false
+    }
   },
   "dependencies": {
     "as-type": "^1.0.0",
@@ -37,35 +68,5 @@
     "node": ">=8.7",
     "npm": ">=3.0"
   },
-  "scripts": {
-    "prepack": "bin/build",
-    "lint": "eslint app boot"
-  },
-  "babel": {
-    "presets": [
-      [
-        "grind", {
-          "import-auto-name": {
-            "autoresolve": true
-          }
-        }
-      ]
-    ]
-  },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "plugins": [
-      "import-auto-name"
-    ],
-    "env": {
-      "node": true
-    },
-    "extends": "grind",
-    "parserOptions": {
-      "sourceType": "module"
-    },
-    "globals": {
-      "ValidationError": false
-    }
-  }
+  "preferGlobal": true
 }

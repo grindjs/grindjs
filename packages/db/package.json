@@ -2,25 +2,25 @@
   "name": "grind-db",
   "version": "0.8.0-beta.4",
   "description": "Database provider for Grind, powered by Knex",
-  "author": "Shaun Harrison (@shnhrrsn)",
-  "license": "MIT",
-  "main": "lib/index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/grindjs/db.git"
-  },
   "keywords": [
     "grindjs",
     "grind-framework",
     "knex",
     "db"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grindjs/db.git"
+  },
+  "license": "MIT",
+  "author": "Shaun Harrison (@shnhrrsn)",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint src",
+    "prepack": "bin/build"
+  },
   "dependencies": {
     "knex": ">=0.19.0 <=1.0"
-  },
-  "peerDependencies": {
-    "grind-cli": "^0.8.0-beta.1",
-    "grind-framework": "^0.8.0-beta.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
@@ -32,12 +32,12 @@
     "eslint-config-grind": "^2.3.0",
     "eslint-plugin-import-auto-name": "^1.1.0"
   },
+  "peerDependencies": {
+    "grind-cli": "^0.8.0-beta.1",
+    "grind-framework": "^0.8.0-beta.1"
+  },
   "engines": {
     "node": ">=8.7"
-  },
-  "scripts": {
-    "prepack": "bin/build",
-    "lint": "eslint src"
   },
   "grind": {
     "commands": [

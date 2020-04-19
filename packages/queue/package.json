@@ -2,13 +2,6 @@
   "name": "grind-queue",
   "version": "0.8.0-beta.13",
   "description": "Queue provider for Grind",
-  "author": "Shaun Harrison (@shnhrrsn)",
-  "license": "MIT",
-  "main": "lib/index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/grindjs/queue.git"
-  },
   "keywords": [
     "grindjs",
     "grind-framework",
@@ -18,12 +11,57 @@
     "queue",
     "faktory"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grindjs/queue.git"
+  },
+  "license": "MIT",
+  "author": "Shaun Harrison (@shnhrrsn)",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint src",
+    "prepack": "bin/build",
+    "test": "ava --verbose"
+  },
+  "babel": {
+    "presets": [
+      [
+        "grind",
+        {
+          "import-auto-name": {
+            "autoresolve": true
+          }
+        }
+      ]
+    ]
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "sourceType": "module"
+    },
+    "plugins": [
+      "import-auto-name"
+    ],
+    "extends": "grind"
+  },
+  "ava": {
+    "files": [
+      "test/**/*",
+      "!test/FaktoryDriver.js"
+    ],
+    "helpers": [
+      "test/**/helpers/**/*"
+    ],
+    "require": [
+      "@babel/register"
+    ]
+  },
   "dependencies": {
     "uuid": "^3.3.2"
-  },
-  "peerDependencies": {
-    "grind-cli": "^0.8.0-beta.4",
-    "grind-framework": "^0.8.0-beta.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
@@ -45,52 +83,14 @@
     "grind-http": "^0.8.0-beta.1",
     "redis": "^2.8.0"
   },
+  "peerDependencies": {
+    "grind-cli": "^0.8.0-beta.4",
+    "grind-framework": "^0.8.0-beta.1"
+  },
   "engines": {
     "node": ">=10.13"
   },
-  "scripts": {
-    "prepack": "bin/build",
-    "lint": "eslint src",
-    "test": "ava --verbose"
-  },
   "grind": {
     "command": "lib/Commands/MakeJobCommand.js"
-  },
-  "ava": {
-    "helpers": [
-      "test/**/helpers/**/*"
-    ],
-    "files": [
-      "test/**/*",
-      "!test/FaktoryDriver.js"
-    ],
-    "require": [
-      "@babel/register"
-    ]
-  },
-  "babel": {
-    "presets": [
-      [
-        "grind",
-        {
-          "import-auto-name": {
-            "autoresolve": true
-          }
-        }
-      ]
-    ]
-  },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "plugins": [
-      "import-auto-name"
-    ],
-    "env": {
-      "node": true
-    },
-    "extends": "grind",
-    "parserOptions": {
-      "sourceType": "module"
-    }
   }
 }

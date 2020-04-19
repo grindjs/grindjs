@@ -1,19 +1,28 @@
 {
-	"name": "grindjs",
-	"description": "An opinionated Node web framework built on Express",
-	"author": "Shaun Harrison (@shnhrrsn)",
-	"version": "0.8.0-beta.14",
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/grindjs/grindjs.git"
-	},
-	"keywords": [
-		"grindjs",
-		"grind-framework",
-		"web-framework"
-	],
-	"devDependencies": {
-		"lerna": "^3.20.2"
-	}
+  "name": "grindjs",
+  "version": "0.8.0-beta.14",
+  "description": "An opinionated Node web framework built on Express",
+  "keywords": [
+    "grindjs",
+    "grind-framework",
+    "web-framework"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grindjs/grindjs.git"
+  },
+  "license": "MIT",
+  "author": "Shaun Harrison (@shnhrrsn)",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "devDependencies": {
+    "husky": "^4.2.5",
+    "lerna": "^3.20.2",
+    "lint-staged": "^10.1.5",
+    "prettier": "^2.0.4",
+    "prettier-plugin-packagejson": "^2.2.1"
+  }
 }

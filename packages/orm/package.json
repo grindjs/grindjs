@@ -2,26 +2,60 @@
   "name": "grind-orm",
   "version": "0.8.0-beta.3",
   "description": "ORM provider for Grind, powered by Objection.js",
-  "author": "Shaun Harrison (@shnhrrsn)",
-  "license": "MIT",
-  "main": "lib/index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/grindjs/orm.git"
-  },
   "keywords": [
     "grindjs",
     "grind-framework",
     "objectionjs",
     "orm"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grindjs/orm.git"
+  },
+  "license": "MIT",
+  "author": "Shaun Harrison (@shnhrrsn)",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint src test",
+    "prepare": "bin/build",
+    "test": "bin/ava --verbose"
+  },
+  "babel": {
+    "presets": [
+      [
+        "grind",
+        {
+          "import-auto-name": {
+            "autoresolve": true
+          }
+        }
+      ]
+    ]
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "sourceType": "module"
+    },
+    "plugins": [
+      "import-auto-name"
+    ],
+    "extends": "grind",
+    "globals": {
+      "ValidationError": false
+    }
+  },
+  "ava": {
+    "require": [
+      "@babel/register"
+    ]
+  },
   "dependencies": {
     "as-type": "^1.0.0",
     "objection": "^1.4.0"
-  },
-  "peerDependencies": {
-    "grind-db": "^0.8.0-beta.1",
-    "grind-framework": "^0.8.0-beta.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
@@ -38,48 +72,14 @@
     "grind-framework": "^0.8.0-beta.1",
     "sqlite3": "^4.0.3"
   },
+  "peerDependencies": {
+    "grind-db": "^0.8.0-beta.1",
+    "grind-framework": "^0.8.0-beta.1"
+  },
   "engines": {
     "node": ">=10.13"
   },
-  "scripts": {
-    "lint": "eslint src test",
-    "prepare": "bin/build",
-    "test": "bin/ava --verbose"
-  },
   "grind": {
     "command": "lib/MakeModelCommand.js"
-  },
-  "ava": {
-    "require": [
-      "@babel/register"
-    ]
-  },
-  "babel": {
-    "presets": [
-      [
-        "grind",
-        {
-          "import-auto-name": {
-            "autoresolve": true
-          }
-        }
-      ]
-    ]
-  },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "plugins": [
-      "import-auto-name"
-    ],
-    "env": {
-      "node": true
-    },
-    "extends": "grind",
-    "parserOptions": {
-      "sourceType": "module"
-    },
-    "globals": {
-      "ValidationError": false
-    }
   }
 }

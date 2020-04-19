@@ -2,21 +2,25 @@
   "name": "grind-stone",
   "version": "0.8.0-beta.9",
   "description": "Stone is a templating language for Grind based on Laravel’s Blade",
-  "main": "lib/index.js",
-  "author": "Shaun Harrison",
   "license": "MIT",
+  "author": "Shaun Harrison",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint src test",
+    "prepublish": "bin/build",
+    "test": "bin/ava --verbose"
+  },
+  "ava": {
+    "require": [
+      "@babel/register",
+      "@babel/polyfill"
+    ]
+  },
   "dependencies": {
     "acorn": "^5.7.0",
     "acorn5-object-spread": "^5.1.2",
     "astring": "^1.3.1",
     "he": "^1.2.0"
-  },
-  "peerDependencies": {
-    "grind-support": "^0.8.0-beta.1",
-    "grind-view": "^0.8.0-beta.1"
-  },
-  "optionalDependencies": {
-    "chokidar": "^1.7.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
@@ -35,18 +39,14 @@
     "grind-view": "^0.8.0-beta.1",
     "recursive-readdir-sync": "^1.0.6"
   },
+  "peerDependencies": {
+    "grind-support": "^0.8.0-beta.1",
+    "grind-view": "^0.8.0-beta.1"
+  },
+  "optionalDependencies": {
+    "chokidar": "^1.7.0"
+  },
   "engines": {
     "node": ">=8.9"
-  },
-  "scripts": {
-    "prepublish": "bin/build",
-    "lint": "eslint src test",
-    "test": "bin/ava --verbose"
-  },
-  "ava": {
-    "require": [
-      "@babel/register",
-      "@babel/polyfill"
-    ]
   }
 }

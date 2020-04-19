@@ -2,18 +2,28 @@
   "name": "grind-framework",
   "version": "0.8.0-beta.4",
   "description": "An opinionated Node web framework built on Express",
-  "author": "Shaun Harrison (@shnhrrsn)",
-  "license": "MIT",
-  "main": "lib/index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/grindjs/framework.git"
-  },
   "keywords": [
     "grindjs",
     "grind-framework",
     "web-framework"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grindjs/framework.git"
+  },
+  "license": "MIT",
+  "author": "Shaun Harrison (@shnhrrsn)",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint src test",
+    "prepack": "bin/build",
+    "test": "bin/ava --verbose"
+  },
+  "ava": {
+    "require": [
+      "@babel/register"
+    ]
+  },
   "dependencies": {
     "chalk": "^2.4.2",
     "grind-support": "^0.8.0-beta.5",
@@ -32,15 +42,5 @@
   },
   "engines": {
     "node": ">=8.2"
-  },
-  "scripts": {
-    "prepack": "bin/build",
-    "lint": "eslint src test",
-    "test": "bin/ava --verbose"
-  },
-  "ava": {
-    "require": [
-      "@babel/register"
-    ]
   }
 }

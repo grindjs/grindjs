@@ -2,19 +2,54 @@
   "name": "grind-cli",
   "version": "0.8.0-beta.3",
   "description": "CLI provider for Grind",
-  "author": "Shaun Harrison (@shnhrrsn)",
-  "license": "MIT",
-  "main": "lib/index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/grindjs/cli.git"
-  },
   "keywords": [
     "grindjs",
     "grind-framework",
     "grind-kernel",
     "cli"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grindjs/cli.git"
+  },
+  "license": "MIT",
+  "author": "Shaun Harrison (@shnhrrsn)",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint src",
+    "prepublish": "bin/build",
+    "test": "bin/ava --verbose"
+  },
+  "babel": {
+    "presets": [
+      [
+        "grind",
+        {
+          "import-auto-name": {
+            "autoresolve": true
+          }
+        }
+      ]
+    ]
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "sourceType": "module"
+    },
+    "plugins": [
+      "import-auto-name"
+    ],
+    "extends": "grind"
+  },
+  "ava": {
+    "require": [
+      "@babel/register"
+    ]
+  },
   "dependencies": {
     "as-type": "^1.0.0",
     "chalk": "^1.0.0",
@@ -38,45 +73,10 @@
   "engines": {
     "node": ">=10.13"
   },
-  "scripts": {
-    "prepublish": "bin/build",
-    "lint": "eslint src",
-    "test": "bin/ava --verbose"
-  },
   "grind": {
     "commands": [
       "./lib/Commands/MakeCommandCommand.js"
     ],
     "providers": []
-  },
-  "ava": {
-    "require": [
-      "@babel/register"
-    ]
-  },
-  "babel": {
-    "presets": [
-      [
-        "grind",
-        {
-          "import-auto-name": {
-            "autoresolve": true
-          }
-        }
-      ]
-    ]
-  },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "plugins": [
-      "import-auto-name"
-    ],
-    "env": {
-      "node": true
-    },
-    "extends": "grind",
-    "parserOptions": {
-      "sourceType": "module"
-    }
   }
 }

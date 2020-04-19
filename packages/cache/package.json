@@ -2,13 +2,6 @@
   "name": "grind-cache",
   "version": "0.8.0-beta.1",
   "description": "Cache provider for Grind, powered by node-cache-manager",
-  "author": "Shaun Harrison (@shnhrrsn)",
-  "license": "MIT",
-  "main": "lib/index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/grindjs/cache.git"
-  },
   "keywords": [
     "grindjs",
     "grind-framework",
@@ -16,11 +9,26 @@
     "node-cache-manager",
     "cache"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grindjs/cache.git"
+  },
+  "license": "MIT",
+  "author": "Shaun Harrison (@shnhrrsn)",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint src test",
+    "prepublish": "bin/build",
+    "test": "bin/ava --verbose"
+  },
+  "ava": {
+    "babel": "inherit",
+    "require": [
+      "babel-register"
+    ]
+  },
   "dependencies": {
     "cache-manager": "^2.4.0"
-  },
-  "peerDependencies": {
-    "grind-framework": "^0.8.0-beta.1"
   },
   "devDependencies": {
     "ava": "^0.21.0",
@@ -35,18 +43,10 @@
     "grind-framework": "^0.8.0-beta.1",
     "sqlite3": "^3.1.8"
   },
+  "peerDependencies": {
+    "grind-framework": "^0.8.0-beta.1"
+  },
   "engines": {
     "node": ">=8.7"
-  },
-  "scripts": {
-    "prepublish": "bin/build",
-    "lint": "eslint src test",
-    "test": "bin/ava --verbose"
-  },
-  "ava": {
-    "require": [
-      "babel-register"
-    ],
-    "babel": "inherit"
   }
 }
