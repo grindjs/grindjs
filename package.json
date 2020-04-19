@@ -1,6 +1,6 @@
 {
   "name": "grindjs",
-  "version": "0.8.0-beta.14",
+  "private": true,
   "description": "An opinionated Node web framework built on Express",
   "keywords": [
     "grindjs",
