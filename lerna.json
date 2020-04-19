@@ -6,5 +6,5 @@
       "ignoreChanges": ["*.md", "*.markdown"]
     }
   },
-  "packages": ["packages/*"]
+  "packages": ["packages/*", "meta/*"]
 }
