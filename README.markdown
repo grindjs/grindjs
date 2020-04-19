@@ -4,7 +4,6 @@
 <a href="https://travis-ci.org/grindjs/framework"><img src="https://img.shields.io/travis/grindjs/framework.svg" alt="Build Status"></a>
 <a href="https://www.npmjs.com/package/grind-framework"><img src="https://img.shields.io/npm/dt/grind-framework.svg" alt="Total Downloads"></a>
 <a href="https://www.npmjs.com/package/grind-framework"><img src="https://img.shields.io/npm/v/grind-framework.svg" alt="Latest Version"></a>
-<a href="https:/grind.chat"><img src="https://grind.chat/badge.svg" alt="Slack"></a>
 <a href="https://www.npmjs.com/package/grind-framework"><img src="https://img.shields.io/npm/l/grind-framework.svg" alt="License"></a>
 <a href="https://lerna.js.org/"><img src="https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg" alt="lerna"></a>
 </p>
@@ -19,10 +18,10 @@ Full documentation for Grind is available on the [Grind website](https://grind.r
 
 ### Additional Resources
 
--   [Example Web Project](https://github.com/grindjs/example-web)
--   [Example API Project](https://github.com/grindjs/example-api)
--   [Source for the Grind website](https://github.com/grindjs/site)
--   [Grind Slack](https://grind.chat)
+- [Example Web Project](https://github.com/grindjs/example-web)
+- [Example API Project](https://github.com/grindjs/example-api)
+- [Source for the Grind website](https://github.com/grindjs/site)
+- [Grind Slack](https://grind.chat)
 
 ## License
 
