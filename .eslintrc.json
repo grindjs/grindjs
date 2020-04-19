@@ -1,7 +1,16 @@
 {
-  "plugins": ["prettier"],
+  "plugins": ["eslint-plugin-import-auto-name", "prettier"],
+  "parser": "babel-eslint",
   "rules": {
     "prettier/prettier": "error"
+  },
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
   },
   "extends": ["plugin:prettier/recommended"]
 }

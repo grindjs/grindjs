@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-rm -fr lib && mkdir -p lib
-
-echo "Building"
-BABEL_TARGET_VERSION=8.4 babel -s inline -d lib/ src/

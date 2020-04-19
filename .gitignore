@@ -3,4 +3,5 @@ lib/
 node_modules/
 npm-*.log
 yarn.lock
+yarn-*.log
 lerna-*.log

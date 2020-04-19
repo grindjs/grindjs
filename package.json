@@ -24,7 +24,7 @@
     "@babel/polyfill": "^7.8.7",
     "@babel/register": "^7.9.0",
     "babel-eslint": "^10.1.0",
-    "babel-preset-grind": "^0.7.0",
+    "babel-preset-grind": "^0.8.0-beta.4",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-import-auto-name": "^1.1.0",
@@ -34,6 +34,7 @@
     "lint-staged": "^10.1.5",
     "prettier": "^2.0.4",
     "prettier-plugin-packagejson": "^2.2.1",
+    "rollup": "^2.6.1",
     "update-versions": "^2.4.6"
   }
 }

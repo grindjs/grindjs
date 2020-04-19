@@ -17,7 +17,7 @@
   "author": "Shaun Harrison (@shnhrrsn)",
   "main": "lib/index.js",
   "scripts": {
-    "prepublish": "bin/build"
+    "prepack": "rm -fr lib && babel --root-mode upward -s inline -d lib/ src/ --copy-files"
   },
   "dependencies": {
     "cache-manager": "^3.2.1"

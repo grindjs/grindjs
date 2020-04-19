@@ -1,1 +1,0 @@
-NODE_ENV=test node node_modules/.bin/ava "$@"
