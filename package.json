@@ -13,6 +13,9 @@
   },
   "license": "MIT",
   "author": "Shaun Harrison (@shnhrrsn)",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "commit": "git-cz"
   },

@@ -6,6 +6,7 @@
     }
   },
   "packages": ["packages/*", "meta/*"],
+  "useWorkspaces": true,
   "npmClient": "yarn",
   "npmClientArgs": ["--no-lockfile"]
 }
