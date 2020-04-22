@@ -16,7 +16,8 @@
   "author": "Shaun Harrison (@shnhrrsn)",
   "main": "lib/index.js",
   "scripts": {
-    "prepack": "rm -fr lib && babel --root-mode upward -s inline -d lib/ src/ --copy-files"
+    "build": "../../scripts/build-package.sh",
+    "prepack": "yarn build"
   },
   "peerDependencies": {
     "grind-framework": "^0.8.0-beta.1"

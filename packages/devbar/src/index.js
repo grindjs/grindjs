@@ -1,19 +1,9 @@
-import './Devbar'
-import './DevbarProvider'
+export { Devbar } from './Devbar'
+export { DevbarProvider } from './DevbarProvider'
 
-import './Collectors/DatabaseCollector'
-import './Collectors/EventCollectorBuilder'
+export { DatabaseCollector } from './Collectors/DatabaseCollector'
+export { EventCollectorBuilder } from './Collectors/EventCollectorBuilder'
 
-import './Containers/Container'
-import './Containers/MessagesContainer'
-import './Containers/TimelineContainer'
-
-export {
-	Devbar,
-	DevbarProvider,
-	DatabaseCollector,
-	EventCollectorBuilder,
-	Container,
-	MessagesContainer,
-	TimelineContainer,
-}
+export { Container } from './Containers/Container'
+export { MessagesContainer } from './Containers/MessagesContainer'
+export { TimelineContainer } from './Containers/TimelineContainer'

@@ -1,7 +1,5 @@
-import './OrmProvider'
-import './Model'
-import './ModelNotFoundError'
+export { OrmProvider } from './OrmProvider'
+export { Model } from './Model'
+export { ModelNotFoundError } from './ModelNotFoundError'
 
-import { ValidationError } from 'objection'
-
-export { OrmProvider, Model, ModelNotFoundError, ValidationError }
+export { ValidationError } from 'objection'

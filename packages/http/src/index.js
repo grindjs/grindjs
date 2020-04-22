@@ -1,11 +1,9 @@
 import { lazy } from 'grind-support'
 
-import './HttpServer/ExpressProvider'
-import './HttpServer/PortProvider'
-import './Routing/RoutingProvider'
-import './Url/UrlProvider'
-
-export { ExpressProvider, PortProvider, RoutingProvider, UrlProvider }
+export { ExpressProvider } from './HttpServer/ExpressProvider'
+export { PortProvider } from './HttpServer/PortProvider'
+export { RoutingProvider } from './Routing/RoutingProvider'
+export { UrlProvider } from './Url/UrlProvider'
 
 export const standardProviders = [PortProvider, ExpressProvider, RoutingProvider, UrlProvider]
 

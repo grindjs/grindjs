@@ -11,7 +11,8 @@
   "main": "lib/index.js",
   "browser": "dist/react-dev.min.js",
   "scripts": {
-    "prepare": "bin/build"
+    "build": "bin/build",
+    "prepack": "yarn build"
   },
   "dependencies": {
     "react-dev-utils": "^10.2.1",

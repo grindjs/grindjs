@@ -1,4 +1,2 @@
-import './SwaggerProvider'
-import './Swagger'
-
-export { SwaggerProvider, Swagger }
+export { SwaggerProvider } from './SwaggerProvider'
+export { Swagger } from './Swagger'

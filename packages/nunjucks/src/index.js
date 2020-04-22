@@ -1,3 +1,1 @@
-import './NunjucksEngine'
-
-export { NunjucksEngine }
+export { NunjucksEngine } from './NunjucksEngine'

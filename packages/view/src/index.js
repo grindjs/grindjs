@@ -1,5 +1,3 @@
-import './ViewEngine'
-import './ViewFactory'
-import './ViewProvider'
-
-export { ViewEngine, ViewFactory, ViewProvider }
+export { ViewEngine } from './ViewEngine'
+export { ViewFactory } from './ViewFactory'
+export { ViewProvider } from './ViewProvider'

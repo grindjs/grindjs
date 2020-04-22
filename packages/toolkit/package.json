@@ -15,7 +15,8 @@
     "grind": "./lib/bin/cli"
   },
   "scripts": {
-    "prepack": "bin/build"
+    "build": "bin/build",
+    "prepack": "yarn build"
   },
   "dependencies": {
     "as-type": "^1.0.0",

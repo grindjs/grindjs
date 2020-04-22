@@ -1,8 +1,6 @@
-import './Compiler'
-import './HtmlString'
-import './StoneEngine'
+export { Compiler } from './Compiler'
+export { HtmlString } from './HtmlString'
+export { StoneEngine } from './StoneEngine'
 
-import './Errors/StoneError'
-import './Errors/StoneCompilerError'
-
-export { Compiler, HtmlString, StoneEngine, StoneError, StoneCompilerError }
+export { StoneError } from './Errors/StoneError'
+export { StoneCompilerError } from './Errors/StoneCompilerError'

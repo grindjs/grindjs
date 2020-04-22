@@ -18,7 +18,8 @@
   "author": "Shaun Harrison (@shnhrrsn)",
   "main": "lib/index.js",
   "scripts": {
-    "prepare": "bin/build",
+    "build": "bin/build",
+    "prepack": "yarn build",
     "test": "ava"
   },
   "dependencies": {
