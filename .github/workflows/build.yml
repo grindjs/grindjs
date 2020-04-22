@@ -1,8 +1,4 @@
-name: devbar
-on:
-  push:
-    paths:
-      - 'packages/devbar/**'
+name: build
 
 jobs:
   build:
@@ -18,7 +14,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Yarn Install
         run: yarn install
-      - run: |
-          cd packages/devbar
-          yarn install
-          yarn eslint
+      - name: Lerna Bootstrap
+        run: lerna bootstrap
