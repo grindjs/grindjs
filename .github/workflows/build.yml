@@ -15,4 +15,4 @@ jobs:
       - name: Yarn Install
         run: yarn install
       - name: Lerna Bootstrap
-        run: lerna bootstrap
+        run: yarn lerna bootstrap
