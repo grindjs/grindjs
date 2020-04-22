@@ -47,7 +47,7 @@ FS.mkdirp = function (...args) {
 		return mkdirp(...args)
 	}
 
-	mkdirp = promisify(require('mkdirp'))
+	mkdirp = require('mkdirp')
 	return mkdirp(...args)
 }
 
