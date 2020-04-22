@@ -19,7 +19,8 @@
   "author": "Shaun Harrison (@shnhrrsn)",
   "main": "lib/index.js",
   "scripts": {
-    "prepack": "rm -fr lib && babel --root-mode upward -s inline -d lib/ src/ --copy-files"
+    "prepack": "rm -fr lib && babel --root-mode upward -s inline -d lib/ src/ --copy-files",
+    "test": "ava"
   },
   "dependencies": {
     "uuid": "^7.0.3"

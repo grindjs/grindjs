@@ -18,7 +18,8 @@
   "author": "Shaun Harrison (@shnhrrsn)",
   "main": "lib/index.js",
   "scripts": {
-    "prepare": "bin/build"
+    "prepare": "bin/build",
+    "test": "ava"
   },
   "dependencies": {
     "@babel/code-frame": "^7.8.3",

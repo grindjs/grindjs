@@ -1,4 +1,4 @@
 module.exports = {
-	require: ['@babel/register', '@babel/polyfill'],
+	require: [require.resolve('./helpers/ava-register')],
 	files: ['test/**/*.js', '!test/fixtures/**/*.js', '!test/helpers/**/*.js'],
 }
