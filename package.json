@@ -13,6 +13,14 @@
   },
   "license": "MIT",
   "author": "Shaun Harrison (@shnhrrsn)",
+  "scripts": {
+    "commit": "git-cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
@@ -24,6 +32,8 @@
     "ava": "^3.7.1",
     "babel-eslint": "^10.1.0",
     "babel-preset-grind": "^0.8.0-beta.4",
+    "commitizen": "^4.0.4",
+    "cz-conventional-changelog": "3.1.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-import-auto-name": "^1.1.0",
