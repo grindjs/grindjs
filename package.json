@@ -17,7 +17,9 @@
     "packages/*"
   ],
   "scripts": {
-    "commit": "git-cz"
+    "build": "lerna run build",
+    "commit": "git-cz",
+    "test": "lerna run test"
   },
   "config": {
     "commitizen": {

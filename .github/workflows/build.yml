@@ -25,4 +25,4 @@ jobs:
         run: yarn lerna bootstrap
 
       - name: Build
-        run: yarn lerna run build
+        run: yarn build
