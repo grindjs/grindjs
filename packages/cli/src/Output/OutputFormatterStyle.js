@@ -1,6 +1,6 @@
 //  Adopted from Symfony: https://github.com/symfony/console/blob/40b3aca/Formatter/OutputFormatterStyle.php
 
-import { constructor as Chalk } from 'chalk'
+import { Instance as Chalk } from 'chalk'
 const chalk = new Chalk({ enabled: true })
 
 export class OutputFormatterStyle {
