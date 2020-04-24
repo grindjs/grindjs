@@ -1,7 +1,8 @@
-import 'babel-polyfill'
-import rp from 'request-promise-native'
+import fetch from 'fetchit'
 import path from 'path'
-import { Grind, HttpServer, Paths as BasePaths } from 'grind-framework'
+import { Application, Paths as BasePaths } from 'grind-framework'
+import { HttpServer, HttpKernel } from 'grind-http'
+import getPort from 'get-port'
 
 import '../../src/SwaggerProvider'
 
@@ -13,13 +14,13 @@ class Paths extends BasePaths {
 	}
 }
 
-let port = 0
-export function makeServer(space, boot) {
+export async function makeServer(boot) {
 	let app = null
+	const port = await getPort()
 
 	return new HttpServer(() => {
-		app = new Grind({
-			port: 32180 + space + ++port,
+		app = new Application(HttpKernel, {
+			port,
 			pathsClass: Paths,
 		})
 
@@ -34,20 +35,13 @@ export function makeServer(space, boot) {
 		.start()
 		.then(() => {
 			boot(app)
-
-			app.request = (path, options) =>
-				rp({
-					...options,
-					uri: `http://127.0.0.1:${app.port}/${path}`,
-					resolveWithFullResponse: true,
-				})
-
+			app.request = (path, options) => fetch(`http://127.0.0.1:${app.port}/${path}`, options)
 			return app
 		})
 }
 
-export function request(space, boot, path, options = {}) {
-	return makeServer(space, boot).then(server => {
+export function request(boot, path, options = {}) {
+	return makeServer(boot).then(server => {
 		return server
 			.request(path, options)
 			.then(response => {

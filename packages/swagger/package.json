@@ -19,13 +19,9 @@
     "prepack": "yarn build",
     "test": "ava"
   },
-  "devDependencies": {
-    "grind-framework": "^0.8.0-beta.4",
-    "request": "^2.88.2",
-    "request-promise-native": "^1.0.8"
-  },
   "peerDependencies": {
-    "grind-framework": "^0.7.0"
+    "grind-framework": "^0.8.0-beta.4",
+    "grind-http": "^0.8.0-beta.5"
   },
   "engines": {
     "node": ">=6.9"
