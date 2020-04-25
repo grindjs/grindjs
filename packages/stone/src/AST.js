@@ -1,5 +1,5 @@
 const acorn = require('acorn5-object-spread')
-const base = require('acorn/dist/walk').base
+const { base } = require('acorn-walk')
 const astring = require('astring')
 
 export class AST {
