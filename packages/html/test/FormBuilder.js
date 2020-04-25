@@ -1,5 +1,4 @@
 /* eslint-disable max-len */
-import 'babel-polyfill'
 import test from 'ava'
 import dateFormat from 'dateformat'
 import { Obj } from 'grind-support'

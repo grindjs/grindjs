@@ -1,10 +1,9 @@
-import 'babel-polyfill'
 import path from 'path'
 
 import { Application, Paths as BasePaths } from 'grind-framework'
 
 import { HttpKernel } from 'grind-http'
-import { ViewProvider } from 'grind-view'
+import { ViewProvider, ViewFactory } from 'grind-view'
 
 class Paths extends BasePaths {
 	constructor() {
