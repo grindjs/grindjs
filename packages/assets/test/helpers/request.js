@@ -1,17 +1,15 @@
 import './Grind'
 
 import { HttpServer } from 'grind-http'
+import getPort from 'get-port'
 const fetch = require('fetchit')
 
-let port = 0
-export function request(boot, path, options = {}) {
+export async function request(boot, path, options = {}) {
+	const port = await getPort()
 	let app = null
 
 	return new HttpServer(() => {
-		app = new Grind({
-			port: 32200 + ++port,
-		})
-
+		app = new Grind({ port })
 		return app
 	})
 		.start()

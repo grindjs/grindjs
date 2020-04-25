@@ -32,9 +32,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 /* global document */
-var Test =
-/*#__PURE__*/
-function () {
+var Test = /*#__PURE__*/function () {
   function Test() {
     _classCallCheck(this, Test);
   }
@@ -70,6 +68,7 @@ test('rollup', async t => {
 var testing = true;
 
 var i = /*#__PURE__*/Object.freeze({
+	__proto__: null,
 	testing: testing
 });
 
@@ -112,6 +111,7 @@ test('rollup+browserify', async t => {
 var testing = true;
 
 var i = /*#__PURE__*/Object.freeze({
+	__proto__: null,
 	testing: testing
 });
 

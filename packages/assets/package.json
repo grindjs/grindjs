@@ -42,7 +42,6 @@
     "clean-css": "^4.2.3",
     "fetchit": "^2.1.0",
     "grind-cli": "^0.8.0-beta.3",
-    "grind-framework": "^0.8.0-beta.4",
     "grind-http": "^0.8.0-beta.4",
     "node-sass": "^4.13.1",
     "rimraf": "^3.0.2",
@@ -53,7 +52,7 @@
     "uglify-js": "^3.9.1"
   },
   "peerDependencies": {
-    "grind-framework": "^0.8.0-beta.1"
+    "grind-framework": "^0.8.0-beta.4"
   },
   "engines": {
     "node": ">=10.13"
