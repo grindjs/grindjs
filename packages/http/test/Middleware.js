@@ -2,47 +2,43 @@ import test from 'ava'
 import './helpers/request'
 
 function get(path) {
-	return request(
-		0,
-		app => {
-			const handler = (req, res) => res.send(req.path)
+	return request(app => {
+		const handler = (req, res) => res.send(req.path)
 
-			app.routes.get('none', handler)
+		app.routes.get('none', handler)
 
-			app.routes.use((req, res, next) => {
-				res.set('X-Middleware-A', 'true')
+		app.routes.use((req, res, next) => {
+			res.set('X-Middleware-A', 'true')
+			next()
+		})
+
+		app.routes.get('global', handler)
+
+		app.routes.group(routes => {
+			routes.use((req, res, next) => {
+				res.set('X-Middleware-B', 'true')
 				next()
 			})
 
-			app.routes.get('global', handler)
+			routes.get('group', handler)
+
+			routes.bind('segment', value => Promise.resolve(`${value}-true`))
+			routes.get('group/:segment', (req, res) => res.send(req.params.segment))
 
 			app.routes.group(routes => {
 				routes.use((req, res, next) => {
-					res.set('X-Middleware-B', 'true')
+					res.set('X-Middleware-C', 'true')
 					next()
 				})
 
-				routes.get('group', handler)
-
-				routes.bind('segment', value => Promise.resolve(`${value}-true`))
-				routes.get('group/:segment', (req, res) => res.send(req.params.segment))
-
-				app.routes.group(routes => {
-					routes.use((req, res, next) => {
-						res.set('X-Middleware-C', 'true')
-						next()
-					})
-
-					routes.get('cascading', handler)
-				})
-
-				routes.get('cascading-scoped', handler)
+				routes.get('cascading', handler)
 			})
 
-			app.routes.get('scoping', handler)
-		},
-		path,
-	)
+			routes.get('cascading-scoped', handler)
+		})
+
+		app.routes.get('scoping', handler)
+	}, path)
 }
 
 test('none', t => {

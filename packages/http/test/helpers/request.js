@@ -3,14 +3,15 @@ import rp from 'request-promise-native'
 import './Application'
 import '../../src/HttpKernel'
 import '../../src/HttpServer/HttpServer'
+import getPort from 'get-port'
 
-let port = 0
-export function makeServer(space, boot) {
+export async function makeServer(boot) {
+	const port = await getPort()
 	let app = null
 
 	return new HttpServer(() => {
 		app = new Application(HttpKernel, {
-			port: 32180 + space + ++port,
+			port,
 		})
 
 		if (typeof boot.before === 'function') {
@@ -34,8 +35,8 @@ export function makeServer(space, boot) {
 		})
 }
 
-export function request(space, boot, path, options = {}) {
-	return makeServer(space, boot).then(server => {
+export function request(boot, path, options = {}) {
+	return makeServer(boot).then(server => {
 		return server
 			.request(path, options)
 			.then(response => {

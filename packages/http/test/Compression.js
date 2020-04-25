@@ -21,7 +21,7 @@ function get(path, options) {
 		])
 	}
 
-	return request(100, boot, path, options)
+	return request(boot, path, options)
 }
 
 test('compressed', t => {

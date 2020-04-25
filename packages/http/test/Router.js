@@ -2,13 +2,9 @@ import test from 'ava'
 import './helpers/request'
 
 function get(path) {
-	return request(
-		50,
-		app => {
-			app.routes.load('./fixtures/Routes')
-		},
-		path,
-	)
+	return request(app => {
+		app.routes.load('./fixtures/Routes')
+	}, path)
 }
 
 test('load', t => {

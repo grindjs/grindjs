@@ -3,7 +3,6 @@ import './helpers/request'
 
 function get(path, options) {
 	return request(
-		-5,
 		app => {
 			app.routes.get('/read', (req, res) => {
 				res.send(req.cookies)

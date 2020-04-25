@@ -8,7 +8,7 @@ class CustomError4 extends Error {}
 class CustomError5 extends Error {}
 
 function server() {
-	return makeServer(80, app => {
+	return makeServer(app => {
 		app.errorHandler.shouldntReport.push(CustomError1)
 		app.errorHandler.shouldntReport.push(CustomError2)
 		app.errorHandler.shouldntReport.push(CustomError3)

@@ -1,4 +1,4 @@
-import test from 'ava'
+import { serial as test } from 'ava'
 import { makeServer } from './helpers/request'
 
 function server(connection) {
@@ -31,7 +31,7 @@ function server(connection) {
 		}
 	}
 
-	return makeServer(30, boot)
+	return makeServer(boot)
 }
 
 function makeTest(connection, builder, callback) {
