@@ -67,12 +67,12 @@ export class Model extends ObjectionModel {
 		return {}
 	}
 
-	static getRelations() {
-		if (this.relationMappings.isNil) {
-			this.relationMappings = this.buildRelations()
+	static relationMappings() {
+		if (this._relationMappings.isNil) {
+			this._relationMappings = this.buildRelations()
 		}
 
-		return super.getRelations()
+		return this._relationMappings
 	}
 
 	static hasOne(modelClass, foreignKey = null, localKey = null) {
