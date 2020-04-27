@@ -20,7 +20,7 @@
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "commit": "git-cz",
-    "test": "lerna run test"
+    "test": "lerna --concurrency=1 run test"
   },
   "config": {
     "commitizen": {
