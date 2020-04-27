@@ -8,8 +8,7 @@
     "rabbitmq",
     "beanstalk",
     "ampq",
-    "queue",
-    "faktory"
+    "queue"
   ],
   "repository": {
     "type": "git",
@@ -28,7 +27,6 @@
   },
   "devDependencies": {
     "amqplib": "^0.5.5",
-    "faktory-worker": "^3.3.2",
     "fetchit": "^2.1.0",
     "fivebeans": "^1.5.0",
     "grind-cache": "^0.8.0-beta.1",

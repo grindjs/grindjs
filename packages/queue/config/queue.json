@@ -52,14 +52,6 @@
         "host": "localhost",
         "port": 11300
       }
-    },
-
-    "faktory": {
-      "driver": "faktory",
-      "connection": {
-        "host": "localhost",
-        "port": 7419
-      }
     }
   }
 }
