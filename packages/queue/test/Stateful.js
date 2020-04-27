@@ -5,7 +5,7 @@ import './helpers/TestJob'
 import './helpers/Service'
 import './helpers/Application'
 
-const uuid = require('uuid/v4')
+const { v4: uuid } = require('uuid')
 const fetch = require('fetchit')
 const service = new Service(test, 'redis', {
 	image: 'redis:5.0.5-alpine',

@@ -162,7 +162,7 @@ function loadPackage() {
 	}
 
 	try {
-		uuid = require('uuid/v4')
+		uuid = require('uuid').v4
 	} catch (err) {
 		throw new MissingPackageError('uuid')
 	}

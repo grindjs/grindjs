@@ -6,7 +6,7 @@ import './helpers/Service'
 
 import '../src/Drivers/RabbitDriver'
 
-const uuid = require('uuid/v4')
+const { v4: uuid } = require('uuid')
 
 const service = new Service(test, 'rabbitmq', {
 	image: 'rabbitmq:3.7-alpine',
