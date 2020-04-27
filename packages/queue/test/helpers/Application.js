@@ -15,10 +15,14 @@ class Paths extends BasePaths {
 }
 
 export class Application extends BaseApplication {
-	constructor(kernel = CliKernel) {
+	constructor(kernel = CliKernel, boot = null) {
 		super(kernel, {
 			pathsClass: Paths,
 		})
+
+		if (typeof boot === 'function') {
+			boot(this)
+		}
 
 		CacheProvider(this)
 		QueueProvider(this)

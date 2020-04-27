@@ -13,8 +13,9 @@ const service = new Service(test, 'redis', {
 })
 
 test.beforeEach(t => {
-	const app = new Application(HttpKernel)
-	app.config.set('queue.connections.redis.port', service.port)
+	const app = new Application(HttpKernel, app => {
+		app.config.set('queue.connections.redis.connection.port', service.port)
+	})
 
 	t.context.app = app
 	t.context.queue = app.queue
