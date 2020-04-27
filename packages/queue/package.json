@@ -20,7 +20,7 @@
   "scripts": {
     "build": "../../scripts/build-package.sh",
     "prepack": "yarn build",
-    "test": "ava"
+    "test": "ava --serial"
   },
   "dependencies": {
     "uuid": "^7.0.3"
