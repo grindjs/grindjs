@@ -5,8 +5,6 @@ import './ModelNotFoundError'
 export class QueryBuilder extends BaseQueryBuilder {
 	static registeredFilters = {}
 
-	_allowEager = true
-
 	static registerFilter(name, filter) {
 		this.registeredFilters[name] = filter
 	}
@@ -57,29 +55,11 @@ export class QueryBuilder extends BaseQueryBuilder {
 		})
 	}
 
-	withoutEager() {
-		this._allowEager = false
-		this._eagerExpression = null
-		this._eagerFilterExpressions = []
-
-		return this
-	}
-
 	eager(exp, filters) {
-		if (!this._allowEager) {
-			return this
-		}
-
 		if (typeof exp === 'string') {
 			filters = Object.assign({}, this.constructor.registeredFilters, filters || {})
 		}
 
 		return super.eager(exp, filters)
-	}
-
-	clone() {
-		const builder = super.clone()
-		builder._allowEager = this._allowEager
-		return builder
 	}
 }

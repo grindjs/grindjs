@@ -6,11 +6,6 @@ test('execute', async t => {
 	t.is(avatar.user.id, 1)
 })
 
-test('withoutEager', async t => {
-	const avatar = await t.context.UserAvatarModel.findByIdOrFail(1).withoutEager()
-	t.is(avatar.user, void 0)
-})
-
 test('orFail', async t => {
 	try {
 		await t.context.UserModel.query().where('id', 1).orFail()
