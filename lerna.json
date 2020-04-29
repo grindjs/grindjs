@@ -2,10 +2,10 @@
   "version": "0.8.0-beta.14",
   "command": {
     "publish": {
-      "ignoreChanges": ["*.md", "*.markdown"]
+      "ignoreChanges": ["*.md", "*.markdown", "starters/", "site/"]
     }
   },
-  "packages": ["packages/*", "meta/*"],
+  "packages": ["packages/*", "meta/*", "starters/*", "site"],
   "useWorkspaces": true,
   "npmClient": "yarn",
   "npmClientArgs": ["--no-lockfile"]

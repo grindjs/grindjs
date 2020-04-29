@@ -14,7 +14,10 @@
   "license": "MIT",
   "author": "Shaun Harrison (@shnhrrsn)",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "meta/*",
+    "starters/*",
+    "site"
   ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
