@@ -1,31 +1,35 @@
 import './AssetFactory'
-
 import './Commands/PublishCommand'
 import './Commands/UnpublishCommand'
-
 import './Compilers/BabelCompiler'
 import './Compilers/RawCompiler'
 import './Compilers/ScssCompiler'
-
 import './PostProcessors/CssPostCssPostProcessor'
 import './PostProcessors/CssMinifyPostProcessor'
 import './PostProcessors/JavascriptMinifyPostProcessor'
 import './PostProcessors/SvgOptimizePostProcessor'
-
 import './Controllers/CompileController'
-
 import './View/AssetContainer'
 import './View/NunjucksExtension'
 import './View/StoneExtension'
 
 const path = require('path')
+const nodeModuleMacroPattern = new RegExp(`\\{\\{\\s*node_module:'(.+?)'\\s*\\}\\}`, 'g')
 
 function expandMacros(config, macros) {
 	const isArray = Array.isArray(config)
 	let reindex = false
 
 	for (const key of Object.keys(config)) {
-		const value = config[key]
+		let value = config[key]
+
+		if (typeof value === 'string' && nodeModuleMacroPattern.test(value)) {
+			value = value.replace(nodeModuleMacroPattern, (_, name) => {
+				return path.dirname(require.resolve(`${name}/package.json`))
+			})
+
+			config[key] = value
+		}
 
 		if (typeof value === 'object' && value !== null) {
 			config[key] = expandMacros(value, macros)
