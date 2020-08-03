@@ -1,0 +1,33 @@
+{
+  "name": "grind-scripts",
+  "version": "0.8.0-beta.0",
+  "description": "Helper scripts for Grind development",
+  "keywords": [
+    "grindjs",
+    "grind-framework"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grindjs/grindjs.git",
+    "directory": "packages/scripts"
+  },
+  "license": "MIT",
+  "author": "Shaun Harrison (@shnhrrsn)",
+  "main": "lib/index.js",
+  "bin": {
+    "grind-boot": "./lib/boot.js",
+    "grind-build": "./lib/build.js"
+  },
+  "scripts": {
+    "build": "../../scripts/build-package.sh && chmod +x lib/*.js",
+    "prepack": "yarn build",
+    "test": "ava"
+  },
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "rimraf": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=6.9"
+  }
+}
