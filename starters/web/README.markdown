@@ -9,7 +9,7 @@
 
 # Grind Web Template
 
-The Grind Web Template is an example project for building websites on [Grind](https://github.com/grindjs/framework).  It’s also used as the default template in [Grind Installer](https://github.com/grindjs/installer) so you can quickly setup a new web project.
+The Grind Web Template is an example project for building websites on [Grind](https://github.com/grindjs/framework). It’s also used as the default template in [Grind Installer](https://github.com/grindjs/installer) so you can quickly setup a new web project.
 
 ## Installation
 
