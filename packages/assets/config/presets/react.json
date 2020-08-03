@@ -18,14 +18,15 @@
       "rollup": {
         "enabled": true,
         "plugins": {
-          "rollup-plugin-replace": {
+          "@rollup/plugin-babel": {
+            "babelHelpers": "bundled",
             "process.env.NODE_ENV": null
           },
-          "rollup-plugin-node-resolve": {
+          "@rollup/plugin-node-resolve": {
             "mainFields": ["main", "module", "browser", "jsnext:main"],
             "preferBuiltins": false
           },
-          "rollup-plugin-commonjs": {
+          "@rollup/plugin-commonjs": {
             "include": "node_modules/**",
             "node_modules/react/index.js": ["Children", "Component", "PropTypes", "createElement"],
             "node_modules/react-dom/index.js": ["render"]

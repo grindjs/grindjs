@@ -1,17 +1,17 @@
-/* eslint-disable max-len */
-import test from 'ava'
-
 import './helpers/compile'
 import './helpers/postProcess'
 
 import {
 	BabelCompiler,
-	RawCompiler,
-	ScssCompiler,
 	CssPostCssPostProcessor,
 	JavascriptMinifyPostProcessor,
+	RawCompiler,
+	ScssCompiler,
 	SvgOptimizePostProcessor,
 } from '../src'
+
+/* eslint-disable max-len */
+import test from 'ava'
 
 const stripAnsi = require('strip-ansi')
 

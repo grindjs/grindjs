@@ -1,10 +1,9 @@
 import './Stage'
-
 import '../../Errors/makeSyntaxError'
 import '../../Support/optional'
 
 const rollup = optional('rollup', '>=1.0.0')
-const rollupBabel = optional('rollup-plugin-babel', '>=4.3.0')
+const rollupBabel = optional('@rollup/plugin-babel', '>=5.1.0')
 
 export class RollupStage extends Stage {
 	static configName = 'rollup'
@@ -19,8 +18,8 @@ export class RollupStage extends Stage {
 		this.output = output
 		this.enabled = enabled
 
-		if (plugins['rollup-plugin-babel'].isNil) {
-			plugins['rollup-plugin-babel'] = true
+		if (plugins['@rollup/plugin-babel'].isNil) {
+			plugins['@rollup/plugin-babel'] = true
 		}
 
 		for (const [plugin, config] of Object.entries(plugins)) {
@@ -28,7 +27,7 @@ export class RollupStage extends Stage {
 				continue
 			}
 
-			if (plugin === 'rollup-plugin-babel') {
+			if (plugin === '@rollup/plugin-babel') {
 				this.plugins.push([rollupBabel, config])
 			} else if (plugin[0] === '~') {
 				const name = `Rollup${plugin[1].toUpperCase()}${plugin.substring(2)}Plugin`
@@ -66,20 +65,22 @@ export class RollupStage extends Stage {
 		const plugins = []
 
 		for (const [plugin, config] of this.plugins) {
-			if (plugin.name === 'rollup-plugin-babel' && !this.handleBabel) {
+			if (plugin.name === '@rollup/plugin-babel' && !this.handleBabel) {
 				continue
 			}
 
 			plugin.assert()
+
+			const make = plugin.pkg.default || plugin.pkg
 
 			if (!config.isNil && typeof config === 'object') {
 				if (config.req === true) {
 					config.req = req
 				}
 
-				plugins.push(plugin.pkg(config))
+				plugins.push(make(config))
 			} else {
-				plugins.push(plugin.pkg({}))
+				plugins.push(make({}))
 			}
 		}
 
