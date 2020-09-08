@@ -69,7 +69,12 @@ export function AssetsProvider(app, parameters = {}) {
 
 	let config = Object.assign({}, app.config.get('assets'))
 
-	const macros = [['node_modules', config.node_modules || app.paths.base('node_modules')]]
+	const macros = [
+		['node_modules', config.node_modules || app.paths.base('node_modules')],
+		['app_path', app.paths.base('app_path')],
+		['base_path', app.paths.base('base_path')],
+		['public_path', app.paths.base('public_path')],
+	]
 
 	for (const macro of macros) {
 		macro[0] = new RegExp(`\\{\\{\\s*${macro[0]}\\s*\\}\\}`, 'g')
