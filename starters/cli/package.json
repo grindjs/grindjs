@@ -3,7 +3,7 @@
   "version": "0.8.0-beta.1",
   "private": true,
   "bin": {
-    "grind-example-cli": "./lib/bin/cli"
+    "grind-example-cli": "./build/bin/cli"
   },
   "scripts": {
     "build": "grind-build",
