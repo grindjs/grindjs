@@ -2,31 +2,33 @@
   "name": "grind-example-cli",
   "version": "0.8.0-beta.1",
   "private": true,
-  "preferGlobal": true,
   "bin": {
     "grind-example-cli": "./lib/bin/cli"
   },
+  "scripts": {
+    "build": "grind-build",
+    "cli": "grind-boot",
+    "lint:js": "eslint app boot"
+  },
   "dependencies": {
-    "babel-polyfill": "^6.26.0",
-    "grind-cli": "^0.8.0-beta.1",
-    "grind-framework": "^0.8.0-beta.1"
+    "grind-cli": "^0.8.0-beta.3",
+    "grind-framework": "^0.8.0-beta.4"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.0",
-    "babel-eslint": "^7.2.1",
-    "babel-plugin-module-resolver": "^2.5.0",
-    "babel-preset-grind": "^0.8.0-beta.1",
-    "babel-register": "^6.24.1",
-    "eslint": "^3.18.0",
-    "eslint-config-grind": "^2.0.4",
-    "eslint-plugin-import-auto-name": "^1.0.3"
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/register": "^7.9.0",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "babel-plugin-transform-isnil": "^1.0.1",
+    "babel-preset-grind": "^0.8.0-beta.4",
+    "eslint": "^6.8.0",
+    "eslint-plugin-import-auto-name": "^1.1.0",
+    "grind-scripts": "^0.8.0-beta.0"
   },
   "engines": {
-    "node": ">=8.7",
+    "node": ">=10.13",
     "npm": ">=3.0"
   },
-  "scripts": {
-    "prepare": "bin/build",
-    "lint": "bin/lint"
-  }
+  "preferGlobal": true
 }
