@@ -1,15 +1,11 @@
 {
+  "default": "memory",
 
-	"default": "memory",
-
-	"stores": {
-
-		"memory": {
-			"driver": "memory",
-			"max": 10000,
-			"ttl": 86400
-		}
-
-	}
-
+  "stores": {
+    "memory": {
+      "driver": "memory",
+      "max": 10000,
+      "ttl": 86400
+    }
+  }
 }

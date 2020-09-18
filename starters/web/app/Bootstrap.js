@@ -12,7 +12,7 @@ import 'App/Errors/ErrorHandler'
 
 export function Bootstrap(kernelClass) {
 	const app = new Application(kernelClass, {
-		errorHandlerClass: ErrorHandler
+		errorHandlerClass: ErrorHandler,
 	})
 
 	// Framework providers
