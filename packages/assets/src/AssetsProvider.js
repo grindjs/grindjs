@@ -71,9 +71,9 @@ export function AssetsProvider(app, parameters = {}) {
 
 	const macros = [
 		['node_modules', config.node_modules || app.paths.base('node_modules')],
-		['app_path', app.paths.base('app_path')],
-		['base_path', app.paths.base('base_path')],
-		['public_path', app.paths.base('public_path')],
+		['app_path', app.paths.app()],
+		['base_path', app.paths.base()],
+		['public_path', app.paths.public()],
 	]
 
 	for (const macro of macros) {
