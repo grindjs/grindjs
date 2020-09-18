@@ -39,6 +39,10 @@ fs.writeFileSync(cliBin, content)
 
 log('Finalizing boot files')
 for (const file of ['build/boot/Cli.js', 'build/boot/Http.js']) {
+	if (!fs.existsSync(file)) {
+		continue
+	}
+
 	let content = fs.readFileSync(file).toString()
 	content = content.replace(/require\('@babel\/register'\)/g, '')
 	fs.writeFileSync(file, content)
