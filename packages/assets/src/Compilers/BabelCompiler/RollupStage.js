@@ -28,6 +28,9 @@ export class RollupStage extends Stage {
 			}
 
 			if (plugin === '@rollup/plugin-babel') {
+				if (!config.isNil && typeof config.root === 'string') {
+					config.root = this.app.paths.base(config.root)
+				}
 				this.plugins.push([rollupBabel, config])
 			} else if (plugin[0] === '~') {
 				const name = `Rollup${plugin[1].toUpperCase()}${plugin.substring(2)}Plugin`
@@ -40,7 +43,7 @@ export class RollupStage extends Stage {
 					},
 				])
 			} else {
-				if (plugin === 'rollup-plugin-replace' && config['process.env.NODE_ENV'].isNil) {
+				if (plugin === '@rollup/plugin-replace' && config['process.env.NODE_ENV'].isNil) {
 					config['process.env.NODE_ENV'] = JSON.stringify(
 						process.env.ROLLUP_ENV || process.env.BABEL_ENV || process.env.NODE_ENV,
 					)
