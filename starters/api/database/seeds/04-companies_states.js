@@ -18,7 +18,7 @@ export function seed(db) {
 
 			// Disney
 			{ company_id: 3, state_id: 5 },
-			{ company_id: 3, state_id: 9 }
-		])
+			{ company_id: 3, state_id: 9 },
+		]),
 	])
 }

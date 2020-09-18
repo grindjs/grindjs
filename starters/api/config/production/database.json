@@ -1,14 +1,10 @@
 {
+  "default": "mysql2",
 
-	"default": "mysql2",
-
-	"connections": {
-
-		"mysql2": {
-			"user": "prod-user",
-			"password": "don’t store here, see .env.example.json"
-		}
-
-	}
-
+  "connections": {
+    "mysql2": {
+      "user": "prod-user",
+      "password": "don’t store here, see .env.example.json"
+    }
+  }
 }

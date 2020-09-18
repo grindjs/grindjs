@@ -10,18 +10,20 @@ export function seed(db) {
 				id: 1,
 				name: 'Apple',
 				created_at: now,
-				updated_at: now
-			}, {
+				updated_at: now,
+			},
+			{
 				id: 2,
 				name: 'Tesla',
 				created_at: now,
-				updated_at: now
-			}, {
+				updated_at: now,
+			},
+			{
 				id: 3,
 				name: 'Disney',
 				created_at: now,
-				updated_at: now
-			}
-		])
+				updated_at: now,
+			},
+		]),
 	])
 }

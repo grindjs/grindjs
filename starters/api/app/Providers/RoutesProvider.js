@@ -15,13 +15,13 @@ export function RoutesProvider(app) {
 
 	Swagger.parameters('pagination', {
 		limit: 'Limit the number of records',
-		offset: 'Number of records to skip before querying'
+		offset: 'Number of records to skip before querying',
 	})
 
 	Swagger.parameter('requiredTerm', {
 		name: 'term',
 		description: 'Search term',
-		required: true
+		required: true,
 	})
 
 	//
@@ -32,8 +32,8 @@ export function RoutesProvider(app) {
 		routes.get('/', 'index', {
 			swagger: {
 				description: 'Returns a list of companies.',
-				use: 'pagination'
-			}
+				use: 'pagination',
+			},
 		})
 	})
 
@@ -48,19 +48,19 @@ export function RoutesProvider(app) {
 		routes.get('/', 'index', {
 			swagger: {
 				description: 'Returns a list of countries.',
-				use: 'pagination'
-			}
+				use: 'pagination',
+			},
 		})
 
 		routes.get('search', 'search', {
 			swagger: {
 				description: 'Searches for countries.',
-				use: [ 'pagination', 'requiredTerm' ]
-			}
+				use: ['pagination', 'requiredTerm'],
+			},
 		})
 
 		routes.get(':country', 'show', {
-			swagger: 'Lookup a country by it’s abbreviation.'
+			swagger: 'Lookup a country by it’s abbreviation.',
 		})
 	})
 
@@ -75,19 +75,19 @@ export function RoutesProvider(app) {
 		routes.get('/', 'index', {
 			swagger: {
 				description: 'Returns a list of states in the US.',
-				use: 'pagination'
-			}
+				use: 'pagination',
+			},
 		})
 
 		routes.get('search', 'search', {
 			swagger: {
 				description: 'Searches for states in the US.',
-				use: [ 'pagination', 'requiredTerm' ]
-			}
+				use: ['pagination', 'requiredTerm'],
+			},
 		})
 
 		routes.get(':state', 'show', {
-			swagger: 'Lookup a state by it’s abbreviation.'
+			swagger: 'Lookup a state by it’s abbreviation.',
 		})
 	})
 }

@@ -4,6 +4,6 @@ export function seed(db) {
 	return Promise.all([
 		db(table).del(),
 
-		db(table).insert({ id: 1, abbreviation: 'US', name: 'United States' })
+		db(table).insert({ id: 1, abbreviation: 'US', name: 'United States' }),
 	])
 }

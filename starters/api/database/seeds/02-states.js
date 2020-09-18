@@ -59,6 +59,6 @@ export function seed(db) {
 		db(table).insert({ id: id++, abbreviation: 'WV', name: 'West Virginia', country_id: 1 }),
 		db(table).insert({ id: id++, abbreviation: 'WI', name: 'Wisconsin', country_id: 1 }),
 		db(table).insert({ id: id++, abbreviation: 'WY', name: 'Wyoming', country_id: 1 }),
-		db(table).insert({ id: id++, abbreviation: 'DC', name: 'Washington DC', country_id: 1 })
+		db(table).insert({ id: id++, abbreviation: 'DC', name: 'Washington DC', country_id: 1 }),
 	])
 }

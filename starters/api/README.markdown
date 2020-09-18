@@ -9,7 +9,7 @@
 
 # Grind API Template
 
-The Grind API Template is an example project for building API’s on [Grind](https://github.com/grindjs/framework).  It’s also used as a template in [Grind Installer](https://github.com/grindjs/installer) so you can quickly setup a new API project.
+The Grind API Template is an example project for building API’s on [Grind](https://github.com/grindjs/framework). It’s also used as a template in [Grind Installer](https://github.com/grindjs/installer) so you can quickly setup a new API project.
 
 ## Installation
 
@@ -40,10 +40,10 @@ You should now be able to visit [localhost:3000/states](http://localhost:3000/st
 
 Other URLs:
 
- * Paged: [localhost:3000/states?limit=10](http://localhost:3000/states?limit=10)
- * Individual: [localhost:3000/states/ny](http://localhost:3000/states/ny)
- * Search: [localhost:3000/states/search?term=new](http://localhost:3000/states/search?term=new)
- * Swagger: [petstore.swagger.io/?url=http://localhost:3000/swagger.json](http://petstore.swagger.io/?url=http://localhost:3000/swagger.json)
+- Paged: [localhost:3000/states?limit=10](http://localhost:3000/states?limit=10)
+- Individual: [localhost:3000/states/ny](http://localhost:3000/states/ny)
+- Search: [localhost:3000/states/search?term=new](http://localhost:3000/states/search?term=new)
+- Swagger: [petstore.swagger.io/?url=http://localhost:3000/swagger.json](http://petstore.swagger.io/?url=http://localhost:3000/swagger.json)
 
 ## Documentation
 

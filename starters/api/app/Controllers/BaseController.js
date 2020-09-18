@@ -1,7 +1,6 @@
 import { Controller } from 'grind-http'
 
 export class BaseController extends Controller {
-
 	db = null
 
 	constructor(app) {
@@ -19,7 +18,6 @@ export class BaseController extends Controller {
 
 	paginationRange(req, limit = 100) {
 		const pagination = this.pagination(req, limit)
-		return { start: pagination.offset, end: (pagination.limit + pagination.offset) - 1 }
+		return { start: pagination.offset, end: pagination.limit + pagination.offset - 1 }
 	}
-
 }
