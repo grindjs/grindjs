@@ -1,7 +1,6 @@
 import { Controller } from 'grind-http'
 
 export class RootController extends Controller {
-
 	versions
 
 	constructor(app) {
@@ -10,15 +9,14 @@ export class RootController extends Controller {
 		this.versions = {
 			react: require('react/package.json').version,
 			dom: require('react-dom/package.json').version,
-			conductor: require('@khrrsn/react-conductor/package.json').version
+			conductor: require('@khrrsn/react-conductor/package.json').version,
 		}
 	}
 
 	index(req, res) {
 		return res.render('root', {
 			debug: this.app.debug,
-			versions: this.versions
+			versions: this.versions,
 		})
 	}
-
 }

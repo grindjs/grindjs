@@ -13,7 +13,9 @@ new Runner(() => {
 	app.providers.add(CommandsProvider)
 
 	return app
-}).run().catch(err => {
-	Log.error('Boot Error', err)
-	process.exit(1)
 })
+	.run()
+	.catch(err => {
+		Log.error('Boot Error', err)
+		process.exit(1)
+	})

@@ -6,14 +6,13 @@ import './NotFoundErrorHandler'
 import './Errors.scss'
 
 const errorHandlers = {
-	404: NotFoundErrorHandler
+	404: NotFoundErrorHandler,
 }
 
 export class ErrorBoundary extends React.Component {
-
 	state = {
 		error: null,
-		info: null
+		info: null,
 	}
 
 	componentDidMount() {
@@ -35,15 +34,16 @@ export class ErrorBoundary extends React.Component {
 	render() {
 		const { error, info } = this.state
 
-		if(error.isNil) {
+		if (error.isNil) {
 			return this.props.children
 		}
 
 		const ErrorHandler = errorHandlers[error.code || 0] || GenericErrorHandler
 
-		return <ErrorLayout>
-			<ErrorHandler error={error} info={info} />
-		</ErrorLayout>
+		return (
+			<ErrorLayout>
+				<ErrorHandler error={error} info={info} />
+			</ErrorLayout>
+		)
 	}
-
 }

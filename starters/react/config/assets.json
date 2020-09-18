@@ -1,16 +1,9 @@
 {
+  "preset": "react",
 
-	"preset": "react",
-
-	"compilers": {
-
-		"scss": {
-			"includePaths": [
-				"{{ node_modules }}/normalize.css",
-				"{{ node_modules }}/../public"
-			]
-		}
-
-	}
-
+  "compilers": {
+    "scss": {
+      "includePaths": ["{{ node_module:'normalize.css' }}", "{{ public_path }}"]
+    }
+  }
 }

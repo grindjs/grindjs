@@ -1,4 +1,4 @@
 import 'App/Bootstrap'
 
-window.App = { }
+window.App = {}
 Bootstrap(window.App)

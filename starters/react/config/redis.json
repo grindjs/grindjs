@@ -1,14 +1,10 @@
 {
+  "default": "redis",
 
-	"default": "redis",
-
-	"connections": {
-
-		"redis": {
-			"host": "localhost",
-			"port": 6379
-		}
-
-	}
-
+  "connections": {
+    "redis": {
+      "host": "localhost",
+      "port": 6379
+    }
+  }
 }

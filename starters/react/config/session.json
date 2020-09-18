@@ -1,30 +1,26 @@
 {
+  "default": "memory",
 
-	"default": "memory",
+  "stores": {
+    "memory": {
+      "driver": "memory"
+    },
 
-	"stores": {
+    "database": {
+      "driver": "database",
+      "connection": null
+    },
 
-		"memory": {
-			"driver": "memory"
-		},
+    "redis": {
+      "driver": "redis",
+      "connection": null,
+      "ttl": 86400
+    }
+  },
 
-		"database": {
-			"driver": "database",
-			"connection": null
-		},
+  "cookie": {
+    "name": "grind-session"
+  },
 
-		"redis": {
-			"driver": "redis",
-			"connection": null,
-			"ttl": 86400
-		}
-
-	},
-
-	"cookie": {
-		"name": "grind-session"
-	},
-
-	"flash": true
-
+  "flash": true
 }
