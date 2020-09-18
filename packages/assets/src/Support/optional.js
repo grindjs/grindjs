@@ -19,6 +19,11 @@ export function optional(pkgName, version = null) {
 			}
 
 			this.pkg = loadOptional(pkgName)
+
+			if (this.pkg && this.pkg.default) {
+				this.pkg = this.pkg.default
+			}
+
 			this.resolved = !this.pkg.isNil
 			let errorPkgName = pkgName
 

@@ -71,17 +71,17 @@ export class RollupStage extends Stage {
 
 			plugin.assert()
 
-			const make = plugin.pkg.default || plugin.pkg
+			if (!plugin.pkg) {
+				continue
+			}
 
 			if (!config.isNil && typeof config === 'object') {
 				if (config.req === true) {
 					config.req = req
 				}
-
-				plugins.push(make(config))
-			} else {
-				plugins.push(make({}))
 			}
+
+			plugins.push(plugin.pkg(config || {}))
 		}
 
 		try {
