@@ -18,11 +18,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Yarn Install
-        run: yarn install
-
-      - name: Lerna Bootstrap
-        run: yarn lerna bootstrap
+      - name: Bootstrap
+        run: ./.github/workflows/build/bootstrap.js
 
       - name: Build
         run: yarn build
