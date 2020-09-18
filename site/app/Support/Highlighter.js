@@ -1,22 +1,22 @@
 /* eslint-disable no-sync */
 
 const Highlights = require('highlights')
-const highlighter = new Highlights
+const highlighter = new Highlights()
 
 highlighter.requireGrammarsSync({
-	modulePath: require.resolve('language-json5/package.json')
+	modulePath: require.resolve('language-json5/package.json'),
 })
 
 highlighter.requireGrammarsSync({
-	modulePath: require.resolve('atom-jinja2/package.json')
+	modulePath: require.resolve('atom-jinja2/package.json'),
 })
 
 highlighter.requireGrammarsSync({
-	modulePath: require.resolve('language-stone/package.json')
+	modulePath: require.resolve('language-stone/package.json'),
 })
 
 export function Highlighter(code, lang) {
-	switch(lang) {
+	switch (lang) {
 		case 'json':
 			lang = 'source.json5'
 			break
@@ -34,6 +34,6 @@ export function Highlighter(code, lang) {
 
 	return highlighter.highlightSync({
 		fileContents: code,
-		scopeName: lang
+		scopeName: lang,
 	})
 }

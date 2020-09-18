@@ -1,14 +1,10 @@
 {
-
-	"compilers": {
-
-		"scss": {
-			"includePaths": [
-				"{{ node_modules }}/bootstrap-sass/assets/stylesheets",
-				"{{ node_modules }}/normalize.css",
-			]
-		}
-
-	}
-
+  "compilers": {
+    "scss": {
+      "includePaths": [
+        "{{ node_module:'bootstrap-sass' }}/assets/stylesheets",
+        "{{ node_module:'normalize.css' }}"
+      ]
+    }
+  }
 }

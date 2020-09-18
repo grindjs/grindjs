@@ -8,6 +8,7 @@
 # Grind Site
 
 This is the main project for [grind.rocks](https://grind.rocks/).
+
 ## License
 
 Grind was created by [Shaun Harrison](https://github.com/shnhrrsn) and is made available under the [MIT license](LICENSE).

@@ -1,6 +1,4 @@
 {
-
-	"debug": false,
-	"url": "https://grind.rocks/"
-
+  "debug": false,
+  "url": "https://grind.rocks/"
 }

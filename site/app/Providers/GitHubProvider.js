@@ -5,16 +5,16 @@ export function GitHubProvider(app) {
 		protocol: 'https',
 		host: 'api.github.com',
 		headers: {
-			'User-Agent': 'grind-site'
-		}
+			'User-Agent': 'grind-site',
+		},
 	})
 
 	const token = app.config.get('github.token')
 
-	if(!token.isNil) {
+	if (!token.isNil) {
 		app.github.authenticate({
 			type: 'token',
-			token: token
+			token: token,
 		})
 	}
 }

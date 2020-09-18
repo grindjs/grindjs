@@ -1,10 +1,10 @@
 export function HttpsMiddleware(app) {
-	if(app.env() !== 'production') {
+	if (app.env() !== 'production') {
 		return (req, res, next) => next()
 	}
 
 	return (req, res, next) => {
-		if(req.secure) {
+		if (req.secure) {
 			return next()
 		}
 
