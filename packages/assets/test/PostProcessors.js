@@ -1,7 +1,3 @@
-/* eslint-disable max-len */
-import test from 'ava'
-import { FS } from 'grind-support'
-
 import './helpers/Grind'
 
 import {
@@ -10,6 +6,10 @@ import {
 	JavascriptMinifyPostProcessor,
 	SvgOptimizePostProcessor,
 } from '../src'
+
+import { FS } from 'grind-support'
+/* eslint-disable max-len */
+import test from 'ava'
 
 async function make(processor, file, hook = () => {}) {
 	const app = new Grind()
@@ -46,7 +46,7 @@ test('css-postcss', async t => {
 
 	t.is(
 		css.toString().trim(),
-		'::-webkit-input-placeholder { color: gray; }\n::-moz-placeholder { color: gray; }\n:-ms-input-placeholder { color: gray; }\n::-ms-input-placeholder { color: gray; }\n::placeholder { color: gray; }',
+		'::-moz-placeholder { color: gray; }\n:-ms-input-placeholder { color: gray; }\n::-ms-input-placeholder { color: gray; }\n::placeholder { color: gray; }',
 	)
 })
 

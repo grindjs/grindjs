@@ -1,8 +1,9 @@
-/* eslint-disable max-len */
-import test from 'ava'
 import './helpers/compile'
 
 import { BabelCompiler, RawCompiler, ScssCompiler } from '../src'
+
+/* eslint-disable max-len */
+import test from 'ava'
 
 test('scss', async t => {
 	const scss = await compile(ScssCompiler, 'scss/test.scss', 'compressed')
@@ -79,10 +80,12 @@ console.log('testing', i);
 
 test('rollup/process.env.NODE_ENV', async t => {
 	const js = await compile(BabelCompiler, 'babel/rollup/env.js', app => {
-		app.config.set('assets.compilers.babel.browserify.enabled', false),
-			app.config.set('assets.compilers.babel.rollup.enabled', true)
+		app.config.set('assets.compilers.babel.browserify.enabled', false)
+		app.config.set('assets.compilers.babel.rollup.enabled', true)
 		app.config.set('assets.compilers.babel.rollup.plugins', {})
-		app.config.set('assets.compilers.babel.rollup.plugins.rollup-plugin-replace', {})
+		app.config.set('assets.compilers.babel.rollup.plugins.@rollup/plugin-replace', {
+			'process.env.NODE_ENV': null,
+		})
 	})
 
 	t.is(
