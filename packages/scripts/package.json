@@ -20,8 +20,7 @@
   },
   "scripts": {
     "build": "../../scripts/build-package.sh && chmod +x lib/*.js",
-    "prepack": "yarn build",
-    "test": "ava"
+    "prepack": "yarn build"
   },
   "dependencies": {
     "chalk": "^4.1.0",
