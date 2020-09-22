@@ -24,7 +24,7 @@ test('css', async t => {
 	const css = await get('css/test-all.css')
 	t.is(
 		css,
-		'body{margin:0;padding:0;background:#fff}strong{font-weight:900}::-moz-placeholder{color:gray}:-ms-input-placeholder{color:gray}::-ms-input-placeholder{color:gray}::placeholder{color:gray}',
+		'body{margin:0;padding:0;background:#fff}strong{font-weight:900}::-moz-placeholder{color:gray}::-ms-input-placeholder{color:gray}::placeholder{color:gray}',
 	)
 })
 
@@ -32,7 +32,7 @@ test('scss', async t => {
 	const scss = await get('scss/test-all.scss')
 	t.is(
 		scss,
-		'body{margin:0;padding:0;background:#fff}body ::-moz-placeholder{color:gray}body :-ms-input-placeholder{color:gray}body ::-ms-input-placeholder{color:gray}body ::placeholder{color:gray}',
+		'body{margin:0;padding:0;background:#fff}body ::-moz-placeholder{color:gray}body ::-ms-input-placeholder{color:gray}body ::placeholder{color:gray}',
 	)
 })
 

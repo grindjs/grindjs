@@ -46,7 +46,7 @@ test('css-postcss', async t => {
 
 	t.is(
 		css.toString().trim(),
-		'::-moz-placeholder { color: gray; }\n:-ms-input-placeholder { color: gray; }\n::-ms-input-placeholder { color: gray; }\n::placeholder { color: gray; }',
+		'::-moz-placeholder { color: gray; }\n::-ms-input-placeholder { color: gray; }\n::placeholder { color: gray; }',
 	)
 })
 

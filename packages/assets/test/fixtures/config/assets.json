@@ -1,6 +1,21 @@
 {
 
 	"should_optimize": true,
-	"source_maps": false
+	"source_maps": false,
+
+	"post_processors": {
+		"css": {
+			"postcss": {
+				"autoprefixer": {
+					"overrideBrowserslist": [
+						"chrome 60",
+						"edge 13",
+						"firefox 50",
+						"safari 12"
+					]
+				}
+			}
+		}
+	}
 
 }
