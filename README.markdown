@@ -21,9 +21,11 @@ Full documentation for Grind is available on the [Grind website](https://grind.r
 
 ### Additional Resources
 
-- [Example Web Project](https://github.com/grindjs/example-web)
-- [Example API Project](https://github.com/grindjs/example-api)
-- [Source for the Grind website](https://github.com/grindjs/site)
+- [React Starter Project](./starters/react)
+- [API Starter Project](./starters/web)
+- [CLI Starter Project](./starters/cli)
+- [Web Starter Project](./starters/web)
+- [Source for the Grind website](./site)
 - [Grind Slack](https://chat.grind.rocks)
 
 ## License
