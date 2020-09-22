@@ -7,13 +7,17 @@
     "grind-framework",
     "html"
   ],
+  "homepage": "https://github.com/grindjs/grindjs/tree/master/packages/html#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/grindjs/grindjs.git",
     "directory": "packages/html"
   },
   "license": "MIT",
-  "author": "Shaun Harrison (@shnhrrsn)",
+  "author": {
+    "name": "Shaun Harrison",
+    "url": "https://github.com/shnhrrsn"
+  },
   "main": "lib/index.js",
   "scripts": {
     "build": "../../scripts/build-package.sh",

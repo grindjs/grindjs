@@ -6,12 +6,17 @@
     "grindjs",
     "grind-framework"
   ],
+  "homepage": "https://github.com/grindjs/grindjs/tree/master/meta/core#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/grindjs/core.git"
+    "url": "https://github.com/grindjs/grindjs.git",
+    "directory": "meta/core"
   },
   "license": "MIT",
-  "author": "Shaun Harrison (@shnhrrsn)",
+  "author": {
+    "name": "Shaun Harrison",
+    "url": "https://github.com/shnhrrsn"
+  },
   "dependencies": {
     "grind-cache": "^0.8.0-beta.15",
     "grind-cli": "^0.8.0-beta.15",

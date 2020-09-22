@@ -2,13 +2,17 @@
   "name": "grind-react-dev",
   "version": "0.8.0-beta.15",
   "description": "Utility package for development with Grind and React",
+  "homepage": "https://github.com/grindjs/grindjs/tree/master/packages/react-dev#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/grindjs/grindjs.git",
     "directory": "packages/react-dev"
   },
   "license": "MIT",
-  "author": "Shaun Harrison (@shnhrrsn)",
+  "author": {
+    "name": "Shaun Harrison",
+    "url": "https://github.com/shnhrrsn"
+  },
   "main": "lib/index.js",
   "browser": "dist/react-dev.min.js",
   "scripts": {
