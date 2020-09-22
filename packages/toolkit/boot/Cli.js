@@ -2,7 +2,9 @@
 // WARNING: This file is *NOT* processed through babel
 //
 
-require('@babel/register')
+require('@babel/register')({
+	rootMode: 'upward',
+})
 require('grind-framework')
 
 const { CliKernel, Runner } = require('grind-cli')
