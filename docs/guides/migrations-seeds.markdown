@@ -60,18 +60,18 @@ Running `db:seed` will run through and execute each seed file.
 
 ### Migration Generator
 
-You can generate a migration via `yarn cli make:migration`. There are a few different options for you to invoke `make:migration` with:
+You can generate a migration via `grind make:migration`. There are a few different options for you to invoke `make:migration` with:
 
-- `yarn cli make:migration create_users_table` will create `/database/migrations/###-create_users_table.js` as a basic migration
-- `yarn cli make:migration --create=users` will also create `/database/migrations/###-create_users_table.js`, however it generates boilerplate code to create the `users` table.
-- `yarn cli make:migration --alter=users` will create `/database/migrations/###-alter_users_table.js`, and it will generate boilerplate code to alter the `users` table.
-- `yarn cli make:migration --alter=users alter_users_add_disabled` will create `/database/migrations/###-alter_users_add_disabled.js`, and it will generate boilerplate code to alter the `users` table.
+- `grind make:migration create_users_table` will create `/database/migrations/###-create_users_table.js` as a basic migration
+- `grind make:migration --create=users` will also create `/database/migrations/###-create_users_table.js`, however it generates boilerplate code to create the `users` table.
+- `grind make:migration --alter=users` will create `/database/migrations/###-alter_users_table.js`, and it will generate boilerplate code to alter the `users` table.
+- `grind make:migration --alter=users alter_users_add_disabled` will create `/database/migrations/###-alter_users_add_disabled.js`, and it will generate boilerplate code to alter the `users` table.
 
 ---
 
 ### Seed Generator
 
-You can generate a seed file via `yarn cli make:seed`. You can invoke `make:seed` with a couple of different arguments:
+You can generate a seed file via `grind make:seed`. You can invoke `make:seed` with a couple of different arguments:
 
-- `yarn cli make:seed users` will create `database/seeds/##-users.js`, but will not infer a table name.
-- `yarn cli make:seed --table=users` will also create `database/seeds/##-users.js`, but it will also set the table name for you.
+- `grind make:seed users` will create `database/seeds/##-users.js`, but will not infer a table name.
+- `grind make:seed --table=users` will also create `database/seeds/##-users.js`, but it will also set the table name for you.

@@ -13,32 +13,32 @@ The Grind CLI is triggered via `yarn cli`. Running `yarn cli --help` will show y
 All commands support passing a `--help` command to tell you more about the command, including options and arguments available.
 
 ```shell
-$ yarn cli make:model --help
+$ yarn cli make:thing --help
 Usage:
-  make:model [options] <name?>
+  make:thing [options] <name?>
 
 Arguments:
-  name               The name of the model.
+  name               The name of the thing.
 
 Options:
-  --table[=TABLE]    Name of the table to create the model for
+  --param[=PARAM]    Name of the param to create the thing for
   --help             Display this help message
   --no-ansi          Disable ANSI output
 
 Help:
-  Create a model class
+  Create a thing
 ```
 
 ## Creating Commands
 
 ### Command Generator
 
-The fastest way to create a new command is by using the command generator via `yarn cli make:command`.
+The fastest way to create a new command is by using the command generator via `grind make:command` provided by the [Grind Toolkit](installation#toolkit).
 
 You can invoke `make:command` with a few different arguments:
 
-- `yarn cli make:command MakeThingCommand` will create `app/Commands/MakeThingCommand.js`, but will not infer a command name.
-- `yarn cli make:command --command=make:thing` will also create `app/Commands/MakeThingCommand.js` and will set the command name for you.
+- `grind make:command MakeThingCommand` will create `app/Commands/MakeThingCommand.js`, but will not infer a command name.
+- `grind make:command --command=make:thing` will also create `app/Commands/MakeThingCommand.js` and will set the command name for you.
 - You can also pass both a class name and a command name at the same time — though this isn’t advised.
 
 ### Naming Conventions

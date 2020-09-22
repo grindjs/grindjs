@@ -15,12 +15,12 @@ Beyond that, it’s _highly_ recommended you install build tools in order to use
 - For macOS users, install the Xcode command line tools via `/usr/bin/xcode-select --install`
 - For Ubuntu/Debian users, install build tools via `apt-get install -y build-essential`
 
-## Installing Grind’s Installer
+## Toolkit
 
-While not required, `grind-installer` is recommended. Once installed, it provides the easiest way to get started on a new Grind project.
+While not required, `grind-toolkit` is recommended. Once installed, it provides the easiest way to get started on a new Grind project.
 
 To install it, run the following npm command:
 
 ```shell
-npm install -g grind-installer
+npm install -g grind-toolkit
 ```

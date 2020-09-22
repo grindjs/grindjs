@@ -75,10 +75,10 @@ The most important of any Queue system is the ability to actually create and dis
 
 ## Job Generator
 
-The fastest way to create a new job is by using the job generator via `yarn cli make:job`. To quick generate a new job, run the following in your project directory:
+The fastest way to create a new job is by using the job generator via `grind make:job` provided by the [Grind Toolkit](installation#toolkit). To quick generate a new job, run the following in your project directory:
 
 ```shell
-yarn cli make:job EmailJob
+grind make:job EmailJob
 ```
 
 This will generate an EmailJob class and place it at `app/Jobs/EmailJob.js`.
