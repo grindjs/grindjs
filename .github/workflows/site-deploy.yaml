@@ -1,9 +1,8 @@
-name: Site
+name: site:deploy
 
 on:
   push:
     branches: [deploy]
-    paths: ['site/**', 'docs/**']
 
 jobs:
   deploy:
