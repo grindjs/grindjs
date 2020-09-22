@@ -2,7 +2,7 @@ name: mirror:code
 
 on:
   push:
-    branches: [master]
+    branches: [master, '*.x', '*.*.x']
     paths: ['starters/**', 'site/**']
 
 jobs:
