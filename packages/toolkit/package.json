@@ -1,7 +1,7 @@
 {
   "name": "grind-toolkit",
-  "version": "0.8.0-beta.15",
-  "description": "CLI Tookit for Grind",
+  "version": "0.8.0",
+  "description": "CLI Toolkit for Grind",
   "keywords": [
     "grindjs",
     "grind-framework"
@@ -27,10 +27,10 @@
   "dependencies": {
     "as-type": "^1.0.0",
     "fetchit": "^2.1.0",
-    "grind-cli": "^0.8.0-beta.15",
-    "grind-framework": "^0.8.0-beta.15",
-    "grind-stone": "^0.8.0-beta.15",
-    "grind-view": "^0.8.0-beta.15"
+    "grind-cli": "^0.8.0",
+    "grind-framework": "^0.8.0",
+    "grind-stone": "^0.8.0",
+    "grind-view": "^0.8.0"
   },
   "engines": {
     "node": ">=8.7",

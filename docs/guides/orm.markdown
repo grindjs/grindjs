@@ -28,12 +28,12 @@ app.providers.push(OrmProvider)
 
 ### Model Generator
 
-The fastest way to create a new model is by using the model generator via `yarn cli make:model`.
+The fastest way to create a new model is by using the model generator via `grind make:model` provided by the [Grind Toolkit](installation#toolkit).
 
 You can invoke `make:model` with a few different arguments:
 
-- `yarn cli make:model UserModel` will create `app/Models/UserModel.js`, but will not infer a table name.
-- `yarn cli make:model --table=users` will also create `app/Models/UserModel.js` and will set the table name for you.
+- `grind make:model UserModel` will create `app/Models/UserModel.js`, but will not infer a table name.
+- `grind make:model --table=users` will also create `app/Models/UserModel.js` and will set the table name for you.
 - You can also pass both a class name and a command name at the same time if your class name differs from the table name.
 
 ### Model Class

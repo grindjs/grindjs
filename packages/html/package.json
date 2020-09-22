@@ -1,6 +1,6 @@
 {
   "name": "grind-html",
-  "version": "0.8.0-beta.15",
+  "version": "0.8.0",
   "description": "HTML/Form builders for Grind",
   "keywords": [
     "grindjs",
@@ -30,10 +30,10 @@
     "he": "^1.2.0"
   },
   "devDependencies": {
-    "grind-cli": "^0.8.0-beta.15",
-    "grind-http": "^0.8.0-beta.15",
-    "grind-stone": "^0.8.0-beta.15",
-    "grind-view": "^0.8.0-beta.15"
+    "grind-cli": "^0.8.0",
+    "grind-http": "^0.8.0",
+    "grind-stone": "^0.8.0",
+    "grind-view": "^0.8.0"
   },
   "peerDependencies": {
     "grind-framework": "^0.8.0-beta.1"

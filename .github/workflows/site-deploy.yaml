@@ -1,0 +1,42 @@
+name: site:deploy
+
+on:
+  push:
+    branches: [deploy]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Docker Login
+        run: docker login docker.pkg.github.com -u $GITHUB_ACTOR -p $GITHUB_TOKEN
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker Build
+        run: |
+          docker build ./site -t docker.pkg.github.com/$GITHUB_REPOSITORY/site:$(echo $GITHUB_SHA | head -c7)
+          docker tag docker.pkg.github.com/$GITHUB_REPOSITORY/site:$(echo $GITHUB_SHA | head -c7) \
+            docker.pkg.github.com/$GITHUB_REPOSITORY/site:latest
+
+      - name: Docker Publish
+        run: |
+          docker push docker.pkg.github.com/$GITHUB_REPOSITORY/site:$(echo $GITHUB_SHA | head -c7)
+          docker push docker.pkg.github.com/$GITHUB_REPOSITORY/site:latest
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Generate kubeconfig
+        run: doctl kubernetes cluster kubeconfig save $DIGITALOCEAN_K8S_CLUSTER
+        env:
+          DIGITALOCEAN_K8S_CLUSTER: ${{ secrets.DIGITALOCEAN_K8S_CLUSTER }}
+
+      - name: Deploy
+        run: kubectl --namespace=grind set image "deployment/site" site=docker.pkg.github.com/$GITHUB_REPOSITORY/site:$(echo $GITHUB_SHA | head -c7)
+        env:
+          DIGITALOCEAN_K8S_CLUSTER: ${{ secrets.DIGITALOCEAN_K8S_CLUSTER }}

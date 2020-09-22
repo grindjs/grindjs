@@ -11,7 +11,7 @@
 <a href="http://commitizen.github.io/cz-cli/"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly"></a>
 </p>
 
-# Grind Tookit
+# Grind Toolkit
 
 Grind Toolkit is a CLI tool you can use in your dev environment to quickly create and manage [Grind](https://github.com/grindjs/framework) projects.
 

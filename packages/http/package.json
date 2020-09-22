@@ -1,6 +1,6 @@
 {
   "name": "grind-http",
-  "version": "0.8.0-beta.15",
+  "version": "0.8.0",
   "description": "HTTP kernel for Grind, powered by Express",
   "keywords": [
     "grindjs",
@@ -37,9 +37,9 @@
     "express-flash": "^0.0.2",
     "express-session": "^1.17.1",
     "flash": "^1.1.0",
-    "grind-cli": "^0.8.0-beta.15",
-    "grind-db": "^0.8.0-beta.15",
-    "grind-framework": "^0.8.0-beta.15",
+    "grind-cli": "^0.8.0",
+    "grind-db": "^0.8.0",
+    "grind-framework": "^0.8.0",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.8",
     "sqlite3": "^4.1.1"
