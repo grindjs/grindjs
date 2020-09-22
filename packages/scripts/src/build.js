@@ -23,6 +23,7 @@ for (const [input, output] of Object.entries({
 		'--copy-files',
 		'--source-maps',
 		'inline',
+		...process.argv.slice(2),
 		'--out-dir',
 		output,
 		input,

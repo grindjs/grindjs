@@ -1,6 +1,0 @@
-#!/usr/bin/env node
-
-process.env.IN_CLI = true
-process.env.CLI_BIN = __filename
-
-require('../boot/Cli.js')
