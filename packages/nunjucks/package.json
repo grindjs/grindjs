@@ -11,7 +11,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/grindjs/nunjucks.git"
+    "url": "https://github.com/grindjs/grindjs.git",
+    "directory": "packages/nunjucks"
   },
   "license": "MIT",
   "author": "Shaun Harrison (@shnhrrsn)",

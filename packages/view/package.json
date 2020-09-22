@@ -10,7 +10,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/grindjs/view.git"
+    "url": "https://github.com/grindjs/grindjs.git",
+    "directory": "packages/view"
   },
   "license": "MIT",
   "author": "Shaun Harrison (@shnhrrsn)",

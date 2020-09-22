@@ -8,7 +8,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/grindjs/toolkit.git"
+    "url": "https://github.com/grindjs/grindjs.git",
+    "directory": "packages/toolkit"
   },
   "license": "MIT",
   "bin": {

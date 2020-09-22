@@ -10,7 +10,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/grindjs/cli.git"
+    "url": "https://github.com/grindjs/grindjs.git",
+    "directory": "packages/cli"
   },
   "license": "MIT",
   "author": "Shaun Harrison (@shnhrrsn)",

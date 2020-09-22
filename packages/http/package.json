@@ -11,7 +11,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/grindjs/framework.git"
+    "url": "https://github.com/grindjs/grindjs.git",
+    "directory": "packages/http"
   },
   "license": "MIT",
   "author": "Shaun Harrison (@shnhrrsn)",

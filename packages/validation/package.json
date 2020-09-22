@@ -11,7 +11,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/grindjs/validation.git"
+    "url": "https://github.com/grindjs/grindjs.git",
+    "directory": "packages/validation"
   },
   "license": "MIT",
   "author": "Shaun Harrison (@shnhrrsn)",
