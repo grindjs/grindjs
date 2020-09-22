@@ -3,9 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# 0.8.0-beta.15 (2020-09-22)
+# [0.8.0](https://github.com/grindjs/grindjs/compare/v0.8.0-beta.15...v0.8.0) (2020-09-22)
 
+**Note:** Version bump only for package grind-framework
+
+# 0.8.0-beta.15 (2020-09-22)
 
 ### Bug Fixes
 
-* **grind-framework:** updated ChalkedConsoleLogger to work with chalk 4 ([2502439](https://github.com/grindjs/grindjs/commit/25024390b41356b9e5bff3c7ef1666a5405d744d))
+- **grind-framework:** updated ChalkedConsoleLogger to work with chalk 4 ([2502439](https://github.com/grindjs/grindjs/commit/25024390b41356b9e5bff3c7ef1666a5405d744d))

@@ -1,5 +1,5 @@
 {
-  "version": "0.8.0-beta.15",
+  "version": "0.8.0",
   "command": {
     "version": {
       "message": "chore(release): %s",

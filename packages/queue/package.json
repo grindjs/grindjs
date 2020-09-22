@@ -1,6 +1,6 @@
 {
   "name": "grind-queue",
-  "version": "0.8.0-beta.15",
+  "version": "0.8.0",
   "description": "Queue provider for Grind",
   "keywords": [
     "grindjs",
@@ -34,10 +34,10 @@
     "amqplib": "^0.5.5",
     "fetchit": "^2.1.0",
     "fivebeans": "^1.5.0",
-    "grind-cache": "^0.8.0-beta.15",
-    "grind-cli": "^0.8.0-beta.15",
-    "grind-framework": "^0.8.0-beta.15",
-    "grind-http": "^0.8.0-beta.15",
+    "grind-cache": "^0.8.0",
+    "grind-cli": "^0.8.0",
+    "grind-framework": "^0.8.0",
+    "grind-http": "^0.8.0",
     "redis": "^3.0.2"
   },
   "peerDependencies": {
