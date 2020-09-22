@@ -2,7 +2,7 @@
 const log = require('./utils/log')
 const git = require('./utils/git')
 
-for (const [pathname, repo] of Object.entries(require('./mirrors.json'))) {
+for (const [pathname, { repo }] of Object.entries(require('./mirrors.json'))) {
 	log.info(`Mirroring ${pathname} to ${repo}`)
 	const slug = pathname.replace(/[^a-z]+/gi, '-')
 	git('subtree', 'split', '-P', pathname, '-b', slug)

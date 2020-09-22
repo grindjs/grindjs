@@ -1,6 +1,8 @@
 {
-  "starters/api": "https://github.com/grindjs/example-api.git",
-  "starters/web": "https://github.com/grindjs/example-web.git",
-  "starters/cli": "https://github.com/grindjs/example-cli.git",
-  "starters/react": "https://github.com/grindjs/example-react.git"
+  "starters/api": { "repo": "https://github.com/grindjs/example-api.git", "tags": true },
+  "starters/web": { "repo": "https://github.com/grindjs/example-web.git", "tags": true },
+  "starters/cli": { "repo": "https://github.com/grindjs/example-cli.git", "tags": true },
+  "starters/react": { "repo": "https://github.com/grindjs/example-react.git", "tags": true },
+  "site": { "repo": "https://github.com/grindjs/site.git", "tags": false },
+  "docs": { "repo": "https://github.com/grindjs/docs.git", "tags": false }
 }

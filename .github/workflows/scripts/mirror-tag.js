@@ -8,7 +8,11 @@ if (!tag) {
 	throw new Error('Valid tag not detected')
 }
 
-for (const [pathname, repo] of Object.entries(require('./mirrors.json'))) {
+for (const [pathname, { repo, tags }] of Object.entries(require('./mirrors.json'))) {
+	if (tags !== true) {
+		continue
+	}
+
 	log.info(`Mirroring ${pathname} to ${repo}`)
 	const slug = pathname.replace(/[^a-z]+/gi, '-')
 	git('subtree', 'split', '-P', pathname, '-b', slug)
