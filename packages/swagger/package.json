@@ -1,6 +1,6 @@
 {
   "name": "grind-swagger",
-  "version": "0.7.0",
+  "version": "0.8.0-beta.15",
   "description": "Swagger provider for Grind",
   "keywords": [
     "grindjs",

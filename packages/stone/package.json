@@ -1,6 +1,6 @@
 {
   "name": "grind-stone",
-  "version": "0.8.0-beta.9",
+  "version": "0.8.0-beta.15",
   "description": "Stone is a templating language for Grind based on Laravel’s Blade",
   "repository": {
     "type": "git",
@@ -23,10 +23,10 @@
     "he": "^1.2.0"
   },
   "devDependencies": {
-    "grind-cli": "^0.8.0-beta.3",
-    "grind-framework": "^0.8.0-beta.4",
-    "grind-http": "^0.8.0-beta.4",
-    "grind-view": "^0.8.0-beta.2",
+    "grind-cli": "^0.8.0-beta.15",
+    "grind-framework": "^0.8.0-beta.15",
+    "grind-http": "^0.8.0-beta.15",
+    "grind-view": "^0.8.0-beta.15",
     "recursive-readdir-sync": "^1.0.6"
   },
   "peerDependencies": {

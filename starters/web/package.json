@@ -1,6 +1,6 @@
 {
   "name": "grind-example-web",
-  "version": "0.8.0-beta.2",
+  "version": "0.8.0-beta.15",
   "private": true,
   "scripts": {
     "build": "grind-build",
@@ -9,9 +9,9 @@
     "lint:scss": "sass-lint --verbose --max-warnings=0 --no-exit"
   },
   "dependencies": {
-    "grind-core-frontend": "^0.8.0-beta.4",
-    "grind-db": "^0.8.0-beta.4",
-    "grind-orm": "^0.8.0-beta.3",
+    "grind-core-frontend": "^0.8.0-beta.15",
+    "grind-db": "^0.8.0-beta.15",
+    "grind-orm": "^0.8.0-beta.15",
     "sqlite3": "^4.2.0"
   },
   "devDependencies": {
@@ -29,7 +29,7 @@
     "clean-css": "^4.2.3",
     "eslint": "^6.8.0",
     "eslint-plugin-import-auto-name": "^1.1.0",
-    "grind-scripts": "^0.8.0-beta.0",
+    "grind-scripts": "^0.8.0-beta.15",
     "node-sass": "^4.14.0",
     "normalize.css": "^8.0.1",
     "ouch": "^2.0.0",

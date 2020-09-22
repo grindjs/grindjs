@@ -1,6 +1,6 @@
 {
   "name": "grind-example-react",
-  "version": "0.8.0-beta.1",
+  "version": "0.8.0-beta.15",
   "private": true,
   "scripts": {
     "build": "grind-build",
@@ -11,9 +11,9 @@
   "dependencies": {
     "@khrrsn/react-conductor": "^1.0.9",
     "classnames": "^2.2.6",
-    "grind-core-frontend": "^0.8.0-beta.4",
-    "grind-db": "^0.8.0-beta.4",
-    "grind-orm": "^0.8.0-beta.3",
+    "grind-core-frontend": "^0.8.0-beta.15",
+    "grind-db": "^0.8.0-beta.15",
+    "grind-orm": "^0.8.0-beta.15",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "sqlite3": "^4.2.0"
@@ -38,8 +38,8 @@
     "eslint-config-grind": "^2.3.0",
     "eslint-plugin-import-auto-name": "^1.1.0",
     "eslint-plugin-react": "^7.19.0",
-    "grind-react-dev": "^0.8.0-beta.1",
-    "grind-scripts": "^0.8.0-beta.0",
+    "grind-react-dev": "^0.8.0-beta.15",
+    "grind-scripts": "^0.8.0-beta.15",
     "node-sass": "^4.14.1",
     "normalize.css": "^8.0.1",
     "postcss": "^7.0.27",

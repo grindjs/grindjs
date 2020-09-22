@@ -1,6 +1,6 @@
 {
   "name": "grind-example-cli",
-  "version": "0.8.0-beta.1",
+  "version": "0.8.0-beta.15",
   "private": true,
   "bin": {
     "grind-example-cli": "./build/bin/cli"
@@ -11,8 +11,8 @@
     "lint:js": "eslint app boot"
   },
   "dependencies": {
-    "grind-cli": "^0.8.0-beta.3",
-    "grind-framework": "^0.8.0-beta.4"
+    "grind-cli": "^0.8.0-beta.15",
+    "grind-framework": "^0.8.0-beta.15"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -24,7 +24,7 @@
     "babel-preset-grind": "^0.8.0-beta.4",
     "eslint": "^6.8.0",
     "eslint-plugin-import-auto-name": "^1.1.0",
-    "grind-scripts": "^0.8.0-beta.0"
+    "grind-scripts": "^0.8.0-beta.15"
   },
   "engines": {
     "node": ">=10.13",

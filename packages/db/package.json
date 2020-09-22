@@ -1,6 +1,6 @@
 {
   "name": "grind-db",
-  "version": "0.8.0-beta.4",
+  "version": "0.8.0-beta.15",
   "description": "Database provider for Grind, powered by Knex",
   "keywords": [
     "grindjs",
@@ -23,7 +23,6 @@
   "dependencies": {
     "knex": "^0.21.0"
   },
-  "devDependencies": {},
   "peerDependencies": {
     "grind-cli": "^0.8.0-beta.1",
     "grind-framework": "^0.8.0-beta.1"

@@ -1,6 +1,6 @@
 {
   "name": "grind-core",
-  "version": "0.8.0-beta.3",
+  "version": "0.8.0-beta.15",
   "description": "Proxy package to provide core Grind dependencies",
   "keywords": [
     "grindjs",
@@ -13,9 +13,9 @@
   "license": "MIT",
   "author": "Shaun Harrison (@shnhrrsn)",
   "dependencies": {
-    "grind-cache": "^0.8.0-beta.1",
-    "grind-cli": "^0.8.0-beta.3",
-    "grind-framework": "^0.8.0-beta.4",
-    "grind-http": "^0.8.0-beta.4"
+    "grind-cache": "^0.8.0-beta.15",
+    "grind-cli": "^0.8.0-beta.15",
+    "grind-framework": "^0.8.0-beta.15",
+    "grind-http": "^0.8.0-beta.15"
   }
 }

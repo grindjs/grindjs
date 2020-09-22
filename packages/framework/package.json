@@ -1,6 +1,6 @@
 {
   "name": "grind-framework",
-  "version": "0.8.0-beta.4",
+  "version": "0.8.0-beta.15",
   "description": "An opinionated Node web framework built on Express",
   "keywords": [
     "grindjs",
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "chalk": "^4.0.0",
-    "grind-support": "^0.8.0-beta.6",
+    "grind-support": "^0.8.0-beta.15",
     "json5": "^2.1.3"
   },
   "engines": {
