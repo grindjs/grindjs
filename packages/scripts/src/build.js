@@ -45,7 +45,7 @@ for (const file of ['build/boot/Cli.js', 'build/boot/Http.js']) {
 	}
 
 	let content = fs.readFileSync(file).toString()
-	content = content.replace(/require\('@babel\/register'\)/g, '')
+	content = content.replace(/require\('@babel\/register'\)(\(\{[\s\S]+?\}\))?;/gm, '')
 	fs.writeFileSync(file, content)
 }
 
