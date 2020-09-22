@@ -3,7 +3,8 @@
   "command": {
     "version": {
       "message": "chore(release): %s",
-      "conventionalCommits": true
+      "conventionalCommits": true,
+      "createRelease": "github"
     },
     "publish": {
       "ignoreChanges": ["*.md", "*.markdown", "starters/", "site/"]
