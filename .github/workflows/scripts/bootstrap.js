@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const path = require('path')
 const fs = require('fs')
+const log = require('./utils/log')
 const { execFileSync } = require('child_process')
 const rootdir = path.join(__dirname, '../../..')
 const package = require(path.join(rootdir, 'package.json'))
@@ -11,7 +12,7 @@ if (!lerna) {
 }
 
 // Run lerna bootstrap through npx to avoid a double yarn install
-console.log('lerna bootstrap')
+log.info('lerna bootstrap')
 execFileSync('npx', [`lerna@${lerna}`, 'bootstrap'], {
 	stdio: 'inherit',
 })
@@ -26,6 +27,6 @@ for (const [name, target] of Object.entries(bin)) {
 		continue
 	}
 
-	console.log(`linking ${name}`)
+	log.info(`linking ${name}`)
 	fs.symlinkSync(path.relative(bindir, path.join(scriptsdir, target)), binpath)
 }

@@ -1,0 +1,6 @@
+{
+  "starters/api": "https://github.com/grindjs/example-api.git",
+  "starters/web": "https://github.com/grindjs/example-web.git",
+  "starters/cli": "https://github.com/grindjs/example-cli.git",
+  "starters/react": "https://github.com/grindjs/example-react.git"
+}

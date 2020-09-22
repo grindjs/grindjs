@@ -1,0 +1,20 @@
+name: mirror:tag
+
+on:
+  push:
+    tags: ['*']
+
+jobs:
+  mirror-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GRINDJS_BOT_TOKEN }}
+
+      - name: env
+        run: env
+
+      - name: mirror tag
+        run: ./.github/workflows/scripts/mirror-tag.js
