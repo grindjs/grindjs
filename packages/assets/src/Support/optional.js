@@ -2,6 +2,8 @@ import { MissingPackageError } from 'grind-framework'
 
 const loadOptional = require('optional')
 const semver = require('semver')
+const { readFileSync } = require('fs')
+const { sync: pkgUp } = require('pkg-up')
 
 export function optional(pkgName, version = null) {
 	return {
@@ -29,7 +31,7 @@ export function optional(pkgName, version = null) {
 
 			if (this.resolved && !version.isNil) {
 				this.resolved = semver.satisfies(
-					require(`${pkgName}/package.json`).version,
+					JSON.parse(readFileSync(pkgUp({ cwd: require.resolve(pkgName) }))).version,
 					version,
 				)
 
