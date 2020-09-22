@@ -1,0 +1,9 @@
+*
+!app
+!babel.config.cjs
+!boot
+!config
+!package.json
+!public
+!resources
+!storage
