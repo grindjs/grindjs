@@ -1,15 +1,14 @@
-<p align="center"><a href="https://grind.rocks"><img src="https://s3.amazonaws.com/assets.grind.rocks/docs/img/grind-template-cli.svg" alt="Grind Template CLI" /></a></p>
+<p align="center"><a href="https://grind.rocks"><img src="https://assets.grind.rocks/docs/img/grind-template-cli.svg" alt="Grind Template CLI" /></a></p>
 
 <p align="center">
-<a href="https://travis-ci.org/grindjs/example-cli"><img src="https://img.shields.io/travis/grindjs/example-cli.svg" alt="Build Status"></a>
-<a href="https://github.com/grindjs/example-cli"><img src="https://img.shields.io/github/tag/grindjs/example-cli.svg" alt="Latest Version"></a>
-<a href="https:/grind.chat"><img src="https://grind.chat/badge.svg" alt="Slack"></a>
-<a href="https://github.com/grindjs/example-cli"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"></a>
+<a href="https://github.com/grindjs/grindjs/tree/master/starters/cli"><img src="https://img.shields.io/github/tag/grindjs/example-cli.svg" alt="Latest Version"></a>
+<a href="https://chat.grind.rocks"><img src="https://chat.grind.rocks/badge.svg" alt="Slack"></a>
+<a href="https://github.com/grindjs/grindjs/tree/master/starters/cli"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"></a>
 </p>
 
 # Grind CLI Template
 
-The Grind CLI Template is an example project for building CLI tools on [Grind](https://github.com/grindjs/framework).
+The Grind CLI Template is an example project for building CLI tools on [Grind](https://github.com/grindjs/grindjs).
 
 ## Installation
 
