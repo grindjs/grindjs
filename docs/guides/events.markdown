@@ -4,7 +4,6 @@ The main `Grind` application class extends Node’s [EventEmitter](https://nodej
 
 [[toc]]
 
-
 ## boot
 
 The `boot` event is published during the boot process just after all providers have been booted.

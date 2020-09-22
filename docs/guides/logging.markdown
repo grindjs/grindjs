@@ -2,30 +2,34 @@
 
 [[toc]]
 
-Grind provides a global `Log` class that should be used instead of `console.log`.  The Log class has 5 different logging methods/levels available:
+Grind provides a global `Log` class that should be used instead of `console.log`. The Log class has 5 different logging methods/levels available:
+
 ```js
 class Log {
-	static info(...message) { }
-	static comment(...message) { }
-	static warn(...message) { }
-	static error(...message) { }
-	static success(...message) { }
+  static info(...message) {}
+  static comment(...message) {}
+  static warn(...message) {}
+  static error(...message) {}
+  static success(...message) {}
 }
 ```
 
 ## Default Logger
-The default logger is `ChalkedConsoleLogger`.  This logger [chalks](https://www.npmjs.com/package/chalk) (colorizes) output before sending it to `console.log` to provide clear visual differentiation of log types:
 
-* `Log.info` — Outputs default text color
-* `Log.comment` — Outputs as blue text
-* `Log.warn` — Outputs as yellow text
-* `Log.error` — Outputs as white text with a red background
-* `Log.success` — Output as green text
+The default logger is `ChalkedConsoleLogger`. This logger [chalks](https://www.npmjs.com/package/chalk) (colorizes) output before sending it to `console.log` to provide clear visual differentiation of log types:
+
+- `Log.info` — Outputs default text color
+- `Log.comment` — Outputs as blue text
+- `Log.warn` — Outputs as yellow text
+- `Log.error` — Outputs as white text with a red background
+- `Log.success` — Output as green text
 
 ## Custom Logger
+
 You can write your own custom logger by setting `Log.logger` to your own class with the same 5 method signatures.
 
 Here’s an example of a logger that posts back to an API collector:
+
 ```js
 import request from 'request'
 
@@ -50,11 +54,12 @@ export class CollectionLogger {
 ```
 
 To activate this logger, you should create a Logger [provider](providers):
+
 ```js
 import 'App/Support/CollectionLogger'
 
 export function LoggerProvider() {
-	Log.logger = new CollectionLogger
+  Log.logger = new CollectionLogger()
 }
 ```
 

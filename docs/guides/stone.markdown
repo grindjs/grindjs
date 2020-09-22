@@ -1,6 +1,6 @@
 # Stone Templates
 
-Stone is Grind’s official templating engine, it’s based on [Laravel Blade](https://laravel.com/docs/master/blade).  Stone compiles your templates into pure Javascript to minimize any overhead.  In fact, any time you’re inside of a Stone directive or displaying data, you’re writing Javascript.  Stone view files use the `.stone` file extension and should be stored in the `resources/views` directory.
+Stone is Grind’s official templating engine, it’s based on [Laravel Blade](https://laravel.com/docs/master/blade). Stone compiles your templates into pure Javascript to minimize any overhead. In fact, any time you’re inside of a Stone directive or displaying data, you’re writing Javascript. Stone view files use the `.stone` file extension and should be stored in the `resources/views` directory.
 
 > {tip} As Stone is based on Laravel Blade, much of the documentation below was originally ported from [Laravel’s docs](https://github.com/laravel/docs/blob/5.4/blade.md).
 
@@ -12,7 +12,7 @@ You may display data passed to your Stone views by wrapping the variable in curl
 
 ```js
 app.routes.get('greeting', (req, res) => {
-	return res.render('welcome', { name: 'Taylor' })
+  return res.render('welcome', { name: 'Taylor' })
 })
 ```
 
@@ -150,11 +150,12 @@ You may also determine if a given layout section has any content using the `@has
 
 ## Components & Slots
 
-Components and slots provide similar benefits to sections and layouts; however, they can provide a simpler interface for reusable code throughout your app.  You can use components with layouts, and layouts with components.
+Components and slots provide similar benefits to sections and layouts; however, they can provide a simpler interface for reusable code throughout your app. You can use components with layouts, and layouts with components.
 
 As an example, consider an “alert” component used throughout your application:
 
 **resources/views/shared/alert.stone**
+
 ```stone
 <div class="alert alert-danger">
 	{{ slot }}
@@ -172,6 +173,7 @@ The `{{ slot }}` variable will contain the content we wish to inject into the co
 Sometimes it is helpful to define multiple slots for a component. Let’s modify our alert component to allow for the injection of a “title”. Named slots may be displayed by simply outputting the variable that matches their name:
 
 **resources/views/shared/alert.stone**
+
 ```stone
 <div class="alert alert-danger">
 	<div class="alert-title">{{ title }}</div>
@@ -245,30 +247,30 @@ This is effectively the same as doing the following (in fact, behind the scenes,
 
 As you may have noticed, tagged components are referenced by just a single tag name like `app-modal` and not the full path we use with components (`shared.app-modal`).
 
-In order to use tagged components, you must first tell Stone about them.  The easiest way to do this is via your View config:
+In order to use tagged components, you must first tell Stone about them. The easiest way to do this is via your View config:
 
 ```json
 // config/view.json
 {
-	"tags": {
-		"app-modal": "shared.app-modal"
-	}
+  "tags": {
+    "app-modal": "shared.app-modal"
+  }
 }
 ```
 
 The object key (`app-modal`) becomes your component tag and it’s value (`shared.app-modal`) is the view that is loaded.
 
-While you can define tagged components one by one, this may become a little cumbersome as you start creating more of them.  To alleviate this process, you can register tags via wildcards:
+While you can define tagged components one by one, this may become a little cumbersome as you start creating more of them. To alleviate this process, you can register tags via wildcards:
 
 ```json
 {
-	"tags": {
-		"shared.tags": "*"
-	}
+  "tags": {
+    "shared.tags": "*"
+  }
 }
 ```
 
-Using the wildcard syntax, all views within `shared/tags` will be registered as tags.  Take the following directory structure:
+Using the wildcard syntax, all views within `shared/tags` will be registered as tags. Take the following directory structure:
 
 ```
 views
@@ -281,13 +283,14 @@ views
 
 Using the above config, the following will be automatically registered:
 
-* `shared.tags.alert` is registered as `alert`
-* `shared.tags.app-modal` is registered as `app-modal`
-* `shared.tags.popover` is registered as `popover`
+- `shared.tags.alert` is registered as `alert`
+- `shared.tags.app-modal` is registered as `app-modal`
+- `shared.tags.popover` is registered as `popover`
 
 ### Passing Data
 
 #### Simple Values
+
 You pass data to your component by setting attributes on the tag, just like any other HTML tag:
 
 ```stone
@@ -297,6 +300,7 @@ You pass data to your component by setting attributes on the tag, just like any 
 `app-modal` will be called with the context `{ position: 'center' }`.
 
 #### Variables
+
 If you need to pass variables to the component, you can do so by surrounding the attribute value with braces instead of quotes:
 
 ```stone
@@ -306,6 +310,7 @@ If you need to pass variables to the component, you can do so by surrounding the
 `app-modal` will be called with the context `{ position: 'center', title: title }`.
 
 #### Spread
+
 You can also pass an entire object to a component using spread syntax:
 
 ```stone
@@ -340,6 +345,7 @@ This lets other components pass arbitrary elements to them by nesting the tags:
 Anything inside the `<fancy-border>` tag gets passed into the `fancy-border` component via the `slot` variable. Since `<fancy-border>` renders `{{ slot }}` inside of it‘s `<div>`, the passed elements appear in the final output.
 
 ### Slots
+
 Looking back to our earlier `alert` component, you’ll see there are multiple slots:
 
 ```stone
@@ -382,7 +388,7 @@ With components, this is also achieved by composition, where a more “specific�
 
 ### Attribute Passthrough
 
-All templates have a special `$local` variable that contains _only_ the context explicitly passed to them.  When using this with tagged components, it gives us pretty powerful functionality.
+All templates have a special `$local` variable that contains _only_ the context explicitly passed to them. When using this with tagged components, it gives us pretty powerful functionality.
 
 In the above example, if you were to pass extra attributes to `fancy-border`, it gets lost:
 
@@ -421,7 +427,7 @@ Now when calling `fancy-border` with the extra attributes, it’ll render as exp
 
 ## Variable Assignemnts
 
-Stone’s `@set` directive allows you to assign variables within the current context.  These assignments will cascade downwards to subviews via `@include`, however an assignment within a subview will not affect it’s parent.
+Stone’s `@set` directive allows you to assign variables within the current context. These assignments will cascade downwards to subviews via `@include`, however an assignment within a subview will not affect it’s parent.
 
 ```stone
 {{-- @set supports simple assignments: --}}
@@ -551,7 +557,6 @@ The loop variable also contains a variety of other useful properties:
 | loop.depth     | The nesting level of the current loop.                 |
 | loop.parent    | When in a nested loop, the parent’s loop variable.     |
 
-
 ### Comments
 
 Stone also allows you to define comments in your views. However, unlike HTML comments, Stone comments are not included in the HTML returned by your application:
@@ -581,19 +586,21 @@ Even though the included view will inherit all data available in the parent view
 ```
 
 ### Rendering Views For Collections
+
 Stone has a helpful `@each` directive that combines the `@for` and `@include` directives into a single one line statement:
 
 ```stone
 @each('view.name', jobs, 'job')
 ```
 
-* The first argument is the view partial to render for each element in the collection.
-* The second argument is the array or collection you wish to iterate over.
-* The third argument is the variable name that will be assigned to the current iteration within the view. So, for example, if you are iterating over an array of jobs, typically you will want to access each job as a `job` variable within your view partial.
+- The first argument is the view partial to render for each element in the collection.
+- The second argument is the array or collection you wish to iterate over.
+- The third argument is the variable name that will be assigned to the current iteration within the view. So, for example, if you are iterating over an array of jobs, typically you will want to access each job as a `job` variable within your view partial.
 
 > {tip} Use `@each` where possible when looping and displaying views as it’s able to make runtime optimizations to speed up the rendering of your views that aren’t available by doing a standard `@for`/`@include` pattern.
 
 #### Empty Collections
+
 You may also pass a fourth argument to the `@each` directive. This argument determines the view that will be rendered if the collection is empty:
 
 ```stone
@@ -607,6 +614,7 @@ If you’d prefer to render a raw string, you can prefix the argument with `raw|
 ```
 
 #### Additional Context
+
 Finally, there is a fifth parameter that you can pass to send extra data to either your view partials or the empty view:
 
 ```stone
@@ -627,7 +635,7 @@ The `@macro` directive enables you to define reusable blocks of code within your
 @endmacro
 ```
 
-The first parameter of `@macro` is the name of the macro, all subsequent parameters are arguments for your macro.  You can define these as you would any function in JS, including default values and even destructuring.
+The first parameter of `@macro` is the name of the macro, all subsequent parameters are arguments for your macro. You can define these as you would any function in JS, including default values and even destructuring.
 
 Once defined, you can use the macro anywhere within the same template or included templates by calling it as a function using the name you defined in the first parameter of `@macro`:
 
@@ -643,31 +651,36 @@ The following example creates a `@style(href)` directive which formats a given `
 
 ```js
 export function StoneExtensionProvider(app) {
-	app.view.extend('style', args => {
-		return `output += '<link media="all" type="text/css" rel="stylesheet" href="${args}" />';`
-	})
+  app.view.extend('style', args => {
+    return `output += '<link media="all" type="text/css" rel="stylesheet" href="${args}" />';`
+  })
 }
 ```
 
 When you add a custom directive, Stone expends you to return **valid** Javascript.
 
-This enables you to create powerful extensions, but can be a little confusing at first.  For instance, as seen above, in order for your custom directive to display data in the view, it must append the `output` variable.
+This enables you to create powerful extensions, but can be a little confusing at first. For instance, as seen above, in order for your custom directive to display data in the view, it must append the `output` variable.
 
 The `output` variable is a special variable that will exist in every circumstance and contains all HTML and non-Stone directives that will be rendered.
 
 ## Editor Support
-Currently, Stone is supported by Atom and Sublime Text.  If you’ve added support for Stone for another editor, but sure to submit a PR to have it listed here.
+
+Currently, Stone is supported by Atom and Sublime Text. If you’ve added support for Stone for another editor, but sure to submit a PR to have it listed here.
 
 ### Atom
+
 To enable support for Stone in Atom, install the `language-stone` package.
 
 ### Sublime Text
+
 To enable support for Stone in Sublime Text, first add the repository to [Package Control](https://packagecontrol.io/installation):
+
 1. Open Package Control via `<cmd>`+`<shift>`+`<p>`
 2. Go to `Package Control: Add Repository`
 3. Enter https://github.com/grindjs/stone-editor-sublime
 
 Once you’ve added the repository, you can install it by searching `stone-editor-sublime`:
+
 1. Open Package Control via `<cmd>`+`<shift>`+`<p>`
 2. Go to `Package Control: Install Package`
 3. Then enter `stone-editor-sublime`

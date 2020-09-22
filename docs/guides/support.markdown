@@ -8,7 +8,7 @@ As `grind-support` comes with `grind-framework`, there’s no need to explicitly
 
 ## FS
 
-`FS` includes a fully promised based implementation of [Node’s fs](https://nodejs.org/api/fs.html) module.  On Node 8+ Platforms, `FS` takes advantage Node’s `promisify` utility while falling back to a manual implementation on older platforms.
+`FS` includes a fully promised based implementation of [Node’s fs](https://nodejs.org/api/fs.html) module. On Node 8+ Platforms, `FS` takes advantage Node’s `promisify` utility while falling back to a manual implementation on older platforms.
 
 In additional to the standard methods provided by `fs`, the `FS` class includes the following additional functionality:
 
@@ -29,12 +29,13 @@ Alias of `mkdirp`.
 The `touch` method allows you to update the timestamp of a file.
 
 ```js
-touch(pathname, time = Date.now())
+touch(pathname, (time = Date.now()))
 ```
 
 ###### Parameters
-* `pathname` — The path to touch
-* `time` — Optionally specify a time to set, defaulting to the current time.
+
+- `pathname` — The path to touch
+- `time` — Optionally specify a time to set, defaulting to the current time.
 
 ---
 
@@ -55,49 +56,52 @@ merge(lhs, rhs)
 ```
 
 ###### Parameters
-* `lhs` — The object or array to merge into
-* `rhs` — The object or array to merge from, any values in both `lhs` and `rhs` will be overwritten by `rhs`.
+
+- `lhs` — The object or array to merge into
+- `rhs` — The object or array to merge from, any values in both `lhs` and `rhs` will be overwritten by `rhs`.
 
 ##### Example
 
 ```js
-const merged = merge({
-	bool: true,
-	nested: {
-		a: 'a',
-		b: 'b',
-		c: {
-			value: true
-		}
-	},
-	array: [ 'a', 'b' ]
-}, {
-	bool: false,
-	nested: {
-		c: {
-			value: false
-		}
-	},
-	array: [ 'c' ]
-})
+const merged = merge(
+  {
+    bool: true,
+    nested: {
+      a: 'a',
+      b: 'b',
+      c: {
+        value: true,
+      },
+    },
+    array: ['a', 'b'],
+  },
+  {
+    bool: false,
+    nested: {
+      c: {
+        value: false,
+      },
+    },
+    array: ['c'],
+  },
+)
 ```
 
 The `merged` variable will now be the following object:
 
 ```json
 {
-	"bool": false,
-	"nested": {
-		"a": "a",
-		"b": "b",
-		"c": {
-			"value": false
-		}
-	},
-	"array": [ "a", "b", "c" ]
+  "bool": false,
+  "nested": {
+    "a": "a",
+    "b": "b",
+    "c": {
+      "value": false
+    }
+  },
+  "array": ["a", "b", "c"]
 }
 ```
-
 
 ## Obj
 
@@ -110,18 +114,22 @@ get(object, keyPath, fallback)
 ```
 
 ###### Parameters
-* `object` — Target object to query
-* `keyPath` — The key path to find the value for
-* `fallback` — Optional value to fallback to if the key path doesn’t exist.
+
+- `object` — Target object to query
+- `keyPath` — The key path to find the value for
+- `fallback` — Optional value to fallback to if the key path doesn’t exist.
 
 ###### Example
 
 ```js
-Obj.get({
-	app: {
-		debug: true
-	}
-}, "app.debug") // True
+Obj.get(
+  {
+    app: {
+      debug: true,
+    },
+  },
+  'app.debug',
+) // True
 ```
 
 ---
@@ -135,23 +143,30 @@ has(object, keyPath)
 ```
 
 ###### Parameters
-* `object` — Target object to check
-* `keyPath` — The key path to see if there’s a value for
+
+- `object` — Target object to check
+- `keyPath` — The key path to see if there’s a value for
 
 ###### Example
 
 ```js
-Obj.has({
-	app: {
-		debug: true
-	}
-}, "app.debug") // True
+Obj.has(
+  {
+    app: {
+      debug: true,
+    },
+  },
+  'app.debug',
+) // True
 
-Obj.has({
-	app: {
-		debug: true
-	}
-}, "app.port") // false
+Obj.has(
+  {
+    app: {
+      debug: true,
+    },
+  },
+  'app.port',
+) // false
 ```
 
 ---
@@ -165,18 +180,23 @@ set(object, keyPath, value)
 ```
 
 ###### Parameters
-* `object` — Target object to update
-* `keyPath` — The key path to set a value on
-* `value` — The value to set
+
+- `object` — Target object to update
+- `keyPath` — The key path to set a value on
+- `value` — The value to set
 
 ###### Example
 
 ```js
-Obj.set({
-	app: {
-		debug: true
-	}
-}, "app.debug", false)
+Obj.set(
+  {
+    app: {
+      debug: true,
+    },
+  },
+  'app.debug',
+  false,
+)
 ```
 
 ---
@@ -190,19 +210,23 @@ filter(object, filter)
 ```
 
 ###### Parameters
-* `object` — Target object to filter
-* `filter` — A callback function used to test if a key/value should be included.
+
+- `object` — Target object to filter
+- `filter` — A callback function used to test if a key/value should be included.
 
 ###### Example
 
 ```js
-Obj.filter({
-	a: false,
-	b: true,
-	c: false
-}, (key, value) => {
-	return key === 'a' || value === true
-}) // Results in `{ a: false, b: true }` with `c` being filtered out
+Obj.filter(
+  {
+    a: false,
+    b: true,
+    c: false,
+  },
+  (key, value) => {
+    return key === 'a' || value === true
+  },
+) // Results in `{ a: false, b: true }` with `c` being filtered out
 ```
 
 ---
@@ -216,17 +240,21 @@ only(object, keys)
 ```
 
 ###### Parameters
-* `object` — Target object to filter
-* `keys` — An array or set of keys to allow
+
+- `object` — Target object to filter
+- `keys` — An array or set of keys to allow
 
 ###### Example
 
 ```js
-Obj.only({
-	a: false,
-	b: true,
-	c: false
-}, [ 'a', 'c' ]) // Results in `{ a: false, c: false }` with `b` being excluded
+Obj.only(
+  {
+    a: false,
+    b: true,
+    c: false,
+  },
+  ['a', 'c'],
+) // Results in `{ a: false, c: false }` with `b` being excluded
 ```
 
 ---
@@ -240,17 +268,21 @@ except(object, keys)
 ```
 
 ###### Parameters
-* `object` — Target object to filter
-* `keys` — An array or set of keys to ignore
+
+- `object` — Target object to filter
+- `keys` — An array or set of keys to ignore
 
 ###### Example
 
 ```js
-Obj.only({
-	a: false,
-	b: true,
-	c: false
-}, [ 'a' ]) // Results in `{ b: true, c: false }` with `a` being excluded
+Obj.only(
+  {
+    a: false,
+    b: true,
+    c: false,
+  },
+  ['a'],
+) // Results in `{ b: true, c: false }` with `a` being excluded
 ```
 
 ## Str
@@ -260,13 +292,14 @@ Obj.only({
 `ascii` will convert a string of unicode characters and attempt to convert them to ascii characters and otherwise stripping them if it’s unable to do so.
 
 ```js
-ascii(str, { charmap = null, lower = false } = { })
+ascii(str, ({ charmap = null, lower = false } = {}))
 ```
 
 ###### Parameters
-* `str` — Target str
-* `options.charmap` — Override the default charmap to change how `ascii` converts characters
-* `options.lower` — Convert all characters to lowercase if true
+
+- `str` — Target str
+- `options.charmap` — Override the default charmap to change how `ascii` converts characters
+- `options.lower` — Convert all characters to lowercase if true
 
 ###### Examples
 
@@ -284,14 +317,15 @@ Str.ascii('Emoji 🚀') // `Emoji`
 `slug` will first call `Str.ascii` to convert any non-ascii characters to their ascii counterparts, strip any non-alphanumberic characters and finally replace any whitespace with a dash.
 
 ```js
-slug(str, { charmap = null, separator = '-', lower = true } = { })
+slug(str, ({ charmap = null, separator = '-', lower = true } = {}))
 ```
 
 ###### Parameters
-* `str` — Target str
-* `options.charmap` — Override the default charmap to change how `ascii` converts characters
-* `options.separator` — Override the default separator used to replace whitespace
-* `options.lower` — Convert all characters to lowercase if true
+
+- `str` — Target str
+- `options.charmap` — Override the default charmap to change how `ascii` converts characters
+- `options.separator` — Override the default separator used to replace whitespace
+- `options.lower` — Convert all characters to lowercase if true
 
 ###### Examples
 

@@ -1,4 +1,5 @@
 # Middleware
+
 Middleware is a convenient way to validate requests, modify responses, and otherwise inject yourself into the HTTP request/response lifecycle.
 
 Grind supports Connect middleware via Express, for full information on Connect middleware, visit the [Connect site](http://senchalabs.github.com/connect).
@@ -11,24 +12,24 @@ Global middleware is registered via `app.routes.use()`:
 
 ```js
 app.routes.use((req, res, next) => {
-	if(req.query.password !== 'secret') {
-		// This will abort the request
-		return next(new ForbiddenError)
-	}
+  if (req.query.password !== 'secret') {
+    // This will abort the request
+    return next(new ForbiddenError())
+  }
 
-	// If they have the correct password
-	// call next and continue the request
-	next()
+  // If they have the correct password
+  // call next and continue the request
+  next()
 })
 ```
 
-This middleware will now apply to all routes registered _after_ it’s been added.  Any routes registered _before_ will not have the middleware.
+This middleware will now apply to all routes registered _after_ it’s been added. Any routes registered _before_ will not have the middleware.
 
-> {note} Unlike Express, you can’t pass a path to `use`.  If you’d like to register middleware on a path, you’ll need to add it to a [group with a prefix](routing#route-groups).
+> {note} Unlike Express, you can’t pass a path to `use`. If you’d like to register middleware on a path, you’ll need to add it to a [group with a prefix](routing#route-groups).
 
 ## Group Middleware
 
-Group middlware provides an easy way to apply middleware to a collection of routes.  Middleware defined on a group will apply _only_ to routes registered in that group, even if two groups share the same prefix.
+Group middlware provides an easy way to apply middleware to a collection of routes. Middleware defined on a group will apply _only_ to routes registered in that group, even if two groups share the same prefix.
 
 You can pass middleware to a group as part of it’s options:
 
@@ -65,17 +66,17 @@ Middleware in groups cascade downward, so if you nest groups each group will inh
 
 ```js
 app.routes.group(routes => {
-	routes.use(someMiddleware)
-	routes.get('hello')
+  routes.use(someMiddleware)
+  routes.get('hello')
 
-	routes.group(routes => {
-		routes.use(otherMiddleware)
-		routes.get('goodbye')
-	})
+  routes.group(routes => {
+    routes.use(otherMiddleware)
+    routes.get('goodbye')
+  })
 })
 ```
 
-In this example, the `hello` route will run with `someMiddleware`, and the `goodbye` route will run with `someMiddleware` _and_ `otherMiddleware`.  Each middleware will be called in the order it’s registered.
+In this example, the `hello` route will run with `someMiddleware`, and the `goodbye` route will run with `someMiddleware` _and_ `otherMiddleware`. Each middleware will be called in the order it’s registered.
 
 ## Route Middleware
 
@@ -107,13 +108,13 @@ To register middleware, simply call `registerMiddleware` on the Router:
 
 ```js
 export function MiddlewareProvider(app) {
-	app.routes.registerMiddleware('auth', (req, res, next) => {
-		if(req.query.password !== 'secret') {
-			return next(new ForbiddenError)
-		}
+  app.routes.registerMiddleware('auth', (req, res, next) => {
+    if (req.query.password !== 'secret') {
+      return next(new ForbiddenError())
+    }
 
-		next()
-	})
+    next()
+  })
 }
 
 MiddlewareProvider.priority = 100

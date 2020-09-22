@@ -7,11 +7,12 @@
 Most extensions to Grind should be done via [Providers](providers), however there are several core classes that are created immediately upon instantiating Grind that need to be treated differently.
 
 For these classes, you can pass in an object when creating an instance of `Grind` in `app/Boostrap.js`:
+
 ```js
 import 'App/Errors/ErrorHandler'
 
 const app = new Grind({
-	errorHandlerClass: ErrorHandler
+  errorHandlerClass: ErrorHandler,
 })
 ```
 
@@ -19,17 +20,18 @@ Grind will now use the provided `ErrorHandler` class instead of the default one 
 
 Here’s a list of available overrides:
 
-| Class Name | Constructor Key | Reference |
-| ---------- | --------------- | --------- |
-| `Router` | `routerClass` | [Router.js](https://github.com/grindjs/framework/blob/master/src/Router.js) |
+| Class Name     | Constructor Key     | Reference                                                                               |
+| -------------- | ------------------- | --------------------------------------------------------------------------------------- |
+| `Router`       | `routerClass`       | [Router.js](https://github.com/grindjs/framework/blob/master/src/Router.js)             |
 | `ErrorHandler` | `errorHandlerClass` | [ErrorHandler.js](https://github.com/grindjs/framework/blob/master/src/ErrorHandler.js) |
-| `Config` | `configClass` | [Config.js](https://github.com/grindjs/framework/blob/master/src/Config.js) |
+| `Config`       | `configClass`       | [Config.js](https://github.com/grindjs/framework/blob/master/src/Config.js)             |
 | `UrlGenerator` | `urlGeneratorClass` | [UrlGenerator.js](https://github.com/grindjs/framework/blob/master/src/UrlGenerator.js) |
-| `Paths` | `pathsClass` | [Paths.js](https://github.com/grindjs/framework/blob/master/src/Paths.js) |
+| `Paths`        | `pathsClass`        | [Paths.js](https://github.com/grindjs/framework/blob/master/src/Paths.js)               |
 
 `grind-framework` exports all of the above classes for you to subclass and extend.
 
 ## Example
+
 Here’s an example overriding the ErrorHandler class to report errors to a collector API:
 
 ```js

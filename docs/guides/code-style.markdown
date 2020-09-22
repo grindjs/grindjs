@@ -1,6 +1,6 @@
 # Code Style
 
-The documentation below is the standard code style for all official Grind projects.  Of course, there’s no requirement to use it in your own projects, but when contributing code to the Grind packages, please adhere to this standard.
+The documentation below is the standard code style for all official Grind projects. Of course, there’s no requirement to use it in your own projects, but when contributing code to the Grind packages, please adhere to this standard.
 
 You can find eslint settings for Grind at [github.com/grindjs/eslint-config-grind](https://github.com/grindjs/eslint-config-grind).
 
@@ -31,14 +31,14 @@ const b = 2
 ```js
 // bad
 var count = 1
-if(true) {
-	count += 1
+if (true) {
+  count += 1
 }
 
 // good, use the let.
 let count = 1
-if(true) {
-	count += 1
+if (true) {
+  count += 1
 }
 ```
 
@@ -47,8 +47,8 @@ if(true) {
 ```js
 // const and let only exist in the blocks they are defined in.
 {
-	let a = 1
-	const b = 1
+  let a = 1
+  const b = 1
 }
 console.log(a) // ReferenceError
 console.log(b) // ReferenceError
@@ -60,10 +60,10 @@ console.log(b) // ReferenceError
 
 ```js
 // bad
-const item = new Object
+const item = new Object()
 
 // good
-const item = { }
+const item = {}
 ```
 
 #### Use computed property names when creating objects with dynamic property names.
@@ -72,21 +72,21 @@ const item = { }
 
 ```js
 function getKey(k) {
-	return `a key named ${k}`
+  return `a key named ${k}`
 }
 
 // bad
 const obj = {
-	id: 5,
-	name: 'San Francisco'
+  id: 5,
+  name: 'San Francisco',
 }
 obj[getKey('enabled')] = true
 
 // good
 const obj = {
-	id: 5,
-	name: 'San Francisco',
-	[getKey('enabled')]: true
+  id: 5,
+  name: 'San Francisco',
+  [getKey('enabled')]: true,
 }
 ```
 
@@ -95,20 +95,20 @@ const obj = {
 ```js
 // bad
 const atom = {
-	value: 1,
+  value: 1,
 
-	addValue: function(value) {
-		return atom.value + value
-	}
+  addValue: function (value) {
+    return atom.value + value
+  },
 }
 
 // good
 const atom = {
-	value: 1,
+  value: 1,
 
-	addValue(value) {
-		return atom.value + value
-	}
+  addValue(value) {
+    return atom.value + value
+  },
 }
 ```
 
@@ -121,7 +121,7 @@ const lukeSkywalker = 'Luke Skywalker'
 
 // bad
 const obj = {
-	lukeSkywalker: lukeSkywalker
+  lukeSkywalker: lukeSkywalker,
 }
 
 // good
@@ -138,22 +138,22 @@ const lukeSkywalker = 'Luke Skywalker'
 
 // bad
 const obj = {
-	episodeOne: 1,
-	twoJediWalkIntoACantina: 2,
-	lukeSkywalker,
-	episodeThree: 3,
-	mayTheFourth: 4,
-	anakinSkywalker
+  episodeOne: 1,
+  twoJediWalkIntoACantina: 2,
+  lukeSkywalker,
+  episodeThree: 3,
+  mayTheFourth: 4,
+  anakinSkywalker,
 }
 
 // good
 const obj = {
-	lukeSkywalker,
-	anakinSkywalker,
-	episodeOne: 1,
-	twoJediWalkIntoACantina: 2,
-	episodeThree: 3,
-	mayTheFourth: 4
+  lukeSkywalker,
+  anakinSkywalker,
+  episodeOne: 1,
+  twoJediWalkIntoACantina: 2,
+  episodeThree: 3,
+  mayTheFourth: 4,
 }
 ```
 
@@ -164,16 +164,16 @@ const obj = {
 ```js
 // bad
 const bad = {
-	'foo': 3,
-	'bar': 4,
-	'data-blah': 5
+  'foo': 3,
+  'bar': 4,
+  'data-blah': 5,
 }
 
 // good
 const good = {
-	foo: 3,
-	bar: 4,
-	'data-blah': 5
+  'foo': 3,
+  'bar': 4,
+  'data-blah': 5,
 }
 ```
 
@@ -203,7 +203,7 @@ delete copy.a // so does this
 
 // bad
 const original = { a: 1, b: 2 }
-const copy = Object.assign({ }, original, { c: 3 }) // copy => { a: 1, b: 2, c: 3 }
+const copy = Object.assign({}, original, { c: 3 }) // copy => { a: 1, b: 2, c: 3 }
 
 // good
 const original = { a: 1, b: 2 }
@@ -217,10 +217,10 @@ const { a, ...noA } = copy // noA => { b: 2, c: 3 }
 
 ```js
 // bad
-const items = new Array
+const items = new Array()
 
 // good
-const items = [ ]
+const items = []
 ```
 
 #### Use [Array#push](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/push) instead of direct assignment to add items to an array.
@@ -240,18 +240,18 @@ someStack.push('abracadabra')
 ```js
 // very bad
 const len = items.length
-const itemsCopy = [ ]
+const itemsCopy = []
 let i
 
-for(i = 0; i < len; i += 1) {
-	itemsCopy[i] = items[i]
+for (i = 0; i < len; i += 1) {
+  itemsCopy[i] = items[i]
 }
 
 // bad
 const itemsCopy = items.slice()
 
 // good
-const itemsCopy = [ ...items ]
+const itemsCopy = [...items]
 ```
 
 #### To convert an array-like object to an array, use spreads `...` instead of [Array.from](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/from).
@@ -263,14 +263,14 @@ const foo = document.querySelectorAll('.foo')
 const nodes = Array.from(foo)
 
 // best
-const nodes = [ ...foo ]
+const nodes = [...foo]
 ```
 
 #### Use `Array.from` instead of spread `...` for mapping over iterables, because it avoids creating an intermediate array.
 
 ```js
 // bad
-const baz = [ ...foo ].map(bar)
+const baz = [...foo].map(bar)
 
 // good
 const baz = Array.from(foo, bar)
@@ -280,49 +280,50 @@ const baz = Array.from(foo, bar)
 
 ```js
 // good
-[ 1, 2, 3 ].map(x => {
-	const y = x + 1
-	return x * y
-})
+;[1, 2, 3]
+  .map(x => {
+    const y = x + 1
+    return x * y
+  })
 
-// good
-[ 1, 2, 3 ].map(x => x + 1)
+  [
+    // good
+    (1, 2, 3)
+  ].map(x => x + 1)
 
 // bad - no returned value means `memo` becomes undefined after the first iteration
-const flat = { }
-[ [ 0, 1 ], [ 2, 3 ], [ 4, 5 ] ].reduce((memo, item, index) => {
-	const flatten = memo.concat(item)
-	memo[index] = flatten
+const flat = {}[([0, 1], [2, 3], [4, 5])].reduce((memo, item, index) => {
+  const flatten = memo.concat(item)
+  memo[index] = flatten
 })
 
 // good
-const flat = { }
-[ [ 0, 1 ], [ 2, 3 ], [ 4, 5 ] ].reduce((memo, item, index) => {
-	const flatten = memo.concat(item)
-	memo[index] = flatten
-	return flatten
+const flat = {}[([0, 1], [2, 3], [4, 5])].reduce((memo, item, index) => {
+  const flatten = memo.concat(item)
+  memo[index] = flatten
+  return flatten
 })
 
 // bad
 inbox.filter(msg => {
-	const { subject, author } = msg
+  const { subject, author } = msg
 
-	if(subject === 'Mockingbird') {
-		return author === 'Harper Lee'
-	} else {
-		return false
-	}
+  if (subject === 'Mockingbird') {
+    return author === 'Harper Lee'
+  } else {
+    return false
+  }
 })
 
 // good
 inbox.filter(msg => {
-	const { subject, author } = msg
+  const { subject, author } = msg
 
-	if(subject === 'Mockingbird') {
-		return author === 'Harper Lee'
-	}
+  if (subject === 'Mockingbird') {
+    return author === 'Harper Lee'
+  }
 
-	return false
+  return false
 })
 ```
 
@@ -331,36 +332,41 @@ inbox.filter(msg => {
 ```js
 // bad
 const arr = [
-	[ 0, 1 ], [ 2, 3 ], [ 4, 5 ],
+  [0, 1],
+  [2, 3],
+  [4, 5],
 ]
-
-const objectInArray = [ {
-	id: 1,
-}, {
-	id: 2,
-} ]
-
-const numberInArray = [
-	1, 2,
-]
-
-// good
-const arr = [ [ 0, 1 ], [ 2, 3 ], [ 4, 5 ] ]
 
 const objectInArray = [
-	{
-		id: 1,
-	}, {
-		id: 2,
-	}
+  {
+    id: 1,
+  },
+  {
+    id: 2,
+  },
 ]
 
-const numberInArray = [
-	1,
-	2,
+const numberInArray = [1, 2]
+
+// good
+const arr = [
+  [0, 1],
+  [2, 3],
+  [4, 5],
 ]
 
-const numberInArray = [ 1, 2 ]
+const objectInArray = [
+  {
+    id: 1,
+  },
+  {
+    id: 2,
+  },
+]
+
+const numberInArray = [1, 2]
+
+const numberInArray = [1, 2]
 ```
 
 ## Destructuring
@@ -372,35 +378,35 @@ const numberInArray = [ 1, 2 ]
 ```js
 // bad
 function getFullName(user) {
-	const firstName = user.firstName
-	const lastName = user.lastName
+  const firstName = user.firstName
+  const lastName = user.lastName
 
-	return `${firstName} ${lastName}`
+  return `${firstName} ${lastName}`
 }
 
 // good
 function getFullName(user) {
-	const { firstName, lastName } = user
-	return `${firstName} ${lastName}`
+  const { firstName, lastName } = user
+  return `${firstName} ${lastName}`
 }
 
 // best
 function getFullName({ firstName, lastName }) {
-	return `${firstName} ${lastName}`
+  return `${firstName} ${lastName}`
 }
 ```
 
 #### Use array destructuring.
 
 ```js
-const arr = [ 1, 2, 3, 4 ]
+const arr = [1, 2, 3, 4]
 
 // bad
 const first = arr[0]
 const second = arr[1]
 
 // good
-const [ first, second ] = arr
+const [first, second] = arr
 ```
 
 #### Use object destructuring for multiple return values, not array destructuring.
@@ -410,8 +416,8 @@ const [ first, second ] = arr
 ```js
 // bad
 function processInput(input) {
-	// then a miracle occurs
-	return [ left, right, top, bottom ]
+  // then a miracle occurs
+  return [left, right, top, bottom]
 }
 
 // the caller needs to think about the order of return data
@@ -419,8 +425,8 @@ const [left, __, top] = processInput(input)
 
 // good
 function processInput(input) {
-	// then a miracle occurs
-	return { left, right, top, bottom }
+  // then a miracle occurs
+  return { left, right, top, bottom }
 }
 
 // the caller selects only the data they need
@@ -433,7 +439,7 @@ const { left, top } = processInput(input)
 
 ```js
 // bad
-const name = "Capt. Janeway"
+const name = 'Capt. Janeway'
 
 // bad - template literals should contain interpolation or newlines
 const name = `Capt. Janeway`
@@ -448,18 +454,21 @@ const name = 'Capt. Janeway'
 
 ```js
 // bad
-const errorMessage = 'This is a super long error that was thrown because \
+const errorMessage =
+  'This is a super long error that was thrown because \
 of Batman. When you stop to think about how Batman had anything to do \
 with this, you would get nowhere \
 fast.'
 
 // bad
-const errorMessage = 'This is a super long error that was thrown because ' +
-	'of Batman. When you stop to think about how Batman had anything to do ' +
-	'with this, you would get nowhere fast.'
+const errorMessage =
+  'This is a super long error that was thrown because ' +
+  'of Batman. When you stop to think about how Batman had anything to do ' +
+  'with this, you would get nowhere fast.'
 
 // good
-const errorMessage = 'This is a super long error that was thrown because of Batman. When you stop to think about how Batman had anything to do with this, you would get nowhere fast.'
+const errorMessage =
+  'This is a super long error that was thrown because of Batman. When you stop to think about how Batman had anything to do with this, you would get nowhere fast.'
 ```
 
 #### When programmatically building up strings, use template strings instead of concatenation.
@@ -469,22 +478,22 @@ const errorMessage = 'This is a super long error that was thrown because of Batm
 ```js
 // bad
 function sayHi(name) {
-	return 'How are you, ' + name + '?'
+  return 'How are you, ' + name + '?'
 }
 
 // bad
 function sayHi(name) {
-	return [ 'How are you, ', name, '?' ].join()
+  return ['How are you, ', name, '?'].join()
 }
 
 // bad
 function sayHi(name) {
-	return `How are you, ${ name }?`
+  return `How are you, ${name}?`
 }
 
 // good
 function sayHi(name) {
-	return `How are you, ${name}?`
+  return `How are you, ${name}?`
 }
 ```
 
@@ -496,7 +505,7 @@ function sayHi(name) {
 
 ```js
 // bad
-const foo = '\'this\' \i\s \"quoted\"'
+const foo = '\'this\' is "quoted"'
 
 // good
 const foo = '\'this\' is "quoted"'
@@ -511,9 +520,9 @@ const foo = `my name is '${name}'`
 
 ```js
 // immediately-invoked function expression (IIFE)
-(function() {
-	console.log('Welcome to the Internet. Please follow me.')
-}())
+;(function () {
+  console.log('Welcome to the Internet. Please follow me.')
+})()
 ```
 
 #### Never declare a function in a non-function block (`if`, `while`, etc). Assign the function to a variable instead. Browsers will allow you to do it, but they all interpret it differently, which is bad news bears.
@@ -522,16 +531,16 @@ const foo = `my name is '${name}'`
 
 ```js
 // bad
-if(currentUser) {
-	function test() {
-		console.log('Nope.')
-	}
+if (currentUser) {
+  function test() {
+    console.log('Nope.')
+  }
 }
 
 // good
 let test
-if(currentUser) {
-	test = () => console.log('Yup.')
+if (currentUser) {
+  test = () => console.log('Yup.')
 }
 ```
 
@@ -540,12 +549,12 @@ if(currentUser) {
 ```js
 // bad
 function foo(name, options, arguments) {
-	// ...
+  // ...
 }
 
 // good
 function foo(name, options, args) {
-	// ...
+  // ...
 }
 ```
 
@@ -556,13 +565,13 @@ function foo(name, options, args) {
 ```js
 // bad
 function concatenateAll() {
-	const args = Array.prototype.slice.call(arguments)
-	return args.join('')
+  const args = Array.prototype.slice.call(arguments)
+  return args.join('')
 }
 
 // good
 function concatenateAll(...args) {
-	return args.join('')
+  return args.join('')
 }
 ```
 
@@ -571,24 +580,24 @@ function concatenateAll(...args) {
 ```js
 // really bad
 function handleThings(opts) {
-	// No! We shouldn’t mutate function arguments.
-	// Double bad: if opts is falsy it'll be set to an object which may
-	// be what you want but it can introduce subtle bugs.
-	opts = opts || {}
-	// ...
+  // No! We shouldn’t mutate function arguments.
+  // Double bad: if opts is falsy it'll be set to an object which may
+  // be what you want but it can introduce subtle bugs.
+  opts = opts || {}
+  // ...
 }
 
 // still bad
 function handleThings(opts) {
-	if(opts === void 0) {
-		opts = { }
-	}
-	// ...
+  if (opts === void 0) {
+    opts = {}
+  }
+  // ...
 }
 
 // good
-function handleThings(opts = { }) {
-	// ...
+function handleThings(opts = {}) {
+  // ...
 }
 ```
 
@@ -601,25 +610,25 @@ var b = 1
 
 // bad
 function count(a = b++) {
-	console.log(a)
+  console.log(a)
 }
-count()  // 1
-count()  // 2
+count() // 1
+count() // 2
 count(3) // 3
-count()  // 3
+count() // 3
 ```
 
 #### Always put default parameters last.
 
 ```js
 // bad
-function handleThings(opts = { }, name) {
-	// ...
+function handleThings(opts = {}, name) {
+  // ...
 }
 
 // good
-function handleThings(name, opts = { }) {
-	// ...
+function handleThings(name, opts = {}) {
+  // ...
 }
 ```
 
@@ -639,12 +648,12 @@ const subtract = Function('a', 'b', 'return a - b')
 
 ```js
 // bad
-const f = function(){}
-const g = function (){}
+const f = function () {}
+const g = function () {}
 const h = function () {}
 
 // good
-const x = function() {}
+const x = function () {}
 const y = function a() {}
 ```
 
@@ -655,12 +664,12 @@ const y = function a() {}
 ```js
 // bad
 function f1(obj) {
-	obj.key = 1
+  obj.key = 1
 }
 
 // good
 function f2(obj) {
-	const key = Object.prototype.hasOwnProperty.call(obj, 'key') ? obj.key : 1
+  const key = Object.prototype.hasOwnProperty.call(obj, 'key') ? obj.key : 1
 }
 ```
 
@@ -670,50 +679,38 @@ function f2(obj) {
 
 ```js
 // bad
-const x = [ 1, 2, 3, 4, 5 ]
+const x = [1, 2, 3, 4, 5]
 console.log.apply(console, x)
 
 // good
-const x = [ 1, 2, 3, 4, 5 ]
+const x = [1, 2, 3, 4, 5]
 console.log(...x)
 
 // bad
-new (Function.prototype.bind.apply(Date, [ null, 2016, 8, 5 ]))
+new (Function.prototype.bind.apply(Date, [null, 2016, 8, 5]))()
 
 // good
-new Date(...[ 2016, 8, 5 ])
+new Date(...[2016, 8, 5])
 ```
 
 #### Functions with multiline signatures, or invocations, should be indented just like every other multiline list in this guide: with each item on a line by itself.
 
 ```js
 // bad
-function foo(bar,
-				 baz,
-				 quux) {
-	// ...
+function foo(bar, baz, quux) {
+  // ...
 }
 
 // good
-function foo(
-	bar,
-	baz,
-	quux
-) {
-	// ...
+function foo(bar, baz, quux) {
+  // ...
 }
 
 // bad
-console.log(foo,
-	bar,
-	baz)
+console.log(foo, bar, baz)
 
 // good
-console.log(
-	foo,
-	bar,
-	baz
-)
+console.log(foo, bar, baz)
 ```
 
 ## Arrow Functions
@@ -726,16 +723,19 @@ console.log(
 
 ```js
 // bad
-[ 1, 2, 3 ].map(function(x) {
-	const y = x + 1
-	return x * y
-})
+;[1, 2, 3]
+  .map(function (x) {
+    const y = x + 1
+    return x * y
+  })
 
-// good
-[ 1, 2, 3 ].map(x => {
-	const y = x + 1
-	return x * y
-})
+  [
+    // good
+    (1, 2, 3)
+  ].map(x => {
+    const y = x + 1
+    return x * y
+  })
 ```
 
 #### If the function body consists of a single statement returning an [expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators#Expressions) without side effects, omit the braces and use the implicit return. Otherwise, keep the braces and use a `return` statement.
@@ -744,41 +744,47 @@ console.log(
 
 ```js
 // bad
-[ 1, 2, 3 ].map(number => {
-	const nextNumber = number + 1
-	`A string containing the ${nextNumber}.`
-})
+;[1, 2, 3]
+  .map(number => {
+    const nextNumber = number + 1`A string containing the ${nextNumber}.`
+  })
 
-// good
-[ 1, 2, 3 ].map(number => `A string containing the ${number}.`)
+  [
+    // good
+    (1, 2, 3)
+  ].map(number => `A string containing the ${number}.`)
 
-// good
-[ 1, 2, 3 ].map(number => {
-	const nextNumber = number + 1
-	return `A string containing the ${nextNumber}.`
-})
+  [
+    // good
+    (1, 2, 3)
+  ].map(number => {
+    const nextNumber = number + 1
+    return `A string containing the ${nextNumber}.`
+  })
 
-// good
-[ 1, 2, 3 ].map((number, index) => ({
-	[index]: number
-}))
+  [
+    // good
+    (1, 2, 3)
+  ].map((number, index) => ({
+    [index]: number,
+  }))
 
 // No implicit return with side effects
 function foo(callback) {
-	const val = callback()
-	if(val === true) {
-		// Do something if callback returns true
-	}
+  const val = callback()
+  if (val === true) {
+    // Do something if callback returns true
+  }
 }
 
 let bool = false
 
 // bad
-foo(() => bool = true)
+foo(() => (bool = true))
 
 // good
 foo(() => {
-	bool = true
+  bool = true
 })
 ```
 
@@ -788,19 +794,17 @@ foo(() => {
 
 ```js
 // bad
-[ 'get', 'post', 'put' ].map(httpMethod => Object.prototype.hasOwnProperty.call(
-		httpMagicObjectWithAVeryLongName,
-		httpMethod
-	)
-)
+;['get', 'post', 'put']
+  .map(httpMethod =>
+    Object.prototype.hasOwnProperty.call(httpMagicObjectWithAVeryLongName, httpMethod),
+  )
 
-// good
-[ 'get', 'post', 'put' ].map(httpMethod => (
-	Object.prototype.hasOwnProperty.call(
-		httpMagicObjectWithAVeryLongName,
-		httpMethod
-	)
-))
+  [
+    // good
+    ('get', 'post', 'put')
+  ].map(httpMethod =>
+    Object.prototype.hasOwnProperty.call(httpMagicObjectWithAVeryLongName, httpMethod),
+  )
 ```
 
 #### If your function takes a single argument, omit the parentheses. Otherwise, always include parentheses around arguments for clarity and consistency.
@@ -809,27 +813,37 @@ foo(() => {
 
 ```js
 // bad
-[ 1, 2, 3 ].map((x) => x * x)
+;[1, 2, 3]
+  .map(x => x * x)
 
-// good
-[ 1, 2, 3 ].map(x => x * x)
+  [
+    // good
+    (1, 2, 3)
+  ].map(x => x * x)
 
-// good
-[ 1, 2, 3 ].map(number => (
-	`A long string with the ${number}. It’s so long that we don’t want it to take up space on the .map line!`
-))
+  [
+    // good
+    (1, 2, 3)
+  ].map(
+    number =>
+      `A long string with the ${number}. It’s so long that we don’t want it to take up space on the .map line!`,
+  )
 
-// bad
-[1, 2, 3].map((x) => {
-	const y = x + 1
-	return x * y
-})
+  [
+    // bad
+    (1, 2, 3)
+  ].map(x => {
+    const y = x + 1
+    return x * y
+  })
 
-// good
-[1, 2, 3].map(x => {
-	const y = x + 1
-	return x * y
-})
+  [
+    // good
+    (1, 2, 3)
+  ].map(x => {
+    const y = x + 1
+    return x * y
+  })
 ```
 
 ## Classes & Constructors
@@ -840,29 +854,27 @@ foo(() => {
 
 ```js
 // bad
-function Queue(contents = [ ]) {
-	this.queue = [ ...contents ]
+function Queue(contents = []) {
+  this.queue = [...contents]
 }
 
-Queue.prototype.pop = function() {
-	const value = this.queue[0]
-	this.queue.splice(0, 1)
-	return value
+Queue.prototype.pop = function () {
+  const value = this.queue[0]
+  this.queue.splice(0, 1)
+  return value
 }
 
 // good
 class Queue {
+  constructor(contents = []) {
+    this.queue = [...contents]
+  }
 
-	constructor(contents = []) {
-		this.queue = [ ...contents ]
-	}
-
-	pop() {
-		const value = this.queue[0]
-		this.queue.splice(0, 1)
-		return value
-	}
-
+  pop() {
+    const value = this.queue[0]
+    this.queue.splice(0, 1)
+    return value
+  }
 }
 ```
 
@@ -875,22 +887,20 @@ class Queue {
 const inherits = require('inherits')
 
 function PeekableQueue(contents) {
-	Queue.apply(this, contents)
+  Queue.apply(this, contents)
 }
 
 inherits(PeekableQueue, Queue)
 
-PeekableQueue.prototype.peek = function() {
-	return this.queue[0]
+PeekableQueue.prototype.peek = function () {
+  return this.queue[0]
 }
 
 // good
 class PeekableQueue extends Queue {
-
-	peek() {
-		return this.queue[0]
-	}
-
+  peek() {
+    return this.queue[0]
+  }
 }
 ```
 
@@ -898,56 +908,52 @@ class PeekableQueue extends Queue {
 
 ```js
 // bad
-Jedi.prototype.jump = function() {
-	this.jumping = true
-	return true
+Jedi.prototype.jump = function () {
+  this.jumping = true
+  return true
 }
 
-Jedi.prototype.setHeight = function(height) {
-	this.height = height
+Jedi.prototype.setHeight = function (height) {
+  this.height = height
 }
 
-const luke = new Jedi
+const luke = new Jedi()
 luke.jump() // => true
 luke.setHeight(20) // => undefined
 
 // good
 class Jedi {
+  jump() {
+    this.jumping = true
+    return this
+  }
 
-	jump() {
-		this.jumping = true
-		return this
-	}
-
-	setHeight(height) {
-		this.height = height
-		return this
-	}
-
+  setHeight(height) {
+    this.height = height
+    return this
+  }
 }
 
-const luke = new Jedi
+const luke = new Jedi()
 
-luke.jump()
-	.setHeight(20)
+luke.jump().setHeight(20)
 ```
 
 #### It’s okay to write a custom toString() method, just make sure it works successfully and causes no side effects.
 
 ```js
 class Jedi {
+  constructor({ name = 'no name' } = {}) {
+    this.name = name
+  }
 
-	constructor({ name = 'no name' } = { }) {
-		this.name = name
-	}
+  getName() {
+    return this.name
+  }
 
-	getName() {
-		return this.name
-	}
-
-	toString() {
-		return `Jedi - ${this.getName()}`
-	}
+  toString() {
+    return `Jedi - ${this.getName()}`
+  }
 }
 ```
 
@@ -956,33 +962,27 @@ class Jedi {
 ```js
 // bad
 class Jedi {
+  constructor() {}
 
-	constructor() { }
-
-	getName() {
-		return this.name
-	}
-
+  getName() {
+    return this.name
+  }
 }
 
 // bad
 class Rey extends Jedi {
-
-	constructor(...args) {
-		super(...args)
-	}
-
+  constructor(...args) {
+    super(...args)
+  }
 }
 
 // good
 class Rey extends Jedi {
+  constructor(...args) {
+    super(...args)
 
-	constructor(...args) {
-		super(...args)
-
-		this.name = 'Rey'
-	}
-
+    this.name = 'Rey'
+  }
 }
 ```
 
@@ -993,7 +993,7 @@ class Rey extends Jedi {
 const luke = new Jedi()
 
 // good
-const luke = new Jedi
+const luke = new Jedi()
 ```
 
 #### Avoid duplicate class members.
@@ -1003,17 +1003,19 @@ const luke = new Jedi
 ```js
 // bad
 class Foo {
-
-	bar() { return 1 }
-	bar() { return 2 }
-
+  bar() {
+    return 1
+  }
+  bar() {
+    return 2
+  }
 }
 
 // good
 class Foo {
-
-	bar() { return 1 }
-
+  bar() {
+    return 1
+  }
 }
 ```
 
@@ -1077,10 +1079,7 @@ import { named1, named2 } from 'foo'
 import foo, { named1, named2 } from 'foo'
 
 // good
-import foo, {
-	named1,
-	named2,
-} from 'foo'
+import foo, { named1, named2 } from 'foo'
 ```
 
 #### Do not export mutable bindings.
@@ -1104,10 +1103,10 @@ export const foo = 3
 
 ```js
 // bad
-export default function foo() { }
+export default function foo() {}
 
 // good
-export function foo() { }
+export function foo() {}
 ```
 
 #### Put all `import`s above non-import statements.
@@ -1137,13 +1136,7 @@ foo.init()
 import { longNameA, longNameB, longNameC, longNameD, longNameE } from 'module'
 
 // good
-import {
-	longNameA,
-	longNameB,
-	longNameC,
-	longNameD,
-	longNameE,
-} from 'module'
+import { longNameA, longNameB, longNameC, longNameD, longNameE } from 'module'
 ```
 
 ## Iterators and Loops
@@ -1153,19 +1146,19 @@ import {
 > {tip} Use `map()` / `every()` / `filter()` / `find()` / `findIndex()` / `reduce()` / `some()` / ... to iterate over arrays, and `Object.keys()` / `Object.values()` / `Object.entries()` to produce arrays so you can iterate over objects.
 
 ```js
-const numbers = [ 1, 2, 3, 4, 5 ]
+const numbers = [1, 2, 3, 4, 5]
 
 // bad
 let sum = 0
 numbers.forEach(num => {
-	sum += num
+  sum += num
 })
 sum === 15
 
 // good
 let sum = 0
-for(const num of numbers) {
-	sum += num
+for (const num of numbers) {
+  sum += num
 }
 sum === 15
 
@@ -1174,21 +1167,21 @@ const sum = numbers.reduce((total, num) => total + num, 0)
 sum === 15
 
 // bad
-const increasedByOne = [ ]
-for(let i = 0; i < numbers.length; i++) {
-	increasedByOne.push(numbers[i] + 1)
+const increasedByOne = []
+for (let i = 0; i < numbers.length; i++) {
+  increasedByOne.push(numbers[i] + 1)
 }
 
 // bad
-const increasedByOne = [ ]
+const increasedByOne = []
 numbers.forEach(num => {
-	increasedByOne.push(num + 1)
+  increasedByOne.push(num + 1)
 })
 
 // good
-const increasedByOne = [ ]
-for(const num of numbers) {
-	increasedByOne.push(num + 1)
+const increasedByOne = []
+for (const num of numbers) {
+  increasedByOne.push(num + 1)
 }
 
 // best (keeping it functional)
@@ -1201,8 +1194,8 @@ const increasedByOne = numbers.map(num => num + 1)
 
 ```js
 const luke = {
-	jedi: true,
-	age: 28
+  jedi: true,
+  age: 28,
 }
 
 // bad
@@ -1216,12 +1209,12 @@ const isJedi = luke.jedi
 
 ```js
 const luke = {
-	jedi: true,
-	age: 28
+  jedi: true,
+  age: 28,
 }
 
 function getProp(prop) {
-	return luke[prop]
+  return luke[prop]
 }
 
 const isJedi = getProp('jedi')
@@ -1243,10 +1236,10 @@ const binary = 2 ** 10
 
 ```js
 // bad
-superPower = new SuperPower
+superPower = new SuperPower()
 
 // good
-const superPower = new SuperPower
+const superPower = new SuperPower()
 ```
 
 #### Use one `const` or `let` declaration per variable.
@@ -1256,14 +1249,14 @@ const superPower = new SuperPower
 ```js
 // bad
 const items = getItems(),
-	goSportsTeam = true,
-	dragonball = 'z'
+  goSportsTeam = true,
+  dragonball = 'z'
 
 // bad
 // (compare to above, and try to spot the mistake)
 const items = getItems(),
-	goSportsTeam = true
-	dragonball = 'z'
+  goSportsTeam = true
+dragonball = 'z'
 
 // good
 const items = getItems()
@@ -1277,9 +1270,11 @@ const dragonball = 'z'
 
 ```js
 // bad
-let i, len, dragonball,
-	items = getItems(),
-	goSportsTeam = true
+let i,
+  len,
+  dragonball,
+  items = getItems(),
+  goSportsTeam = true
 
 // bad
 let i
@@ -1303,34 +1298,34 @@ let length
 ```js
 // bad - unnecessary function call
 function checkName(hasName) {
-	const name = getName()
+  const name = getName()
 
-	if(hasName === 'test') {
-		return false
-	}
+  if (hasName === 'test') {
+    return false
+  }
 
-	if(name === 'test') {
-		this.setName('')
-		return false
-	}
+  if (name === 'test') {
+    this.setName('')
+    return false
+  }
 
-	return name
+  return name
 }
 
 // good
 function checkName(hasName) {
-	if(hasName === 'test') {
-		return false
-	}
+  if (hasName === 'test') {
+    return false
+  }
 
-	const name = getName()
+  const name = getName()
 
-	if(name === 'test') {
-		this.setName('')
-		return false
-	}
+  if (name === 'test') {
+    this.setName('')
+    return false
+  }
 
-	return name
+  return name
 }
 ```
 
@@ -1340,24 +1335,26 @@ function checkName(hasName) {
 
 ```js
 // bad
-(function example() {
-	// JavaScript interprets this as
-	// let a = ( b = ( c = 1 ) )
-	// The let keyword only applies to variable a; variables b and c become
-	// global variables.
-	let a = b = c = 1
-}())
+;(function example() {
+  // JavaScript interprets this as
+  // let a = ( b = ( c = 1 ) )
+  // The let keyword only applies to variable a; variables b and c become
+  // global variables.
+  let a = (b = c = 1)
+})()
 
 console.log(a) // throws ReferenceError
 console.log(b) // 1
-console.log(c) // 1
+console.log(c)(
+  // 1
 
-// good
-(function example() {
-	let a = 1
-	let b = a
-	let c = a
-}())
+  // good
+  (function example() {
+    let a = 1
+    let b = a
+    let c = a
+  })(),
+)
 
 console.log(a) // throws ReferenceError
 console.log(b) // throws ReferenceError
@@ -1374,7 +1371,7 @@ console.log(c) // throws ReferenceError
 // we know this wouldn’t work (assuming there
 // is no notDefined global variable)
 function example() {
-	console.log(notDefined) // => throws a ReferenceError
+  console.log(notDefined) // => throws a ReferenceError
 }
 
 // creating a variable declaration after you
@@ -1382,24 +1379,24 @@ function example() {
 // variable hoisting. Note: the assignment
 // value of `true` is not hoisted.
 function example() {
-	console.log(declaredButNotAssigned) // => undefined
-	var declaredButNotAssigned = true
+  console.log(declaredButNotAssigned) // => undefined
+  var declaredButNotAssigned = true
 }
 
 // the interpreter is hoisting the variable
 // declaration to the top of the scope,
 // which means our example could be rewritten as:
 function example() {
-	let declaredButNotAssigned
-	console.log(declaredButNotAssigned) // => undefined
-	declaredButNotAssigned = true
+  let declaredButNotAssigned
+  console.log(declaredButNotAssigned) // => undefined
+  declaredButNotAssigned = true
 }
 
 // using const and let
 function example() {
-	console.log(declaredButNotAssigned) // => throws a ReferenceError
-	console.log(typeof declaredButNotAssigned) // => throws a ReferenceError
-	const declaredButNotAssigned = true
+  console.log(declaredButNotAssigned) // => throws a ReferenceError
+  console.log(typeof declaredButNotAssigned) // => throws a ReferenceError
+  const declaredButNotAssigned = true
 }
 ```
 
@@ -1407,13 +1404,13 @@ function example() {
 
 ```js
 function example() {
-	console.log(anonymous) // => undefined
+  console.log(anonymous) // => undefined
 
-	anonymous() // => TypeError anonymous is not a function
+  anonymous() // => TypeError anonymous is not a function
 
-	var anonymous = function() {
-		console.log('anonymous function expression')
-	}
+  var anonymous = function () {
+    console.log('anonymous function expression')
+  }
 }
 ```
 
@@ -1421,27 +1418,27 @@ function example() {
 
 ```js
 function example() {
-	console.log(named) // => undefined
+  console.log(named) // => undefined
 
-	named() // => TypeError named is not a function
+  named() // => TypeError named is not a function
 
-	superPower() // => ReferenceError superPower is not defined
+  superPower() // => ReferenceError superPower is not defined
 
-	var named = function superPower() {
-		console.log('Flying')
-	}
+  var named = function superPower() {
+    console.log('Flying')
+  }
 }
 
 // the same is true when the function name
 // is the same as the variable name.
 function example() {
-	console.log(named) // => undefined
+  console.log(named) // => undefined
 
-	named() // => TypeError named is not a function
+  named() // => TypeError named is not a function
 
-	var named = function named() {
-		console.log('named')
-	}
+  var named = function named() {
+    console.log('named')
+  }
 }
 ```
 
@@ -1449,11 +1446,11 @@ function example() {
 
 ```js
 function example() {
-	superPower() // => Flying
+  superPower() // => Flying
 
-	function superPower() {
-		console.log('Flying')
-	}
+  function superPower() {
+    console.log('Flying')
+  }
 }
 ```
 
@@ -1465,17 +1462,17 @@ function example() {
 
 Conditional statements such as the `if` statement evaluate their expression using coercion with the `ToBoolean` abstract method and always follow these simple rules:
 
-* **Objects** evaluate to **true**
-* **Undefined** evaluates to **false**
-* **Null** evaluates to **false**
-* **Booleans** evaluate to **the value of the boolean**
-* **Numbers** evaluate to **false** if **+0, -0, or NaN**, otherwise **true**
-* **Strings** evaluate to **false** if an empty string `''`, otherwise **true**
+- **Objects** evaluate to **true**
+- **Undefined** evaluates to **false**
+- **Null** evaluates to **false**
+- **Booleans** evaluate to **the value of the boolean**
+- **Numbers** evaluate to **false** if **+0, -0, or NaN**, otherwise **true**
+- **Strings** evaluate to **false** if an empty string `''`, otherwise **true**
 
 ```js
-if([ 0 ] && [ ]) {
-	// true
-	// an array (even an empty one) is an object, objects will evaluate to true
+if ([0] && []) {
+  // true
+  // an array (even an empty one) is an object, objects will evaluate to true
 }
 ```
 
@@ -1483,33 +1480,33 @@ if([ 0 ] && [ ]) {
 
 ```js
 // bad
-if(isValid === true) {
-	// ...
+if (isValid === true) {
+  // ...
 }
 
 // good
-if(isValid) {
-	// ...
+if (isValid) {
+  // ...
 }
 
 // bad
-if(name) {
-	// ...
+if (name) {
+  // ...
 }
 
 // good
-if(name !== '') {
-	// ...
+if (name !== '') {
+  // ...
 }
 
 // bad
-if(collection.length) {
-	// ...
+if (collection.length) {
+  // ...
 }
 
 // good
-if(collection.length > 0) {
-	// ...
+if (collection.length > 0) {
+  // ...
 }
 ```
 
@@ -1521,44 +1518,44 @@ if(collection.length > 0) {
 
 ```js
 // bad
-switch(foo) {
-	case 1:
-		let x = 1
-		break
-	case 2:
-		const y = 2
-		break
-	case 3:
-		function f() {
-			// ...
-		}
-		break
-	default:
-		class C { }
+switch (foo) {
+  case 1:
+    let x = 1
+    break
+  case 2:
+    const y = 2
+    break
+  case 3:
+    function f() {
+      // ...
+    }
+    break
+  default:
+    class C {}
 }
 
 // good
-switch(foo) {
-	case 1: {
-		let x = 1
-		break
-	}
-	case 2: {
-		const y = 2
-		break
-	}
-	case 3: {
-		function f() {
-			// ...
-		}
-		break
-	}
-	case 4:
-		bar()
-		break
-	default: {
-		class C { }
-	}
+switch (foo) {
+  case 1: {
+    let x = 1
+    break
+  }
+  case 2: {
+    const y = 2
+    break
+  }
+  case 3: {
+    function f() {
+      // ...
+    }
+    break
+  }
+  case 4:
+    bar()
+    break
+  default: {
+    class C {}
+  }
 }
 ```
 
@@ -1582,26 +1579,29 @@ const baz = !c
 
 ```js
 // bad
-if(test)
-	return false
+if (test) return false
 
 // bad
-if(test) return false
+if (test) return false
 
 // still bad
-if(test) { return false }
+if (test) {
+  return false
+}
 
 // good
-if(test) {
-	return false
+if (test) {
+  return false
 }
 
 // bad
-function foo() { return false }
+function foo() {
+  return false
+}
 
 // good
 function bar() {
-	return false
+  return false
 }
 ```
 
@@ -1609,20 +1609,19 @@ function bar() {
 
 ```js
 // bad
-if(test) {
-	thing1()
-	thing2()
-}
-else {
-	thing3()
+if (test) {
+  thing1()
+  thing2()
+} else {
+  thing3()
 }
 
 // good
-if(test) {
-	thing1()
-	thing2()
+if (test) {
+  thing1()
+  thing2()
 } else {
-	thing3()
+  thing3()
 }
 ```
 
@@ -1632,50 +1631,46 @@ if(test) {
 
 ```js
 // bad
-if((foo === 123 || bar === 'abc') && doesItLookGoodWhenItBecomesThatLong() && isThisReallyHappening()) {
-	thing1()
+if (
+  (foo === 123 || bar === 'abc') &&
+  doesItLookGoodWhenItBecomesThatLong() &&
+  isThisReallyHappening()
+) {
+  thing1()
 }
 
 // bad
-if(foo === 123 &&
-	bar === 'abc') {
-	thing1()
+if (foo === 123 && bar === 'abc') {
+  thing1()
 }
 
 // bad
-if(foo === 123
-	&& bar === 'abc') {
-	thing1()
+if (foo === 123 && bar === 'abc') {
+  thing1()
 }
 
 // good
-if(
-	(foo === 123 || bar === "abc") &&
-	doesItLookGoodWhenItBecomesThatLong() &&
-	isThisReallyHappening()
+if (
+  (foo === 123 || bar === 'abc') &&
+  doesItLookGoodWhenItBecomesThatLong() &&
+  isThisReallyHappening()
 ) {
-	thing1()
+  thing1()
 }
 
 // good
-if(foo === 123 && bar === 'abc') {
-	thing1()
+if (foo === 123 && bar === 'abc') {
+  thing1()
 }
 
 // good
-if(
-	foo === 123 &&
-	bar === 'abc'
-) {
-	thing1()
+if (foo === 123 && bar === 'abc') {
+  thing1()
 }
 
 // good
-if(
-	foo === 123
-	&& bar === 'abc'
-) {
-	thing1()
+if (foo === 123 && bar === 'abc') {
+  thing1()
 }
 ```
 
@@ -1691,8 +1686,8 @@ if(
 // @param {String} tag
 // @return {Element} element
 function make(tag) {
-	// ...
-	return element
+  // ...
+  return element
 }
 
 // good
@@ -1701,8 +1696,8 @@ function make(tag) {
  * based on the passed-in tag name
  */
 function make(tag) {
-	// ...
-	return element
+  // ...
+  return element
 }
 ```
 
@@ -1710,7 +1705,7 @@ function make(tag) {
 
 ```js
 // bad
-const active = true  // is current tab
+const active = true // is current tab
 
 // good
 // is current tab
@@ -1718,29 +1713,29 @@ const active = true
 
 // bad
 function getType() {
-	console.log('fetching type...')
-	// set the default type to 'no type'
-	const type = this.type || 'no type'
+  console.log('fetching type...')
+  // set the default type to 'no type'
+  const type = this.type || 'no type'
 
-	return type
+  return type
 }
 
 // good
 function getType() {
-	console.log('fetching type...')
+  console.log('fetching type...')
 
-	// set the default type to 'no type'
-	const type = this.type || 'no type'
+  // set the default type to 'no type'
+  const type = this.type || 'no type'
 
-	return type
+  return type
 }
 
 // also good
 function getType() {
-	// set the default type to 'no type'
-	const type = this.type || 'no type'
+  // set the default type to 'no type'
+  const type = this.type || 'no type'
 
-	return type
+  return type
 }
 ```
 
@@ -1761,8 +1756,8 @@ const active = true
  *based on the passed-in tag name
  */
 function make(tag) {
-	// ...
-	return element
+  // ...
+  return element
 }
 
 // good
@@ -1771,8 +1766,8 @@ function make(tag) {
  * based on the passed-in tag name
  */
 function make(tag) {
-	// ...
-	return element
+  // ...
+  return element
 }
 ```
 
@@ -1782,14 +1777,12 @@ Use `// FIXME:` to annotate problems.
 
 ```js
 class Calculator extends Abacus {
+  constructor() {
+    super()
 
-	constructor() {
-		super()
-
-		// FIXME: shouldn’t use a global here
-		total = 0
-	}
-
+    // FIXME: shouldn’t use a global here
+    total = 0
+  }
 }
 ```
 
@@ -1797,14 +1790,12 @@ Use `// TODO:` to annotate solutions to problems.
 
 ```js
 class Calculator extends Abacus {
+  constructor() {
+    super()
 
-	constructor() {
-		super()
-
-		// TODO: total should be configurable by an options param
-		this.total = 0
-	}
-
+    // TODO: total should be configurable by an options param
+    this.total = 0
+  }
 }
 ```
 
@@ -1833,25 +1824,25 @@ function baz() {
 
 ```js
 // bad
-function test(){
-	console.log('test')
+function test() {
+  console.log('test')
 }
 
 // good
 function test() {
-	console.log('test')
+  console.log('test')
 }
 
 // bad
-dog.set('attr',{
-	age: '1 year',
-	breed: 'Bernese Mountain Dog'
+dog.set('attr', {
+  age: '1 year',
+  breed: 'Bernese Mountain Dog',
 })
 
 // good
 dog.set('attr', {
-	age: '1 year',
-	breed: 'Bernese Mountain Dog'
+  age: '1 year',
+  breed: 'Bernese Mountain Dog',
 })
 ```
 
@@ -1860,22 +1851,22 @@ dog.set('attr', {
 ```js
 // bad
 if (isJedi) {
-	fight ()
+  fight()
 }
 
 // good
-if(isJedi) {
-	fight()
+if (isJedi) {
+  fight()
 }
 
 // bad
-function fight () {
-	console.log ('Swooosh!')
+function fight() {
+  console.log('Swooosh!')
 }
 
 // good
 function fight() {
-	console.log('Swooosh!')
+  console.log('Swooosh!')
 }
 ```
 
@@ -1883,7 +1874,7 @@ function fight() {
 
 ```js
 // bad
-const x=y+5
+const x = y + 5
 
 // good
 const x = y + 5
@@ -1920,36 +1911,34 @@ export default es6↵
 $('#items').find('.selected').highlight().end().find('.open').updateCount()
 
 // bad
-$('#items').
-	find('.selected').
-		highlight().
-		end().
-	find('.open').
-		updateCount()
+$('#items').find('.selected').highlight().end().find('.open').updateCount()
 
 // good
-$('#items')
-.find('.selected')
-	.highlight()
-	.end()
-.find('.open')
-	.updateCount()
+$('#items').find('.selected').highlight().end().find('.open').updateCount()
 
 // bad
-const leds = stage.selectAll('.led').data(data).enter().append('svg:svg').classed('led', true)
-		.attr('width', (radius + margin) * 2).append('svg:g')
-		.attr('transform', `translate(${radius + margin},${radius + margin})`)
-		.call(tron.led)
+const leds = stage
+  .selectAll('.led')
+  .data(data)
+  .enter()
+  .append('svg:svg')
+  .classed('led', true)
+  .attr('width', (radius + margin) * 2)
+  .append('svg:g')
+  .attr('transform', `translate(${radius + margin},${radius + margin})`)
+  .call(tron.led)
 
 // good
-const leds = stage.selectAll('.led')
-	.data(data)
-.enter().append('svg:svg')
-	.classed('led', true)
-	.attr('width', (radius + margin) * 2)
-.append('svg:g')
-	.attr('transform', `translate(${radius + margin},${radius + margin})`)
-	.call(tron.led)
+const leds = stage
+  .selectAll('.led')
+  .data(data)
+  .enter()
+  .append('svg:svg')
+  .classed('led', true)
+  .attr('width', (radius + margin) * 2)
+  .append('svg:g')
+  .attr('transform', `translate(${radius + margin},${radius + margin})`)
+  .call(tron.led)
 
 // good
 const leds = stage.selectAll('.led').data(data)
@@ -1959,104 +1948,83 @@ const leds = stage.selectAll('.led').data(data)
 
 ```js
 // bad
-if(foo) {
-	return bar
+if (foo) {
+  return bar
 }
 return baz
 
 // good
-if(foo) {
-	return bar
+if (foo) {
+  return bar
 }
 
 return baz
 
 // bad
 const obj = {
-	foo() {
-	},
-	bar() {
-	}
+  foo() {},
+  bar() {},
 }
 return obj
 
 // good
 const obj = {
-	foo() {
-	},
+  foo() {},
 
-	bar() {
-	}
+  bar() {},
 }
 
 return obj
 
 // bad
-const arr = [
-	function foo() {
-	},
-	function bar() {
-	}
-]
+const arr = [function foo() {}, function bar() {}]
 return arr
 
 // good
-const arr = [
-	function foo() {
-	},
-
-	function bar() {
-	}
-]
+const arr = [function foo() {}, function bar() {}]
 
 return arr
 ```
 
-* Only classes should be padded, do not pad functions or switch blocks with blank lines.
+- Only classes should be padded, do not pad functions or switch blocks with blank lines.
 
 ```js
 // bad
 function bar() {
-
-	console.log(foo)
-
+  console.log(foo)
 }
 
 // good
 function bar() {
-	console.log(foo)
+  console.log(foo)
 }
 
 // bad
-if(baz) {
-
-	console.log(qux)
+if (baz) {
+  console.log(qux)
 } else {
-	console.log(foo)
-
+  console.log(foo)
 }
 
 // good
-if(baz) {
-	console.log(qux)
+if (baz) {
+  console.log(qux)
 } else {
-	console.log(foo)
+  console.log(foo)
 }
 
 // bad
 class Foo {
-	constructor(bar) {
-		this.bar = bar
-	}
+  constructor(bar) {
+    this.bar = bar
+  }
 }
 
 // good
 class Foo {
-
-	constructor(bar) {
-		this.bar = bar
-	}
-
+  constructor(bar) {
+    this.bar = bar
+  }
 }
 ```
 
@@ -2064,23 +2032,23 @@ class Foo {
 
 ```js
 // bad
-function bar( foo ) {
-	return foo
+function bar(foo) {
+  return foo
 }
 
 // good
 function bar(foo) {
-	return foo
+  return foo
 }
 
 // bad
-if( foo ) {
-	console.log(foo)
+if (foo) {
+  console.log(foo)
 }
 
 // good
-if(foo) {
-	console.log(foo)
+if (foo) {
+  console.log(foo)
 }
 ```
 
@@ -2089,10 +2057,10 @@ if(foo) {
 ```js
 // bad
 const foo = [1, 2, 3]
-console.log(foo[ 0 ])
+console.log(foo[0])
 
 // good
-const foo = [ 1, 2, 3 ]
+const foo = [1, 2, 3]
 console.log(foo[0])
 ```
 
@@ -2100,13 +2068,13 @@ console.log(foo[0])
 
 ```js
 // bad
-foo[ 0 ]
+foo[0]
 
 // good
 foo[0]
 
 // bad
-foo[ 'data-attr' ]
+foo['data-attr']
 
 // good
 foo['data-attr']
@@ -2119,17 +2087,17 @@ foo['data-attr']
 const foo = []
 
 // bad
-const foo = [  ]
+const foo = []
 
 // good
-const foo = [ ]
+const foo = []
 ```
 
 #### Add spaces inside curly braces.
 
 ```js
 // bad
-const foo = {clark: 'kent'}
+const foo = { clark: 'kent' }
 
 // good
 const foo = { clark: 'kent' }
@@ -2142,7 +2110,7 @@ const foo = { clark: 'kent' }
 const foo = {}
 
 // good
-const foo = { }
+const foo = {}
 ```
 
 #### Avoid having lines of code that are longer than 120 characters (including whitespace). Note: long strings are exempt from this rule, and should not be broken up.
@@ -2151,26 +2119,35 @@ const foo = { }
 
 ```js
 // bad
-const foo = jsonData && jsonData.foo && jsonData.foo.bar && jsonData.foo.bar.baz && jsonData.foo.bar.baz.quux && jsonData.foo.bar.baz.quux.xyzzy
+const foo =
+  jsonData &&
+  jsonData.foo &&
+  jsonData.foo.bar &&
+  jsonData.foo.bar.baz &&
+  jsonData.foo.bar.baz.quux &&
+  jsonData.foo.bar.baz.quux.xyzzy
 
 // good
-const foo = jsonData
-	&& jsonData.foo
-	&& jsonData.foo.bar
-	&& jsonData.foo.bar.baz
-	&& jsonData.foo.bar.baz.quux
-	&& jsonData.foo.bar.baz.quux.xyzzy
+const foo =
+  jsonData &&
+  jsonData.foo &&
+  jsonData.foo.bar &&
+  jsonData.foo.bar.baz &&
+  jsonData.foo.bar.baz.quux &&
+  jsonData.foo.bar.baz.quux.xyzzy
 
 // bad
-fetch('https://airbnb.com/', { method: 'POST', body: { name: 'John' } }).then(() => console.log('Congratulations!')).catch(err => console.log('You have failed this city.', err))
+fetch('https://airbnb.com/', { method: 'POST', body: { name: 'John' } })
+  .then(() => console.log('Congratulations!'))
+  .catch(err => console.log('You have failed this city.', err))
 
 // good
 fetch('https://airbnb.com/', {
-	method: 'POST',
-	body: { name: 'John' }
+  method: 'POST',
+  body: { name: 'John' },
 })
-.then(() => console.log('Congratulations!'))
-.catch(err => console.log('You have failed this city.', err))
+  .then(() => console.log('Congratulations!'))
+  .catch(err => console.log('You have failed this city.', err))
 ```
 
 ## Commas
@@ -2179,41 +2156,33 @@ fetch('https://airbnb.com/', {
 
 ```js
 // bad
-const story = [
-		once
-	, upon
-	, aTime
-]
+const story = [once, upon, aTime]
 
 // good
-const story = [
-	once,
-	upon,
-	aTime
-]
+const story = [once, upon, aTime]
 
 // bad
 const hero = {
-		firstName: 'Ada'
-	, lastName: 'Lovelace'
-	, birthYear: 1815
-	, superPower: 'computers'
+  firstName: 'Ada',
+  lastName: 'Lovelace',
+  birthYear: 1815,
+  superPower: 'computers',
 }
 
 // good
 const hero = {
-	firstName: 'Ada',
-	lastName: 'Lovelace',
-	birthYear: 1815,
-	superPower: 'computers'
+  firstName: 'Ada',
+  lastName: 'Lovelace',
+  birthYear: 1815,
+  superPower: 'computers',
 }
 ```
 
 #### Trailing commas
+
 It’s up to you whether you use a trailing comma, however you should be consistent.
 
 #### Trailing commas
-
 
 ## Semicolons
 
@@ -2221,16 +2190,16 @@ It’s up to you whether you use a trailing comma, however you should be consist
 
 ```js
 // bad
-(function() {
-	const name = 'Skywalker';
-	return name;
-})()
-
-// good
-(function() {
-	const name = 'Skywalker'
-	return name
-}())
+;(function () {
+  const name = 'Skywalker'
+  return name
+})()(
+  // good
+  (function () {
+    const name = 'Skywalker'
+    return name
+  })(),
+)
 ```
 
 ## Type Casting & Coercion
@@ -2253,6 +2222,7 @@ const totalScore = String(this.reviewScore)
 ```
 
 ##### Numbers
+
 Use `Number` for type casting and `parseInt` always with a radix for parsing strings.
 
 ```js
@@ -2322,12 +2292,12 @@ const hasAge = age > 0
 ```js
 // bad
 function q() {
-	// ...
+  // ...
 }
 
 // good
 function query() {
-	// ...
+  // ...
 }
 ```
 
@@ -2335,13 +2305,13 @@ function query() {
 
 ```js
 // bad
-const OBJEcttsssss = { }
-const this_is_my_object = { }
+const OBJEcttsssss = {}
+const this_is_my_object = {}
 function c() {}
 
 // good
-const thisIsMyObject = { }
-function thisIsMyFunction() { }
+const thisIsMyObject = {}
+function thisIsMyFunction() {}
 ```
 
 #### Use PascalCase only when naming constructors or classes.
@@ -2349,24 +2319,22 @@ function thisIsMyFunction() { }
 ```js
 // bad
 function user(options) {
-	this.name = options.name
+  this.name = options.name
 }
 
 const bad = new user({
-	name: 'nope',
+  name: 'nope',
 })
 
 // good
 class User {
-
-	constructor(options) {
-		this.name = options.name
-	}
-
+  constructor(options) {
+    this.name = options.name
+  }
 }
 
 const good = new User({
-	name: 'yup'
+  name: 'yup',
 })
 ```
 
@@ -2375,25 +2343,25 @@ const good = new User({
 ```js
 // bad
 function foo() {
-	const self = this
-	return function() {
-		console.log(self)
-	}
+  const self = this
+  return function () {
+    console.log(self)
+  }
 }
 
 // bad
 function foo() {
-	const that = this
-	return function() {
-		console.log(that)
-	}
+  const that = this
+  return function () {
+    console.log(that)
+  }
 }
 
 // good
 function foo() {
-	return () => {
-		console.log(this)
-	}
+  return () => {
+    console.log(this)
+  }
 }
 ```
 
@@ -2402,13 +2370,15 @@ function foo() {
 ```js
 // file 1 contents
 export class CheckBox {
-	// ...
+  // ...
 }
 // file 2 contents
-export function fortyTwo() { return 42 }
+export function fortyTwo() {
+  return 42
+}
 
 // file 3 contents
-export function insideDirectory() { }
+export function insideDirectory() {}
 
 // in some other file
 // bad
@@ -2433,7 +2403,7 @@ import { insideDirectory } from './insideDirectory' // camelCase export/import/d
 
 ```js
 export function makeStyleGuide() {
-	// ...
+  // ...
 }
 ```
 
@@ -2441,8 +2411,7 @@ export function makeStyleGuide() {
 
 ```js
 export const GrindCodeStyle = {
-	es6: {
-	}
+  es6: {},
 }
 ```
 
@@ -2454,7 +2423,7 @@ import { SMSContainer } from './containers/SMSContainer'
 
 // bad
 const HTTPRequests = [
-	// ...
+  // ...
 ]
 
 // good
@@ -2462,12 +2431,12 @@ import { SmsContainer } from './containers/SMSContainer'
 
 // bad (only classes should be PascalCase)
 const HttpRequests = [
-	// ...
+  // ...
 ]
 
 // good
 const httpRequests = [
-	// ...
+  // ...
 ]
 
 // best
@@ -2475,7 +2444,7 @@ import { TextMessageContainer } from './containers/TextMessageContainer'
 
 // best
 const requests = [
-	// ...
+  // ...
 ]
 ```
 
@@ -2487,22 +2456,23 @@ const requests = [
 
 ```js
 // bad
-if(!dragon.age()) {
-	return false
+if (!dragon.age()) {
+  return false
 }
 
 // good
-if(!dragon.hasAge()) {
-	return false
+if (!dragon.hasAge()) {
+  return false
 }
 ```
+
 ## Standard Library
 
 The [Standard Library](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects) contains utilities that are functionally broken but remain for legacy reasons.
 
 #### Use `Number.isNaN` instead of global `isNaN`.
 
-> {tip} Why? The global `isNaN` coerces non-numbers to numbers, returning true for anything that coerces to NaN.  If this behavior is desired, make it explicit.
+> {tip} Why? The global `isNaN` coerces non-numbers to numbers, returning true for anything that coerces to NaN. If this behavior is desired, make it explicit.
 
 ```js
 // bad
@@ -2516,7 +2486,7 @@ Number.isNaN(Number('1.2.3')) // true
 
 #### Use `Number.isFinite` instead of global `isFinite`.
 
-> {tip} Why? The global `isFinite` coerces non-numbers to numbers, returning true for anything that coerces to a finite number.  If this behavior is desired, make it explicit.
+> {tip} Why? The global `isFinite` coerces non-numbers to numbers, returning true for anything that coerces to a finite number. If this behavior is desired, make it explicit.
 
 ```js
 // bad
