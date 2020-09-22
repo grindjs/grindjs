@@ -6,14 +6,14 @@
 
 ### Running the CLI
 
-The Grind CLI is triggered via `bin/cli`. Running `bin/cli --help` will show you a list of available commands to run.
+The Grind CLI is triggered via `yarn cli`. Running `yarn cli --help` will show you a list of available commands to run.
 
 ### Getting Help
 
 All commands support passing a `--help` command to tell you more about the command, including options and arguments available.
 
 ```shell
-$ bin/cli make:model --help
+$ yarn cli make:model --help
 Usage:
   make:model [options] <name?>
 
@@ -33,12 +33,12 @@ Help:
 
 ### Command Generator
 
-The fastest way to create a new command is by using the command generator via `bin/cli make:command`.
+The fastest way to create a new command is by using the command generator via `yarn cli make:command`.
 
 You can invoke `make:command` with a few different arguments:
 
-- `bin/cli make:command MakeThingCommand` will create `app/Commands/MakeThingCommand.js`, but will not infer a command name.
-- `bin/cli make:command --command=make:thing` will also create `app/Commands/MakeThingCommand.js` and will set the command name for you.
+- `yarn cli make:command MakeThingCommand` will create `app/Commands/MakeThingCommand.js`, but will not infer a command name.
+- `yarn cli make:command --command=make:thing` will also create `app/Commands/MakeThingCommand.js` and will set the command name for you.
 - You can also pass both a class name and a command name at the same time — though this isn’t advised.
 
 ### Naming Conventions
@@ -91,11 +91,11 @@ export class MakeThingCommand extends Command {
 
 #### name
 
-The name of the command is what you invoke via `bin/cli`, so for MakeThingCommand we would invoke it by calling `bin/cli make:thing`
+The name of the command is what you invoke via `yarn cli`, so for MakeThingCommand we would invoke it by calling `yarn cli make:thing`
 
 #### description
 
-The description is what shows up in `bin/cli --help` for your command. You should provide a short, concise description of what your command does.
+The description is what shows up in `yarn cli --help` for your command. You should provide a short, concise description of what your command does.
 
 #### arguments
 
@@ -105,8 +105,8 @@ Arguments are data passed into your command, in the order they’re declared.
 
 Options are flags passed to your command via two leading dashes, if options expect a value, the value is passed by using an equals sign:
 
-- `bin/cli make:thing --some-option` gives `some-option` a value of `true`
-- `bin/cli make:thing --some-option=grind` gives `some-option` a value of `grind`
+- `yarn cli make:thing --some-option` gives `some-option` a value of `true`
+- `yarn cli make:thing --some-option=grind` gives `some-option` a value of `grind`
 
 Options can be passed in before or after arguments and will not affect the order in which arguments are processed in.
 

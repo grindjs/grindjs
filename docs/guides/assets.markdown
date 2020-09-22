@@ -206,7 +206,7 @@ When this view renders, it will load look something like this:
 
 ## Deployments
 
-During your deploy process, you should run `bin/cli assets:publish`. This will precompile all assets and move them into the `public/` directory.
+During your deploy process, you should run `yarn cli assets:publish`. This will precompile all assets and move them into the `public/` directory.
 
 As long as you’re using `assetPath()` or one of the asset container directives to reference your assets, they’ll start serving the compiled versions automatically.
 

@@ -75,10 +75,10 @@ The most important of any Queue system is the ability to actually create and dis
 
 ## Job Generator
 
-The fastest way to create a new job is by using the job generator via `bin/cli make:job`. To quick generate a new job, run the following in your project directory:
+The fastest way to create a new job is by using the job generator via `yarn cli make:job`. To quick generate a new job, run the following in your project directory:
 
 ```shell
-bin/cli make:job EmailJob
+yarn cli make:job EmailJob
 ```
 
 This will generate an EmailJob class and place it at `app/Jobs/EmailJob.js`.
@@ -306,7 +306,7 @@ app.queue.dispatch(new EmailJob({ ... }).$delay(1000)) // Delays EmailJob by 1s
 To process jobs you’ve added to the queue, Grind provides a simple `queue:work` command:
 
 ```shell
-bin/cli queue:work
+yarn cli queue:work
 ```
 
 Once invoked, the command will stay running and process jobs as they arrive in the queue. For large queues, you can run this on multiple servers to maximize performance.
@@ -314,7 +314,7 @@ Once invoked, the command will stay running and process jobs as they arrive in t
 You can also limit the command to only process a single job, allowing for discrete workers:
 
 ```shell
-bin/cli queue:work --job=email-job
+yarn cli queue:work --job=email-job
 ```
 
 Once this is ran, it will only process the `EmailJob` jobs.

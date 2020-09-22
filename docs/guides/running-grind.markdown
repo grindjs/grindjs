@@ -7,7 +7,7 @@
 Your main entry point into Grind during dev time is the `watch` command:
 
 ```shell
-bin/cli watch
+yarn cli watch
 ```
 
 This will start the server on whatever port specified in `config/app.json` (3000 by default), and monitor for changes in the `app` and `config` directories.
@@ -34,7 +34,7 @@ Since `watch` is tightly integrated with Grind itself, if something goes wrong d
 There's three extremely important rules to remember when running Grind in production:
 
 1. Never use `watch`
-2. Always remember to transpile via `bin/build`
+2. Always remember to transpile via `yarn build`
 3. Make sure `NODE_ENV` is set to `production` — this tells [Express](http://expressjs.com) to boot up in production mode, turning off certain debug features and otherwise tuning for production use.
 
 There’s other things to know, but as long as you follow the aforementioned rules, you’ll be on the right track.
@@ -43,17 +43,17 @@ Actual deployment methods will differ depending on tools, but overall your deplo
 
 ```shell
 git pull production
-bin/build
-NODE_ENV=production build/bin/cli serve --cluster
+yarn build
+NODE_ENV=production build/cli serve --cluster
 ```
 
-### bin/build
+### yarn build
 
-Running `bin/build` will transpile through Babel right away, avoiding the overhead cost of doing some at runtime.
+Running `yarn build` will transpile through Babel right away, avoiding the overhead cost of doing some at runtime.
 
-### build/bin/cli serve vs bin/cli serve
+### build/cli serve vs yarn cli serve
 
-Be sure to run `build/bin/cli serve` once you’ve ran `bin/build` otherwise you’ll still be running through Babel, defeating the purpose of proactively transpiling.
+Be sure to run `build/cli serve` once you’ve ran `yarn build` otherwise you’ll still be running through Babel, defeating the purpose of proactively transpiling.
 
 ### serve --cluster
 

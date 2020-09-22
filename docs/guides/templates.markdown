@@ -57,7 +57,7 @@ Views can be precompiled and cached so they’re ready to go in production.
 To precompile and cache your views, all you need to do is call `view:cache`:
 
 ```shell
-bin/cli view:cache
+yarn cli view:cache
 ```
 
 That‘s it! Regardless of what template engine you use, they will know to read cache during boot.
@@ -67,7 +67,7 @@ That‘s it! Regardless of what template engine you use, they will know to read 
 You can quickly clear cache via `view:clear`:
 
 ```shell
-bin/cli view:clear
+yarn cli view:clear
 ```
 
 ## Supported Engines

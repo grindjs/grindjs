@@ -19,7 +19,7 @@ Grind offers three different CLI commands for managing migrations:
 The `migrate:latest` command will run all outstanding migrations on your database. If you run this against a new database, it will first setup the database and then run the migrations.
 
 ```shell
-bin/cli migrate:latest
+yarn cli migrate:latest
 ```
 
 ---
@@ -29,7 +29,7 @@ bin/cli migrate:latest
 The `migrate:rollback` command will revert the last batch of migrations by going through each migration in reverse order and calling the `down` function.
 
 ```shell
-bin/cli migrate:rollback
+yarn cli migrate:rollback
 ```
 
 ---
@@ -39,17 +39,17 @@ bin/cli migrate:rollback
 The `migrate:current-version` command will output the current version of your migrations.
 
 ```shell
-bin/cli migrate:current-version
+yarn cli migrate:current-version
 ```
 
 ## Seeding the Database
 
-Like migrations, you seed the database through `bin/cli` and not through the `knex` command.
+Like migrations, you seed the database through `yarn cli` and not through the `knex` command.
 
 To seed the database, there's a single `db:seed` command.
 
 ```shell
-bin/cli db:seed
+yarn cli db:seed
 ```
 
 Running `db:seed` will run through and execute each seed file.
@@ -60,18 +60,18 @@ Running `db:seed` will run through and execute each seed file.
 
 ### Migration Generator
 
-You can generate a migration via `bin/cli make:migration`. There are a few different options for you to invoke `make:migration` with:
+You can generate a migration via `yarn cli make:migration`. There are a few different options for you to invoke `make:migration` with:
 
-- `bin/cli make:migration create_users_table` will create `/database/migrations/###-create_users_table.js` as a basic migration
-- `bin/cli make:migration --create=users` will also create `/database/migrations/###-create_users_table.js`, however it generates boilerplate code to create the `users` table.
-- `bin/cli make:migration --alter=users` will create `/database/migrations/###-alter_users_table.js`, and it will generate boilerplate code to alter the `users` table.
-- `bin/cli make:migration --alter=users alter_users_add_disabled` will create `/database/migrations/###-alter_users_add_disabled.js`, and it will generate boilerplate code to alter the `users` table.
+- `yarn cli make:migration create_users_table` will create `/database/migrations/###-create_users_table.js` as a basic migration
+- `yarn cli make:migration --create=users` will also create `/database/migrations/###-create_users_table.js`, however it generates boilerplate code to create the `users` table.
+- `yarn cli make:migration --alter=users` will create `/database/migrations/###-alter_users_table.js`, and it will generate boilerplate code to alter the `users` table.
+- `yarn cli make:migration --alter=users alter_users_add_disabled` will create `/database/migrations/###-alter_users_add_disabled.js`, and it will generate boilerplate code to alter the `users` table.
 
 ---
 
 ### Seed Generator
 
-You can generate a seed file via `bin/cli make:seed`. You can invoke `make:seed` with a couple of different arguments:
+You can generate a seed file via `yarn cli make:seed`. You can invoke `make:seed` with a couple of different arguments:
 
-- `bin/cli make:seed users` will create `database/seeds/##-users.js`, but will not infer a table name.
-- `bin/cli make:seed --table=users` will also create `database/seeds/##-users.js`, but it will also set the table name for you.
+- `yarn cli make:seed users` will create `database/seeds/##-users.js`, but will not infer a table name.
+- `yarn cli make:seed --table=users` will also create `database/seeds/##-users.js`, but it will also set the table name for you.

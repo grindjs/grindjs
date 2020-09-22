@@ -17,7 +17,6 @@ We’ll tackle each of these in more detail below, but here’s a quick overview
 │  ├─ Errors
 │  ├─ Models
 │  └─ Providers
-├─ bin
 ├─ boot
 ├─ config
 │  ├─ staging
@@ -58,17 +57,12 @@ For web projects, Grind comes two different directory structures depending on th
    └─ Static
 ```
 
-## Bin & Boot Directories
-
-The bin directory contains several binaries to assist you while building and running Grind:
-
-- `build` — Transpile your app through Babel for use in Production
-- `cli` — Your gateway into the Grind, providing everything from running your app, to code generators, migrations and scheduled tasks.
+## Boot Directory
 
 The boot directory provides two entry points into Grind:
 
-- `Cli.js` — Called by `bin/cli` and actually starts up the CLI
-- `Http.js` — Called by `bin/cli serve` and `bin/cli watch` to start the HTTP server
+- `Cli.js` — Called by `yarn cli` and actually starts up the CLI
+- `Http.js` — Called by `yarn cli serve` and `yarn cli watch` to start the HTTP server
 
 ## App Directory
 
@@ -80,9 +74,9 @@ The app directory is the core of your application, this is where the vast majori
 - `Models` — Contains all of your Models.
 - `Providers` — Contains all of your providers, including `RoutesProvider` which is where you should register all of your routes.
 
-> {tip} The cli provides generators for many of these directories and file types. For example `bin/cli make:model` will generate a model and store it in `app/Models`.
+> {tip} The cli provides generators for many of these directories and file types. For example `yarn cli make:model` will generate a model and store it in `app/Models`.
 
-Run `bin/cli list` for a list of available generators (identified by the `make:` namespace).
+Run `yarn cli list` for a list of available generators (identified by the `make:` namespace).
 
 ## Config Directory
 
