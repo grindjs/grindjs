@@ -8,7 +8,7 @@
  * @param  {Function} callback Callback handler that should return
  *                             the value of the property
  */
-export function lazy(target, name, callback) {
+export function lazy<T>(target: T, name: string, callback: (target: T) => any) {
 	Object.defineProperty(target, name, {
 		configurable: true,
 		get: () => {
@@ -16,7 +16,7 @@ export function lazy(target, name, callback) {
 
 			Object.defineProperty(target, name, {
 				value: value,
-				writeable: false,
+				writable: false,
 			})
 
 			return value

@@ -1,5 +1,5 @@
-const chalk = require('chalk')
-const path = require('path')
+import chalk from 'chalk'
+import path from 'path'
 
 /**
  * Watcher wraps chokidar and clears require.cache
@@ -10,7 +10,7 @@ export class Watcher {
 	 * Array of paths to watch
 	 * @type string
 	 */
-	paths = null
+	paths: string[]
 
 	/**
 	 * Whether or not `restart` is being called
@@ -22,7 +22,7 @@ export class Watcher {
 	 * Callback for when changes are triggered
 	 * @type function
 	 */
-	restart = null
+	restart: (() => {}) | undefined = undefined
 
 	/**
 	 * Creates an instance of Watcher with an
@@ -30,12 +30,13 @@ export class Watcher {
 	 *
 	 * @param  [string]  paths  Directories to watch
 	 */
-	constructor(paths) {
+	constructor(paths: string | string[]) {
 		if (typeof paths === 'string') {
 			paths = [paths]
 		}
+
 		if (paths.length === 1 && Array.isArray(paths[0])) {
-			paths = paths[0]
+			paths = paths[0] as string[]
 		}
 
 		this.paths = paths
@@ -46,11 +47,11 @@ export class Watcher {
 	 * @return Promise
 	 */
 	async watch() {
-		const watcher = require('chokidar').watch(this.paths)
+		const watcher = await import('chokidar').then(chokidar => chokidar.watch(this.paths))
 
 		await new Promise((resolve, reject) => {
-			watcher.on('ready', err => {
-				if (!err.isNil) {
+			watcher.on('ready', (err: Error) => {
+				if (err) {
 					return reject(err)
 				}
 
@@ -59,7 +60,7 @@ export class Watcher {
 		})
 
 		watcher.on('all', () => {
-			if (this._restarting) {
+			if (this.restarting) {
 				return
 			}
 
@@ -89,9 +90,9 @@ export class Watcher {
 	 * Calls `restart` and tracks `restarting` state
 	 * @private
 	 */
-	async _restart() {
-		this._restarting = true
-		await this.restart()
-		this._restarting = false
+	private async _restart() {
+		this.restarting = true
+		await this.restart?.()
+		this.restarting = false
 	}
 }

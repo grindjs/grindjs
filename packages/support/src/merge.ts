@@ -1,4 +1,4 @@
-export function merge(a, b) {
+export function merge(a: any, b: any): any {
 	const typeA = Array.isArray(a) ? 'array' : a === null ? 'null' : typeof a
 	const typeB = Array.isArray(b) ? 'array' : b === null ? 'null' : typeof b
 

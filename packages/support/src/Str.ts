@@ -1,6 +1,15 @@
+interface AsciiOpts {
+	charmap: Record<string, string> | undefined
+	lower: boolean | undefined
+}
+
+interface SlugOpts extends AsciiOpts {
+	separator: string | undefined
+}
+
 export class Str {
-	static ascii(str, { charmap = null, lower = false } = {}) {
-		charmap = charmap || this.charmap
+	static ascii(str: string, { charmap = undefined, lower = false }: AsciiOpts) {
+		charmap = charmap ?? this.charmap
 		str = (str || '').toString()
 
 		const length = str.length
@@ -18,8 +27,9 @@ export class Str {
 		return ascii.replace(/[^\x00-\x7F]/g, '') // eslint-disable-line no-control-regex
 	}
 
-	static slug(str, { charmap = null, separator = '-', lower = true } = {}) {
-		str = this.ascii(str, { charmap, lower })
+	static slug(str: string, { charmap, separator, lower }: Partial<SlugOpts> = {}) {
+		str = this.ascii(str, { charmap, lower: lower ?? true })
+		separator = separator ?? '-'
 
 		// Convert all dashes/underscores into separator
 		const flip = separator === '-' ? '_' : '-'
