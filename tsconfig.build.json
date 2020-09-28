@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "outDir": "lib",
+    "target": "es2018",
+    "forceConsistentCasingInFileNames": true
+  },
+
+  "exclude": ["node_modules", "dist"]
+}

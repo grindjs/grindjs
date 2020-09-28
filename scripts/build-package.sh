@@ -1,2 +1,9 @@
 #!/usr/bin/env bash
-exec babel --root-mode upward -s inline -d lib/ src/ --copy-files --delete-dir-on-start
+exec babel \
+  --root-mode upward \
+  --extensions .js,.jsx,.ts,.tsx \
+  -s inline \
+  -d lib/ \
+  --copy-files \
+  --delete-dir-on-start \
+  src/

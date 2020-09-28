@@ -1,5 +1,6 @@
 module.exports = {
 	presets: [
+		'@babel/preset-typescript',
 		[
 			'grind',
 			{
@@ -8,5 +9,12 @@ module.exports = {
 				},
 			},
 		],
+	],
+	plugins: [
+		'@babel/plugin-proposal-nullish-coalescing-operator',
+		'@babel/plugin-proposal-numeric-separator',
+		'@babel/plugin-proposal-optional-chaining',
+		'@babel/plugin-syntax-dynamic-import',
+		'babel-plugin-dynamic-import-node',
 	],
 }
