@@ -1,4 +1,4 @@
-import { MissingPackageError } from 'grind-framework'
+import { MissingPackageError } from '@grindjs/framework'
 const EventEmitter = require('events')
 
 export class ViewFactory extends EventEmitter {
@@ -8,7 +8,7 @@ export class ViewFactory extends EventEmitter {
 	engineName = null
 
 	static engines = {
-		stone: (...args) => ViewFactory.loadEngine('grind-stone', 'StoneEngine', ...args),
+		stone: (...args) => ViewFactory.loadEngine('@grindjs/stone', 'StoneEngine', ...args),
 	}
 
 	constructor(app) {

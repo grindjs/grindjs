@@ -1,4 +1,4 @@
-import { Application } from 'grind-framework'
+import { Application } from '@grindjs/framework'
 
 export function Bootstrap(kernelClass) {
 	const app = new Application(kernelClass)

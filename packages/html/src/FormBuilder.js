@@ -1,6 +1,6 @@
-import dateFormat from 'dateformat'
+import { Obj } from '@grindjs/support'
 import cast from 'as-type'
-import { Obj } from 'grind-support'
+import dateFormat from 'dateformat'
 
 export class FormBuilder {
 	/**

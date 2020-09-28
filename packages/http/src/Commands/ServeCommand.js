@@ -1,4 +1,4 @@
-import { Command, InputOption, AbortError } from 'grind-cli'
+import { AbortError, Command, InputOption } from '@grindjs/cli'
 
 export class ServeCommand extends Command {
 	name = 'serve'

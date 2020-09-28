@@ -1,5 +1,5 @@
 {
-  "name": "grind-http",
+  "name": "@grindjs/http",
   "version": "0.8.0",
   "description": "HTTP kernel for Grind, powered by Express",
   "keywords": [
@@ -31,21 +31,21 @@
     "express": "^4.17.1"
   },
   "devDependencies": {
+    "@grindjs/cli": "^0.8.0",
+    "@grindjs/db": "^0.8.0",
+    "@grindjs/framework": "^0.8.0",
     "chokidar": "^3.3.1",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
     "express-flash": "^0.0.2",
     "express-session": "^1.17.1",
     "flash": "^1.1.0",
-    "grind-cli": "^0.8.0",
-    "grind-db": "^0.8.0",
-    "grind-framework": "^0.8.0",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.8",
     "sqlite3": "^4.1.1"
   },
   "peerDependencies": {
-    "grind-framework": "^0.8.0-beta.1"
+    "@grindjs/framework": "^0.8.0-beta.1"
   },
   "engines": {
     "node": ">=10.13"

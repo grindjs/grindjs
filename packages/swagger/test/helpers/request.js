@@ -1,10 +1,11 @@
-import fetch from 'fetchit'
-import path from 'path'
-import { Application, Paths as BasePaths } from 'grind-framework'
-import { HttpServer, HttpKernel } from 'grind-http'
-import getPort from 'get-port'
-
 import '../../src/SwaggerProvider'
+
+import { Application, Paths as BasePaths } from '@grindjs/framework'
+import { HttpKernel, HttpServer } from '@grindjs/http'
+
+import fetch from 'fetchit'
+import getPort from 'get-port'
+import path from 'path'
 
 class Paths extends BasePaths {
 	constructor() {

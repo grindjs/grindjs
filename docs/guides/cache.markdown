@@ -8,23 +8,23 @@ You can access cache via `app.cache`.
 
 ## Installation
 
-First, add the `grind-cache` package via your preferred package manager:
+First, add the `@grindjs/cache` package via your preferred package manager:
 
 ```shell
-yarn add grind-cache
+yarn add @grindjs/cache
 ```
 
 Next, you’ll need to add `CacheProvider` to your app providers in `app/Boostrap.js`:
 
 ```js
-import Grind from 'grind-framework'
-import { CacheProvider } from 'grind-cache'
+import Grind from '@grindjs/framework'
+import { CacheProvider } from '@grindjs/cache'
 
 const app = new Grind()
 app.providers.push(CacheProvider)
 ```
 
-> {tip} `grind-cache` is included as part of `grind-core` and `grind-core-frontend`. If you’re using one of these bundle packages, you don’t need to explicitly add the `grind-cache` package.
+> {tip} `@grindjs/cache` is included as part of `@grindjs/core` and `@grindjs/core-frontend`. If you’re using one of these meta packages, you don’t need to explicitly add the `@grindjs/cache` package.
 
 ## Usage
 
@@ -131,7 +131,7 @@ The `default` key tells the Cache provider which store it configure `app.cache` 
 If you wish to access the non-default cache store, you can load it via the `Cache` function.
 
 ```js
-import { Cache } from 'grind-cache'
+import { Cache } from '@grindjs/cache'
 
 const store = Cache('redis', app)
 ```

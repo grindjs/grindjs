@@ -8,17 +8,17 @@ When building frontend apps, Grind has a handy [HTML provider](https://github.co
 
 ## Installation
 
-First, add the `grind-html` package via your preferred package manager:
+First, add the `@grindjs/html` package via your preferred package manager:
 
 ```shell
-yarn add grind-html
+yarn add @grindjs/html
 ```
 
 Next, you’ll need to add `HtmlProvider` to your app providers in `app/Boostrap.js`:
 
 ```js
-import Grind from 'grind-framework'
-import { HtmlProvider } from 'grind-html'
+import Grind from '@grindjs/framework'
+import { HtmlProvider } from '@grindjs/html'
 
 const app = new Grind()
 app.providers.push(HtmlProvider)

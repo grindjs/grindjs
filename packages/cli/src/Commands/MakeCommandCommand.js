@@ -46,7 +46,7 @@ export class MakeCommandCommand extends Command {
 
 		const filePath = this.app.paths.project(`app/Commands/${name}.js`)
 
-		await this.app.stubs.generate('grind-cli::command', filePath, { name, command })
+		await this.app.stubs.generate('@grindjs/cli::command', filePath, { name, command })
 
 		return this.success(`Created ${path.relative(this.app.paths.project(), filePath)}`)
 	}

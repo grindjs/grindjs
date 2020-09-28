@@ -15,7 +15,7 @@ export class DatabaseStore extends Store {
 		if (connection.isNil) {
 			this.db = app.db
 		} else if (typeof connection === 'string') {
-			this.db = require('grind-db').DatabaseBuilder(connection, app)
+			this.db = require('@grindjs/db').DatabaseBuilder(connection, app)
 		} else {
 			this.db = connection
 		}

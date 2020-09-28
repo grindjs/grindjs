@@ -1,9 +1,9 @@
-import test from 'ava'
 import './fixtures/makeApp'
 
-import { FS } from 'grind-support'
-import readdir from 'recursive-readdir-sync'
+import { FS } from '@grindjs/support'
 import path from 'path'
+import readdir from 'recursive-readdir-sync'
+import test from 'ava'
 
 const viewPath = `${__dirname}/views`
 

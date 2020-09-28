@@ -8,23 +8,23 @@ Once setup, all you need to do is store your assets in `resources/assets` and th
 
 ## Installation
 
-First, add the `grind-assets` package via your preferred package manager:
+First, add the `@grindjs/assets` package via your preferred package manager:
 
 ```shell
-yarn add grind-assets
+yarn add @grindjs/assets
 ```
 
 Next, you’ll need to add `AssetsProvider` to your app providers in `app/Boostrap.js`:
 
 ```js
-import Grind from 'grind-framework'
-import { AssetsProvider } from 'grind-assets'
+import Grind from '@grindjs/framework'
+import { AssetsProvider } from '@grindjs/assets'
 
 const app = new Grind()
 app.providers.push(AssetsProvider)
 ```
 
-> {tip} `grind-assets` comes fully setup if you’re projected is based on the Web template.
+> {tip} `@grindjs/assets` comes fully setup if your project is based on the Web template.
 
 ### Dependencies
 
@@ -214,10 +214,10 @@ As long as you’re using `assetPath()` or one of the asset container directives
 
 Assets’ compilation system is fully extendable.
 
-To build your own compiler, you must first extend the `Compiler` class from `grind-assets` and then implement the required methods:
+To build your own compiler, you must first extend the `Compiler` class from `@grindjs/assets` and then implement the required methods:
 
 ```js
-import { Compiler } from 'grind-assets'
+import { Compiler } from '@grindjs/assets'
 import More from 'more-lang'
 
 export class MoreCompiler extends Compiler {
@@ -301,10 +301,10 @@ To see what this looks like in practice, check out the source for the built in [
 
 Assets’ post processor system is fully extendable.
 
-To build your own post processor, you must first extend the `PostProcessor` class from `grind-assets` and then implement the required methods:
+To build your own post processor, you must first extend the `PostProcessor` class from `@grindjs/assets` and then implement the required methods:
 
 ```js
-import { PostProcessor } from 'grind-assets'
+import { PostProcessor } from '@grindjs/assets'
 import PngCrusher from 'png-crusher'
 
 export class PngPostProcessor extends PostProcessor {

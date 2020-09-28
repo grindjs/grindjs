@@ -3,9 +3,9 @@
 //
 
 require('@babel/register')
-require('grind-framework')
+require('@grindjs/framework')
 
-const { HttpServer, HttpKernel } = require('grind-http')
+const { HttpServer, HttpKernel } = require('@grindjs/http')
 
 new HttpServer(() => require('../app/Bootstrap').Bootstrap(HttpKernel)).start().catch(err => {
 	Log.error('Boot Error', err)

@@ -1,4 +1,4 @@
-import { HttpError } from 'grind-framework'
+import { HttpError } from '@grindjs/framework'
 
 export class Controller {
 	app = null

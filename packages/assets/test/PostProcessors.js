@@ -7,7 +7,7 @@ import {
 	SvgOptimizePostProcessor,
 } from '../src'
 
-import { FS } from 'grind-support'
+import { FS } from '@grindjs/support'
 /* eslint-disable max-len */
 import test from 'ava'
 

@@ -1,9 +1,8 @@
 import './PostProcessor'
-
 import '../Errors/makeSyntaxError'
 import '../Support/optional'
 
-import { FS, merge } from 'grind-support'
+import { FS, merge } from '@grindjs/support'
 
 const INLINE_SOURCE_MAP_REGEX = /\/\/[@#]\s+sourceMappingURL=data:application\/json(?:;charset[:=][^;]+)?;base64,(.*)\n/
 

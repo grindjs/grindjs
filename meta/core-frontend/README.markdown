@@ -16,11 +16,11 @@ Grind Core Frontend is a bundle package to be used to add core frontend Grind de
 
 Grind Core Frontend includes the following Grind packages:
 
-- [grind-core](../core)
-- [grind-assets](../../packages/assets)
-- [grind-html](../../packages/html)
-- [grind-stone](../../packages/stone)
-- [grind-view](../../packages/view)
+- [@grindjs/core](../core)
+- [@grindjs/assets](../../packages/assets)
+- [@grindjs/html](../../packages/html)
+- [@grindjs/stone](../../packages/stone)
+- [@grindjs/view](../../packages/view)
 
 As well as the following packages for middleware:
 

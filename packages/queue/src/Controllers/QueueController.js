@@ -1,4 +1,4 @@
-import { Controller } from 'grind-http'
+import { Controller } from '@grindjs/http'
 
 export class QueueController extends Controller {
 	async status(req, res) {

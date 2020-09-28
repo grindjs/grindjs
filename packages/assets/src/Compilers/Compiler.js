@@ -1,4 +1,4 @@
-import { FS } from 'grind-support'
+import { FS } from '@grindjs/support'
 const path = require('path')
 
 export class Compiler {

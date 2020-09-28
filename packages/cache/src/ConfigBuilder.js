@@ -141,7 +141,7 @@ function expandDatabaseStoreConfig(app, driver, config) {
 		}
 
 		if (typeof connection === 'object') {
-			const DatabaseBuilder = require('grind-db').DatabaseBuilder
+			const DatabaseBuilder = require('@grindjs/db').DatabaseBuilder
 			connection = DatabaseBuilder(connection, app)
 		} else {
 			connection = null

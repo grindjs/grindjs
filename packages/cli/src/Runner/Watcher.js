@@ -1,4 +1,4 @@
-import { Watcher as BaseWatcher } from 'grind-support'
+import { Watcher as BaseWatcher } from '@grindjs/support'
 
 const chalk = require('chalk')
 

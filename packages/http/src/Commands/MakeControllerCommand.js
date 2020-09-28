@@ -1,4 +1,4 @@
-import { Command, InputArgument, InputOption } from 'grind-cli'
+import { Command, InputArgument, InputOption } from '@grindjs/cli'
 
 const path = require('path')
 
@@ -14,7 +14,9 @@ export class MakeControllerCommand extends Command {
 
 	async run() {
 		const name = this.argument('name')
-		const stub = this.option('resource') ? 'grind-http::resource' : 'grind-http::controller'
+		const stub = this.option('resource')
+			? '@grindjs/http::resource'
+			: '@grindjs/http::controller'
 		const filePath = this.app.paths.project(`app/Controllers/${name}.js`)
 
 		await this.app.stubs.generate(stub, filePath, { name })

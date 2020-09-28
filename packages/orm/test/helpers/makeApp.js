@@ -1,5 +1,6 @@
 import './Grind'
-import { DatabaseProvider } from 'grind-db'
+
+import { DatabaseProvider } from '@grindjs/db'
 import { OrmProvider } from '../../src'
 
 const path = require('path')

@@ -1,8 +1,8 @@
 # Support Helpers
 
-Grind comes packaged with `grind-support` which is a collection of helpers you can use within your app.
+Grind comes packaged with `@grindjs/support` which is a collection of helpers you can use within your app.
 
-As `grind-support` comes with `grind-framework`, there’s no need to explicitly add it to your `package.json` file.
+As `@grindjs/support` comes with `@grindjs/framework`, there’s no need to explicitly add it to your `package.json` file.
 
 [[toc]]
 
@@ -336,12 +336,12 @@ Str.ascii('Gríñd Fråmêwörk', { separator: '_' }) // `grind_framework`
 
 ## Usage
 
-You can use any of the aforementioned helpers by importing them from the `grind-support` package:
+You can use any of the aforementioned helpers by importing them from the `@grindjs/support` package:
 
 ```js
-import { Str } from 'grind-support'
+import { Str } from '@grindjs/support'
 
 Log.info('Slug', Str.slug('Grind Framework')) // Outputs grind-framework
 ```
 
-> {tip} `grind-support` is not directly dependent on Grind, so you can safely use it in non-Grind based projects.
+> {tip} `@grindjs/support` is not directly dependent on Grind, so you can safely use it in non-Grind based projects.

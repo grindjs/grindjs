@@ -1,5 +1,5 @@
 {
-  "name": "grind-view",
+  "name": "@grindjs/view",
   "version": "0.8.0",
   "description": "View provider for Grind",
   "keywords": [
@@ -25,7 +25,7 @@
     "prepack": "yarn build"
   },
   "peerDependencies": {
-    "grind-framework": "^0.8.0-beta.1"
+    "@grindjs/framework": "^0.8.0-beta.1"
   },
   "engines": {
     "node": ">=8.7"

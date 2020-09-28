@@ -1,4 +1,4 @@
-import { MissingPackageError } from 'grind-framework'
+import { MissingPackageError } from '@grindjs/framework'
 
 const loadOptional = require('optional')
 const semver = require('semver')

@@ -1,4 +1,4 @@
-import { Inflect as BaseInflect } from 'grind-support'
+import { Inflect as BaseInflect } from '@grindjs/support'
 
 export const Inflect = { ...BaseInflect }
 

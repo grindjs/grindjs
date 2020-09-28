@@ -1,13 +1,12 @@
-import { ViewEngine } from 'grind-view'
-
 import './CacheManager'
 import './Compiler'
 import './HtmlString'
 import './StoneLoop'
 import './Watcher'
 import './StoneRuntime'
-
 import './Support/escape'
+
+import { ViewEngine } from '@grindjs/view'
 
 const path = require('path')
 const fs = require('fs')

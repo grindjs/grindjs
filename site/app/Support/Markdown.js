@@ -1,12 +1,11 @@
-import MarkdownIt from 'markdown-it'
+import 'App/Support/Highlighter'
 
-import { FS } from 'grind-support'
+import { FS } from '@grindjs/support'
+import MarkdownIt from 'markdown-it'
+import anchor from 'markdown-it-anchor'
 import expandTabs from 'markdown-it-expand-tabs'
 import githubTaskList from 'markdown-it-task-lists'
-import anchor from 'markdown-it-anchor'
 import tableOfContents from 'markdown-it-table-of-contents'
-
-import 'App/Support/Highlighter'
 
 const Markdown = new MarkdownIt({
 	html: true,

@@ -1,4 +1,4 @@
-import { MissingPackageError } from 'grind-framework'
+import { MissingPackageError } from '@grindjs/framework'
 
 export function CompressionMiddlewareBuilder(app) {
 	let compression = null

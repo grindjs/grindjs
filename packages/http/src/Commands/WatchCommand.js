@@ -1,4 +1,4 @@
-import { Command, AbortError } from 'grind-cli'
+import { AbortError, Command } from '@grindjs/cli'
 
 export class WatchCommand extends Command {
 	name = 'watch'

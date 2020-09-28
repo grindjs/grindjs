@@ -1,7 +1,8 @@
-import { Kernel } from 'grind-framework'
-import { standardProviders, ErrorHandler } from './index.js'
-
 import './Routing/UpgradeDispatcher'
+
+import { ErrorHandler, standardProviders } from './index.js'
+
+import { Kernel } from '@grindjs/framework'
 
 const { RequestExtension } = require('./Routing/Extensions/RequestExtension.js')
 const { ResponseExtension } = require('./Routing/Extensions/ResponseExtension.js')

@@ -1,5 +1,5 @@
 {
-  "name": "grind-support",
+  "name": "@grindjs/support",
   "version": "0.8.0",
   "description": "Support package for Grind",
   "keywords": [

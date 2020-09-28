@@ -1,7 +1,7 @@
 import 'App/Support/Documentation'
 import 'App/Support/Markdown'
 
-import { Controller } from 'grind-http'
+import { Controller } from '@grindjs/http'
 
 const fs = require('fs')
 const semver = require('semver')

@@ -1,4 +1,4 @@
-import { FS } from 'grind-support'
+import { FS } from '@grindjs/support'
 
 const path = require('path')
 
@@ -12,8 +12,8 @@ export async function DetectPackagesProvider(app) {
 	const bootstrap = (await FS.readFile(app.paths.bootstrap)).toString()
 	const info = require(app.paths.packageInfo)
 	const packages = new Set([
-		'grind-cli',
-		'grind-http',
+		'@grindjs/cli',
+		'@grindjs/http',
 		...Object.keys(info.dependencies || {}),
 		...Object.keys(info.devDependencies || {}),
 		...((info.grind || {}).packages || []),

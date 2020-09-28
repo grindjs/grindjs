@@ -1,11 +1,12 @@
 /* eslint-disable max-len */
-import test from 'ava'
-import dateFormat from 'dateformat'
-import { Obj } from 'grind-support'
 
 import '../src/HtmlBuilder'
 import '../src/FormBuilder'
 import './helpers/Grind'
+
+import { Obj } from '@grindjs/support'
+import dateFormat from 'dateformat'
+import test from 'ava'
 
 async function formBuilder(oldInput) {
 	const app = new Grind()

@@ -1,4 +1,4 @@
-import { Model } from 'grind-orm'
+import { Model } from '@grindjs/orm'
 
 export class {{ name }} extends Model {
 

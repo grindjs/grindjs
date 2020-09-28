@@ -17,10 +17,10 @@ Beyond that, it’s _highly_ recommended you install build tools in order to use
 
 ## Toolkit
 
-While not required, `grind-toolkit` is recommended. Once installed, it provides the easiest way to get started on a new Grind project.
+While not required, `@grindjs/toolkit` is recommended. Once installed, it provides the easiest way to get started on a new Grind project.
 
 To install it, run the following npm command:
 
 ```shell
-npm install -g grind-toolkit
+npm install -g @grindjs/toolkit
 ```

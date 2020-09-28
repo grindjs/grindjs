@@ -1,5 +1,6 @@
-import { Command, InputArgument, InputOption } from 'grind-cli'
 import '../Worker'
+
+import { Command, InputArgument, InputOption } from '@grindjs/cli'
 
 export class QueueWorkCommand extends Command {
 	name = 'queue:work'

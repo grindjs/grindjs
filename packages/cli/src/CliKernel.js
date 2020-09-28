@@ -1,6 +1,6 @@
-import { Kernel } from 'grind-framework'
-
 import './Cli'
+
+import { Kernel } from '@grindjs/framework'
 
 export class CliKernel extends Kernel {
 	static type = 'cli'
@@ -13,8 +13,8 @@ export class CliKernel extends Kernel {
 		let HttpCommandsProvider = null
 
 		try {
-			// If we have grind-http, load it’s standard commands
-			HttpCommandsProvider = require('grind-http').CommandsProvider
+			// If we have @grindjs/http, load it’s standard commands
+			HttpCommandsProvider = require('@grindjs/http').CommandsProvider
 		} catch (err) {
 			return
 		}
@@ -28,10 +28,10 @@ export class CliKernel extends Kernel {
 
 	get providers() {
 		try {
-			// If we have grind-http, load it’s standard providers
+			// If we have @grindjs/http, load it’s standard providers
 			// to provide routing/url which are likely expected
-			// by any app that has grind-http added.
-			return require('grind-http').standardProviders
+			// by any app that has @grindjs/http added.
+			return require('@grindjs/http').standardProviders
 		} catch (err) {
 			return []
 		}

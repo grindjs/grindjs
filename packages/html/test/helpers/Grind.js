@@ -1,9 +1,8 @@
+import { Application, Paths as BasePaths } from '@grindjs/framework'
+import { ViewFactory, ViewProvider } from '@grindjs/view'
+
+import { HttpKernel } from '@grindjs/http'
 import path from 'path'
-
-import { Application, Paths as BasePaths } from 'grind-framework'
-
-import { HttpKernel } from 'grind-http'
-import { ViewProvider, ViewFactory } from 'grind-view'
 
 class Paths extends BasePaths {
 	constructor() {

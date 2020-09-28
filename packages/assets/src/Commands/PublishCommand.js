@@ -1,7 +1,7 @@
 import './BaseCommand'
 
-import { FS } from 'grind-support'
-import { InputOption } from 'grind-cli'
+import { FS } from '@grindjs/support'
+import { InputOption } from '@grindjs/cli'
 
 const crypto = require('crypto')
 const path = require('path')

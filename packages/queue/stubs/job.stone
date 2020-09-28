@@ -1,4 +1,4 @@
-import { Job } from 'grind-queue'
+import { Job } from '@grindjs/queue'
 
 export class {{ name }} extends Job {
 

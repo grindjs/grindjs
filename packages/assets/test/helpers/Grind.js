@@ -1,6 +1,6 @@
-import { Application, Paths as BasePaths } from 'grind-framework'
+import { Application, Paths as BasePaths } from '@grindjs/framework'
 
-import { HttpKernel } from 'grind-http'
+import { HttpKernel } from '@grindjs/http'
 
 const path = require('path')
 

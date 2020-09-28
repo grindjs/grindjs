@@ -1,6 +1,6 @@
 const path = require('path')
 
-import { Application, Kernel, Paths as BasePaths } from 'grind-framework'
+import { Application, Paths as BasePaths, Kernel } from '@grindjs/framework'
 
 class Paths extends BasePaths {
 	constructor() {

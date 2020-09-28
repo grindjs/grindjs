@@ -3,9 +3,9 @@
 //
 
 require('@babel/register')
-require('grind-framework')
+require('@grindjs/framework')
 
-const { CliKernel, Runner } = require('grind-cli')
+const { CliKernel, Runner } = require('@grindjs/cli')
 
 new Runner(() => {
 	const app = require('../app/Bootstrap').Bootstrap(CliKernel)

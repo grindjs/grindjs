@@ -1,7 +1,8 @@
 import '../BaseCommand'
 
-import { AbortError, InputArgument, InputOption } from 'grind-cli'
-import { FS } from 'grind-support'
+import { AbortError, InputArgument, InputOption } from '@grindjs/cli'
+
+import { FS } from '@grindjs/support'
 
 const path = require('path')
 
@@ -54,7 +55,7 @@ export class MakeCommand extends BaseCommand {
 			.replace(/[^0-9]/g, '')
 		const filePath = path.join(migrationsDirectory, `${prefix}-${name}.js`)
 
-		await this.app.stubs.generate(`grind-db::${stub}`, filePath, {
+		await this.app.stubs.generate(`@grindjs/db::${stub}`, filePath, {
 			table: tableName || 'table_name',
 		})
 

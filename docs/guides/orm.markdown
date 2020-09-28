@@ -8,17 +8,17 @@ This document only focuses on additional functionality Grind ORM provides on top
 
 ## Installation
 
-First, add the `grind-orm` package via your preferred package manager:
+First, add the `@grindjs/orm` package via your preferred package manager:
 
 ```shell
-yarn add grind-orm
+yarn add @grindjs/orm
 ```
 
 Next, you’ll need to add `OrmProvider` to your app providers in `app/Boostrap.js`:
 
 ```js
-import Grind from 'grind-framework'
-import { OrmProvider } from 'grind-orm'
+import Grind from '@grindjs/framework'
+import { OrmProvider } from '@grindjs/orm'
 
 const app = new Grind()
 app.providers.push(OrmProvider)
@@ -41,7 +41,7 @@ You can invoke `make:model` with a few different arguments:
 Once you’ve triggered `make:model`, a model is generated for you that looks like this:
 
 ```js
-import { Model } from 'grind-orm'
+import { Model } from '@grindjs/orm'
 
 export class UserModel extends Model {
   static tableName = 'users'
@@ -287,7 +287,7 @@ Grind Model enables you to define global filters to use in any eager expression 
 The recommended way to load filters is via a [provider](docs:providers):
 
 ```js
-import { Model } from 'grind-orm'
+import { Model } from '@grindjs/orm'
 
 export function EagerFiltersProvider() {
   Model.QueryBuilder.registerFilter('active', builder => builder.where('active', 1))

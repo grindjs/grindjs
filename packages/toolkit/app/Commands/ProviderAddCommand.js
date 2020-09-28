@@ -1,5 +1,6 @@
-import { Command, InputArgument, InputOption, AbortError } from 'grind-cli'
-import { FS } from 'grind-support'
+import { AbortError, Command, InputArgument, InputOption } from '@grindjs/cli'
+
+import { FS } from '@grindjs/support'
 
 const fetch = require('fetchit')
 const path = require('path')
@@ -82,8 +83,8 @@ export class ProviderAddCommand extends Command {
 		let [name, version] = this.argument('provider').split(/@/) // eslint-disable-line prefer-const
 		let exists = false
 
-		if (!name.startsWith('grind-') && (await this.packageExists(`grind-${name}`))) {
-			name = `grind-${name}`
+		if (!name.startsWith('@grindjs/') && (await this.packageExists(`@grindjs/${name}`))) {
+			name = `@grindjs/${name}`
 			exists = true
 		} else {
 			exists = this.packageExists(name)

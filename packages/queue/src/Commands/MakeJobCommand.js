@@ -1,5 +1,6 @@
-import { AbortError, Command, InputArgument, InputOption } from 'grind-cli'
-import { Inflect } from 'grind-support'
+import { AbortError, Command, InputArgument, InputOption } from '@grindjs/cli'
+
+import { Inflect } from '@grindjs/support'
 
 const path = require('path')
 
@@ -45,7 +46,7 @@ export class MakeJobCommand extends Command {
 
 		const filePath = this.app.paths.project(`app/Jobs/${name}.js`)
 
-		await this.app.stubs.generate('grind-queue::job', filePath, {
+		await this.app.stubs.generate('@grindjs/queue::job', filePath, {
 			name,
 			type,
 		})

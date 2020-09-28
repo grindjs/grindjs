@@ -3,12 +3,12 @@
 // https://github.com/llambda/connect-session-knex/blob/52717c6/test.js
 //
 
-import test from 'ava'
-import knex from 'knex'
-
 import '../src/Session/DatabaseStore'
 
-import { Log } from 'grind-framework'
+import { Log } from '@grindjs/framework'
+import knex from 'knex'
+import test from 'ava'
+
 global.Log = Log
 
 function makeStore() {

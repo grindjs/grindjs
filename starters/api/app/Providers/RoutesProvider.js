@@ -2,7 +2,7 @@ import 'App/Controllers/CompaniesController'
 import 'App/Controllers/CountriesController'
 import 'App/Controllers/StatesController'
 
-import { Swagger } from 'grind-swagger'
+import { Swagger } from '@grindjs/swagger'
 
 export function RoutesProvider(app) {
 	app.routes.get('/', (req, res) => {

@@ -1,4 +1,4 @@
-import { FS } from 'grind-support'
+import { FS } from '@grindjs/support'
 import { codeFrameColumns } from '@babel/code-frame'
 
 const path = require('path')

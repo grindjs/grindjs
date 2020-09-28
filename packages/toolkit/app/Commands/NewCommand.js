@@ -1,6 +1,6 @@
-import { Command, InputArgument, InputOption, AbortError } from 'grind-cli'
+import { AbortError, Command, InputArgument, InputOption } from '@grindjs/cli'
 
-import { FS } from 'grind-support'
+import { FS } from '@grindjs/support'
 import { execFile } from 'child_process'
 
 const path = require('path')

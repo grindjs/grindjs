@@ -52,7 +52,7 @@ Class names should follow the command name with a Command suffix, so `make:thing
 Once you’ve triggered `make:command`, a class is generated for you that looks like this:
 
 ```js
-import { Command, InputArgument, InputOption } from 'grind-cli'
+import { Command, InputArgument, InputOption } from '@grindjs/cli'
 
 export class MakeThingCommand extends Command {
   // Name of the command
@@ -121,7 +121,7 @@ You can also add a `ready` function to your command to perform startup tasks to 
 For instance, you may want to `ready` to load data to be used during the execution of the command:
 
 ```js
-import { FS } from 'grind-support'
+import { FS } from '@grindjs/support'
 
 export class MakeThingCommand extends Command {
   ready() {

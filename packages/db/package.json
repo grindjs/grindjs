@@ -1,5 +1,5 @@
 {
-  "name": "grind-db",
+  "name": "@grindjs/db",
   "version": "0.8.0",
   "description": "Database provider for Grind, powered by Knex",
   "keywords": [
@@ -28,8 +28,8 @@
     "knex": "^0.21.0"
   },
   "peerDependencies": {
-    "grind-cli": "^0.8.0-beta.1",
-    "grind-framework": "^0.8.0-beta.1"
+    "@grindjs/cli": "^0.8.0-beta.1",
+    "@grindjs/framework": "^0.8.0-beta.1"
   },
   "engines": {
     "node": ">=8.7"

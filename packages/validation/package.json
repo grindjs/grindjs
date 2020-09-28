@@ -1,5 +1,5 @@
 {
-  "name": "grind-validation",
+  "name": "@grindjs/validation",
   "version": "0.8.0",
   "description": "Validation for Grind, powered by Joi",
   "keywords": [
@@ -30,10 +30,10 @@
     "joi": "^14.3.1"
   },
   "devDependencies": {
-    "grind-framework": "^0.8.0"
+    "@grindjs/framework": "^0.8.0"
   },
   "peerDependencies": {
-    "grind-framework": "^0.8.0-beta.1"
+    "@grindjs/framework": "^0.8.0-beta.1"
   },
   "engines": {
     "node": ">=8.7"

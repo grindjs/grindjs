@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const JSON5 = require('json5')
 
-import { Obj, merge } from 'grind-support'
+import { Obj, merge } from '@grindjs/support'
 
 export class Config {
 	_repository = null

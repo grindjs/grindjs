@@ -161,7 +161,9 @@ export function AssetsProvider(app, parameters = {}) {
 
 	if (liveReload) {
 		if (!hasAssetContainer) {
-			throw new Error('grind-asset’s live reload functionality must be used with grind-view.')
+			throw new Error(
+				'@grindjs/asset’s live reload functionality must be used with @grindjs/view.',
+			)
 		}
 
 		require('./Devtools/DevtoolsProvider').DevtoolsProvider(app)

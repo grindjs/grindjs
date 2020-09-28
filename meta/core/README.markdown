@@ -16,10 +16,10 @@ Grind Core is a bundle package to be used to add core Grind dependencies to your
 
 Grind Core includes the following packages:
 
-- [grind-framework](../../packages/framework)
-- [grind-http](../../packages/http)
-- [grind-cli](../../packages/cli)
-- [grind-cache](../../packages/cache)
+- [@grindjs/framework](../../packages/framework)
+- [@grindjs/http](../../packages/http)
+- [@grindjs/cli](../../packages/cli)
+- [@grindjs/cache](../../packages/cache)
 
 ## Documentation
 

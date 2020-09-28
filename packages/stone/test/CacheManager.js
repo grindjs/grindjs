@@ -1,8 +1,7 @@
+import { FS } from '@grindjs/support'
+import { makeApp as baseMakeApp } from './fixtures/makeApp'
 import path from 'path'
 import { serial as test } from 'ava'
-
-import { FS } from 'grind-support'
-import { makeApp as baseMakeApp } from './fixtures/makeApp'
 
 const compiledPath = path.join(__dirname, 'fixtures/storage/views/compiled.js')
 

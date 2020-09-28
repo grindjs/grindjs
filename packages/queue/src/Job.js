@@ -32,7 +32,7 @@ export class Job {
 		}
 
 		if (app.cache.isNil) {
-			Log.warning('WARNING: `grind-cache` must be loaded to use stateful jobs')
+			Log.warning('WARNING: `@grindjs/cache` must be loaded to use stateful jobs')
 			return Promise.resolve()
 		}
 

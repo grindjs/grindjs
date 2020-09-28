@@ -4,11 +4,11 @@ import 'App/Providers/RoutesProvider'
 import 'App/Providers/ViewExtensionProvider'
 import 'App/Errors/ErrorHandler'
 
-import { Application } from 'grind-framework'
-import { AssetsProvider } from 'grind-assets'
-import { CacheProvider } from 'grind-cache'
-import { HtmlProvider } from 'grind-html'
-import { ViewProvider } from 'grind-view'
+import { Application } from '@grindjs/framework'
+import { AssetsProvider } from '@grindjs/assets'
+import { CacheProvider } from '@grindjs/cache'
+import { HtmlProvider } from '@grindjs/html'
+import { ViewProvider } from '@grindjs/view'
 
 export function Bootstrap(kernelClass) {
 	const app = new Application(kernelClass, {

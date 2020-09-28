@@ -1,5 +1,5 @@
 {
-  "name": "grind-example-web",
+  "name": "@grindjs/example-web",
   "version": "0.8.0",
   "private": true,
   "scripts": {
@@ -9,9 +9,9 @@
     "lint:scss": "sass-lint --verbose --max-warnings=0 --no-exit"
   },
   "dependencies": {
-    "grind-core-frontend": "^0.8.0",
-    "grind-db": "^0.8.0",
-    "grind-orm": "^0.8.0",
+    "@grindjs/core-frontend": "^0.8.0",
+    "@grindjs/db": "^0.8.0",
+    "@grindjs/orm": "^0.8.0",
     "sqlite3": "^4.2.0"
   },
   "devDependencies": {
@@ -19,6 +19,7 @@
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
     "@babel/register": "^7.9.0",
+    "@grindjs/scripts": "^0.8.0",
     "autoprefixer": "^9.7.6",
     "babel-eslint": "^10.1.0",
     "babel-plugin-module-resolver": "^4.0.0",
@@ -29,7 +30,6 @@
     "clean-css": "^4.2.3",
     "eslint": "^6.8.0",
     "eslint-plugin-import-auto-name": "^1.1.0",
-    "grind-scripts": "^0.8.0",
     "node-sass": "^4.14.0",
     "normalize.css": "^8.0.1",
     "ouch": "^2.0.0",

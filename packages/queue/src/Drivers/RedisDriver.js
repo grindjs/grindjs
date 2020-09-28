@@ -1,9 +1,8 @@
 import './BaseDriver'
-
 import '../Support/buildRedisConfig'
 
-import { MissingPackageError } from 'grind-framework'
-import { Str } from 'grind-support'
+import { MissingPackageError } from '@grindjs/framework'
+import { Str } from '@grindjs/support'
 
 let redis = null
 let uuid = null

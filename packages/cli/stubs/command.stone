@@ -1,4 +1,4 @@
-import { Command, InputArgument, InputOption } from 'grind-cli'
+import { Command, InputArgument, InputOption } from '@grindjs/cli'
 
 export class {{ name }} extends Command {
 

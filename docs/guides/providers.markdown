@@ -23,7 +23,7 @@ export function ViewExtensionProvider(app) {
 Grind also supports providers that return promises, so if needed, you can perform asynchronous operations when your provider is booted:
 
 ```js
-import { FS } from 'grind-support'
+import { FS } from '@grindjs/support'
 
 export function ViewExtensionProvider(app) {
   return FS.readFile(app.paths.base('countries.json'), content => {
@@ -51,7 +51,7 @@ StreamProvider.shutdown = app => app.stream.close()
 Providers should be registered in `app/Bootstrap.js` via `app.providers.push`. Here’s how we’d register our new `ViewExtensionProvider`:
 
 ```js
-import Grind from 'grind-framework'
+import Grind from '@grindjs/framework'
 
 import 'App/Providers/ViewExtensionProvider'
 
@@ -107,7 +107,7 @@ If you don’t explicitly set a priority value, Grind will assign a negative pri
 If you need to extend a provider directly, you should write your own provider of the same name, then call the parent provider in yours:
 
 ```js
-import { OrmProvider as BaseOrmProvider } from 'grind-orm'
+import { OrmProvider as BaseOrmProvider } from '@grindjs/orm'
 
 export function OrmProvider(app) {
   // Call the provider you’re extending first

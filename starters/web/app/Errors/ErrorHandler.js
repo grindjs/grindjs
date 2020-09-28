@@ -1,5 +1,5 @@
-import { ErrorHandler as BaseErrorHandler } from 'grind-http'
-import { FS } from 'grind-support'
+import { ErrorHandler as BaseErrorHandler } from '@grindjs/http'
+import { FS } from '@grindjs/support'
 import Ouch from 'ouch'
 import path from 'path'
 

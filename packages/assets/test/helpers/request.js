@@ -1,7 +1,8 @@
 import './Grind'
 
-import { HttpServer } from 'grind-http'
+import { HttpServer } from '@grindjs/http'
 import getPort from 'get-port'
+
 const fetch = require('fetchit')
 
 export async function request(boot, path, options = {}) {

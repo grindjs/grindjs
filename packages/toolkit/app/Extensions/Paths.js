@@ -1,4 +1,4 @@
-import { Paths as BasePaths } from 'grind-framework'
+import { Paths as BasePaths } from '@grindjs/framework'
 
 const path = require('path')
 

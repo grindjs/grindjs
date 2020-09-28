@@ -6,17 +6,17 @@ Grind’s [Validation provider](https://github.com/grindjs/validation) leverages
 
 ## Installation
 
-First, add the `grind-validation` package via your preferred package manager:
+First, add the `@grindjs/validation` package via your preferred package manager:
 
 ```shell
-yarn add grind-validation
+yarn add @grindjs/validation
 ```
 
 Next, you’ll need to add `ValidationProvider` to your app providers in `app/Boostrap.js`:
 
 ```js
-import Grind from 'grind-framework'
-import { ValidationProvider } from 'grind-validation'
+import Grind from '@grindjs/framework'
+import { ValidationProvider } from '@grindjs/validation'
 
 const app = new Grind()
 app.providers.push(ValidationProvider)

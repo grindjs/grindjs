@@ -153,7 +153,7 @@ export class Queue {
 
 	status(jobId) {
 		if (!this.stateful) {
-			throw new Error('`grind-queue` is not configured to be stateful')
+			throw new Error('`@grindjs/queue` is not configured to be stateful')
 		}
 
 		return this.app.cache.get(Job.stateKey(jobId)).then(result => {

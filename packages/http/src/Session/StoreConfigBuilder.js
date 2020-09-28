@@ -1,4 +1,4 @@
-import { MissingPackageError } from 'grind-framework'
+import { MissingPackageError } from '@grindjs/framework'
 
 export function StoreConfigBuilder(store, app, returnStoreName = false) {
 	let session = null
@@ -145,7 +145,7 @@ function expandDatabaseStoreConfig(app, driver, config) {
 		}
 
 		if (typeof connection === 'object') {
-			const DatabaseBuilder = require('grind-db').DatabaseBuilder
+			const DatabaseBuilder = require('@grindjs/db').DatabaseBuilder
 			connection = DatabaseBuilder({ ...connection }, app)
 		} else {
 			connection = null

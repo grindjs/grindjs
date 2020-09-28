@@ -74,7 +74,7 @@ The app directory is the core of your application, this is where the vast majori
 - `Models` — Contains all of your Models.
 - `Providers` — Contains all of your providers, including `RoutesProvider` which is where you should register all of your routes.
 
-> {tip} [Grind Toolkit](installation#installing-grinds-toolkit) provides generators for many of these directories and file types. For example `grind make:model` will generate a model and store it in `app/Models`.
+> {tip} [Grind Toolkit](installation#toolkit) provides generators for many of these directories and file types. For example `grind make:model` will generate a model and store it in `app/Models`.
 
 Run `grind --help` for a list of available generators (identified by the `make:` namespace).
 

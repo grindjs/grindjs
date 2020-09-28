@@ -1,6 +1,6 @@
-import { Model } from 'grind-orm'
-
 import 'App/Models/StateModel'
+
+import { Model } from '@grindjs/orm'
 
 export class CountryModel extends Model {
 	static tableName = 'countries'

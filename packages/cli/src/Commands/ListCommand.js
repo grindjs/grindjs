@@ -8,7 +8,7 @@ export class ListCommand extends Command {
 		const info = require(this.app.paths.package)
 
 		if (info.name.isNil) {
-			const info = require(require.resolve('grind-framework/package.json'))
+			const info = require(require.resolve('@grindjs/framework/package.json'))
 			this.line(`<magenta>Grind framework</magenta> version <cyan>${info.version}</cyan>`)
 		} else {
 			let line = `<magenta>${info.name}</magenta>`

@@ -1,6 +1,7 @@
-import { Application } from 'grind-framework'
-
 import './Extensions/Paths'
+
+import { Application } from '@grindjs/framework'
+
 const fs = require('fs')
 
 export function Bootstrap(kernelClass) {
@@ -16,7 +17,7 @@ export function Bootstrap(kernelClass) {
 	}
 
 	if (app.inProject) {
-		app.providers.add(require('grind-view').ViewProvider)
+		app.providers.add(require('@grindjs/view').ViewProvider)
 		app.providers.add(require('./Providers/DetectPackagesProvider').DetectPackagesProvider)
 		app.providers.add(require('./Providers/PackageCommandsProvider').PackageCommandsProvider)
 		app.providers.add(require('./Providers/PackageViewsProvider').PackageViewsProvider)

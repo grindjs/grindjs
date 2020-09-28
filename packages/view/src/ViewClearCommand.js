@@ -1,4 +1,4 @@
-import { Command } from 'grind-cli'
+import { Command } from '@grindjs/cli'
 
 export class ViewClearCommand extends Command {
 	name = 'view:clear'

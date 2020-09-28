@@ -1,5 +1,5 @@
 {
-  "name": "grind-toolkit",
+  "name": "@grindjs/toolkit",
   "version": "0.8.0",
   "description": "CLI Toolkit for Grind",
   "keywords": [
@@ -25,12 +25,12 @@
     "prepack": "yarn build"
   },
   "dependencies": {
+    "@grindjs/cli": "^0.8.0",
+    "@grindjs/framework": "^0.8.0",
+    "@grindjs/stone": "^0.8.0",
+    "@grindjs/view": "^0.8.0",
     "as-type": "^1.0.0",
-    "fetchit": "^2.1.0",
-    "grind-cli": "^0.8.0",
-    "grind-framework": "^0.8.0",
-    "grind-stone": "^0.8.0",
-    "grind-view": "^0.8.0"
+    "fetchit": "^2.1.0"
   },
   "engines": {
     "node": ">=8.7",

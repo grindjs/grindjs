@@ -20,13 +20,13 @@ Grind Toolkit is a CLI tool you can use in your dev environment to quickly creat
 ### npm
 
 ```bash
-npm install -g grind-toolkit
+npm install -g @grindjs/toolkit
 ```
 
 ### yarn
 
 ```bash
-yarn install -g grind-toolkit
+yarn install -g @grindjs/toolkit
 ```
 
 ## Usage

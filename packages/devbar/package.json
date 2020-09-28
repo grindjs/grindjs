@@ -1,5 +1,5 @@
 {
-  "name": "grind-devbar",
+  "name": "@grindjs/devbar",
   "version": "0.8.0",
   "description": "Toolbar that provides insights and instrumentations during development of Grind apps.",
   "homepage": "https://github.com/grindjs/grindjs/tree/master/packages/devbar#readme",
@@ -22,8 +22,8 @@
     "zone.js": "^0.10.3"
   },
   "peerDependencies": {
-    "grind-stone": "^0.7.2",
-    "grind-support": "^0.7.0"
+    "@grindjs/stone": "^0.7.2",
+    "@grindjs/support": "^0.7.0"
   },
   "engines": {
     "node": ">=8.4"

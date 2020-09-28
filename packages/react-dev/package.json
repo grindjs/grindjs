@@ -1,5 +1,5 @@
 {
-  "name": "grind-react-dev",
+  "name": "@grindjs/react-dev",
   "version": "0.8.0",
   "description": "Utility package for development with Grind and React",
   "homepage": "https://github.com/grindjs/grindjs/tree/master/packages/react-dev#readme",
@@ -32,8 +32,8 @@
     "uglify-es": "^3.3.9"
   },
   "peerDependencies": {
-    "grind-assets": "^0.8.0-beta.14",
-    "grind-framework": "^0.8.0-beta.4"
+    "@grindjs/assets": "^0.8.0-beta.14",
+    "@grindjs/framework": "^0.8.0-beta.4"
   },
   "engines": {
     "node": ">=10.13"

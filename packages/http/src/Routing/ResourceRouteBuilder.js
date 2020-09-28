@@ -1,4 +1,4 @@
-import { Inflect } from 'grind-support'
+import { Inflect } from '@grindjs/support'
 
 //
 // Adapted from Laravel:

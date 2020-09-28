@@ -1,5 +1,5 @@
 {
-  "name": "grind-html",
+  "name": "@grindjs/html",
   "version": "0.8.0",
   "description": "HTML/Form builders for Grind",
   "keywords": [
@@ -30,13 +30,13 @@
     "he": "^1.2.0"
   },
   "devDependencies": {
-    "grind-cli": "^0.8.0",
-    "grind-http": "^0.8.0",
-    "grind-stone": "^0.8.0",
-    "grind-view": "^0.8.0"
+    "@grindjs/cli": "^0.8.0",
+    "@grindjs/http": "^0.8.0",
+    "@grindjs/stone": "^0.8.0",
+    "@grindjs/view": "^0.8.0"
   },
   "peerDependencies": {
-    "grind-framework": "^0.8.0-beta.1"
+    "@grindjs/framework": "^0.8.0-beta.1"
   },
   "engines": {
     "node": ">=8.7"

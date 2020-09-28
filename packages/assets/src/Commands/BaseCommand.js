@@ -1,5 +1,5 @@
-import { Command } from 'grind-cli'
-import { FS } from 'grind-support'
+import { Command } from '@grindjs/cli'
+import { FS } from '@grindjs/support'
 
 const path = require('path')
 

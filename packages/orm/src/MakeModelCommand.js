@@ -1,5 +1,6 @@
-import { AbortError, Command, InputArgument, InputOption } from 'grind-cli'
 import './Inflect'
+
+import { AbortError, Command, InputArgument, InputOption } from '@grindjs/cli'
 
 const path = require('path')
 
@@ -43,7 +44,7 @@ export class MakeModelCommand extends Command {
 
 		const filePath = this.app.paths.project(`app/Models/${name}.js`)
 
-		await this.app.stubs.generate('grind-orm::model', filePath, {
+		await this.app.stubs.generate('@grindjs/orm::model', filePath, {
 			name,
 			tableName,
 			descriptiveName,

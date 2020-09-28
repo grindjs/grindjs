@@ -12,17 +12,17 @@ By building Swagger docs directly into routes, it reduces time and effort involv
 
 ## Installation
 
-First, add the `grind-swagger` package via your preferred package manager:
+First, add the `@grindjs/swagger` package via your preferred package manager:
 
 ```shell
-yarn add grind-swagger
+yarn add @grindjs/swagger
 ```
 
 Next, you’ll need to add `SwaggerProvider` to your app providers in `app/Boostrap.js`:
 
 ```js
-import Grind from 'grind-framework'
-import { SwaggerProvider } from 'grind-swagger'
+import Grind from '@grindjs/framework'
+import { SwaggerProvider } from '@grindjs/swagger'
 
 const app = new Grind()
 app.providers.push(SwaggerProvider)
@@ -101,7 +101,7 @@ Based on this, the following can be inferred:
 You can help inference by ‘teaching’ it. This is useful for common keywords that have the same type, but will differ in their descriptions.
 
 ```js
-import Swagger from 'grind-swagger'
+import Swagger from '@grindjs/swagger'
 
 Swagger.learn('featured', { type: 'boolean') })
 Swagger.learn('limit', { type: 'integer') })
@@ -138,7 +138,7 @@ Without teaching, `featured`, `limit` and `offset` would have had their type inf
 No one wants to clutter their code with a bunch of repetitive documentation. To avoid this, you can define shared parameters (and groups of parameters) to use within your routes:
 
 ```js
-import Swagger from 'grind-swagger'
+import Swagger from '@grindjs/swagger'
 
 // Register a single parameter
 Swagger.parameter('state', {
@@ -179,7 +179,7 @@ app.routes.get(':state/cities/:letter?', 'index', {
 Shared parameters can also take advantage of inference, allowing for far more concise and readable code:
 
 ```js
-import Swagger from 'grind-swagger'
+import Swagger from '@grindjs/swagger'
 
 Swagger.parameter('state', 'State abbreviation')
 Swagger.parameters('pagination', {
@@ -211,7 +211,7 @@ app.routes.get(':state/cities/:letter?', 'index', {
 Here’s an example of shared parameters working together with teaching:
 
 ```js
-import Swagger from 'grind-swagger'
+import Swagger from '@grindjs/swagger'
 
 // Documentation of what “featured” is will change
 // from route to route, so we just teach the type

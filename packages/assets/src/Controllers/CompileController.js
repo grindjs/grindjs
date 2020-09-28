@@ -1,4 +1,4 @@
-import { FS } from 'grind-support'
+import { FS } from '@grindjs/support'
 
 const path = require('path')
 const crypto = require('crypto')
@@ -21,7 +21,7 @@ export class CompileController {
 
 		if (app.cache.isNil) {
 			Log.error(
-				'WARNING: grind-cache not detected, assets will be recompiled every time they’re loaded.',
+				'WARNING: @grindjs/cache not detected, assets will be recompiled every time they’re loaded.',
 			)
 		}
 	}

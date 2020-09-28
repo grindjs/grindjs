@@ -1,10 +1,10 @@
-import { CliKernel } from 'grind-cli'
-import { CacheProvider } from 'grind-cache'
-
-import { Application as BaseApplication, Paths as BasePaths } from 'grind-framework'
-
 import '../../src/QueueProvider'
 import './TestJob'
+
+import { Application as BaseApplication, Paths as BasePaths } from '@grindjs/framework'
+
+import { CacheProvider } from '@grindjs/cache'
+import { CliKernel } from '@grindjs/cli'
 
 const path = require('path')
 

@@ -8,17 +8,17 @@ Views should be stored in `/resources/views`.
 
 ## Installation
 
-First, add the `grind-view` package via your preferred package manager:
+First, add the `@grindjs/view` package via your preferred package manager:
 
 ```shell
-yarn add grind-view
+yarn add @grindjs/view
 ```
 
 Next, you’ll need to add `ViewProvider` to your app providers in `app/Boostrap.js`:
 
 ```js
-import Grind from 'grind-framework'
-import { ViewProvider } from 'grind-view'
+import Grind from '@grindjs/framework'
+import { ViewProvider } from '@grindjs/view'
 
 const app = new Grind()
 app.providers.push(ViewProvider)

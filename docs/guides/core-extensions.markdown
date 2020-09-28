@@ -28,14 +28,14 @@ Here’s a list of available overrides:
 | `UrlGenerator` | `urlGeneratorClass` | [UrlGenerator.js](https://github.com/grindjs/framework/blob/master/src/UrlGenerator.js) |
 | `Paths`        | `pathsClass`        | [Paths.js](https://github.com/grindjs/framework/blob/master/src/Paths.js)               |
 
-`grind-framework` exports all of the above classes for you to subclass and extend.
+`@grindjs/framework` exports all of the above classes for you to subclass and extend.
 
 ## Example
 
 Here’s an example overriding the ErrorHandler class to report errors to a collector API:
 
 ```js
-import { ErrorHandler as BaseErrorHandler } from 'grind-framework'
+import { ErrorHandler as BaseErrorHandler } from '@grindjs/framework'
 import 'request' from 'request-promise-native'
 
 export class ErrorHandler extends BaseErrorHandler {

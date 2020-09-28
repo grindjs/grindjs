@@ -2,7 +2,8 @@ import './Config'
 import './Paths'
 import './ProviderCollection'
 
-import { lazy } from 'grind-support'
+import { lazy } from '@grindjs/support'
+
 const EventEmitter = require('events')
 
 /**

@@ -1,7 +1,7 @@
 import './PostProcessor'
 import '../Support/optional'
 
-import { FS } from 'grind-support'
+import { FS } from '@grindjs/support'
 
 const CleanCSS = optional('clean-css', '>=4')
 

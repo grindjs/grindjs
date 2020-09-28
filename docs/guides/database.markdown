@@ -6,17 +6,17 @@ Grind’s [Database provider](https://github.com/grindjs/db) integrates Grind wi
 
 ## Installation
 
-First, add the `grind-db` package via your preferred package manager:
+First, add the `@grindjs/db` package via your preferred package manager:
 
 ```shell
-yarn add grind-db
+yarn add @grindjs/db
 ```
 
 Next, you’ll need to add `DatabaseProvider` to your app providers in `app/Boostrap.js`:
 
 ```js
-import Grind from 'grind-framework'
-import { DatabaseProvider } from 'grind-db'
+import Grind from '@grindjs/framework'
+import { DatabaseProvider } from '@grindjs/db'
 
 const app = new Grind()
 app.providers.push(DatabaseProvider)

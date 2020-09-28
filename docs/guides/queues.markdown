@@ -6,17 +6,17 @@ Grind’s [Queue provider](https://github.com/grindjs/queue) is built on [Kue](h
 
 ## Installation
 
-First, add the `grind-queue` package via your preferred package manager:
+First, add the `@grindjs/queue` package via your preferred package manager:
 
 ```shell
-yarn add grind-queue
+yarn add @grindjs/queue
 ```
 
 Next, you’ll need to add `QueueProvider` to your app providers in `app/Boostrap.js`:
 
 ```js
-import Grind from 'grind-framework'
-import { QueueProvider } from 'grind-queue'
+import Grind from '@grindjs/framework'
+import { QueueProvider } from '@grindjs/queue'
 
 const app = new Grind()
 app.providers.push(QueueProvider)
@@ -88,7 +88,7 @@ This will generate an EmailJob class and place it at `app/Jobs/EmailJob.js`.
 Now that your Job has been created, it’ll look like this:
 
 ```js
-import { Job } from 'grind-queue'
+import { Job } from '@grindjs/queue'
 
 export class EmailJob extends Job {
   static jobName = 'email-job'

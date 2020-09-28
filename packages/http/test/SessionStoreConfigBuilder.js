@@ -1,7 +1,8 @@
-import test from 'ava'
 import '../src/Session/StoreConfigBuilder'
 import '../src/HttpKernel'
 import './helpers/Application'
+
+import test from 'ava'
 
 test('memory', t => {
 	const config = StoreConfigBuilder('memory', new Application(HttpKernel), true)
@@ -47,7 +48,7 @@ test('database', t => {
 
 test('database-default', t => {
 	const app = new Application(HttpKernel)
-	app.providers.add(require('grind-db').DatabaseProvider)
+	app.providers.add(require('@grindjs/db').DatabaseProvider)
 
 	return app.boot().then(() => {
 		const config = StoreConfigBuilder('database-default', app, true)

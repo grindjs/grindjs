@@ -1,15 +1,14 @@
 /* eslint-disable max-lines */
-import { MissingPackageError } from 'grind-framework'
 
 import './ResourceRouteBuilder'
 import './RouteLayer'
-
 import '../Errors/RoutesLoadError'
-
 import '../Middleware/CompressionMiddlewareBuilder'
 import '../Middleware/CookieMiddlewareBuilder'
 import '../Middleware/MethodOverrideMiddlewareBuilder'
 import '../Middleware/SessionMiddlewareBuilder'
+
+import { MissingPackageError } from '@grindjs/framework'
 
 const fs = require('fs')
 const path = require('path')

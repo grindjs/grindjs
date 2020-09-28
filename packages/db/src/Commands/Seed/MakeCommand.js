@@ -1,5 +1,6 @@
-import { Command, AbortError, InputArgument, InputOption } from 'grind-cli'
-import { FS } from 'grind-support'
+import { AbortError, Command, InputArgument, InputOption } from '@grindjs/cli'
+
+import { FS } from '@grindjs/support'
 
 const path = require('path')
 
@@ -31,7 +32,7 @@ export class MakeCommand extends Command {
 		const ordinal = await this.nextSeedOrdinal()
 		const filePath = this.app.paths.project(this.seedDirectory, `${ordinal}-${name}.js`)
 
-		await this.app.stubs.generate('grind-db::seed', filePath, {
+		await this.app.stubs.generate('@grindjs/db::seed', filePath, {
 			table: tableName || 'table_name',
 		})
 

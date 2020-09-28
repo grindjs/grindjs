@@ -1,5 +1,5 @@
 {
-  "name": "grind-scripts",
+  "name": "@grindjs/scripts",
   "version": "0.8.0",
   "description": "Helper scripts for Grind development",
   "keywords": [

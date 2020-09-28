@@ -1,10 +1,9 @@
-import { Application } from 'grind-framework'
-
-import { DatabaseProvider } from 'grind-db'
-import { OrmProvider } from 'grind-orm'
-import { SwaggerProvider } from 'grind-swagger'
-
 import 'App/Providers/RoutesProvider'
+
+import { Application } from '@grindjs/framework'
+import { DatabaseProvider } from '@grindjs/db'
+import { OrmProvider } from '@grindjs/orm'
+import { SwaggerProvider } from '@grindjs/swagger'
 
 export function Bootstrap(kernelClass) {
 	const app = new Application(kernelClass)

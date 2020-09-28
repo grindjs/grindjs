@@ -1,5 +1,5 @@
 {
-  "name": "grind-cache",
+  "name": "@grindjs/cache",
   "version": "0.8.0",
   "description": "Cache provider for Grind, powered by node-cache-manager",
   "keywords": [
@@ -30,13 +30,13 @@
     "cache-manager": "^3.2.1"
   },
   "devDependencies": {
-    "grind-cli": "^0.8.0",
-    "grind-db": "^0.8.0",
-    "grind-framework": "^0.8.0",
+    "@grindjs/cli": "^0.8.0",
+    "@grindjs/db": "^0.8.0",
+    "@grindjs/framework": "^0.8.0",
     "sqlite3": "^4.1.1"
   },
   "peerDependencies": {
-    "grind-framework": "^0.8.0-beta.1"
+    "@grindjs/framework": "^0.8.0-beta.1"
   },
   "engines": {
     "node": ">=8.7"

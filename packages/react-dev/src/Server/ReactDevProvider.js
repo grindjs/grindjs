@@ -3,7 +3,7 @@ const path = require('path')
 
 export function ReactDevProvider(app) {
 	if (process.env.NODE_ENV === 'production') {
-		Log.errror('WARNING: `grind-react-dev` should not be used in production.')
+		Log.errror('WARNING: `@grindjs/react-dev` should not be used in production.')
 	}
 
 	if (app.http.isNil) {

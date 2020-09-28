@@ -1,9 +1,9 @@
-import { serial as test } from 'ava'
-import { HttpKernel } from 'grind-http'
-
 import './helpers/TestJob'
 import './helpers/Service'
 import './helpers/Application'
+
+import { HttpKernel } from '@grindjs/http'
+import { serial as test } from 'ava'
 
 const { v4: uuid } = require('uuid')
 const fetch = require('fetchit')

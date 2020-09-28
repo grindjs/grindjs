@@ -1,8 +1,8 @@
 import '../../src/StoneEngine'
 
-import { Application, Paths as BasePaths } from 'grind-framework'
-import { HttpKernel } from 'grind-http'
-import { ViewProvider, ViewFactory } from 'grind-view'
+import { Application, Paths as BasePaths } from '@grindjs/framework'
+import { HttpKernel } from '@grindjs/http'
+import { ViewProvider, ViewFactory } from '@grindjs/view'
 
 ViewFactory.engines.stone = (...args) => new StoneEngine(...args)
 

@@ -1,5 +1,5 @@
-import { AbortError } from 'grind-cli'
-import { FS } from 'grind-support'
+import { AbortError } from '@grindjs/cli'
+import { FS } from '@grindjs/support'
 
 const path = require('path')
 

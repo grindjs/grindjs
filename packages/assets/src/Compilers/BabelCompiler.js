@@ -1,9 +1,8 @@
 import './Compiler'
-
 import './BabelCompiler/BrowserifyStage'
 import './BabelCompiler/RollupStage'
 
-import { FS } from 'grind-support'
+import { FS } from '@grindjs/support'
 
 const path = require('path')
 const { Readable } = require('stream')

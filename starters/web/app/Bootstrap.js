@@ -1,14 +1,13 @@
-import { Application } from 'grind-framework'
-
-import { AssetsProvider } from 'grind-assets'
-import { CacheProvider } from 'grind-cache'
-import { DatabaseProvider } from 'grind-db'
-import { HtmlProvider } from 'grind-html'
-import { OrmProvider } from 'grind-orm'
-import { ViewProvider } from 'grind-view'
-
 import 'App/Providers/RoutesProvider'
 import 'App/Errors/ErrorHandler'
+
+import { Application } from '@grindjs/framework'
+import { AssetsProvider } from '@grindjs/assets'
+import { CacheProvider } from '@grindjs/cache'
+import { DatabaseProvider } from '@grindjs/db'
+import { HtmlProvider } from '@grindjs/html'
+import { OrmProvider } from '@grindjs/orm'
+import { ViewProvider } from '@grindjs/view'
 
 export function Bootstrap(kernelClass) {
 	const app = new Application(kernelClass, {

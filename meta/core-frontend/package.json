@@ -1,5 +1,5 @@
 {
-  "name": "grind-core-frontend",
+  "name": "@grindjs/core-frontend",
   "version": "0.8.0",
   "description": "Bundle package to provide frontend Grind dependencies",
   "keywords": [
@@ -19,14 +19,14 @@
   },
   "main": "index.js",
   "dependencies": {
+    "@grindjs/assets": "^0.8.0",
+    "@grindjs/core": "^0.8.0",
+    "@grindjs/html": "^0.8.0",
+    "@grindjs/stone": "^0.8.0",
+    "@grindjs/view": "^0.8.0",
     "cookie-parser": "^1.4.5",
     "express-flash": "^0.0.2",
     "express-session": "^1.17.1",
-    "grind-assets": "^0.8.0",
-    "grind-core": "^0.8.0",
-    "grind-html": "^0.8.0",
-    "grind-stone": "^0.8.0",
-    "grind-view": "^0.8.0",
     "method-override": "^3.0.0"
   }
 }

@@ -1,9 +1,8 @@
-import { lazy } from 'grind-support'
-
-import { PortProvider } from './HttpServer/PortProvider'
 import { ExpressProvider } from './HttpServer/ExpressProvider'
+import { PortProvider } from './HttpServer/PortProvider'
 import { RoutingProvider } from './Routing/RoutingProvider'
 import { UrlProvider } from './Url/UrlProvider'
+import { lazy } from '@grindjs/support'
 
 export { PortProvider, ExpressProvider, RoutingProvider, UrlProvider }
 

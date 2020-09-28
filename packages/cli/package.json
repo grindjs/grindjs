@@ -1,5 +1,5 @@
 {
-  "name": "grind-cli",
+  "name": "@grindjs/cli",
   "version": "0.8.0",
   "description": "CLI provider for Grind",
   "keywords": [
@@ -31,10 +31,10 @@
     "later": "^1.2.0"
   },
   "devDependencies": {
-    "grind-framework": "^0.8.0"
+    "@grindjs/framework": "^0.8.0"
   },
   "peerDependencies": {
-    "grind-framework": "^0.8.0-beta.1"
+    "@grindjs/framework": "^0.8.0-beta.1"
   },
   "engines": {
     "node": ">=10.13"
