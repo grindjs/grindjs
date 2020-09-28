@@ -1,7 +1,7 @@
 {
   "name": "grind-view",
   "version": "0.8.0",
-  "description": "View provider for Grind, powered by Nunjucks",
+  "description": "View provider for Grind",
   "keywords": [
     "grindjs",
     "grind-framework",

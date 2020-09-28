@@ -20,10 +20,6 @@ export function Highlighter(code, lang) {
 		case 'json':
 			lang = 'source.json5'
 			break
-		case 'nunjucks':
-		case 'njk':
-			lang = 'source.jinja'
-			break
 		case 'stone':
 		case 'view':
 			lang = 'text.html.stone'

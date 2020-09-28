@@ -9,7 +9,6 @@ export class ViewFactory extends EventEmitter {
 
 	static engines = {
 		stone: (...args) => ViewFactory.loadEngine('grind-stone', 'StoneEngine', ...args),
-		nunjucks: (...args) => ViewFactory.loadEngine('grind-nunjucks', 'NunjucksEngine', ...args),
 	}
 
 	constructor(app) {

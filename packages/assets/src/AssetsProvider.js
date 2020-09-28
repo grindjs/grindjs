@@ -10,7 +10,6 @@ import './PostProcessors/JavascriptMinifyPostProcessor'
 import './PostProcessors/SvgOptimizePostProcessor'
 import './Controllers/CompileController'
 import './View/AssetContainer'
-import './View/NunjucksExtension'
 import './View/StoneExtension'
 
 const path = require('path')
@@ -142,10 +141,7 @@ export function AssetsProvider(app, parameters = {}) {
 	let hasAssetContainer = false
 
 	if (!app.view.isNil) {
-		if (app.view.engineName === 'nunjucks') {
-			const nunjucksExtensionClass = parameters.nunjucksExtensionClass || NunjucksExtension
-			app.view.extend('AssetExtension', new nunjucksExtensionClass())
-		} else if (app.view.engineName === 'stone') {
+		if (app.view.engineName === 'stone') {
 			const stoneExtensionClass = parameters.stoneExtensionClass || StoneExtension
 			stoneExtensionClass.extend(app.view)
 		} else {
