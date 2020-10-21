@@ -1,9 +1,9 @@
 export class Obj {
-	static get(
+	static get<T>(
 		object: Record<string, any> | null | undefined,
 		keyPath: string,
-		fallback?: any | null | undefined,
-	): any | null | undefined {
+		fallback?: T | null | undefined,
+	): T | null | undefined {
 		if (arguments.length < 3) {
 			fallback = null
 		}
