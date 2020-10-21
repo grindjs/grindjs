@@ -1,29 +1,37 @@
-import './ChalkedConsoleLogger'
+import { ChalkedConsoleLogger } from './Logger/ChalkedConsoleLogger'
+import { Logger } from './Logger/Logger'
 
 export class Log {
-	static logger = new ChalkedConsoleLogger()
+	static logger: Logger = new ChalkedConsoleLogger()
 
-	static info(...message) {
+	static info(...message: any[]) {
 		Log.logger.info(...message)
 	}
 
-	static comment(...message) {
+	static comment(...message: any[]) {
 		Log.logger.comment(...message)
 	}
 
-	static warn(...message) {
+	static warn(...message: any[]) {
 		Log.logger.warn(...message)
 	}
 
-	static error(...message) {
+	static error(...message: any[]) {
 		Log.logger.error(...message)
 	}
 
-	static success(...message) {
+	static success(...message: any[]) {
 		Log.logger.success(...message)
 	}
 
-	static deprecated(name, { version, obsoleted, rename } = {}) {
+	static deprecated(
+		name: any[],
+		{
+			version,
+			obsoleted,
+			rename,
+		}: Partial<{ version: string; obsoleted: string; rename: string }> = {},
+	) {
 		let message = `WARNING: ${name} has been deprecated`
 
 		if ((version || '').length > 0) {

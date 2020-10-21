@@ -1,23 +1,25 @@
-import './Config'
-import './Paths'
-import './ProviderCollection'
-
-import { lazy } from '@grindjs/support'
-
-const EventEmitter = require('events')
+import { Config } from './Config'
+import { ErrorHandler } from './ErrorHandler'
+import { EventEmitter } from 'events'
+import { Kernel } from './Kernel'
+import { Paths } from './Paths'
+import { Provider } from './Provider'
+import { ProviderCollection } from './ProviderCollection'
 
 /**
  * Main Application class for Grind
  */
 export class Application extends EventEmitter {
-	_env = null
+	_env: string | null | undefined
 
-	config = null
-	paths = null
+	config: Config
+	paths: Paths
 
 	booted = false
 	booting = false
-	providers = null
+	providers: ProviderCollection
+	kernel: Kernel
+	debug: boolean
 
 	/**
 	 * Create an instance of the Grind Application
@@ -38,7 +40,7 @@ export class Application extends EventEmitter {
 	 * @param  {Class}   options.pathsClass         Override for Paths class
 	 */
 	constructor(
-		kernelClass,
+		kernelClass: typeof Kernel,
 		{
 			env,
 			port,
@@ -48,20 +50,28 @@ export class Application extends EventEmitter {
 			urlGeneratorClass,
 			pathsClass,
 			...extra
-		} = {},
+		}: Partial<{
+			env: string
+			port: number
+			routerClass: any
+			configClass: typeof Config
+			errorHandlerClass: typeof ErrorHandler
+			urlGeneratorClass: any
+			pathsClass: typeof Paths
+		}> = {},
 	) {
 		super()
 
 		this._env = env
 
-		configClass = configClass || Config
-		pathsClass = pathsClass || Paths
+		configClass = configClass ?? Config
+		pathsClass = pathsClass ?? Paths
 
 		this.paths = new pathsClass()
 		this.config = new configClass(this)
 		this.providers = new ProviderCollection(this)
-		this.debug = this.config.get('app.debug', this.env() === 'local')
-		this.on('error', err => Log.error('EventEmitter error', err))
+		this.debug = this.config.get('app.debug', this.env() === 'local') === true
+		this.on('error', (err: any) => Log.error('EventEmitter error', err))
 
 		this.kernel = new kernelClass(this, {
 			port,
@@ -72,8 +82,8 @@ export class Application extends EventEmitter {
 			...extra,
 		})
 
-		if (!this.kernel.as.isNil) {
-			this[this.kernel.as] = this.kernel
+		if (typeof this.kernel.as === 'string') {
+			;(this as any)[this.kernel.as] = this.kernel
 		}
 
 		for (const provider of this.kernel.providers) {
@@ -100,7 +110,7 @@ export class Application extends EventEmitter {
 		}
 
 		this.booting = true
-		this.providers.sort((a, b) => (a.priority > b.priority ? -1 : 1))
+		this.providers.sort((a, b) => ((a.priority ?? 0) > (b.priority ?? 0) ? -1 : 1))
 
 		for (const provider of this.providers) {
 			await provider(this)
@@ -121,14 +131,14 @@ export class Application extends EventEmitter {
 	 *
 	 * @param  function  provider
 	 */
-	loadKernelProvider(provider) {
+	loadKernelProvider(provider: Provider) {
 		if (typeof provider.shutdown === 'function') {
 			const shutdown = provider.shutdown.bind(provider, this)
 
 			this.once('shutdown', () => {
 				const result = shutdown()
 
-				if (result.isNil || typeof result.then !== 'function') {
+				if (!result || typeof result.then !== 'function') {
 					return
 				}
 
@@ -140,7 +150,7 @@ export class Application extends EventEmitter {
 
 		const result = provider(this)
 
-		if (result.isNil || typeof result.then !== 'function') {
+		if (!result || typeof result.then !== 'function') {
 			return
 		}
 
@@ -150,7 +160,7 @@ export class Application extends EventEmitter {
 	/**
 	 * Starts the Kernel
 	 */
-	async start(...args) {
+	async start(...args: any[]) {
 		await this.boot()
 		return this.kernel.start(...args)
 	}
@@ -183,21 +193,8 @@ export class Application extends EventEmitter {
 		this.booted = false
 	}
 
-	/**
-	 * Register a property on the app instance that will be
-	 * populated with the value of `callback` after the first
-	 * time it’s called.
-	 *
-	 * @param  {string}   name     Name of the property to registe
-	 * @param  {Function} callback Callback handler that should return
-	 *                             the value of the property
-	 */
-	lazy(name, callback) {
-		lazy(this, name, callback)
-	}
-
 	// Pass through properties for the http kernel
 	get errorHandler() {
-		return this.http.errorHandler
+		return (this as any).http.errorHandler
 	}
 }

@@ -1,19 +1,18 @@
-const fs = require('fs')
-const path = require('path')
+import fs from 'fs'
+import path from 'path'
 
 let hasCheckedForYarn = false
 let hasYarn = false
 
 export class MissingPackageError extends Error {
-	constructor(pkg, type = null, why = null) {
+	constructor(pkg: string, type?: string, why?: string) {
 		if (!hasCheckedForYarn) {
 			hasCheckedForYarn = true
 
 			try {
-				// eslint-disable-next-line no-sync
 				fs.accessSync(
 					path.join(process.env.BASE_PATH || process.cwd(), 'yarn.lock'),
-					'R_OK',
+					fs.constants.R_OK,
 				)
 				hasYarn = true
 			} catch (err) {
@@ -24,7 +23,7 @@ export class MissingPackageError extends Error {
 		let command = null
 
 		if (hasYarn) {
-			if (type.isNil) {
+			if (typeof type !== 'string') {
 				type = ''
 			} else {
 				type = ` --${type}`
@@ -32,7 +31,7 @@ export class MissingPackageError extends Error {
 
 			command = `yarn add${type} ${pkg}`
 		} else {
-			if (type.isNil) {
+			if (typeof type !== 'string') {
 				type = ''
 			} else {
 				type = `-${type}`

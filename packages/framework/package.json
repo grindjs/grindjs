@@ -31,5 +31,8 @@
   },
   "engines": {
     "node": ">=8.2"
+  },
+  "devDependencies": {
+    "@types/json5": "^0.0.30"
   }
 }

@@ -1,48 +1,46 @@
-const fs = require('fs')
-const path = require('path')
-const JSON5 = require('json5')
-
 import { Obj, merge } from '@grindjs/support'
 
+import { Application } from './Application'
+import JSON5 from 'json5'
+import fs from 'fs'
+import path from 'path'
+
 export class Config {
-	_repository = null
+	_repository: Record<string, any> = {}
 
-	constructor(app = null) {
-		this._repository = {}
-
-		if (!app.isNil) {
+	constructor(public app: Application | null = null) {
+		if (app) {
 			this.populate(app)
 		}
 	}
 
-	get(keyPath, fallback = null) {
+	get<T>(keyPath: string, fallback?: T | null | undefined): T | null | undefined {
 		return Obj.get(this._repository, keyPath, fallback)
 	}
 
-	has(keyPath) {
+	has(keyPath: string): boolean {
 		return Obj.has(this._repository, keyPath)
 	}
 
-	set(keyPath, value) {
+	set(keyPath: string, value: any) {
 		Obj.set(this._repository, keyPath, value)
 	}
 
-	loadDefault(group, file) {
-		// eslint-disable-next-line no-sync
+	loadDefault(group: string, file: string) {
 		const config = this._loadConfigFile(file)
 		const existing = this._repository[group] || {}
 		this._repository[group] = merge(merge({}, config), existing)
 	}
 
-	populate(app) {
+	populate(app: Application) {
 		let dir = app.paths.config()
 
-		const exists = path => {
+		const exists = (path: string) => {
 			try {
 				// eslint-disable-next-line no-sync
-				fs.accessSync(path, fs.F_OK)
+				fs.accessSync(path, fs.constants.F_OK)
 				return true
-			} catch (e) {
+			} catch (err) {
 				return false
 			}
 		}
@@ -52,7 +50,7 @@ export class Config {
 			return
 		}
 
-		const files = {}
+		const files: Record<string, string[]> = {}
 
 		this._populateConfigFiles(files, dir)
 
@@ -108,7 +106,7 @@ export class Config {
 		}
 	}
 
-	_populateConfigFiles(files, dir) {
+	_populateConfigFiles(files: Record<string, string[]>, dir: string) {
 		// eslint-disable-next-line no-sync
 		for (const file of fs.readdirSync(dir)) {
 			const extname = path.extname(file)
@@ -126,12 +124,11 @@ export class Config {
 		}
 	}
 
-	_loadConfigFile(file) {
+	_loadConfigFile(file: string) {
 		const extname = path.extname(file)
 
 		if (extname === '.json') {
-			// eslint-disable-next-line no-sync
-			return JSON5.parse(fs.readFileSync(file))
+			return JSON5.parse(fs.readFileSync(file).toString())
 		} else if (extname !== '.js') {
 			throw new Error(`Unsupported config file extension: ${extname}`)
 		}

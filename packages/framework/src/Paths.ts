@@ -1,15 +1,15 @@
-const path = require('path')
-const fs = require('fs')
+import fs from 'fs'
+import path from 'path'
 
 export class Paths {
-	_base = null
-	_app = null
-	_config = null
-	_database = null
-	_package = null
-	_public = null
+	_base: string
+	_app: string
+	_config: string
+	_database: string
+	_package: string
+	_public: string
 
-	constructor(base = null) {
+	constructor(base: string | null | undefined = null) {
 		this._base = base || this.findBase()
 		this._app = path.join(this._base, 'app')
 		this._config = path.join(this._base, 'config')
@@ -18,31 +18,31 @@ export class Paths {
 		this._package = path.join(this._base, 'package.json')
 	}
 
-	base(...args) {
+	base(...args: string[]): string {
 		return this._join(this._base, ...args)
 	}
 
-	app(...args) {
+	app(...args: string[]): string {
 		return this._join(this._app, ...args)
 	}
 
-	config(...args) {
+	config(...args: string[]): string {
 		return this._join(this._config, ...args)
 	}
 
-	database(...args) {
+	database(...args: string[]): string {
 		return this._join(this._database, ...args)
 	}
 
-	public(...args) {
+	public(...args: string[]): string {
 		return this._join(this._public, ...args)
 	}
 
-	get package() {
+	get package(): string {
 		return this._package
 	}
 
-	_join(rootPath, ...args) {
+	_join(rootPath: string, ...args: string[]): string {
 		if (args.length > 0) {
 			args.unshift(rootPath)
 			return path.join(...args)
@@ -51,15 +51,15 @@ export class Paths {
 		return rootPath
 	}
 
-	findBase() {
-		if (!process.env.APP_BASE.isNil) {
+	findBase(): string {
+		if (typeof process.env.APP_BASE === 'string') {
 			return process.env.APP_BASE
 		}
 
 		const test = /\/pm2|mocha|ava|forever\//i
 		let parent = module
 
-		while (!parent.parent.isNil && !test.test(parent.parent.filename)) {
+		while (typeof parent.parent?.filename === 'string' && !test.test(parent.parent.filename)) {
 			parent = parent.parent
 		}
 
