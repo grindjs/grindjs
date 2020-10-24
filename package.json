@@ -71,6 +71,9 @@
     ".ts, .tsx": {
       "style": "module",
       "parser": "typescript"
+    },
+    ".js, .jsx": {
+      "style": "module"
     }
   }
 }
