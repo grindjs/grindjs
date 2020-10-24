@@ -1,13 +1,13 @@
-import '../BaseCommand'
+import path from 'path'
 
-const path = require('path')
+import { BaseCommand } from '../BaseCommand'
 
 export class RollbackCommand extends BaseCommand {
 	name = 'migrate:rollback'
 	description = 'Rollback the last set of migrations performed'
 
 	async run() {
-		const [batchNo, log] = await this.db.migrate.rollback()
+		const [batchNo, log] = await this.db!.migrate.rollback()
 
 		if (log.length === 0) {
 			this.warn('Already at the base migration')

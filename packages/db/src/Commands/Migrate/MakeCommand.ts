@@ -1,12 +1,9 @@
-import '../BaseCommand'
+import path from 'path'
 
-import { AbortError, InputArgument, InputOption } from '@grindjs/cli'
-
+import { AbortError, InputArgument, InputOption, ToolkitCommand } from '@grindjs/cli'
 import { FS } from '@grindjs/support'
 
-const path = require('path')
-
-export class MakeCommand extends BaseCommand {
+export class MakeCommand extends ToolkitCommand {
 	name = 'make:migration'
 	description = 'Create a migration file'
 
@@ -28,19 +25,19 @@ export class MakeCommand extends BaseCommand {
 			tableName = this.option('create')
 			stub = 'create-table'
 
-			if (name.isNil) {
+			if (typeof name !== 'string') {
 				name = `create_${tableName}_table`
 			}
 		} else if (this.containsOption('alter')) {
 			tableName = this.option('alter')
 			stub = 'alter-table'
 
-			if (name.isNil) {
+			if (typeof name !== 'string') {
 				name = `alter_${tableName}_table`
 			}
 		}
 
-		if (name.isNil) {
+		if (typeof name !== 'string') {
 			throw new AbortError(
 				'A migration name must be provided if `--create` or `--alter` aren’t used.',
 			)

@@ -1,7 +1,8 @@
 import { Command } from '@grindjs/cli'
+import knex from 'knex'
 
 export class BaseCommand extends Command {
-	db = null
+	db?: knex
 
 	async ready() {
 		await super.ready()

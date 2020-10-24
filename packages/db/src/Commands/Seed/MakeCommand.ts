@@ -1,10 +1,9 @@
-import { AbortError, Command, InputArgument, InputOption } from '@grindjs/cli'
+import path from 'path'
 
+import { AbortError, InputArgument, InputOption, ToolkitCommand } from '@grindjs/cli'
 import { FS } from '@grindjs/support'
 
-const path = require('path')
-
-export class MakeCommand extends Command {
+export class MakeCommand extends ToolkitCommand {
 	name = 'make:seed'
 	description = 'Create a database seed file'
 	seedDirectory = 'database/seeds'
@@ -20,12 +19,12 @@ export class MakeCommand extends Command {
 		if (this.containsOption('table')) {
 			tableName = this.option('table')
 
-			if (name.isNil) {
+			if (typeof name !== 'string') {
 				name = tableName
 			}
 		}
 
-		if (name.isNil) {
+		if (typeof name !== 'string') {
 			throw new AbortError('A seed name must be provided if `--table` isn‘t used.')
 		}
 

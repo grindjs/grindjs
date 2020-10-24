@@ -1,13 +1,13 @@
-import '../BaseCommand'
+import path from 'path'
 
-const path = require('path')
+import { BaseCommand } from '../BaseCommand'
 
 export class LatestCommand extends BaseCommand {
 	name = 'migrate:latest'
 	description = 'Run all migrations that have not yet been run'
 
 	async run() {
-		const [batchNo, log] = await this.db.migrate.latest()
+		const [batchNo, log] = await this.db!.migrate.latest()
 
 		if (log.length === 0) {
 			this.warn('Already up to date')

@@ -1,13 +1,13 @@
-import '../BaseCommand'
+import path from 'path'
 
-const path = require('path')
+import { BaseCommand } from '../BaseCommand'
 
 export class RunCommand extends BaseCommand {
 	name = 'db:seed'
 	description = 'Seed the database'
 
 	async run() {
-		const [log] = await this.db.seed.run()
+		const [log] = await this.db!.seed.run()
 
 		if (log.length === 0) {
 			this.warn('No seed files exist')
