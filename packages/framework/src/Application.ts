@@ -22,8 +22,6 @@ export class Application extends EventEmitter {
 	kernel: Kernel
 	debug: boolean
 
-	cli?: import('@grindjs/cli').Cli
-
 	/**
 	 * Create an instance of the Grind Application
 	 *
