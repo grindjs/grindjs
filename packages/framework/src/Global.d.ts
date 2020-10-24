@@ -1,5 +1,5 @@
-import { Log as LogClass } from './Log'
 import * as Errors from './Errors'
+import { Log as LogClass } from './Log'
 
 declare global {
 	var Log: typeof LogClass
@@ -49,4 +49,10 @@ declare global {
 	var UpgradeRequiredError: typeof Errors.UpgradeRequiredError
 	var URITooLongError: typeof Errors.URITooLongError
 	var VariantAlsoNegotiatesError: typeof Errors.VariantAlsoNegotiatesError
+
+	namespace NodeJS {
+		interface Global {
+			Log: typeof LogClass
+		}
+	}
 }

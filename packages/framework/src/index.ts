@@ -1,3 +1,5 @@
+import './Global'
+
 import { Application } from './Application'
 import { Log } from './Log'
 
