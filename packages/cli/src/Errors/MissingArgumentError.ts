@@ -1,9 +1,7 @@
-import './InvocationError'
+import { InvocationError } from './InvocationError'
 
 export class MissingArgumentError extends InvocationError {
-	constructor(argument) {
+	constructor(public argument: string) {
 		super(`Missing argument: ${argument}`)
-
-		this.argument = argument
 	}
 }

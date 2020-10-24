@@ -1,9 +1,7 @@
-import './InvocationError'
+import { InvocationError } from './InvocationError'
 
 export class CommandNotFoundError extends InvocationError {
-	constructor(command) {
+	constructor(public command: string) {
 		super(`Command not found: ${command}`)
-
-		this.command = command
 	}
 }

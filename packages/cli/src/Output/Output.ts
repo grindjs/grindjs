@@ -1,41 +1,37 @@
-import './OutputFormatter'
+import util from 'util'
 
-import '../Errors/InvocationError'
+import { Cli } from '../Cli'
+import { InvocationError } from '../Errors/InvocationError'
+import { OutputFormatter } from './OutputFormatter'
 
 export class Output {
-	app = null
-	formatter = null
+	constructor(public cli: Cli, public formatter = new OutputFormatter()) {}
 
-	constructor(app, formatter = new OutputFormatter()) {
-		this.app = app
-		this.formatter = formatter
-	}
-
-	writeln(...messages) {
+	writeln(...messages: any[]) {
 		return this._write(messages, true)
 	}
 
-	write(...messages) {
+	write(...messages: any[]) {
 		return this._write(messages, false)
 	}
 
-	_write(messages, newLine) {
+	_write(messages: any[], newLine: boolean) {
 		messages[0] = this.formatter.format(messages[0])
 
 		if (newLine) {
 			console.log(...messages)
 		} else {
-			process.stdout.write(...messages)
+			process.stdout.write(util.format(messages[0], ...messages.slice(1)))
 		}
 	}
 
-	writeError(err) {
+	writeError(error: Error) {
 		let message = null
 
-		if (err instanceof InvocationError) {
-			message = `${err.message}`
+		if (error instanceof InvocationError) {
+			message = `${error.message}`
 		} else {
-			message = (err.stack || err).toString()
+			message = (error.stack || error).toString()
 		}
 
 		if (!this.formatter.decorated) {

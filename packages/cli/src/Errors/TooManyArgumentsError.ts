@@ -1,4 +1,4 @@
-import './InvocationError'
+import { InvocationError } from './InvocationError'
 
 export class TooManyArgumentsError extends InvocationError {
 	constructor() {

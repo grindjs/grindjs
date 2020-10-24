@@ -1,94 +1,82 @@
-/* eslint-disable max-lines */
-import './Input/InputOption'
-import './Input/InputArgument'
+import ChildProcess, { ExecFileOptions, SpawnOptions } from 'child_process'
+import { BaseEncodingOptions } from 'fs'
+import readline from 'readline'
 
-import './Errors/InvalidOptionError'
-import './Errors/InvalidOptionValueError'
-import './Errors/MissingArgumentError'
-import './Errors/MissingOptionError'
-import './Errors/TooManyArgumentsError'
+import { Application, Log } from '@grindjs/framework'
+import cast from 'as-type'
 
-const cast = require('as-type')
-const readline = require('readline')
-const ChildProcess = require('child_process')
+import { Cli } from './Cli'
+import { InvalidOptionError } from './Errors/InvalidOptionError'
+import { InvalidOptionValueError } from './Errors/InvalidOptionValueError'
+import { InvocationError } from './Errors/InvocationError'
+import { MissingArgumentError } from './Errors/MissingArgumentError'
+import { MissingOptionError } from './Errors/MissingOptionError'
+import { TooManyArgumentsError } from './Errors/TooManyArgumentsError'
+import { Input } from './Input/Input'
+import { InputArgument } from './Input/InputArgument'
+import { InputOption } from './Input/InputOption'
 
-let hasWarnedLegacyArgumentsOptions = false
-
-function warnLegacyArgumentsOptions() {
-	if (hasWarnedLegacyArgumentsOptions) {
-		return
-	}
-
-	hasWarnedLegacyArgumentsOptions = true
-	Log.error(
-		'WARNING: The arguments/options structure being used is deprecated in 0.6 and will be removed in 0.8.',
-	)
-	Log.error(
-		'--> For information on how to update your commands, visit https://grind.rocks/docs/guides/cli',
-	)
-	Log.error('')
+export interface SpawnedPromise<T> extends Promise<T> {
+	childProcess: ChildProcess.ChildProcess | undefined
 }
 
 export class Command {
-	app = null
-	cli = null
-
-	name = null
-	description = null
-	arguments = []
-	options = []
+	name: string | null = null
+	description: string | null = null
+	arguments: InputArgument[] = []
+	options: InputOption[] = []
 
 	defaultOptions = [
 		new InputOption('help', InputOption.VALUE_NONE, 'Display this help message'),
 		new InputOption('no-ansi', InputOption.VALUE_NONE, 'Disable ANSI output'),
 	]
 
-	compiledValues = {
+	compiledValues: {
+		arguments: Record<string, InputArgument>
+		options: Record<string, InputOption>
+	} = {
 		arguments: {},
 		options: {},
 	}
 
-	constructor(app, cli) {
-		this.app = app
-		this.cli = cli
-	}
+	constructor(public app: Application, public cli: Cli) {}
 
 	get output() {
 		return this.cli.output
 	}
 
-	argument(name, fallback = null) {
+	argument(name: string, fallback = null) {
 		return (this.compiledValues.arguments[name] || {}).value || fallback
 	}
 
-	containsArgument(name) {
+	containsArgument(name: string) {
 		const { value } = this.compiledValues.arguments[name] || {}
-		return !value.isNil
+		return value !== null && value !== undefined
 	}
 
-	option(name, fallback = null) {
+	option(name: string, fallback = null) {
 		return (this.compiledValues.options[name] || {}).value || fallback
 	}
 
-	containsOption(name) {
+	containsOption(name: string) {
 		const { value } = this.compiledValues.options[name] || {}
-		return !value.isNil
+		return value !== null && value !== undefined
 	}
 
-	ready() {
+	ready(): Promise<void> {
 		return Promise.resolve()
 	}
 
-	run() {
+	run(): Promise<void> | void {
 		return Promise.resolve()
 	}
 
-	_prepare(input) {
+	_prepare(input: Input) {
 		this.compiledValues.arguments = {}
 		this.compiledValues.options = {}
 
 		const args = this._arguments()
-		const options = {}
+		const options: Record<string, InputOption> = {}
 
 		for (const option of this._options()) {
 			options[option.name] = option
@@ -119,17 +107,17 @@ export class Command {
 		// If the input argument length isn’t the same as the
 		// defined argument length, iterate through and make sure
 		// all the required arguments are satisfied
-		if (this.compiledValues.arguments.length !== arguments.length) {
+		if (Object.values(this.compiledValues.arguments).length !== args.length) {
 			for (const argument of args) {
 				const arg = this.compiledValues.arguments[argument.name]
 
-				if (!arg.isNil) {
+				if (arg instanceof InputArgument) {
 					continue
 				}
 
 				if (argument.mode === InputArgument.VALUE_REQUIRED) {
 					throw new MissingArgumentError(argument.name)
-				} else if (!argument.value.isNil) {
+				} else if (argument.value === null || argument.value === undefined) {
 					this.compiledValues.arguments[argument.name] = argument
 				}
 			}
@@ -140,7 +128,7 @@ export class Command {
 		for (const option of input.options) {
 			const definedOption = options[option.name]
 
-			if (definedOption.isNil) {
+			if (!definedOption) {
 				throw new InvalidOptionError(option.name)
 			}
 
@@ -168,7 +156,7 @@ export class Command {
 
 				const compiledOption = this.compiledValues.options[option.name]
 
-				if (!compiledOption.isNil) {
+				if (compiledOption instanceof InputOption) {
 					continue
 				}
 
@@ -181,79 +169,47 @@ export class Command {
 		}
 	}
 
-	execute(input) {
+	execute(input: Input) {
 		this._prepare(input)
 
 		return this.ready().then(() => this.run())
 	}
 
 	_arguments() {
-		if (this.arguments.isNil) {
+		if (!this.arguments) {
 			return []
 		}
 
-		return this.arguments.map(value => {
-			if (typeof value !== 'string') {
-				return value
-			}
-
-			warnLegacyArgumentsOptions()
-
-			const optional = value.endsWith('?')
-			const name = optional ? value.substring(0, value.length - 1) : value
-
-			return new InputArgument(
-				name,
-				optional ? InputArgument.VALUE_OPTIONAL : InputArgument.VALUE_REQUIRED,
-			)
-		})
+		return this.arguments
 	}
 
 	_options() {
-		if (this.options.isNil) {
+		if (!this.options) {
 			return []
 		}
 
-		if (Array.isArray(this.options)) {
-			return this.options
-		}
-
-		const options = []
-
-		warnLegacyArgumentsOptions()
-
-		for (const [name, value] of Object.entries(this.options)) {
-			let help = value
-			let mode = InputOption.VALUE_NONE
-
-			if (Array.isArray(value)) {
-				help = value[0]
-				mode = InputOption.VALUE_REQUIRED
-			}
-
-			options.push(new InputOption(name, mode, help))
-		}
-
-		return options
+		return this.options
 	}
 
-	execAsChildProcess(args = null, options = null) {
+	execAsChildProcess(
+		args: string[] | null | undefined = null,
+		options: (BaseEncodingOptions & ExecFileOptions) | null | undefined = null,
+	) {
 		options = {
 			env: process.env,
 			...(options || {}),
 		}
 
-		if (args.isNil) {
-			args = []
-		} else {
-			args = [].concat(...args)
+		if (!this.name) {
+			throw new InvocationError(`Missing command name for ${this.constructor.name}`)
 		}
 
+		args = Array.isArray(args) ? Array.from(args) : []
 		args.unshift(this.name)
 
 		return new Promise((resolve, reject) => {
-			ChildProcess.execFile(process.env.CLI_BIN, args, options, (err, stdout) => {
-				if (!err.isNil) {
+			ChildProcess.execFile(process.env.CLI_BIN as string, args, options, (err, stdout) => {
+				if (err) {
 					return reject(err)
 				}
 
@@ -262,61 +218,66 @@ export class Command {
 		})
 	}
 
-	spawn(args = null, options = null) {
+	spawn(
+		args: string[] | null | undefined = null,
+		options: SpawnOptions | null | undefined = null,
+	): SpawnedPromise<number> {
 		options = {
 			env: process.env,
 			stdio: 'inherit',
 			...(options || {}),
 		}
 
-		if (args.isNil) {
-			args = []
-		} else {
-			args = [].concat(...args)
+		if (!this.name) {
+			throw new InvocationError(`Missing command name for ${this.constructor.name}`)
 		}
 
+		args = Array.isArray(args) ? Array.from(args) : []
 		args.unshift(this.name)
 
-		const childProcess = ChildProcess.spawn(process.env.CLI_BIN, args, options)
+		const childProcess = ChildProcess.spawn(process.env.CLI_BIN as string, args, {
+			stdio: 'inherit',
+		})
+
 		const promise = new Promise(resolve => {
 			childProcess.on('close', code => {
-				resolve(Number.parseInt(code))
+				resolve(Number(code))
 			})
-		})
+		}) as SpawnedPromise<number>
 
 		promise.childProcess = childProcess
 
 		return promise
 	}
 
-	line(...messages) {
+	line(...messages: any[]) {
 		this.cli.output.writeln(...messages)
 	}
 
-	info(...messages) {
+	info(...messages: any[]) {
 		this.cli.output.writeln(`<info>${messages.shift()}</info>`, ...messages)
 	}
 
-	comment(...messages) {
+	comment(...messages: any[]) {
 		this.cli.output.writeln(`<comment>${messages.shift()}</comment>`, ...messages)
 	}
 
-	warn(...messages) {
+	warn(...messages: any[]) {
 		this.cli.output.writeln(`<warn>${messages.shift()}</warn>`, ...messages)
 	}
 
-	success(...messages) {
+	success(...messages: any[]) {
 		this.cli.output.writeln(`<success>${messages.shift()}</success>`, ...messages)
 	}
 
-	error(...messages) {
+	error(...messages: any[]) {
 		this.cli.output.writeln(`<error>${messages.shift()}</error>`, ...messages)
 	}
 
-	ask(question, defaultAnswer = null) {
+	ask(question: string, defaultAnswer: any = null): Promise<string> {
 		let prompt = `<question>${question}</question> `
 
-		if (!defaultAnswer.isNil) {
+		if (defaultAnswer !== null && defaultAnswer !== undefined) {
 			prompt = `${prompt}<questionDefaultValue>[${defaultAnswer}]</questionDefaultValue> `
 		}
 
@@ -333,10 +294,10 @@ export class Command {
 		})
 	}
 
-	confirm(question, defaultAnswer = true) {
+	confirm(question: string, defaultAnswer = true): Promise<boolean> {
 		return this.ask(question, defaultAnswer ? 'yes' : 'no').then(answer => {
 			if (answer.length === 0) {
-				answer = defaultAnswer
+				answer = String(defaultAnswer)
 			}
 
 			return cast.boolean(answer)

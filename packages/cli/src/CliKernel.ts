@@ -1,11 +1,11 @@
-import './Cli'
+import Application, { Kernel } from '@grindjs/framework'
 
-import { Kernel } from '@grindjs/framework'
+import { Cli } from './Cli'
 
 export class CliKernel extends Kernel {
 	static type = 'cli'
 
-	constructor(app, options) {
+	constructor(app: Application, options: Record<string, any> | undefined) {
 		super(app, options)
 
 		app.cli = new Cli(app)
@@ -22,8 +22,8 @@ export class CliKernel extends Kernel {
 		HttpCommandsProvider(app)
 	}
 
-	start(...args) {
-		return this.app.cli.run(...args)
+	start(args: string[]) {
+		return this.app.cli?.run(args)
 	}
 
 	get providers() {

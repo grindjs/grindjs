@@ -1,4 +1,4 @@
-import '../Command'
+import { Command } from '../Command'
 
 export class ListCommand extends Command {
 	name = 'list'
@@ -26,14 +26,18 @@ export class ListCommand extends Command {
 		this.line('  command [options] [arguments]')
 		this.line('')
 
-		const grouped = {}
+		const grouped: Record<string, Command[]> = {}
 		let maxCommandNameLength = 20
 
 		for (const command of this.cli.commands) {
 			const name = command.name
+			if (!name) {
+				continue
+			}
+
 			maxCommandNameLength = Math.max(maxCommandNameLength, name.length + 4)
 
-			let namespace = null
+			let namespace: string | null = null
 			const separatorIndex = name.indexOf(':')
 
 			if (separatorIndex >= 0) {
@@ -42,7 +46,7 @@ export class ListCommand extends Command {
 				namespace = '_'
 			}
 
-			if (grouped[namespace].isNil) {
+			if (!Array.isArray(grouped[namespace])) {
 				grouped[namespace] = []
 			}
 
@@ -59,7 +63,7 @@ export class ListCommand extends Command {
 			}
 
 			for (const command of grouped[key]) {
-				const paddedName = command.name.padEnd(maxCommandNameLength, ' ')
+				const paddedName = (command.name ?? '').padEnd(maxCommandNameLength, ' ')
 				const description = command.description || ''
 
 				this.line(

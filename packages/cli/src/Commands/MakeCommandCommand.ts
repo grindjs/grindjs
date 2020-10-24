@@ -1,11 +1,11 @@
-import '../Command'
-import '../Input/InputArgument'
-import '../Input/InputOption'
-import '../Errors/AbortError'
+import path from 'path'
 
-const path = require('path')
+import { AbortError } from '../Errors/AbortError'
+import { InputArgument } from '../Input/InputArgument'
+import { InputOption } from '../Input/InputOption'
+import { ToolkitCommand } from '../Toolkit/ToolkitCommand'
 
-export class MakeCommandCommand extends Command {
+export class MakeCommandCommand extends ToolkitCommand {
 	name = 'make:command'
 	description = 'Create a command class'
 
@@ -29,18 +29,22 @@ export class MakeCommandCommand extends Command {
 		if (this.containsOption('command')) {
 			command = this.option('command')
 
-			if (name.isNil && !command.isNil && command !== 'command:name') {
-				const upper = (_, letter) => letter.toUpperCase()
+			if (
+				typeof name !== 'string' &&
+				typeof command === 'string' &&
+				command !== 'command:name'
+			) {
+				const upper = (_: string, letter: string) => letter.toUpperCase()
 				name = command.replace(/[_\-:\s]+(\w|$)/g, upper).replace(/^(\w)/, upper)
 				name += 'Command'
 			}
 		}
 
-		if (command.isNil || command.length === 0) {
+		if (typeof command !== 'string' || command.length === 0) {
 			command = 'command:name'
 		}
 
-		if (name.isNil) {
+		if (typeof name !== 'string') {
 			throw new AbortError('A class name must be provided if `--command` isn’t used.')
 		}
 

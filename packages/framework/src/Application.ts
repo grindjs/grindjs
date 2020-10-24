@@ -1,6 +1,7 @@
+import { EventEmitter } from 'events'
+
 import { Config } from './Config'
 import { ErrorHandler } from './ErrorHandler'
-import { EventEmitter } from 'events'
 import { Kernel } from './Kernel'
 import { Paths } from './Paths'
 import { Provider } from './Provider'
@@ -20,6 +21,8 @@ export class Application extends EventEmitter {
 	providers: ProviderCollection
 	kernel: Kernel
 	debug: boolean
+
+	cli?: import('@grindjs/cli').Cli
 
 	/**
 	 * Create an instance of the Grind Application

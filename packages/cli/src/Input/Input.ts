@@ -1,19 +1,19 @@
-import './InputArgument'
-import './InputOption'
+import { InputArgument } from './InputArgument'
+import { InputOption } from './InputOption'
 
 export class Input {
-	arguments = []
-	options = []
+	arguments: InputArgument[] = []
+	options: InputOption[] = []
 
-	constructor(rawArgs) {
-		const length = rawArgs.length
+	constructor(rawArgs: string[]) {
+		const { length } = rawArgs
 
 		for (let i = 0; i < length; i++) {
 			const argument = rawArgs[i]
 
 			if (!argument.startsWith('-')) {
 				this.arguments.push(
-					new InputArgument(new String(i), InputArgument.VALUE_OPTIONAL, null, argument),
+					new InputArgument(i.toString(), InputArgument.VALUE_OPTIONAL, null, argument),
 				)
 				continue
 			}
@@ -32,7 +32,7 @@ export class Input {
 		}
 	}
 
-	hasParameterOption(name) {
+	hasParameterOption(name: string) {
 		return this.options.findIndex(option => option.name === name) >= 0
 	}
 }

@@ -1,9 +1,7 @@
-import './InvocationError'
+import { InvocationError } from './InvocationError'
 
 export class InvalidOptionValueError extends InvocationError {
-	constructor(value) {
+	constructor(public value: string) {
 		super(`Invalid option value: ${value}`)
-
-		this.value = value
 	}
 }

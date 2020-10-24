@@ -1,15 +1,17 @@
-import '../Command'
-import '../Input/InputOption'
-import '../Input/InputArgument'
+import Application from '@grindjs/framework/src'
+
+import { Cli } from '../Cli'
+import { Command } from '../Command'
+import { InputArgument } from '../Input/InputArgument'
+import { InputOption } from '../Input/InputOption'
+
+type HelpTuple = [string, string | null | undefined, string | null | undefined]
 
 export class HelpCommand extends Command {
-	command = null
 	options = [new InputOption('h', InputOption.VALUE_OPTIONAL)]
 
-	constructor(app, cli, command) {
+	constructor(app: Application, cli: Cli, public command: Command) {
 		super(app, cli)
-
-		this.command = command
 	}
 
 	run() {
@@ -36,7 +38,10 @@ export class HelpCommand extends Command {
 		this.line('<groupTitle>Usage:</groupTitle>')
 		this.line(usage)
 
-		const groups = {}
+		const groups: {
+			Arguments?: HelpTuple[]
+			Options?: HelpTuple[]
+		} = {}
 		let maxNameLength = 10
 
 		if (args.length > 0) {
@@ -67,15 +72,15 @@ export class HelpCommand extends Command {
 			this.line('')
 			this.line(`<groupTitle>${title}:</groupTitle>`)
 
-			for (const info of infos) {
+			for (const info of infos ?? []) {
 				let line = `<groupItem>${info[0].padEnd(maxNameLength, ' ')}</groupItem>`
-				const hasHelp = !info[1].isNil && info[1].length > 0
+				const hasHelp = typeof info[1] === 'string' && info[1].length > 0
 
 				if (hasHelp) {
 					line += `<groupItemHelp>${info[1]}</groupItemHelp>`
 				}
 
-				if (!info[2].isNil && info[2].length > 0) {
+				if (typeof info[2] === 'string' && info[2].length > 0) {
 					if (hasHelp) {
 						line += ' '
 					}
@@ -87,7 +92,7 @@ export class HelpCommand extends Command {
 			}
 		}
 
-		if (!this.command.description.isNil) {
+		if (typeof this.command.description === 'string') {
 			this.line('')
 			this.line('<groupTitle>Help:</groupTitle>')
 			this.line(`  <groupItemHelp>${this.command.description}</groupItemHelp>`)

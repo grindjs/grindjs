@@ -1,9 +1,7 @@
-import './InvocationError'
+import { InvocationError } from './InvocationError'
 
 export class MissingOptionError extends InvocationError {
-	constructor(option) {
+	constructor(public option: string) {
 		super(`Missing option: ${option}`)
-
-		this.option = option
 	}
 }

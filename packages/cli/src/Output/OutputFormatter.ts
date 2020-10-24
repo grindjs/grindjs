@@ -1,15 +1,12 @@
 //  Adopted from Symfony: https://github.com/symfony/console/blob/40b3aca/Formatter/OutputFormatter.php
 
-import './OutputFormatterStyle'
+import { OutputFormatterStyle } from './OutputFormatterStyle'
 
 export class OutputFormatter {
-	decorated = null
-	styles = {}
-	styleStack = []
+	styles: Record<string, OutputFormatterStyle> = {}
+	styleStack: OutputFormatterStyle[] = []
 
-	constructor(decorated = true, styles = {}) {
-		this.decorated = decorated
-
+	constructor(public decorated = true, styles: Record<string, OutputFormatterStyle> = {}) {
 		this.setStyle('error', new OutputFormatterStyle('white', 'red'))
 		this.setStyle('info', new OutputFormatterStyle())
 		this.setStyle('comment', new OutputFormatterStyle('blue'))
@@ -32,28 +29,28 @@ export class OutputFormatter {
 		this.setStyle('groupItemHelp', new OutputFormatterStyle())
 		this.setStyle('groupItemValue', new OutputFormatterStyle('yellow'))
 
-		for (const [name, style] in Object.entries(styles)) {
+		for (const [name, style] of Object.entries(styles)) {
 			this.setStyle(name, style)
 		}
 	}
 
-	static escapeText(text) {
+	static escapeText(text: string): string {
 		return text.replace(/([^\\\\]?)</, '$1\\<')
 	}
 
-	setStyle(name, style) {
+	setStyle(name: string, style: OutputFormatterStyle) {
 		this.styles[name] = style
 	}
 
-	hasStyle(name) {
+	hasStyle(name: string): boolean {
 		return !!this.styles[name]
 	}
 
-	getStyle(name) {
+	getStyle(name: string): OutputFormatterStyle | undefined | null {
 		return this.styles[name]
 	}
 
-	format(message) {
+	format(message: any): string {
 		message = message.toString()
 
 		let offset = 0
@@ -62,7 +59,7 @@ export class OutputFormatter {
 
 		message.replace(
 			new RegExp(`<((${tagRegex})|/(${tagRegex})?)>`, 'ig'),
-			($0, $1, $2, $3, index) => {
+			($0: string, $1: string, $2: string, $3: string, index: number) => {
 				if (index !== 0 && message[index - 1] === '\\') {
 					return
 				}
@@ -94,7 +91,7 @@ export class OutputFormatter {
 				} else if (open) {
 					this.styleStack.push(style)
 				} else {
-					this.styleStack.pop(style)
+					this.styleStack.pop()
 				}
 			},
 		)
@@ -103,11 +100,11 @@ export class OutputFormatter {
 		return output.replace(/\\</g, '<')
 	}
 
-	_createStyleFromString(string) {
+	_createStyleFromString(string: string): OutputFormatterStyle | undefined | null {
 		return this.styles[string]
 	}
 
-	_applyCurrentStyle(text) {
+	_applyCurrentStyle(text: string): string {
 		if (this.styleStack.length === 0) {
 			return text
 		}
@@ -115,7 +112,7 @@ export class OutputFormatter {
 		return this._applyStyle(text, this.styleStack[this.styleStack.length - 1])
 	}
 
-	_applyStyle(text, style) {
+	_applyStyle(text: string, style: OutputFormatterStyle): string {
 		if (this.decorated && text.length > 0) {
 			return style.apply(text)
 		}

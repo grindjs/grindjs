@@ -26,12 +26,13 @@
     "test": "ava"
   },
   "dependencies": {
-    "as-type": "^1.0.0",
+    "as-type": "^2.0.0",
     "chalk": "^4.0.0",
     "later": "^1.2.0"
   },
   "devDependencies": {
-    "@grindjs/framework": "^0.8.0"
+    "@grindjs/framework": "^0.8.0",
+    "@types/later": "^1.2.6"
   },
   "peerDependencies": {
     "@grindjs/framework": "^0.8.0-beta.1"

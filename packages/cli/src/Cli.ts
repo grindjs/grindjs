@@ -1,24 +1,22 @@
-import './Commands/HelpCommand'
-import './Commands/ListCommand'
-import './Commands/ScheduleRunCommand'
-import './Commands/TinkerCommand'
+import { Application } from '@grindjs/framework'
 
-import './Errors/CommandNotFoundError'
-import './Input/Input'
-import './Output/Output'
-import './Scheduler'
+import { Command } from './Command'
+import { HelpCommand } from './Commands/HelpCommand'
+import { ListCommand } from './Commands/ListCommand'
+import { ScheduleRunCommand } from './Commands/ScheduleRunCommand'
+import { TinkerCommand } from './Commands/TinkerCommand'
+import { CommandNotFoundError } from './Errors/CommandNotFoundError'
+import { Input } from './Input/Input'
+import { Output } from './Output/Output'
+import { Scheduler } from './Scheduler'
+import { SchedulerJobClosure } from './SchedulerJob'
 
 export class Cli {
-	app = null
-	commands = []
-	output = null
-	scheduler = null
+	commands: Command[] = []
+	output = new Output(this)
+	scheduler = new Scheduler(this)
 
-	constructor(app) {
-		this.app = app
-		this.output = new Output(this)
-		this.scheduler = new Scheduler(this)
-
+	constructor(public app: Application) {
 		this.register(ScheduleRunCommand)
 		this.register(TinkerCommand)
 	}
@@ -36,21 +34,21 @@ export class Cli {
 			})
 	}
 
-	async execute(args) {
+	async execute(args: string[]) {
 		const input = new Input(args)
 		const name = (input.arguments[0] || {}).value
 		this.output.formatter.decorated = !input.hasParameterOption('no-ansi')
 
-		let command = null
+		let command: Command | null | undefined = null
 		let defaultCommand = false
 
-		if (name.isNil) {
+		if (typeof name !== 'string') {
 			command = new ListCommand(this.app, this)
 			defaultCommand = true
 		} else {
 			command = this.find(name)
 
-			if (command.isNil) {
+			if (!command) {
 				if (name !== 'help') {
 					throw new CommandNotFoundError(name)
 				}
@@ -72,7 +70,7 @@ export class Cli {
 		return run.execute(input)
 	}
 
-	find(name) {
+	find(name: string): Command | null | undefined {
 		for (const command of this.commands) {
 			if (command.name === name) {
 				return command
@@ -82,10 +80,10 @@ export class Cli {
 		return null
 	}
 
-	register(...commands) {
+	register(...commands: (typeof Command | Command)[]) {
 		if (commands.length === 1) {
 			if (Array.isArray(commands[0])) {
-				commands = commands[0]
+				commands = commands[0] as any
 			}
 		}
 
@@ -98,7 +96,7 @@ export class Cli {
 		}
 	}
 
-	schedule(value, ...args) {
+	schedule(value: typeof Command | string | SchedulerJobClosure, ...args: any[]) {
 		if (args.length > 0 && Array.isArray(args[0])) {
 			args = args[0]
 		}

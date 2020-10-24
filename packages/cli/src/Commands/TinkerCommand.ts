@@ -1,33 +1,34 @@
-import '../Command'
-const repl = require('repl')
+import repl, { REPLEval, REPLServer } from 'repl'
+
+import { Command } from '../Command'
 
 export class TinkerCommand extends Command {
 	name = 'tinker'
 	description = 'Starts a REPL within the context of your app'
 
 	run() {
-		return new Promise(resolve => {
+		return new Promise<void>(resolve => {
 			const r = repl.start({
 				prompt: '> ',
 			})
 
 			this._setup(r)
-			r.eval = this._asyncEval(r)
+			;(r as any).eval = this._asyncEval(r)
 
-			r.on('reset', r => this._setup(r))
-			r.on('exit', resolve)
+			r.on('reset', (r: REPLServer) => this._setup(r))
+			r.on('exit', () => resolve())
 		})
 	}
 
-	_setup(r) {
+	_setup(r: REPLServer) {
 		r.context.app = this.app
 	}
 
-	_asyncEval(r) {
+	_asyncEval(r: REPLServer): REPLEval {
 		const _eval = r.eval
 		return (cmd, context, filename, callback) => {
 			_eval.call(r, cmd, context, filename, async (err, result) => {
-				if (!err.isNil) {
+				if (err) {
 					return callback(err, result)
 				}
 

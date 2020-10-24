@@ -1,4 +1,4 @@
-import '../Command'
+import { Command } from '../Command'
 
 export class ScheduleRunCommand extends Command {
 	name = 'schedule:run'
