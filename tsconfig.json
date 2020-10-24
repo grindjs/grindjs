@@ -1,13 +1,19 @@
 {
-  "extends": "./tsconfig.build.json",
-
   "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
+    "outDir": "lib",
+    "target": "es2018",
+    "forceConsistentCasingInFileNames": true,
+    "types": ["node"],
     "baseUrl": ".",
     "paths": {
       "@grindjs/*": ["packages/*/src", "meta/*/src"]
-    },
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "types": ["node"]
-  }
+    }
+  },
+
+  "exclude": ["node_modules", "dist"]
 }
