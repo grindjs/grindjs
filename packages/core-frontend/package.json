@@ -6,11 +6,11 @@
     "grindjs",
     "grind-framework"
   ],
-  "homepage": "https://github.com/grindjs/grindjs/tree/master/meta/core-frontend#readme",
+  "homepage": "https://github.com/grindjs/grindjs/tree/master/packages/core-frontend#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/grindjs/grindjs.git",
-    "directory": "meta/core-frontend"
+    "directory": "packages/core-frontend"
   },
   "license": "MIT",
   "author": {

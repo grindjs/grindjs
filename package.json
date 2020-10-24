@@ -15,7 +15,6 @@
   "author": "Shaun Harrison (@shnhrrsn)",
   "workspaces": [
     "packages/*",
-    "meta/*",
     "starters/*",
     "site"
   ],

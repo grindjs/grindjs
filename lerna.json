@@ -10,7 +10,7 @@
       "ignoreChanges": ["*.md", "*.markdown", "starters/", "site/"]
     }
   },
-  "packages": ["packages/*", "meta/*", "starters/*", "site"],
+  "packages": ["packages/*", "starters/*", "site"],
   "useWorkspaces": true,
   "npmClient": "yarn",
   "npmClientArgs": ["--no-lockfile"]
