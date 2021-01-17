@@ -1,9 +1,28 @@
-export function ConfigBuilder(store, app, returnStoreName = false) {
+import { Application } from '@grindjs/framework'
+import { StoreConfig } from 'cache-manager'
+
+import * as DatabaseStore from './DatabaseStore'
+
+export interface Config extends Record<string, any> {
+	driver?: string
+	path?: string
+	connection?: string | Record<string, any> | null
+	flat?: boolean
+}
+
+export interface ConfigBuilderType {
+	(store: Config | string | null | undefined, app: Application, returnStoreName?: boolean):
+		| StoreConfig
+		| null
+		| undefined
+}
+
+const ConfigBuilder: ConfigBuilderType = function (store, app, returnStoreName = false) {
 	if (typeof store === 'string') {
-		store = app.config.get(`cache.stores.${store}`)
+		store = app.config.get(`cache.stores.${store}`) as Config | undefined
 	}
 
-	if (store.isNil) {
+	if (store === null || store === undefined) {
 		return null
 	} else {
 		store = { ...store }
@@ -12,31 +31,33 @@ export function ConfigBuilder(store, app, returnStoreName = false) {
 	const driver = expandDriverAlias(store.driver || null)
 	delete store.driver
 
-	const result = {
+	const result: Partial<StoreConfig> = {
 		options: { ...expandStoreConfig(app, driver, store) },
 	}
 
 	if (result.options.flat === true) {
 		Object.assign(result, result.options)
 		delete result.options
-		delete result.flat
+		delete (result as any).flat
 	}
 
 	if (returnStoreName) {
-		result.store = driver
+		result.store = driver as any
 	} else if (driver === 'database') {
-		result.store = require('./DatabaseStore')
-	} else if (driver.isNil) {
+		result.store = DatabaseStore
+	} else if (driver === null || driver === undefined) {
 		result.store = 'memory'
 	} else {
 		result.store = require(driver)
 	}
 
-	return result
+	return result as StoreConfig
 }
 
-export function expandDriverAlias(alias) {
-	if (alias.isNil) {
+export { ConfigBuilder }
+
+export function expandDriverAlias(alias: string | null | undefined): string | null {
+	if (typeof alias !== 'string') {
 		return null
 	}
 
@@ -71,7 +92,7 @@ export function expandDriverAlias(alias) {
 	}
 }
 
-export function expandStoreConfig(app, driver, config) {
+export function expandStoreConfig(app: Application, driver: string | null, config: Config) {
 	switch (driver) {
 		case 'cache-manager-redis':
 			return expandRedisStoreConfig(app, driver, config)
@@ -79,15 +100,15 @@ export function expandStoreConfig(app, driver, config) {
 			return expandDatabaseStoreConfig(app, driver, config)
 	}
 
-	if (!config.path.isNil) {
+	if (typeof config.path === 'string') {
 		config.path = app.paths.base(config.path)
 	}
 
 	return config
 }
 
-function expandRedisStoreConfig(app, driver, config) {
-	if (config.connection === void 0) {
+function expandRedisStoreConfig(app: Application, driver: string | null, config: Config) {
+	if (config.connection === undefined) {
 		return config
 	}
 
@@ -95,14 +116,14 @@ function expandRedisStoreConfig(app, driver, config) {
 	delete config.connection
 
 	if (connection === null) {
-		connection = app.config.get('redis.default', null)
+		connection = app.config.get('redis.default', null) as string | null
 	}
 
 	if (typeof connection === 'string') {
-		connection = app.config.get(`redis.connections.${connection}`)
+		connection = app.config.get(`redis.connections.${connection}`) as Record<string, any> | null
 	}
 
-	if (connection.isNil) {
+	if (connection === null || connection === undefined) {
 		return config
 	}
 
@@ -125,8 +146,8 @@ function expandRedisStoreConfig(app, driver, config) {
 	return config
 }
 
-function expandDatabaseStoreConfig(app, driver, config) {
-	if (config.connection === void 0) {
+function expandDatabaseStoreConfig(app: Application, driver: string | null, config: Config) {
+	if (config.connection === undefined) {
 		return config
 	}
 
@@ -134,10 +155,10 @@ function expandDatabaseStoreConfig(app, driver, config) {
 	delete config.connection
 
 	if (connection === null) {
-		connection = app.db
+		connection = (app as any).db
 	} else {
 		if (typeof connection === 'string') {
-			connection = app.config.get(`database.connections.${connection}`)
+			connection = app.config.get(`database.connections.${connection}`) as any
 		}
 
 		if (typeof connection === 'object') {
@@ -148,7 +169,7 @@ function expandDatabaseStoreConfig(app, driver, config) {
 		}
 	}
 
-	if (connection.isNil) {
+	if (connection === null || connection === undefined) {
 		return config
 	}
 

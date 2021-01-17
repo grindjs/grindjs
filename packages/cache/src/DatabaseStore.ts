@@ -1,27 +1,43 @@
-class DatabaseStore {
-	db = null
-	name = 'database'
-	table = null
-	ttl = null
-	usePromises = true
+import { Store } from 'cache-manager'
 
-	constructor(options) {
+// NOTE: Not implementing Store as the typings are useless
+
+type CallbackParam = ((error: Error, result?: any) => void) | undefined
+
+class DatabaseStore {
+	db: import('knex')
+	name = 'database'
+	table: string
+	usePromises = true
+	_ttl: number
+
+	constructor(options: {
+		connection: import('knex')
+		table?: string
+		ttl?: number
+		noPromises?: boolean
+	}) {
 		this.db = options.connection
 		this.table = options.table || 'cache'
-		this.ttl = options.ttl || 60
+		this._ttl = options.ttl || 60
 		this.usePromises = options.noPromises !== true
 	}
 
-	set(key, value, options, callback) {
+	set(
+		key: string,
+		value: any,
+		options?: CallbackParam | Record<string, any>,
+		callback?: CallbackParam,
+	) {
 		if (typeof options === 'function') {
-			callback = options
-			options = {}
+			callback = options as any
+			options = undefined
 		}
 
 		options = options || {}
 		value = JSON.stringify(value) || null
 
-		const expires = new Date(Date.now() + (options.ttl || this.ttl) * 1000)
+		const expires = new Date(Date.now() + (options.ttl || this._ttl) * 1000)
 		const values = { key, value, expires_at: expires }
 
 		return this._wrapPromise(
@@ -32,9 +48,10 @@ class DatabaseStore {
 		)
 	}
 
-	get(key, options, callback) {
+	get(key: string, options?: Record<string, any> | CallbackParam, callback?: CallbackParam) {
 		if (typeof options === 'function') {
-			callback = options
+			callback = options as any
+			options = undefined
 		}
 
 		return this._wrapPromise(
@@ -49,14 +66,14 @@ class DatabaseStore {
 
 					if (value.expires_at < Date.now()) {
 						return this.del(key)
-							.catch(() => null)
+							?.catch(() => null)
 							.then(() => null)
 					}
 
 					value = JSON.parse(value.value)
 
 					if (typeof value.type === 'string' && value.type === 'Buffer') {
-						return new Buffer(value.data)
+						return Buffer.from(value.data)
 					}
 
 					return value
@@ -64,19 +81,20 @@ class DatabaseStore {
 		)
 	}
 
-	del(key, options, callback) {
+	del(key: string, options?: CallbackParam | Record<string, any>, callback?: CallbackParam) {
 		if (typeof options === 'function') {
-			callback = options
+			callback = options as CallbackParam
+			options = undefined
 		}
 
 		return this._wrapPromise(callback, this.db(this.table).where({ key }).delete())
 	}
 
-	reset(callback) {
+	reset(callback?: CallbackParam) {
 		return this._wrapPromise(callback, this.db(this.table).delete())
 	}
 
-	keys(callback) {
+	keys(callback?: CallbackParam) {
 		return this._wrapPromise(
 			callback,
 			this.db(this.table)
@@ -85,17 +103,17 @@ class DatabaseStore {
 		)
 	}
 
-	_wrapPromise(callback, promise) {
+	_wrapPromise(callback: CallbackParam, promise: Promise<any>): Promise<any> | undefined {
 		return promise
 			.then(value => {
-				if (callback.isNil) {
+				if (typeof callback !== 'function') {
 					return value
 				}
 
 				process.nextTick(callback.bind(null, null, value))
 			})
 			.catch(err => {
-				if (callback.isNil) {
+				if (typeof callback !== 'function') {
 					throw err
 				}
 
@@ -103,11 +121,9 @@ class DatabaseStore {
 			})
 	}
 
-	static create(options) {
-		return new this(options.options)
+	static create(...args: any[]): Store {
+		return new this(args[0].options) as Store
 	}
 }
 
-module.exports = {
-	create: DatabaseStore.create.bind(DatabaseStore),
-}
+export const create = DatabaseStore.create.bind(DatabaseStore)

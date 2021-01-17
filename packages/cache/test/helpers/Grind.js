@@ -1,6 +1,6 @@
-import { Application, Paths as BasePaths, Kernel } from '@grindjs/framework'
-
 import path from 'path'
+
+import { Application, Paths as BasePaths, Kernel } from '@grindjs/framework'
 
 class Paths extends BasePaths {
 	constructor() {

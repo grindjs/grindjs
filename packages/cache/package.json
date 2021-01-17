@@ -33,6 +33,7 @@
     "@grindjs/cli": "^0.8.0",
     "@grindjs/db": "^0.8.0",
     "@grindjs/framework": "^0.8.0",
+    "@types/cache-manager": "^2.10.3",
     "sqlite3": "^4.1.1"
   },
   "peerDependencies": {
