@@ -5,7 +5,7 @@ export class ViewClearCommand extends Command {
 	description = 'Clears precompiled view cache'
 
 	async run() {
-		await this.app.view.engine.clearCache()
+		await this.app.view?.engine.clearCache()
 
 		Log.success('Done')
 	}

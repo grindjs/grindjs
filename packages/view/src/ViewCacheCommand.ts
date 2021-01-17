@@ -5,7 +5,7 @@ export class ViewCacheCommand extends Command {
 	description = 'Precompiles and caches all views'
 
 	async run() {
-		await this.app.view.engine.writeCache()
+		await this.app.view?.engine.writeCache()
 
 		Log.success('Done')
 	}

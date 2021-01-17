@@ -1,35 +1,27 @@
-/* eslint-disable no-unused-vars */
+import { Application } from '@grindjs/framework'
+
+import { ViewFactory } from './ViewFactory'
 
 export class ViewEngine {
-	app = null
-	view = null
+	constructor(public app: Application, public view: ViewFactory) {}
 
-	constructor(app, view) {
-		this.app = app
-		this.view = view
-	}
-
-	bootstrap() {
+	bootstrap(): Promise<void> {
 		return Promise.resolve()
 	}
 
-	shutdown() {
+	shutdown(): Promise<void> {
 		return Promise.resolve()
 	}
 
-	share(name, value) {
+	share(name: string, value: any) {
 		throw new Error('Subclasses must implement.')
 	}
 
-	filter(name, callback) {
-		throw new Error('This engine does not support filters.')
-	}
-
-	extend(name, extension) {
+	extend(name: string, extension: string) {
 		throw new Error('Subclasses must implement.')
 	}
 
-	render(name, context) {
+	render(name: string, context: any) {
 		throw new Error('Subclasses must implement.')
 	}
 
@@ -41,11 +33,11 @@ export class ViewEngine {
 		throw new Error('Subclasses must implement.')
 	}
 
-	toHtmlString(html) {
+	toHtmlString(html: any): any {
 		throw new Error('Subclasses must implement.')
 	}
 
-	isHtmlString(html) {
+	isHtmlString(html: any): boolean {
 		throw new Error('Subclasses must implement.')
 	}
 }
