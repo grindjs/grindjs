@@ -1,5 +1,6 @@
-import chalk from 'chalk'
 import path from 'path'
+
+import chalk from 'chalk'
 
 /**
  * Watcher wraps chokidar and clears require.cache
@@ -49,7 +50,7 @@ export class Watcher {
 	async watch() {
 		const watcher = await import('chokidar').then(chokidar => chokidar.watch(this.paths))
 
-		await new Promise((resolve, reject) => {
+		await new Promise<void>((resolve, reject) => {
 			watcher.on('ready', (err: Error) => {
 				if (err) {
 					return reject(err)
