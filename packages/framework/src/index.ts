@@ -11,6 +11,7 @@ export { Kernel } from './Kernel'
 export * from './Errors'
 export { MissingPackageError } from './Errors/MissingPackageError'
 export { Paths } from './Paths'
+export { Provider } from './Provider'
 
 if (global.Log === undefined || global.Log === null) {
 	global.Log = Log
