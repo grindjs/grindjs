@@ -1,4 +1,4 @@
-import cast from 'as-type'
+import * as cast from 'as-type'
 
 export type VALUE_MODE = 'none' | 'required' | 'optional'
 const VALUE_NONE: VALUE_MODE = 'none'
