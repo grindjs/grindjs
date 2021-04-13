@@ -1,6 +1,6 @@
 {
   "name": "grind-assets",
-  "version": "0.8.0",
+  "version": "0.8.4",
   "description": "Asset management for Grind",
   "keywords": [
     "grindjs",
@@ -50,7 +50,7 @@
     "clean-css": "^4.2.3",
     "fetchit": "^2.1.0",
     "grind-cli": "^0.8.0",
-    "grind-http": "^0.8.0",
+    "grind-http": "^0.8.4",
     "node-sass": "^4.13.1",
     "rimraf": "^3.0.2",
     "rollup": "^2.23.0",

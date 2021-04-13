@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.4](https://github.com/grindjs/grindjs/compare/v0.8.3...v0.8.4) (2021-04-13)
+
+### Features
+
+- **grind-http:** typescript files can now be loaded by the router ([9f5c648](https://github.com/grindjs/grindjs/commit/9f5c648b9e272319770932b08f5cc1e295c128a8))
+
 ## [0.8.3](https://github.com/grindjs/grindjs/compare/v0.8.2...v0.8.3) (2021-04-13)
 
 ### Bug Fixes
