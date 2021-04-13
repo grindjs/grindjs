@@ -4,16 +4,16 @@
 const path = require('path')
 const { existsSync } = require('fs')
 const appRoot = process.cwd()
+const bootDir = 'boot'
 
 if (!existsSync(path.join(appRoot, 'package.json'))) {
 	process.stderr.write('Could not find root path.\n')
 	process.exit(1)
-} else if (!existsSync(path.join(appRoot, 'boot'))) {
+} else if (!existsSync(path.join(appRoot, bootDir))) {
 	process.stderr.write('Could not find boot directory.\n')
 	process.exit(1)
 }
 
-const bootDir = 'boot'
 const hasHttp = existsSync(path.join(appRoot, bootDir, 'Http.js'))
 const command = process.argv[2]
 let bootFile = null
