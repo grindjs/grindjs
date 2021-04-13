@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.3](https://github.com/grindjs/grindjs/compare/v0.8.2...v0.8.3) (2021-04-13)
+
+### Bug Fixes
+
+- **grind-scripts:** hardcoded boot dir ([3374fa3](https://github.com/grindjs/grindjs/commit/3374fa3501157f036a9006df77dd3575fb6e45a3))
+
+### Features
+
+- **grind-toolkit:** allow toolkit to recognize Bootstrap.ts ([8aa2438](https://github.com/grindjs/grindjs/commit/8aa243831c705ee3f576f2a54aa11b5a131ed2d3))
+
 ## [0.8.2](https://github.com/grindjs/grindjs/compare/v0.8.1...v0.8.2) (2020-09-22)
 
 **Note:** Version bump only for package grindjs

@@ -1,6 +1,6 @@
 {
   "name": "grind-toolkit",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "CLI Toolkit for Grind",
   "keywords": [
     "grindjs",
@@ -30,7 +30,7 @@
     "fetchit": "^2.1.0",
     "grind-cli": "^0.8.0",
     "grind-framework": "^0.8.0",
-    "grind-scripts": "^0.8.2",
+    "grind-scripts": "^0.8.3",
     "grind-stone": "^0.8.0",
     "grind-view": "^0.8.0"
   },
