@@ -1,15 +1,14 @@
 /* eslint-disable max-lines */
-import { MissingPackageError } from 'grind-framework'
 
 import './ResourceRouteBuilder'
 import './RouteLayer'
-
 import '../Errors/RoutesLoadError'
-
 import '../Middleware/CompressionMiddlewareBuilder'
 import '../Middleware/CookieMiddlewareBuilder'
 import '../Middleware/MethodOverrideMiddlewareBuilder'
 import '../Middleware/SessionMiddlewareBuilder'
+
+import { MissingPackageError } from 'grind-framework'
 
 const fs = require('fs')
 const path = require('path')
@@ -190,7 +189,7 @@ export class Router {
 			files.push(
 				...fs
 					.readdirSync(pathname)
-					.filter(file => path.extname(file) === '.js')
+					.filter(file => ['.js', '.ts'].includes(path.extname(file)))
 					.map(file => path.resolve(pathname, file)),
 			)
 		} else {
@@ -198,7 +197,7 @@ export class Router {
 		}
 
 		const loaders = files.map(file => {
-			let name = path.basename(file, '.js')
+			let name = path.basename(file, path.extname(file))
 
 			if (name === 'index') {
 				name = path.basename(path.dirname(file))
