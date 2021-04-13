@@ -1,6 +1,7 @@
 import { Paths as BasePaths } from 'grind-framework'
 
 const path = require('path')
+const { existsSync } = require('fs')
 
 export class Paths extends BasePaths {
 	_project = null
@@ -14,7 +15,13 @@ export class Paths extends BasePaths {
 		this._project = process.cwd()
 		this._packages = path.join(this._project, 'node_modules')
 		this._packageInfo = path.join(this._project, 'package.json')
-		this._bootstrap = path.join(this._project, 'app/Bootstrap.js')
+
+		const app = path.join(this._project, 'app')
+		if (existsSync(path.join(app, 'Bootstrap.ts'))) {
+			this._bootstrap = path.join(app, 'Bootstrap.ts')
+		} else {
+			this._bootstrap = path.join(app, 'Bootstrap.js')
+		}
 	}
 
 	project(...args) {
