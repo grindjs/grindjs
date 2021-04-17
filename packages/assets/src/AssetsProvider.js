@@ -24,11 +24,15 @@ function expandMacros(config, macros) {
 		let value = config[key]
 
 		if (typeof value === 'string' && nodeModuleMacroPattern.test(value)) {
-			value = value.replace(nodeModuleMacroPattern, (_, name) => {
-				return path.dirname(require.resolve(`${name}/package.json`))
-			})
+			try {
+				value = value.replace(nodeModuleMacroPattern, (_, name) => {
+					return path.dirname(require.resolve(`${name}/package.json`))
+				})
 
-			config[key] = value
+				config[key] = value
+			} catch (error) {
+				Log.warn(`WARNING: Could not resolve ${value}`)
+			}
 		}
 
 		if (typeof value === 'object' && value !== null) {
