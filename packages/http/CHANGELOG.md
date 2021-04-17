@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.5](https://github.com/grindjs/grindjs/compare/v0.8.4...v0.8.5) (2021-04-17)
+
+### Bug Fixes
+
+- **grind-http:** fixed bug when using db session store ([5ea7786](https://github.com/grindjs/grindjs/commit/5ea7786159b7294a99bb16969cc98169e0d6174d))
+
 ## [0.8.4](https://github.com/grindjs/grindjs/compare/v0.8.3...v0.8.4) (2021-04-13)
 
 ### Features

@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.5](https://github.com/grindjs/grindjs/compare/v0.8.4...v0.8.5) (2021-04-17)
+
+**Note:** Version bump only for package grind-example-react
+
 ## [0.8.4](https://github.com/grindjs/grindjs/compare/v0.8.3...v0.8.4) (2021-04-13)
 
 **Note:** Version bump only for package grind-example-react

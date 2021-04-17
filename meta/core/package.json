@@ -1,6 +1,6 @@
 {
   "name": "grind-core",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "description": "Proxy package to provide core Grind dependencies",
   "keywords": [
     "grindjs",
@@ -21,6 +21,6 @@
     "grind-cache": "^0.8.0",
     "grind-cli": "^0.8.0",
     "grind-framework": "^0.8.0",
-    "grind-http": "^0.8.4"
+    "grind-http": "^0.8.5"
   }
 }

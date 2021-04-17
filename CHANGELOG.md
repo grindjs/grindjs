@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.5](https://github.com/grindjs/grindjs/compare/v0.8.4...v0.8.5) (2021-04-17)
+
+### Bug Fixes
+
+- **grind-assets:** missing scss aliases will no longer prevent booting ([abcb1ac](https://github.com/grindjs/grindjs/commit/abcb1acece2c8608b0dd5da2087179780a3d465b))
+- **grind-http:** fixed bug when using db session store ([5ea7786](https://github.com/grindjs/grindjs/commit/5ea7786159b7294a99bb16969cc98169e0d6174d))
+
 ## [0.8.4](https://github.com/grindjs/grindjs/compare/v0.8.3...v0.8.4) (2021-04-13)
 
 ### Features
