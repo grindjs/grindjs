@@ -131,7 +131,7 @@ function expandRedisStoreConfig(app, driver, config) {
 
 function expandDatabaseStoreConfig(app, driver, config) {
 	if (config.connection === void 0) {
-		return config
+		return { app, ...config }
 	}
 
 	let connection = config.connection
