@@ -1,23 +1,23 @@
-const chalk = require('chalk')
-const cluster = require('cluster')
-const fs = require('fs')
-const path = require('path')
+import cluster from 'cluster'
+import fs from 'fs'
+import http from 'http'
+import path from 'path'
+
+import Application from '@grindjs/framework'
+import chalk from 'chalk'
 
 export class HttpServer {
-	bootstrapper = null
-	pidFile = null
+	pidFile: string | null = null
 
-	constructor(bootstrapper) {
-		this.bootstrapper = bootstrapper
-	}
+	constructor(public bootstrapper: () => Application) {}
 
 	async start() {
-		let clustered = false
+		let clustered: number = 0
 		let watchDirs = null
 
 		for (const arg of process.argv) {
 			if (arg === '--cluster') {
-				clustered = true
+				clustered = -1
 			} else if (arg.startsWith('--cluster=')) {
 				clustered = Number.parseInt(arg.substr(10))
 			} else if (arg.startsWith('--watch=')) {
@@ -35,44 +35,43 @@ export class HttpServer {
 			}
 		}
 
-		if (!this.pidFile.isNil) {
-			// eslint-disable-next-line no-sync,no-empty
+		if (this.pidFile) {
 			try {
-				fs.writeFileSync(this.pidFile, process.pid)
+				fs.writeFileSync(this.pidFile, process.pid.toString())
 			} catch (err) {}
 		}
 
-		if (clustered && !watchDirs.isNil) {
+		if (clustered && watchDirs) {
 			console.log('--watch and --cluster can not be used together')
 			process.exit(1)
 		}
 
-		if (!watchDirs.isNil) {
-			await this.watch(watchDirs)
-		} else if (clustered === false) {
+		if (watchDirs) {
+			await this.watch(...watchDirs)
+		} else if (clustered === 0) {
 			await this.serve()
 		} else {
 			await this.cluster(clustered)
 		}
 	}
 
-	async serve(worker = null) {
+	async serve(worker: cluster.Worker | null = null) {
 		const app = this.bootstrapper()
 		const port = app.port
 
-		const server = await app.start(port, () => {
-			if (!worker.isNil) {
+		const server = ((await app.start(port, () => {
+			if (worker) {
 				process.title = `${process.cwd()} [server:${port}]`
 				console.log(chalk.yellow('Worker %d listening on %d'), worker.id, port)
 			} else {
 				process.title = `${process.cwd()} [cluster] [worker:${port}]`
 				console.log(chalk.yellow('Listening on port %d'), port)
 			}
-		})
+		})) as unknown) as http.Server
 
-		const teardown = exitCode => {
+		const teardown = (exitCode: number) => {
 			const exit = () => {
-				if (!this.pidFile.isNil) {
+				if (this.pidFile) {
 					// eslint-disable-next-line no-sync,no-empty
 					try {
 						fs.unlinkSync(this.pidFile)
@@ -95,22 +94,22 @@ export class HttpServer {
 		return server
 	}
 
-	cluster(workers = null) {
+	cluster(workers: number | null = null) {
 		if (!cluster.isMaster) {
 			return this.serve(cluster.worker)
 		}
 
-		if (!process.env.NODE_CLUSTER.isNil) {
+		if (typeof process.env.NODE_CLUSTER === 'string') {
 			workers = Number.parseInt(process.env.NODE_CLUSTER)
 		}
 
-		if (workers.isNil || Number.isNaN(workers) || workers <= 0) {
+		if (!workers || Number.isNaN(workers) || workers <= 0) {
 			workers = require('os').cpus().length
 		}
 
 		process.title = `${process.cwd()} [cluster] [master]`
 
-		for (let i = 0; i < workers; i += 1) {
+		for (let i = 0; i < workers!; i += 1) {
 			cluster.fork()
 		}
 
@@ -124,8 +123,8 @@ export class HttpServer {
 		})
 	}
 
-	watch(...dirs) {
-		const Watcher = require('./Watcher.js').Watcher
+	async watch(...dirs: string[]) {
+		const { Watcher } = await import('./Watcher')
 		return new Watcher(this, dirs).watch()
 	}
 }

@@ -1,15 +1,24 @@
-const URL = require('url')
-const Path = require('path')
+import path from 'path'
+import URL from 'url'
+
+import { Application } from '@grindjs/framework'
+import { Request } from 'express'
 
 export class UrlGenerator {
-	app = null
-	req = null
-	defaultUrl = null
+	['constructor']: typeof UrlGenerator
 
-	constructor(app, defaultUrl = null) {
-		this.app = app
+	req: Request | null = null
+	defaultUrl: URL.UrlObject
 
-		if (!defaultUrl.isNil) {
+	constructor(
+		public readonly app: Application,
+		defaultUrl: URL.UrlObject | string | undefined | null = null,
+	) {
+		if (typeof defaultUrl === 'string') {
+			defaultUrl = URL.parse(defaultUrl)
+		}
+
+		if (defaultUrl) {
 			this.defaultUrl = defaultUrl
 			return
 		} else if (this.app.port === 443) {
@@ -20,12 +29,12 @@ export class UrlGenerator {
 			defaultUrl = `http://localhost:${this.app.port}`
 		}
 
-		this.defaultUrl = URL.parse(app.config.get('app.url', defaultUrl))
+		this.defaultUrl = URL.parse(app.config.get<string>('app.url', defaultUrl)!)
 
 		if (
-			!this.defaultUrl.path.isNil &&
-			this.defaultUrl.path !== '' &&
-			this.defaultUrl.path !== '/'
+			this.defaultUrl.pathname &&
+			this.defaultUrl.pathname !== '' &&
+			this.defaultUrl.pathname !== '/'
 		) {
 			throw new Error('`app.url` can not contain a path.')
 		}
@@ -39,7 +48,7 @@ export class UrlGenerator {
 	 *
 	 * @return object
 	 */
-	clone(req) {
+	clone(req: Request) {
 		const cloned = new this.constructor(this.app, this.defaultUrl)
 		cloned.req = req
 		return cloned
@@ -54,10 +63,15 @@ export class UrlGenerator {
 	 * @param  {boolean|null} secure Whether or not to force https, null uses default behavior
 	 * @return {string}
 	 */
-	route(name, parameters, req, secure) {
-		const route = this.app.routes.namedRoutes[name]
+	route(
+		name: string,
+		parameters: any = null,
+		req: Request | null = null,
+		secure: boolean | null = null,
+	) {
+		const route = this.app.routes!.namedRoutes[name]
 
-		if (route.isNil) {
+		if (!route) {
 			throw new Error(`Undefined route name: ${name}`)
 		}
 
@@ -116,13 +130,18 @@ export class UrlGenerator {
 	 * @param  {boolean|null} secure Whether or not to force https, null uses default behavior
 	 * @return {string}
 	 */
-	make(url, query, req, secure = null) {
-		if (req === true || req === false) {
+	make(
+		url: string | URL.UrlObject,
+		query: Record<string, string>,
+		req: Request | boolean | null = null,
+		secure: boolean | null = null,
+	): string {
+		if (typeof req === 'boolean') {
 			secure = req
 			req = null
 		}
 
-		if (req.isNil) {
+		if (!req) {
 			req = this.req
 		}
 
@@ -133,7 +152,7 @@ export class UrlGenerator {
 
 			if (url.indexOf('#') >= 0 || url.indexOf('?') >= 0) {
 				url = URL.parse(url, true)
-				delete url.path
+				delete url.pathname
 				delete url.href
 				delete url.search
 			} else {
@@ -141,19 +160,19 @@ export class UrlGenerator {
 			}
 		}
 
-		if (!query.isNil) {
-			if (url.query.isNil) {
+		if (query) {
+			if (!url.query) {
 				url.query = query
 			} else {
-				url.query = { ...url.query, ...query }
+				url.query = { ...(url.query as any), ...query }
 			}
 		}
 
-		url.pathname = `/${Path.normalize(url.pathname || '/').replace(/(^\/|\/+$)/g, '')}`
-		url.protocol = this.getProtocol(req, secure)
+		url.pathname = `/${path.normalize(url.pathname || '/').replace(/(^\/|\/+$)/g, '')}`
+		url.protocol = this.getProtocol(req as Request, secure)
 		url.host = this.getHost(req)
 
-		return this.format(req, url)
+		return this.format(req as Request, url)
 	}
 
 	/**
@@ -164,24 +183,28 @@ export class UrlGenerator {
 	 * @param  {boolean|null} secure Whether or not to force https, null uses default behavior
 	 * @return {string}
 	 */
-	current(query = {}, req, secure = null) {
+	current(
+		query: Record<string, string> = {},
+		req: Request | null,
+		secure: boolean | null = null,
+	) {
 		req = req || this.req
 
-		if (req.isNil) {
+		if (!req) {
 			throw new Error('`current` requires a request object')
 		}
 
 		return this.make(req.originalUrl, query, req, secure)
 	}
 
-	getProtocol(req = null, secure = null) {
+	getProtocol(req: Request | null = null, secure: boolean | null = null) {
 		if (secure === true) {
 			return 'https:'
 		} else if (secure === false) {
 			return 'http:'
 		}
 
-		if (req.isNil) {
+		if (!req) {
 			return this.defaultUrl.protocol || 'http:'
 		}
 
@@ -192,15 +215,15 @@ export class UrlGenerator {
 		return 'http:'
 	}
 
-	getHost(req = null) {
-		if (req.isNil) {
+	getHost(req: Request | null = null) {
+		if (!req) {
 			return this.defaultUrl.host || 'localhost'
 		}
 
 		return req.get('Host')
 	}
 
-	format(req, url) {
+	format(req: Request, url: string | URL.UrlObject) {
 		return URL.format(url)
 	}
 }

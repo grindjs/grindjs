@@ -1,31 +1,34 @@
-import { MissingPackageError } from '@grindjs/framework'
+import http from 'http'
+import { Socket } from 'net'
+import path from 'path'
 
-const chalk = require('chalk')
-const express = require('express/lib/express.js')
-const path = require('path')
+import { MissingPackageError } from '@grindjs/framework'
+import chalk from 'chalk'
+import express from 'express'
+
+type WatcherServer = http.Server & {
+	destroy(callback?: (error?: Error) => void): void
+}
 
 export class Watcher {
-	httpServer = null
-	lastPort = null
-	dirs = null
-	server = null
+	lastPort: number | null = null
+	dirs: string[]
+	server: WatcherServer | null = null
 	restarting = false
 
-	constructor(httpServer, dirs) {
-		this.httpServer = httpServer
-
+	constructor(public httpServer: import('./HttpServer').HttpServer, dirs: string[]) {
 		if (dirs.length === 1 && Array.isArray(dirs[0])) {
-			dirs = dirs[0]
+			this.dirs = dirs[0]
+		} else {
+			this.dirs = dirs
 		}
-
-		this.dirs = dirs
 	}
 
 	async watch() {
 		let chokidar = null
 
 		try {
-			chokidar = require('chokidar')
+			chokidar = await import('chokidar')
 		} catch (err) {
 			throw new MissingPackageError(
 				'chokidar',
@@ -58,7 +61,7 @@ export class Watcher {
 		})
 
 		const teardown = () => {
-			if (this.server.isNil) {
+			if (!this.server) {
 				process.exit(0)
 				return
 			}
@@ -66,7 +69,7 @@ export class Watcher {
 			const exit = () => process.exit(0)
 
 			// Attempt a safe teardown
-			this.server.destroy(exit)
+			this.server?.destroy(exit)
 
 			// After 1s, kill
 			setTimeout(exit, 1000)
@@ -85,7 +88,7 @@ export class Watcher {
 	async restart() {
 		this.restarting = true
 
-		if (!this.server.isNil) {
+		if (this.server) {
 			console.log(chalk.yellow('Restarting'))
 			const oldServer = this.server
 			this.server = null
@@ -98,26 +101,26 @@ export class Watcher {
 	}
 
 	async serve() {
-		let server = null
+		let server: WatcherServer | undefined = undefined
 
 		try {
 			const app = this.httpServer.bootstrapper()
 			const port = app.port
-			this.lastPort = port
+			this.lastPort = port ?? null
 
-			server = await app.start(port, () => {
+			server = (await app.start(port, () => {
 				console.log(chalk.yellow('Listening on port %d'), port)
-			})
+			})) as any
 
-			server.on('close', () => app.shutdown())
+			server?.on('close', () => app.shutdown())
 		} catch (err) {
 			const codeFrame = err.codeFrame
 			delete err.codeFrame
 
 			console.log(chalk.red('Failed to start'), err)
-			this.lastPort = this.lastPort || process.env.NODE_PORT
+			this.lastPort = this.lastPort || Number(process.env.NODE_PORT)
 
-			if (!this.lastPort.isNil) {
+			if (!this.lastPort) {
 				const app = express()
 				app.use((req, res) => {
 					res.header('Content-Type', 'text/plain')
@@ -129,15 +132,15 @@ export class Watcher {
 					}
 				})
 
-				server = await app.listen(this.lastPort)
+				server = (await app.listen(this.lastPort)) as any
 			}
 		}
 
-		if (server.isNil) {
+		if (!server) {
 			return null
 		}
 
-		const connections = {}
+		const connections: Record<string, Socket> = {}
 
 		server.on('connection', connection => {
 			const key = `${connection.remoteAddress}:${connection.remotePort}`
@@ -147,8 +150,8 @@ export class Watcher {
 			})
 		})
 
-		server.destroy = cb => {
-			server.close(cb)
+		server.destroy = (callback?: (error?: Error) => void) => {
+			server!.close(callback)
 
 			for (const key of Object.keys(connections)) {
 				connections[key].destroy()

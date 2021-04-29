@@ -1,8 +1,9 @@
-import '../Session/StoreConfigBuilder'
+import { Application, MissingPackageError } from '@grindjs/framework'
 
-import { MissingPackageError } from '@grindjs/framework'
+import { NextHandleFunction } from '../Routing/Router'
+import { StoreConfigBuilder } from '../Session/StoreConfigBuilder'
 
-export function SessionMiddlewareBuilder(app) {
+export function SessionMiddlewareBuilder(app: Application) {
 	let session = null
 
 	try {
@@ -11,10 +12,10 @@ export function SessionMiddlewareBuilder(app) {
 		throw new MissingPackageError('express-session')
 	}
 
-	const config = { ...app.config.get('session', {}) }
+	const config: Record<string, any> = { ...app.config.get('session', {}) }
 	const storeConfig = StoreConfigBuilder(config.default, app)
 
-	if (storeConfig.isNil) {
+	if (!storeConfig) {
 		throw new Error('Invalid session config')
 	} else if (storeConfig.store !== 'memory') {
 		config.store = new storeConfig.store(storeConfig.options)
@@ -38,12 +39,12 @@ export function SessionMiddlewareBuilder(app) {
 	config.name = config.cookie.name || 'grind-session'
 	delete config.cookie.name
 
-	const middleware = {
+	const middleware: Record<string, NextHandleFunction> = {
 		session: session(config),
 	}
 
 	if (process.env.NODE_ENV === 'test') {
-		middleware.session.__store = config.store
+		;((middleware.session as unknown) as any).__store = config.store
 	}
 
 	if (config.flash !== false) {

@@ -1,6 +1,6 @@
-import { MissingPackageError } from '@grindjs/framework'
+import { Application, MissingPackageError } from '@grindjs/framework'
 
-export function CookieMiddlewareBuilder(app) {
+export function CookieMiddlewareBuilder(app: Application) {
 	let cookieParser = null
 
 	try {
@@ -9,7 +9,7 @@ export function CookieMiddlewareBuilder(app) {
 		throw new MissingPackageError('cookie-parser')
 	}
 
-	const config = { ...app.config.get('cookie', {}) }
+	const config: Record<string, any> = { ...app.config.get('cookie', {}) }
 	const secret = config.secret || null
 	delete config.secret
 

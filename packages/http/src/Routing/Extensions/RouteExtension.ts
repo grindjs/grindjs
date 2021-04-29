@@ -1,5 +1,7 @@
 const Route = require('express/lib/router/route.js')
 
+type NextHandleFunction = import('../Router').NextHandleFunction
+
 export function RouteExtension() {
 	if (Route._grindHasExtended) {
 		return
@@ -7,9 +9,13 @@ export function RouteExtension() {
 
 	Route._grindHasExtended = true
 
-	Route.prototype._addMiddleware = function (source, prepend, ...handlers) {
+	Route.prototype._addMiddleware = function (
+		source: string,
+		prepend: boolean,
+		...handlers: NextHandleFunction[]
+	) {
 		if (handlers.length === 1 && Array.isArray(handlers[0])) {
-			handlers = handlers[0]
+			handlers = handlers[0] as any
 		}
 
 		if (prepend) {
@@ -54,16 +60,38 @@ export function RouteExtension() {
 		return this
 	}
 
-	Route.prototype.before = function (...handlers) {
+	Route.prototype.before = function (...handlers: NextHandleFunction[]) {
 		return this._addMiddleware('before', true, ...handlers)
 	}
 
-	Route.prototype.after = function (...handlers) {
+	Route.prototype.after = function (...handlers: NextHandleFunction[]) {
 		return this._addMiddleware('after', false, ...handlers)
 	}
 
-	Route.prototype.as = function (name) {
+	Route.prototype.as = function (name: string) {
 		this.grindRouter.nameRoute(name, this)
 		return this
+	}
+}
+
+declare module 'express' {
+	interface IRoute {
+		as(name: string): IRoute
+		before(...handlers: NextHandleFunction[]): IRoute
+		after(...handlers: NextHandleFunction[]): IRoute
+		grindRouter: import('../Router').Router
+		context: any
+		routeName?: string
+	}
+}
+
+declare module 'express-serve-static-core' {
+	interface IRoute {
+		as(name: string): IRoute
+		before(...handlers: NextHandleFunction[]): IRoute
+		after(...handlers: NextHandleFunction[]): IRoute
+		grindRouter: import('../Router').Router
+		context: any
+		routeName?: string
 	}
 }

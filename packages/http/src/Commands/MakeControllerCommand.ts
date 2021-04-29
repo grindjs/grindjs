@@ -1,8 +1,8 @@
-import { Command, InputArgument, InputOption } from '@grindjs/cli'
+import path from 'path'
 
-const path = require('path')
+import { InputArgument, InputOption, ToolkitCommand } from '@grindjs/cli'
 
-export class MakeControllerCommand extends Command {
+export class MakeControllerCommand extends ToolkitCommand {
 	name = 'make:controller'
 	description = 'Create a controller class'
 

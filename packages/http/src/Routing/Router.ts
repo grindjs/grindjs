@@ -1,32 +1,113 @@
-/* eslint-disable max-lines */
+import fs from 'fs'
+import path from 'path'
 
-import './ResourceRouteBuilder'
-import './RouteLayer'
-import '../Errors/RoutesLoadError'
-import '../Middleware/CompressionMiddlewareBuilder'
-import '../Middleware/CookieMiddlewareBuilder'
-import '../Middleware/MethodOverrideMiddlewareBuilder'
-import '../Middleware/SessionMiddlewareBuilder'
+import { Application, MissingPackageError } from '@grindjs/framework'
+import express, { IRoute, Request, Response } from 'express'
 
-import { MissingPackageError } from '@grindjs/framework'
+import { Controller } from '../Controller'
+import { RoutesLoadError } from '../Errors/RoutesLoadError'
+import { CompressionMiddlewareBuilder } from '../Middleware/CompressionMiddlewareBuilder'
+import { CookieMiddlewareBuilder } from '../Middleware/CookieMiddlewareBuilder'
+import { MethodOverrideMiddlewareBuilder } from '../Middleware/MethodOverrideMiddlewareBuilder'
+import { SessionMiddlewareBuilder } from '../Middleware/SessionMiddlewareBuilder'
+import { ResourceOptions, ResourceRouteBuilder } from './ResourceRouteBuilder'
+import { RouteLayer } from './RouteLayer'
+import { UpgradeHandler } from './UpgradeDispatcher'
 
-const fs = require('fs')
-const path = require('path')
-const express = require('express/lib/express.js')
+export type NextHandleFunction = (req: Request, res: Response, next: NextHandleFunction) => void
+export type RouterMiddleware = string | NextHandleFunction
+export type RouterMiddlwareCollection = RouterMiddleware | RouterMiddleware[]
+
+export type RouterControllerParam = Controller | (new (app: Application) => Controller)
+
+export type RouterGroupOptions = Partial<{
+	controller: RouterControllerParam
+	before: RouterMiddlwareCollection
+	after: RouterMiddlwareCollection
+	prefix: string
+}>
+
+export type RouterActionFunction = (
+	req: Request,
+	res: Response,
+	next: NextHandleFunction,
+) => void | Promise<void>
+
+export type RouterParamResolver = {
+	(
+		value: any,
+		resolve: (value: any) => void,
+		reject: (error: Error) => void,
+		req: Request,
+		res: Response,
+	): Promise<any> | any
+}
+
+export type RouterAction =
+	| RouterActionFunction
+	| string
+	| {
+			method: string
+			controller?: Controller
+			as?: string
+			before?: RouterMiddleware[]
+			after?: RouterMiddleware[]
+	  }
+
+export type RouterGroupCallback = (routes: Router, controller?: object) => void
+
+export type RouterScope = {
+	prefix: string
+	action: {
+		controller?: Controller
+		before: (string | NextHandleFunction)[]
+		after: (string | NextHandleFunction)[]
+	}
+}
+
+export type RouterMethod =
+	| 'get'
+	| 'post'
+	| 'put'
+	| 'delete'
+	| 'patch'
+	| 'options'
+	| 'head'
+	| 'checkout'
+	| 'copy'
+	| 'lock'
+	| 'merge'
+	| 'mkactivity'
+	| 'mkcol'
+	| 'move'
+	| 'm-search'
+	| 'notify'
+	| 'purge'
+	| 'report'
+	| 'search'
+	| 'subscribe'
+	| 'trace'
+	| 'unlock'
+	| 'unsubscribe'
 
 export class Router {
-	app = null
-	router = null
+	router: express.Router
 
-	bindings = {}
-	patterns = {}
-	namedRoutes = {}
-	upgraders = {}
+	bindings: Record<string, { resolver: RouterParamResolver; context?: any }> = {}
+	patterns: Record<string, string> = {}
+	namedRoutes: Record<string, express.IRoute> = {}
+	upgraders: Record<string, UpgradeHandler> = {}
 
-	bodyParserMiddleware = []
+	bodyParserMiddleware: string[] = []
 
-	middleware = {}
-	middlewareBuilders = {
+	middleware: Record<string, NextHandleFunction> = {}
+	middlewareBuilders: Record<
+		string,
+		(
+			app: Application,
+			router: Router,
+		) => NextHandleFunction | Record<string, NextHandleFunction>
+	> = {
 		'compression': CompressionMiddlewareBuilder,
 		'cookie': CookieMiddlewareBuilder,
 		'method-override': MethodOverrideMiddlewareBuilder,
@@ -35,7 +116,7 @@ export class Router {
 
 	resourceRouteBuilderClass = ResourceRouteBuilder
 
-	_scope = [
+	_scope: RouterScope[] = [
 		{
 			prefix: '/',
 			action: {
@@ -53,12 +134,11 @@ export class Router {
 		return this._scope[this._scope.length - 1].prefix
 	}
 
-	constructor(app) {
-		this.app = app
+	constructor(public app: Application) {
 		this.router = express.Router()
-		this.app.express.use(this.router)
+		this.app.express!.use(this.router)
 
-		this.router.param('__middlewareWorkaround', (req, res, next) => {
+		this.router.param('__middlewareWorkaround', (req, res, next: NextHandleFunction) => {
 			req.route.dispatchMiddleware(req, res, next)
 		})
 	}
@@ -70,12 +150,12 @@ export class Router {
 	}
 
 	setupBodyParsers() {
-		const bodyParsersConfig = this.app.config.get('routing.body_parsers') || {}
+		const bodyParsersConfig: any = this.app.config.get('routing.body_parsers') || {}
 		const parsers = bodyParsersConfig.default || ['json', 'form']
 		const options = bodyParsersConfig.options || {}
 
 		if (!Array.isArray(parsers)) {
-			this.bodyParserMiddleware = parsers.isNil ? [] : [parsers]
+			this.bodyParserMiddleware = !parsers ? [] : [parsers]
 		} else {
 			this.bodyParserMiddleware = parsers
 		}
@@ -86,15 +166,15 @@ export class Router {
 	}
 
 	setupMiddleware() {
-		for (const name of this.app.config.get('routing.middleware', [])) {
-			if (this.middlewareBuilders[name].isNil) {
+		for (const name of this.app.config.get('routing.middleware', []) as string[]) {
+			if (!this.middlewareBuilders[name]) {
 				Log.error(`ERROR: Could not find middleware builder for: ${name}`)
 				continue
 			}
 
 			const middleware = this.middlewareBuilders[name](this.app, this)
 
-			if (middleware.isNil) {
+			if (!middleware) {
 				Log.error(`ERROR: Unable to load middleware for: ${name}`)
 				continue
 			}
@@ -113,13 +193,13 @@ export class Router {
 		}
 	}
 
-	group(options, callback) {
+	group(options: RouterGroupOptions | RouterGroupCallback, callback: RouterGroupCallback) {
 		if (typeof options === 'function') {
-			callback = options
+			callback = options as RouterGroupCallback
 			options = {}
 		}
 
-		if (!options.controller.isNil && typeof options.controller === 'function') {
+		if (options.controller && typeof options.controller === 'function') {
 			options.controller = new options.controller(this.app)
 		}
 
@@ -127,7 +207,7 @@ export class Router {
 		const after = makeArray(options.after)
 
 		const parentAction = this._scopedAction
-		const scope = {
+		const scope: RouterScope = {
 			prefix: path.join(
 				this._scopedPrefix,
 				this._normalizePathComponent(options.prefix || '/'),
@@ -139,7 +219,7 @@ export class Router {
 			},
 		}
 
-		if (!options.controller.isNil) {
+		if (options.controller) {
 			scope.action.controller = options.controller
 		}
 
@@ -150,12 +230,11 @@ export class Router {
 		return this
 	}
 
-	load(pathname) {
-		/* eslint-disable no-sync */
+	load(pathname: string) {
 		if (!path.isAbsolute(pathname)) {
 			const restore = Error.prepareStackTrace
 			Error.prepareStackTrace = (_, stack) => stack
-			const stack = new Error().stack
+			const stack = (new Error().stack as unknown) as any[]
 			Error.prepareStackTrace = restore
 
 			pathname = path.resolve(path.dirname(stack[1].getFileName()), pathname)
@@ -214,7 +293,7 @@ export class Router {
 				)
 			}
 
-			if (loader.isNil) {
+			if (!loader) {
 				throw new RoutesLoadError(
 					`Invalid routes file: ${path.relative(process.cwd(), file)}`,
 				)
@@ -249,13 +328,17 @@ export class Router {
 		}
 
 		return this
-
-		/* eslint-enable no-sync */
 	}
 
-	use(...middleware) {
+	use(...middleware: RouterMiddleware[]) {
 		if (this._scope.length === 1) {
-			this.router.use(...middleware)
+			this.router.use(
+				...middleware.map(middleware =>
+					typeof middleware === 'string'
+						? this.resolveMiddleware(middleware)
+						: middleware,
+				),
+			)
 		} else {
 			this._scopedAction.before.push(...middleware)
 		}
@@ -263,10 +346,10 @@ export class Router {
 		return this
 	}
 
-	static(pathname, filePath, options) {
+	static(pathname: string, filePath?: string, options?: Record<string, string>) {
 		pathname = this._normalizePathComponent(pathname)
 
-		if (filePath.isNil) {
+		if (!filePath) {
 			filePath = path.join(this._scopedPrefix, pathname)
 			filePath = this.app.paths.public(filePath)
 		} else if (filePath.substring(0, 1) !== '/') {
@@ -276,7 +359,7 @@ export class Router {
 		const action = this._scopedAction
 		const handlers = this.resolveHandlers([
 			...action.before,
-			express.static(filePath, options),
+			express.static(filePath, options) as any,
 			...action.after,
 		])
 
@@ -285,39 +368,44 @@ export class Router {
 		return this
 	}
 
-	get(pathname, action, context) {
+	get(pathname: string, action: RouterAction, context?: any) {
 		return this.addRoute('get', pathname, action, context)
 	}
 
-	post(pathname, action, context) {
+	post(pathname: string, action: RouterAction, context?: any) {
 		return this.addRoute('post', pathname, action, context)
 	}
 
-	put(pathname, action, context) {
+	put(pathname: string, action: RouterAction, context?: any) {
 		return this.addRoute('put', pathname, action, context)
 	}
 
-	patch(pathname, action, context) {
+	patch(pathname: string, action: RouterAction, context?: any) {
 		return this.addRoute('patch', pathname, action, context)
 	}
 
-	delete(pathname, action, context) {
+	delete(pathname: string, action: RouterAction, context?: any) {
 		return this.addRoute('delete', pathname, action, context)
 	}
 
-	options(pathname, action, context) {
+	options(pathname: string, action: RouterAction, context?: any) {
 		return this.addRoute('options', pathname, action, context)
 	}
 
-	head(pathname, action, context) {
+	head(pathname: string, action: RouterAction, context?: any) {
 		return this.addRoute('head', pathname, action, context)
 	}
 
-	match(methods, pathname, action, context) {
+	match(methods: RouterMethod[], pathname: string, action: RouterAction, context?: any) {
 		return this.addRoute(methods, pathname, action, context)
 	}
 
-	resource(name, controller, options = {}, callback = null) {
+	resource(
+		name: string,
+		controller: RouterControllerParam,
+		options: ResourceOptions = {},
+		callback: RouterGroupCallback | null = null,
+	) {
 		if (typeof controller === 'function') {
 			controller = new controller(this.app)
 		}
@@ -330,10 +418,10 @@ export class Router {
 		)
 	}
 
-	upgrade(pathname, handler = null) {
-		let returnValue = handler
+	upgrade(pathname: string, handler: UpgradeHandler | null = null) {
+		let returnValue: any = handler
 
-		if (handler.isNil) {
+		if (!handler) {
 			let WebSocketServer = null
 
 			try {
@@ -347,7 +435,7 @@ export class Router {
 			})
 
 			handler = (req, socket, head) => {
-				return returnValue.handleUpgrade(req, socket, head, ws => {
+				return returnValue.handleUpgrade(req, socket, head, (ws: any) => {
 					returnValue.emit('connection', ws)
 				})
 			}
@@ -358,12 +446,17 @@ export class Router {
 		return returnValue
 	}
 
-	addRoute(methods, pathname, action, context) {
+	addRoute(
+		methods: RouterMethod | RouterMethod[],
+		pathname: string,
+		action: RouterAction,
+		context: any,
+	) {
 		if (typeof methods === 'string') {
 			methods = [methods]
 		}
 
-		methods = methods.map(method => method.toLowerCase().trim())
+		methods = methods.map(method => method.toLowerCase().trim() as RouterMethod)
 
 		const handler = this._makeAction(action)
 		const before = []
@@ -382,8 +475,8 @@ export class Router {
 
 		if (this._scopedAction.before.length > 0) {
 			layer = new RouteLayer(route, layer, this.resolveHandlers(this._scopedAction.before), {
-				sensitive: this.router.caseSensitive,
-				strict: this.router.strict,
+				sensitive: (this.router as any).caseSensitive,
+				strict: (this.router as any).strict,
 				end: true,
 			})
 
@@ -391,13 +484,13 @@ export class Router {
 		}
 
 		for (const method of methods) {
-			const handlers = [handler]
+			const handlers: RouterMiddleware[] = [handler]
 
 			if (method !== 'get' && method !== 'head') {
 				handlers.unshift(...this.bodyParserMiddleware)
 			}
 
-			route[method](...this.resolveHandlers(handlers))
+			;(route[method] as any)(...this.resolveHandlers(handlers))
 		}
 
 		if (before.length > 0) {
@@ -408,21 +501,21 @@ export class Router {
 			route.after(...this.resolveHandlers(after))
 		}
 
-		if (typeof action.as === 'string') {
+		if (typeof action === 'object' && typeof action.as === 'string') {
 			route.as(action.as)
 		}
 
 		return route
 	}
 
-	_compilePath(pathname) {
+	_compilePath(pathname: string) {
 		pathname = this._normalizePathComponent(pathname)
 		const fullPath = path.join('/', this._scopedPrefix, pathname)
 
 		return fullPath.replace(/:([a-z0-0_\-.]+)/g, (param, name) => {
 			const pattern = this.patterns[name]
 
-			if (pattern.isNil) {
+			if (!pattern) {
 				return param
 			} else {
 				return `${param}(${pattern})`
@@ -430,7 +523,7 @@ export class Router {
 		})
 	}
 
-	_makeAction(action) {
+	_makeAction(action: RouterAction): RouterActionFunction {
 		if (typeof action === 'function') {
 			return action
 		}
@@ -440,21 +533,21 @@ export class Router {
 		}
 
 		action = Object.assign({}, this._scopedAction, action)
-		const method = action.controller[action.method]
+		const method = (action.controller as any)?.[action.method]
 		const controller = action.controller
 
-		return (...args) => {
-			const result = method.apply(controller, args)
+		return (req: Request, res: Response, next: NextHandleFunction) => {
+			const result = method.apply(controller, req, res, next)
 
 			if (typeof result === 'object' && typeof result.catch === 'function') {
-				return result.catch(args[2])
+				return result.catch(next)
 			}
 
 			return result
 		}
 	}
 
-	_normalizePathComponent(component) {
+	_normalizePathComponent(component: string) {
 		component = path.normalize(component.trim()).replace(/^\//, '')
 
 		if (component.length === 0) {
@@ -464,15 +557,15 @@ export class Router {
 		return component
 	}
 
-	bind(name, resolver, context) {
+	bind(name: string, resolver: RouterParamResolver, context: any) {
 		this.bindings[name] = { resolver }
 
-		if (!context.isNil) {
+		if (context) {
 			this.bindings[name].context = context
 		}
 
 		this.router.param(name, (req, res, next, value) => {
-			const resolve = newValue => {
+			const resolve = (newValue: any) => {
 				req.params[name] = newValue
 				next()
 			}
@@ -480,7 +573,7 @@ export class Router {
 			const reject = next
 			const result = resolver(value, resolve, reject, req, res)
 
-			if (result.isNil || typeof result.then !== 'function') {
+			if (typeof result?.then !== 'function') {
 				return
 			}
 
@@ -488,48 +581,42 @@ export class Router {
 		})
 	}
 
-	pattern(name, pattern) {
+	pattern(name: string, pattern: string) {
 		this.patterns[name] = pattern
 	}
 
-	nameRoute(name, route) {
+	nameRoute(name: string, route: IRoute) {
 		route.routeName = name
 		this.namedRoutes[name] = route
 	}
 
-	registerMiddleware(name, middleware) {
+	registerMiddleware(name: string, middleware: NextHandleFunction) {
 		this.middleware[name] = middleware
 	}
 
-	resolveHandlers(handlers) {
-		handlers = [...handlers]
-
-		for (const i in handlers) {
-			handlers[i] = this.resolveMiddleware(handlers[i])
-		}
-
-		return handlers
+	resolveHandlers(handlers: RouterMiddleware[]): NextHandleFunction[] {
+		return handlers.map(handler => this.resolveMiddleware(handler))
 	}
 
-	resolveMiddleware(middleware) {
+	resolveMiddleware(middleware: RouterMiddleware): NextHandleFunction {
 		if (typeof middleware === 'function') {
 			return middleware
 		}
 
-		if (this.middleware[middleware].isNil) {
+		if (!this.middleware[middleware]) {
 			throw new Error(`Unknown middleware alias: ${middleware}`)
 		}
 
 		return this.middleware[middleware]
 	}
 
-	trustProxy(...args) {
-		this.app.express.set('trust proxy', ...args)
+	trustProxy(val: any) {
+		this.app.express!.set('trust proxy', val)
 	}
 }
 
-function makeArray(value) {
-	if (value.isNil) {
+function makeArray<T>(value: T | T[] | undefined | null): T[] {
+	if (!value) {
 		return []
 	}
 

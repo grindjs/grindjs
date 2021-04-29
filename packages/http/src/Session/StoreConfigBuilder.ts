@@ -1,6 +1,10 @@
-import { MissingPackageError } from '@grindjs/framework'
+import { Application, MissingPackageError } from '@grindjs/framework'
 
-export function StoreConfigBuilder(store, app, returnStoreName = false) {
+export function StoreConfigBuilder(
+	store: string | Record<string, any> | null,
+	app: Application,
+	returnStoreName: boolean = false,
+) {
 	let session = null
 
 	try {
@@ -10,10 +14,10 @@ export function StoreConfigBuilder(store, app, returnStoreName = false) {
 	}
 
 	if (typeof store === 'string') {
-		store = app.config.get(`session.stores.${store}`)
+		store = app.config.get<Record<string, any>>(`session.stores.${store}`) || null
 	}
 
-	if (store.isNil) {
+	if (!store) {
 		throw new Error('Invalid store')
 	} else {
 		store = { ...store }
@@ -22,12 +26,13 @@ export function StoreConfigBuilder(store, app, returnStoreName = false) {
 	const driver = expandDriverAlias(store.driver || null)
 	delete store.driver
 
-	if (driver.isNil) {
+	if (!driver) {
 		throw new Error('Invalid store driver')
 	}
 
-	const result = {
+	const result: { options: Record<string, any>; store: any } = {
 		options: { ...expandStoreConfig(app, driver, store) },
+		store: undefined,
 	}
 
 	if (returnStoreName || driver === 'memory') {
@@ -45,8 +50,8 @@ export function StoreConfigBuilder(store, app, returnStoreName = false) {
 	return result
 }
 
-export function expandDriverAlias(alias) {
-	if (alias.isNil) {
+export function expandDriverAlias(alias: string) {
+	if (!alias) {
 		return null
 	}
 
@@ -77,7 +82,7 @@ export function expandDriverAlias(alias) {
 	}
 }
 
-export function expandStoreConfig(app, driver, config) {
+export function expandStoreConfig(app: Application, driver: string, config: Record<string, any>) {
 	switch (driver) {
 		case 'connect-redis':
 			return expandRedisStoreConfig(app, driver, config)
@@ -90,7 +95,7 @@ export function expandStoreConfig(app, driver, config) {
 	return config
 }
 
-function expandRedisStoreConfig(app, driver, config) {
+function expandRedisStoreConfig(app: Application, driver: string, config: Record<string, any>) {
 	if (config.connection === void 0) {
 		return config
 	}
@@ -129,7 +134,7 @@ function expandRedisStoreConfig(app, driver, config) {
 	return config
 }
 
-function expandDatabaseStoreConfig(app, driver, config) {
+function expandDatabaseStoreConfig(app: Application, driver: string, config: Record<string, any>) {
 	if (config.connection === void 0) {
 		return { app, ...config }
 	}
@@ -138,7 +143,7 @@ function expandDatabaseStoreConfig(app, driver, config) {
 	delete config.connection
 
 	if (connection === null) {
-		connection = app.db
+		connection = (app as any).db
 	} else {
 		if (typeof connection === 'string') {
 			connection = app.config.get(`database.connections.${connection}`)
@@ -162,7 +167,7 @@ function expandDatabaseStoreConfig(app, driver, config) {
 	return { app, ...config }
 }
 
-function expandFileStoreConfig(app, driver, config) {
+function expandFileStoreConfig(app: Application, driver: string, config: Record<string, any>) {
 	if (config.path === void 0) {
 		config.path = app.paths.base('resources/sessions')
 	} else {

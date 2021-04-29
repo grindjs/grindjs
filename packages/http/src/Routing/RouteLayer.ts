@@ -1,19 +1,19 @@
 const Layer = require('express/lib/router/layer.js')
 
 export class RouteLayer extends Layer {
-	_layer = null
+	_layer: any
 
-	constructor(route, layer, middleware, options) {
+	constructor(route: any, layer: any, middleware: any, options: any) {
 		super(route.path, options, layer.handle)
 
 		this.route = route
 		this._layer = layer
 
-		route.dispatchMiddleware = (req, res, done) => {
+		route.dispatchMiddleware = (req: any, res: any, done: any) => {
 			let idx = 0
 			next()
 
-			function next(err) {
+			function next(err?: any) {
 				if (err) {
 					return done(err)
 				}
@@ -29,7 +29,7 @@ export class RouteLayer extends Layer {
 		}
 	}
 
-	match(path) {
+	match(path: any) {
 		return this._layer.match(path)
 	}
 
