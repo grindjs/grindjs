@@ -22,3 +22,9 @@ ViewProvider.shutdown = app => app.view!.shutdown()
 ViewProvider.priority = 30000
 
 export { ViewProvider }
+
+declare module '@grindjs/framework' {
+	interface Application {
+		view?: ViewFactory
+	}
+}
