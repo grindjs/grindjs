@@ -1,57 +1,64 @@
-const path = require('path')
-const EventEmitter = require('events')
+import '@grindjs/view'
 
-import './Containers/TimelineContainer'
-import './Containers/MessagesContainer'
-import './Support/Time'
+import EventEmitter from 'events'
+import path from 'path'
 
-export class Devbar extends EventEmitter {
+import { Application } from '@grindjs/framework'
+import { Request, Response } from 'express'
+
+import { Container } from './Containers/Container'
+import { MessagesContainer } from './Containers/MessagesContainer'
+import { TimelineContainer } from './Containers/TimelineContainer'
+import { IDevbar } from './IDevbar'
+import { Time } from './Support/Time'
+
+export class Devbar extends EventEmitter implements IDevbar {
 	/**
 	 * The app instance.
 	 */
-	app = null
+	app: Application
 
 	/**
 	 * Whether or not the instance is enabled
 	 */
-	isEnabled = true
+	isEnabled: boolean = true
 
 	/**
 	 * The req instance, if in a request lifecycle
 	 */
-	req = null
+	req?: Request
 
 	/**
 	 * The res instance, if in a request lifecycle
 	 */
-	res = null
+	res?: Response
 
 	/**
 	 * The path to the devbar templates
 	 */
-	viewPath = null
+	viewPath: string
 
 	/**
 	 * Template to render the devbar
 	 */
-	template = 'devbar.stone'
+	template: string = 'devbar.stone'
 
 	/**
 	 * Context items that appear on the right side
 	 * of the devbar
 	 */
-	context = []
+	context: string[] = []
 
 	/**
 	 * Collectors are called when the devbar starts
 	 */
-	collectors = []
+	collectors: ((app: Application, devbar: IDevbar) => void)[] = []
 
 	/**
 	 * Containers are groups of messages that appear
 	 * on the devbar
 	 */
-	containers = {
+	containers: Record<string, Container> = {
 		timeline: new TimelineContainer('Timeline'),
 	}
 
@@ -61,25 +68,16 @@ export class Devbar extends EventEmitter {
 	 * @param  object app      App instance
 	 * @param  string viewPath Path to the devbar template
 	 */
-	constructor(app, viewPath = null) {
+	constructor(app: Application, viewPath?: string) {
 		super()
 
 		this.app = app
-		this.viewPath = viewPath || path.join(__dirname, '../resources/views')
+		this.viewPath = viewPath ?? path.join(__dirname, '../resources/views')
 		this.on('error', err => Log.error('Error during devbar event', err))
 	}
 
-	/**
-	 * Clone the instance to be used within a
-	 * request cycle.
-	 *
-	 * @param object req
-	 * @param object res
-	 *
-	 * @return object
-	 */
-	clone(req, res) {
-		const cloned = new this.constructor(this.app, this.viewPath)
+	clone(req: Request, res: Response): IDevbar {
+		const cloned = new Devbar(this.app, this.viewPath)
 		cloned.req = req
 		cloned.res = res
 		cloned.context = [...this.context]
@@ -87,47 +85,22 @@ export class Devbar extends EventEmitter {
 		return cloned
 	}
 
-	/**
-	 * Starts a timer that can be used to compute the duration of
-	 * an operation. Timers are identified by a unique label. Use
-	 * the same label when calling devbar.timeEnd() to stop the
-	 * timer and the elapsed time in milliseconds to devbar’s
-	 * timeline.
-	 *
-	 * @param  string label   Unique label to identify this operation
-	 * @param  string message Optional message to display in panel instead of label
-	 */
-	time(label, message = null) {
-		return this.containers.timeline.time(label, message)
+	time(label: string, message?: string) {
+		return (this.containers.timeline as TimelineContainer).time(label, message)
 	}
 
-	/**
-	 * Stops a timer that was previously started by calling devbar.time()
-	 * and adds the entry to the devbar’s timeline.
-	 *
-	 * @param  string label Unique label originally passed to devbar.time()
-	 */
-	timeEnd(label) {
-		return this.containers.timeline.timeEnd(label)
+	timeEnd(label: string) {
+		return (this.containers.timeline as TimelineContainer).timeEnd(label)
 	}
 
-	/**
-	 * Registers a collector to be started with the devbar
-	 */
-	register(collector) {
+	register(collector: (app: Application, devbar: IDevbar) => void) {
 		this.collectors.push(collector)
 	}
 
-	/**
-	 * Push a message onto a container
-	 * @param string container Container label to appear on the devbar
-	 * @param mixed  message   Message string or object containing a message
-	 *                         property and a start or duration property
-	 */
-	add(container, message) {
-		let messages = this.containers[container]
+	add(container: string, message: string) {
+		let messages = this.containers[container] as MessagesContainer
 
-		if (messages.isNil) {
+		if (!messages) {
 			messages = new MessagesContainer(container)
 			this.containers[container] = messages
 		}
@@ -135,44 +108,34 @@ export class Devbar extends EventEmitter {
 		messages.add(message)
 	}
 
-	/**
-	 * Adds a context item
-	 *
-	 * @param string value
-	 */
-	addContext(value) {
+	addContext(value: string) {
 		this.context.push(value)
 	}
 
 	/**
 	 * @private
 	 */
-	_addStandardContext(duration) {
+	_addStandardContext(duration: [number, number]) {
 		this.addContext(`Duration: ${Time.toMillis(Time.flatten(duration))}ms`)
-		this.addContext(`${this.req.method} ${this.req.route.path}`)
+		this.addContext(`${this.req?.method} ${this.req?.route?.path}`)
 	}
 
-	/**
-	 * Starts the devbar middleware
-	 *
-	 * @param  {Function} next
-	 */
-	start(next) {
-		if (this.req.isNil || this.res.isNil) {
+	start(next: (error?: any) => void) {
+		if (!this.req || !this.res) {
 			Log.error('Unable to start devbar, missing req/res')
 			return next()
 		}
 
-		const render = this.res.render
-		this.res.render = function (...args) {
-			this.devbar.timeEnd('request')
-			this.devbar.time('render')
+		const render = this.res.render as any
+		this.res.render = function (...args: any[]) {
+			this.devbar!.timeEnd('request')
+			this.devbar!.time('render')
 			return render.call(this, ...args)
 		}
 
 		const send = this.res.send
 		this.res.send = function (body) {
-			const devbar = this.devbar
+			const devbar = this.devbar as Devbar
 
 			try {
 				devbar.timeEnd('request')
@@ -208,26 +171,29 @@ export class Devbar extends EventEmitter {
 	/**
 	 * Renders a view
 	 */
-	renderView(template, context) {
-		const view = this.app.view
+	renderView(template: string, context: Record<string, any>) {
+		const view = this.app.view!
 		const pathname = path.join(this.viewPath, template)
-		return view.engine._renderCompiled(view.engine.compiler.compile(pathname), context)
+		return (view.engine as any)._renderCompiled(
+			(view.engine as any).compiler.compile(pathname),
+			context,
+		)
 	}
 
 	/**
 	 * Get the current devbar from the Zone
 	 */
 	get current() {
-		return this.constructor.current
+		return Devbar.current
 	}
 
 	/**
 	 * Get the current devbar from the Zone
 	 */
-	static get current() {
-		const zone = (global.Zone || {}).current
+	static get current(): IDevbar | null {
+		const zone = (global as any).Zone?.current
 
-		if (zone.isNil) {
+		if (!zone) {
 			return null
 		}
 
@@ -238,7 +204,13 @@ export class Devbar extends EventEmitter {
 /**
  * Renders and injects the devbar to the body
  */
-function inject(app, body, devbar, start, duration) {
+function inject(
+	app: Application,
+	body: any,
+	devbar: Devbar,
+	start: [number, number],
+	duration: [number, number],
+) {
 	let index = null
 
 	if (typeof body !== 'string' || (index = body.indexOf('</body>')) === -1) {

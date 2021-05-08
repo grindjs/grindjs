@@ -7,14 +7,14 @@ export const Time = {
 	/**
 	 * Converts hrtime tuple to microseconds
 	 */
-	flatten(time) {
+	flatten(time: [number, number]) {
 		return time[0] * 1000000 + time[1] / 1000
 	},
 
 	/**
 	 * Converts microseconds to milliseconds
 	 */
-	toMillis(time) {
+	toMillis(time: number) {
 		return Math.round(time) / 1000.0
 	},
 }

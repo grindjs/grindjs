@@ -1,12 +1,13 @@
-export class Container {
+import { Devbar } from '../Devbar'
+
+export abstract class Container {
 	/**
 	 * Name of this container
-	 * @type string
 	 */
-	label = null
+	label: string
 
 	/**
-	 * @type Boolean
+	 * Whether or not the container should display
 	 */
 	shouldDisplay = true
 
@@ -15,15 +16,14 @@ export class Container {
 	 *
 	 * @param  string label Name of the container
 	 */
-	constructor(label) {
+	constructor(label: string) {
 		this.label = label
 	}
 
 	/**
 	 * Number of items in this container
-	 * @return {[type]} [description]
 	 */
-	get size() {
+	get size(): number {
 		return 0
 	}
 
@@ -31,18 +31,16 @@ export class Container {
 	 * Whether or not this container should show a panel
 	 * Default behavior is to return true if size > 0
 	 */
-	get hasPanel() {
+	get hasPanel(): boolean {
 		return this.size > 0
 	}
 
 	/**
 	 * Render the container
 	 *
-	 * @param  object devbar  Instance of the devbar being rendered
-	 * @param  object context Context for the current session
+	 * @param  Devbar devbar  Instance of the devbar being rendered
+	 * @param  Record<string, any> context Context for the current session
 	 * @return string         Rendered HTML
 	 */
-	render(/* devbar, context */) {
-		throw new Error('Subclasses must implement')
-	}
+	abstract render(devbar: Devbar, context: Record<string, any>): string
 }

@@ -1,11 +1,19 @@
-import './Container'
-import '../Support/Time'
+import { Devbar } from '../Devbar'
+import { Time } from '../Support/Time'
+import { Container } from './Container'
 
 export class TimelineContainer extends Container {
 	/**
 	 * Timeline object to track time/timeEnd
 	 */
-	timeline = {}
+	timeline: Record<
+		string,
+		{
+			message?: string
+			start: [number, number]
+			duration?: [number, number]
+		}
+	> = {}
 
 	/**
 	 * @inheritdoc
@@ -24,7 +32,7 @@ export class TimelineContainer extends Container {
 	 * @param  string label   Unique label to identify this operation
 	 * @param  string message Optional message to display in panel instead of label
 	 */
-	time(label, message = null) {
+	time(label: string, message?: string) {
 		this.timeline[label] = {
 			start: process.hrtime(),
 			message: message,
@@ -37,7 +45,7 @@ export class TimelineContainer extends Container {
 	 *
 	 * @param  string label Unique label originally passed to devbar.time()
 	 */
-	timeEnd(label) {
+	timeEnd(label: string) {
 		const timing = this.timeline[label]
 
 		if (timing === void 0 || timing.duration !== void 0) {
@@ -50,23 +58,23 @@ export class TimelineContainer extends Container {
 	/**
 	 * @inheritdoc
 	 */
-	render(devbar, context) {
+	render(devbar: Devbar, context: Record<string, any>) {
 		const timeline = Object.entries(this.timeline)
 			.map(([label, item]) => {
 				if (!item.duration) {
-					return null
+					return undefined
 				}
 
-				item.duration = Time.flatten(item.duration)
+				const duration = Time.flatten(item.duration)
 
 				return {
 					label: item.message || label,
 					start: Time.flatten(item.start),
-					duration: item.duration,
-					durationInMs: Time.toMillis(item.duration),
+					duration: duration,
+					durationInMs: Time.toMillis(duration),
 				}
 			})
-			.filter(item => item !== null)
+			.filter(item => item !== undefined)
 
 		return devbar.renderView('containers/timeline.stone', { ...context, timeline })
 	}

@@ -1,4 +1,5 @@
 export { Devbar } from './Devbar'
+export { IDevbar } from './IDevbar'
 export { DevbarProvider } from './DevbarProvider'
 
 export { DatabaseCollector } from './Collectors/DatabaseCollector'
