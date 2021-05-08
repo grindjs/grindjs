@@ -1,6 +1,6 @@
 const Route = require('express/lib/router/route.js')
 
-type NextHandleFunction = import('../Router').NextHandleFunction
+type RouterMiddlewareFunction = import('../Router').RouterMiddlewareFunction
 
 export function RouteExtension() {
 	if (Route._grindHasExtended) {
@@ -12,7 +12,7 @@ export function RouteExtension() {
 	Route.prototype._addMiddleware = function (
 		source: string,
 		prepend: boolean,
-		...handlers: NextHandleFunction[]
+		...handlers: RouterMiddlewareFunction[]
 	) {
 		if (handlers.length === 1 && Array.isArray(handlers[0])) {
 			handlers = handlers[0] as any
@@ -60,11 +60,11 @@ export function RouteExtension() {
 		return this
 	}
 
-	Route.prototype.before = function (...handlers: NextHandleFunction[]) {
+	Route.prototype.before = function (...handlers: RouterMiddlewareFunction[]) {
 		return this._addMiddleware('before', true, ...handlers)
 	}
 
-	Route.prototype.after = function (...handlers: NextHandleFunction[]) {
+	Route.prototype.after = function (...handlers: RouterMiddlewareFunction[]) {
 		return this._addMiddleware('after', false, ...handlers)
 	}
 
@@ -77,8 +77,8 @@ export function RouteExtension() {
 declare module 'express' {
 	interface IRoute {
 		as(name: string): IRoute
-		before(...handlers: NextHandleFunction[]): IRoute
-		after(...handlers: NextHandleFunction[]): IRoute
+		before(...handlers: RouterMiddlewareFunction[]): IRoute
+		after(...handlers: RouterMiddlewareFunction[]): IRoute
 		grindRouter: import('../Router').Router
 		context: any
 		routeName?: string
@@ -88,8 +88,8 @@ declare module 'express' {
 declare module 'express-serve-static-core' {
 	interface IRoute {
 		as(name: string): IRoute
-		before(...handlers: NextHandleFunction[]): IRoute
-		after(...handlers: NextHandleFunction[]): IRoute
+		before(...handlers: RouterMiddlewareFunction[]): IRoute
+		after(...handlers: RouterMiddlewareFunction[]): IRoute
 		grindRouter: import('../Router').Router
 		context: any
 		routeName?: string

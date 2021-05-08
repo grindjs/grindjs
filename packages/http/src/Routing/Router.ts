@@ -14,8 +14,13 @@ import { ResourceOptions, ResourceRouteBuilder } from './ResourceRouteBuilder'
 import { RouteLayer } from './RouteLayer'
 import { UpgradeHandler } from './UpgradeDispatcher'
 
-export type NextHandleFunction = (req: Request, res: Response, next: NextHandleFunction) => void
-export type RouterMiddleware = string | NextHandleFunction
+export type NextHandleFunction = (error?: any) => void
+export type RouterMiddlewareFunction = (
+	req: Request,
+	res: Response,
+	next: NextHandleFunction,
+) => void
+export type RouterMiddleware = string | RouterMiddlewareFunction
 export type RouterMiddlwareCollection = RouterMiddleware | RouterMiddleware[]
 
 export type RouterControllerParam = Controller | (new (app: Application) => Controller)
@@ -60,8 +65,8 @@ export type RouterScope = {
 	prefix: string
 	action: {
 		controller?: Controller
-		before: (string | NextHandleFunction)[]
-		after: (string | NextHandleFunction)[]
+		before: (string | RouterMiddlewareFunction)[]
+		after: (string | RouterMiddlewareFunction)[]
 	}
 }
 
@@ -100,13 +105,13 @@ export class Router {
 
 	bodyParserMiddleware: string[] = []
 
-	middleware: Record<string, NextHandleFunction> = {}
+	middleware: Record<string, RouterMiddlewareFunction> = {}
 	middlewareBuilders: Record<
 		string,
 		(
 			app: Application,
 			router: Router,
-		) => NextHandleFunction | Record<string, NextHandleFunction>
+		) => RouterMiddlewareFunction | Record<string, RouterMiddlewareFunction>
 	> = {
 		'compression': CompressionMiddlewareBuilder,
 		'cookie': CookieMiddlewareBuilder,
@@ -590,15 +595,15 @@ export class Router {
 		this.namedRoutes[name] = route
 	}
 
-	registerMiddleware(name: string, middleware: NextHandleFunction) {
+	registerMiddleware(name: string, middleware: RouterMiddlewareFunction) {
 		this.middleware[name] = middleware
 	}
 
-	resolveHandlers(handlers: RouterMiddleware[]): NextHandleFunction[] {
+	resolveHandlers(handlers: RouterMiddleware[]): RouterMiddlewareFunction[] {
 		return handlers.map(handler => this.resolveMiddleware(handler))
 	}
 
-	resolveMiddleware(middleware: RouterMiddleware): NextHandleFunction {
+	resolveMiddleware(middleware: RouterMiddleware): RouterMiddlewareFunction {
 		if (typeof middleware === 'function') {
 			return middleware
 		}

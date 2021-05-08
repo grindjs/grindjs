@@ -1,6 +1,6 @@
 import { Application, MissingPackageError } from '@grindjs/framework'
 
-import { NextHandleFunction } from '../Routing/Router'
+import { RouterMiddlewareFunction } from '../Routing/Router'
 import { StoreConfigBuilder } from '../Session/StoreConfigBuilder'
 
 export function SessionMiddlewareBuilder(app: Application) {
@@ -39,7 +39,7 @@ export function SessionMiddlewareBuilder(app: Application) {
 	config.name = config.cookie.name || 'grind-session'
 	delete config.cookie.name
 
-	const middleware: Record<string, NextHandleFunction> = {
+	const middleware: Record<string, RouterMiddlewareFunction> = {
 		session: session(config),
 	}
 
