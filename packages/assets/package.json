@@ -51,9 +51,9 @@
     "fetchit": "^2.1.0",
     "grind-cli": "^0.8.0",
     "grind-http": "^0.8.5",
-    "node-sass": "^4.13.1",
     "rimraf": "^3.0.2",
     "rollup": "^2.23.0",
+    "sass": "^1.34.0",
     "svgo": "^1.3.2",
     "uglify-es": "^3.3.9",
     "uglify-js": "^3.9.1"

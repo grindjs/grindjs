@@ -1,12 +1,12 @@
 import './Compiler'
 import '../Errors/makeSyntaxError'
-
 import '../Support/optional'
 
 import { FS } from 'grind-support'
 
 const path = require('path')
-const sass = optional('node-sass', '>=4.9.0')
+const sass = optional('sass', '>=1.34.0')
+const fibers = optional('fibers', '>=5.0.0')
 
 export class ScssCompiler extends Compiler {
 	supportedExtensions = ['scss', 'sass']
@@ -32,6 +32,7 @@ export class ScssCompiler extends Compiler {
 
 	async compile(pathname, context) {
 		sass.assert()
+		fibers.resolve(false)
 
 		const liveReload = await this.getLiveReloadImports(pathname)
 
@@ -39,7 +40,8 @@ export class ScssCompiler extends Compiler {
 			sass.pkg.render(
 				Object.assign({}, this.options, {
 					file: pathname,
-					outputStyle: context || 'nested',
+					outputStyle: context || 'expanded',
+					fiber: fibers.pkg,
 				}),
 				(err, result) => {
 					if (!err.isNil) {
