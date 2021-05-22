@@ -1,6 +1,6 @@
 {
   "name": "grind-site",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "private": true,
   "scripts": {
     "build": "grind-build",
@@ -14,7 +14,7 @@
     "bootstrap-sass": "^3.3.7",
     "cache-manager": "^2.4.0",
     "github": "^9.2.0",
-    "grind-assets": "^0.8.5",
+    "grind-assets": "^0.8.6",
     "grind-cache": "^0.8.0",
     "grind-cli": "^0.8.0",
     "grind-framework": "^0.8.0",

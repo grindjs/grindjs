@@ -1,6 +1,6 @@
 {
   "name": "grind-example-web",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "private": true,
   "scripts": {
     "build": "grind-build",
@@ -9,7 +9,7 @@
     "lint:scss": "sass-lint --verbose --max-warnings=0 --no-exit"
   },
   "dependencies": {
-    "grind-core-frontend": "^0.8.5",
+    "grind-core-frontend": "^0.8.6",
     "grind-db": "^0.8.0",
     "grind-orm": "^0.8.0",
     "sqlite3": "^4.2.0"

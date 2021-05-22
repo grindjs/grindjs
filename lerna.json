@@ -1,5 +1,5 @@
 {
-  "version": "0.8.5",
+  "version": "0.8.6",
   "command": {
     "version": {
       "message": "chore(release): %s",
@@ -7,11 +7,23 @@
       "createRelease": "github"
     },
     "publish": {
-      "ignoreChanges": ["*.md", "*.markdown", "starters/", "site/"]
+      "ignoreChanges": [
+        "*.md",
+        "*.markdown",
+        "starters/",
+        "site/"
+      ]
     }
   },
-  "packages": ["packages/*", "meta/*", "starters/*", "site"],
+  "packages": [
+    "packages/*",
+    "meta/*",
+    "starters/*",
+    "site"
+  ],
   "useWorkspaces": true,
   "npmClient": "yarn",
-  "npmClientArgs": ["--no-lockfile"]
+  "npmClientArgs": [
+    "--no-lockfile"
+  ]
 }
